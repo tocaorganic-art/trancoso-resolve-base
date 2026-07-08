@@ -305,7 +305,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
     return (
       <button
         onClick={() => { setIsOpen(true); setUnreadCount(0); }}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-50 flex items-center justify-center transition-all hover:scale-105 relative"
+        className="fixed bottom-20 md:bottom-6 right-6 w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-50 flex items-center justify-center transition-all hover:scale-105 relative"
         aria-label="Abrir chat de suporte"
       >
         <MessageCircle className="w-6 h-6 text-white" />
@@ -319,7 +319,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
   }
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${isMinimized ? 'w-80' : 'w-96'} max-w-[calc(100vw-2rem)]`}>
+    <div className={`fixed bottom-20 md:bottom-6 right-6 z-50 transition-all duration-300 ${isMinimized ? 'w-80' : 'w-96'} max-w-[calc(100vw-2rem)]`}>
       <Card className="shadow-2xl border border-slate-200 overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-4 flex items-center justify-between">

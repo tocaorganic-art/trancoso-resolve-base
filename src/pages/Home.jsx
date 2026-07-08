@@ -439,13 +439,21 @@ export default function HomePage() {
                         <Button variant="ghost" className="text-primary hover:text-primary/80">Ver todos</Button>
                     </Link>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="flex overflow-x-auto gap-4 pb-3 snap-x -mx-4 px-4 md:mx-0 md:px-0 md:grid md:overflow-visible md:pb-0 md:grid-cols-2 md:snap-none lg:grid-cols-3 md:gap-6" style={{scrollbarWidth:'none',msOverflowStyle:'none'}}>
                     {isLoadingRecommendations ? (
-                        Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
+                        Array.from({ length: 3 }).map((_, i) => (
+                            <div key={i} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
+                                <ServiceSkeletonCard />
+                            </div>
+                        ))
                     ) : (
                         recommendedServices.data.map((service) => {
                             const provider = providers?.find(p => p.id === service.provider_id);
-                            return <ServiceCard key={service.id} service={service} provider={provider} />;
+                            return (
+                                <div key={service.id} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
+                                    <ServiceCard service={service} provider={provider} />
+                                </div>
+                            );
                         })
                     )}
                 </div>
@@ -463,21 +471,29 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="flex overflow-x-auto gap-4 pb-3 snap-x -mx-4 px-4 md:mx-0 md:px-0 md:grid md:overflow-visible md:pb-0 md:grid-cols-2 md:snap-none lg:grid-cols-3 md:gap-6" style={{scrollbarWidth:'none',msOverflowStyle:'none'}}>
             {isLoadingServices ? (
-                  Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
+                  Array.from({ length: 3 }).map((_, i) => (
+                      <div key={i} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
+                          <ServiceSkeletonCard />
+                      </div>
+                  ))
                 ) : isErrorServices ? (
-                  <div className="col-span-full text-center py-10 bg-red-50 rounded-lg">
+                  <div className="flex-shrink-0 w-full text-center py-10 bg-red-50 rounded-lg">
                     <AlertCircle className="w-8 h-8 mx-auto text-red-500 mb-2" />
                     <p className="text-red-700">Não foi possível carregar os serviços em destaque.</p>
                   </div>
                 ) : services && services.length > 0 ? (
                   services.map((service) => {
                     const provider = providers?.find(p => p.id === service.provider_id);
-                    return <ServiceCard key={service.id} service={service} provider={provider} />;
+                    return (
+                        <div key={service.id} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
+                            <ServiceCard service={service} provider={provider} />
+                        </div>
+                    );
                   })
                 ) : (
-                  <div className="col-span-full text-center py-12 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-100">
+                  <div className="flex-shrink-0 w-full text-center py-12 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-100">
                     <Sparkles className="w-12 h-12 mx-auto text-amber-400 mb-3" />
                     <h3 className="text-lg font-semibold text-slate-700 mb-2">Serviços em Destaque em Breve!</h3>
                     <p className="text-slate-500 mb-4 max-w-md mx-auto">

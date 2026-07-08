@@ -305,10 +305,12 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
     return (
       <button
         onClick={() => { setIsOpen(true); setUnreadCount(0); }}
-        className="fixed bottom-20 md:bottom-6 right-6 w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 z-50 flex items-center justify-center transition-all hover:scale-105 relative"
-        aria-label="Abrir chat de suporte"
+        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex items-center gap-2 h-14 px-5 rounded-full shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all hover:scale-105 relative"
+        aria-label="Abrir chat de suporte — Atendimento em tempo real"
       >
-        <MessageCircle className="w-6 h-6 text-white" />
+        <MessageCircle className="w-6 h-6 text-white shrink-0" />
+        <span className="text-white font-bold text-sm whitespace-nowrap hidden sm:inline">Dúvidas? Clique aqui</span>
+        <span className="text-white font-bold text-xs sm:hidden">Chat</span>
         {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
             {unreadCount}

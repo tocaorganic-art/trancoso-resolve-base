@@ -66,6 +66,7 @@ const ServicosCategoria = lazy(() => import('@/pages/ServicosCategoria'));
 const DestinoTrancoso = lazy(() => import('@/pages/destinos/Trancoso'));
 const DestinoPortoSeguro = lazy(() => import('@/pages/destinos/PortoSeguro'));
 const DestinoCaraiva = lazy(() => import('@/pages/destinos/Caraiva'));
+const DestinoArraialDAjuda = lazy(() => import('@/pages/destinos/ArraialDAjuda'));
 import { AnimatePresence, motion } from 'framer-motion';
 
 const { Pages, Layout, mainPage } = pagesConfig;
@@ -390,6 +391,11 @@ const AuthenticatedApp = () => {
         <Route path="/destinos/caraiva" element={
           <LayoutWrapper currentPageName="DestinoCaraiva">
             <AnimatedPage><DestinoCaraiva /></AnimatedPage>
+          </LayoutWrapper>
+        } />
+        <Route path="/destinos/arraial-dajuda" element={
+          <LayoutWrapper currentPageName="DestinoArraialDAjuda">
+            <AnimatedPage><DestinoArraialDAjuda /></AnimatedPage>
           </LayoutWrapper>
         } />
 

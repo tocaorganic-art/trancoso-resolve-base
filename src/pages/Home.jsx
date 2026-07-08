@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import LazyImage from "@/components/ui/LazyImage";
 import Testimonials from "@/components/home/Testimonials";
 import HeroSearch from "@/components/home/HeroSearch";
+import ServiceCarousel from "@/components/home/ServiceCarousel";
 import SocialProofBar from "@/components/home/SocialProofBar";
 import CTAPrestador from "@/components/home/CTAPrestador";
 import {
@@ -220,12 +221,12 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Trancoso Resolve | Profissionais Verificados em Trancoso, Porto Seguro e Caraíva";
+    document.title = "Trancoso Resolve | Profissionais Verificados da Costa do Descobrimento";
 
     // Meta description otimizada
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
-    meta.content = "Encontre diaristas, eletricistas, piscineiros, cozinheiros e mais em Trancoso, Porto Seguro e Caraíva. Profissionais verificados, avaliados e prontos para atender sua villa ou pousada na Costa do Descobrimento.";
+    meta.content = "Contrate profissionais da sua comunidade na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Verificados, avaliados, com histórico real. Oportunidade que o governo não dá.";
 
     // Canonical + OG URL da Home
     let canonical = document.querySelector('link[rel="canonical"]');
@@ -262,7 +263,8 @@ export default function HomePage() {
           "areaServed": [
             { "@type": "Place", "name": "Trancoso, Bahia, Brasil" },
             { "@type": "Place", "name": "Porto Seguro, Bahia, Brasil" },
-            { "@type": "Place", "name": "Caraíva, Bahia, Brasil" }
+            { "@type": "Place", "name": "Caraíva, Bahia, Brasil" },
+            { "@type": "Place", "name": "Arraial d'Ajuda, Bahia, Brasil" }
           ],
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
@@ -430,6 +432,9 @@ export default function HomePage() {
 
       <div className="container mx-auto max-w-6xl px-4 py-8 md:py-16">
 
+        {/* Carrossel de serviços */}
+        <ServiceCarousel />
+
         {/* Recomendações com IA */}
         {user && (isLoadingRecommendations || (recommendedServices?.data && recommendedServices.data.length > 0)) && (
             <section className="mb-20">
@@ -463,7 +468,7 @@ export default function HomePage() {
         {/* Featured Services */}
         <section className="mb-10 md:mb-20">
           <div className="flex items-center justify-between mb-4 md:mb-6">
-            <h2 className="text-lg md:text-2xl font-bold text-foreground drop-shadow-sm leading-tight">Profissionais verificados em Trancoso, na hora que você precisa.</h2>
+            <h2 className="text-lg md:text-2xl font-bold text-foreground drop-shadow-sm leading-tight">Serviços em destaque — profissionais que a comunidade aprova</h2>
             <Link to={createPageUrl("ServicosCategoria")} data-testid="home-ver-todos-servicos-link">
               <Button variant="ghost" className="text-primary hover:text-primary/80" aria-label="Ver todos os serviços">
                 Ver todos
@@ -509,72 +514,7 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Top Rated Providers */}
-        <section className="mb-10 md:mb-20">
-          <div className="text-center mb-4 md:mb-8">
-            <h2 className="text-xl md:text-3xl font-bold text-foreground drop-shadow-sm">Conheça os Profissionais Mais Bem Avaliados de Trancoso</h2>
-            <p className="text-base md:text-lg text-muted-foreground font-medium mt-2 leading-relaxed">Os favoritos da comunidade, com qualidade comprovada.</p>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-6">
-            {isLoadingProviders ? (
-                Array.from({ length: 6 }).map((_, i) => <ProviderSkeletonCard key={i} />)
-            ) : isErrorProviders ? (
-              <div className="col-span-full text-center py-10 bg-red-50 rounded-lg">
-                <AlertCircle className="w-8 h-8 mx-auto text-red-500 mb-2" />
-                <p className="text-red-700">Não foi possível carregar os profissionais.</p>
-              </div>
-            ) : topProviders.length > 0 ? (
-                topProviders.map((provider) => (
-                  <Link key={provider.id} to={createPageUrl("PrestadorPerfil", `?id=${provider.id}`)} aria-label={`Ver perfil de ${provider.full_name}, ${provider.occupation}`}>
-                    <Card className="border border-border shadow-md hover:shadow-xl transition-all text-center cursor-pointer focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 bg-card">
-                      <CardContent className="p-4">
-                        <LazyImage
-                          src={provider.photo_url || `https://ui-avatars.com/api/?name=${provider.full_name}&size=200`}
-                          alt={`Foto de perfil de ${provider.full_name}`}
-                          className="w-20 h-20 rounded-full mx-auto border-4 border-white shadow-md mb-3"
-                        />
-                        {provider.verified && (
-                          <div className="inline-flex items-center gap-1 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-full mb-2">
-                            ✅ Verificado
-                          </div>
-                        )}
-                        <p className="font-bold text-sm text-foreground mb-1 leading-tight line-clamp-2">{provider.full_name}</p>
-                        <p className="text-xs text-muted-foreground font-medium mb-2 line-clamp-1">{provider.occupation}</p>
-                        <div className="flex items-center justify-center gap-1 mb-2">
-                          <Star className="w-3.5 h-3.5 text-yellow-500 fill-current" aria-hidden="true" />
-                          <span className="text-sm font-bold text-foreground">{provider.rating ? provider.rating.toFixed(1) : 'Novo'}</span>
-                          {provider.total_reviews > 0 && (
-                            <span className="text-xs text-muted-foreground">({provider.total_reviews})</span>
-                          )}
-                        </div>
-                        <div className={`text-xs font-medium px-2 py-1 rounded-full ${
-                          provider.availability === 'Disponível' ? 'bg-green-100 text-green-700' :
-                          provider.availability === 'Ocupado' ? 'bg-yellow-100 text-yellow-700' :
-                          'bg-slate-100 text-slate-500'
-                        }`}>
-                          {provider.availability === 'Disponível' ? 'Disponível · Responde em 2h' : provider.availability || 'Indisponível'}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                ))
-            ) : (
-              <div className="col-span-full text-center py-12 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-100">
-                <Star className="w-12 h-12 mx-auto text-amber-400 mb-3" />
-                <h3 className="text-lg font-semibold text-slate-700 mb-2">Seja o Primeiro Avaliado!</h3>
-                <p className="text-slate-500 mb-4 max-w-md mx-auto">
-                  Os profissionais mais bem avaliados aparecerão aqui. Cadastre-se e conquiste suas primeiras avaliações.
-                </p>
-                <Link to={createPageUrl("SejaPrestador")}>
-                  <Button className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600">
-                    Cadastrar como Prestador
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </div>
-        </section>
+        {/* Seção removida: Top Rated Providers — substituída pelo carrossel de serviços acima */}
 
         {/* Landing Pages por Serviço - SEO Local */}
          <section className="mb-10 md:mb-20 pt-8 md:pt-16">
@@ -612,12 +552,13 @@ export default function HomePage() {
         <section className="mb-10 md:mb-20 mt-10 md:mt-20">
           <div className="text-center mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground drop-shadow-sm">Como funciona a Trancoso Resolve</h2>
+            <p className="text-base md:text-lg text-muted-foreground font-medium mt-2 leading-relaxed">Profissional ganha renda. Você contrata quem você conhece.</p>
           </div>
           <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6">
             {[
-              { step: '1', title: 'Você conta o que precisa', desc: 'Explique o tipo de serviço, bairro em Trancoso e melhor horário para contato.' },
-              { step: '2', title: 'Nós conectamos aos prestadores certos', desc: 'Nosso sistema distribui seu pedido para prestadores qualificados na região.' },
-              { step: '3', title: 'Você recebe contatos e escolhe', desc: 'Compare respostas, avalie e decida com quem quer fechar.' },
+              { step: '1', title: 'Você conta o que precisa', desc: 'Explique o tipo de serviço, bairro e melhor horário para contato.' },
+              { step: '2', title: 'Nós conectamos aos prestadores certos', desc: 'Nosso sistema distribui seu pedido para prestadores qualificados da Costa do Descobrimento.' },
+              { step: '3', title: 'Você recebe contatos e escolhe', desc: 'Compare respostas, avalie e decida com quem quer fechar. Sempre com segurança.' },
             ].map(item => (
               <div key={item.step} className="bg-card rounded-2xl p-5 md:p-6 shadow-md border border-border flex items-start gap-4 md:block md:text-center">
                 <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary text-primary-foreground font-bold text-lg md:text-xl flex items-center justify-center shrink-0 md:mx-auto md:mb-4">{item.step}</div>
@@ -632,12 +573,13 @@ export default function HomePage() {
 
         {/* Por que usar */}
         <section className="mb-10 md:mb-20 bg-secondary/30 rounded-3xl p-8 md:p-12 border border-border">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 drop-shadow-sm">Por que usar a Trancoso Resolve em Trancoso</h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 drop-shadow-sm">Por que usar a Trancoso Resolve</h2>
           <ul className="space-y-4">
             {[
-              'Prestadores locais e confiáveis, focados em atender Trancoso e região.',
+              'Prestadores locais e confiáveis, focados em atender toda a Costa do Descobrimento.',
               'Resposta rápida: seu pedido chega direto nos prestadores certos.',
-              'Mais segurança: perfis dos prestadores, histórico e verificação quando disponível.',
+              'Mais segurança: perfis dos prestadores, histórico e verificação de antecedentes.',
+              'Inclusão social: profissional mal avaliado recebe treinamento e segunda chance, não é removido.',
               'Sem custo para quem pede serviço: você pede, recebe retorno e escolhe.',
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-3 text-foreground">
@@ -659,8 +601,8 @@ export default function HomePage() {
         {/* Costa do Descobrimento */}
         <section className="mb-10 md:mb-20 bg-secondary/30 rounded-3xl p-8 md:p-12 border border-border">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">Atendemos toda a Costa do Descobrimento</h2>
-          <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">Profissionais verificados para Trancoso, Porto Seguro e Caraíva — a mesma qualidade e segurança em toda a região.</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">Profissionais verificados para Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda — a mesma qualidade e segurança em toda a região.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 cidade: 'Trancoso',
@@ -693,6 +635,17 @@ export default function HomePage() {
                   { label: 'Diarista Caraíva', href: '/servicos/diarista-caraiva' },
                   { label: 'Eletricista Caraíva', href: '/servicos/eletricista-caraiva' },
                   { label: 'Piscineiro Caraíva', href: '/servicos/piscineiro-caraiva' },
+                ],
+              },
+              {
+                cidade: 'Arraial d\'Ajuda',
+                emoji: '🌅',
+                desc: 'O charme da Costa do Descobrimento — praias deslumbrantes e o melhor da gastronomia.',
+                destinoHref: '/destinos/arraial-dajuda',
+                links: [
+                  { label: 'Diarista Arraial d\'Ajuda', href: '/servicos/diarista-arraial-dajuda' },
+                  { label: 'Eletricista Arraial d\'Ajuda', href: '/servicos/eletricista-arraial-dajuda' },
+                  { label: 'Piscineiro Arraial d\'Ajuda', href: '/servicos/piscineiro-arraial-dajuda' },
                 ],
               },
             ].map((dest) => (

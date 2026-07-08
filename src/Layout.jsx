@@ -52,8 +52,8 @@ export default function Layout({ children, currentPageName }) {
 
   useEffect(() => {
     const pageTitles = {
-      '/': 'Trancoso Resolve - Serviços Confiáveis em Trancoso, Porto Seguro e Caraíva',
-      '/Home': 'Trancoso Resolve - Serviços Confiáveis em Trancoso, Porto Seguro e Caraíva',
+      '/': 'Trancoso Resolve - Serviços Confiáveis na Costa do Descobrimento',
+      '/Home': 'Trancoso Resolve - Serviços Confiáveis na Costa do Descobrimento',
       '/ServicosCategoria': 'Buscar Serviços - Trancoso Resolve',
       '/PrestadorPerfil': 'Perfil do Prestador - Trancoso Resolve',
       '/ServicoDetalhes': 'Detalhes do Serviço - Trancoso Resolve',
@@ -77,8 +77,8 @@ export default function Layout({ children, currentPageName }) {
     };
 
     const pageDescriptions = {
-      '/': 'Encontre diaristas, eletricistas, piscineiros, cozinheiros e mais em Trancoso, Porto Seguro e Caraíva.',
-      '/Home': 'Encontre diaristas, eletricistas, piscineiros, cozinheiros e mais em Trancoso, Porto Seguro e Caraíva.',
+      '/': 'Contrate profissionais da sua comunidade na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d\'Ajuda.',
+      '/Home': 'Contrate profissionais da sua comunidade na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d\'Ajuda.',
       '/About': 'Conheça a Trancoso Resolve.',
       '/Contact': 'Entre em contato com a Trancoso Resolve.',
     };
@@ -181,6 +181,9 @@ export default function Layout({ children, currentPageName }) {
                     <DropdownMenuItem asChild>
                       <Link to="/destinos/caraiva"><MapPin className="w-3.5 h-3.5 mr-2 text-orange-500" />Caraíva</Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/destinos/arraial-dajuda"><MapPin className="w-3.5 h-3.5 mr-2 text-orange-500" />Arraial d'Ajuda</Link>
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
 
@@ -275,6 +278,7 @@ export default function Layout({ children, currentPageName }) {
                   <Link to="/destinos/trancoso" className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-2 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}><MapPin className="w-4 h-4 text-orange-500" />Trancoso</Link>
                   <Link to="/destinos/porto-seguro" className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-2 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}><MapPin className="w-4 h-4 text-orange-500" />Porto Seguro</Link>
                   <Link to="/destinos/caraiva" className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-2 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}><MapPin className="w-4 h-4 text-orange-500" />Caraíva</Link>
+                  <Link to="/destinos/arraial-dajuda" className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-2 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}><MapPin className="w-4 h-4 text-orange-500" />Arraial d'Ajuda</Link>
                 </div>
                 {user ? (
                   <>
@@ -368,6 +372,7 @@ export default function Layout({ children, currentPageName }) {
                 <Link to="/destinos/trancoso" className="text-orange-500 hover:text-orange-400 font-semibold transition-colors flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />Trancoso</Link>
                 <Link to="/destinos/porto-seguro" className="text-orange-500 hover:text-orange-400 font-semibold transition-colors flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />Porto Seguro</Link>
                 <Link to="/destinos/caraiva" className="text-orange-500 hover:text-orange-400 font-semibold transition-colors flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />Caraíva</Link>
+                <Link to="/destinos/arraial-dajuda" className="text-orange-500 hover:text-orange-400 font-semibold transition-colors flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />Arraial d'Ajuda</Link>
               </div>
 
               <p className="text-muted-foreground text-base font-medium">

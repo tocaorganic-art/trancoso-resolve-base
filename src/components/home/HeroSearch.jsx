@@ -21,6 +21,7 @@ const DESTINOS = [
   { label: "Trancoso", path: "/destinos/trancoso" },
   { label: "Porto Seguro", path: "/destinos/porto-seguro" },
   { label: "Caraíva", path: "/destinos/caraiva" },
+  { label: "Arraial d'Ajuda", path: "/destinos/arraial-dajuda" },
 ];
 
 export default function HeroSearch() {
@@ -64,17 +65,18 @@ export default function HeroSearch() {
             </Link>
           ))}
         </div>
-        <form onSubmit={handleSearch} className="flex gap-2 w-full max-w-xl mx-auto mb-8">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-2 w-full max-w-xl mx-auto mb-8">
+          <div className="relative flex-1 min-w-0">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground shrink-0" />
             <Input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('hero.searchPlaceholder')}
-              className="pl-10 h-12 text-base bg-background text-foreground border-0 rounded-brand-lg shadow-warm-lg"
+              className="pl-10 pr-3 h-14 sm:h-12 text-base bg-background text-foreground border-0 rounded-brand-lg shadow-warm-lg w-full overflow-hidden"
+              maxLength={120}
             />
           </div>
-          <Button type="submit" className="h-12 px-6 bg-neutral-900 hover:bg-neutral-800 text-white font-bold rounded-brand-lg text-sm whitespace-nowrap shadow-warm-md transition-colors duration-200">
+          <Button type="submit" className="h-14 sm:h-12 px-6 bg-neutral-900 hover:bg-neutral-800 text-white font-bold rounded-brand-lg text-sm whitespace-nowrap shadow-warm-md transition-colors duration-200 shrink-0">
             {t('hero.searchButton')}
           </Button>
         </form>

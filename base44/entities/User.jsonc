@@ -1,0 +1,17 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "user_type": {
+      "type": "string",
+      "enum": [
+        "cliente",
+        "prestador",
+        "indefinido"
+      ],
+      "default": "indefinido",
+      "description": "Define se o usu\u00e1rio \u00e9 um cliente ou um prestador de servi\u00e7o."
+    }
+  },
+  "required": []
+}

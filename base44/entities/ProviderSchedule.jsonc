@@ -1,0 +1,79 @@
+{
+  "name": "ProviderSchedule",
+  "type": "object",
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "ID do prestador"
+    },
+    "day_of_week": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 6,
+      "description": "Dia da semana (0=domingo, 6=s\u00e1bado)"
+    },
+    "start_time": {
+      "type": "string",
+      "description": "Hor\u00e1rio de in\u00edcio (HH:MM)"
+    },
+    "end_time": {
+      "type": "string",
+      "description": "Hor\u00e1rio de encerramento (HH:MM)"
+    },
+    "is_available": {
+      "type": "boolean",
+      "default": true,
+      "description": "Se o prestador est\u00e1 dispon\u00edvel neste hor\u00e1rio"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Descri\u00e7\u00e3o da disponibilidade ou notas"
+    }
+  },
+  "required": [
+    "provider_id",
+    "day_of_week",
+    "start_time",
+    "end_time"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": true,
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

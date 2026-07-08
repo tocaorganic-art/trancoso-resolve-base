@@ -1,0 +1,30 @@
+User-agent: *
+Disallow: /Admin
+Disallow: /AdminAssinaturas
+Disallow: /AdminControleFinanceiro
+Disallow: /AdminUserManagement
+Disallow: /AdminPagamentos
+Disallow: /AdminAntecedentes
+Disallow: /AdminMetricas
+Disallow: /FilaVerificacao
+Disallow: /ManutencaoSistema
+Disallow: /MonitoringDashboard
+Disallow: /DeployDashboard
+Disallow: /Base44ReportViewer
+Disallow: /Base44Templates
+Disallow: /Financeiro
+Disallow: /Dashboard
+Disallow: /MeuPerfilPrestador
+Disallow: /MeusServicos
+Disallow: /MinhaAgenda
+Disallow: /MeusPedidos
+Disallow: /Chat
+Disallow: /GeradorDeImagem
+Disallow: /admin/
+Disallow: /DiagnosticosCompletos
+Disallow: /VerificacaoDocumento
+Disallow: /VerificacaoAntecedentes
+
+Allow: /
+
+Sitemap: https://trancosoresolve.com.br/sitemap.xml

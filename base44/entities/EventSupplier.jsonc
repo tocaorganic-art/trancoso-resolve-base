@@ -1,0 +1,73 @@
+{
+  "name": "EventSupplier",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "ID do evento"
+    },
+    "supplier_name": {
+      "type": "string",
+      "description": "Nome do fornecedor"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Catering",
+        "Decora\u00e7\u00e3o",
+        "Fotografia",
+        "M\u00fasica/DJ",
+        "Transporte",
+        "Floricultura",
+        "Ilumina\u00e7\u00e3o",
+        "Outro"
+      ],
+      "description": "Categoria do fornecedor"
+    },
+    "contact": {
+      "type": "string",
+      "description": "Contato do fornecedor"
+    },
+    "estimated_cost": {
+      "type": "number",
+      "description": "Custo estimado"
+    },
+    "actual_cost": {
+      "type": "number",
+      "description": "Custo real"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Or\u00e7amento Solicitado",
+        "Confirmado",
+        "Pago",
+        "Cancelado"
+      ],
+      "default": "Or\u00e7amento Solicitado",
+      "description": "Status do fornecedor"
+    },
+    "payment_due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de vencimento"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Observa\u00e7\u00f5es"
+    }
+  },
+  "required": [
+    "event_id",
+    "supplier_name",
+    "category"
+  ],
+  "rls": {
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

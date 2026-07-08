@@ -1,0 +1,150 @@
+{
+  "name": "TaskAssignment",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "T\u00edtulo da tarefa"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o detalhada"
+    },
+    "assigned_to": {
+      "type": "string",
+      "description": "ID do funcion\u00e1rio"
+    },
+    "assigned_to_email": {
+      "type": "string",
+      "description": "Email do funcion\u00e1rio para RLS"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "Baixa",
+        "M\u00e9dia",
+        "Alta",
+        "Urgente"
+      ],
+      "default": "M\u00e9dia",
+      "description": "Prioridade"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pendente",
+        "Em Andamento",
+        "Conclu\u00edda",
+        "Cancelada"
+      ],
+      "default": "Pendente",
+      "description": "Status"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de vencimento"
+    },
+    "location": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "number"
+        },
+        "lng": {
+          "type": "number"
+        }
+      },
+      "description": "Localiza\u00e7\u00e3o da tarefa"
+    },
+    "related_to": {
+      "type": "string",
+      "description": "ID relacionado (hospedagem, evento, etc.)"
+    },
+    "related_type": {
+      "type": "string",
+      "enum": [
+        "Hospedagem",
+        "Evento",
+        "Manuten\u00e7\u00e3o",
+        "Servi\u00e7o",
+        "Outro"
+      ],
+      "description": "Tipo de relacionamento"
+    },
+    "completed_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de conclus\u00e3o"
+    },
+    "feedback": {
+      "type": "string",
+      "description": "Feedback do funcion\u00e1rio"
+    }
+  },
+  "required": [
+    "title",
+    "assigned_to",
+    "assigned_to_email",
+    "due_date"
+  ],
+  "rls": {
+    "create": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "data.assigned_to_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "data.assigned_to_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "name": "PriceSuggestion",
+  "type": "object",
+  "properties": {
+    "property_name": {
+      "type": "string",
+      "description": "Nome da propriedade/villa"
+    },
+    "date_range_start": {
+      "type": "string",
+      "format": "date",
+      "description": "In\u00edcio do per\u00edodo"
+    },
+    "date_range_end": {
+      "type": "string",
+      "format": "date",
+      "description": "Fim do per\u00edodo"
+    },
+    "current_price": {
+      "type": "number",
+      "description": "Pre\u00e7o atual por noite"
+    },
+    "suggested_price": {
+      "type": "number",
+      "description": "Pre\u00e7o sugerido pela IA"
+    },
+    "confidence_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Confian\u00e7a da sugest\u00e3o (%)"
+    },
+    "factors": {
+      "type": "object",
+      "properties": {
+        "occupancy_rate": {
+          "type": "number",
+          "description": "Taxa de ocupa\u00e7\u00e3o (%)"
+        },
+        "seasonality": {
+          "type": "string",
+          "enum": [
+            "Alta",
+            "M\u00e9dia",
+            "Baixa"
+          ],
+          "description": "Sazonalidade"
+        },
+        "local_events": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Eventos locais impactantes"
+        },
+        "competitor_avg_price": {
+          "type": "number",
+          "description": "Pre\u00e7o m\u00e9dio da concorr\u00eancia"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Pendente",
+        "Aplicado",
+        "Rejeitado"
+      ],
+      "default": "Pendente",
+      "description": "Status da sugest\u00e3o"
+    },
+    "applied_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de aplica\u00e7\u00e3o"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Descri\u00e7\u00e3o ou justificativa da sugest\u00e3o de pre\u00e7o"
+    }
+  },
+  "required": [
+    "property_name",
+    "date_range_start",
+    "date_range_end",
+    "suggested_price"
+  ],
+  "rls": {
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

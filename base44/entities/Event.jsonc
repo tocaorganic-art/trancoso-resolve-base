@@ -1,0 +1,79 @@
+{
+  "name": "Event",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome do evento"
+    },
+    "client_id": {
+      "type": "string",
+      "description": "ID do cliente respons\u00e1vel"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Casamento",
+        "Confer\u00eancia",
+        "Workshop",
+        "Festa Corporativa",
+        "Jantar Exclusivo",
+        "Outro"
+      ],
+      "description": "Tipo do evento"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data do evento"
+    },
+    "location": {
+      "type": "string",
+      "description": "Local do evento"
+    },
+    "attendees": {
+      "type": "integer",
+      "description": "N\u00famero esperado de participantes"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Planejamento",
+        "Confirmado",
+        "Em Andamento",
+        "Conclu\u00eddo",
+        "Cancelado"
+      ],
+      "default": "Planejamento",
+      "description": "Status do evento"
+    },
+    "budget": {
+      "type": "number",
+      "description": "Or\u00e7amento estimado"
+    },
+    "assigned_team": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs dos funcion\u00e1rios alocados"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Observa\u00e7\u00f5es e requisitos especiais"
+    }
+  },
+  "required": [
+    "name",
+    "date",
+    "location"
+  ],
+  "rls": {
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

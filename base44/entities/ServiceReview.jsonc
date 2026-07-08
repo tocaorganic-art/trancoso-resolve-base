@@ -1,0 +1,77 @@
+{
+  "name": "ServiceReview",
+  "type": "object",
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "description": "ID da solicita\u00e7\u00e3o de servi\u00e7o"
+    },
+    "provider_id": {
+      "type": "string",
+      "description": "ID do prestador avaliado"
+    },
+    "rating": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "Avalia\u00e7\u00e3o de 1 a 5 estrelas"
+    },
+    "comment": {
+      "type": "string",
+      "description": "Coment\u00e1rio da avalia\u00e7\u00e3o"
+    },
+    "reviewer_name": {
+      "type": "string",
+      "description": "Nome do avaliador"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tags que descrevem a experi\u00eancia (ex: Pontual, Profissional)"
+    },
+    "photos": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URLs de fotos enviadas na avalia\u00e7\u00e3o"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "published",
+        "pending",
+        "removed"
+      ],
+      "default": "published",
+      "description": "Status da avalia\u00e7\u00e3o para modera\u00e7\u00e3o"
+    },
+    "response": {
+      "type": "string",
+      "description": "Resposta do prestador \u00e0 avalia\u00e7\u00e3o"
+    },
+    "response_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data em que o prestador respondeu"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Descri\u00e7\u00e3o detalhada da experi\u00eancia com o servi\u00e7o"
+    }
+  },
+  "required": [
+    "request_id",
+    "provider_id",
+    "rating"
+  ],
+  "rls": {
+    "read": true,
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

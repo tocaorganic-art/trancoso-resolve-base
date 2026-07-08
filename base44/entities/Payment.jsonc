@@ -1,0 +1,122 @@
+{
+  "name": "Payment",
+  "type": "object",
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "description": "ID da ServiceRequest vinculada"
+    },
+    "provider_id": {
+      "type": "string",
+      "description": "ID do prestador"
+    },
+    "client_email": {
+      "type": "string",
+      "description": "Email do cliente"
+    },
+    "provider_stripe_account_id": {
+      "type": "string",
+      "description": "Stripe Connect Account ID do prestador"
+    },
+    "amount_total": {
+      "type": "number",
+      "description": "Valor total em centavos"
+    },
+    "amount_provider": {
+      "type": "number",
+      "description": "80% para o prestador (centavos)"
+    },
+    "amount_platform": {
+      "type": "number",
+      "description": "20% para a plataforma (centavos)"
+    },
+    "currency": {
+      "type": "string",
+      "default": "brl",
+      "description": "Moeda"
+    },
+    "stripe_payment_intent_id": {
+      "type": "string",
+      "description": "ID do Payment Intent no Stripe"
+    },
+    "stripe_charge_id": {
+      "type": "string",
+      "description": "ID do Charge ap\u00f3s captura"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "requires_payment_method",
+        "requires_confirmation",
+        "requires_capture",
+        "processing",
+        "captured",
+        "canceled",
+        "disputed",
+        "refunded"
+      ],
+      "default": "requires_payment_method",
+      "description": "Status do pagamento"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora da captura"
+    },
+    "auto_capture_after": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora limite para auto-captura (48h ap\u00f3s servi\u00e7o)"
+    },
+    "service_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data do servi\u00e7o"
+    },
+    "dispute_reason": {
+      "type": "string",
+      "description": "Motivo da disputa"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Observa\u00e7\u00f5es"
+    }
+  },
+  "required": [
+    "request_id",
+    "provider_id",
+    "amount_total"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.client_email": "{{user.email}}"
+        },
+        {
+          "data.provider_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

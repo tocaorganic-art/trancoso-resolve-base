@@ -1,0 +1,101 @@
+{
+  "name": "Subscription",
+  "type": "object",
+  "properties": {
+    "user_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email do usu\u00e1rio"
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "trial",
+        "monthly"
+      ],
+      "default": "trial",
+      "description": "Plano da assinatura"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "trial",
+        "active",
+        "expired",
+        "cancelled"
+      ],
+      "default": "trial",
+      "description": "Status da assinatura"
+    },
+    "trial_start": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de in\u00edcio do trial"
+    },
+    "trial_end": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de fim do trial"
+    },
+    "subscription_start": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de in\u00edcio da assinatura paga"
+    },
+    "next_billing_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Pr\u00f3xima data de cobran\u00e7a"
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "description": "ID do cliente no Stripe"
+    },
+    "stripe_subscription_id": {
+      "type": "string",
+      "description": "ID da assinatura no Stripe"
+    },
+    "amount": {
+      "type": "number",
+      "default": 99,
+      "description": "Valor da mensalidade em R$"
+    },
+    "payment_method": {
+      "type": "string",
+      "enum": [
+        "stripe",
+        "manual"
+      ],
+      "default": "stripe",
+      "description": "M\u00e9todo de pagamento"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Observa\u00e7\u00f5es administrativas"
+    }
+  },
+  "required": [
+    "user_email",
+    "plan",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.user_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "Message",
+  "type": "object",
+  "properties": {
+    "conversationId": {
+      "type": "string",
+      "description": "ID da conversa \u00e0 qual a mensagem pertence."
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "user",
+        "assistant"
+      ],
+      "description": "Quem enviou a mensagem."
+    },
+    "content": {
+      "type": "string",
+      "description": "O conte\u00fado da mensagem."
+    }
+  },
+  "required": [
+    "conversationId",
+    "role",
+    "content"
+  ],
+  "rls": {
+    "read": {
+      "created_by": "{{user.email}}"
+    },
+    "write": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

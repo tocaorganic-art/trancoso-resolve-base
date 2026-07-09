@@ -1,121 +1,121 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.23';
-import Stripe from 'npm:stripe@14.21.0';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
+// ─── Criar Pagamento de Serviço via Mercado Pago ──────────────────────────────
+// Fluxo: cria Preferência MP → retorna init_point para redirect do cliente
+// O webhook mpWebhook confirma o pagamento quando aprovado pelo MP
 
-// Logging helper
-function logStructured(action, data, level = 'info') {
-  const log = {
-    timestamp: new Date().toISOString(),
-    action,
-    level,
-    data,
-    environment: Deno.env.get('ENVIRONMENT') || 'production'
-  };
-  console.log(JSON.stringify(log));
-  return log;
-}
+const MP_ACCESS_TOKEN = Deno.env.get('MP_ACCESS_TOKEN');
+const BASE_URL = 'https://trancosoresolve.com.br';
 
 Deno.serve(async (req) => {
+  let body: Record<string, unknown> = {};
   try {
+    if (!MP_ACCESS_TOKEN) {
+      return Response.json({ error: 'MP_ACCESS_TOKEN não configurado' }, { status: 500 });
+    }
+
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
 
-    // SEGURANÇA: Verifica autenticação do usuário
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { request_id, amount_brl, service_date, provider_id } = body;
+    body = await req.json();
+    const { request_id, amount_brl, service_date, provider_id } = body as {
+      request_id: string;
+      amount_brl: number;
+      service_date?: string;
+      provider_id: string;
+    };
 
     if (!request_id || !amount_brl || !provider_id) {
       return Response.json({ error: 'Campos obrigatórios: request_id, amount_brl, provider_id' }, { status: 400 });
     }
 
-    // SEGURANÇA: Usa email do usuário autenticado, não do body
     const clientEmail = user.email;
+    const amountBrl = Number(amount_brl);
+    const platformFee = Math.round(amountBrl * 0.20 * 100) / 100;
+    const providerAmount = Math.round((amountBrl - platformFee) * 100) / 100;
 
-    const amountCents = Math.round(amount_brl * 100);
-    const platformFee = Math.round(amountCents * 0.20);
-    const providerAmount = amountCents - platformFee;
-
-    // Busca conta Stripe do prestador (se já tiver feito onboarding)
-    const stripeAccounts = await base44.asServiceRole.entities.ProviderStripeAccount.filter({ provider_id });
-    const providerAccount = stripeAccounts?.[0];
-
-    // Cria Payment Intent com captura manual (escrow)
-    const paymentIntentParams = {
-      amount: amountCents,
-      currency: 'brl',
-      capture_method: 'manual',
-      payment_method_types: ['card'],
+    // ─── Criar Preferência no Mercado Pago ───────────────────────────────────
+    const preference = {
+      items: [{
+        id: request_id,
+        title: `Serviço Trancoso Resolve #${request_id}`,
+        quantity: 1,
+        unit_price: amountBrl,
+        currency_id: 'BRL',
+      }],
+      payer: {
+        email: clientEmail,
+      },
+      external_reference: request_id,
+      back_urls: {
+        success: `${BASE_URL}/PagamentoConfirmado?request_id=${request_id}&status=success`,
+        failure: `${BASE_URL}/PagamentoConfirmado?request_id=${request_id}&status=failure`,
+        pending: `${BASE_URL}/PagamentoConfirmado?request_id=${request_id}&status=pending`,
+      },
+      auto_return: 'approved',
+      statement_descriptor: 'TRANCOSO RESOLVE',
       metadata: {
-        base44_app_id: Deno.env.get('BASE44_APP_ID'),
         request_id,
         provider_id,
-        client_email,
-        platform_fee_cents: platformFee.toString(),
-        provider_amount_cents: providerAmount.toString(),
+        client_email: clientEmail,
+        platform_fee: platformFee,
+        provider_amount: providerAmount,
       },
-      description: `Trancoso Resolve - Serviço #${request_id}`,
     };
 
-    // Se o prestador já tem conta Connect, configura o split
-    if (providerAccount?.stripe_account_id && providerAccount?.charges_enabled) {
-      paymentIntentParams.application_fee_amount = platformFee;
-      paymentIntentParams.transfer_data = {
-        destination: providerAccount.stripe_account_id,
-      };
-      console.log(`[criarPagamento] Usando Connect account: ${providerAccount.stripe_account_id}`);
-    } else {
-      console.log(`[criarPagamento] Prestador sem conta Connect. Split manual será feito na captura.`);
+    const mpRes = await fetch('https://api.mercadopago.com/checkout/preferences', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${MP_ACCESS_TOKEN}`,
+      },
+      body: JSON.stringify(preference),
+    });
+
+    const mpData = await mpRes.json();
+
+    if (!mpRes.ok || !mpData.init_point) {
+      console.error('[criarPagamentoServico] Erro MP:', JSON.stringify(mpData));
+      return Response.json({
+        error: mpData.message || 'Erro ao criar preferência no Mercado Pago',
+        details: mpData,
+      }, { status: 500 });
     }
 
-    const paymentIntent = await stripe.paymentIntents.create(paymentIntentParams);
-    console.log(`[criarPagamento] PaymentIntent criado: ${paymentIntent.id}, amount: ${amountCents}`);
-
-    // Calcula prazo de auto-captura: 48h após a data do serviço
-    const serviceDateTime = service_date ? new Date(service_date) : new Date();
-    serviceDateTime.setDate(serviceDateTime.getDate() + 1); // dia seguinte ao serviço
-    const autoCaptureAfter = new Date(serviceDateTime.getTime() + 48 * 60 * 60 * 1000).toISOString();
-
-    // Salva no banco
+    // ─── Salva no banco ───────────────────────────────────────────────────────
     const payment = await base44.asServiceRole.entities.Payment.create({
       request_id,
       provider_id,
       client_email: clientEmail,
-      provider_stripe_account_id: providerAccount?.stripe_account_id || null,
-      amount_total: amountCents,
-      amount_provider: providerAmount,
-      amount_platform: platformFee,
+      amount_total: Math.round(amountBrl * 100),
+      amount_provider: Math.round(providerAmount * 100),
+      amount_platform: Math.round(platformFee * 100),
       currency: 'brl',
-      stripe_payment_intent_id: paymentIntent.id,
-      status: 'requires_payment_method',
+      mp_payment_id: mpData.id,
+      mp_preference_id: mpData.id,
+      status: 'pending',
       service_date: service_date || null,
-      auto_capture_after: autoCaptureAfter,
+      payment_method: 'mercadopago',
     });
 
-    console.log(`[criarPagamento] Payment salvo: ${payment.id}`);
+    console.log(`[criarPagamentoServico] Preferência MP criada: ${mpData.id} | request: ${request_id}`);
 
     return Response.json({
       ok: true,
       payment_id: payment.id,
-      client_secret: paymentIntent.client_secret,
-      payment_intent_id: paymentIntent.id,
-      amount_total: amountCents,
+      checkout_url: mpData.init_point,
+      preference_id: mpData.id,
+      amount_total: amountBrl,
       amount_provider: providerAmount,
       amount_platform: platformFee,
     });
 
   } catch (error) {
-    logStructured('criarPagamento_error', {
-      errorMessage: error.message,
-      errorCode: error.code,
-      requestId: body.request_id,
-      userEmail: user?.email
-    }, 'error');
-    
+    console.error('[criarPagamentoServico] Erro:', error.message, { request_id: body.request_id });
     return Response.json({ error: error.message }, { status: 500 });
   }
 });

@@ -1,0 +1,44 @@
+{
+  "name": "Trancoso Resolve — Profissionais Verificados",
+  "short_name": "Trancoso Resolve",
+  "description": "Encontre profissionais verificados para todos os tipos de serviço em Trancoso, Bahia. Diaristas, eletricistas, encanadores, jardineiros e muito mais.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0A81D1",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg",
+      "sizes": "540x720",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Trancoso Resolve - Busque serviços"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Buscar Serviços",
+      "short_name": "Buscar",
+      "description": "Busque profissionais verificados em Trancoso",
+      "url": "/ServicosCategoria",
+      "icons": [{ "src": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png", "sizes": "192x192" }]
+    }
+  ]
+}

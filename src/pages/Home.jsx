@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
 import { base44 } from "@/api/base44Client";
@@ -15,7 +15,7 @@ import SocialProofBar from "@/components/home/SocialProofBar";
 import CTAPrestador from "@/components/home/CTAPrestador";
 import {
   Sparkles, UtensilsCrossed, Hammer, Leaf,
-  Baby, Zap, Star, AlertCircle, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight
+  Baby, Zap, Star, AlertCircle, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, ChevronLeft, ChevronRight
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";
@@ -145,7 +145,7 @@ const ServiceCard = ({ service, provider }) => {
                 {imageSrc ? (
                     <LazyImage
                         src={imageSrc}
-                        alt={`${service.title} — serviço de ${service.category} em Trancoso`}
+                        alt={`${service.title} — serviço de ${service.category} na Costa do Descobrimento`}
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                 ) : (
@@ -335,6 +335,7 @@ export default function HomePage() {
   }, [queryClient]);
 
   const { isPulling, pullDistance, threshold } = usePullToRefresh(handleRefresh);
+  const catScrollRef = useRef(null);
 
   const { data: user, isLoading: isLoadingUser, isFetched: isUserFetched } = useQuery({
     queryKey: ['currentUser'],

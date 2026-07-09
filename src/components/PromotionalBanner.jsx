@@ -8,7 +8,7 @@ import LazyImage from '@/components/ui/LazyImage';
 const banners = [
   {
     id: 1,
-    badge: "✨ A Plataforma Oficial de Serviços em Trancoso",
+    badge: "✨ A Plataforma Oficial de Serviços na Costa do Descobrimento",
     title: "Conecte-se aos Melhores",
     highlight: "Profissionais Verificados",
     subtitle: "Faxina, eletricista, jardinagem, cozinheiro e muito mais — tudo num só lugar, com avaliações reais e confiança garantida.",
@@ -24,7 +24,7 @@ const banners = [
     badge: "🔥 OFERTA ESPECIAL — Primeira Vaga do Ano!",
     title: "R$ 29,90",
     highlight: "Mês Inaugural + 0% Comissão",
-    subtitle: "Seja um dos primeiros 100 prestadores em Trancoso. Pague uma vez só e fique com 100% de tudo que você ganhar. Sem taxas escondidas.",
+    subtitle: "Seja um dos primeiros 100 prestadores na Costa do Descobrimento. Pague uma vez só e fique com 100% de tudo que você ganhar. Sem taxas escondidas.",
     cta: "Garantir Vaga Agora",
     ctaLink: "/Planos",
     bgColor: "linear-gradient(135deg, #F95738 0%, #FF6B35 50%, #FFB627 100%)",
@@ -38,7 +38,7 @@ const banners = [
     badge: "💰 Plano Estável & Previsível",
     title: "R$ 49,90/mês",
     highlight: "Mensal Fixo. 100% Seu.",
-    subtitle: "+ categorias de serviços profissionais. Se existe serviço em Trancoso, está aqui. Todos verificados, todos avaliados.",
+    subtitle: "+ categorias de serviços profissionais. Se existe serviço na Costa do Descobrimento, está aqui. Todos verificados, todos avaliados.",
     cta: "Explorar Categorias",
     ctaLink: "/ServicosCategoria",
     bgColor: "linear-gradient(135deg, #0D8A6F 0%, #1DB584 50%, #2D3047 100%)",

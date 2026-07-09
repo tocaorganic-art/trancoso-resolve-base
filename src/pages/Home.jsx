@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import LazyImage from "@/components/ui/LazyImage";
 import Testimonials from "@/components/home/Testimonials";
+import HeroBanner from "@/components/home/HeroBanner";
 import HeroSearch from "@/components/home/HeroSearch";
 import ServiceCarousel from "@/components/home/ServiceCarousel";
 import SocialProofBar from "@/components/home/SocialProofBar";
@@ -249,7 +250,7 @@ export default function HomePage() {
         {
           "@type": "LocalBusiness",
           "name": "Trancoso Resolve",
-          "description": "Marketplace de serviços locais em Trancoso, Porto Seguro e Caraíva. Profissionais verificados para limpeza, elétrica, jardinagem, cozinha, encanamento e muito mais na Costa do Descobrimento.",
+          "description": "Marketplace de serviços locais em Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Profissionais verificados para limpeza, elétrica, jardinagem, cozinha, encanamento e muito mais na Costa do Descobrimento.",
           "url": `${window.location.origin}`,
           "logo": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png",
           "image": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png",
@@ -294,8 +295,8 @@ export default function HomePage() {
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Como encontrar prestadores de serviços em Trancoso?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Na Trancoso Resolve você encontra prestadores verificados de limpeza, elétrica, jardinagem, garçom, pedreiro, encanador, pintor, cozinheiro e babá. Todos passam por verificação de antecedentes criminais antes de serem listados." }
+              "name": "Como encontrar prestadores de serviços na Costa do Descobrimento?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Na Trancoso Resolve você encontra prestadores verificados de limpeza, elétrica, jardinagem, garçom, pedreiro, encanador, pintor, cozinheiro e babá em Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Todos passam por verificação de antecedentes criminais antes de serem listados." }
             },
             {
               "@type": "Question",
@@ -310,7 +311,7 @@ export default function HomePage() {
             {
               "@type": "Question",
               "name": "O Trancoso Resolve atende villas e pousadas?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Sim. A plataforma é ideal para gestores de villas, pousadas e empreendimentos em Trancoso que precisam de prestadores de serviços pontuais ou recorrentes com confiança e rapidez." }
+              "acceptedAnswer": { "@type": "Answer", "text": "Sim. A plataforma é ideal para gestores de villas, pousadas e empreendimentos em toda a Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda — que precisam de prestadores de serviços pontuais ou recorrentes com confiança e rapidez." }
             }
           ]
         },
@@ -425,7 +426,10 @@ export default function HomePage() {
       )}
       <OnboardingTour />
 
-      {/* Hero com busca */}
+      {/* Hero com 3 slides humanizados */}
+      <HeroBanner vagasRestantes={vagasRestantes} total={totalVerificados} />
+
+      {/* Busca + categorias rápidas */}
       <HeroSearch />
 
       {/* Barra prova social */}

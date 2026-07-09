@@ -466,56 +466,6 @@ export default function HomePage() {
             </section>
         )}
 
-        {/* Featured Services */}
-        <section className="mb-10 md:mb-20">
-          <div className="flex items-center justify-between mb-4 md:mb-6">
-            <h2 className="text-lg md:text-2xl font-bold text-foreground drop-shadow-sm leading-tight">Profissionais que a comunidade aprova</h2>
-            <Link to={createPageUrl("ServicosCategoria")} data-testid="home-ver-todos-servicos-link">
-              <Button variant="ghost" className="text-primary hover:text-primary/80" aria-label="Ver todos os serviços">
-                Ver todos
-              </Button>
-            </Link>
-          </div>
-
-          <div className="flex overflow-x-auto gap-4 pb-3 snap-x -mx-4 px-4 md:mx-0 md:px-0 md:grid md:overflow-visible md:pb-0 md:grid-cols-2 md:snap-none lg:grid-cols-3 md:gap-6" style={{scrollbarWidth:'none',msOverflowStyle:'none'}}>
-            {isLoadingServices ? (
-                  Array.from({ length: 3 }).map((_, i) => (
-                      <div key={i} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
-                          <ServiceSkeletonCard />
-                      </div>
-                  ))
-                ) : isErrorServices ? (
-                  <div className="flex-shrink-0 w-full text-center py-10 bg-red-50 rounded-lg">
-                    <AlertCircle className="w-8 h-8 mx-auto text-red-500 mb-2" />
-                    <p className="text-red-700">Não foi possível carregar os serviços em destaque.</p>
-                  </div>
-                ) : services && services.length > 0 ? (
-                  services.map((service) => {
-                    const provider = providers?.find(p => p.id === service.provider_id);
-                    return (
-                        <div key={service.id} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
-                            <ServiceCard service={service} provider={provider} />
-                        </div>
-                    );
-                  })
-                ) : (
-                  <div className="flex-shrink-0 w-full text-center py-12 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-100">
-                    <Sparkles className="w-12 h-12 mx-auto text-amber-400 mb-3" />
-                    <h3 className="text-lg font-semibold text-slate-700 mb-2">Serviços em Destaque em Breve!</h3>
-                    <p className="text-slate-500 mb-4 max-w-md mx-auto">
-                      Estamos selecionando os melhores serviços para você. Enquanto isso, explore nossos profissionais.
-                    </p>
-                    <Link to={createPageUrl("ServicosCategoria")}>
-                      <Button className="bg-amber-600 hover:bg-amber-700">
-                        Explorar Profissionais
-                      </Button>
-                    </Link>
-                  </div>
-                )}
-          </div>
-        </section>
-
-        {/* Seção removida: Top Rated Providers — substituída pelo carrossel de serviços acima */}
 
         {/* Landing Pages por Serviço - SEO Local */}
          <section className="mb-10 md:mb-20 pt-8 md:pt-16">

@@ -15,7 +15,7 @@ const testimonials = [
     role: 'Chef de Cozinha',
     avatar: 'https://i.pravatar.cc/150?img=32',
     rating: 5,
-    comment: 'Desde que me cadastrei, minha agenda está sempre cheia. A plataforma me deu a visibilidade que eu precisava para conseguir clientes de alto padrão em Trancoso.'
+    comment: 'Desde que me cadastrei, minha agenda está sempre cheia. A plataforma me deu a visibilidade que eu precisava para conseguir clientes de alto padrão na Costa do Descobrimento.'
   },
   {
     name: 'Mariana C.',

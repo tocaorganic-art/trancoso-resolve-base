@@ -28,7 +28,7 @@ export default function ServiceCard({ service, provider, categoryImageMap, categ
     const fallbackImage = categoryImageMap[service.category] || categoryImageMap.default;
     const imageSrc = hasValidImage ? serviceImage : fallbackImage;
     const Icon = categoryIconMap[service.category] || categoryIconMap.default;
-    const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade em Trancoso.';
+    const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade na Costa do Descobrimento.';
 
     const formatPrice = (price) => {
         return price?.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) || '0,00';
@@ -42,7 +42,7 @@ export default function ServiceCard({ service, provider, categoryImageMap, categ
                 {imageSrc ? (
                     <LazyImage
                         src={imageSrc}
-                        alt={`${service.title} — serviço de ${service.category} em Trancoso`}
+                        alt={`${service.title} — serviço de ${service.category} na Costa do Descobrimento`}
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                 ) : (

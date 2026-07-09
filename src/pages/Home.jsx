@@ -401,11 +401,6 @@ export default function HomePage() {
     enabled: !!user,
   });
 
-  const topProviders = providers
-    ?.filter(p => p.rating > 0)
-    .sort((a, b) => b.rating - a.rating)
-    .slice(0, 6) || [];
-    
   const popularServices = ["Faxina", "Eletricista", "Passeio Turístico", "Transporte", "Massagem"];
 
   return (

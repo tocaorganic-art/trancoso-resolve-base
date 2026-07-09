@@ -473,7 +473,12 @@ export default function HomePage() {
              <h2 className="text-2xl md:text-4xl font-bold text-foreground drop-shadow-sm mb-2">Serviços Mais Buscados na Costa do Descobrimento</h2>
              <p className="text-base md:text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Profissionais verificados da sua comunidade em cada categoria</p>
            </div>
-           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
+           <div className="relative">
+             <div className="hidden md:flex gap-2 absolute -top-14 right-0">
+               <button onClick={() => catScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center hover:bg-accent transition-colors" aria-label="Anterior"><ChevronLeft className="w-5 h-5 text-foreground" /></button>
+               <button onClick={() => catScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center hover:bg-accent transition-colors" aria-label="Próximo"><ChevronRight className="w-5 h-5 text-foreground" /></button>
+             </div>
+             <div ref={catScrollRef} className="flex overflow-x-auto gap-3 pb-3 snap-x -mx-4 px-4 md:mx-0 md:px-0" style={{scrollbarWidth:'none',msOverflowStyle:'none'}}>
              {[
                { slug: 'limpeza-trancoso', label: 'Diarista', emoji: '🧹' },
                { slug: 'eletricista-trancoso', label: 'Eletricista', emoji: '⚡' },
@@ -485,14 +490,17 @@ export default function HomePage() {
                { slug: 'baba-trancoso', label: 'Babá', emoji: '👶' },
                { slug: 'garcom-trancoso', label: 'Garçom', emoji: '🍽️' },
              ].map(item => (
-               <Link key={item.slug} to={`/ServicoLanding?slug=${item.slug}`}>
-                 <div className="bg-card rounded-2xl p-4 text-center shadow-md hover:shadow-lg transition-all duration-300 border-2 border-border hover:border-primary cursor-pointer group h-full flex flex-col items-center justify-center">
-                  <span className="text-3xl block mb-2" aria-hidden="true">{item.emoji}</span>
-                  <span className="text-sm md:text-base font-bold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
-                  <span className="block text-xs font-medium text-muted-foreground mt-1">na região</span>
-                 </div>
-               </Link>
+               <div key={item.slug} className="flex-shrink-0 w-[148px] snap-start">
+                 <Link to={`/ServicoLanding?slug=${item.slug}`}>
+                   <div className="bg-card rounded-2xl p-4 text-center shadow-md hover:shadow-lg transition-all duration-300 border-2 border-border hover:border-primary cursor-pointer group flex flex-col items-center justify-center h-full min-h-[120px]">
+                     <span className="text-3xl block mb-2" aria-hidden="true">{item.emoji}</span>
+                     <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
+                     <span className="block text-xs font-medium text-muted-foreground mt-1">na região</span>
+                   </div>
+                 </Link>
+               </div>
              ))}
+             </div>
            </div>
          </section>
 

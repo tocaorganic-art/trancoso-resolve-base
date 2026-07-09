@@ -129,7 +129,7 @@ const ServiceCard = ({ service, provider }) => {
     const fallbackImage = categoryImageMap[service.category] || categoryImageMap.default;
     const imageSrc = hasValidImage ? serviceImage : fallbackImage;
     const Icon = categoryIconMap[service.category] || categoryIconMap.default;
-    const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade em Trancoso.';
+    const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade na Costa do Descobrimento.';
 
     // Formata preço no padrão brasileiro com vírgula
     const formatPrice = (price) => {
@@ -468,7 +468,7 @@ export default function HomePage() {
         {/* Featured Services */}
         <section className="mb-10 md:mb-20">
           <div className="flex items-center justify-between mb-4 md:mb-6">
-            <h2 className="text-lg md:text-2xl font-bold text-foreground drop-shadow-sm leading-tight">Serviços em destaque — profissionais que a comunidade aprova</h2>
+            <h2 className="text-lg md:text-2xl font-bold text-foreground drop-shadow-sm leading-tight">Profissionais que a comunidade aprova</h2>
             <Link to={createPageUrl("ServicosCategoria")} data-testid="home-ver-todos-servicos-link">
               <Button variant="ghost" className="text-primary hover:text-primary/80" aria-label="Ver todos os serviços">
                 Ver todos
@@ -519,8 +519,8 @@ export default function HomePage() {
         {/* Landing Pages por Serviço - SEO Local */}
          <section className="mb-10 md:mb-20 pt-8 md:pt-16">
            <div className="text-center mb-8">
-             <h2 className="text-2xl md:text-4xl font-bold text-foreground drop-shadow-sm mb-2">Serviços Mais Buscados em Trancoso</h2>
-             <p className="text-base md:text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Acesse guias completos com profissionais verificados em cada categoria</p>
+             <h2 className="text-2xl md:text-4xl font-bold text-foreground drop-shadow-sm mb-2">Serviços Mais Buscados na Costa do Descobrimento</h2>
+             <p className="text-base md:text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Profissionais verificados da sua comunidade em cada categoria</p>
            </div>
            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4">
              {[
@@ -538,7 +538,7 @@ export default function HomePage() {
                  <div className="bg-card rounded-2xl p-4 text-center shadow-md hover:shadow-lg transition-all duration-300 border-2 border-border hover:border-primary cursor-pointer group h-full flex flex-col items-center justify-center">
                   <span className="text-3xl block mb-2" aria-hidden="true">{item.emoji}</span>
                   <span className="text-sm md:text-base font-bold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
-                  <span className="block text-xs font-medium text-muted-foreground mt-1">em Trancoso</span>
+                  <span className="block text-xs font-medium text-muted-foreground mt-1">na região</span>
                  </div>
                </Link>
              ))}
@@ -551,8 +551,8 @@ export default function HomePage() {
         {/* Como Funciona */}
         <section className="mb-10 md:mb-20 mt-10 md:mt-20">
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground drop-shadow-sm">Como funciona a Trancoso Resolve</h2>
-            <p className="text-base md:text-lg text-muted-foreground font-medium mt-2 leading-relaxed">Profissional ganha renda. Você contrata quem você conhece.</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground drop-shadow-sm">Simples assim — do pedido ao serviço</h2>
+            <p className="text-base md:text-lg text-muted-foreground font-medium mt-2 leading-relaxed">Profissional da sua comunidade ganha renda. Você contrata com confiança.</p>
           </div>
           <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6">
             {[

@@ -27,7 +27,7 @@ export default function CTAPrestador({ vagasRestantes = 0 }) {
             </div>
           )}
           <h2 className="text-2xl md:text-3xl font-extrabold text-white mb-3 leading-tight">
-            Faça parte da nossa rede em Trancoso, Porto Seguro e Caraíva.
+            Faça parte da nossa rede na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d’Ajuda.
           </h2>
           <p className="text-slate-300 text-sm md:text-base mb-6 leading-relaxed">
             Cadastre-se como prestador de serviços de qualidade na Costa do Descobrimento. Perfil verificado, agenda integrada e clientes reais. Comece com 2 meses grátis.

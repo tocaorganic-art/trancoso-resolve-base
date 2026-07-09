@@ -72,7 +72,7 @@ export default function HeroSearch() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t('hero.searchPlaceholder')}
-              className="pl-10 pr-3 h-14 sm:h-12 text-base bg-background text-foreground border-0 rounded-brand-lg shadow-warm-lg w-full overflow-hidden"
+              className="pl-10 pr-3 h-14 sm:h-12 text-base bg-background text-foreground border-0 rounded-brand-lg shadow-warm-lg w-full"
               maxLength={120}
             />
           </div>

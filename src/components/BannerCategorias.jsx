@@ -20,7 +20,7 @@ export default function BannerCategorias() {
         <div className="container mx-auto px-4 max-w-full overflow-hidden">
             <div className="mb-6 text-center">
               <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">Categorias Principais</h3>
-              <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Explore todos os serviços disponíveis em Trancoso</p>
+              <p className="text-sm md:text-base text-slate-600 dark:text-slate-400">Explore todos os serviços disponíveis na Costa do Descobrimento</p>
             </div>
             <div className="grid grid-cols-4 md:flex md:justify-center gap-3 md:gap-4 py-2">
                 {categorias.map((cat, i) => (
@@ -28,7 +28,7 @@ export default function BannerCategorias() {
                       key={i} 
                       to={createPageUrl("ServicosCategoria", `?cat=${cat.name}`)}
                       className="group flex flex-col items-center gap-2 text-center min-w-0 transition-all duration-300"
-                      aria-label={`Ver serviços de ${cat.name} em Trancoso`}
+                      aria-label={`Ver serviços de ${cat.name} na região`}
                     >
                          <div className={`w-14 h-14 md:w-20 md:h-20 rounded-2xl border-2 border-slate-300/40 dark:border-slate-600/40 flex items-center justify-center transition-all duration-300 ease-out group-hover:-translate-y-2 shrink-0 relative overflow-hidden`}
                        style={{

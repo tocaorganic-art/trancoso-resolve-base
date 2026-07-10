@@ -442,7 +442,7 @@ export default function Layout({ children, currentPageName }) {
                       to={item.path}
                       onClick={() => item.clearLogin && sessionStorage.removeItem('loginTimestamp')}
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                      isActive(item.path) ? 'bg-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'}`}
+                      isActive(item.path) ? 'bg-orange-600 text-white' : 'text-slate-300 hover:bg-slate-700'}`}
                       data-testid={`admin-nav-${item.name.toLowerCase().replace(' ', '-')}`}>
                       <Icon className="w-4 h-4" />
                       <span className="text-sm">{item.name}</span>
@@ -468,7 +468,7 @@ export default function Layout({ children, currentPageName }) {
                     to={item.path}
                     onClick={() => {setMobileMenuOpen(false);item.clearLogin && sessionStorage.removeItem('loginTimestamp');}}
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
-                    isActive(item.path) ? 'bg-blue-500 text-white' : 'text-slate-300 hover:bg-slate-700'}`}
+                    isActive(item.path) ? 'bg-orange-600 text-white' : 'text-slate-300 hover:bg-slate-700'}`}
                     data-testid={`admin-mobile-nav-${item.name.toLowerCase().replace(' ', '-')}`}>
                     <Icon className="w-4 h-4" />
                     <span className="text-sm">{item.name}</span>

@@ -9,12 +9,12 @@ import {
 } from '@/components/ui/alert-dialog';
 import { useQueryClient } from '@tanstack/react-query';
 
-export default function ConfirmarServicoButton({ payment, onConfirmed }) {
+export default function ConfirmarServicoButton({ payment, requestStatus, onConfirmed }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const queryClient = useQueryClient();
 
-  if (!payment || payment.status !== 'requires_capture') return null;
+  if (!payment || payment.status !== 'captured' || requestStatus === 'Concluído') return null;
 
   const handleConfirm = async () => {
     setLoading(true);
@@ -50,8 +50,8 @@ export default function ConfirmarServicoButton({ payment, onConfirmed }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Confirmar conclusão do serviço?</AlertDialogTitle>
             <AlertDialogDescription>
-              Ao confirmar, o pagamento de <strong>R$ {((payment.amount_provider || 0) / 100).toFixed(2)}</strong> será
-              liberado ao prestador automaticamente. Esta ação não pode ser desfeita.
+              Ao confirmar, o serviço de <strong>R$ {((payment.amount_total || 0) / 100).toFixed(2)}</strong> será
+              marcado como concluído. Esta ação não pode ser desfeita.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -116,6 +116,7 @@ Deno.serve(async (req) => {
           await base44.asServiceRole.entities.Payment.update(payments[0].id, {
             status: newStatus,
             mp_payment_id: String(paymentId),
+            ...(newStatus === 'captured' ? { captured_at: new Date().toISOString() } : {}),
           });
           console.log(`[mpWebhook] Payment ${paymentId} → status: ${newStatus}`);
         }

@@ -1,8 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-// Cancela pagamento de serviço (escrow)
-// Nota: o cancelamento financeiro real depende do gateway usado para criarPagamentoServico.
-// Se migrado para MP, o reembolso deve ser feito via MP Payments API.
+// Cancela pagamento de serviço via Mercado Pago
+// Nota: o cancelamento aqui só atualiza o registro no Base44 — o reembolso
+// financeiro real precisa ser feito no painel do MP ou via API de reembolso.
 
 Deno.serve(async (req) => {
   try {
@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Não autorizado' }, { status: 403 });
     }
 
-    const cancelableStatuses = ['pending', 'requires_capture', 'authorized'];
+    const cancelableStatuses = ['pending'];
     if (!cancelableStatuses.includes(payment.status)) {
       return Response.json({
         error: `Pagamento com status "${payment.status}" não pode ser cancelado`,
@@ -63,10 +63,9 @@ Deno.serve(async (req) => {
 
     console.log(`[cancelarPagamento] Pagamento ${payment.id} cancelado`);
 
-    // ⚠️ NOTA: Se o pagamento foi processado via MP, o reembolso financeiro precisa
-    // ser feito manualmente no painel do Mercado Pago ou via API de reembolso:
+    // ⚠️ NOTA: o reembolso financeiro precisa ser feito manualmente no painel
+    // do Mercado Pago ou via API de reembolso:
     // POST https://api.mercadopago.com/v1/payments/{id}/refunds
-    // Isso será implementado quando criarPagamentoServico for migrado para MP.
 
     return Response.json({ ok: true, status: 'canceled' });
 

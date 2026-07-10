@@ -9,7 +9,6 @@ import Testimonials from '@/components/home/Testimonials';
 import HeroSection from '@/components/sejaprestador/HeroSection';
 import SelosQualidade from '@/components/sejaprestador/SelosQualidade';
 import TabelaComparativa from '@/components/sejaprestador/TabelaComparativa';
-import ChatOnboarding from '@/components/sejaprestador/ChatOnboarding';
 import CalculadoraGanhos from '@/components/sejaprestador/CalculadoraGanhos';
 
 const beneficios = [
@@ -224,9 +223,6 @@ export default function SejaPrestadorPage() {
           <p className="text-muted-foreground text-xs mt-6">Todos os prestadores passam por verificação de identidade e análise de antecedentes.</p>
         </div>
       </div>
-
-      {/* Chat de Onboarding */}
-      <ChatOnboarding />
     </div>
   );
 }

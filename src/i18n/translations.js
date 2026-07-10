@@ -38,7 +38,7 @@ const translations = {
       badge: 'Profissionais verificados da Costa do Descobrimento',
       headline: 'Contrate profissionais da sua comunidade',
       subtitle: 'Verificados, avaliados, com histórico real. Oportunidade que o governo não dá — em Trancoso, Porto Seguro, Caraíva e Arraial d\'Ajuda.',
-      searchPlaceholder: 'O que você precisa? Ex: jardineiro em Arraial d\'Ajuda',
+      searchPlaceholder: 'O que você precisa? Ex: jardineiro',
       searchButton: 'Encontrar profissional',
       categories: {
         Limpeza: 'Faxineira',
@@ -84,7 +84,7 @@ const translations = {
       badge: 'Profesionales verificados de la Costa do Descobrimento',
       headline: 'Contrate profesionales de su comunidad',
       subtitle: 'Verificados, evaluados, con historial real. Oportunidad que el gobierno no da — en Trancoso, Porto Seguro, Caraíva y Arraial d\'Ajuda.',
-      searchPlaceholder: '¿Qué necesita? Ej: jardinero en Arraial d\'Ajuda',
+      searchPlaceholder: '¿Qué necesita? Ej: jardinero',
       searchButton: 'Encontrar profesional',
       categories: {
         Limpeza: 'Limpieza',
@@ -130,7 +130,7 @@ const translations = {
       badge: 'Verified professionals from the Costa do Descobrimento',
       headline: 'Hire professionals from your community',
       subtitle: 'Verified, reviewed, with real history. Opportunity the government doesn\'t provide — in Trancoso, Porto Seguro, Caraíva and Arraial d\'Ajuda.',
-      searchPlaceholder: 'What do you need? E.g: gardener in Arraial d\'Ajuda',
+      searchPlaceholder: 'What do you need? E.g: gardener',
       searchButton: 'Find a professional',
       categories: {
         Limpeza: 'Cleaning',
@@ -176,7 +176,7 @@ const translations = {
       badge: 'Professionnels vérifiés de la Costa do Descobrimento',
       headline: 'Engagez des professionnels de votre communauté',
       subtitle: 'Vérifiés, évalués, avec un historique réel. Opportunité que le gouvernement ne donne pas — à Trancoso, Porto Seguro, Caraíva et Arraial d\'Ajuda.',
-      searchPlaceholder: 'De quoi avez-vous besoin? Ex: jardinier à Arraial d\'Ajuda',
+      searchPlaceholder: 'De quoi avez-vous besoin? Ex: jardinier',
       searchButton: 'Trouver un professionnel',
       categories: {
         Limpeza: 'Ménage',

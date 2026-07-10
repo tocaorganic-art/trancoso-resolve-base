@@ -4,13 +4,11 @@ import { ShieldCheck, ExternalLink, AlertCircle } from 'lucide-react';
 
 // Checkout via Mercado Pago (redirect para init_point)
 // Props:
-//   checkoutUrl  — init_point retornado por criarPagamentoServico (MP)
-//   clientSecret — legado Stripe (ignorado; mantido para compatibilidade de props)
-//   amountBrl    — valor em reais (number)
-//   onCancel     — callback ao cancelar
+//   checkoutUrl — init_point retornado por criarPagamentoServico (MP)
+//   amountBrl   — valor em reais (number)
+//   onCancel    — callback ao cancelar
 
-export default function CheckoutPagamento({ checkoutUrl, clientSecret, amountBrl, onCancel }) {
-  // Suporte legado: se receber clientSecret (Stripe) sem checkoutUrl, avisa
+export default function CheckoutPagamento({ checkoutUrl, amountBrl, onCancel }) {
   const url = checkoutUrl || null;
 
   if (!url) {

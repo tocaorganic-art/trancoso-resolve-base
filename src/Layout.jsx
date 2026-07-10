@@ -160,8 +160,8 @@ export default function Layout({ children, currentPageName }) {
               <Link to={createPageUrl("Home")} className="flex items-center gap-2 flex-shrink-0" data-testid="nav-logo-link">
                 <img
                   src={theme === 'dark'
-                    ? "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/724898918_logo-lockup-dark.svg"
-                    : "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/a03eced68_logo-lockup.svg"}
+                    ? "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/3e1e2e7fa_logo-lockup-dark.svg"
+                    : "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/2f371d976_logo-lockup.svg"}
                   alt="Trancoso Resolve - Serviços em Trancoso, Bahia"
                   className="h-10 md:h-12 w-auto shrink-0"
                   height="48"
@@ -332,7 +332,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-card border-b border-border flex items-center px-3 h-12" style={{ paddingTop: "env(safe-area-inset-top, 0px)", top: "env(safe-area-inset-top, 0px)" }}>
             <Link to="/" className="flex items-center gap-2">
               <img
-                src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/035de31d3_logo-mark.svg"
+                src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/855e7dab6_logo-mark.svg"
                 alt="Trancoso Resolve"
                 className="h-8 w-8"
                 width="32"
@@ -424,8 +424,8 @@ export default function Layout({ children, currentPageName }) {
               <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2" data-testid="admin-nav-logo-link">
                 <img
                   src={theme === 'dark'
-                    ? "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/724898918_logo-lockup-dark.svg"
-                    : "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/a03eced68_logo-lockup.svg"}
+                    ? "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/3e1e2e7fa_logo-lockup-dark.svg"
+                    : "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/2f371d976_logo-lockup.svg"}
                   alt="Trancoso Resolve"
                   className="h-10 w-auto"
                   height="40"

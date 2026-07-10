@@ -40,7 +40,7 @@ export default function UrgencyBar({ user }) {
         <strong>Lançamento:</strong> apenas{" "}
         <strong className="text-yellow-300">{vagasRestantes} vagas</strong> a R$29,90/mês com 2 meses grátis
         {" "}— <span className="text-yellow-200">{total} já garantidas</span>{" "}
-        <Link to="/Planos" className="inline-flex items-center gap-0.5 underline text-yellow-300 hover:text-yellow-100 font-bold ml-1 whitespace-nowrap">
+        <Link to="/Planos" className="inline-flex items-center gap-0.5 text-yellow-300 hover:text-yellow-100 font-bold ml-1 whitespace-nowrap">
           Garantir minha vaga <ArrowRight className="w-3 h-3" />
         </Link>
       </div>

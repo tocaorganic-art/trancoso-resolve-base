@@ -89,7 +89,7 @@ export default function AdminPagamentosPage() {
     const matchSearch = !search ||
       p.client_email?.toLowerCase().includes(search.toLowerCase()) ||
       p.request_id?.includes(search) ||
-      p.stripe_payment_intent_id?.includes(search);
+      p.mp_payment_id?.includes(search);
     const matchStatus = statusFilter === 'all' || p.status === statusFilter;
     return matchSearch && matchStatus;
   });

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'trancoso-resolve-v1';
+const CACHE_NAME = 'trancoso-resolve-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -53,7 +53,8 @@ self.addEventListener('fetch', (event) => {
         if (
           event.request.url.includes('/api/') ||
           event.request.url.includes('/functions/') ||
-          !response || response.status !== 200 || 
+          !response ||
+          response.status !== 200 ||
           response.type === 'error'
         ) {
           return response;

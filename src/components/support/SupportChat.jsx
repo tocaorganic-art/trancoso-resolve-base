@@ -10,15 +10,15 @@ const KNOWLEDGE_BASE = `
 PLATAFORMA TRANCOSO RESOLVE â€” BASE DE CONHECIMENTO OFICIAL
 
 COMO FUNCIONA:
-Clientes encontram prestadores verificados â†’ agendam serviÃ§os â†’ pagam com seguranÃ§a (escrow 48h) â†’ confirmam conclusÃ£o â†’ pagamento liberado ao prestador.
+Clientes encontram prestadores verificados → agendam serviços → pagam com segurança (custódia 48h) → confirmam conclusão → pagamento liberado ao prestador.
 
 CATEGORIAS DE SERVIÃ‡O: Limpeza, GarÃ§om, Pedreiro, Jardinagem, BabÃ¡, Eletricista, Encanador, Pintor, Cozinheiro.
 
 PAGAMENTOS:
 - Método: Mercado Pago (cartão, Pix)
-- CustÃ³dia: valor fica retido por 48h apÃ³s o serviÃ§o
+- Custódia: valor fica retido por 48h após o serviço
 - Divisão: 100% para o prestador (sem comissão da plataforma)
-- LiberaÃ§Ã£o: automÃ¡tica apÃ³s 48h ou quando cliente confirmar conclusÃ£o
+- Liberação: automática após 48h ou quando cliente confirmar conclusão
 
 CANCELAMENTO: Gratuito antes do prestador confirmar a solicitaÃ§Ã£o.
 
@@ -32,9 +32,9 @@ CLIENTES:
 - AvaliaÃ§Ãµes: disponÃ­veis apÃ³s conclusÃ£o de cada serviÃ§o
 - ComunicaÃ§Ã£o: chat interno com o prestador
 
-SEGURANÃ‡A:
-- Todos os prestadores passam por verificaÃ§Ã£o de identidade
-- Pagamentos em custÃ³dia protegem o cliente
+SEGURANÇA:
+- Todos os prestadores passam por verificação de identidade
+- Pagamentos em custódia protegem o cliente
 - Dados pessoais protegidos conforme LGPD
 
 SUPORTE HUMANO: suporte@trancosoresolve.com.br
@@ -47,10 +47,10 @@ TRANCOSO LOCAL:
 
 // â”€â”€ Cache de respostas para FAQs frequentes (reduz custos de API) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const FAQ_CACHE = {
-  'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviÃ§o na data e hora desejada\n3. **Pague** com cartÃ£o â€” o valor fica em custÃ³dia segura por 48h\n4. **Confirme** a conclusÃ£o para liberar o pagamento ao prestador\n\nPrecisa de mais alguma informaÃ§Ã£o?`,
-  'como agendar': `Para agendar um serviÃ§o:\n\n1. Acesse o perfil do prestador desejado\n2. Clique em **Agendar ServiÃ§o**\n3. Preencha data, horÃ¡rio e localizaÃ§Ã£o\n4. O prestador receberÃ¡ a solicitaÃ§Ã£o e confirmarÃ¡\n\nGostaria de buscar um prestador agora?`,
-  'como funciona o pagamento': `O pagamento Ã© **100% seguro**:\n\n- Aceito via **Mercado Pago** (cartão, Pix)\n- Valor fica em **custÃ³dia por 48h** apÃ³s o serviÃ§o\n- O prestador recebe **100%** do valor (sem comissão)\n- Cancelamento **gratuito** antes da confirmaÃ§Ã£o\n\nAlguma dÃºvida sobre pagamentos?`,
-  'quero ser um prestador': `Para se cadastrar como prestador:\n\n1. Clique em **"Seja um Prestador"** no menu superior\n2. Preencha seus dados e especialidade\n3. Envie um documento (CNH ou RG) para verificaÃ§Ã£o\n4. Configure sua conta bancÃ¡ria no painel Financeiro\n\nQuer saber mais sobre como funciona para prestadores?`,
+  'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviço na data e hora desejada\n3. **Pague** com cartão — o valor fica em custódia segura por 48h\n4. **Confirme** a conclusão para liberar o pagamento ao prestador\n\nPrecisa de mais alguma informação?`,
+  'como agendar': `Para agendar um serviço:\n\n1. Acesse o perfil do prestador desejado\n2. Clique em **Agendar Serviço**\n3. Preencha data, horário e localização\n4. O prestador receberá a solicitação e confirmará\n\nGostaria de buscar um prestador agora?`,
+  'como funciona o pagamento': `O pagamento é **100% seguro**:\n\n- Aceito via **Mercado Pago** (cartão, Pix)\n- Valor fica em **custódia por 48h** após o serviço\n- O prestador recebe **100%** do valor (sem comissão)\n- Cancelamento **gratuito** antes da confirmação\n\nAlguma dúvida sobre pagamentos?`,
+  'quero ser um prestador': `Para se cadastrar como prestador:\n\n1. Clique em **"Seja um Prestador"** no menu superior\n2. Preencha seus dados e especialidade\n3. Envie um documento (CNH ou RG) para verificação\n4. Configure sua conta bancária no painel Financeiro\n\nQuer saber mais sobre como funciona para prestadores?`,
 };
 
 const findCachedAnswer = (text) => {

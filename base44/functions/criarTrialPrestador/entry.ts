@@ -91,7 +91,7 @@ Para aproveitar ao máximo:
 2. Cadastre seus serviços: https://trancosoresolve.base44.app/MeusServicos
 3. Acesse seu painel: https://trancosoresolve.base44.app/Dashboard
 
-Após o trial, continue com a assinatura mensal por apenas R$ 29,90/mês (plano lançamento) ou R$ 49,90/mês.
+Após o trial, escolha o Plano Profissional por R$ 19,90/mês ou o Plano Elite por R$ 197/mês: https://trancosoresolve.com.br/Planos
 
 Dúvidas? Fale com a gente: contato@tocaexperience.com.br
 

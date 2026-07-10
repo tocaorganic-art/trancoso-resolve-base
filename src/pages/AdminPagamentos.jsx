@@ -5,12 +5,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Loader2, Search, DollarSign, TrendingUp, Clock, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import StatusPagamentoBadge from '@/components/pagamento/StatusPagamentoBadge';
 
 const statusColors = {
   'captured': { bg: '#dcfce7', color: '#15803d', label: '✅ Pago' },
-  'requires_payment_method': { bg: '#fef9c3', color: '#854d0e', label: 'Aguardando Pagamento' },
-  'requires_capture': { bg: '#dbeafe', color: '#1d4ed8', label: '💰 Em Custódia' },
+  'pending': { bg: '#fef9c3', color: '#854d0e', label: 'Aguardando Pagamento' },
   'canceled': { bg: '#f3f4f6', color: '#6b7280', label: 'Cancelado' },
   'disputed': { bg: '#fee2e2', color: '#dc2626', label: '⚠️ Em Disputa' },
   'refunded': { bg: '#f3e8ff', color: '#6b21a8', label: 'Reembolsado' },
@@ -89,7 +87,7 @@ export default function AdminPagamentosPage() {
     const matchSearch = !search ||
       p.client_email?.toLowerCase().includes(search.toLowerCase()) ||
       p.request_id?.includes(search) ||
-      p.stripe_payment_intent_id?.includes(search);
+      p.mp_payment_id?.includes(search);
     const matchStatus = statusFilter === 'all' || p.status === statusFilter;
     return matchSearch && matchStatus;
   });
@@ -105,7 +103,7 @@ export default function AdminPagamentosPage() {
   // Métricas
   const totalCaptured = filtered.filter(p => p.status === 'captured').reduce((s, p) => s + (p.amount_total || 0), 0);
   const totalPlatform = filtered.filter(p => p.status === 'captured').reduce((s, p) => s + (p.amount_platform || 0), 0);
-  const pendingCapture = filtered.filter(p => p.status === 'requires_capture').length;
+  const pendingCapture = filtered.filter(p => p.status === 'pending').length;
   const disputed = filtered.filter(p => p.status === 'disputed').length;
 
   const providerMap = Object.fromEntries(providers.map(p => [p.id, p]));
@@ -160,7 +158,7 @@ export default function AdminPagamentosPage() {
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-1">
                 <Clock className="w-4 h-4 text-amber-500" />
-                <span className="text-xs text-slate-400">Em Custódia</span>
+                <span className="text-xs text-slate-400">Aguardando Pagamento</span>
               </div>
               {pendingCapture === 0 ? (
                 <span style={{color:'#4b5563', fontSize:13}}>Nenhuma transação ainda</span>
@@ -215,9 +213,8 @@ export default function AdminPagamentosPage() {
             }}
           >
             <option value="all">Todos os status</option>
-            <option value="requires_payment_method">Aguardando Pagamento</option>
-            <option value="requires_capture">Em Custódia</option>
-            <option value="captured">Capturado</option>
+            <option value="pending">Aguardando Pagamento</option>
+            <option value="captured">Pago</option>
             <option value="canceled">Cancelado</option>
             <option value="disputed">Em Disputa</option>
             <option value="refunded">Reembolsado</option>

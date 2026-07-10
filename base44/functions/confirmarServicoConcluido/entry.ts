@@ -1,7 +1,9 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-import Stripe from 'npm:stripe@14.21.0';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
+// Confirma a conclusão do serviço pelo cliente.
+// O pagamento via Mercado Pago já é capturado automaticamente pelo mpWebhook
+// quando aprovado — esta função apenas marca a ServiceRequest como Concluída
+// e registra o serviço no relatório diário.
 
 Deno.serve(async (req) => {
   try {
@@ -38,23 +40,12 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Não autorizado para confirmar este pagamento' }, { status: 403 });
     }
 
-    if (payment.status !== 'requires_capture') {
-      return Response.json({ error: `Pagamento não pode ser capturado. Status atual: ${payment.status}` }, { status: 400 });
+    if (payment.status !== 'captured') {
+      return Response.json({ error: `Pagamento ainda não foi confirmado pelo Mercado Pago. Status atual: ${payment.status}` }, { status: 400 });
     }
 
-    console.log(`[confirmarServico] Capturando PaymentIntent: ${payment.stripe_payment_intent_id}`);
-
-    // Captura o Payment Intent (libera o dinheiro)
-    const capturedIntent = await stripe.paymentIntents.capture(payment.stripe_payment_intent_id);
-
-    const chargeId = capturedIntent.latest_charge;
-    console.log(`[confirmarServico] Capturado com sucesso. Charge: ${chargeId}`);
-
-    // Atualiza o pagamento no banco
     await base44.asServiceRole.entities.Payment.update(payment.id, {
-      status: 'captured',
-      stripe_charge_id: chargeId || null,
-      captured_at: new Date().toISOString(),
+      notes: `Serviço confirmado concluído pelo cliente em ${new Date().toISOString()}`,
     });
 
     // Atualiza o status da ServiceRequest para Concluído
@@ -72,7 +63,7 @@ Deno.serve(async (req) => {
     try {
       const hoje = new Date().toISOString().split('T')[0];
       const relatorios = await base44.asServiceRole.entities.RelatorioDiario.filter({ data: hoje });
-      
+
       if (relatorios && relatorios.length > 0) {
         // Atualiza relatório existente
         const relatorio = relatorios[0];
@@ -83,7 +74,7 @@ Deno.serve(async (req) => {
           valor: payment.amount_provider / 100,
           horario: new Date().toLocaleTimeString('pt-BR'),
         });
-        
+
         await base44.asServiceRole.entities.RelatorioDiario.update(relatorio.id, {
           tarefas_concluidas: tarefasConcluidas,
           metricas: {
@@ -115,7 +106,7 @@ Deno.serve(async (req) => {
       console.warn(`[confirmarServico] Não foi possível atualizar relatório diário: ${e.message}`);
     }
 
-    console.log(`[confirmarServico] Pagamento ${payment.id} capturado e ServiceRequest ${payment.request_id} marcada como Concluída`);
+    console.log(`[confirmarServico] Pagamento ${payment.id} confirmado e ServiceRequest ${payment.request_id} marcada como Concluída`);
 
     return Response.json({
       ok: true,

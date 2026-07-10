@@ -56,10 +56,10 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
             <div className="text-sm text-slate-600">
               <span>Total: <strong>R$ {((payment.amount_total || 0) / 100).toFixed(2)}</strong></span>
             </div>
-            {payment.status === 'requires_capture' && payment.auto_capture_after && (
+            {payment.status === 'captured' && request.status !== 'Concluído' && (
               <div className="flex items-center gap-1 text-xs text-amber-700 bg-amber-50 p-2 rounded">
                 <Clock className="w-3 h-3 shrink-0" />
-                Auto-liberação em: {format(new Date(payment.auto_capture_after), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                Pagamento confirmado — aguardando você marcar o serviço como concluído.
               </div>
             )}
           </div>
@@ -69,7 +69,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
       {/* Botão confirmar serviço (escrow) */}
       {payment && (
         <div className="px-6 pb-3">
-          <ConfirmarServicoButton payment={payment} onConfirmed={onPaymentConfirmed} />
+          <ConfirmarServicoButton payment={payment} requestStatus={request.status} onConfirmed={onPaymentConfirmed} />
         </div>
       )}
 

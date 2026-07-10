@@ -1,1 +1,11 @@
-/* fonts */
+/* Nunito — Tipografia oficial Trancoso Resolve */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
+
+:root {
+  --font-body:    'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
+  --font-heading: 'Nunito', ui-rounded, system-ui, sans-serif;
+  --font-display: 'Nunito', ui-rounded, system-ui, sans-serif;
+
+  --leading-body: 1.65;
+  --tracking-eyebrow: 0.08em;
+}

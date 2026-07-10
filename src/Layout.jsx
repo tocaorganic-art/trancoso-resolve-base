@@ -158,8 +158,16 @@ export default function Layout({ children, currentPageName }) {
           <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-warm-sm" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
             <div className="container mx-auto px-3 md:px-4 py-3 flex items-center justify-between gap-2">
               <Link to={createPageUrl("Home")} className="flex items-center gap-2 flex-shrink-0" data-testid="nav-logo-link">
-                <img src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png" alt="Trancoso Resolve - Serviços em Trancoso, Bahia" className="h-12 md:h-14 shrink-0" width="120" height="40" loading="eager" fetchPriority="high" />
-                <span className="font-bold text-sm md:text-lg text-foreground hidden sm:inline">Trancoso Resolve</span>
+                <img
+                  src={theme === 'dark'
+                    ? "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/724898918_logo-lockup-dark.svg"
+                    : "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/a03eced68_logo-lockup.svg"}
+                  alt="Trancoso Resolve - Serviços em Trancoso, Bahia"
+                  className="h-10 md:h-12 w-auto shrink-0"
+                  height="48"
+                  loading="eager"
+                  fetchPriority="high"
+                />
               </Link>
 
               <div className="hidden md:flex items-center gap-6">
@@ -323,7 +331,13 @@ export default function Layout({ children, currentPageName }) {
           {isRoot &&
           <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-card border-b border-border flex items-center px-3 h-12" style={{ paddingTop: "env(safe-area-inset-top, 0px)", top: "env(safe-area-inset-top, 0px)" }}>
             <Link to="/" className="flex items-center gap-2">
-              <img src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png" alt="Trancoso Resolve" className="h-8 w-8" width="32" height="32" />
+              <img
+                src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/035de31d3_logo-mark.svg"
+                alt="Trancoso Resolve"
+                className="h-8 w-8"
+                width="32"
+                height="32"
+              />
               <span className="font-bold text-sm text-foreground">Trancoso Resolve</span>
             </Link>
           </div>
@@ -408,8 +422,15 @@ export default function Layout({ children, currentPageName }) {
           <div className="container mx-auto px-4 py-3">
             <div className="flex items-center justify-between gap-4">
               <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2" data-testid="admin-nav-logo-link">
-                <img src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png" alt="Trancoso Resolve Logo" className="h-10 w-10" width="40" height="40" />
-                <span className="font-bold text-xl text-foreground">Trancoso Resolve</span>
+                <img
+                  src={theme === 'dark'
+                    ? "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/724898918_logo-lockup-dark.svg"
+                    : "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/a03eced68_logo-lockup.svg"}
+                  alt="Trancoso Resolve"
+                  className="h-10 w-auto"
+                  height="40"
+                  loading="eager"
+                />
               </Link>
 
               <div className="hidden lg:flex items-center gap-2">

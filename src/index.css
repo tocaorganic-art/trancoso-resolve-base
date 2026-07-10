@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
 @import "./styles/brand/index.css";
 @tailwind base;
 @tailwind components;
@@ -28,11 +29,11 @@
   }
 
   .dark {
-    --background: 35 53% 7%;
+    --background: 30 78% 5%;
     --foreground: 33 43% 93%;
-    --card: 28 50% 10%;
+    --card: 28 60% 8%;
     --card-foreground: 33 43% 93%;
-    --popover: 28 50% 10%;
+    --popover: 28 60% 8%;
     --popover-foreground: 33 43% 93%;
     --primary: 18 81% 51%;
     --primary-foreground: 0 0% 100%;

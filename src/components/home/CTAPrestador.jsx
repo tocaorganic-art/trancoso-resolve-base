@@ -10,12 +10,12 @@ const BENEFICIOS = [
   "Agenda de atendimentos integrada",
   "Chat direto com clientes",
   "Suporte da plataforma Trancoso Resolve",
-  "2 meses grátis no plano de lançamento",
+  "30 dias grátis no Plano Gratuito",
 ];
 
 export default function CTAPrestador({ vagasRestantes = 0 }) {
   return (
-    <section className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl py-10 md:py-14 px-6 md:px-12 my-12 mx-0 border border-slate-700">
+    <section className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-3xl py-10 md:py-14 px-6 md:px-12 mt-12 mx-0 border border-slate-700">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
         {/* Bloco esquerdo */}
         <div>
@@ -30,7 +30,7 @@ export default function CTAPrestador({ vagasRestantes = 0 }) {
             Faça parte da nossa rede na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d’Ajuda.
           </h2>
           <p className="text-slate-300 text-sm md:text-base mb-6 leading-relaxed">
-            Cadastre-se como prestador de serviços de qualidade na Costa do Descobrimento. Perfil verificado, agenda integrada e clientes reais. Comece com 2 meses grátis.
+            Cadastre-se como prestador de serviços de qualidade na Costa do Descobrimento. Perfil verificado, agenda integrada e clientes reais. Comece grátis por 30 dias.
           </p>
           <Link to="/SejaPrestador">
             <Button className="bg-cyan-500 hover:bg-cyan-400 text-white font-bold px-6 py-3">

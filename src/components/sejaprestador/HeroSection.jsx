@@ -54,7 +54,7 @@ export default function HeroSection() {
           {/* Mini stats */}
           <div className="flex flex-wrap gap-4 md:gap-10">
             <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-cyan-400" />
+              <Users className="w-4 h-4 text-orange-300" />
               <span className="text-white font-semibold text-sm">500+</span>
               <span className="text-slate-400 text-xs">Clientes ativos</span>
             </div>

@@ -10,15 +10,14 @@ const KNOWLEDGE_BASE = `
 PLATAFORMA TRANCOSO RESOLVE — BASE DE CONHECIMENTO OFICIAL
 
 COMO FUNCIONA:
-Clientes encontram prestadores verificados → agendam serviços → pagam com segurança (escrow 48h) → confirmam conclusão → pagamento liberado ao prestador.
+Clientes encontram prestadores verificados → agendam serviços → pagam com segurança via Mercado Pago → confirmam a conclusão do serviço.
 
 CATEGORIAS DE SERVIÇO: Limpeza, Garçom, Pedreiro, Jardinagem, Babá, Eletricista, Encanador, Pintor, Cozinheiro.
 
 PAGAMENTOS:
 - Método: Pix ou cartão de crédito via Mercado Pago
-- Custódia: valor fica retido por 48h após o serviço
 - Divisão: 80% prestador / 20% plataforma (taxa de serviço)
-- Liberação: automática após 48h ou quando cliente confirmar conclusão
+- O cliente confirma a conclusão do serviço após o atendimento
 
 CANCELAMENTO: Gratuito antes do prestador confirmar a solicitação.
 
@@ -34,7 +33,7 @@ CLIENTES:
 
 SEGURANÇA:
 - Todos os prestadores passam por verificação de identidade
-- Pagamentos em custódia protegem o cliente
+- Pagamentos processados com segurança pelo Mercado Pago
 - Dados pessoais protegidos conforme LGPD
 
 SUPORTE HUMANO: suporte@trancosoresolve.com.br
@@ -47,9 +46,9 @@ TRANCOSO LOCAL:
 
 // ── Cache de respostas para FAQs frequentes (reduz custos de API) ──────────────
 const FAQ_CACHE = {
-  'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviço na data e hora desejada\n3. **Pague** com cartão — o valor fica em custódia segura por 48h\n4. **Confirme** a conclusão para liberar o pagamento ao prestador\n\nPrecisa de mais alguma informação?`,
+  'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviço na data e hora desejada\n3. **Pague** com segurança via Mercado Pago\n4. **Confirme** a conclusão do serviço\n\nPrecisa de mais alguma informação?`,
   'como agendar': `Para agendar um serviço:\n\n1. Acesse o perfil do prestador desejado\n2. Clique em **Agendar Serviço**\n3. Preencha data, horário e localização\n4. O prestador receberá a solicitação e confirmará\n\nGostaria de buscar um prestador agora?`,
-  'como funciona o pagamento': `O pagamento é **100% seguro**:\n\n- Aceito por **Pix ou cartão de crédito** via Mercado Pago\n- Valor fica em **custódia por 48h** após o serviço\n- O prestador recebe **80%** após confirmação\n- Cancelamento **gratuito** antes da confirmação\n\nAlguma dúvida sobre pagamentos?`,
+  'como funciona o pagamento': `O pagamento é **100% seguro**:\n\n- Aceito por **Pix ou cartão de crédito** via Mercado Pago\n- O prestador recebe **80%** do valor\n- Cancelamento **gratuito** antes da confirmação do prestador\n\nAlguma dúvida sobre pagamentos?`,
   'quero ser um prestador': `Para se cadastrar como prestador:\n\n1. Clique em **"Seja um Prestador"** no menu superior\n2. Preencha seus dados e especialidade\n3. Envie um documento (CNH ou RG) para verificação\n4. Configure sua conta bancária no painel Financeiro\n\nQuer saber mais sobre como funciona para prestadores?`,
 };
 
@@ -305,7 +304,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
     return (
       <button
         onClick={() => { setIsOpen(true); setUnreadCount(0); }}
-        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex items-center gap-2 h-14 px-5 rounded-full shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all hover:scale-105 relative"
+        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 flex items-center gap-2 h-14 px-5 rounded-full shadow-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all hover:scale-105"
         aria-label="Abrir chat de suporte — Atendimento em tempo real"
       >
         <MessageCircle className="w-6 h-6 text-white shrink-0" />
@@ -375,7 +374,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                     <button
                       key={action}
                       onClick={() => sendMessage(action)}
-                      className="text-xs text-left px-3 py-2 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50 transition-colors text-slate-700"
+                      className="text-xs text-left px-3 py-2 rounded-lg border border-slate-200 hover:border-orange-300 hover:bg-orange-50 transition-colors text-slate-700"
                     >
                       {action}
                     </button>
@@ -413,7 +412,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
                   disabled={isTyping || uploadingImage}
-                  className="flex-1 text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 disabled:opacity-50 bg-slate-50"
+                  className="flex-1 text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-200 disabled:opacity-50 bg-slate-50"
                 />
                 <button
                   onClick={() => sendMessage()}

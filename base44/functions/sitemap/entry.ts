@@ -3,20 +3,24 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 const BASE_URL = 'https://trancosoresolve.com.br';
 
 const staticPages = [
+  // === PÁGINAS INSTITUCIONAIS PÚBLICAS ===
   { path: '/', priority: '1.0', changefreq: 'daily' },
   { path: '/ServicosCategoria', priority: '0.9', changefreq: 'daily' },
-  { path: '/SejaPrestador', priority: '0.8', changefreq: 'weekly' },
-  { path: '/ComoFunciona', priority: '0.7', changefreq: 'monthly' },
-  { path: '/Seguranca', priority: '0.7', changefreq: 'monthly' },
-  { path: '/Planos', priority: '0.8', changefreq: 'weekly' },
-  { path: '/Manual', priority: '0.5', changefreq: 'monthly' },
-  { path: '/PoliticaPrivacidade', priority: '0.3', changefreq: 'yearly' },
-  { path: '/About', priority: '0.8', changefreq: 'monthly' },
-  { path: '/Contact', priority: '0.7', changefreq: 'monthly' },
-  // Páginas de destino (hubs por cidade)
+  { path: '/seja-prestador', priority: '0.9', changefreq: 'weekly' },
+  { path: '/como-funciona', priority: '0.8', changefreq: 'monthly' },
+  { path: '/Seguranca', priority: '0.8', changefreq: 'monthly' },
+  { path: '/planos', priority: '0.9', changefreq: 'weekly' },
+  { path: '/sobre', priority: '0.7', changefreq: 'monthly' },
+  { path: '/contato', priority: '0.7', changefreq: 'monthly' },
+  { path: '/Assistentevirtual', priority: '0.6', changefreq: 'monthly' },
+  { path: '/politica-privacidade', priority: '0.3', changefreq: 'yearly' },
+  { path: '/TermosDeServico', priority: '0.3', changefreq: 'yearly' },
+  { path: '/PoliticaDevolucoes', priority: '0.3', changefreq: 'yearly' },
+  // === DESTINOS (hubs por cidade) ===
   { path: '/destinos/trancoso', priority: '0.95', changefreq: 'weekly' },
   { path: '/destinos/porto-seguro', priority: '0.95', changefreq: 'weekly' },
   { path: '/destinos/caraiva', priority: '0.95', changefreq: 'weekly' },
+  { path: '/destinos/arraial-dajuda', priority: '0.95', changefreq: 'weekly' },
   { path: '/servicos/diarista-trancoso', priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/eletricista-trancoso', priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/piscineiro-trancoso', priority: '0.9', changefreq: 'weekly' },

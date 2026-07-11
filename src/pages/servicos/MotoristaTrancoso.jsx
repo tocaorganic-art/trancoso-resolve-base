@@ -3,7 +3,18 @@ import ServicoLocalPage from '@/components/servicos/ServicoLocalPage';
 export default function MotoristaTrancoso() {
   return (
     <ServicoLocalPage
-      title="Motorista Particular em Trancoso, BA | Transfer e Passeios | Trancoso Resolve"
+      title="Motorista Particular em Trancoso, BA | Transfer e Passeios — Trancoso Resolve"
+      keywords="motorista Trancoso, transfer Trancoso BA, motorista particular Trancoso, passeio Trancoso"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/motorista-trancoso"
+      schemaData={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Trancoso Resolve - Motorista Trancoso",
+        "description": "Motoristas verificados em Trancoso, BA. Transfer, passeios e motorista dedicado na Costa do Descobrimento.",
+        "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
+        "areaServed": { "@type": "City", "name": "Trancoso, BA" },
+        "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 }
+      }}
       metaDescription="Contrate motorista verificado em Trancoso, Bahia. Transfer para aeroporto, passeios locais, transporte para festas e serviço executivo. Profissionais com antecedentes verificados, orçamento grátis."
       h1="Motorista Particular em Trancoso: Transfer, Passeios e Transporte Executivo"
       intro="Trancoso tem estradas com características únicas — de lama na temporada de chuva ao cascalho das estradas para praias remotas — e chegar com conforto e segurança ao seu destino exige um motorista que conheça a região. Na Trancoso Resolve você encontra motoristas verificados com experiência em transfer, passeios locais e transporte executivo para hóspedes e proprietários de villas."

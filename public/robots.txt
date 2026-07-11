@@ -1,4 +1,6 @@
 User-agent: *
+
+# Rotas privadas — bloquear indexação
 Disallow: /Admin
 Disallow: /AdminAssinaturas
 Disallow: /AdminControleFinanceiro
@@ -24,7 +26,16 @@ Disallow: /admin/
 Disallow: /DiagnosticosCompletos
 Disallow: /VerificacaoDocumento
 Disallow: /VerificacaoAntecedentes
+Disallow: /RelatorioDiario
+Disallow: /SolicitacaoConfirmada
+Disallow: /AssinaturaConfirmada
+Disallow: /login
+Disallow: /PreLancamento
+Disallow: /CadastroTipo
+Disallow: /ServicoDetalhes
+Disallow: /PrestadorPerfil
 
+# Tudo mais — permitir indexação
 Allow: /
 
 Sitemap: https://trancosoresolve.com.br/sitemap.xml

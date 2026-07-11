@@ -61,6 +61,11 @@ const PiscineiroCaraiva = lazy(() => import('@/pages/servicos/PiscineiroCaraiva'
 const CozinheiroCaraiva = lazy(() => import('@/pages/servicos/CozinheiroCaraiva'));
 const JardineiroCaraiva = lazy(() => import('@/pages/servicos/JardineiroCaraiva'));
 const PedreiroCaraiva = lazy(() => import('@/pages/servicos/PedreiroCaraiva'));
+const DiaristaArrayalDajuda = lazy(() => import('@/pages/servicos/DiaristaArrayalDajuda'));
+const EletricistaArrayalDajuda = lazy(() => import('@/pages/servicos/EletricistaArrayalDajuda'));
+const PiscineiroArrayalDajuda = lazy(() => import('@/pages/servicos/PiscineiroArrayalDajuda'));
+const JardineiroArrayalDajuda = lazy(() => import('@/pages/servicos/JardineiroArrayalDajuda'));
+const PedreiroArrayalDajuda = lazy(() => import('@/pages/servicos/PedreiroArrayalDajuda'));
 const RelatorioDiarioPage = lazy(() => import('@/pages/RelatorioDiarioPage'));
 const ServicosCategoria = lazy(() => import('@/pages/ServicosCategoria'));
 const DestinoTrancoso = lazy(() => import('@/pages/destinos/Trancoso'));

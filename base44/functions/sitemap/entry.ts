@@ -48,6 +48,12 @@ const staticPages = [
   { path: '/servicos/cozinheiro-caraiva', priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/jardineiro-caraiva', priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/pedreiro-caraiva', priority: '0.9', changefreq: 'weekly' },
+  // === ARRAIAL D'AJUDA ===
+  { path: '/servicos/diarista-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/eletricista-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/piscineiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/jardineiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/pedreiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
 ];
 
 // Landing pages SEO por categoria de serviço
@@ -115,16 +121,9 @@ Deno.serve(async (req) => {
   </url>`);
     }
 
-    // Landing pages SEO por slug (alta prioridade - conteúdo evergreen)
-    for (const slug of servicoSlugs) {
-      urls.push(`
-  <url>
-    <loc>${BASE_URL}/ServicoLanding?slug=${escapeXml(slug)}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.90</priority>
-    <lastmod>${today}</lastmod>
-  </url>`);
-    }
+    // Landing pages SEO por slug removidas do sitemap:
+    // URLs com query string (?slug=) não são ideais para indexação
+    // Substituídas pelas rotas /servicos/{slug} já listadas em staticPages
 
     // Páginas de categoria por ocupação
     for (const occ of categoryOccupations) {
@@ -150,29 +149,9 @@ Deno.serve(async (req) => {
   </url>`);
     }
 
-    // Perfis de prestadores verificados (maior prioridade para verificados)
-    for (const provider of (providers || [])) {
-      if (provider.status_verificacao === 'reprovado') continue;
-      const priority = provider.verified ? '0.85' : '0.75';
-      urls.push(`
-  <url>
-    <loc>${BASE_URL}/PrestadorPerfil?id=${escapeXml(provider.id)}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>${priority}</priority>
-    <lastmod>${formatDate(provider.updated_date)}</lastmod>
-  </url>`);
-    }
-
-    // Páginas de serviços individuais
-    for (const service of (services || [])) {
-      urls.push(`
-  <url>
-    <loc>${BASE_URL}/ServicoDetalhes?id=${escapeXml(service.id)}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.70</priority>
-    <lastmod>${formatDate(service.updated_date)}</lastmod>
-  </url>`);
-    }
+    // PrestadorPerfil e ServicoDetalhes removidos do sitemap:
+    // São rotas autenticadas/privadas (bloqueadas no robots.txt)
+    // Google não deve indexar perfis individuais neste momento
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"

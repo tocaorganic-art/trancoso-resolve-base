@@ -346,6 +346,31 @@ const AuthenticatedApp = () => {
             <AnimatedPage><PedreiroCaraiva /></AnimatedPage>
           </LayoutWrapper>
         } />
+        <Route path="/servicos/diarista-arraial-dajuda" element={
+          <LayoutWrapper currentPageName="DiaristaArrayalDajuda">
+            <AnimatedPage><DiaristaArrayalDajuda /></AnimatedPage>
+          </LayoutWrapper>
+        } />
+        <Route path="/servicos/eletricista-arraial-dajuda" element={
+          <LayoutWrapper currentPageName="EletricistaArrayalDajuda">
+            <AnimatedPage><EletricistaArrayalDajuda /></AnimatedPage>
+          </LayoutWrapper>
+        } />
+        <Route path="/servicos/piscineiro-arraial-dajuda" element={
+          <LayoutWrapper currentPageName="PiscineiroArrayalDajuda">
+            <AnimatedPage><PiscineiroArrayalDajuda /></AnimatedPage>
+          </LayoutWrapper>
+        } />
+        <Route path="/servicos/jardineiro-arraial-dajuda" element={
+          <LayoutWrapper currentPageName="JardineiroArrayalDajuda">
+            <AnimatedPage><JardineiroArrayalDajuda /></AnimatedPage>
+          </LayoutWrapper>
+        } />
+        <Route path="/servicos/pedreiro-arraial-dajuda" element={
+          <LayoutWrapper currentPageName="PedreiroArrayalDajuda">
+            <AnimatedPage><PedreiroArrayalDajuda /></AnimatedPage>
+          </LayoutWrapper>
+        } />
 
         {/* Aliases com hífen → redirect para CamelCase */}
         <Route path="/como-funciona" element={<Navigate to="/ComoFunciona" replace />} />

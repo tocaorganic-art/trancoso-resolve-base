@@ -1,41 +1,34 @@
 User-agent: *
+Allow: /
+Allow: /servicos/
+Allow: /destinos/
+Allow: /ServicosCategoria
+Allow: /seja-prestador
+Allow: /como-funciona
+Allow: /planos
+Allow: /sobre
+Allow: /contato
+Allow: /Assistentevirtual
 
-# Rotas privadas — bloquear indexação
-Disallow: /Admin
-Disallow: /AdminAssinaturas
-Disallow: /AdminControleFinanceiro
-Disallow: /AdminUserManagement
-Disallow: /AdminPagamentos
-Disallow: /AdminAntecedentes
-Disallow: /AdminMetricas
-Disallow: /FilaVerificacao
-Disallow: /ManutencaoSistema
-Disallow: /MonitoringDashboard
-Disallow: /DeployDashboard
-Disallow: /Base44ReportViewer
-Disallow: /Base44Templates
-Disallow: /Financeiro
+# Não indexar rotas autenticadas / privadas
 Disallow: /Dashboard
-Disallow: /MeuPerfilPrestador
-Disallow: /MeusServicos
+Disallow: /Financeiro
 Disallow: /MinhaAgenda
+Disallow: /MeusServicos
 Disallow: /MeusPedidos
+Disallow: /MeuPerfilPrestador
 Disallow: /Chat
 Disallow: /GeradorDeImagem
+Disallow: /FilaVerificacao
+Disallow: /AdminPagamentos
+Disallow: /AdminAntecedentes
 Disallow: /admin/
-Disallow: /DiagnosticosCompletos
 Disallow: /VerificacaoDocumento
 Disallow: /VerificacaoAntecedentes
-Disallow: /RelatorioDiario
-Disallow: /SolicitacaoConfirmada
 Disallow: /AssinaturaConfirmada
-Disallow: /login
+Disallow: /RelatorioDiario
 Disallow: /PreLancamento
-Disallow: /CadastroTipo
-Disallow: /ServicoDetalhes
-Disallow: /PrestadorPerfil
+Disallow: /api/
 
-# Tudo mais — permitir indexação
-Allow: /
-
-Sitemap: https://trancosoresolve.com.br/sitemap.xml
+# Sitemap
+Sitemap: https://trancosoresolve.com.br/api/functions/sitemap

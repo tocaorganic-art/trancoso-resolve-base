@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent } from "@/components/ui/card";
@@ -70,6 +70,8 @@ function FaqItem({ q, a }) {
       <button
         className="w-full text-left px-5 py-4 flex justify-between items-center hover:bg-accent transition-colors"
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
+        aria-controls={`faq-answer-${q.slice(0,20)}`}
       >
         <span className="font-semibold text-foreground text-sm pr-4">{q}</span>
         {open ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />}
@@ -162,6 +164,57 @@ function PlanCard({
 
 export default function PlanosPage() {
   const [loadingPlan, setLoadingPlan] = useState(null);
+
+  useEffect(() => {
+    document.title = "Planos e Preços para Prestadores — Trancoso Resolve";
+
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
+    meta.content = "Conheça os planos da Trancoso Resolve: Gratuito, Profissional (R$19,90/mês) e Elite (R$197/mês). Sem comissão sobre serviços. Cancele quando quiser.";
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+    canonical.href = `${window.location.origin}/Planos`;
+
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (!ogUrl) { ogUrl = document.createElement('meta'); ogUrl.setAttribute('property', 'og:url'); document.head.appendChild(ogUrl); }
+    ogUrl.content = `${window.location.origin}/Planos`;
+
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
+    ogTitle.content = 'Planos e Preços para Prestadores — Trancoso Resolve';
+
+    let ogDesc = document.querySelector('meta[property="og:description"]');
+    if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
+    ogDesc.content = 'Conheça os planos da Trancoso Resolve: Gratuito, Profissional (R$19,90/mês) e Elite (R$197/mês). Sem comissão sobre serviços. Cancele quando quiser.';
+
+    const schemaId = 'schema-planos';
+    const existing = document.getElementById(schemaId);
+    if (existing) existing.remove();
+    const schema = document.createElement('script');
+    schema.id = schemaId;
+    schema.type = 'application/ld+json';
+    schema.text = JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebPage",
+          "name": "Planos e Preços para Prestadores — Trancoso Resolve",
+          "url": `${window.location.origin}/Planos`,
+          "description": "Planos de assinatura para prestadores de serviços em Trancoso: Gratuito, Profissional e Elite."
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Início", "item": `${window.location.origin}` },
+            { "@type": "ListItem", "position": 2, "name": "Planos", "item": `${window.location.origin}/Planos` }
+          ]
+        }
+      ]
+    });
+    document.head.appendChild(schema);
+    return () => { const s = document.getElementById(schemaId); if (s) s.remove(); };
+  }, []);
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],

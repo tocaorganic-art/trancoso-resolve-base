@@ -356,7 +356,7 @@ export default function Layout({ children, currentPageName }) {
 
           <main id="main-content" className="pb-24 md:pb-0 pt-12 md:pt-0 md:min-h-screen">{children}</main>
 
-          <footer className="text-white py-8 mt-4 pb-safe bg-[hsl(var(--card))]" style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 2rem)" }}>
+          <footer className="text-white py-8 pb-safe bg-[hsl(var(--card))]" style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 2rem)" }}>
             <div className="container mx-auto px-4 text-center">
               <div className="flex justify-center gap-2 mb-4 flex-wrap">
                 <Link to={createPageUrl("About")} className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors min-h-[44px] flex items-center px-2">

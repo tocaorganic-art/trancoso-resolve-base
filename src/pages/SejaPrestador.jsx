@@ -98,7 +98,7 @@ export default function SejaPrestadorPage() {
       "@graph": [
         {
           "@type": "WebPage",
-          "name": "Seja um Parceiro Trancoso Resolve",
+          "name": "Seja um Prestador de Serviços em Trancoso — Trancoso Resolve",
           "url": `${window.location.origin}/SejaPrestador`,
           "description": "Cadastre-se como prestador de serviços verificado em Trancoso e comece a receber novos clientes pela plataforma."
         },

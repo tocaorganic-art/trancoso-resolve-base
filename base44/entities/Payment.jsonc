@@ -14,10 +14,6 @@
       "type": "string",
       "description": "Email do cliente"
     },
-    "provider_stripe_account_id": {
-      "type": "string",
-      "description": "Stripe Connect Account ID do prestador"
-    },
     "amount_total": {
       "type": "number",
       "description": "Valor total em centavos"
@@ -35,27 +31,23 @@
       "default": "brl",
       "description": "Moeda"
     },
-    "stripe_payment_intent_id": {
+    "mp_payment_id": {
       "type": "string",
-      "description": "ID do Payment Intent no Stripe"
+      "description": "ID do pagamento no Mercado Pago"
     },
-    "stripe_charge_id": {
+    "mp_preference_id": {
       "type": "string",
-      "description": "ID do Charge ap\u00f3s captura"
+      "description": "ID da prefer\u00eancia de pagamento no Mercado Pago"
     },
     "status": {
       "type": "string",
       "enum": [
-        "requires_payment_method",
-        "requires_confirmation",
-        "requires_capture",
-        "processing",
+        "pending",
         "captured",
         "canceled",
-        "disputed",
         "refunded"
       ],
-      "default": "requires_payment_method",
+      "default": "pending",
       "description": "Status do pagamento"
     },
     "captured_at": {
@@ -63,19 +55,10 @@
       "format": "date-time",
       "description": "Data/hora da captura"
     },
-    "auto_capture_after": {
-      "type": "string",
-      "format": "date-time",
-      "description": "Data/hora limite para auto-captura (48h ap\u00f3s servi\u00e7o)"
-    },
     "service_date": {
       "type": "string",
       "format": "date",
       "description": "Data do servi\u00e7o"
-    },
-    "dispute_reason": {
-      "type": "string",
-      "description": "Motivo da disputa"
     },
     "notes": {
       "type": "string",

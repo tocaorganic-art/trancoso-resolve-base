@@ -10,10 +10,11 @@
     "plan": {
       "type": "string",
       "enum": [
-        "trial",
-        "monthly"
+        "gratuito",
+        "profissional",
+        "elite"
       ],
-      "default": "trial",
+      "default": "gratuito",
       "description": "Plano da assinatura"
     },
     "status": {
@@ -21,6 +22,7 @@
       "enum": [
         "trial",
         "active",
+        "pending",
         "expired",
         "cancelled"
       ],
@@ -47,26 +49,22 @@
       "format": "date",
       "description": "Pr\u00f3xima data de cobran\u00e7a"
     },
-    "stripe_customer_id": {
+    "mp_preapproval_id": {
       "type": "string",
-      "description": "ID do cliente no Stripe"
-    },
-    "stripe_subscription_id": {
-      "type": "string",
-      "description": "ID da assinatura no Stripe"
+      "description": "ID da assinatura recorrente no Mercado Pago (Preapproval)"
     },
     "amount": {
       "type": "number",
-      "default": 99,
+      "default": 0,
       "description": "Valor da mensalidade em R$"
     },
     "payment_method": {
       "type": "string",
       "enum": [
-        "stripe",
+        "mercadopago",
         "manual"
       ],
-      "default": "stripe",
+      "default": "mercadopago",
       "description": "M\u00e9todo de pagamento"
     },
     "notes": {

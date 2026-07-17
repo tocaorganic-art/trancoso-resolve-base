@@ -4,8 +4,9 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, RefreshCw, LogOut } from 'lucide-react';
+import { isAdminUser } from '@/lib/adminConfig';
 
-const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
+// ADMIN_WHITELIST removida deste arquivo — centralizada em src/lib/adminConfig.js
 
 const MAX_RETRIES = 10;
 const RETRY_INTERVAL_MS = 1000;
@@ -30,13 +31,11 @@ export default function PermissionChecker({ children, requiredRole = null, requi
   useEffect(() => {
     const timeout = setTimeout(() => {
       timedOutRef.current = true;
-      // Só mostra timeout se ainda não foi autorizado
       if (permissionStatus === 'checking') {
         localStorage.removeItem('user_type_prestador_pendente');
         setPermissionStatus('timeout');
       }
     }, TIMEOUT_MS);
-    // Cancela o timeout se o status mudar para 'authorized' antes do prazo
     if (permissionStatus === 'authorized') {
       clearTimeout(timeout);
     }
@@ -44,7 +43,6 @@ export default function PermissionChecker({ children, requiredRole = null, requi
   }, [permissionStatus]);
 
   useEffect(() => {
-    // Limpa retry timer anterior
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
@@ -67,9 +65,9 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       return;
     }
 
-    // Verificar role (whitelist de emails admin sempre passa)
-    const isAdminByEmail = ADMIN_WHITELIST.includes(user.email);
-    if (requiredRole && user.role !== requiredRole && !isAdminByEmail) {
+    // Verificar role — usa função centralizada de adminConfig.js
+    const isAdmin = isAdminUser(user);
+    if (requiredRole && user.role !== requiredRole && !isAdmin) {
       setPermissionStatus('forbidden');
       setErrorDetails({
         code: 'INSUFFICIENT_ROLE',
@@ -81,7 +79,6 @@ export default function PermissionChecker({ children, requiredRole = null, requi
     // Verificar user_type
     if (requiredUserType) {
       if (user.user_type === requiredUserType) {
-        // Correto! Limpa flags e autoriza
         localStorage.removeItem('user_type_prestador_pendente');
         setPermissionStatus('authorized');
         return;
@@ -91,7 +88,6 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       const cadastroTs = localStorage.getItem('user_type_prestador_pendente');
       const cadastroRecente = cadastroTs && (Date.now() - parseInt(cadastroTs)) < 30000;
 
-      // Se cadastro recente OU user_type indefinido: tenta até MAX_RETRIES
       if ((cadastroRecente || userTypeUndefined) && retryCountRef.current < MAX_RETRIES) {
         retryCountRef.current += 1;
         setPermissionStatus('checking');
@@ -101,20 +97,17 @@ export default function PermissionChecker({ children, requiredRole = null, requi
         return;
       }
 
-      // Esgotou tentativas com cadastro recente → deixa passar (benefício da dúvida)
       if (cadastroRecente) {
         localStorage.removeItem('user_type_prestador_pendente');
         setPermissionStatus('authorized');
         return;
       }
 
-      // user_type indefinido após retries → cadastro incompleto
       if (userTypeUndefined) {
         setPermissionStatus('needs_setup');
         return;
       }
 
-      // user_type definido mas errado (ex: cliente tentando acessar área de prestador)
       setPermissionStatus('forbidden');
       setErrorDetails({
         code: 'INSUFFICIENT_USER_TYPE',
@@ -133,7 +126,6 @@ export default function PermissionChecker({ children, requiredRole = null, requi
     setPermissionStatus('authorized');
   }, [user, isLoading, error, requiredRole, requiredUserType]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -166,18 +158,10 @@ export default function PermissionChecker({ children, requiredRole = null, requi
               Tente fazer login novamente. Se o problema persistir, entre em contato com o suporte.
             </p>
             <div className="flex gap-3">
-              <Button
-                variant="outline"
-                onClick={() => window.location.href = '/SejaPrestador'}
-                className="flex-1"
-              >
+              <Button variant="outline" onClick={() => window.location.href = '/SejaPrestador'} className="flex-1">
                 Ir para Cadastro
               </Button>
-              <Button
-                onClick={() => base44.auth.logout()}
-                variant="destructive"
-                className="flex-1"
-              >
+              <Button onClick={() => base44.auth.logout()} variant="destructive" className="flex-1">
                 <LogOut className="w-4 h-4 mr-2" />
                 Fazer login novamente
               </Button>

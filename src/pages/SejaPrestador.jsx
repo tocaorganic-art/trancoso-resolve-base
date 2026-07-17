@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, BarChart2, Users, Star, Bot, Camera } from 'lucide-react';
 import LeadPrestadorForm from '@/components/leads/LeadPrestadorForm';

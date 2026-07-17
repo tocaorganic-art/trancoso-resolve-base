@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
 import { base44 } from "@/api/base44Client";
@@ -14,9 +14,8 @@ import HeroSearch from "@/components/home/HeroSearch";
 import ServiceCarousel from "@/components/home/ServiceCarousel";
 import SocialProofBar from "@/components/home/SocialProofBar";
 import CTAPrestador from "@/components/home/CTAPrestador";
-import {
-  Sparkles, UtensilsCrossed, Hammer, Leaf,
-  Baby, Zap, Star, AlertCircle, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, ChevronLeft, ChevronRight
+import { UtensilsCrossed, Hammer, Leaf,
+  Baby, Zap, Star, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, ChevronLeft, ChevronRight
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, CheckCircle, XCircle, AlertCircle, RefreshCw } from 'lucide-react';
+import { TrendingUp, CheckCircle, XCircle, RefreshCw } from 'lucide-react';
 
 export default function SEOMonitor() {
   const [checks, setChecks] = useState([]);

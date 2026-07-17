@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Send, Loader2, Bot, User, MessageSquare } from 'lucide-react';
+import { Send, Loader2, Bot, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 const SYSTEM_PROMPT = `Você é a **Toca**, IA Concierge da **Trancoso Resolve** — guia e assistente inteligente de Trancoso, Bahia.

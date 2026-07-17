@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { cn } from "@/lib/utils";
 import { ImageOff } from "lucide-react"; // Import an icon for fallback
 
@@ -85,7 +85,7 @@ export default function LazyImage({ src, srcSet, sizes, alt, className, placehol
           onError={handleError}
           loading={priority ? "eager" : "lazy"}
           decoding="async"
-          fetchpriority={priority ? "high" : "auto"}
+          fetchPriority={priority ? "high" : "auto"}
         />
       )}
     </div>

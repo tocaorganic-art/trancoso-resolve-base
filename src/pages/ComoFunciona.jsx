@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, Calendar, Smile, UserCheck, Briefcase, BarChart, Shield, Star, Zap } from 'lucide-react';
+import { Search, Calendar, Smile, UserCheck, Briefcase, BarChart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { createPageUrl } from '@/utils';

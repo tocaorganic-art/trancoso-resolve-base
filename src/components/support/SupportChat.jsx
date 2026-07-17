@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
 import { MessageCircle, Send, X, Minimize2, Maximize2, Bot, Paperclip, User, ShieldCheck } from 'lucide-react';
 import { base44 } from '@/api/base44Client';

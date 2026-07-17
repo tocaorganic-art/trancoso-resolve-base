@@ -1,15 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle, Send, ArrowLeft, User, Clock, CheckCheck, Bell } from "lucide-react";
+import { MessageCircle, Send, ArrowLeft, CheckCheck } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Link } from "react-router-dom";
-import { createPageUrl } from "@/utils";
 import { checkContactData } from "@/lib/contactFilter";
 import { toast } from "sonner";
 import { playMessageSound } from "@/components/chat/ChatNotificationSound";

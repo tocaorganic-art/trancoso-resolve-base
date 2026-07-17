@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Package, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Package, AlertTriangle } from 'lucide-react';
 
 /**
  * Analisador de bundle em tempo real

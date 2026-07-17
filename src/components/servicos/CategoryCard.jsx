@@ -1,4 +1,3 @@
-import React from "react";
 
 /**
  * Cards de categoria com design system navy + âmbar

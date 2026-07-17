@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const COMMUNITY_IMAGES = [
   "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=1400&h=900&fit=crop&q=80", // praia tropical brasil

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { trackClienteCadastro } from '@/utils/analytics';
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";

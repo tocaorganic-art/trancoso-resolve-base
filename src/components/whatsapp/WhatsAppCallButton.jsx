@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
-import { MessageCircle, Loader2, X, AlertCircle } from "lucide-react";
+import { MessageCircle, Loader2, X } from "lucide-react";
 import { chamarPrestador } from "@/functions/chamarPrestador";
 import { toast } from "sonner";
 import CompletarPerfilModal from "@/components/auth/CompletarPerfilModal";

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BookOpen, User, Briefcase, Wrench } from 'lucide-react';

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
@@ -7,9 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import LazyImage from "@/components/ui/LazyImage";
-import VerificacaoBadge from "@/components/verificacao/VerificacaoBadge";
 import {
-  Star, MapPin, CheckCircle, ArrowRight, Phone, Shield, Clock, Loader2
+  Star, MapPin, CheckCircle, ArrowRight, Shield, Clock, Loader2
 } from "lucide-react";
 
 const servicoConfig = {

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Loader2, Sparkles, TrendingUp, Calendar, Scissors, AlertCircle } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+import { Loader2, Sparkles, TrendingUp, Calendar, Scissors } from 'lucide-react';
 import { callClaude } from '@/functions/callClaude';
 import { toast } from "sonner";
 import { Card, CardContent } from '@/components/ui/card';

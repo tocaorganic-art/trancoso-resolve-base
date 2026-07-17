@@ -1,4 +1,3 @@
-import React from "react";
 import { Bot, Eye, BarChart2, Zap, Target, CheckCircle } from "lucide-react";
 
 const Section = ({ icon, title, subtitle, text, benefits, color }) => (

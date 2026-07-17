@@ -1,4 +1,3 @@
-import React from 'react';
 import { Shield, Star, Award, Zap } from 'lucide-react';
 
 const selos = [

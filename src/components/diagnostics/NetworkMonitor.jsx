@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Wifi, Download, Upload, Globe } from 'lucide-react';
+import { Wifi, Download, Globe } from 'lucide-react';
 
 export default function NetworkMonitor() {
   const [networkInfo, setNetworkInfo] = useState({

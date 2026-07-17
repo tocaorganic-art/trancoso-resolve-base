@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Globe, Search, Sparkles, Loader2, TrendingUp, BookOpen, MapPin } from 'lucide-react';
 
 const RESEARCH_TOPICS = [

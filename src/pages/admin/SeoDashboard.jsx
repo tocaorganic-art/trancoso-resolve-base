@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { subWeeks, subMonths, startOfWeek, format, parseISO, isAfter, isBefore } from 'date-fns';
+import { subWeeks, subMonths, format, parseISO, isAfter } from 'date-fns';
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer

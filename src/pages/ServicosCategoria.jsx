@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
 import { base44 } from "@/api/base44Client";
@@ -6,10 +6,8 @@ import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
-import ProviderCard from "@/components/providers/ProviderCard";
 import ProviderGrid from "@/components/providers/ProviderGrid";
 import FilterBar from "@/components/providers/FilterBar";
-import MultilingualAutocomplete from "@/components/search/MultilingualAutocomplete";
 
 const slugMap = {
   'Limpeza': 'limpeza-trancoso',

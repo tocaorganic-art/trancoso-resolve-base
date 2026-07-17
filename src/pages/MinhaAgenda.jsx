@@ -1,13 +1,10 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
-import { Loader2, Calendar, AlertCircle } from "lucide-react";
-import { Link } from "react-router-dom";
-import { createPageUrl } from "@/utils";
+import { Loader2 } from "lucide-react";
 import RequestDetailsModal from "@/components/agenda/RequestDetailsModal";
 import DisponibilidadeEditor from "@/components/agenda/DisponibilidadeEditor";
 import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { toast } from "sonner";
 import PermissionChecker from "../components/auth/PermissionChecker";
 import { motion } from "framer-motion";

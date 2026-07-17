@@ -1,6 +1,6 @@
-import React, { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Camera, RotateCcw, Check } from 'lucide-react';
+import { Camera, RotateCcw } from 'lucide-react';
 
 export default function LiveCameraCapture({ onCapture }) {
   const videoRef = useRef(null);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ import { ptBR } from "date-fns/locale";
 import LazyImage from "@/components/ui/LazyImage";
 import {
   ArrowLeft, Star, MapPin, Award, Clock,
-  DollarSign, CheckCircle, Calendar as CalendarIcon, Images, ChevronRight, Check, AlertCircle
+  DollarSign, Calendar as CalendarIcon, Images, ChevronRight, Check, AlertCircle
 } from "lucide-react";
 import { toast } from "sonner";
 import StarRating from "@/components/reviews/StarRating";

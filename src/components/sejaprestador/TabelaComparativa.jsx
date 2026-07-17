@@ -1,4 +1,3 @@
-import React from 'react';
 import { Check, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Zap, Users, Star, Percent, ArrowRight, Shield, TrendingUp } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Zap, Users, ArrowRight, Shield, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import LazyImage from '@/components/ui/LazyImage';

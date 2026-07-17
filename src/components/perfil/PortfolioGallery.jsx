@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { PlusCircle, Trash2, Loader2, GripVertical, ImagePlus, AlertCircle } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Trash2, Loader2, GripVertical, ImagePlus, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
 

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ShieldCheck, UserCheck, Star, Lock, CheckCircle, KeyRound, Trash2, Eye, EyeOff, Loader2, AlertTriangle } from 'lucide-react';
+import { ShieldCheck, UserCheck, Star, Lock, CheckCircle, KeyRound, Trash2, Loader2, AlertTriangle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

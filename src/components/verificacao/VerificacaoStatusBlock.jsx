@@ -1,5 +1,4 @@
-import React from "react";
-import { Shield, CheckCircle, Clock, AlertTriangle, XCircle } from "lucide-react";
+import { CheckCircle, Clock, AlertTriangle, XCircle } from "lucide-react";
 
 const statusConfig = {
   pendente: {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Play, Pause, Square, Volume2, Video } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 

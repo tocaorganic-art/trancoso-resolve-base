@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Send, Loader2, Sparkles, Bot, User } from "lucide-react";
+import { Send, Loader2, Sparkles, Bot, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function VirtualAssistant() {

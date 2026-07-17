@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { format, subDays, parseISO, isValid } from "date-fns";
+import { format, subDays, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Users, FileText, TrendingUp, Percent } from "lucide-react";
 

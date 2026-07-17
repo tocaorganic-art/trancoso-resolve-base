@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { format, getDay, parseISO } from 'date-fns';
+import { format, getDay } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Loader2, Clock, CalendarOff } from 'lucide-react';
 

@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, Search, DollarSign, TrendingUp, Clock, AlertTriangle } from 'lucide-react';
+import { Loader2, DollarSign, TrendingUp, Clock, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import StatusPagamentoBadge from '@/components/pagamento/StatusPagamentoBadge';
 
 const statusColors = {
   'captured': { bg: '#dcfce7', color: '#15803d', label: '✅ Pago' },

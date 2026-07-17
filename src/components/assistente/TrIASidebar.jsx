@@ -1,5 +1,4 @@
-import React from 'react';
-import { Plus, MessageSquare, Trash2 } from 'lucide-react';
+import { Plus, MessageSquare } from 'lucide-react';
 
 export default function TrIASidebar({ isOpen, conversations, activeConversationId, onSelectConversation, onNewConversation, onClose }) {
   return (

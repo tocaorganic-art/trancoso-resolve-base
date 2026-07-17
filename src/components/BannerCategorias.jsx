@@ -1,4 +1,3 @@
-import React from "react";
 import { Home, Hammer, Sparkles, Car, Compass, UtensilsCrossed, PartyPopper, Wrench } from "lucide-react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";

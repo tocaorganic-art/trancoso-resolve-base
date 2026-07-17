@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Base44ReportPreview from '../components/base44/Base44ReportPreview';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';

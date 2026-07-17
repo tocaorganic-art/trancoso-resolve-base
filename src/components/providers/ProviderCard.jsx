@@ -1,9 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { Star } from "lucide-react";
 import LazyImage from "@/components/ui/LazyImage";
-import VerificacaoBadge from "@/components/verificacao/VerificacaoBadge";
 import BadgeEmVerificacao from "@/components/verificacao/BadgeEmVerificacao";
 import FavoriteButton from "@/components/favorites/FavoriteButton";
 import { DEMO_PROFILE_WARNING } from "@/lib/mockProviderImages";

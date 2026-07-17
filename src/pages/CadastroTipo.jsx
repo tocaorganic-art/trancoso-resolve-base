@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { trackClienteCadastro, trackPrestadorCadastro } from '@/utils/analytics.js';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
@@ -8,7 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Briefcase, Shield, Building2, ChevronRight, Loader2 } from 'lucide-react';
-import { createPageUrl } from '@/utils';
 import { criarTrialPrestador } from '@/functions/criarTrialPrestador';
 import { verificarAntecedentes } from '@/functions/verificarAntecedentes';
 

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, ShieldCheck, Clock, XCircle, AlertTriangle, ChevronRight, Upload, ShieldAlert } from "lucide-react";
+import { BadgeCheck, ShieldCheck, Clock, XCircle, AlertTriangle, Upload, ShieldAlert } from "lucide-react";
 import VerificarIdentidadeModal from "./VerificarIdentidadeModal";
 import { motion, AnimatePresence } from "framer-motion";
 

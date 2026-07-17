@@ -10,8 +10,9 @@ import PerformanceMonitor from '@/components/diagnostics/PerformanceMonitor';
 import A11yChecker from '@/components/diagnostics/A11yChecker';
 import SEOMonitor from '@/components/diagnostics/SEOMonitor';
 import NetworkMonitor from '@/components/diagnostics/NetworkMonitor';
+import PermissionChecker from '@/components/auth/PermissionChecker';
 
-export default function ManutencaoSistemaPage() {
+function ManutencaoSistemaPageContent() {
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me(),
@@ -110,5 +111,13 @@ export default function ManutencaoSistemaPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function ManutencaoSistemaPage() {
+  return (
+    <PermissionChecker requiredRole="admin">
+      <ManutencaoSistemaPageContent />
+    </PermissionChecker>
   );
 }

@@ -7,6 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Sparkles, Download, Image as ImageIcon, LogIn, RefreshCw, Wand2 } from 'lucide-react';
 import { toast } from 'sonner';
 
+import PermissionChecker from '@/components/auth/PermissionChecker';
+
 const STYLE_OPTIONS = ["Realista", "Ilustração", "3D", "Aquarela", "Minimalista"];
 const FORMAT_OPTIONS = [
   { label: "Quadrado", value: "quadrado" },
@@ -22,7 +24,7 @@ const TEMPLATE_PROMPTS = [
   { label: "Avatar 3D prestador", prompt: "Avatar estilizado em 3D para prestador de serviço, profissional, fundo neutro, traços modernos" },
 ];
 
-export default function GeradorDeImagemPage() {
+function GeradorDeImagemPageContent() {
   const [prompt, setPrompt] = useState('');
   const [style, setStyle] = useState('');
   const [detail, setDetail] = useState('');
@@ -256,5 +258,13 @@ export default function GeradorDeImagemPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function GeradorDeImagemPage() {
+  return (
+    <PermissionChecker requiredRole="admin">
+      <GeradorDeImagemPageContent />
+    </PermissionChecker>
   );
 }

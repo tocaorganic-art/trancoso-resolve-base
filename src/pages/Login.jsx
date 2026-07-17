@@ -137,7 +137,7 @@ export default function Login() {
 
         <Button
           className="w-full h-12 text-sm font-medium bg-amber-600 hover:bg-amber-700"
-          onClick={() => base44.auth.redirectToLogin()}
+          onClick={() => base44.auth.redirectToLogin("/")}
         >
           <LogIn className="w-5 h-5 mr-2" />
           Entrar com Email

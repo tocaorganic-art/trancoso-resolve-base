@@ -2,84 +2,96 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
 const BASE_URL = 'https://trancosoresolve.com.br';
 
+/**
+ * ROTAS ESTÁTICAS DO SITEMAP
+ *
+ * IMPORTANTE: Os caminhos aqui DEVEM corresponder exatamente às rotas
+ * declaradas no React Router (src/App.jsx e src/pages.config.js).
+ *
+ * CORRIGIDO (2026-07): URLs institucionais ajustadas para usar as
+ * rotas reais do app (PascalCase / caminhos exatos do React Router).
+ * As versões em kebab-case anteriores geravam 404 no Google.
+ *
+ * Mapeamento corrigido:
+ *   /seja-prestador      → /SejaPrestador
+ *   /como-funciona       → /ComoFunciona
+ *   /planos              → /Planos
+ *   /sobre               → /About
+ *   /contato             → /Contact
+ *   /politica-privacidade → /PoliticaPrivacidade
+ */
 const staticPages = [
   // === PÁGINAS INSTITUCIONAIS PÚBLICAS ===
-  { path: '/', priority: '1.0', changefreq: 'daily' },
-  { path: '/ServicosCategoria', priority: '0.9', changefreq: 'daily' },
-  { path: '/seja-prestador', priority: '0.9', changefreq: 'weekly' },
-  { path: '/como-funciona', priority: '0.8', changefreq: 'monthly' },
-  { path: '/Seguranca', priority: '0.8', changefreq: 'monthly' },
-  { path: '/planos', priority: '0.9', changefreq: 'weekly' },
-  { path: '/sobre', priority: '0.7', changefreq: 'monthly' },
-  { path: '/contato', priority: '0.7', changefreq: 'monthly' },
-  { path: '/Assistentevirtual', priority: '0.6', changefreq: 'monthly' },
-  { path: '/politica-privacidade', priority: '0.3', changefreq: 'yearly' },
-  { path: '/TermosDeServico', priority: '0.3', changefreq: 'yearly' },
-  { path: '/PoliticaDevolucoes', priority: '0.3', changefreq: 'yearly' },
+  { path: '/',                    priority: '1.0', changefreq: 'daily'   },
+  { path: '/ServicosCategoria',   priority: '0.9', changefreq: 'daily'   },
+  { path: '/SejaPrestador',       priority: '0.9', changefreq: 'weekly'  },
+  { path: '/ComoFunciona',        priority: '0.8', changefreq: 'monthly' },
+  { path: '/Seguranca',           priority: '0.7', changefreq: 'monthly' },
+  { path: '/Planos',              priority: '0.9', changefreq: 'weekly'  },
+  { path: '/About',               priority: '0.7', changefreq: 'monthly' },
+  { path: '/Contact',             priority: '0.7', changefreq: 'monthly' },
+  { path: '/Assistentevirtual',   priority: '0.6', changefreq: 'monthly' },
+  { path: '/PoliticaPrivacidade', priority: '0.3', changefreq: 'yearly'  },
+  { path: '/TermosDeServico',     priority: '0.3', changefreq: 'yearly'  },
+  { path: '/PoliticaDevolucoes',  priority: '0.3', changefreq: 'yearly'  },
+
   // === DESTINOS (hubs por cidade) ===
-  { path: '/destinos/trancoso', priority: '0.95', changefreq: 'weekly' },
-  { path: '/destinos/porto-seguro', priority: '0.95', changefreq: 'weekly' },
-  { path: '/destinos/caraiva', priority: '0.95', changefreq: 'weekly' },
+  { path: '/destinos/trancoso',       priority: '0.95', changefreq: 'weekly' },
+  { path: '/destinos/porto-seguro',   priority: '0.95', changefreq: 'weekly' },
+  { path: '/destinos/caraiva',        priority: '0.95', changefreq: 'weekly' },
   { path: '/destinos/arraial-dajuda', priority: '0.95', changefreq: 'weekly' },
-  { path: '/servicos/diarista-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/eletricista-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/piscineiro-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/pedreiro-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/pintor-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/jardineiro-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/encanador-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/chef-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/seguranca-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/motorista-trancoso', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/quadrado-trancoso', priority: '0.85', changefreq: 'weekly' },
-  { path: '/servicos/rio-verde-trancoso', priority: '0.85', changefreq: 'weekly' },
-  { path: '/servicos/pitinga-trancoso', priority: '0.85', changefreq: 'weekly' },
-  // Porto Seguro
-  { path: '/servicos/diarista-porto-seguro', priority: '0.9', changefreq: 'weekly' },
+
+  // === SERVIÇOS — TRANCOSO ===
+  { path: '/servicos/diarista-trancoso',    priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/eletricista-trancoso', priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/piscineiro-trancoso',  priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/pedreiro-trancoso',    priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/pintor-trancoso',      priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/jardineiro-trancoso',  priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/encanador-trancoso',   priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/chef-trancoso',        priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/seguranca-trancoso',   priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/motorista-trancoso',   priority: '0.9',  changefreq: 'weekly' },
+  { path: '/servicos/quadrado-trancoso',    priority: '0.85', changefreq: 'weekly' },
+  { path: '/servicos/rio-verde-trancoso',   priority: '0.85', changefreq: 'weekly' },
+  { path: '/servicos/pitinga-trancoso',     priority: '0.85', changefreq: 'weekly' },
+
+  // === SERVIÇOS — PORTO SEGURO ===
+  { path: '/servicos/diarista-porto-seguro',    priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/eletricista-porto-seguro', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/piscineiro-porto-seguro', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/cozinheiro-porto-seguro', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/jardineiro-porto-seguro', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/pedreiro-porto-seguro', priority: '0.9', changefreq: 'weekly' },
-  // Caraíva
-  { path: '/servicos/diarista-caraiva', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/piscineiro-porto-seguro',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/cozinheiro-porto-seguro',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/jardineiro-porto-seguro',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/pedreiro-porto-seguro',    priority: '0.9', changefreq: 'weekly' },
+
+  // === SERVIÇOS — CARAÍVA ===
+  { path: '/servicos/diarista-caraiva',    priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/eletricista-caraiva', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/piscineiro-caraiva', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/cozinheiro-caraiva', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/jardineiro-caraiva', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/pedreiro-caraiva', priority: '0.9', changefreq: 'weekly' },
-  // === ARRAIAL D'AJUDA ===
-  { path: '/servicos/diarista-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/piscineiro-caraiva',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/cozinheiro-caraiva',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/jardineiro-caraiva',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/pedreiro-caraiva',    priority: '0.9', changefreq: 'weekly' },
+
+  // === SERVIÇOS — ARRAIAL D'AJUDA ===
+  { path: '/servicos/diarista-arraial-dajuda',    priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/eletricista-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/piscineiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/jardineiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
-  { path: '/servicos/pedreiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/piscineiro-arraial-dajuda',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/jardineiro-arraial-dajuda',  priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/pedreiro-arraial-dajuda',    priority: '0.9', changefreq: 'weekly' },
 ];
 
-// Landing pages SEO por categoria de serviço
-const servicoSlugs = [
-  'limpeza-trancoso',
-  'eletricista-trancoso',
-  'encanador-trancoso',
-  'jardinagem-trancoso',
-  'cozinheiro-trancoso',
-  'pedreiro-trancoso',
-  'pintor-trancoso',
-  'baba-trancoso',
-  'garcom-trancoso',
-];
-
+/**
+ * Ocupações para gerar URLs de categoria.
+ * Mantidas apenas as que têm rotas /servicos/* correspondentes.
+ * URLs com ?cat= são mantidas para compatibilidade com busca interna,
+ * mas NÃO são a fonte primária de indexação (as rotas /servicos/* são).
+ */
 const categoryOccupations = [
   'Limpeza', 'Eletricista', 'Encanador', 'Jardinagem',
-  'Cozinheiro', 'Pedreiro', 'Pintor', 'Babá', 'Garçom'
+  'Cozinheiro', 'Pedreiro', 'Pintor', 'Babá', 'Garçom', 'Piscineiro'
 ];
 
-function formatDate(dateStr) {
-  if (!dateStr) return new Date().toISOString().split('T')[0];
-  return new Date(dateStr).toISOString().split('T')[0];
-}
-
-function escapeXml(str) {
+function escapeXml(str: string): string {
   if (!str) return '';
   return String(str)
     .replace(/&/g, '&amp;')
@@ -89,28 +101,26 @@ function escapeXml(str) {
     .replace(/'/g, '&apos;');
 }
 
-Deno.serve(async (req) => {
+Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    // Usa service role para não precisar de auth do usuário
-    let providers = [];
-    let services = [];
-    
+    let services: any[] = [];
+
     try {
-      [providers, services] = await Promise.all([
-        base44.asServiceRole.entities.ServiceProvider.list('-updated_date', 200),
-        base44.asServiceRole.entities.ServiceListing.filter({ active: true }, '-updated_date', 500),
-      ]);
-    } catch (dataError) {
-      console.warn('Could not fetch provider/service data for sitemap:', dataError.message);
-      // Continua sem dados dinâmicos
+      services = await base44.asServiceRole.entities.ServiceListing.filter(
+        { active: true },
+        '-updated_date',
+        500
+      );
+    } catch (dataError: any) {
+      console.warn('Sitemap: falha ao buscar ServiceListing:', dataError.message);
     }
 
     const today = new Date().toISOString().split('T')[0];
-    const urls = [];
+    const urls: string[] = [];
 
-    // Páginas estáticas
+    // 1. Páginas estáticas (rotas reais do React Router)
     for (const page of staticPages) {
       urls.push(`
   <url>
@@ -121,37 +131,32 @@ Deno.serve(async (req) => {
   </url>`);
     }
 
-    // Landing pages SEO por slug removidas do sitemap:
-    // URLs com query string (?slug=) não são ideais para indexação
-    // Substituídas pelas rotas /servicos/{slug} já listadas em staticPages
-
-    // Páginas de categoria por ocupação
+    // 2. Páginas de categoria por ocupação (/ServicosCategoria?cat=X)
+    //    Mantidas como URLs suplementares — as rotas /servicos/* são as principais
     for (const occ of categoryOccupations) {
       urls.push(`
   <url>
     <loc>${BASE_URL}/ServicosCategoria?cat=${escapeXml(encodeURIComponent(occ))}</loc>
     <changefreq>daily</changefreq>
-    <priority>0.85</priority>
+    <priority>0.75</priority>
     <lastmod>${today}</lastmod>
   </url>`);
     }
 
-    // Categorias únicas de ServiceListing (pode ter outras além das ocupações)
-    const extraCats = [...new Set((services || []).map(s => s.category).filter(Boolean))]
-      .filter(c => !categoryOccupations.includes(c));
+    // 3. Categorias extras de ServiceListing que não estão no enum padrão
+    const extraCats = [
+      ...new Set((services || []).map((s: any) => s.category).filter(Boolean))
+    ].filter((c: string) => !categoryOccupations.includes(c));
+
     for (const cat of extraCats) {
       urls.push(`
   <url>
     <loc>${BASE_URL}/ServicosCategoria?cat=${escapeXml(encodeURIComponent(cat))}</loc>
     <changefreq>daily</changefreq>
-    <priority>0.80</priority>
+    <priority>0.70</priority>
     <lastmod>${today}</lastmod>
   </url>`);
     }
-
-    // PrestadorPerfil e ServicoDetalhes removidos do sitemap:
-    // São rotas autenticadas/privadas (bloqueadas no robots.txt)
-    // Google não deve indexar perfis individuais neste momento
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"

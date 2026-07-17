@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { isAdminUser } from "@/lib/adminConfig";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { cn } from "@/lib/utils";
@@ -98,8 +99,8 @@ export default function Layout({ children, currentPageName }) {
     metaDescription.content = currentDescription;
   }, [location.pathname]);
 
-  const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
-  const isAdmin = user?.role === "admin" || ADMIN_WHITELIST.includes(user?.email);
+  // Verificação de admin centralizada em src/lib/adminConfig.js
+  const isAdmin = isAdminUser(user);
   const [perfilModalFechado, setPerfilModalFechado] = useState(false);
   const precisaCompletarPerfil = !!user && !user.profile_completed && !user.phone && !location.pathname.includes('CadastroTipo') && location.pathname === '/' && !perfilModalFechado;
 
@@ -131,7 +132,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Serviços", path: createPageUrl("ServicosCategoria"), icon: Briefcase },
     { name: "Meus Pedidos", path: createPageUrl("MeusPedidos"), icon: ListOrdered },
     { name: "Assistente IA", path: createPageUrl("Assistentevirtual"), icon: Bot },
-    { name: "Meu Perfil", path: createPageUrl("MeuPerfilPrestador"), icon: UserCog },
+    { name: "Meu Perfil", path: createPageUrl("MeusPedidos"), icon: User },
   ];
 
   const publicPages = ['/', '/Home', '/ServicosCategoria', '/PrestadorPerfil', '/ServicoDetalhes', '/MeusPedidos', '/PoliticaPrivacidade', '/Manual', '/SejaPrestador', '/ComoFunciona', '/Seguranca', '/Assistentevirtual', '/GeradorDeImagem', '/Chat', '/About', '/Contact', '/ServicoLanding', '/SolicitacaoConfirmada'];

@@ -17,9 +17,9 @@ import FinancialReports from "../components/financial/FinancialReports";
 import AssistenteFinanceiro from "../components/financial/AssistenteFinanceiro";
 import { createPageUrl } from "@/utils";
 import { Link } from "react-router-dom";
-import PermissionChecker from "../components/auth/PermissionChecker"; // Added import
+import PermissionChecker from "../components/auth/PermissionChecker";
 
-export default function FinanceiroPage() {
+function FinanceiroPageContent() {
   useEffect(() => {
     document.title = "Financeiro — Gestão de Receitas e Pagamentos | Trancoso Resolve";
     const setMeta = (name, content, prop = false) => {
@@ -266,5 +266,13 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
         </TabsContent>
       </Tabs>
     </div>
+  );
+}
+
+export default function FinanceiroPage() {
+  return (
+    <PermissionChecker requiredUserType="prestador">
+      <FinanceiroPageContent />
+    </PermissionChecker>
   );
 }

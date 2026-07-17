@@ -1,13 +1,53 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <!-- Google Tag Manager -->
+    <!-- ================================================================
+         GTM CONSENT MODE v2 — LGPD COMPLIANT
+         Inicializa consentimento como NEGADO por padrão.
+         Os scripts de analytics SÓ coletam dados após o usuário aceitar
+         no banner de cookies (CookieConsent.jsx chama gtag consent update).
+         Isso garante conformidade com LGPD/GDPR.
+    ================================================================ -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+
+      // 1. Define consentimento padrão ANTES de carregar qualquer tag
+      gtag('consent', 'default', {
+        'analytics_storage': 'denied',
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'wait_for_update': 500
+      });
+
+      // 2. Se o usuário já consentiu em visita anterior, restaura permissão
+      (function() {
+        try {
+          var saved = localStorage.getItem('cookie-consent');
+          if (saved) {
+            var consent = JSON.parse(saved);
+            if (consent.analytics === true) {
+              gtag('consent', 'update', {
+                'analytics_storage': 'granted',
+                'ad_storage': 'granted',
+                'ad_user_data': 'granted',
+                'ad_personalization': 'granted'
+              });
+            }
+          }
+        } catch(e) {}
+      })();
+    </script>
+
+    <!-- Google Tag Manager (carrega APÓS definição de consentimento) -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5CQLT5JM');</script>
     <!-- End Google Tag Manager -->
+
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/855e7dab6_logo-mark.svg" />
     <link rel="apple-touch-icon" href="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/b56b8c721_logo-mark-512.png" />
@@ -68,7 +108,12 @@
     <!-- Preload LCP hero image -->
     <link rel="preload" as="image" href="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg" fetchpriority="high" />
 
-    <!-- Structured Data: LocalBusiness (static, indexable without JS) -->
+    <!-- ================================================================
+         STRUCTURED DATA: LocalBusiness
+         CORRIGIDO: sameAs duplicado mesclado em um único array.
+         CORRIGIDO: telephone vazio removido.
+         CORRIGIDO: URLs de oferta apontam para rotas estáticas reais.
+    ================================================================ -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -79,7 +124,6 @@
       "url": "https://trancosoresolve.com.br",
       "logo": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/b56b8c721_logo-mark-512.png",
       "image": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg",
-      "telephone": "",
       "email": "contato@tocaexperience.com.br",
       "address": {
         "@type": "PostalAddress",
@@ -99,26 +143,27 @@
         { "@type": "City", "name": "Caraíva", "containedIn": { "@type": "State", "name": "Bahia" } },
         { "@type": "City", "name": "Arraial d'Ajuda", "containedIn": { "@type": "State", "name": "Bahia" } }
       ],
-      "sameAs": ["https://www.instagram.com/trancosoresolve", "https://www.facebook.com/share/1B7w8mmbMN/"],
+      "sameAs": [
+        "https://www.instagram.com/trancosoresolve",
+        "https://www.facebook.com/share/1B7w8mmbMN/",
+        "https://trancosoresolve.com.br",
+        "https://www.trancosoresolve.com.br"
+      ],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Serviços na Costa do Descobrimento, BA",
         "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diarista em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=limpeza-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Eletricista em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=eletricista-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Encanador em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=encanador-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jardinagem em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=jardinagem-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cozinheiro Particular em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=cozinheiro-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pedreiro em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=pedreiro-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pintor em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=pintor-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Babá em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=baba-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Garçom para Eventos em Trancoso", "url": "https://trancosoresolve.com.br/ServicoLanding?slug=garcom-trancoso" } }
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diarista em Trancoso", "url": "https://trancosoresolve.com.br/servicos/diarista-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Eletricista em Trancoso", "url": "https://trancosoresolve.com.br/servicos/eletricista-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Encanador em Trancoso", "url": "https://trancosoresolve.com.br/servicos/encanador-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jardineiro em Trancoso", "url": "https://trancosoresolve.com.br/servicos/jardineiro-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cozinheiro Particular em Trancoso", "url": "https://trancosoresolve.com.br/servicos/chef-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pedreiro em Trancoso", "url": "https://trancosoresolve.com.br/servicos/pedreiro-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pintor em Trancoso", "url": "https://trancosoresolve.com.br/servicos/pintor-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Piscineiro em Trancoso", "url": "https://trancosoresolve.com.br/servicos/piscineiro-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Segurança para Eventos em Trancoso", "url": "https://trancosoresolve.com.br/servicos/seguranca-trancoso" } }
         ]
-      },
-      "sameAs": [
-        "https://trancosoresolve.com.br",
-        "https://www.trancosoresolve.com.br"
-      ]
+      }
     }
     </script>
 
@@ -176,16 +221,24 @@
     }
     </script>
 
-    <!-- Google Analytics 4 -->
+    <!-- ================================================================
+         GOOGLE ANALYTICS 4
+         O gtag.js carrega normalmente — o Consent Mode v2 acima
+         garante que NENHUM dado é coletado até o usuário aceitar.
+    ================================================================ -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KF75243B4"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-3KF75243B4');
+      gtag('config', 'G-3KF75243B4', { 'send_page_view': false });
     </script>
 
-    <!-- Meta Pixel -->
+    <!-- ================================================================
+         META PIXEL — LGPD COMPLIANT
+         Inicializa o pixel mas NÃO dispara PageView por padrão.
+         O CookieConsent.jsx chama fbq('track','PageView') após aceite.
+    ================================================================ -->
     <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -195,31 +248,29 @@
       t.src=v;s=b.getElementsByTagName(e)[0];
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '1469130194903035'); // Pixel CAPI — único ativo
-      fbq('track', 'PageView');
+      fbq('init', '1469130194903035');
+      // PageView NÃO é disparado aqui — aguarda consentimento LGPD
+      // O CookieConsent.jsx dispara fbq('track','PageView') no accept
     </script>
 
-  <script type="module" crossorigin src="/assets/index-CgBgj5bs.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-DQsvF3EM.css">
-</head>
+    <script type="module" crossorigin src="/assets/index-GPhl0d21.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-e6tJe3dg.css">
+  </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CQLT5JM"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    
-    <!-- Meta Pixel (noscript) -->
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1469130194903035&ev=PageView&noscript=1" /></noscript>
-    
+
     <div id="root"></div>
-    
+
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-            .then(() => console.log('PWA Service Worker registered'))
-            .catch(err => console.error('Service Worker registration failed:', err));
+            .then(() => console.log('PWA SW registered'))
+            .catch(err => console.error('SW registration failed:', err));
         });
       }
     </script>

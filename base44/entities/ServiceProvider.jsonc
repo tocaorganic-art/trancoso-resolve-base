@@ -30,9 +30,12 @@
         "Encanador",
         "Pintor",
         "Cozinheiro",
+        "Piscineiro",
+        "Seguran\u00e7a",
+        "Motorista",
         "Outro"
       ],
-      "description": "Ocupa\u00e7\u00e3o principal"
+      "description": "Ocupa\u00e7\u00e3o principal \u2014 CORRIGIDO: adicionado Piscineiro, Seguran\u00e7a e Motorista que existem como p\u00e1ginas de servi\u00e7o na plataforma"
     },
     "phone": {
       "type": "string",

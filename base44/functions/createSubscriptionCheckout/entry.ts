@@ -5,21 +5,58 @@ const MP_ACCESS_TOKEN = Deno.env.get('MP_ACCESS_TOKEN');
 const BASE_URL = 'https://trancosoresolve.com.br';
 
 // ─── Planos disponíveis ───────────────────────────────────────────────────────
-const PLANS: Record<string, { name: string; amount: number; trial_days: number }> = {
+// trial_days: dias grátis antes da primeira cobrança (0 = sem trial)
+const PLANS: Record<string, { name: string; amount: number; trial_days: number; category: string }> = {
+  // ─── Prestador ──────────────────────────────────────────────────────────────
   gratuito: {
-    name: 'Plano Gratuito',
+    name: 'Plano Gratuito — Trancoso Resolve',
     amount: 0,
     trial_days: 30,
+    category: 'prestador',
   },
   profissional: {
     name: 'Plano Profissional — Trancoso Resolve',
     amount: 19.90,
-    trial_days: 0,
+    trial_days: 30, // PREÇO DE LANÇAMENTO: 30 dias grátis
+    category: 'prestador',
   },
   elite: {
     name: 'Plano Elite — Trancoso Resolve',
     amount: 197.00,
+    trial_days: 7,
+    category: 'prestador',
+  },
+  // ─── Lojista ────────────────────────────────────────────────────────────────
+  lojista_essencial: {
+    name: 'Plano Lojista Essencial — Trancoso Resolve',
+    amount: 89.00,
+    trial_days: 7,
+    category: 'lojista',
+  },
+  lojista_pro: {
+    name: 'Plano Lojista Pro — Trancoso Resolve',
+    amount: 197.00,
+    trial_days: 7,
+    category: 'lojista',
+  },
+  lojista_elite: {
+    name: 'Plano Lojista Elite — Trancoso Resolve',
+    amount: 497.00,
+    trial_days: 7,
+    category: 'lojista',
+  },
+  // ─── Boost Sazonal (add-on) ─────────────────────────────────────────────────
+  boost_prestador: {
+    name: 'Boost Alta Temporada — Prestador',
+    amount: 99.00,
     trial_days: 0,
+    category: 'boost',
+  },
+  boost_lojista: {
+    name: 'Boost Alta Temporada — Lojista',
+    amount: 197.00,
+    trial_days: 0,
+    category: 'boost',
   },
 };
 
@@ -38,11 +75,13 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Não autorizado' }, { status: 401 });
     }
 
-    const { plan, success_url, cancel_url } = await req.json();
+    const { plan, is_annual, success_url, cancel_url } = await req.json();
 
     const planConfig = PLANS[plan];
     if (!planConfig) {
-      return Response.json({ error: `Plano inválido: "${plan}". Use: gratuito, profissional ou elite.` }, { status: 400 });
+      return Response.json({
+        error: `Plano inválido: "${plan}". Planos disponíveis: ${Object.keys(PLANS).join(', ')}.`
+      }, { status: 400 });
     }
 
     // ─── Plano Gratuito: apenas cria trial, sem checkout MP ──────────────────
@@ -59,6 +98,7 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.entities.Subscription.create({
         user_email: user.email,
         plan: 'gratuito',
+        plan_category: 'prestador',
         status: 'trial',
         trial_start: today.toISOString().split('T')[0],
         trial_end: trialEnd.toISOString().split('T')[0],
@@ -90,22 +130,36 @@ Deno.serve(async (req) => {
       }
     }
 
-    // ─── Criar Preapproval no Mercado Pago (assinatura recorrente) ────────────
-    const successUrl = success_url || `${BASE_URL}/AssinaturaConfirmada?plano=${plan}`;
+    // ─── Calcular valor (anual = 10x mensal, 2 meses grátis) ──────────────────
+    const isAnnual = !!is_annual && planConfig.category !== 'boost';
+    const billingAmount = isAnnual ? planConfig.amount * 10 : planConfig.amount;
+    const frequency = isAnnual ? 12 : 1;
+    const periodLabel = isAnnual ? 'anual' : 'mensal';
 
-    const preapprovalBody = {
-      reason: planConfig.name,
+    // ─── Criar Preapproval no Mercado Pago (assinatura recorrente) ────────────
+    const successUrl = success_url || `${BASE_URL}/AssinaturaConfirmada?plano=${plan}${isAnnual ? '&anual=1' : ''}`;
+
+    const preapprovalBody: Record<string, unknown> = {
+      reason: `${planConfig.name} (${periodLabel})`,
       external_reference: user.email,
       payer_email: user.email,
       auto_recurring: {
-        frequency: 1,
+        frequency: frequency,
         frequency_type: 'months',
-        transaction_amount: planConfig.amount,
+        transaction_amount: billingAmount,
         currency_id: 'BRL',
       },
       back_url: successUrl,
       status: 'pending',
     };
+
+    // ─── Free trial (se aplicável) ────────────────────────────────────────────
+    if (planConfig.trial_days > 0) {
+      preapprovalBody.auto_recurring.free_trial = {
+        frequency: planConfig.trial_days,
+        frequency_type: 'days',
+      };
+    }
 
     const mpRes = await fetch('https://api.mercadopago.com/preapproval', {
       method: 'POST',
@@ -134,32 +188,37 @@ Deno.serve(async (req) => {
         await base44.asServiceRole.entities.Subscription.create({
           user_email: user.email,
           plan,
+          plan_category: planConfig.category,
+          is_annual: isAnnual,
           status: 'pending',
-          amount: planConfig.amount,
+          amount: billingAmount,
           payment_method: 'mercadopago',
           mp_preapproval_id: mpData.id,
-          notes: `Checkout MP iniciado em ${today.toISOString()}`,
+          notes: `Checkout MP ${periodLabel} iniciado em ${today.toISOString()}`,
         });
       } else {
         await base44.asServiceRole.entities.Subscription.update(existingSubs[0].id, {
           plan,
+          plan_category: planConfig.category,
+          is_annual: isAnnual,
           status: 'pending',
-          amount: planConfig.amount,
+          amount: billingAmount,
           payment_method: 'mercadopago',
           mp_preapproval_id: mpData.id,
-          notes: `Checkout MP atualizado em ${today.toISOString()}`,
+          notes: `Checkout MP ${periodLabel} atualizado em ${today.toISOString()}`,
         });
       }
     } catch (dbErr) {
       console.warn('[createSubscriptionCheckout] Erro ao registrar no DB (não crítico):', dbErr.message);
     }
 
-    console.log(`[createSubscriptionCheckout] Preapproval MP criado: ${mpData.id} | plano: ${plan} | user: ${user.email}`);
+    console.log(`[createSubscriptionCheckout] Preapproval MP criado: ${mpData.id} | plano: ${plan} | ${periodLabel} | user: ${user.email}`);
 
     return Response.json({
       url: mpData.init_point,
       preapproval_id: mpData.id,
       plan,
+      is_annual: isAnnual,
     });
 
   } catch (error) {

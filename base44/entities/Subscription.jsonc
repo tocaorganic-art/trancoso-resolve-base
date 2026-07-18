@@ -12,10 +12,30 @@
       "enum": [
         "gratuito",
         "profissional",
-        "elite"
+        "elite",
+        "lojista_essencial",
+        "lojista_pro",
+        "lojista_elite",
+        "boost_prestador",
+        "boost_lojista"
       ],
       "default": "gratuito",
       "description": "Plano da assinatura"
+    },
+    "plan_category": {
+      "type": "string",
+      "enum": [
+        "prestador",
+        "lojista",
+        "boost"
+      ],
+      "default": "prestador",
+      "description": "Categoria do plano (prestador, lojista ou boost sazonal)"
+    },
+    "is_annual": {
+      "type": "boolean",
+      "default": false,
+      "description": "Se a cobran\u00e7a \u00e9 anual (paga 10, leva 12 \u2014 2 meses gr\u00e1tis)"
     },
     "status": {
       "type": "string",

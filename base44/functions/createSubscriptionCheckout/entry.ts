@@ -26,6 +26,13 @@ const PLANS: Record<string, { name: string; amount: number; trial_days: number; 
     trial_days: 7,
     category: 'prestador',
   },
+  // Alias para compatibilidade com PR #73 (prestador_elite)
+  prestador_elite: {
+    name: 'Plano Elite — Trancoso Resolve',
+    amount: 197.00,
+    trial_days: 7,
+    category: 'prestador',
+  },
   // ─── Lojista ────────────────────────────────────────────────────────────────
   lojista_essencial: {
     name: 'Plano Lojista Essencial — Trancoso Resolve',
@@ -75,7 +82,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Não autorizado' }, { status: 401 });
     }
 
-    const { plan, is_annual, success_url, cancel_url } = await req.json();
+    const { plan, is_annual, billing, success_url, cancel_url } = await req.json();
 
     const planConfig = PLANS[plan];
     if (!planConfig) {
@@ -131,7 +138,7 @@ Deno.serve(async (req) => {
     }
 
     // ─── Calcular valor (anual = 10x mensal, 2 meses grátis) ──────────────────
-    const isAnnual = !!is_annual && planConfig.category !== 'boost';
+    const isAnnual = (!!is_annual || billing === 'annual') && planConfig.category !== 'boost';
     const billingAmount = isAnnual ? planConfig.amount * 10 : planConfig.amount;
     const frequency = isAnnual ? 12 : 1;
     const periodLabel = isAnnual ? 'anual' : 'mensal';

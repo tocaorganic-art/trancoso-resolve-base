@@ -13,6 +13,7 @@
         "gratuito",
         "profissional",
         "elite",
+        "prestador_elite",
         "lojista_essencial",
         "lojista_pro",
         "lojista_elite",
@@ -36,6 +37,11 @@
       "type": "boolean",
       "default": false,
       "description": "Se a cobran\u00e7a \u00e9 anual (paga 10, leva 12 \u2014 2 meses gr\u00e1tis)"
+    },
+    "founder_badge": {
+      "type": "boolean",
+      "default": false,
+      "description": "Selo de fundador \u2014 concedido aos primeiros assinantes (vagas limitadas)"
     },
     "status": {
       "type": "string",

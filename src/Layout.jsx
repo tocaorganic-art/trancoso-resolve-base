@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useApp } from "@/contexts/AppContext";
 import {
   Home, Calendar, Briefcase, UserCog,
-  TrendingUp, CreditCard, Menu, X, FileText, User, Bot, Rocket, Globe, ShieldCheck, Banknote, ArrowLeft, ListOrdered, ChevronDown, MapPin, Sun, Moon } from
+  TrendingUp, CreditCard, Menu, X, FileText, User, Bot, Rocket, Globe, ShieldCheck, Banknote, ArrowLeft, ListOrdered, ChevronDown, MapPin, Sun, Moon, Megaphone } from
 "lucide-react";
 
 import RoutePreloader from "./components/optimization/RoutePreloader";
@@ -106,6 +106,7 @@ export default function Layout({ children, currentPageName }) {
   const precisaCompletarPerfil = !!user && !user.profile_completed && !user.phone && !location.pathname.includes('CadastroTipo') && location.pathname === '/' && !perfilModalFechado;
 
   const isPrestador = user?.user_type === 'prestador';
+  const isLojista = user?.user_type === 'lojista';
 
   const adminNavItems = isAdmin ? [
     { name: "Dashboard", path: createPageUrl("Dashboard"), icon: Home },
@@ -119,6 +120,11 @@ export default function Layout({ children, currentPageName }) {
     { name: "Pagamentos", path: "/AdminPagamentos", icon: Banknote },
     { name: "📊 Métricas", path: "/admin/metricas", icon: TrendingUp },
     { name: "Deploy", path: createPageUrl("DeployDashboard"), icon: Rocket },
+    { name: "Ver Site", path: "/", icon: Globe, clearLogin: true },
+  ] : isLojista ? [
+    { name: "Início", path: "/", icon: Home },
+    { name: "Meus Anúncios", path: createPageUrl("DashboardLojista"), icon: Megaphone },
+    { name: "Meu Perfil", path: createPageUrl("DashboardLojista"), icon: UserCog },
     { name: "Ver Site", path: "/", icon: Globe, clearLogin: true },
   ] : isPrestador ? [
     { name: "Início", path: createPageUrl("Dashboard"), icon: Home },

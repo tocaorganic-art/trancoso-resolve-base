@@ -1,0 +1,89 @@
+{
+  "name": "Anuncio",
+  "type": "object",
+  "properties": {
+    "lojista_id": {
+      "type": "string",
+      "description": "ID do lojista dono do an\u00fancio"
+    },
+    "titulo": {
+      "type": "string",
+      "description": "T\u00edtulo do an\u00fancio"
+    },
+    "descricao": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o do an\u00fancio"
+    },
+    "imagem_url": {
+      "type": "string",
+      "description": "URL da imagem do an\u00fancio"
+    },
+    "cta_label": {
+      "type": "string",
+      "description": "Texto do bot\u00e3o de call-to-action"
+    },
+    "cta_url": {
+      "type": "string",
+      "description": "URL de destino do bot\u00e3o CTA"
+    },
+    "categoria": {
+      "type": "string",
+      "description": "Categoria do an\u00fancio"
+    },
+    "destino": {
+      "type": "string",
+      "description": "Destino/regi\u00e3o do an\u00fancio (ex: Trancoso, Porto Seguro)"
+    },
+    "ativo": {
+      "type": "boolean",
+      "default": true,
+      "description": "Se o an\u00fancio est\u00e1 ativo"
+    },
+    "plano": {
+      "type": "string",
+      "enum": [
+        "basico",
+        "destaque",
+        "premium"
+      ],
+      "default": "basico",
+      "description": "Plano do an\u00fancio"
+    },
+    "impressoes": {
+      "type": "number",
+      "default": 0,
+      "description": "Total de impress\u00f5es"
+    },
+    "cliques": {
+      "type": "number",
+      "default": 0,
+      "description": "Total de cliques"
+    },
+    "data_inicio": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de in\u00edcio da veicula\u00e7\u00e3o"
+    },
+    "data_fim": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de fim da veicula\u00e7\u00e3o"
+    }
+  },
+  "required": [
+    "lojista_id",
+    "titulo"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "data.lojista_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by": "{{user.email}}"
+    },
+    "delete": {
+      "created_by": "{{user.email}}"
+    }
+  }
+}

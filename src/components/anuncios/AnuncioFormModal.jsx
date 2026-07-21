@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Anuncio } from "@/api/entities";
+import { base44 } from "@/api/base44Client";
 
 export default function AnuncioFormModal({ open, onClose, onSaved }) {
   const [form, setForm] = useState({
@@ -21,7 +21,7 @@ export default function AnuncioFormModal({ open, onClose, onSaved }) {
     if (!form.titulo) return;
     setLoading(true);
     try {
-      await Anuncio.create(form);
+      await base44.entities.Anuncio.create(form);
       onSaved?.();
       onClose();
       setForm({ titulo: "", descricao: "", imagem_url: "", categoria: "", cta_label: "", cta_url: "" });

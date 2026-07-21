@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import { Anuncio } from "@/api/entities";
-import { User } from "@/api/auth";
+import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Megaphone, Eye, MousePointerClick, TrendingUp } from "lucide-react";
 import AnuncioFormModal from "@/components/anuncios/AnuncioFormModal";
-import PermissionChecker from "@/components/PermissionChecker";
+import PermissionChecker from "@/components/auth/PermissionChecker";
 
 export default function DashboardLojista() {
   const [anuncios, setAnuncios] = useState([]);
@@ -23,8 +22,8 @@ export default function DashboardLojista() {
     setLoading(true);
     try {
       const [userData, anunciosData] = await Promise.all([
-        User.me(),
-        Anuncio.list("-created_date"),
+        base44.auth.me(),
+        base44.entities.Anuncio.list("-created_date"),
       ]);
       setUser(userData);
       setAnuncios(anunciosData);
@@ -34,7 +33,7 @@ export default function DashboardLojista() {
   };
 
   const handleToggle = async (anuncio) => {
-    await Anuncio.update(anuncio.id, { ativo: !anuncio.ativo });
+    await base44.entities.Anuncio.update(anuncio.id, { ativo: !anuncio.ativo });
     setAnuncios(prev =>
       prev.map(a => a.id === anuncio.id ? { ...a, ativo: !a.ativo } : a)
     );

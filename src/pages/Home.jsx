@@ -21,6 +21,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";
 import LeadCaptureForm from "@/components/servicos/LeadCaptureForm";
 import WhatsAppStickyBar from "@/components/servicos/WhatsAppStickyBar";
+import FounderBanner from "@/components/banners/FounderBanner";
 
 // Mapeamento completo de imagens por categoria (alinhado com enum da entidade ServiceListing)
 const categoryImageMap = {

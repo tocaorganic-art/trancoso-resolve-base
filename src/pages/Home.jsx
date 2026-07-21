@@ -431,6 +431,8 @@ export default function HomePage() {
       <SocialProofBar totalVerificados={totalVerificados} />
 
       <div className="container mx-auto max-w-6xl px-4 py-8 md:py-16">
+        {/* Banner Prestador Fundador — visível para não-assinantes */}
+        <FounderBanner />
 
         {/* Carrossel de serviços */}
         <ServiceCarousel />

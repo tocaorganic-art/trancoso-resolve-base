@@ -126,7 +126,7 @@ function MeuPerfilPrestadorContent() {
   });
 
   const [formData, setFormData] = useState(null);
-  const [uploading, setUploading] = useState({ profile: false, document: false, cover: false });
+  const [uploading, setUploading] = useState({ profile: false, document: false, cover: false, fullbody: false });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -390,7 +390,7 @@ function MeuPerfilPrestadorContent() {
                 Foto de Capa <span className="text-red-500">*</span>
                 <span className="ml-2 text-xs font-normal text-slate-500">JPG/PNG/WebP · máx. 5MB · proporção 16:9 recomendada</span>
               </Label>
-              <div className={`relative w-full h-40 rounded-xl overflow-hidden border-2 border-dashed flex items-center justify-center bg-slate-100 ${errors.cover_photo_url ? 'border-red-400' : 'border-slate-300'}`}>
+              <div className={`relative w-full h-40 sm:h-56 rounded-xl overflow-hidden border-2 border-dashed flex items-center justify-center bg-slate-100 ${errors.cover_photo_url ? 'border-red-400' : 'border-slate-300'}`}>
                 {formData.cover_photo_url ? (
                   <>
                     <img src={formData.cover_photo_url} alt="Foto de capa" className="w-full h-full object-cover" />
@@ -637,6 +637,32 @@ function MeuPerfilPrestadorContent() {
                 {provider?.verified && <VerificacaoBadge verified showLabel size="md" />}
               </h3>
               {user && <VerificacaoStatusCard user={user} />}
+
+              {/* Foto de corpo inteiro para identificação */}
+              <div className="space-y-2">
+                <Label>
+                  Foto de corpo inteiro (identificação)
+                  <span className="ml-2 text-xs font-normal text-slate-500">JPG/PNG/WebP · máx. 5MB · usada apenas na verificação, não aparece no perfil público</span>
+                </Label>
+                <div className="relative w-40 h-56 rounded-xl overflow-hidden border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-100">
+                  {formData.full_body_photo_url ? (
+                    <>
+                      <img src={formData.full_body_photo_url} alt="Foto de corpo inteiro" className="w-full h-full object-cover" />
+                      <label htmlFor="fullbody-upload" className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
+                        <span className="text-white text-sm font-medium flex items-center gap-2"><Camera className="w-4 h-4" /> Alterar</span>
+                      </label>
+                    </>
+                  ) : (
+                    <label htmlFor="fullbody-upload" className="flex flex-col items-center gap-2 cursor-pointer text-slate-500 hover:text-slate-700 w-full h-full justify-center text-center px-3">
+                      <ImagePlus className="w-8 h-8" />
+                      <span className="text-sm font-medium">Enviar foto de corpo inteiro</span>
+                    </label>
+                  )}
+                  <input id="fullbody-upload" type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
+                    onChange={(e) => { if (e.target.files[0] && e.target.files[0].size <= 5 * 1024 * 1024) handleFileUpload(e.target.files[0], 'fullbody'); else toast.error('Arquivo muito grande. Máximo 5MB.'); }} />
+                  {uploading.fullbody && <div className="absolute inset-0 bg-white/70 flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-blue-600" /></div>}
+                </div>
+              </div>
             </div>
 
             {/* Ações */}

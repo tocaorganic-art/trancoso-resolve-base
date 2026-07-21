@@ -1,228 +1,433 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import {
-  Check, Zap, Loader2, Crown, Gift,
-  ChevronDown, ChevronUp, Sparkles, Users, Store, Waves, Calendar
-} from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Check, Zap, Star, Calendar, Lock, Users, Crown,
+  Building2, ChevronDown, ChevronUp, Loader2, Shield, Flame
+} from "lucide-react";
 import { toast } from "sonner";
 import CancelSubscriptionButton from "@/components/dashboard/CancelSubscriptionButton";
-import PlanCard from "@/components/plans/PlanCard";
+import PositionamentoEstrategico from "@/components/plans/PositionamentoEstrategico";
 
-// ─── Benefícios: Prestador ─────────────────────────────────────────────────────
+// ─── Dados dos planos ────────────────────────────────────────────────────────
 
-const BENEFICIOS_GRATUITO = [
-  "Perfil na plataforma por 30 dias",
-  "Recebimento de pedidos de clientes",
-  "Chat direto com clientes",
-  "1 serviço ativo",
+const PLANOS_PRESTADOR = [
+  {
+    id: "gratuito",
+    nome: "Gratuito",
+    preco: 0,
+    precoAnual: null,
+    trial: null,
+    trialLabel: "30 dias grátis · sem cartão",
+    destaque: false,
+    cor: "from-neutral-700 to-neutral-600",
+    borda: "border-border",
+    icone: Shield,
+    badge: null,
+    features: [
+      "Perfil na plataforma por 30 dias",
+      "Recebimento de pedidos de clientes",
+      "Chat direto com clientes",
+      "1 serviço ativo",
+    ],
+    ctaLabel: "Começar grátis",
+    ctaKey: null,
+  },
+  {
+    id: "profissional",
+    nome: "Profissional",
+    preco: 19.90,
+    precoAnual: 199,
+    trial: 30,
+    trialLabel: "30 dias grátis · LANÇAMENTO",
+    destaque: true,
+    cor: "from-orange-600 to-orange-500",
+    borda: "border-orange-400",
+    icone: Zap,
+    badge: "Mais Popular",
+    features: [
+      "Tudo do Gratuito, sem limite de tempo",
+      "Até 10 serviços ativos simultâneos",
+      "Destaque nas buscas da região",
+      "Agenda integrada de atendimentos",
+      "Selo de prestador verificado",
+      "Suporte por WhatsApp",
+    ],
+    ctaLabel: "Assinar — R$19,90/mês",
+    ctaKey: "profissional",
+  },
+  {
+    id: "elite",
+    nome: "Premium Elite",
+    preco: 197,
+    precoAnual: 1970,
+    trial: 7,
+    trialLabel: "7 dias grátis",
+    destaque: false,
+    cor: "from-amber-700 to-amber-600",
+    borda: "border-amber-600",
+    icone: Crown,
+    badge: "Elite",
+    features: [
+      "Tudo do Profissional, ilimitado",
+      "Serviços ilimitados ativos",
+      "Prioridade máxima nas buscas",
+      "Destaque na página inicial",
+      "Assistente IA premium (TrIA)",
+      "Gerador de imagens IA",
+      "Painel financeiro avançado",
+      "Suporte prioritário dedicado",
+    ],
+    ctaLabel: "Assinar — R$197/mês",
+    ctaKey: "prestador_elite",
+  },
 ];
 
-const BENEFICIOS_PROFISSIONAL = [
-  "Tudo do Gratuito, sem limite de tempo",
-  "Até 10 serviços ativos simultâneos",
-  "Destaque nas buscas da região",
-  "Agenda integrada de atendimentos",
-  "Selo de prestador verificado",
-  "Suporte por WhatsApp",
+const PLANOS_LOJISTA = [
+  {
+    id: "lojista_essencial",
+    nome: "Lojista Essencial",
+    preco: 89,
+    precoAnual: 890,
+    trial: 7,
+    trialLabel: "7 dias grátis",
+    destaque: false,
+    cor: "from-olive-600 to-olive-500",
+    borda: "border-border",
+    icone: Building2,
+    badge: null,
+    features: [
+      "Perfil completo do estabelecimento",
+      "Catálogo / cardápio de até 30 itens",
+      "Aparece nas buscas da região",
+      "Botão WhatsApp integrado",
+      "Selo de negócio verificado",
+      "1 usuário gestor",
+    ],
+    ctaLabel: "Assinar — R$89/mês",
+    ctaKey: "lojista_essencial",
+  },
+  {
+    id: "lojista_pro",
+    nome: "Lojista Pro",
+    preco: 197,
+    precoAnual: 1970,
+    trial: 7,
+    trialLabel: "7 dias grátis",
+    destaque: true,
+    cor: "from-orange-600 to-orange-500",
+    borda: "border-orange-400",
+    icone: Zap,
+    badge: "Mais Popular",
+    features: [
+      "Tudo do Essencial",
+      "Catálogo / cardápio ilimitado",
+      "Destaque nas buscas locais",
+      "Sistema de reservas / agendamento integrado",
+      "Painel de analytics (acessos, cliques, contatos)",
+      "Suporte por WhatsApp",
+      "Até 3 usuários gestores",
+    ],
+    ctaLabel: "Assinar — R$197/mês",
+    ctaKey: "lojista_pro",
+  },
+  {
+    id: "lojista_elite",
+    nome: "Lojista Elite",
+    preco: 497,
+    precoAnual: 4970,
+    trial: 7,
+    trialLabel: "7 dias grátis",
+    destaque: false,
+    cor: "from-amber-700 to-amber-600",
+    borda: "border-amber-600",
+    icone: Crown,
+    badge: "Elite",
+    features: [
+      "Tudo do Pro",
+      "Posição fixa no topo das buscas",
+      "Destaque na página inicial da plataforma",
+      "Assistente IA TrIA + gerador de imagens",
+      "Relatórios avançados com exportação",
+      "Integração com Instagram / WhatsApp Business",
+      "Suporte prioritário dedicado",
+      "Usuários ilimitados",
+    ],
+    ctaLabel: "Assinar — R$497/mês",
+    ctaKey: "lojista_elite",
+  },
 ];
-
-const BENEFICIOS_ELITE = [
-  "Tudo do Profissional, ilimitado",
-  "Serviços ilimitados ativos",
-  "Prioridade máxima nas buscas",
-  "Destaque na página inicial",
-  "Acesso ao assistente IA premium (TrIA)",
-  "Gerador de imagens IA",
-  "Painel financeiro avançado",
-  "Suporte prioritário dedicado",
-];
-
-// ─── Benefícios: Lojista ───────────────────────────────────────────────────────
-
-const BENEFICIOS_LOJISTA_ESSENCIAL = [
-  "Perfil completo do estabelecimento (fotos, horários, localização)",
-  "Catálogo / cardápio de até 30 itens",
-  "Aparece nas buscas da região",
-  "Botão WhatsApp integrado",
-  "Selo de negócio verificado",
-  "1 usuário gestor",
-];
-
-const BENEFICIOS_LOJISTA_PRO = [
-  "Tudo do Essencial",
-  "Catálogo / cardápio ilimitado",
-  "Destaque nas buscas locais",
-  "Sistema de reservas / agendamento integrado",
-  "Painel de analytics (acessos, cliques, contatos)",
-  "Suporte por WhatsApp",
-  "Até 3 usuários gestores",
-];
-
-const BENEFICIOS_LOJISTA_ELITE = [
-  "Tudo do Pro",
-  "Prioridade máxima e posição fixa no topo das buscas",
-  "Destaque na página inicial da plataforma",
-  "Assistente IA TrIA + gerador de imagens",
-  "Relatórios avançados com exportação",
-  "Integração com Instagram / WhatsApp Business",
-  "Suporte prioritário dedicado",
-  "Usuários ilimitados",
-];
-
-// ─── Benefícios: Boost Sazonal ─────────────────────────────────────────────────
-
-const BENEFICIOS_BOOST_PRESTADOR = [
-  "Visibilidade máxima nas buscas durante o pico",
-  'Selo "Disponível na Temporada"',
-  "Prioridade acima dos planos padrão do mesmo nível",
-  "Notificação de destaque para clientes da região",
-];
-
-const BENEFICIOS_BOOST_LOJISTA = [
-  "Posição fixa no topo das buscas da categoria",
-  "Destaque na página inicial durante o pico",
-  'Banner de destaque "Aberto na Temporada"',
-  "Prioridade no assistente TrIA para captação",
-];
-
-// ─── FAQ ──────────────────────────────────────────────────────────────────────
 
 const FAQ_ITEMS = [
   {
-    q: "O Plano Gratuito cobra alguma coisa?",
-    a: "Não. O Plano Gratuito é totalmente gratuito por 30 dias. Não pedimos cartão de crédito. Ao final do período, você escolhe migrar para o Profissional ou Elite, ou continuar usando recursos básicos.",
+    q: "Posso cancelar a qualquer momento?",
+    r: "Sim. Em todos os planos você cancela quando quiser, sem multa. Seu acesso continua até o fim do período já pago.",
   },
   {
-    q: "Como funciona o pagamento mensal?",
-    a: "O pagamento é processado pelo Mercado Pago, com segurança total. Você pode pagar com cartão, PIX ou boleto. A renovação é automática e você cancela quando quiser.",
+    q: "Como funciona o período gratuito?",
+    r: "Seu cartão é salvo no cadastro, mas nenhuma cobrança é feita durante o período grátis. Você pode cancelar antes do fim sem pagar nada.",
   },
   {
-    q: "Quem pode assinar os planos Lojista?",
-    a: "Os planos Lojista são para estabelecimentos com física ou digital em Trancoso, Caraíva, Arraial d'Ajuda e Porto Seguro: pousadas, restaurantes, lojas, beach clubs e similares. Você terá uma vitrine completa com fotos, catálogo/cardápio, horários e reservas.",
+    q: "Por que o Profissional tem 30 dias grátis e os outros têm 7?",
+    r: "O Plano Profissional é nosso preço de lançamento — os primeiros 100 prestadores verificados de Trancoso ganham 30 dias grátis e o Selo Fundador permanente. Os demais planos têm 7 dias de trial padrão.",
   },
   {
-    q: "O que é o Boost de Alta Temporada?",
-    a: "O Boost é um add-on opcional, cobrado por mês apenas durante os períodos de pico (dezembro, janeiro, fevereiro e Carnaval). Ele empilha sobre qualquer plano — você mantém sua assinatura normal e adiciona o Boost só quando quer máxima visibilidade. Ativação e cancelamento pelo painel, sem fidelidade.",
+    q: "O que é o Boost Alta Temporada?",
+    r: "Um add-on opcional que dá visibilidade máxima durante os picos (dez–fev e Carnaval). Você ativa e cancela pelo painel, sem fidelidade. Exige um plano base ativo.",
   },
   {
-    q: "Como funciona o pagamento anual?",
-    a: "No pagamento anual você paga 10 meses e leva 12 — 2 meses grátis, cerca de 17% de desconto. Aplicável aos planos Profissional, Elite e todos os Lojista. Não aplicável ao Gratuito nem ao Boost (que é sazonal).",
+    q: "Quanto economizo no plano anual?",
+    r: "Você paga 10 meses e ganha 12 — cerca de 17% de desconto. Disponível para os planos Profissional, Elite e todos os planos Lojista.",
   },
   {
-    q: "Tem fidelidade ou multa de cancelamento?",
-    a: "Não. Não há fidelidade. Você cancela quando quiser e o acesso continua até o fim do período já pago.",
+    q: "Existe comissão sobre os serviços prestados?",
+    r: "Não. Você negocia diretamente com o cliente e fica com 100% do valor. Cobramos apenas a assinatura da plataforma.",
   },
 ];
 
-// ─── FAQ Item ─────────────────────────────────────────────────────────────────
+// ─── Subcomponentes ──────────────────────────────────────────────────────────
 
-function FaqItem({ q, a }) {
+function FaqItem({ q, r }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-border rounded-lg overflow-hidden bg-card">
+    <div className="border border-border rounded-xl overflow-hidden">
       <button
-        className="w-full text-left px-5 py-4 flex justify-between items-center hover:bg-accent transition-colors"
+        className="w-full text-left px-5 py-4 flex justify-between items-center bg-card hover:bg-muted transition-colors"
         onClick={() => setOpen(!open)}
-        aria-expanded={open}
       >
         <span className="font-semibold text-foreground text-sm pr-4">{q}</span>
-        {open ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" /> : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />}
+        {open
+          ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
+          : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />}
       </button>
       {open && (
-        <div className="px-5 py-4 bg-muted/30 text-sm text-muted-foreground border-t border-border leading-relaxed">
-          {a}
+        <div className="px-5 py-4 bg-muted text-sm text-muted-foreground border-t border-border leading-relaxed">
+          {r}
         </div>
       )}
     </div>
   );
 }
 
-// ─── Toggle Mensal/Anual ───────────────────────────────────────────────────────
+function PlanCard({ plano, anual, onCta, loading }) {
+  const preco = anual && plano.precoAnual
+    ? (plano.precoAnual / 12).toFixed(2).replace(".", ",")
+    : plano.preco === 0
+      ? "0"
+      : plano.preco.toFixed(2).replace(".", ",");
 
-function BillingToggle({ isAnnual, onChange }) {
+  const Icon = plano.icone;
+
   return (
-    <div className="flex items-center justify-center gap-3 mb-10">
-      <span className={`text-sm font-semibold ${!isAnnual ? 'text-foreground' : 'text-muted-foreground'}`}>Mensal</span>
-      <button
-        onClick={() => onChange(!isAnnual)}
-        className="relative w-14 h-7 rounded-full bg-muted border border-border transition-colors"
-        aria-label="Alternar cobrança anual"
+    <div className={`relative flex flex-col ${plano.destaque ? "pt-5" : "pt-0"}`}>
+      {plano.destaque && (
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
+          <Badge className="bg-orange-500 text-white font-bold text-xs px-3 py-1 shadow-md">
+            <Star className="w-3 h-3 mr-1" /> {plano.badge}
+          </Badge>
+        </div>
+      )}
+      {!plano.destaque && plano.badge && (
+        <div className="absolute top-3 right-3 z-10">
+          <Badge className="bg-amber-600 text-white font-bold text-xs">
+            <Crown className="w-3 h-3 mr-1" /> {plano.badge}
+          </Badge>
+        </div>
+      )}
+
+      <Card
+        className={`flex flex-col flex-1 overflow-hidden shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all duration-200 ${
+          plano.destaque
+            ? `border-2 ${plano.borda}`
+            : `border ${plano.borda}`
+        }`}
       >
-        <span className={`absolute top-0.5 left-0.5 w-6 h-6 rounded-full bg-primary shadow-md transition-transform ${isAnnual ? 'translate-x-7' : ''}`} />
+        {/* Header */}
+        <div className={`p-6 text-center text-white bg-gradient-to-br ${plano.cor}`}>
+          <Icon className="w-9 h-9 mx-auto opacity-90" />
+          <h2 className="text-xl font-extrabold mb-1 mt-2">{plano.nome}</h2>
+
+          {plano.preco === 0 ? (
+            <>
+              <p className="text-3xl font-extrabold mt-1">Grátis</p>
+              <p className="text-xs mt-1 text-white/90">por 30 dias · sem cartão de crédito</p>
+            </>
+          ) : (
+            <>
+              <p className="text-3xl font-extrabold mt-1">
+                R${preco}
+                <span className="text-sm font-normal opacity-90">/mês</span>
+              </p>
+              {anual && plano.precoAnual && (
+                <p className="text-xs mt-0.5 text-white/80">
+                  R${plano.precoAnual}/ano · 2 meses grátis
+                </p>
+              )}
+              <p className="text-xs mt-1 flex items-center justify-center gap-1 text-white/95">
+                <Calendar className="w-3 h-3" /> {plano.trialLabel}
+              </p>
+            </>
+          )}
+        </div>
+
+        {/* Features */}
+        <CardContent className="p-5 flex flex-col flex-1">
+          <ul className="space-y-2 mb-5 flex-1">
+            {plano.features.map((f, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                <Check className="w-4 h-4 shrink-0 mt-0.5 text-green-500" />
+                {f}
+              </li>
+            ))}
+          </ul>
+
+          <div className="space-y-2 mt-auto">
+            {plano.preco === 0 ? (
+              <Link to="/CadastroTipo">
+                <Button variant="outline" className="w-full font-semibold">
+                  {plano.ctaLabel}
+                </Button>
+              </Link>
+            ) : (
+              <>
+                <Button
+                  className={`w-full font-bold ${
+                    plano.destaque
+                      ? "bg-orange-500 hover:bg-orange-600 text-white"
+                      : ""
+                  }`}
+                  onClick={() => onCta(plano.ctaKey, anual)}
+                  disabled={loading}
+                >
+                  {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                  {plano.ctaLabel}
+                </Button>
+                {plano.preco > 0 && (
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2 px-1">
+                    <Lock className="w-3 h-3 text-green-500 shrink-0" />
+                    Cartão salvo · sem cobrança no período grátis
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function BoostSection({ tipo, onCta, loading }) {
+  const isPrestador = tipo === "prestador";
+
+  return (
+    <div className="rounded-2xl border-2 border-amber-500 overflow-hidden my-10">
+      <div className="bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 p-5 text-white">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
+            <Flame className="w-6 h-6 text-amber-200" />
+          </div>
+          <div>
+            <p className="text-xs font-bold uppercase tracking-widest text-amber-200">Add-on temporário</p>
+            <h3 className="text-lg font-extrabold">Boost Alta Temporada</h3>
+          </div>
+          <div className="ml-auto text-right">
+            <p className="text-2xl font-extrabold">
+              +R${isPrestador ? "99" : "197"}<span className="text-sm font-normal opacity-90">/mês</span>
+            </p>
+            <p className="text-xs text-amber-200">somente dez–fev e Carnaval</p>
+          </div>
+        </div>
+        <p className="text-sm text-amber-100/90 mt-2">
+          A economia de Trancoso se concentra no Réveillon, Verão e Carnaval. O Boost dá visibilidade máxima
+          exatamente quando a demanda dispara — empilha sobre qualquer plano ativo.
+        </p>
+      </div>
+
+      <div className="bg-card p-5 flex flex-col md:flex-row gap-5 items-start md:items-center">
+        <ul className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {(isPrestador
+            ? [
+                "Visibilidade máxima nas buscas durante o pico",
+                'Selo "Disponível na Temporada"',
+                "Prioridade acima dos planos padrão do mesmo nível",
+                "Notificação de destaque para clientes da região",
+              ]
+            : [
+                "Posição fixa no topo das buscas da categoria",
+                "Destaque na página inicial durante o pico",
+                'Banner "Aberto na Temporada"',
+                "Prioridade no assistente TrIA para captação",
+              ]
+          ).map((f, i) => (
+            <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+              <Check className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" /> {f}
+            </li>
+          ))}
+        </ul>
+
+        <div className="shrink-0 text-center">
+          <Button
+            className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 rounded-full shadow"
+            onClick={() => onCta(isPrestador ? "boost_prestador" : "boost_lojista", false)}
+            disabled={loading}
+          >
+            {loading ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : null}
+            Ativar Boost →
+          </Button>
+          <p className="text-xs text-muted-foreground mt-2">Exige plano base ativo</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnnualStrip({ anual, onToggle }) {
+  return (
+    <div className="flex items-center justify-center gap-4 py-4 px-6 bg-muted rounded-2xl mb-8">
+      <span className={`text-sm font-semibold ${!anual ? "text-foreground" : "text-muted-foreground"}`}>
+        Mensal
+      </span>
+
+      <button
+        role="switch"
+        aria-checked={anual}
+        onClick={onToggle}
+        className={`relative w-12 h-6 rounded-full transition-colors ${anual ? "bg-orange-500" : "bg-border"}`}
+      >
+        <span
+          className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${anual ? "translate-x-7" : "translate-x-1"}`}
+        />
       </button>
-      <span className={`text-sm font-semibold ${isAnnual ? 'text-foreground' : 'text-muted-foreground'}`}>
-        Anual <Badge className="ml-1 bg-green-100 text-green-700 text-xs">-17%</Badge>
+
+      <span className={`text-sm font-semibold ${anual ? "text-foreground" : "text-muted-foreground"}`}>
+        Anual
+      </span>
+      <span className="bg-green-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+        2 meses grátis
       </span>
     </div>
   );
 }
 
-// ─── Página Principal ──────────────────────────────────────────────────────────
+// ─── Página principal ────────────────────────────────────────────────────────
 
 export default function PlanosPage() {
+  const [aba, setAba] = useState("prestador");
+  const [anual, setAnual] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState(null);
-  const [isAnnual, setIsAnnual] = useState(false);
-
-  useEffect(() => {
-    document.title = "Planos e Preços — Trancoso Resolve";
-
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
-    meta.content = "Planos para prestadores e lojistas em Trancoso, Caraíva, Arraial d'Ajuda e Porto Seguro. Sem comissão sobre serviços. Boost de alta temporada. Cancele quando quiser.";
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-    canonical.href = `${window.location.origin}/Planos`;
-
-    let ogUrl = document.querySelector('meta[property="og:url"]');
-    if (!ogUrl) { ogUrl = document.createElement('meta'); ogUrl.setAttribute('property', 'og:url'); document.head.appendChild(ogUrl); }
-    ogUrl.content = `${window.location.origin}/Planos`;
-
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
-    ogTitle.content = 'Planos e Preços — Trancoso Resolve';
-
-    let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
-    ogDesc.content = 'Planos para prestadores e lojistas. Sem comissão. Boost de alta temporada. Cancele quando quiser.';
-
-    const schemaId = 'schema-planos';
-    const existing = document.getElementById(schemaId);
-    if (existing) existing.remove();
-    const schema = document.createElement('script');
-    schema.id = schemaId;
-    schema.type = 'application/ld+json';
-    schema.text = JSON.stringify({
-      "@context": "https://schema.org",
-      "@graph": [
-        {
-          "@type": "WebPage",
-          "name": "Planos e Preços — Trancoso Resolve",
-          "url": `${window.location.origin}/Planos`,
-          "description": "Planos para prestadores, lojistas e boost sazonal em Trancoso."
-        },
-        {
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Início", "item": `${window.location.origin}` },
-            { "@type": "ListItem", "position": 2, "name": "Planos", "item": `${window.location.origin}/Planos` }
-          ]
-        }
-      ]
-    });
-    document.head.appendChild(schema);
-    return () => { const s = document.getElementById(schemaId); if (s) s.remove(); };
-  }, []);
 
   const { data: user } = useQuery({
-    queryKey: ['currentUser'],
+    queryKey: ["currentUser"],
     queryFn: () => base44.auth.me(),
   });
 
   const { data: mySubscription } = useQuery({
-    queryKey: ['mySubscription', user?.email],
+    queryKey: ["mySubscription", user?.email],
     queryFn: async () => {
       if (!user?.email) return null;
       const subs = await base44.entities.Subscription.filter({ user_email: user.email });
@@ -231,82 +436,158 @@ export default function PlanosPage() {
     enabled: !!user,
   });
 
-  const { data: allProviders } = useQuery({
-    queryKey: ['allProviders'],
-    queryFn: () => base44.entities.ServiceProvider.list('-created_date', 500),
-    initialData: [],
+  // Contagem de vagas Fundador (prestadores ativos)
+  const { data: founderStats } = useQuery({
+    queryKey: ["founderProgress"],
+    queryFn: async () => {
+      const subs = await base44.entities.Subscription.list("-created_date", 200);
+      const taken =
+        subs?.filter(
+          s =>
+            (s.status === "active" || s.status === "trial") &&
+            (s.plan === "profissional" ||
+              s.plan === "lancamento" ||
+              s.plan === "prestador_profissional")
+        ).length || 0;
+      return { taken, remaining: Math.max(0, 100 - taken) };
+    },
+    staleTime: 60000,
   });
 
-  const totalVerificados = allProviders?.filter(p => p.verificado === true || p.status === 'ativo').length || 0;
-
-  // ─── Checkout ─────────────────────────────────────────────────────────────
-  const handleCheckout = async (plan, annual = false) => {
+  const handleCheckout = async (planKey, isAnual = false) => {
     if (window.self !== window.top) {
-      toast.error('O checkout só funciona no app publicado. Acesse trancosoresolve.com.br');
+      toast.error("O checkout só funciona no app publicado. Acesse trancosoresolve.com.br");
       return;
     }
     if (!user) {
       base44.auth.redirectToLogin(window.location.pathname);
       return;
     }
-    setLoadingPlan(plan);
+    setLoadingPlan(planKey);
     try {
-      const res = await base44.functions.invoke('createSubscriptionCheckout', { plan, is_annual: annual });
-      if (res.data?.error === 'vagas_esgotadas') {
+      const res = await base44.functions.invoke("createSubscriptionCheckout", {
+        plan: planKey,
+        billing: isAnual ? "annual" : "monthly",
+        user_email: user.email,
+      });
+      if (res.data?.error === "vagas_esgotadas") {
         toast.error(res.data.message);
-        setTimeout(() => handleCheckout('elite'), 1500);
         return;
       }
-      if (res.data?.redirect) {
-        window.location.href = res.data.redirect;
-        return;
-      }
-      if (res.data?.url) {
-        window.location.href = res.data.url;
-      }
+      if (res.data?.url) window.location.href = res.data.url;
     } catch {
-      toast.error('Erro ao iniciar pagamento. Tente novamente.');
+      toast.error("Erro ao iniciar pagamento. Tente novamente.");
     } finally {
       setLoadingPlan(null);
     }
   };
 
-  const hasActiveSub = mySubscription && (mySubscription.status === 'active' || mySubscription.status === 'trial');
-
-  // ─── Preços anuais (paga 10, leva 12) ────────────────────────────────────────
-  const annualPrice = (monthly) => monthly * 10;
+  const planos = aba === "prestador" ? PLANOS_PRESTADOR : PLANOS_LOJISTA;
+  const founderRestam = founderStats?.remaining ?? 100;
 
   return (
     <div className="bg-background min-h-screen py-12">
-      <div className="container mx-auto max-w-6xl px-4">
+      <div className="container mx-auto max-w-5xl px-4">
 
-        {/* ─── HERO ──────────────────────────────────────────────────────────── */}
-        <div className="text-center mb-6">
-          <h1 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3">
-            Planos para toda a Costa do Descobrimento
+        {/* Cabeçalho */}
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-extrabold text-foreground tracking-tight mb-3">
+            Escolha seu plano
           </h1>
-          <p className="text-muted-foreground text-base flex items-center justify-center gap-2">
-            <Users className="w-5 h-5 text-primary" />
-            {totalVerificados > 0
-              ? <span>Junte-se a <strong className="text-foreground">{totalVerificados}</strong> prestadores já verificados</span>
-              : <span>Seja um dos primeiros prestadores verificados de Trancoso</span>
-            }
+          <p className="text-muted-foreground max-w-lg mx-auto text-base">
+            Sem comissão sobre serviços. Você negocia direto com o cliente e fica com 100% do valor.
+          </p>
+          {aba === "prestador" && founderRestam > 0 && founderRestam <= 100 && (
+            <div className="mt-3 inline-flex items-center gap-2 bg-orange-900/30 border border-orange-600 text-orange-200 text-sm font-semibold rounded-full px-4 py-1.5">
+              <Shield className="w-4 h-4 text-orange-400" />
+              {founderRestam === 100
+                ? "Seja um dos 100 primeiros Prestadores Fundadores de Trancoso"
+                : `Restam ${founderRestam} vagas de Prestador Fundador — preço de lançamento R$19,90/mês`}
+            </div>
+          )}
+        </div>
+
+        {/* Toggle Prestador / Lojista */}
+        <div className="flex items-center justify-center mb-6">
+          <div className="inline-flex bg-muted p-1 rounded-full gap-1">
+            <button
+              onClick={() => setAba("prestador")}
+              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
+                aba === "prestador"
+                  ? "bg-orange-500 text-white shadow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Sou Prestador
+            </button>
+            <button
+              onClick={() => setAba("lojista")}
+              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
+                aba === "lojista"
+                  ? "bg-orange-500 text-white shadow"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              Sou Lojista
+            </button>
+          </div>
+        </div>
+
+        {/* Switch Mensal / Anual */}
+        <AnnualStrip anual={anual} onToggle={() => setAnual(v => !v)} />
+
+        {/* Cards de plano */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-4">
+          {planos.map(plano => (
+            <PlanCard
+              key={plano.id}
+              plano={plano}
+              anual={anual && plano.precoAnual !== null}
+              onCta={handleCheckout}
+              loading={loadingPlan === plano.ctaKey}
+            />
+          ))}
+        </div>
+
+        {/* Nota Mercado Pago */}
+        <p className="text-center text-muted-foreground text-xs mb-4">
+          Pagamento seguro via Mercado Pago — cancele quando quiser, sem multa.
+        </p>
+
+        {/* Transparência */}
+        <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 text-sm text-orange-200 text-center mb-2">
+          <strong>Transparência total:</strong> Sem comissão sobre seus serviços. Você negocia diretamente com o cliente e fica com 100% do valor.
+        </div>
+
+        {/* Boost Alta Temporada */}
+        <BoostSection
+          tipo={aba}
+          onCta={handleCheckout}
+          loading={loadingPlan === (aba === "prestador" ? "boost_prestador" : "boost_lojista")}
+        />
+
+        {/* Prova social */}
+        <div className="text-center mb-12">
+          <p className="text-muted-foreground text-sm flex items-center justify-center gap-2">
+            <Users className="w-5 h-5 text-orange-500" />
+            Junte-se aos primeiros prestadores verificados de Trancoso, Caraíva e Arraial d'Ajuda
           </p>
         </div>
 
-        {/* ─── Toggle Mensal/Anual ───────────────────────────────────────────── */}
-        <BillingToggle isAnnual={isAnnual} onChange={setIsAnnual} />
+        {/* Recursos */}
+        <section className="mb-10">
+          <PositionamentoEstrategico />
+        </section>
 
-        {/* ─── Assinatura ativa ──────────────────────────────────────────────── */}
-        {hasActiveSub && (
-          <div className="bg-card border border-border rounded-xl p-5 text-center mb-8 shadow-sm">
-            <Badge className="bg-primary/10 text-primary border border-primary/20 mb-2">
-              {mySubscription.status === 'trial' ? 'Período Gratuito' : 'Assinatura Ativa'}
-            </Badge>
+        {/* Assinatura ativa */}
+        {mySubscription?.status === "active" && (
+          <div className="bg-card border border-border rounded-xl p-4 text-center mb-8">
             <p className="text-sm text-muted-foreground mb-1">
-              Plano atual: <strong className="text-foreground capitalize">{mySubscription.plan?.replace(/_/g, ' ')}</strong>
-              {mySubscription.is_annual && ' (Anual)'}
-              {mySubscription.next_billing_date && ` — próxima cobrança em ${new Date(mySubscription.next_billing_date + 'T00:00:00').toLocaleDateString('pt-BR')}`}
+              Sua assinatura está ativa
+              {mySubscription.next_billing_date &&
+                ` — próxima cobrança em ${new Date(
+                  mySubscription.next_billing_date + "T00:00:00"
+                ).toLocaleDateString("pt-BR")}`}.
             </p>
             <div className="flex justify-center mt-3">
               <CancelSubscriptionButton accessUntil={mySubscription.next_billing_date} />
@@ -314,225 +595,24 @@ export default function PlanosPage() {
           </div>
         )}
 
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* ─── SEÇÃO 1: PRESTADOR ─────────────────────────────────────────────── */}
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <Zap className="w-6 h-6 text-primary" />
-            <h2 className="text-2xl font-bold text-foreground">Plano Prestador</h2>
-          </div>
-          <p className="text-sm text-muted-foreground mb-6">
-            Para diaristas, chefs, seguranças, técnicos, DJs e transfer. Renda variável, entrada barata.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Gratuito */}
-            <PlanCard
-              badge="🎁 Grátis"
-              badgeColor="bg-muted text-foreground"
-              headerGradient="bg-gradient-to-br from-muted to-accent"
-              icon={<Gift className="w-9 h-9 mx-auto opacity-90 text-primary-foreground" />}
-              name="Gratuito"
-              price={0}
-              priceSuffix="/30 dias"
-              trialLabel="Sem cartão de crédito"
-              benefits={BENEFICIOS_GRATUITO}
-              ctaLabel="Começar grátis"
-              onCta={() => handleCheckout('gratuito')}
-              loading={loadingPlan === 'gratuito'}
-              popular={false}
-            />
-
-            {/* Profissional */}
-            <PlanCard
-              badge="⭐ Popular"
-              badgeColor="bg-primary text-primary-foreground"
-              headerGradient="bg-gradient-to-br from-primary to-orange-600"
-              icon={<Zap className="w-9 h-9 mx-auto opacity-90" />}
-              name="Profissional"
-              price={isAnnual ? annualPrice(19.90) : 19.90}
-              priceSuffix={isAnnual ? "/ano" : "/mês"}
-              trialLabel="30 dias grátis — preço de lançamento"
-              benefits={BENEFICIOS_PROFISSIONAL}
-              ctaLabel={isAnnual ? "Assinar anual — R$ 199/ano" : "Assinar — R$ 19,90/mês"}
-              ctaNote="Cancele quando quiser, sem multa"
-              onCta={() => handleCheckout('profissional', isAnnual)}
-              loading={loadingPlan === 'profissional'}
-              popular={true}
-            />
-
-            {/* Elite */}
-            <PlanCard
-              badge="👑 Premium"
-              badgeColor="bg-amber-500 text-white"
-              headerGradient="bg-gradient-to-br from-amber-600 to-orange-700"
-              icon={<Crown className="w-9 h-9 mx-auto opacity-90" />}
-              name="Elite"
-              price={isAnnual ? annualPrice(197) : 197}
-              priceSuffix={isAnnual ? "/ano" : "/mês"}
-              trialLabel="7 dias grátis antes da cobrança"
-              benefits={BENEFICIOS_ELITE}
-              ctaLabel={isAnnual ? "Assinar anual — R$ 1.970/ano" : "Assinar — R$ 197/mês"}
-              ctaNote="Para prestadores que querem maximizar resultados"
-              onCta={() => handleCheckout('elite', isAnnual)}
-              loading={loadingPlan === 'elite'}
-              popular={false}
-            />
-          </div>
-        </div>
-
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* ─── SEÇÃO 2: LOJISTA ───────────────────────────────────────────────── */}
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <Store className="w-6 h-6 text-primary" />
-            <h2 className="text-2xl font-bold text-foreground">Plano Lojista</h2>
-          </div>
-          <p className="text-sm text-muted-foreground mb-6">
-            Para pousadas, restaurantes, lojas e beach clubs. Vitrine completa com fotos, catálogo, horários e reservas. Todos com 7 dias grátis.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Essencial */}
-            <PlanCard
-              badge="🏪 Inicial"
-              badgeColor="bg-muted text-foreground"
-              headerGradient="bg-gradient-to-br from-slate-600 to-slate-700"
-              icon={<Store className="w-9 h-9 mx-auto opacity-90" />}
-              name="Lojista Essencial"
-              price={isAnnual ? annualPrice(89) : 89}
-              priceSuffix={isAnnual ? "/ano" : "/mês"}
-              trialLabel="7 dias grátis"
-              benefits={BENEFICIOS_LOJISTA_ESSENCIAL}
-              ctaLabel={isAnnual ? "Assinar anual — R$ 890/ano" : "Assinar — R$ 89/mês"}
-              onCta={() => handleCheckout('lojista_essencial', isAnnual)}
-              loading={loadingPlan === 'lojista_essencial'}
-              popular={false}
-            />
-
-            {/* Pro */}
-            <PlanCard
-              badge="⭐ Popular"
-              badgeColor="bg-primary text-primary-foreground"
-              headerGradient="bg-gradient-to-br from-primary to-orange-600"
-              icon={<Store className="w-9 h-9 mx-auto opacity-90" />}
-              name="Lojista Pro"
-              price={isAnnual ? annualPrice(197) : 197}
-              priceSuffix={isAnnual ? "/ano" : "/mês"}
-              trialLabel="7 dias grátis"
-              benefits={BENEFICIOS_LOJISTA_PRO}
-              ctaLabel={isAnnual ? "Assinar anual — R$ 1.970/ano" : "Assinar — R$ 197/mês"}
-              onCta={() => handleCheckout('lojista_pro', isAnnual)}
-              loading={loadingPlan === 'lojista_pro'}
-              popular={true}
-            />
-
-            {/* Elite */}
-            <PlanCard
-              badge="👑 Premium"
-              badgeColor="bg-amber-500 text-white"
-              headerGradient="bg-gradient-to-br from-amber-600 to-orange-700"
-              icon={<Crown className="w-9 h-9 mx-auto opacity-90" />}
-              name="Lojista Elite"
-              price={isAnnual ? annualPrice(497) : 497}
-              priceSuffix={isAnnual ? "/ano" : "/mês"}
-              trialLabel="7 dias grátis"
-              benefits={BENEFICIOS_LOJISTA_ELITE}
-              ctaLabel={isAnnual ? "Assinar anual — R$ 4.970/ano" : "Assinar — R$ 497/mês"}
-              onCta={() => handleCheckout('lojista_elite', isAnnual)}
-              loading={loadingPlan === 'lojista_elite'}
-              popular={false}
-            />
-          </div>
-        </div>
-
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        {/* ─── SEÇÃO 3: BOOST SAZONAL ──────────────────────────────────────────── */}
-        {/* ═══════════════════════════════════════════════════════════════════ */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 mb-6">
-            <Waves className="w-6 h-6 text-primary" />
-            <h2 className="text-2xl font-bold text-foreground">Boost Alta Temporada</h2>
-          </div>
-          <p className="text-sm text-muted-foreground mb-6">
-            Add-on opcional, cobrado por mês apenas nos períodos de pico (dez, jan, fev e Carnaval). Empilha sobre qualquer plano — ativação e cancelamento pelo painel, sem fidelidade.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            {/* Boost Prestador */}
-            <PlanCard
-              badge="🌊 Sazonal"
-              badgeColor="bg-blue-500 text-white"
-              headerGradient="bg-gradient-to-br from-blue-500 to-cyan-600"
-              icon={<Waves className="w-9 h-9 mx-auto opacity-90" />}
-              name="Boost Prestador"
-              price={99}
-              priceSuffix="/mês"
-              trialLabel="Apenas dez–fev e Carnaval"
-              benefits={BENEFICIOS_BOOST_PRESTADOR}
-              ctaLabel="Ativar Boost — R$ 99/mês"
-              ctaNote="Add-on sobre qualquer plano prestador"
-              onCta={() => handleCheckout('boost_prestador')}
-              loading={loadingPlan === 'boost_prestador'}
-              popular={false}
-            />
-
-            {/* Boost Lojista */}
-            <PlanCard
-              badge="🌊 Sazonal"
-              badgeColor="bg-blue-500 text-white"
-              headerGradient="bg-gradient-to-br from-blue-600 to-indigo-700"
-              icon={<Waves className="w-9 h-9 mx-auto opacity-90" />}
-              name="Boost Lojista"
-              price={197}
-              priceSuffix="/mês"
-              trialLabel="Apenas dez–fev e Carnaval"
-              benefits={BENEFICIOS_BOOST_LOJISTA}
-              ctaLabel="Ativar Boost — R$ 197/mês"
-              ctaNote="Add-on sobre qualquer plano lojista"
-              onCta={() => handleCheckout('boost_lojista')}
-              loading={loadingPlan === 'boost_lojista'}
-              popular={false}
-            />
-          </div>
-        </div>
-
-        {/* ─── Transparência: sem comissão ──────────────────────────────────── */}
-        <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 text-sm text-center mb-8">
-          <Sparkles className="w-5 h-5 text-primary inline mr-2" />
-          <strong className="text-foreground">Sem comissão sobre serviços:</strong> você negocia diretamente com o cliente e fica com 100% do valor.
-        </div>
-
-        {/* ─── Plano Anual ─────────────────────────────────────────────────── */}
-        <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 border border-green-200 dark:border-green-900 rounded-xl p-6 text-center mb-10">
-          <div className="flex items-center justify-center gap-2 mb-2">
-            <Calendar className="w-6 h-6 text-green-600" />
-            <h3 className="text-xl font-bold text-foreground">Plano Anual: pague 10, leve 12</h3>
-          </div>
-          <p className="text-sm text-muted-foreground mb-3">
-            <strong className="text-green-700 dark:text-green-400">2 meses grátis</strong> no pagamento anual — cerca de 17% de desconto. Reduz churn e antecipa o caixa antes da temporada.
-          </p>
-          <p className="text-xs text-muted-foreground">
-            Aplicável aos planos Profissional, Elite e todos os Lojista. Use o toggle "Anual" acima para ver os preços.
-          </p>
-        </div>
-
-        {/* ─── Contato ──────────────────────────────────────────────────────── */}
-        <p className="text-center text-muted-foreground text-sm mb-10">
-          Dúvidas? Fale com a gente: <a href="mailto:contato@trancosoresolve.com.br" className="text-primary font-semibold hover:text-primary/80">contato@trancosoresolve.com.br</a>
-        </p>
-
-        {/* ─── FAQ ──────────────────────────────────────────────────────────── */}
-        <section className="max-w-2xl mx-auto mb-10">
-          <h2 className="text-2xl font-bold text-foreground text-center mb-6">Perguntas Frequentes</h2>
+        {/* FAQ */}
+        <section className="max-w-2xl mx-auto mb-16">
+          <h2 className="text-2xl font-extrabold text-foreground text-center mb-6">
+            Perguntas frequentes
+          </h2>
           <div className="space-y-3">
-            {FAQ_ITEMS.map((item, i) => (
-              <FaqItem key={i} q={item.q} a={item.a} />
+            {FAQ_ITEMS.map(item => (
+              <FaqItem key={item.q} q={item.q} r={item.r} />
             ))}
           </div>
         </section>
+
+        <p className="text-center text-muted-foreground text-sm pb-8">
+          Dúvidas?{" "}
+          <a href="mailto:suporte@trancosoresolve.com.br" className="underline text-foreground font-semibold">
+            suporte@trancosoresolve.com.br
+          </a>
+        </p>
       </div>
     </div>
   );

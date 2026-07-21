@@ -89,7 +89,6 @@ export default function ServicoDestino() {
 
   return (
     <div className="bg-background overflow-x-hidden">
-      {/* Hero */}
       <section className="bg-gradient-to-br from-[#1A1208] via-[#2d1f10] to-[#1A1208] text-white py-16 md:py-24">
         <div className="container mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-700/40 border border-orange-400/30 rounded-full px-4 py-1.5 text-sm font-medium text-orange-200 mb-6">
@@ -110,7 +109,6 @@ export default function ServicoDestino() {
         </div>
       </section>
 
-      {/* Benefícios */}
       <section className="py-16 container mx-auto max-w-5xl px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
@@ -129,7 +127,6 @@ export default function ServicoDestino() {
         </div>
       </section>
 
-      {/* Formulário */}
       <section className="py-16 bg-sand/30">
         <div className="container mx-auto max-w-2xl px-4">
           <h2 className="text-2xl font-bold text-center mb-2">
@@ -140,7 +137,6 @@ export default function ServicoDestino() {
         </div>
       </section>
 
-      {/* FAQ */}
       {faqs.length > 0 && (
         <section className="py-16 container mx-auto max-w-3xl px-4">
           <h2 className="text-2xl font-bold text-center mb-8">Perguntas frequentes sobre {categoriaLabel} em {destinoLabel}</h2>
@@ -158,7 +154,6 @@ export default function ServicoDestino() {
         </section>
       )}
 
-      {/* Botão flutuante WhatsApp */}
       <a
         href={waLink}
         target="_blank"

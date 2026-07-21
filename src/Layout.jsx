@@ -36,7 +36,6 @@ import SupportChat from "./components/support/SupportChat";
 import FeedbackCollector from "./components/feedback/FeedbackCollector";
 import BottomNav from "./components/BottomNav";
 import ProFloatingButton from "./components/banners/ProFloatingButton";
-import CompletarPerfilModal from "./components/auth/CompletarPerfilModal";
 import PWAPrompt from "./components/optimization/PWAPrompt";
 
 export default function Layout({ children, currentPageName }) {
@@ -102,8 +101,6 @@ export default function Layout({ children, currentPageName }) {
 
   // Verificação de admin centralizada em src/lib/adminConfig.js
   const isAdmin = isAdminUser(user);
-  const [perfilModalFechado, setPerfilModalFechado] = useState(false);
-  const precisaCompletarPerfil = !!user && !user.profile_completed && !user.phone && !location.pathname.includes('CadastroTipo') && location.pathname === '/' && !perfilModalFechado;
 
   const isPrestador = user?.user_type === 'prestador';
   const isLojista = user?.user_type === 'lojista';
@@ -412,7 +409,6 @@ export default function Layout({ children, currentPageName }) {
         <SupportChat />
         <FeedbackCollector />
         <PWAPrompt />
-        <CompletarPerfilModal user={user} open={precisaCompletarPerfil} onClose={() => setPerfilModalFechado(true)} />
       </ErrorBoundary>
     );
   }

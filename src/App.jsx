@@ -37,6 +37,7 @@ const SeoDashboard = lazy(() => import('@/pages/admin/SeoDashboard'));
 const ConfiguracaoMarketing = lazy(() => import('@/pages/admin/ConfiguracaoMarketing'));
 const DiaristaTrancoso = lazy(() => import('@/pages/servicos/DiaristaTrancoso'));
 const AdminMetricasPage = lazy(() => import('@/pages/AdminMetricas'));
+const AgendaGeralPage = lazy(() => import('@/pages/AgendaGeral'));
 const EletricistaTrancoso = lazy(() => import('@/pages/servicos/EletricistaTrancoso'));
 const PiscineiroTrancoso = lazy(() => import('@/pages/servicos/PiscineiroTrancoso'));
 const PedreiroTrancoso = lazy(() => import('@/pages/servicos/PedreiroTrancoso'));
@@ -153,6 +154,11 @@ const AuthenticatedApp = () => {
           <Route path="/AdminAntecedentes" element={
             <LayoutWrapper currentPageName="AdminAntecedentes">
               <AnimatedPage><AdminAntecedentesPage /></AnimatedPage>
+            </LayoutWrapper>
+          } />
+          <Route path="/AgendaGeral" element={
+            <LayoutWrapper currentPageName="AgendaGeral">
+              <AnimatedPage><AgendaGeralPage /></AnimatedPage>
             </LayoutWrapper>
           } />
         </Route>

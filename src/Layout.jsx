@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { useApp } from "@/contexts/AppContext";
 import {
   Home, Calendar, Briefcase, UserCog,
-  TrendingUp, CreditCard, Menu, X, FileText, User, Bot, Rocket, Globe, ShieldCheck, Banknote, ArrowLeft, ListOrdered, ChevronDown, MapPin, Sun, Moon, Megaphone } from
+  TrendingUp, CreditCard, Menu, X, FileText, User, Bot, Rocket, Globe, ShieldCheck, Banknote, ArrowLeft, ListOrdered, ChevronDown, MapPin, Sun, Moon, Megaphone, CalendarDays } from
 "lucide-react";
 
 import RoutePreloader from "./components/optimization/RoutePreloader";
@@ -111,6 +111,7 @@ export default function Layout({ children, currentPageName }) {
   const adminNavItems = isAdmin ? [
     { name: "Dashboard", path: createPageUrl("Dashboard"), icon: Home },
     { name: "Minha Agenda", path: createPageUrl("MinhaAgenda"), icon: Calendar },
+    { name: "Agenda Geral", path: "/AgendaGeral", icon: CalendarDays },
     { name: "Meus Serviços", path: createPageUrl("MeusServicos"), icon: Briefcase },
     { name: "Meu Perfil", path: createPageUrl("MeuPerfilPrestador"), icon: UserCog },
     { name: "Financeiro", path: createPageUrl("Financeiro"), icon: TrendingUp },

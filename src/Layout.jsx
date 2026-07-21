@@ -35,6 +35,7 @@ import AccessLogger from "./components/auth/AccessLogger";
 import SupportChat from "./components/support/SupportChat";
 import FeedbackCollector from "./components/feedback/FeedbackCollector";
 import BottomNav from "./components/BottomNav";
+import ProFloatingButton from "./components/banners/ProFloatingButton";
 import CompletarPerfilModal from "./components/auth/CompletarPerfilModal";
 import PWAPrompt from "./components/optimization/PWAPrompt";
 

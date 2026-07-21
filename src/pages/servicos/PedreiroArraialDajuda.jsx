@@ -1,0 +1,39 @@
+import ServicoLocalPage from '@/components/servicos/ServicoLocalPage';
+
+export default function PedreiroArrayalDajuda() {
+  return (
+    <ServicoLocalPage
+      title="Pedreiro em Arraial d'Ajuda, BA | Reformas e Obras — Trancoso Resolve"
+      metaDescription="Contrate pedreiro em Arraial d'Ajuda com verificação de identidade e antecedentes. Reformas, obras e manutenção de imóveis em Arraial d'Ajuda e região, Bahia."
+      keywords="pedreiro Arraial d'Ajuda, reforma Arraial Bahia, construção civil Arraial d'Ajuda BA, pedreiro verificado Arraial"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/pedreiro-arraial-dajuda"
+      schemaData={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Trancoso Resolve - Pedreiro Arraial d'Ajuda",
+        "description": "Pedreiros verificados em Arraial d'Ajuda, BA. Reformas e manutenção de imóveis.",
+        "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
+        "areaServed": { "@type": "City", "name": "Arraial d'Ajuda, BA" },
+        "geo": { "@type": "GeoCoordinates", "latitude": -16.4528, "longitude": -39.0789 }
+      }}
+      h1="Pedreiro em Arraial d'Ajuda: Reformas e Obras para Residências e Pousadas"
+      intro="Arraial d'Ajuda tem um mercado imobiliário ativo e crescente, com reformas, ampliações e novos projetos acontecendo o ano inteiro. Encontrar um pedreiro que conheça as particularidades do terreno, o clima úmido e os materiais locais faz toda a diferença no resultado. Na Trancoso Resolve, todos os pedreiros são verificados e avaliados por clientes reais."
+      servicesTitle="Serviços de pedreiro em Arraial d'Ajuda"
+      services={[
+        'Reformas residenciais completas',
+        'Construção de muros, cercas e estruturas externas',
+        'Acabamentos em alvenaria, revestimentos e pisos',
+        'Manutenção preventiva de imóveis (trincas, infiltrações, rachaduras)',
+        'Ampliações e adaptações de espaços',
+        'Serviços de calafetação e impermeabilização',
+      ]}
+      howTitle="Por que contratar pedreiro em Arraial d'Ajuda pela Trancoso Resolve?"
+      howText="A umidade do clima baiano acelera o desgaste de imóveis, tornando a manutenção preventiva essencial. Todos os pedreiros da plataforma passam por verificação de identidade e têm avaliações públicas de clientes anteriores — para você contratar com segurança e garantir qualidade na execução."
+      cta="Descreva sua necessidade em Arraial d'Ajuda e receba contato de pedreiros verificados e experientes na região."
+      ctaButton="Contratar pedreiro em Arraial d'Ajuda"
+      category="Pedreiro"
+      heroEmoji="🏗️"
+      locationLabel="Arraial d'Ajuda, Bahia"
+    />
+  );
+}

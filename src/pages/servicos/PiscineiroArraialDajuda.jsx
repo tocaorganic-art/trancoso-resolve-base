@@ -1,0 +1,39 @@
+import ServicoLocalPage from '@/components/servicos/ServicoLocalPage';
+
+export default function PiscineiroArrayalDajuda() {
+  return (
+    <ServicoLocalPage
+      title="Piscineiro em Arraial d'Ajuda, BA | Limpeza de Piscina — Trancoso Resolve"
+      metaDescription="Contrate piscineiro em Arraial d'Ajuda com verificação de identidade e antecedentes. Limpeza, tratamento e manutenção de piscinas em residências e pousadas em Arraial d'Ajuda, Bahia."
+      keywords="piscineiro Arraial d'Ajuda, manutenção piscina Arraial Bahia, limpeza piscina Arraial d'Ajuda BA, tratamento piscina Arraial"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/piscineiro-arraial-dajuda"
+      schemaData={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Trancoso Resolve - Piscineiro Arraial d'Ajuda",
+        "description": "Piscineiros verificados em Arraial d'Ajuda, BA. Limpeza e manutenção de piscinas em villas e pousadas.",
+        "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
+        "areaServed": { "@type": "City", "name": "Arraial d'Ajuda, BA" },
+        "geo": { "@type": "GeoCoordinates", "latitude": -16.4528, "longitude": -39.0789 }
+      }}
+      h1="Piscineiro em Arraial d'Ajuda: Manutenção e Tratamento de Piscinas"
+      intro="Uma piscina bem cuidada é o coração de muitas propriedades em Arraial d'Ajuda. Com o calor intenso e o alto índice de uso durante a temporada, a manutenção regular é essencial para garantir água cristalina e segurança para os hóspedes. Na Trancoso Resolve você contrata piscineiros verificados, com experiência no clima tropical baiano."
+      servicesTitle="Serviços de piscineiro em Arraial d'Ajuda"
+      services={[
+        'Limpeza e aspiração de piscinas residenciais e comerciais',
+        'Tratamento químico e controle de pH e cloro',
+        'Manutenção de bombas, filtros e sistemas de aquecimento',
+        'Limpeza de azulejos, bordas e ralos',
+        'Planos de manutenção periódica semanal ou quinzenal',
+        'Vistorias e laudos para piscinas em condomínios e pousadas',
+      ]}
+      howTitle="Por que contratar piscineiro em Arraial d'Ajuda pela Trancoso Resolve?"
+      howText="O calor e a umidade de Arraial d'Ajuda criam condições ideais para o crescimento de algas e bactérias em piscinas sem manutenção adequada. Todos os piscineiros da plataforma são verificados e avaliados por clientes reais — para você contratar com segurança e garantir uma piscina sempre impecável."
+      cta="Descreva sua necessidade em Arraial d'Ajuda e receba contato de piscineiros verificados e experientes na região."
+      ctaButton="Contratar piscineiro em Arraial d'Ajuda"
+      category="Piscineiro"
+      heroEmoji="🏊"
+      locationLabel="Arraial d'Ajuda, Bahia"
+    />
+  );
+}

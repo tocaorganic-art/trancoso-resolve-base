@@ -52,7 +52,6 @@ export default function DestinoHub() {
 
   return (
     <div className="bg-background overflow-x-hidden">
-      {/* Hero */}
       <section className="relative bg-gradient-to-br from-[#1A1208] via-[#3a2d18] to-[#1A1208] text-white py-20 md:py-32 overflow-hidden">
         <div className="relative container mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-700/40 border border-orange-400/30 rounded-full px-4 py-1.5 text-sm font-medium text-orange-200 mb-6">
@@ -76,7 +75,6 @@ export default function DestinoHub() {
         </div>
       </section>
 
-      {/* Destaques */}
       <section className="py-16 container mx-auto max-w-5xl px-4">
         <h2 className="text-2xl font-bold text-neutral-900 mb-8 text-center">
           Por que Trancoso Resolve em {label}?
@@ -96,7 +94,6 @@ export default function DestinoHub() {
         </div>
       </section>
 
-      {/* Grid de categorias */}
       <section className="py-16 bg-sand/30">
         <div className="container mx-auto max-w-5xl px-4">
           <h2 className="text-2xl font-bold text-neutral-900 mb-8 text-center">
@@ -115,7 +112,6 @@ export default function DestinoHub() {
         </div>
       </section>
 
-      {/* Formulário */}
       <section className="py-16">
         <div className="container mx-auto max-w-2xl px-4">
           <h2 className="text-2xl font-bold text-center mb-8">Pedir orçamento em {label}</h2>

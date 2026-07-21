@@ -1,4 +1,4 @@
-// deploy-trigger: 2026-07-21T19:25
+// v2026-07-21
 import './App.css'
 import { useEffect } from 'react'
 import { Toaster } from "@/components/ui/toaster"

@@ -172,7 +172,7 @@ export default function Layout({ children, currentPageName }) {
                     ? "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/3e1e2e7fa_logo-lockup-dark.svg"
                     : "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/2f371d976_logo-lockup.svg"}
                   alt="Trancoso Resolve - Serviços em Trancoso, Bahia"
-                  className="h-10 md:h-12 w-auto shrink-0"
+                  className="h-9 md:h-12 w-auto max-w-[46vw] object-contain shrink-0"
                   height="48"
                   loading="eager"
                   fetchPriority="high"
@@ -223,10 +223,10 @@ export default function Layout({ children, currentPageName }) {
                 )}
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-0.5 md:gap-1 shrink-0">
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="text-foreground gap-1 px-2 h-8 text-xs font-bold">
+                    <Button variant="ghost" size="sm" className="text-foreground gap-1 px-1.5 md:px-2 h-8 text-xs font-bold">
                       <Globe className="w-3.5 h-3.5" />
                       {lang.toUpperCase()}
                       <ChevronDown className="w-3 h-3" />
@@ -252,9 +252,9 @@ export default function Layout({ children, currentPageName }) {
                 {user ?
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="flex items-center gap-2 text-foreground" data-testid="user-menu-trigger">
+                      <Button variant="ghost" className="flex items-center gap-2 text-foreground px-2" data-testid="user-menu-trigger">
                         <User className="w-5 h-5" />
-                        <span>{user.full_name || user.email}</span>
+                        <span className="hidden lg:inline max-w-[140px] truncate">{user.full_name || user.email}</span>
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">

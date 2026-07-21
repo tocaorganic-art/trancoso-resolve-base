@@ -92,7 +92,7 @@ export default function ProviderGrid({
         }
 
         if (viewMode === 'map') {
-            return <div className="col-span-full"><ProvidersMap providers={filteredProviders} /></div>;
+            return <div className="col-span-full"><ProvidersMap providers={filteredProviders} cityFilter={cityFilter} /></div>;
         }
         
         return filteredProviders.map((provider) => <ProviderCard key={provider.id} provider={provider} />);

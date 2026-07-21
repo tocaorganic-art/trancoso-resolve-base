@@ -16,12 +16,14 @@ export default function ProviderGrid({
     ratingFilter,
     availabilityFilter,
     neighborhoodFilter,
+    cityFilter,
     selectedCategory,
     setSearchQuery,
     setPriceFilter,
     setRatingFilter,
     setAvailabilityFilter,
     setNeighborhoodFilter,
+    setCityFilter,
     setSelectedCategory
 }) {
     const renderContent = () => {
@@ -54,7 +56,7 @@ export default function ProviderGrid({
         }
         
         if (filteredProviders.length === 0) {
-            const hasActiveFilters = priceFilter !== 'all' || ratingFilter !== 'all' || availabilityFilter !== 'all' || neighborhoodFilter !== 'all' || searchQuery.trim() !== '';
+            const hasActiveFilters = priceFilter !== 'all' || ratingFilter !== 'all' || availabilityFilter !== 'all' || neighborhoodFilter !== 'all' || cityFilter !== 'all' || searchQuery.trim() !== '';
             const hasSearchQuery = searchQuery.trim() !== '';
 
             return (
@@ -74,7 +76,7 @@ export default function ProviderGrid({
                         {hasActiveFilters && (
                             <Button variant="outline" onClick={() => {
                                 setSearchQuery(''); setPriceFilter('all'); setRatingFilter('all');
-                                setAvailabilityFilter('all'); setNeighborhoodFilter('all'); setSelectedCategory('Todos');
+                                setAvailabilityFilter('all'); setNeighborhoodFilter('all'); setCityFilter('all'); setSelectedCategory('Todos');
                             }} className="gap-2">
                                 <Filter className="w-4 h-4" /> Limpar Filtros
                             </Button>

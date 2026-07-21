@@ -30,6 +30,7 @@ export default function ServicosCategoriaPage() {
   const [ratingFilter, setRatingFilter] = useState("all");
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
   const [neighborhoodFilter, setNeighborhoodFilter] = useState("all");
+  const [cityFilter, setCityFilter] = useState("all");
   const [isSearching, setIsSearching] = useState(false);
   const [aiFilteredProviderIds, setAiFilteredProviderIds] = useState(null);
   const [viewMode, setViewMode] = useState('list');
@@ -74,10 +75,11 @@ export default function ServicosCategoriaPage() {
       const matchesRating = ratingFilter === "all" || (provider.rating && provider.rating >= parseFloat(ratingFilter));
       const matchesAvailability = availabilityFilter === "all" || provider.availability === availabilityFilter;
       const matchesNeighborhood = neighborhoodFilter === "all" || provider.location?.neighborhood === neighborhoodFilter;
+      const matchesCity = cityFilter === "all" || (provider.location?.city && provider.location.city.toLowerCase().includes(cityFilter.toLowerCase()));
       
-      return matchesCategory && matchesSearch && matchesPrice && matchesRating && matchesAvailability && matchesNeighborhood;
+      return matchesCategory && matchesSearch && matchesPrice && matchesRating && matchesAvailability && matchesNeighborhood && matchesCity;
     });
-  }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds, priceFilter, ratingFilter, availabilityFilter, neighborhoodFilter]);
+  }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds, priceFilter, ratingFilter, availabilityFilter, neighborhoodFilter, cityFilter]);
 
   // ⭐ STEP 3: Compute filter counts AFTER providers is available
   const filterCounts = useMemo(() => {
@@ -93,6 +95,15 @@ export default function ServicosCategoriaPage() {
     });
 
     const neighborhoods = [...new Set(baseFiltered.map(p => p.location?.neighborhood).filter(Boolean))].sort();
+
+    const cityMatch = (p, term) => !!(p.location?.city && p.location.city.toLowerCase().includes(term));
+    const cities = {
+      all: baseFiltered.length,
+      'Trancoso': baseFiltered.filter(p => cityMatch(p, 'trancoso')).length,
+      'Caraíva': baseFiltered.filter(p => cityMatch(p, 'caraíva')).length,
+      'Arraial d\'Ajuda': baseFiltered.filter(p => cityMatch(p, 'arraial')).length,
+      'Porto Seguro': baseFiltered.filter(p => cityMatch(p, 'porto seguro')).length,
+    };
 
     return {
       price: {
@@ -113,6 +124,7 @@ export default function ServicosCategoriaPage() {
         'Ocupado': baseFiltered.filter(p => p.availability === 'Ocupado').length,
       },
       neighborhoods,
+      cities,
     };
   }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds]);
 
@@ -318,6 +330,8 @@ export default function ServicosCategoriaPage() {
           setAvailabilityFilter={setAvailabilityFilter}
           neighborhoodFilter={neighborhoodFilter}
           setNeighborhoodFilter={setNeighborhoodFilter}
+          cityFilter={cityFilter}
+          setCityFilter={setCityFilter}
           filterCounts={filterCounts}
           viewMode={viewMode}
           setViewMode={setViewMode}
@@ -347,12 +361,14 @@ export default function ServicosCategoriaPage() {
           ratingFilter={ratingFilter}
           availabilityFilter={availabilityFilter}
           neighborhoodFilter={neighborhoodFilter}
+          cityFilter={cityFilter}
           selectedCategory={selectedCategory}
           setSearchQuery={setSearchQuery}
           setPriceFilter={setPriceFilter}
           setRatingFilter={setRatingFilter}
           setAvailabilityFilter={setAvailabilityFilter}
           setNeighborhoodFilter={setNeighborhoodFilter}
+          setCityFilter={setCityFilter}
           setSelectedCategory={setSelectedCategory}
         />
       </div>

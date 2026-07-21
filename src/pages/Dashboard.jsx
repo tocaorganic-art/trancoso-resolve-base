@@ -141,6 +141,7 @@ function DashboardContent() {
   return (
     <div className="min-h-screen bg-[#0a1628] pb-24">
     {checkoutSuccess && <CheckoutSuccessBanner />}
+    <FounderBanner />
 
     <div className="mb-8 pt-4">
       <div className="flex items-center gap-3">

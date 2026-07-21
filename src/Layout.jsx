@@ -490,6 +490,7 @@ export default function Layout({ children, currentPageName }) {
         <OfflineIndicator />
         <CookieConsent />
       </div>
+      <ProFloatingButton />
       <SupportChat />
       <FeedbackCollector />
       <PWAPrompt />

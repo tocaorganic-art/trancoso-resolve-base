@@ -9,6 +9,7 @@ Allow: /planos
 Allow: /sobre
 Allow: /contato
 Allow: /Assistentevirtual
+Allow: /guides/
 
 # Não indexar rotas autenticadas / privadas
 Disallow: /Dashboard

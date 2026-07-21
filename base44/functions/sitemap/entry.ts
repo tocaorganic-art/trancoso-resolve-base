@@ -78,6 +78,7 @@ const staticPages = [
   { path: '/servicos/piscineiro-arraial-dajuda',  priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/jardineiro-arraial-dajuda',  priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/pedreiro-arraial-dajuda',    priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/cozinheiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },\n  { path: '/servicos/dj-trancoso',               priority: '0.9', changefreq: 'weekly' },\n\n  // === GUIAS E CONTEÚDO EDITORIAL ===\n  { path: '/guides/morar-em-trancoso',           priority: '0.8', changefreq: 'monthly' },\n\n  // === PÁGINAS ESPECIAIS (CASAMENTO/EVENTOS) ===\n  { path: '/destinos/casamento-trancoso',         priority: '0.9', changefreq: 'weekly' },\n  { path: '/destinos/reveillon-trancoso',         priority: '0.9', changefreq: 'weekly' },
 ];
 
 /**

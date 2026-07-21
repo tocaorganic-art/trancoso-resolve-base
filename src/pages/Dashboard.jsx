@@ -13,6 +13,7 @@ import GettingStartedGuide from "../components/dashboard/GettingStartedGuide";
 import PermissionChecker from "../components/auth/PermissionChecker";
 import SubscriptionPaywall from "../components/dashboard/SubscriptionPaywall";
 import CheckoutSuccessBanner from "../components/dashboard/CheckoutSuccessBanner";
+import FounderBanner from "@/components/banners/FounderBanner";
 import { motion } from "framer-motion";
 
 export default function DashboardPage() {

@@ -77,7 +77,7 @@ const PLANOS_PRESTADOR = [
       "Serviços ilimitados ativos",
       "Prioridade máxima nas buscas",
       "Destaque na página inicial",
-      "Assistente IA premium (TrIA)",
+      "Assistente IA premium (TryA)",
       "Gerador de imagens IA",
       "Painel financeiro avançado",
       "Suporte prioritário dedicado",
@@ -151,7 +151,7 @@ const PLANOS_LOJISTA = [
       "Tudo do Pro",
       "Posição fixa no topo das buscas",
       "Destaque na página inicial da plataforma",
-      "Assistente IA TrIA + gerador de imagens",
+      "Assistente IA TryA + gerador de imagens",
       "Relatórios avançados com exportação",
       "Integração com Instagram / WhatsApp Business",
       "Suporte prioritário dedicado",
@@ -361,7 +361,7 @@ function BoostSection({ tipo, onCta, loading }) {
                 "Posição fixa no topo das buscas da categoria",
                 "Destaque na página inicial durante o pico",
                 'Banner "Aberto na Temporada"',
-                "Prioridade no assistente TrIA para captação",
+                "Prioridade no assistente TryA para captação",
               ]
           ).map((f, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">

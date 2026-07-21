@@ -6,7 +6,7 @@ const CTA_URL = "https://trancosoresolve.com.br/SejaPrestador";
 const DEADLINE = new Date("2025-05-19T00:00:00-03:00").getTime();
 
 const BENEFICIOS = [
-  { emoji: "🤖", title: "Novos clientes todo dia com Toca TrIA", desc: "Nossa inteligência artificial conecta você automaticamente com quem precisa do seu serviço em Trancoso." },
+  { emoji: "🤖", title: "Novos clientes todo dia com TryA", desc: "Nossa inteligência artificial conecta você automaticamente com quem precisa do seu serviço em Trancoso." },
   { emoji: "⭐", title: "Perfil em destaque na vitrine oficial", desc: "Seu nome aparece nos primeiros resultados da plataforma durante toda a fase de lançamento." },
   { emoji: "📊", title: "Estatísticas detalhadas", desc: "Visualizações, cliques e desempenho do seu serviço num painel claro e fácil de entender." },
   { emoji: "💰", title: "Dashboard financeiro completo", desc: "Organize orçamentos, cobranças e recebimentos num só lugar." },

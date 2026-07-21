@@ -18,7 +18,7 @@ function EmptyConversations() {
   return (
     <div className="flex flex-col items-center justify-center h-full p-6 text-center">
       <span className="text-5xl mb-4">💬</span>
-      <h3 className="text-lg font-bold text-slate-800 mb-2">Olá! Sou o Toca TrIA 👋</h3>
+      <h3 className="text-lg font-bold text-slate-800 mb-2">Olá! Sou o TryA 👋</h3>
       <p className="text-sm text-slate-500 mb-6 max-w-xs leading-relaxed">
         Seu assistente para encontrar os melhores profissionais em Trancoso. Como posso ajudar hoje?
       </p>

@@ -29,8 +29,8 @@ const beneficios = [
   },
   {
     icon: <Bot className="w-8 h-8 text-purple-600" />,
-    title: "Toca TrIA: Agente de IA 24h",
-    description: "Mais do que um assistente, o Toca TrIA automatiza agendamentos, responde a perguntas frequentes e qualifica leads — trabalhando por você enquanto você foca no serviço."
+    title: "TryA: Agente de IA 24h",
+    description: "Mais do que um assistente, o TryA automatiza agendamentos, responde a perguntas frequentes e qualifica leads — trabalhando por você enquanto você foca no serviço."
   },
   {
     icon: <Camera className="w-8 h-8 text-amber-500" />,

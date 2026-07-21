@@ -146,7 +146,7 @@ export default function TrIAResearchMode() {
                 <li>• Use termos específicos para resultados mais precisos</li>
                 <li>• Combine palavras-chave (ex: "roteiro + gastronomia")</li>
                 <li>• Pesquise por datas para informações atualizadas</li>
-                <li>• Mencione "Toca TrIA" para recomendações personalizadas</li>
+                <li>• Mencione "TryA" para recomendações personalizadas</li>
               </ul>
             </div>
           </div>

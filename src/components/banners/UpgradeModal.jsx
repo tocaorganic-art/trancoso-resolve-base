@@ -40,13 +40,13 @@ const FEATURE_CONFIGS = {
   },
   ia: {
     title: "Assistente IA exclusivo do Elite",
-    description: "A TrIA ajuda você a captar mais clientes, redigir propostas e analisar seu desempenho.",
+    description: "A TryA ajuda você a captar mais clientes, redigir propostas e analisar seu desempenho.",
     plan: "Premium Elite",
     price: "R$197/mês",
     trial: "7 dias grátis",
     planKey: "prestador_elite",
     features: [
-      "Assistente IA premium (TrIA)",
+      "Assistente IA premium (TryA)",
       "Gerador de imagens IA",
       "Serviços ilimitados",
       "Prioridade máxima nas buscas",

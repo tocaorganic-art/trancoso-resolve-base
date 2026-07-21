@@ -17,7 +17,7 @@ const pillars = [
   },
   {
     icon: <Bot className="w-7 h-7 text-purple-400" />,
-    title: "Toca TrIA — IA 24 horas",
+    title: "TryA — IA 24 horas",
     desc: "Nosso agente de inteligência artificial está disponível a qualquer momento para sugerir o profissional certo, responder dúvidas e agilizar seu pedido — tudo em português (e espanhol)."
   },
   {
@@ -125,7 +125,7 @@ export default function AboutPage() {
                 'Avaliações auditadas e transparentes',
                 'Suporte em português, inglês e espanhol (argentino)',
                 'Pagamentos seguros via Mercado Pago (Pix e cartão)',
-                'IA integrada: Toca TrIA e Toca Vision',
+                'IA integrada: TryA e Toca Vision',
                 'Dashboard financeiro completo para prestadores',
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3">

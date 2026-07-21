@@ -1,8 +1,6 @@
 import './App.css'
 import { useEffect } from 'react'
 import { Toaster } from "@/components/ui/toaster"
-import { Analytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/react'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { AppProvider } from '@/contexts/AppContext'
 import { queryClientInstance } from '@/lib/query-client'
@@ -265,8 +263,6 @@ function App() {
               <AndroidBackHandler />
               <AndroidBottomTabsPreserver />
               <AuthenticatedApp />
-              <Analytics />
-              <SpeedInsights />
             </Router>
             <Toaster />
             {import.meta.env.DEV && <VisualEditAgent />}

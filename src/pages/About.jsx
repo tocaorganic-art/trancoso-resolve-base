@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Shield, Star, Bot, Camera, BarChart2, Users, ArrowRight, CheckCircle, MapPin } from 'lucide-react';
+import { Shield, Star, Bot, Camera, BarChart2, Users, ArrowRight, CheckCircle, MapPin, Home, Plane, Wrench } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const pillars = [

@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, Calendar, Smile, UserCheck, Briefcase, BarChart } from 'lucide-react';
+import { Search, Calendar, Smile, UserCheck, Briefcase, BarChart, CheckCircle, Star, MapPin, MessageCircle, Sparkles, Zap, Wrench, Leaf, ChefHat, Hammer, Brush, Baby, UtensilsCrossed } from 'lucide-react';
+
+const ICON_COLOR = "#E8571A";
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { createPageUrl } from '@/utils';
@@ -182,13 +184,13 @@ export default function ComoFuncionaPage() {
         <section className="mb-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {[
-              { emoji: '✅', label: 'Verificados', sub: 'Identidade + Antecedentes' },
-              { emoji: '⭐', label: 'Avaliados', sub: 'Feedbacks reais de clientes' },
-              { emoji: '📍', label: 'Locais', sub: 'Profissionais de Trancoso' },
-              { emoji: '💬', label: 'Ágeis', sub: 'Contato direto via WhatsApp' },
+              { Icon: CheckCircle, label: 'Verificados', sub: 'Identidade + Antecedentes' },
+              { Icon: Star, label: 'Avaliados', sub: 'Feedbacks reais de clientes' },
+              { Icon: MapPin, label: 'Locais', sub: 'Profissionais de Trancoso' },
+              { Icon: MessageCircle, label: 'Ágeis', sub: 'Contato direto via WhatsApp' },
             ].map((item, i) => (
               <div key={i} className="bg-card rounded-xl p-5 shadow-sm border border-border">
-                <span className="text-3xl block mb-2">{item.emoji}</span>
+                <item.Icon className="w-8 h-8 mb-2 mx-auto" style={{ color: ICON_COLOR }} aria-hidden="true" />
                 <p className="font-bold text-foreground">{item.label}</p>
                 <p className="text-xs text-muted-foreground mt-1">{item.sub}</p>
               </div>
@@ -202,18 +204,19 @@ export default function ComoFuncionaPage() {
           <p className="text-muted-foreground mb-6">Navegue pelas categorias e encontre o profissional ideal para cada necessidade:</p>
           <div className="flex flex-wrap gap-3">
             {[
-              { slug: 'limpeza-trancoso', label: '🧹 Limpeza em Trancoso' },
-              { slug: 'eletricista-trancoso', label: '⚡ Eletricista em Trancoso' },
-              { slug: 'encanador-trancoso', label: '🔧 Encanador em Trancoso' },
-              { slug: 'jardinagem-trancoso', label: '🌿 Jardineiro em Trancoso' },
-              { slug: 'cozinheiro-trancoso', label: '👨‍🍳 Cozinheiro em Trancoso' },
-              { slug: 'pedreiro-trancoso', label: '🏗️ Pedreiro em Trancoso' },
-              { slug: 'pintor-trancoso', label: '🖌️ Pintor em Trancoso' },
-              { slug: 'baba-trancoso', label: '👶 Babá em Trancoso' },
-              { slug: 'garcom-trancoso', label: '🍽️ Garçom em Trancoso' },
+              { slug: 'limpeza-trancoso', label: 'Limpeza em Trancoso', Icon: Sparkles },
+              { slug: 'eletricista-trancoso', label: 'Eletricista em Trancoso', Icon: Zap },
+              { slug: 'encanador-trancoso', label: 'Encanador em Trancoso', Icon: Wrench },
+              { slug: 'jardinagem-trancoso', label: 'Jardineiro em Trancoso', Icon: Leaf },
+              { slug: 'cozinheiro-trancoso', label: 'Cozinheiro em Trancoso', Icon: ChefHat },
+              { slug: 'pedreiro-trancoso', label: 'Pedreiro em Trancoso', Icon: Hammer },
+              { slug: 'pintor-trancoso', label: 'Pintor em Trancoso', Icon: Brush },
+              { slug: 'baba-trancoso', label: 'Babá em Trancoso', Icon: Baby },
+              { slug: 'garcom-trancoso', label: 'Garçom em Trancoso', Icon: UtensilsCrossed },
             ].map(item => (
               <Link key={item.slug} to={`/ServicoLanding?slug=${item.slug}`}>
-                <span className="inline-block bg-secondary hover:bg-primary/10 hover:text-primary border border-border hover:border-primary/30 rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors cursor-pointer">
+                <span className="inline-flex items-center gap-1.5 bg-secondary hover:bg-primary/10 hover:text-primary border border-border hover:border-primary/30 rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors cursor-pointer">
+                  <item.Icon className="w-4 h-4 flex-shrink-0" style={{ color: ICON_COLOR }} aria-hidden="true" />
                   {item.label}
                 </span>
               </Link>

@@ -3,10 +3,10 @@ import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  logLevel: 'error',
+  logLevel: 'info',
   plugins: [
     base44({
-      legacySDKImports: process.env.BASE44_LEGACY_SDK_IMPORTS !== 'false'
+      legacySDKImports: true
     }),
     react(),
   ],

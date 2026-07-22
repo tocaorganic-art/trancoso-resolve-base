@@ -169,23 +169,23 @@ export default function AboutPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                emoji: '🏡',
+                Icon: Home,
                 title: 'Moradores & Proprietários',
                 desc: 'Mantenha sua casa, pousada ou villa com os melhores profissionais locais — verificados, avaliados e sempre disponíveis quando você precisa.'
               },
               {
-                emoji: '✈️',
+                Icon: Plane,
                 title: 'Turistas & Visitantes',
                 desc: 'Chegou a Trancoso e precisa de um eletricista, diarista ou cozinheiro? Contrate com segurança em minutos, sem precisar de indicação.'
               },
               {
-                emoji: '🔧',
+                Icon: Wrench,
                 title: 'Prestadores de Serviço',
                 desc: 'Acesse uma audiência VIP, receba mais pedidos, organize seu negócio com IA e construa uma reputação digital sólida em Trancoso.'
               },
             ].map((card, i) => (
               <div key={i} className="bg-card border border-border rounded-2xl p-6 text-center">
-                <span className="text-4xl block mb-4">{card.emoji}</span>
+                <card.Icon className="w-10 h-10 mb-4 mx-auto" style={{ color: '#E8571A' }} aria-hidden="true" />
                 <h3 className="font-bold text-lg mb-2 text-foreground">{card.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{card.desc}</p>
               </div>

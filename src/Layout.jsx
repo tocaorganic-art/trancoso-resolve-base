@@ -76,10 +76,6 @@ export default function Layout({ children, currentPageName }) {
       '/Chat': 'Minhas Conversas | Trancoso Resolve',
       '/About': 'Sobre Nós | Trancoso Resolve',
       '/Contact': 'Contato | Trancoso Resolve',
-      '/Planos': 'Planos e Preços | Trancoso Resolve',
-      '/SejaPrestador': 'Seja um Prestador | Trancoso Resolve',
-      '/ComoFunciona': 'Como Funciona | Trancoso Resolve',
-      '/Assistentevirtual': 'Assistente IA | Trancoso Resolve',
       '/login': 'Entrar | Trancoso Resolve',
       '/register': 'Cadastrar | Trancoso Resolve',
     };

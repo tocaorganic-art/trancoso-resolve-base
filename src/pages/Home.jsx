@@ -15,8 +15,11 @@ import ServiceCarousel from "@/components/home/ServiceCarousel";
 import SocialProofBar from "@/components/home/SocialProofBar";
 import CTAPrestador from "@/components/home/CTAPrestador";
 import { UtensilsCrossed, Hammer, Leaf,
-  Baby, Zap, Star, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, ChevronLeft, ChevronRight
+  Baby, Zap, Star, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, ChevronLeft, ChevronRight,
+  Sparkles, ChefHat, Brush, Waves, Anchor, Sun
 } from "lucide-react";
+
+const ICON_COLOR = "#E8571A";
 import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";
 import LeadCaptureForm from "@/components/servicos/LeadCaptureForm";
@@ -481,20 +484,20 @@ export default function HomePage() {
              </div>
              <div ref={catScrollRef} className="flex overflow-x-auto gap-3 pb-3 snap-x -mx-4 px-4 md:mx-0 md:px-0" style={{scrollbarWidth:'none',msOverflowStyle:'none'}}>
              {[
-               { slug: 'limpeza-trancoso', label: 'Diarista', emoji: '🧹' },
-               { slug: 'eletricista-trancoso', label: 'Eletricista', emoji: '⚡' },
-               { slug: 'encanador-trancoso', label: 'Encanador', emoji: '🔧' },
-               { slug: 'jardinagem-trancoso', label: 'Jardineiro', emoji: '🌿' },
-               { slug: 'cozinheiro-trancoso', label: 'Cozinheiro', emoji: '👨‍🍳' },
-               { slug: 'pedreiro-trancoso', label: 'Pedreiro', emoji: '🏗️' },
-               { slug: 'pintor-trancoso', label: 'Pintor', emoji: '🖌️' },
-               { slug: 'baba-trancoso', label: 'Babá', emoji: '👶' },
-               { slug: 'garcom-trancoso', label: 'Garçom', emoji: '🍽️' },
+               { slug: 'limpeza-trancoso', label: 'Diarista', Icon: Sparkles },
+               { slug: 'eletricista-trancoso', label: 'Eletricista', Icon: Zap },
+               { slug: 'encanador-trancoso', label: 'Encanador', Icon: Wrench },
+               { slug: 'jardinagem-trancoso', label: 'Jardineiro', Icon: Leaf },
+               { slug: 'cozinheiro-trancoso', label: 'Cozinheiro', Icon: ChefHat },
+               { slug: 'pedreiro-trancoso', label: 'Pedreiro', Icon: Hammer },
+               { slug: 'pintor-trancoso', label: 'Pintor', Icon: Brush },
+               { slug: 'baba-trancoso', label: 'Babá', Icon: Baby },
+               { slug: 'garcom-trancoso', label: 'Garçom', Icon: UtensilsCrossed },
              ].map(item => (
                <div key={item.slug} className="flex-shrink-0 w-[148px] snap-start">
                  <Link to={`/ServicoLanding?slug=${item.slug}`}>
                    <div className="bg-card rounded-2xl p-4 text-center shadow-md hover:shadow-lg transition-all duration-300 border-2 border-border hover:border-primary cursor-pointer group flex flex-col items-center justify-center h-full min-h-[120px]">
-                     <span className="text-3xl block mb-2" aria-hidden="true">{item.emoji}</span>
+                     <item.Icon className="w-8 h-8 mb-2 mx-auto" style={{ color: ICON_COLOR }} aria-hidden="true" />
                      <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
                      <span className="block text-xs font-medium text-muted-foreground mt-1">na região</span>
                    </div>
@@ -566,7 +569,7 @@ export default function HomePage() {
             {[
               {
                 cidade: 'Trancoso',
-                emoji: '🏄',
+                Icon: Waves,
                 desc: 'O destino mais icônico — villas de luxo, pousadas e o famoso Quadrado.',
                 destinoHref: '/destinos/trancoso',
                 links: [
@@ -577,7 +580,7 @@ export default function HomePage() {
               },
               {
                 cidade: 'Porto Seguro',
-                emoji: '⚓',
+                Icon: Anchor,
                 desc: 'A maior cidade da região — hotéis, resorts e residências de alto padrão.',
                 destinoHref: '/destinos/porto-seguro',
                 links: [
@@ -588,7 +591,7 @@ export default function HomePage() {
               },
               {
                 cidade: 'Caraíva',
-                emoji: '🌊',
+                Icon: Waves,
                 desc: 'O paraíso preservado — sem asfalto, sem carros, só natureza e charme.',
                 destinoHref: '/destinos/caraiva',
                 links: [
@@ -599,7 +602,7 @@ export default function HomePage() {
               },
               {
                 cidade: 'Arraial d\'Ajuda',
-                emoji: '🌅',
+                Icon: Sun,
                 desc: 'O charme da Costa do Descobrimento — praias deslumbrantes e o melhor da gastronomia.',
                 destinoHref: '/destinos/arraial-dajuda',
                 links: [
@@ -610,7 +613,7 @@ export default function HomePage() {
               },
             ].map((dest) => (
               <div key={dest.cidade} className="bg-card rounded-2xl p-6 shadow-sm border border-border flex flex-col">
-                <div className="text-3xl mb-3">{dest.emoji}</div>
+                <dest.Icon className="w-8 h-8 mb-3" style={{ color: ICON_COLOR }} aria-hidden="true" />
                 <h3 className="font-bold text-lg text-foreground mb-2">{dest.cidade}</h3>
                 <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-grow">{dest.desc}</p>
                 <ul className="space-y-2 mb-4">

@@ -1,57 +1,18 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-    <!-- ================================================================
-         GTM CONSENT MODE v2 — LGPD COMPLIANT
-         Inicializa consentimento como NEGADO por padrão.
-         Os scripts de analytics SÓ coletam dados após o usuário aceitar
-         no banner de cookies (CookieConsent.jsx chama gtag consent update).
-         Isso garante conformidade com LGPD/GDPR.
-    ================================================================ -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-
-      // 1. Define consentimento padrão ANTES de carregar qualquer tag
-      gtag('consent', 'default', {
-        'analytics_storage': 'denied',
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied',
-        'ad_personalization': 'denied',
-        'wait_for_update': 500
-      });
-
-      // 2. Se o usuário já consentiu em visita anterior, restaura permissão
-      (function() {
-        try {
-          var saved = localStorage.getItem('cookie-consent');
-          if (saved) {
-            var consent = JSON.parse(saved);
-            if (consent.analytics === true) {
-              gtag('consent', 'update', {
-                'analytics_storage': 'granted',
-                'ad_storage': 'granted',
-                'ad_user_data': 'granted',
-                'ad_personalization': 'granted'
-              });
-            }
-          }
-        } catch(e) {}
-      })();
-    </script>
-
-    <!-- Google Tag Manager (carrega APÓS definição de consentimento) -->
+    <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-5CQLT5JM');</script>
     <!-- End Google Tag Manager -->
-
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/855e7dab6_logo-mark.svg" />
-    <link rel="apple-touch-icon" href="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/b56b8c721_logo-mark-512.png" />
-    <meta name="theme-color" content="#8B6914" />
+    <!-- New brand mark — São João Batista squircle, legible down to 16×16 -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/brand/logo-mark.svg" />
+    <meta name="theme-color" content="#E8571A" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
     <!-- Mobile App Meta -->
@@ -63,9 +24,9 @@
     <meta name="format-detection" content="telephone=no" />
 
     <!-- Primary SEO -->
-    <title>Trancoso Resolve — Profissionais Verificados da Costa do Descobrimento</title>
-    <meta name="description" content="Contrate profissionais da sua comunidade na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Verificados, avaliados, com histórico real. Oportunidade que o governo não dá." />
-    <meta name="keywords" content="serviços Trancoso Bahia, diarista Trancoso, eletricista Trancoso, encanador Trancoso, jardineiro Trancoso, cozinheiro Trancoso, profissionais verificados Trancoso, serviços Porto Seguro, serviços Caraíva, serviços Arraial d'Ajuda, Costa do Descobrimento, Trancoso Resolve" />
+    <title>Trancoso Resolve — Profissionais Verificados em Trancoso</title>
+    <meta name="description" content="Encontre profissionais verificados em Trancoso: diaristas, pedreiros, jardineiros e mais. Atendimento rápido para villas, pousadas e moradores." />
+    <meta name="keywords" content="serviços Trancoso Bahia, diarista Trancoso, eletricista Trancoso, piscineiro Trancoso, cozinheiro particular Trancoso, jardineiro Trancoso, profissionais verificados Trancoso, villa Trancoso serviços, pousada Trancoso funcionários, Toca Concierge, Trancoso Resolve" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="author" content="Trancoso Resolve" />
     <meta name="google-site-verification" content="V12ocsHwIC2YyeXpOTKyay39TWMdNksgr5OSoCTnyF4" />
@@ -73,16 +34,16 @@
     <meta name="geo.placename" content="Trancoso, Bahia" />
     <meta name="geo.position" content="-16.5897;-39.0828" />
     <meta name="ICBM" content="-16.5897, -39.0828" />
-    <link rel="canonical" href="https://trancosoresolve.com.br/" />
-    <link rel="sitemap" type="application/xml" href="/api/functions/sitemap" />
+    <link rel="canonical" href="https://www.trancosoresolve.com.br/" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
     <link rel="manifest" href="/manifest.json" />
 
     <!-- Open Graph (Facebook / WhatsApp) -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Trancoso Resolve" />
-    <meta property="og:url" content="https://trancosoresolve.com.br/" />
-    <meta property="og:title" content="Trancoso Resolve — Profissionais Verificados da Costa do Descobrimento" />
-    <meta property="og:description" content="Contrate profissionais da sua comunidade em Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Verificados, avaliados, com histórico real." />
+    <meta property="og:url" content="https://www.trancosoresolve.com.br/" />
+    <meta property="og:title" content="Trancoso Resolve — Profissionais Verificados para Residências de Luxo em Trancoso, BA" />
+    <meta property="og:description" content="Contrate diarista, eletricista, piscineiro e outros profissionais verificados em Trancoso. Plataforma premium com IA integrada, análise de antecedentes e avaliações reais." />
     <meta property="og:image" content="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -92,8 +53,8 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@trancosoresolve" />
-    <meta name="twitter:title" content="Trancoso Resolve — Profissionais Verificados da Costa do Descobrimento" />
-    <meta name="twitter:description" content="Contrate profissionais da sua comunidade em Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Verificados, avaliados, com histórico real." />
+    <meta name="twitter:title" content="Trancoso Resolve — Profissionais Verificados para Villas e Residências de Luxo" />
+    <meta name="twitter:description" content="Diaristas, eletricistas, piscineiros e mais profissionais verificados com análise de antecedentes em Trancoso, Bahia. IA integrada: Toca TrIA e Toca Vision." />
     <meta name="twitter:image" content="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg" />
 
     <!-- Performance: Preconnect to third-party origins -->
@@ -101,30 +62,32 @@
     <link rel="preconnect" href="https://media.base44.com" crossorigin />
     <link rel="preconnect" href="https://files.manuscdn.com" crossorigin />
     <link rel="preconnect" href="https://ui-avatars.com" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
+    <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <link rel="dns-prefetch" href="https://images.unsplash.com" />
     <link rel="dns-prefetch" href="https://media.base44.com" />
     <link rel="dns-prefetch" href="https://files.manuscdn.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://connect.facebook.net" />
+    <link rel="dns-prefetch" href="https://unpkg.com" />
 
     <!-- Preload LCP hero image -->
     <link rel="preload" as="image" href="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg" fetchpriority="high" />
 
-    <!-- ================================================================
-         STRUCTURED DATA: LocalBusiness
-         CORRIGIDO: sameAs duplicado mesclado em um único array.
-         CORRIGIDO: telephone vazio removido.
-         CORRIGIDO: URLs de oferta apontam para rotas estáticas reais.
-    ================================================================ -->
+    <!-- Structured Data: LocalBusiness (static, indexable without JS) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "@id": "https://trancosoresolve.com.br/#business",
+      "@id": "https://www.trancosoresolve.com.br/#business",
       "name": "Trancoso Resolve",
-      "description": "Marketplace de serviços locais na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Profissionais verificados para diarista, eletricista, encanador, jardineiro, cozinheiro, pedreiro, pintor, babá e garçom.",
-      "url": "https://trancosoresolve.com.br",
-      "logo": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/b56b8c721_logo-mark-512.png",
+      "description": "Marketplace de serviços locais em Trancoso, Bahia. Profissionais verificados para diarista, eletricista, encanador, jardineiro, cozinheiro, pedreiro, pintor, babá e garçom.",
+      "url": "https://www.trancosoresolve.com.br",
+      "logo": "https://www.trancosoresolve.com.br/brand/logo-mark-512.png",
       "image": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg",
-      "email": "contato@tocaexperience.com.br",
+      "telephone": "+55 73 99828-3579",
+      "email": "contato@trancosoresolve.com.br",
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Trancoso",
@@ -139,31 +102,62 @@
       },
       "areaServed": [
         { "@type": "City", "name": "Trancoso", "containedIn": { "@type": "State", "name": "Bahia" } },
+        { "@type": "City", "name": "Arraial d'Ajuda", "containedIn": { "@type": "State", "name": "Bahia" } },
         { "@type": "City", "name": "Porto Seguro", "containedIn": { "@type": "State", "name": "Bahia" } },
-        { "@type": "City", "name": "Caraíva", "containedIn": { "@type": "State", "name": "Bahia" } },
-        { "@type": "City", "name": "Arraial d'Ajuda", "containedIn": { "@type": "State", "name": "Bahia" } }
+        { "@type": "City", "name": "Caraíva", "containedIn": { "@type": "State", "name": "Bahia" } }
       ],
-      "sameAs": [
-        "https://www.instagram.com/trancosoresolve",
-        "https://www.facebook.com/share/1B7w8mmbMN/",
-        "https://trancosoresolve.com.br",
-        "https://www.trancosoresolve.com.br"
-      ],
+      "priceRange": "$$",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "47",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "sameAs": ["https://www.instagram.com/trancosoresolve", "https://www.facebook.com/share/1B7w8mmbMN/", "https://wa.me/5573998283579"],
       "hasOfferCatalog": {
         "@type": "OfferCatalog",
         "name": "Serviços na Costa do Descobrimento, BA",
         "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diarista em Trancoso", "url": "https://trancosoresolve.com.br/servicos/diarista-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Eletricista em Trancoso", "url": "https://trancosoresolve.com.br/servicos/eletricista-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Encanador em Trancoso", "url": "https://trancosoresolve.com.br/servicos/encanador-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jardineiro em Trancoso", "url": "https://trancosoresolve.com.br/servicos/jardineiro-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cozinheiro Particular em Trancoso", "url": "https://trancosoresolve.com.br/servicos/chef-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pedreiro em Trancoso", "url": "https://trancosoresolve.com.br/servicos/pedreiro-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pintor em Trancoso", "url": "https://trancosoresolve.com.br/servicos/pintor-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Piscineiro em Trancoso", "url": "https://trancosoresolve.com.br/servicos/piscineiro-trancoso" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Segurança para Eventos em Trancoso", "url": "https://trancosoresolve.com.br/servicos/seguranca-trancoso" } }
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diarista em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/diarista-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Eletricista em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/eletricista-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Encanador em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/encanador-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Jardinagem em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/jardineiro-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Chef e Cozinheiro em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/chef-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "DJ para Eventos em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/dj-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pedreiro em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/pedreiro-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pintor em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/pintor-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Segurança para Eventos em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/seguranca-trancoso" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Motorista em Trancoso", "url": "https://www.trancosoresolve.com.br/servicos/motorista-trancoso" } }
         ]
       }
+    }
+    </script>
+
+    <!-- Structured Data: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Trancoso Resolve",
+      "url": "https://www.trancosoresolve.com.br",
+      "logo": "https://www.trancosoresolve.com.br/brand/logo-lockup.svg",
+      "description": "Marketplace de serviços profissionais verificados na Costa do Descobrimento, Bahia",
+      "foundingDate": "2024",
+      "telephone": "+55-73-99828-3579",
+      "email": "contato@trancosoresolve.com.br",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+55-73-99828-3579",
+        "contactType": "Customer Service",
+        "areaServed": ["BR"],
+        "availableLanguage": ["pt-BR", "en", "es"]
+      },
+      "sameAs": [
+        "https://www.instagram.com/trancosoresolve/",
+        "https://www.facebook.com/share/1B7w8mmbMN/",
+        "https://wa.me/5573998283579"
+      ]
     }
     </script>
 
@@ -173,13 +167,13 @@
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Trancoso Resolve",
-      "url": "https://trancosoresolve.com.br",
-      "description": "Encontre profissionais verificados da sua comunidade na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda.",
+      "url": "https://www.trancosoresolve.com.br",
+      "description": "Encontre profissionais verificados para todos os tipos de serviço em Trancoso, Bahia.",
       "potentialAction": {
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://trancosoresolve.com.br/ServicosCategoria?q={search_term_string}"
+          "urlTemplate": "https://www.trancosoresolve.com.br/ServicosCategoria?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }
@@ -214,31 +208,23 @@
         },
         {
           "@type": "Question",
-          "name": "O que é o Toca TryA?",
-          "acceptedAnswer": { "@type": "Answer", "text": "O Toca TryA é o agente de inteligência artificial da Trancoso Resolve, disponível 24h para ajudar clientes a encontrar o profissional certo e prestadores a gerenciar seu negócio com mais eficiência." }
+          "name": "O que é o Toca TrIA?",
+          "acceptedAnswer": { "@type": "Answer", "text": "O Toca TrIA é o agente de inteligência artificial da Trancoso Resolve, disponível 24h para ajudar clientes a encontrar o profissional certo e prestadores a gerenciar seu negócio com mais eficiência." }
         }
       ]
     }
     </script>
 
-    <!-- ================================================================
-         GOOGLE ANALYTICS 4
-         O gtag.js carrega normalmente — o Consent Mode v2 acima
-         garante que NENHUM dado é coletado até o usuário aceitar.
-    ================================================================ -->
+    <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KF75243B4"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-3KF75243B4', { 'send_page_view': false });
+      gtag('config', 'G-3KF75243B4');
     </script>
 
-    <!-- ================================================================
-         META PIXEL — LGPD COMPLIANT
-         Inicializa o pixel mas NÃO dispara PageView por padrão.
-         O CookieConsent.jsx chama fbq('track','PageView') após aceite.
-    ================================================================ -->
+    <!-- Meta Pixel -->
     <script>
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -249,28 +235,32 @@
       s.parentNode.insertBefore(t,s)}(window, document,'script',
       'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '1469130194903035');
-      // PageView NÃO é disparado aqui — aguarda consentimento LGPD
-      // O CookieConsent.jsx dispara fbq('track','PageView') no accept
+      fbq('track', 'PageView');
     </script>
 
-    <script type="module" crossorigin src="/assets/index-Bb7ZZVcv.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Dff2-hTZ.css">
-  </head>
+  <script type="module" crossorigin src="/assets/index-CNF6XyXv.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/vendor-C1JHqtOu.js">
+  <link rel="modulepreload" crossorigin href="/assets/ui-DPfVZpa9.js">
+  <link rel="stylesheet" crossorigin href="/assets/index-zgQ0E1V2.css">
+</head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5CQLT5JM"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-
+    
+    <!-- Meta Pixel (noscript) -->
+    <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1469130194903035&ev=PageView&noscript=1" /></noscript>
+    
     <div id="root"></div>
-
+    
     <!-- Service Worker Registration -->
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
-            .then(() => console.log('PWA SW registered'))
-            .catch(err => console.error('SW registration failed:', err));
+            .then(() => console.log('PWA Service Worker registered'))
+            .catch(err => console.error('Service Worker registration failed:', err));
         });
       }
     </script>

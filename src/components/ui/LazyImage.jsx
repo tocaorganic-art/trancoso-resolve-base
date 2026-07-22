@@ -83,7 +83,6 @@ export default function LazyImage({ src, srcSet, sizes, alt, className, placehol
             onError={handleError}
             loading={priority ? "eager" : "lazy"}
             decoding="async"
-            fetchPriority={priority ? "high" : "auto"}
           />
         </picture>
       )}

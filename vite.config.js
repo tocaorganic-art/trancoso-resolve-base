@@ -30,10 +30,6 @@ export default defineConfig({
             '@radix-ui/react-tabs',
             'class-variance-authority',
           ],
-          'analytics': [
-            '@vercel/analytics',
-            '@vercel/speed-insights',
-          ],
           'maps': [
             'react-leaflet',
             'leaflet',

@@ -251,10 +251,10 @@ function Base44TemplatesContent() {
     <div className="container mx-auto px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            📚 Templates Base44
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Templates Base44
           </h1>
-          <p className="text-slate-600">
+          <p className="text-muted-foreground">
             Sistema de Comando Único Codificado - Templates e Documentação
           </p>
         </div>
@@ -296,9 +296,9 @@ function Base44TemplatesContent() {
                   readOnly
                   className="font-mono text-xs h-[600px]"
                 />
-                <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-                  <h4 className="font-semibold text-blue-900 mb-2">Como usar:</h4>
-                  <ol className="text-sm text-blue-800 space-y-1">
+                <div className="mt-4 p-4 bg-muted rounded-lg">
+                  <h4 className="font-semibold text-foreground mb-2">Como usar:</h4>
+                  <ol className="text-sm text-muted-foreground space-y-1">
                     <li>1. Copie este template</li>
                     <li>2. Preencha os campos conforme sua necessidade</li>
                     <li>3. Envie o JSON completo para a IA executar</li>
@@ -330,9 +330,9 @@ function Base44TemplatesContent() {
                   readOnly
                   className="font-mono text-xs h-[600px]"
                 />
-                <div className="mt-4 p-4 bg-green-50 rounded-lg">
-                  <h4 className="font-semibold text-green-900 mb-2">Sobre este template:</h4>
-                  <p className="text-sm text-green-800">
+                <div className="mt-4 p-4 bg-muted rounded-lg">
+                  <h4 className="font-semibold text-foreground mb-2">Sobre este template:</h4>
+                  <p className="text-sm text-muted-foreground">
                     Este é o template Markdown usado pela IA para gerar relatórios de execução.
                     Você não precisa preenchê-lo manualmente - ele é gerado automaticamente após
                     a execução de um comando Base44.
@@ -369,10 +369,10 @@ function Base44TemplatesContent() {
         </Tabs>
 
         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Card className="bg-blue-50 border-blue-200">
+          <Card className="bg-orange-50 border-orange-200">
             <CardContent className="p-6">
-              <h3 className="font-semibold text-blue-900 mb-2">🎯 Próximos Passos</h3>
-              <p className="text-sm text-blue-800 mb-4">
+              <h3 className="font-semibold text-orange-900 mb-2">Próximos Passos</h3>
+              <p className="text-sm text-orange-800 mb-4">
                 Acesse o visualizador de relatórios para testar o sistema completo.
               </p>
               <Button
@@ -384,10 +384,10 @@ function Base44TemplatesContent() {
             </CardContent>
           </Card>
 
-          <Card className="bg-green-50 border-green-200">
+          <Card className="bg-[#3E8E5A]/10 border-[#3E8E5A]/30">
             <CardContent className="p-6">
-              <h3 className="font-semibold text-green-900 mb-2">📊 Exemplo Prático</h3>
-              <p className="text-sm text-green-800 mb-4">
+              <h3 className="font-semibold text-[#3E8E5A] mb-2">Exemplo Prático</h3>
+              <p className="text-sm text-[#3E8E5A]/80 mb-4">
                 Veja um relatório de exemplo já renderizado e funcional.
               </p>
               <Button

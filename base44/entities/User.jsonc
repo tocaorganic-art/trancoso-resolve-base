@@ -11,7 +11,7 @@
         "indefinido"
       ],
       "default": "indefinido",
-      "description": "Define se o usu\u00e1rio \u00e9 um cliente, um prestador de servi\u00e7o ou um lojista."
+      "description": "Define se o usu\u00e1rio \u00e9 um cliente, um prestador de servi\u00e7o ou um lojista (empres\u00e1rio local que anuncia na plataforma)."
     }
   },
   "required": []

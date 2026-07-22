@@ -17,8 +17,8 @@ const ContinuousMonitor  = lazy(() => import('../components/monitoring/Continuou
 const LoadingCard = () => (
   <Card>
     <CardContent className="flex items-center justify-center py-12">
-      <Loader2 className="w-6 h-6 animate-spin text-blue-500 mr-3" />
-      <span className="text-slate-500 text-sm">Carregando módulo...</span>
+      <Loader2 className="w-6 h-6 animate-spin text-brand-primary mr-3" />
+      <span className="text-muted-foreground text-sm">Carregando módulo...</span>
     </CardContent>
   </Card>
 );
@@ -111,18 +111,18 @@ Todos os critérios dentro dos limites aceitáveis.
       <div className="mb-8">
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3 mb-2">
-              <Activity className="w-8 h-8 text-blue-600" />
+            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3 mb-2">
+              <Activity className="w-8 h-8 text-brand-primary" />
               Diagnósticos Completos
             </h1>
-            <p className="text-slate-600">
+            <p className="text-muted-foreground">
               Monitoramento em tempo real de performance, acessibilidade, SEO e rede
             </p>
           </div>
           <Button
             onClick={generateFullReport}
             disabled={isGeneratingReport}
-            className="bg-blue-600 hover:bg-blue-700"
+            className="bg-brand-primary hover:bg-orange-700"
           >
             {isGeneratingReport ? (
               <>

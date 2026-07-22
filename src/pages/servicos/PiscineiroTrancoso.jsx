@@ -3,19 +3,19 @@ import ServicoLocalPage from '@/components/servicos/ServicoLocalPage';
 export default function PiscineiroTrancoso() {
   return (
     <ServicoLocalPage
-      title="Piscineiro em Trancoso, BA | Manutenção de Piscina — Trancoso Resolve"
-      keywords="piscineiro Trancoso, manutenção piscina Trancoso, limpeza piscina Trancoso BA, tratamento piscina Trancoso"
+      title="Piscineiro em Trancoso – Manutenção e Tratamento de Piscinas em Villas e Pousadas de Luxo"
+      metaDescription="Piscineiro especializado em Trancoso para manutenção, limpeza e tratamento de piscinas em villas, pousadas e residências de alto padrão. Profissionais que conhecem o clima tropical. Contrate pela Trancoso Resolve."
+      keywords="piscineiro Trancoso, piscineiro Trancoso Bahia, profissional Trancoso BA, serviços Trancoso, piscina Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/piscineiro-trancoso"
       schemaData={{
         "@context": "https://schema.org",
         "@type": "Service",
         "name": "Trancoso Resolve - Piscineiro Trancoso",
-        "description": "Piscineiros verificados em Trancoso, BA. Limpeza e manutenção de piscinas em villas e pousadas.",
+        "description": "Piscineiros verificados em Trancoso, BA. Manutenção e tratamento de piscinas em villas e pousadas de alto padrão.",
         "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
         "areaServed": { "@type": "City", "name": "Trancoso, BA" },
         "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 }
       }}
-      metaDescription="Piscineiro especializado em Trancoso para manutenção, limpeza e tratamento de piscinas em villas, pousadas e residências de alto padrão. Profissionais que conhecem o clima tropical. Contrate pela Trancoso Resolve."
       h1="Piscineiro em Trancoso: Manutenção Especializada para Piscinas de Alto Padrão"
       intro="Uma piscina cristalina é parte da experiência de luxo que Trancoso proporciona. Na Trancoso Resolve você contrata piscineiros com experiência em propriedades de alto padrão e que conhecem os desafios do clima tropical baiano — maresia, umidade e sazonalidade intensa — para manter sua piscina impecável durante todo o ano."
       servicesTitle="Serviços especializados de piscineiro em Trancoso"
@@ -35,6 +35,12 @@ export default function PiscineiroTrancoso() {
       category="Outro"
       serviceLabel="piscineiros"
       heroEmoji="🏊"
+      locationLabel="Trancoso, Bahia"
+      seoText={[
+        "As piscinas das villas e pousadas de Trancoso ficam expostas a um clima tropical exigente: maresia, calor intenso e a queda de folhas da vegetação nativa aumentam o consumo de produtos químicos e a necessidade de limpeza frequente. Piscineiros com experiência local já sabem antecipadamente com o que vão se deparar em cada estação.",
+        "Muitas propriedades de Trancoso têm piscinas de borda infinita e projetos arquitetônicos elaborados, integrados à paisagem da Mata Atlântica — o que exige cuidado redobrado com revestimento, pressão do sistema e frequência de limpeza para preservar tanto a estética quanto a estrutura.",
+        "Para imóveis de segunda residência que ficam fechados na baixa temporada, a manutenção preventiva evita que a piscina se deteriore rapidamente sem o cuidado adequado. A plataforma facilita a contratação de planos mensais com relatórios fotográficos pelo WhatsApp para proprietários que não estão presentes.",
+      ]}
     />
   );
 }

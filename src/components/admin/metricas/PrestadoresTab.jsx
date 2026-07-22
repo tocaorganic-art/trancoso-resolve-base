@@ -9,8 +9,8 @@ import { ExternalLink, Loader2 } from "lucide-react";
 
 const STATUS_LABELS = {
   aprovado: { label: "Aprovado", cls: "bg-green-900 text-green-300" },
-  pendente: { label: "Pendente", cls: "bg-yellow-900 text-yellow-300" },
-  em_analise_manual: { label: "Em análise", cls: "bg-blue-900 text-blue-300" },
+  pendente: { label: "Pendente", cls: "bg-amber-900 text-amber-300" },
+  em_analise_manual: { label: "Em análise", cls: "bg-orange-900 text-orange-300" },
   reprovado: { label: "Reprovado", cls: "bg-red-900 text-red-300" },
 };
 
@@ -99,7 +99,7 @@ export default function PrestadoresTab() {
                       <td className="py-2 text-right text-slate-300">{getServiceCount(p.id)}</td>
                       <td className="py-2">
                         <a href={`/PrestadorPerfil?id=${p.id}`} target="_blank" rel="noopener noreferrer">
-                          <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-slate-400 hover:text-blue-400">
+                          <Button size="sm" variant="ghost" className="h-6 w-6 p-0 text-slate-400 hover:text-orange-400">
                             <ExternalLink className="w-3 h-3" />
                           </Button>
                         </a>

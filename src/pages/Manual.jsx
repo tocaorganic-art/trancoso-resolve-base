@@ -60,16 +60,16 @@ const faqContent = {
 
 
 const ManualContent = ({ title, items }) => (
-  <Card className="h-full border-none shadow-lg bg-white">
+  <Card className="h-full border-none shadow-lg bg-card">
     <CardHeader>
-      <CardTitle className="flex items-center gap-2 text-xl text-slate-900">{title}</CardTitle>
+      <CardTitle className="flex items-center gap-2 text-xl text-foreground">{title}</CardTitle>
     </CardHeader>
     <CardContent>
       <ul className="space-y-4">
         {items.map((item, index) => (
-          <li key={index} className="pb-4 border-b border-slate-100 last:border-b-0">
-            <h4 className="font-semibold text-slate-900 mb-1">{item.question}</h4>
-            <p className="text-sm text-slate-600 leading-relaxed">{item.answer}</p>
+          <li key={index} className="pb-4 border-b border-border last:border-b-0">
+            <h4 className="font-semibold text-foreground mb-1">{item.question}</h4>
+            <p className="text-sm text-muted-foreground leading-relaxed">{item.answer}</p>
           </li>
         ))}
       </ul>
@@ -127,10 +127,10 @@ export default function ManualPage() {
     <div className="container mx-auto py-8 px-4">
       <ManualSEO />
       <div className="flex items-center gap-4 mb-8">
-        <BookOpen className="w-10 h-10 text-blue-600" />
+        <BookOpen className="w-10 h-10 text-brand-primary" />
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Documentação e Manuais</h1>
-          <p className="text-slate-600">Encontre respostas para as perguntas mais comuns e guias sobre como usar a plataforma.</p>
+          <h1 className="text-3xl font-bold text-foreground">Documentação e Manuais</h1>
+          <p className="text-muted-foreground">Encontre respostas para as perguntas mais comuns e guias sobre como usar a plataforma.</p>
         </div>
       </div>
       
@@ -138,10 +138,10 @@ export default function ManualPage() {
         {/* Corrigido: Adicionada classe 'h-auto' para melhor ajuste em telas menores */}
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 h-auto">
           {/* Corrigido: `focus-visible` para acessibilidade em abas */}
-          <TabsTrigger value="geral" className="focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">Geral</TabsTrigger>
-          <TabsTrigger value="clientes" className="focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">Clientes</TabsTrigger>
-          <TabsTrigger value="prestadores" className="focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">Prestadores</TabsTrigger>
-          <TabsTrigger value="tecnico" className="focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">Técnico</TabsTrigger>
+          <TabsTrigger value="geral" className="focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2">Geral</TabsTrigger>
+          <TabsTrigger value="clientes" className="focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2">Clientes</TabsTrigger>
+          <TabsTrigger value="prestadores" className="focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2">Prestadores</TabsTrigger>
+          <TabsTrigger value="tecnico" className="focus-visible:ring-2 focus-visible:ring-orange-500 focus-visible:ring-offset-2">Técnico</TabsTrigger>
         </TabsList>
         <div className="mt-6">
           <TabsContent value="geral">

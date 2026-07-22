@@ -1,0 +1,123 @@
+/* Accessibility utilities for WCAG 2.1 AA compliance */
+
+/* Screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip to content link */
+.skip-to-content {
+  position: absolute;
+  left: -9999px;
+  z-index: 999;
+}
+
+.skip-to-content:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  padding: 0.5rem 1rem;
+  background-color: var(--brand-primary);
+  color: white;
+  border-radius: 0 0 4px 0;
+}
+
+/* Ensure focus indicators are visible */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid var(--ring-focus);
+  outline-offset: 2px;
+}
+
+/* Touch target minimum size (44x44) */
+button,
+a[role="button"],
+input[type="checkbox"],
+input[type="radio"] {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Form labels and inputs */
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--text-body);
+}
+
+input:invalid:not(:placeholder-shown),
+textarea:invalid:not(:placeholder-shown) {
+  border-color: var(--status-error);
+  background-color: rgba(215, 56, 43, 0.05);
+}
+
+input:invalid:focus-visible:not(:placeholder-shown),
+textarea:invalid:focus-visible:not(:placeholder-shown) {
+  border-color: var(--status-error);
+  outline: 3px solid color-mix(in srgb, var(--status-error) 20%, transparent);
+}
+
+/* Error messages */
+.error-message,
+[role="alert"] {
+  color: var(--status-error);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Success messages */
+.success-message {
+  color: var(--status-success);
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+/* Link contrast improvements */
+a {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration-thickness: 3px;
+}
+
+/* Contrast for disabled elements */
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Focus visible for images with role */
+img[role],
+[role="img"] {
+  outline: 3px solid transparent;
+  outline-offset: 2px;
+}
+
+img[role]:focus-visible,
+[role="img"]:focus-visible {
+  outline-color: var(--ring-focus);
+}

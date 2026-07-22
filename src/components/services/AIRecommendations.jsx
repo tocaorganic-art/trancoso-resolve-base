@@ -84,9 +84,9 @@ Responda em formato JSON:
 
   return (
     <Card className="glass-card border-none shadow-xl mb-8">
-      <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50 border-b">
+      <CardHeader className="bg-gradient-to-r from-orange-50 to-sand/30 border-b">
         <CardTitle className="flex items-center gap-3">
-          <div className="p-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl">
+          <div className="p-2 bg-brand-primary rounded-xl">
             <Sparkles className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -108,7 +108,7 @@ Responda em formato JSON:
           <Button
             onClick={getRecommendations}
             disabled={!query.trim() || loading}
-            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+            className="w-full bg-gradient-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
           >
             {loading ? (
               <>
@@ -135,19 +135,19 @@ Responda em formato JSON:
               const service = services.find(s => s.name === rec.service_name);
               
               return (
-                <Card key={index} className="border-2 border-purple-200 bg-gradient-to-br from-white to-purple-50">
+                <Card key={index} className="border-2 border-orange-200 bg-gradient-to-br from-white to-orange-50">
                   <CardContent className="p-5">
                     <div className="flex items-start gap-3">
-                      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold shrink-0">
+                      <div className="bg-brand-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold shrink-0">
                         {index + 1}
                       </div>
                       <div className="flex-1">
                         <h4 className="font-bold text-lg text-slate-900 mb-2">
                           {rec.service_name}
                         </h4>
-                        
+
                         <div className="mb-3">
-                          <p className="text-sm font-semibold text-purple-900 mb-1">
+                          <p className="text-sm font-semibold text-orange-900 mb-1">
                             Por que recomendamos:
                           </p>
                           <p className="text-sm text-slate-700 leading-relaxed">
@@ -156,11 +156,11 @@ Responda em formato JSON:
                         </div>
 
                         {rec.tips && (
-                          <div className="bg-cyan-50 p-3 rounded-lg border border-cyan-200">
-                            <p className="text-sm font-semibold text-cyan-900 mb-1">
+                          <div className="bg-orange-50 p-3 rounded-lg border border-orange-200">
+                            <p className="text-sm font-semibold text-orange-900 mb-1">
                               💡 Dicas:
                             </p>
-                            <p className="text-sm text-cyan-800 leading-relaxed">
+                            <p className="text-sm text-orange-800 leading-relaxed">
                               {rec.tips}
                             </p>
                           </div>

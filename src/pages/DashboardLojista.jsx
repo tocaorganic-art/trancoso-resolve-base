@@ -1,157 +1,162 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { Badge } from "@/components/ui/badge";
-import { Plus, Megaphone, Eye, MousePointerClick, TrendingUp } from "lucide-react";
-import AnuncioFormModal from "@/components/anuncios/AnuncioFormModal";
+import { Loader2, Plus, Megaphone, Eye, MousePointerClick, Percent } from "lucide-react";
+import { toast } from "sonner";
 import PermissionChecker from "@/components/auth/PermissionChecker";
+import AnuncioFormModal from "@/components/anuncios/AnuncioFormModal";
 
-export default function DashboardLojista() {
-  const [anuncios, setAnuncios] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  const loadData = async () => {
-    setLoading(true);
-    try {
-      const [userData, anunciosData] = await Promise.all([
-        base44.auth.me(),
-        base44.entities.Anuncio.list("-created_date"),
-      ]);
-      setUser(userData);
-      setAnuncios(anunciosData);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleToggle = async (anuncio) => {
-    await base44.entities.Anuncio.update(anuncio.id, { ativo: !anuncio.ativo });
-    setAnuncios(prev =>
-      prev.map(a => a.id === anuncio.id ? { ...a, ativo: !a.ativo } : a)
-    );
-  };
-
-  const totalImpressoes = anuncios.reduce((sum, a) => sum + (a.impressoes || 0), 0);
-  const totalCliques = anuncios.reduce((sum, a) => sum + (a.cliques || 0), 0);
-  const ctr = totalImpressoes > 0 ? ((totalCliques / totalImpressoes) * 100).toFixed(1) : "0.0";
-
+export default function DashboardLojistaPage() {
   return (
     <PermissionChecker requiredUserType="lojista">
-      <div className="min-h-screen bg-gray-50 p-4 md:p-6">
-        <div className="max-w-4xl mx-auto">
-          {/* Header */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
-                <Megaphone className="w-5 h-5 text-orange-600" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">Meus Anúncios</h1>
-                <p className="text-sm text-gray-500">Gerencie seus anúncios locais</p>
-              </div>
-            </div>
-            <Button onClick={() => setShowForm(true)} className="bg-orange-500 hover:bg-orange-600 text-white gap-2">
-              <Plus className="w-4 h-4" />
-              Novo Anúncio
-            </Button>
-          </div>
+      <DashboardLojistaContent />
+    </PermissionChecker>
+  );
+}
 
-          {/* Métricas */}
-          <div className="grid grid-cols-3 gap-4 mb-6">
-            <Card>
-              <CardContent className="pt-4 pb-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <Eye className="w-4 h-4 text-gray-400" />
-                  <span className="text-xs text-gray-500">Impressões</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900">{totalImpressoes.toLocaleString()}</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-4 pb-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <MousePointerClick className="w-4 h-4 text-gray-400" />
-                  <span className="text-xs text-gray-500">Cliques</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900">{totalCliques.toLocaleString()}</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="pt-4 pb-4">
-                <div className="flex items-center gap-2 mb-1">
-                  <TrendingUp className="w-4 h-4 text-gray-400" />
-                  <span className="text-xs text-gray-500">CTR</span>
-                </div>
-                <p className="text-2xl font-bold text-gray-900">{ctr}%</p>
-              </CardContent>
-            </Card>
-          </div>
+function DashboardLojistaContent() {
+  const [modalOpen, setModalOpen] = useState(false);
+  const queryClient = useQueryClient();
 
-          {/* Lista de anúncios */}
-          {loading ? (
-            <div className="text-center py-12 text-gray-400">Carregando...</div>
-          ) : anuncios.length === 0 ? (
-            <Card>
-              <CardContent className="py-12 text-center">
-                <Megaphone className="w-10 h-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500 mb-4">Você ainda não tem anúncios</p>
-                <Button onClick={() => setShowForm(true)} variant="outline">
-                  Criar primeiro anúncio
-                </Button>
-              </CardContent>
-            </Card>
-          ) : (
-            <div className="space-y-3">
-              {anuncios.map(anuncio => (
-                <Card key={anuncio.id}>
-                  <CardContent className="py-4 flex items-center gap-4">
-                    {anuncio.imagem_url && (
-                      <img
-                        src={anuncio.imagem_url}
-                        alt={anuncio.titulo}
-                        className="w-16 h-16 rounded-lg object-cover flex-shrink-0"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-medium text-gray-900 truncate">{anuncio.titulo}</h3>
-                        {anuncio.categoria && (
-                          <Badge variant="secondary" className="text-xs flex-shrink-0">{anuncio.categoria}</Badge>
-                        )}
-                      </div>
-                      {anuncio.descricao && (
-                        <p className="text-sm text-gray-500 truncate mt-0.5">{anuncio.descricao}</p>
-                      )}
-                      <div className="flex items-center gap-4 mt-1 text-xs text-gray-400">
-                        <span><Eye className="w-3 h-3 inline mr-1" />{anuncio.impressoes || 0}</span>
-                        <span><MousePointerClick className="w-3 h-3 inline mr-1" />{anuncio.cliques || 0}</span>
-                      </div>
-                    </div>
-                    <Switch
-                      checked={anuncio.ativo !== false}
-                      onCheckedChange={() => handleToggle(anuncio)}
-                    />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          )}
+  const { data: user, isLoading: isUserLoading } = useQuery({
+    queryKey: ['currentUser'],
+    queryFn: () => base44.auth.me(),
+  });
+
+  const { data: anuncios, isLoading: isAnunciosLoading } = useQuery({
+    queryKey: ['myAnuncios', user?.id],
+    queryFn: () => base44.entities.Anuncio.filter({ lojista_id: user.id }),
+    enabled: !!user,
+    initialData: [],
+  });
+
+  const createMutation = useMutation({
+    mutationFn: (data) => base44.entities.Anuncio.create({ ...data, lojista_id: user.id, ativo: true }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['myAnuncios']);
+      toast.success('Anúncio criado com sucesso!');
+      setModalOpen(false);
+    },
+    onError: (error) => {
+      toast.error('Erro ao criar anúncio.', { description: error.message });
+    },
+  });
+
+  const toggleAtivoMutation = useMutation({
+    mutationFn: ({ id, ativo }) => base44.entities.Anuncio.update(id, { ativo }),
+    onSuccess: () => {
+      queryClient.invalidateQueries(['myAnuncios']);
+      toast.success('Status atualizado!');
+    },
+    onError: (error) => {
+      toast.error('Erro ao atualizar status.', { description: error.message });
+    },
+  });
+
+  const isLoading = isUserLoading || isAnunciosLoading;
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
+      </div>
+    );
+  }
+
+  const safeAnuncios = Array.isArray(anuncios) ? anuncios : [];
+  const totalImpressoes = safeAnuncios.reduce((sum, a) => sum + (a.impressoes || 0), 0);
+  const totalCliques = safeAnuncios.reduce((sum, a) => sum + (a.cliques || 0), 0);
+  const ctr = totalImpressoes > 0 ? (totalCliques / totalImpressoes) * 100 : 0;
+
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-orange-100 rounded-lg">
+            <Megaphone className="w-7 h-7 text-brand-primary" />
+          </div>
+          <div>
+            <h1 className="text-3xl font-bold text-foreground">Meus Anúncios</h1>
+            <p className="text-muted-foreground">Acompanhe o desempenho dos seus anúncios em Trancoso.</p>
+          </div>
         </div>
+        <Button onClick={() => setModalOpen(true)} className="bg-brand-primary hover:bg-orange-700 rounded-pill">
+          <Plus className="w-5 h-5 mr-2" />
+          Criar novo anúncio
+        </Button>
       </div>
 
+      {/* Resumo */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+        <Card className="border-none shadow-warm-sm">
+          <CardContent className="p-5">
+            <div className="flex items-center gap-2 mb-2 text-muted-foreground">
+              <Eye className="w-4 h-4" />
+              <p className="text-sm font-medium">Impressões</p>
+            </div>
+            <p className="text-3xl font-bold text-foreground">{totalImpressoes.toLocaleString('pt-BR')}</p>
+          </CardContent>
+        </Card>
+        <Card className="border-none shadow-warm-sm">
+          <CardContent className="p-5">
+            <div className="flex items-center gap-2 mb-2 text-muted-foreground">
+              <MousePointerClick className="w-4 h-4" />
+              <p className="text-sm font-medium">Cliques</p>
+            </div>
+            <p className="text-3xl font-bold text-foreground">{totalCliques.toLocaleString('pt-BR')}</p>
+          </CardContent>
+        </Card>
+        <Card className="border-none shadow-warm-sm">
+          <CardContent className="p-5">
+            <div className="flex items-center gap-2 mb-2 text-muted-foreground">
+              <Percent className="w-4 h-4" />
+              <p className="text-sm font-medium">CTR</p>
+            </div>
+            <p className="text-3xl font-bold text-foreground">{ctr.toFixed(2)}%</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Lista de anúncios */}
+      {safeAnuncios.length === 0 ? (
+        <div className="text-center py-12">
+          <Megaphone className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+          <h3 className="text-lg font-bold text-foreground">Nada por aqui ainda</h3>
+          <p className="text-sm text-muted-foreground mt-2">Que tal criar seu primeiro anúncio?</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {safeAnuncios.map((anuncio) => (
+            <Card key={anuncio.id} className="border-none shadow-warm-sm">
+              <CardContent className="p-5 flex items-center justify-between gap-4">
+                <div className="min-w-0">
+                  <h3 className="font-bold text-foreground truncate">{anuncio.titulo}</h3>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {(anuncio.impressoes || 0).toLocaleString('pt-BR')} impressões · {(anuncio.cliques || 0).toLocaleString('pt-BR')} cliques
+                  </p>
+                </div>
+                <div className="flex items-center gap-3 shrink-0">
+                  <span className="text-sm text-muted-foreground">{anuncio.ativo ? 'Ativo' : 'Inativo'}</span>
+                  <Switch
+                    checked={!!anuncio.ativo}
+                    onCheckedChange={(checked) => toggleAtivoMutation.mutate({ id: anuncio.id, ativo: checked })}
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
+
       <AnuncioFormModal
-        open={showForm}
-        onClose={() => setShowForm(false)}
-        onSaved={loadData}
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSubmit={(data) => createMutation.mutate(data)}
+        isSubmitting={createMutation.isPending}
       />
-    </PermissionChecker>
+    </div>
   );
 }

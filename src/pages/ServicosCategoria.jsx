@@ -30,7 +30,6 @@ export default function ServicosCategoriaPage() {
   const [ratingFilter, setRatingFilter] = useState("all");
   const [availabilityFilter, setAvailabilityFilter] = useState("all");
   const [neighborhoodFilter, setNeighborhoodFilter] = useState("all");
-  const [cityFilter, setCityFilter] = useState("all");
   const [isSearching, setIsSearching] = useState(false);
   const [aiFilteredProviderIds, setAiFilteredProviderIds] = useState(null);
   const [viewMode, setViewMode] = useState('list');
@@ -56,13 +55,26 @@ export default function ServicosCategoriaPage() {
 
   const { isPulling, pullDistance, threshold } = usePullToRefresh(handleRefresh);
 
+  // Helper: Detectar prestador de teste
+  const isTestProvider = useCallback((provider) => {
+    if (!provider) return false;
+    // Excluir por nome (contém "teste")
+    if (provider.full_name?.toLowerCase().includes('teste')) return true;
+    // Excluir por email (domains de teste)
+    if (provider.email?.match(/@(teste|email|test|demo|example|sample)\.com/i)) return true;
+    // Excluir por bio com caracteres aleatórios (padrão: sequências repetidas ou muito caóticas)
+    if (provider.bio && /[ytdgfutyfyuftyuftuyfytufytukfjtyufjyt]{20,}/.test(provider.bio.replace(/\s/g, ''))) return true;
+    return false;
+  }, []);
+
   // ⭐ STEP 2: Compute filtered providers AFTER providers is available
   const filteredProviders = useMemo(() => {
     if (!providers || providers.length === 0) return [];
-    
+
     return providers.filter(provider => {
-      // Ocultar reprovados sempre
+      // Ocultar reprovados e dados de teste
       if (provider.status_verificacao === 'reprovado') return false;
+      if (isTestProvider(provider)) return false;
 
       const matchesCategory = selectedCategory === 'Todos' || provider.occupation === selectedCategory;
       
@@ -75,17 +87,20 @@ export default function ServicosCategoriaPage() {
       const matchesRating = ratingFilter === "all" || (provider.rating && provider.rating >= parseFloat(ratingFilter));
       const matchesAvailability = availabilityFilter === "all" || provider.availability === availabilityFilter;
       const matchesNeighborhood = neighborhoodFilter === "all" || provider.location?.neighborhood === neighborhoodFilter;
-      const matchesCity = cityFilter === "all" || (provider.location?.city && provider.location.city.toLowerCase().includes(cityFilter.toLowerCase()));
       
-      return matchesCategory && matchesSearch && matchesPrice && matchesRating && matchesAvailability && matchesNeighborhood && matchesCity;
+      return matchesCategory && matchesSearch && matchesPrice && matchesRating && matchesAvailability && matchesNeighborhood;
     });
-  }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds, priceFilter, ratingFilter, availabilityFilter, neighborhoodFilter, cityFilter]);
+  }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds, priceFilter, ratingFilter, availabilityFilter, neighborhoodFilter]);
 
   // ⭐ STEP 3: Compute filter counts AFTER providers is available
   const filterCounts = useMemo(() => {
     if (!providers || providers.length === 0) return { price: {}, rating: {}, availability: {}, neighborhoods: [] };
-    
+
     const baseFiltered = providers.filter(p => {
+      // Ocultar reprovados e dados de teste
+      if (p.status_verificacao === 'reprovado') return false;
+      if (isTestProvider(p)) return false;
+
       const matchesCategory = selectedCategory === 'Todos' || p.occupation === selectedCategory;
       let matchesSearch = true;
       if (searchQuery.trim() !== '' && aiFilteredProviderIds) {
@@ -95,15 +110,6 @@ export default function ServicosCategoriaPage() {
     });
 
     const neighborhoods = [...new Set(baseFiltered.map(p => p.location?.neighborhood).filter(Boolean))].sort();
-
-    const cityMatch = (p, term) => !!(p.location?.city && p.location.city.toLowerCase().includes(term));
-    const cities = {
-      all: baseFiltered.length,
-      'Trancoso': baseFiltered.filter(p => cityMatch(p, 'trancoso')).length,
-      'Caraíva': baseFiltered.filter(p => cityMatch(p, 'caraíva')).length,
-      'Arraial d\'Ajuda': baseFiltered.filter(p => cityMatch(p, 'arraial')).length,
-      'Porto Seguro': baseFiltered.filter(p => cityMatch(p, 'porto seguro')).length,
-    };
 
     return {
       price: {
@@ -124,7 +130,6 @@ export default function ServicosCategoriaPage() {
         'Ocupado': baseFiltered.filter(p => p.availability === 'Ocupado').length,
       },
       neighborhoods,
-      cities,
     };
   }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds]);
 
@@ -284,8 +289,8 @@ export default function ServicosCategoriaPage() {
   return (
     <div className="min-h-screen bg-background">
       {pullDistance > 10 && (
-        <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center bg-secondary border-b border-border transition-all" style={{ height: `${Math.min(pullDistance, threshold)}px` }}>
-          <div className={`flex items-center gap-2 text-foreground text-sm font-medium ${isPulling ? 'animate-spin' : ''}`}>
+        <div className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center bg-orange-50 border-b border-orange-200 transition-all" style={{ height: `${Math.min(pullDistance, threshold)}px` }}>
+          <div className={`flex items-center gap-2 text-orange-700 text-sm font-medium ${isPulling ? 'animate-spin' : ''}`}>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
             </svg>
@@ -294,12 +299,12 @@ export default function ServicosCategoriaPage() {
         </div>
       )}
       
-      {/* HERO HEADER */}
-      <div className="bg-card border-b border-border px-5 pt-6 pb-4">
+      {/* HERO HEADER - Corrigido: padding adequado, cor navy, contagem correta */}
+      <div className="bg-card px-5 pt-6 pb-4 border-b border-border">
         <div className="max-w-7xl mx-auto">
           <Link to={createPageUrl("Home")}>
-            <Button variant="ghost" className="text-foreground hover:bg-accent mb-4 -ml-2">
-              <ArrowLeft className="w-4 h-4 mr-2 text-primary" /> Voltar
+            <Button variant="ghost" className="text-foreground hover:bg-muted mb-4 -ml-2">
+              <ArrowLeft className="w-4 h-4 mr-2 text-orange-400" /> Voltar
             </Button>
           </Link>
           <h1 className="text-2xl md:text-3xl font-extrabold mb-2 text-foreground">
@@ -310,7 +315,7 @@ export default function ServicosCategoriaPage() {
           </p>
           {selectedCategory !== 'Todos' && slugMap[selectedCategory] && (
             <Link to={`/ServicoLanding?slug=${slugMap[selectedCategory]}`} className="inline-block mt-3">
-              <span className="text-xs bg-primary/10 hover:bg-primary/20 text-primary rounded-full px-3 py-1 transition-colors border border-primary/30">
+              <span className="text-xs bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 rounded-full px-3 py-1 transition-colors border border-orange-500/30">
                 📄 Guia completo de {selectedCategory} em Trancoso →
               </span>
             </Link>
@@ -330,8 +335,6 @@ export default function ServicosCategoriaPage() {
           setAvailabilityFilter={setAvailabilityFilter}
           neighborhoodFilter={neighborhoodFilter}
           setNeighborhoodFilter={setNeighborhoodFilter}
-          cityFilter={cityFilter}
-          setCityFilter={setCityFilter}
           filterCounts={filterCounts}
           viewMode={viewMode}
           setViewMode={setViewMode}
@@ -361,14 +364,12 @@ export default function ServicosCategoriaPage() {
           ratingFilter={ratingFilter}
           availabilityFilter={availabilityFilter}
           neighborhoodFilter={neighborhoodFilter}
-          cityFilter={cityFilter}
           selectedCategory={selectedCategory}
           setSearchQuery={setSearchQuery}
           setPriceFilter={setPriceFilter}
           setRatingFilter={setRatingFilter}
           setAvailabilityFilter={setAvailabilityFilter}
           setNeighborhoodFilter={setNeighborhoodFilter}
-          setCityFilter={setCityFilter}
           setSelectedCategory={setSelectedCategory}
         />
       </div>

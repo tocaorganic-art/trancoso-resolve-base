@@ -9,57 +9,57 @@ function MonitoringDashboardContent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3 mb-2">
-          <Activity className="w-8 h-8 text-blue-600" />
+        <h1 className="text-3xl font-bold text-foreground flex items-center gap-3 mb-2">
+          <Activity className="w-8 h-8 text-brand-primary" />
           Dashboard de Monitoramento
         </h1>
-        <p className="text-slate-600">
+        <p className="text-muted-foreground">
           Visão unificada de todos os sistemas e métricas da plataforma
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card className="border-none shadow-lg bg-gradient-to-br from-blue-50 to-white">
+        <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
-              <Activity className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-medium text-slate-700">Uptime</span>
+              <Activity className="w-5 h-5 text-brand-primary" />
+              <span className="text-sm font-medium text-foreground">Uptime</span>
             </div>
-            <p className="text-3xl font-bold text-blue-700">99.9%</p>
-            <p className="text-xs text-slate-500 mt-1">Últimos 30 dias</p>
+            <p className="text-3xl font-bold text-brand-primary">99.9%</p>
+            <p className="text-xs text-muted-foreground mt-1">Últimos 30 dias</p>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-green-50 to-white">
+        <Card className="border-none shadow-lg bg-gradient-to-br from-[#3E8E5A]/10 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
-              <TrendingUp className="w-5 h-5 text-green-600" />
-              <span className="text-sm font-medium text-slate-700">Performance</span>
+              <TrendingUp className="w-5 h-5 text-[#3E8E5A]" />
+              <span className="text-sm font-medium text-foreground">Performance</span>
             </div>
-            <p className="text-3xl font-bold text-green-700">92</p>
-            <p className="text-xs text-slate-500 mt-1">Score médio</p>
+            <p className="text-3xl font-bold text-[#3E8E5A]">92</p>
+            <p className="text-xs text-muted-foreground mt-1">Score médio</p>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-purple-50 to-white">
+        <Card className="border-none shadow-lg bg-gradient-to-br from-amber-50 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
-              <Shield className="w-5 h-5 text-purple-600" />
-              <span className="text-sm font-medium text-slate-700">Segurança</span>
+              <Shield className="w-5 h-5 text-amber-600" />
+              <span className="text-sm font-medium text-foreground">Segurança</span>
             </div>
-            <p className="text-3xl font-bold text-purple-700">100</p>
-            <p className="text-xs text-slate-500 mt-1">Sem vulnerabilidades</p>
+            <p className="text-3xl font-bold text-amber-700">100</p>
+            <p className="text-xs text-muted-foreground mt-1">Sem vulnerabilidades</p>
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-white">
+        <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Zap className="w-5 h-5 text-orange-600" />
-              <span className="text-sm font-medium text-slate-700">API</span>
+              <span className="text-sm font-medium text-foreground">API</span>
             </div>
             <p className="text-3xl font-bold text-orange-700">145ms</p>
-            <p className="text-xs text-slate-500 mt-1">Latência média</p>
+            <p className="text-xs text-muted-foreground mt-1">Latência média</p>
           </CardContent>
         </Card>
       </div>

@@ -82,15 +82,15 @@ export default function TaskManagement() {
   };
 
   const priorityColors = {
-    "Baixa": "bg-blue-100 text-blue-800 border-blue-200",
-    "Média": "bg-yellow-100 text-yellow-800 border-yellow-200",
+    "Baixa": "bg-[#6B7C3A]/10 text-[#6B7C3A] border-[#6B7C3A]/30",
+    "Média": "bg-amber-100 text-amber-800 border-amber-200",
     "Alta": "bg-orange-100 text-orange-800 border-orange-200",
     "Urgente": "bg-red-100 text-red-800 border-red-200",
   };
 
   const statusColors = {
     "Pendente": "bg-slate-100 text-slate-800 border-slate-200",
-    "Em Andamento": "bg-blue-100 text-blue-800 border-blue-200",
+    "Em Andamento": "bg-orange-100 text-orange-800 border-orange-200",
     "Concluída": "bg-green-100 text-green-800 border-green-200",
     "Cancelada": "bg-red-100 text-red-800 border-red-200",
   };
@@ -108,17 +108,17 @@ export default function TaskManagement() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="border-none shadow-lg bg-gradient-to-br from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20">
+      <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-sand/30 dark:from-orange-900/20 dark:to-sand/10">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-cyan-600" />
+              <CheckCircle className="w-5 h-5 text-orange-600" />
               Gestão de Tarefas em Tempo Real
             </CardTitle>
             <Button
               onClick={() => setShowForm(!showForm)}
               size="sm"
-              className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700"
+              className="bg-gradient-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
             >
               <Plus className="w-4 h-4 mr-1" />
               Nova Tarefa
@@ -141,7 +141,7 @@ export default function TaskManagement() {
             </div>
             <div>
               <p className="text-xs text-slate-600 dark:text-slate-400 mb-1">Taxa de Conclusão</p>
-              <p className="text-2xl font-bold text-blue-600">
+              <p className="text-2xl font-bold text-orange-600">
                 {tasks.length > 0 ? Math.round((completedTasks / tasks.length) * 100) : 0}%
               </p>
             </div>
@@ -152,7 +152,7 @@ export default function TaskManagement() {
       {/* Formulário */}
       {showForm && (
         <Card className="border-none shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-cyan-50 to-blue-50 dark:from-cyan-900/20 dark:to-blue-900/20">
+          <CardHeader className="bg-gradient-to-r from-orange-50 to-sand/30 dark:from-orange-900/20 dark:to-sand/10">
             <CardTitle className="text-lg">Nova Tarefa</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -257,7 +257,7 @@ export default function TaskManagement() {
                 <Button
                   type="submit"
                   disabled={createMutation.isPending || !formData.assigned_to}
-                  className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700"
+                  className="bg-gradient-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
                 >
                   {createMutation.isPending ? "Criando..." : "Criar Tarefa"}
                 </Button>

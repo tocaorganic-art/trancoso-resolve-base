@@ -114,7 +114,7 @@ export default function LeadsTab() {
                       </td>
                       <td className="py-1.5 text-slate-300">{l.service_interest || "-"}</td>
                       <td className="py-1.5 text-slate-400">{l.source || "-"}</td>
-                      <td className="py-1.5"><span className={`px-1.5 py-0.5 rounded text-xs ${l.type === "prestador" ? "bg-purple-900 text-purple-300" : "bg-blue-900 text-blue-300"}`}>{l.type}</span></td>
+                      <td className="py-1.5"><span className={`px-1.5 py-0.5 rounded text-xs ${l.type === "prestador" ? "bg-orange-900 text-orange-300" : "bg-amber-900 text-amber-300"}`}>{l.type}</span></td>
                       <td className="py-1.5"><span className={contacted ? "text-green-400" : "text-slate-500"}>●{" "}{contacted ? "Contatado" : "Novo"}</span></td>
                       <td className="py-1.5">
                         {!contacted && (

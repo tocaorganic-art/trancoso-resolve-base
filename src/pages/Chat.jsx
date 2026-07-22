@@ -18,19 +18,19 @@ function EmptyConversations() {
   return (
     <div className="flex flex-col items-center justify-center h-full p-6 text-center">
       <span className="text-5xl mb-4">💬</span>
-      <h3 className="text-lg font-bold text-slate-800 mb-2">Olá! Sou o TryA 👋</h3>
-      <p className="text-sm text-slate-500 mb-6 max-w-xs leading-relaxed">
+      <h3 className="text-lg font-bold text-foreground mb-2">Olá! Sou o TryA</h3>
+      <p className="text-sm text-muted-foreground mb-6 max-w-xs leading-relaxed">
         Seu assistente para encontrar os melhores profissionais em Trancoso. Como posso ajudar hoje?
       </p>
       <Link to="/Assistentevirtual">
-        <Button className="bg-amber-700 hover:bg-amber-800 text-white font-semibold mb-5 transition-all duration-200 active:scale-95 hover:scale-105">
+        <Button className="bg-orange-700 hover:bg-orange-800 text-white font-semibold mb-5 transition-all duration-200 active:scale-95 hover:scale-105">
           Iniciar Conversa
         </Button>
       </Link>
       <div className="space-y-2 w-full max-w-xs">
         {suggestions.map((s) => (
           <Link key={s} to={`/Assistentevirtual`}>
-            <button className="w-full text-left text-sm px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 hover:bg-amber-100 transition-colors duration-150">
+            <button className="w-full text-left text-sm px-4 py-2.5 rounded-xl bg-orange-50 border border-orange-200 text-orange-800 hover:bg-orange-100 transition-colors duration-150">
               {s} →
             </button>
           </Link>
@@ -46,7 +46,7 @@ function ConversationList({ conversations, selectedId, onSelect, currentUser }) 
   }
 
   return (
-    <div className="divide-y divide-slate-100">
+    <div className="divide-y divide-border">
       {conversations.map((conv) => {
         const isClient = conv.client_email === currentUser?.email;
         const otherName = isClient ? conv.provider_name : conv.client_name;
@@ -57,25 +57,25 @@ function ConversationList({ conversations, selectedId, onSelect, currentUser }) 
           <button
             key={conv.id}
             onClick={() => onSelect(conv)}
-            className={`w-full text-left p-4 hover:bg-slate-50 transition-colors ${isSelected ? "bg-cyan-50 border-l-4 border-cyan-500" : ""}`}
+            className={`w-full text-left p-4 hover:bg-muted transition-colors ${isSelected ? "bg-orange-50 border-l-4 border-brand-primary" : ""}`}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold shrink-0">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold shrink-0">
                 {otherName?.charAt(0)?.toUpperCase() || "?"}
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <p className="font-semibold text-sm text-slate-900 truncate">{otherName || "Usuário"}</p>
+                  <p className="font-semibold text-sm text-foreground truncate">{otherName || "Usuário"}</p>
                   {unread > 0 && (
-                    <Badge className="bg-cyan-500 text-white text-xs ml-2 shrink-0">{unread}</Badge>
+                    <Badge className="bg-brand-primary text-white text-xs ml-2 shrink-0">{unread}</Badge>
                   )}
                 </div>
                 {conv.service_title && (
-                  <p className="text-xs text-cyan-600 truncate">📋 {conv.service_title}</p>
+                  <p className="text-xs text-orange-600 truncate">{conv.service_title}</p>
                 )}
-                <p className="text-xs text-slate-500 truncate mt-0.5">{conv.last_message || "Sem mensagens"}</p>
+                <p className="text-xs text-muted-foreground truncate mt-0.5">{conv.last_message || "Sem mensagens"}</p>
                 {conv.last_message_at && (
-                  <p className="text-xs text-slate-400 mt-0.5">
+                  <p className="text-xs text-muted-foreground mt-0.5">
                     {formatDistanceToNow(new Date(conv.last_message_at), { addSuffix: true, locale: ptBR })}
                   </p>
                 )}
@@ -91,13 +91,13 @@ function ConversationList({ conversations, selectedId, onSelect, currentUser }) 
 function MessageBubbleChat({ message, isOwn }) {
   return (
     <div className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-3`}>
-      <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOwn ? "bg-cyan-500 text-white rounded-br-sm" : "bg-white border border-slate-200 text-slate-900 rounded-bl-sm"}`}>
+      <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOwn ? "bg-brand-primary text-white rounded-br-sm" : "bg-card border border-border text-foreground rounded-bl-sm"}`}>
         <p className="text-sm leading-relaxed">{message.content}</p>
         <div className={`flex items-center gap-1 mt-1 ${isOwn ? "justify-end" : "justify-start"}`}>
-          <span className={`text-xs ${isOwn ? "text-cyan-100" : "text-slate-400"}`}>
+          <span className={`text-xs ${isOwn ? "text-orange-100" : "text-muted-foreground"}`}>
             {message.created_date ? format(new Date(message.created_date), "HH:mm") : ""}
           </span>
-          {isOwn && <CheckCheck className={`w-3 h-3 ${message.read ? "text-cyan-200" : "text-cyan-300"}`} />}
+          {isOwn && <CheckCheck className={`w-3 h-3 ${message.read ? "text-orange-200" : "text-orange-300"}`} />}
         </div>
       </div>
     </div>
@@ -183,21 +183,21 @@ function ChatWindow({ conversation, currentUser, onBack }) {
         <Button variant="ghost" size="icon" onClick={onBack} className="md:hidden">
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-white font-bold">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold">
           {otherName?.charAt(0)?.toUpperCase() || "?"}
         </div>
         <div>
-          <p className="font-semibold text-slate-900">{otherName || "Usuário"}</p>
+          <p className="font-semibold text-foreground">{otherName || "Usuário"}</p>
           {conversation.service_title && (
-            <p className="text-xs text-cyan-600">📋 {conversation.service_title}</p>
+            <p className="text-xs text-orange-600">{conversation.service_title}</p>
           )}
         </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 bg-slate-50 space-y-1">
+      <div className="flex-1 overflow-y-auto p-4 bg-muted space-y-1">
         {!messages || messages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-slate-400">
+          <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
             <MessageCircle className="w-10 h-10 mb-2 opacity-40" />
             <p className="text-sm">Inicie a conversa!</p>
           </div>
@@ -225,7 +225,7 @@ function ChatWindow({ conversation, currentUser, onBack }) {
         <Button
           type="submit"
           disabled={!newMessage.trim() || sendMessageMutation.isPending}
-          className="bg-cyan-500 hover:bg-cyan-600 shrink-0"
+          className="bg-brand-primary hover:bg-orange-600 shrink-0"
         >
           <Send className="w-4 h-4" />
         </Button>
@@ -265,13 +265,13 @@ export default function ChatPage() {
 
   if (!currentUser) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-background">
         <Card className="max-w-sm w-full mx-4">
           <CardContent className="p-8 text-center">
-            <MessageCircle className="w-12 h-12 mx-auto text-cyan-500 mb-4" />
-            <h2 className="text-xl font-bold text-slate-900 mb-2">Faça login para usar o chat</h2>
-            <p className="text-slate-500 mb-6">Você precisa estar logado para conversar com prestadores.</p>
-            <Button onClick={() => base44.auth.redirectToLogin()} className="w-full bg-cyan-500 hover:bg-cyan-600">
+            <MessageCircle className="w-12 h-12 mx-auto text-brand-primary mb-4" />
+            <h2 className="text-xl font-bold text-foreground mb-2">Faça login para usar o chat</h2>
+            <p className="text-muted-foreground mb-6">Você precisa estar logado para conversar com prestadores.</p>
+            <Button onClick={() => base44.auth.redirectToLogin()} className="w-full bg-brand-primary hover:bg-orange-600">
               Entrar
             </Button>
           </CardContent>
@@ -281,13 +281,13 @@ export default function ChatPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-background">
       <div className="container mx-auto max-w-5xl px-4 py-6">
         <div className="flex items-center gap-3 mb-6">
-          <MessageCircle className="w-7 h-7 text-cyan-600" />
-          <h1 className="text-2xl font-bold text-slate-900">Minhas Conversas</h1>
+          <MessageCircle className="w-7 h-7 text-brand-primary" />
+          <h1 className="text-2xl font-bold text-foreground">Minhas Conversas</h1>
           {totalUnread > 0 && (
-            <Badge className="bg-cyan-500 text-white">{totalUnread} nova{totalUnread > 1 ? "s" : ""}</Badge>
+            <Badge className="bg-brand-primary text-white">{totalUnread} nova{totalUnread > 1 ? "s" : ""}</Badge>
           )}
         </div>
 
@@ -295,8 +295,8 @@ export default function ChatPage() {
           <div className="flex h-full">
             {/* Sidebar - Lista de conversas */}
             <div className={`w-full md:w-80 border-r flex flex-col ${selectedConversation ? "hidden md:flex" : "flex"}`}>
-              <div className="p-4 border-b bg-slate-50">
-                <p className="text-sm text-slate-500 font-medium">
+              <div className="p-4 border-b bg-muted">
+                <p className="text-sm text-muted-foreground font-medium">
                   {conversations?.length || 0} conversa{conversations?.length !== 1 ? "s" : ""}
                 </p>
               </div>
@@ -319,9 +319,9 @@ export default function ChatPage() {
                   onBack={() => setSelectedConversation(null)}
                 />
               ) : (
-                <div className="flex flex-col items-center justify-center h-full text-slate-400">
+                <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
                   <MessageCircle className="w-16 h-16 mb-4 opacity-30" />
-                  <p className="font-medium text-slate-500">Selecione uma conversa</p>
+                  <p className="font-medium text-muted-foreground">Selecione uma conversa</p>
                   <p className="text-sm mt-1">ou inicie um chat pelo perfil de um prestador</p>
                 </div>
               )}

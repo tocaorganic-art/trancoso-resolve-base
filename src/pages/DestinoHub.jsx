@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { DESTINO_MAP, CATEGORIAS, BASE_URL } from '@/data/seoLocal';
 import LeadCaptureForm from '@/components/servicos/LeadCaptureForm';
 import WhatsAppStickyBar from '@/components/servicos/WhatsAppStickyBar';
+import CategoryIcon from '@/lib/categoryIcons';
 
 export default function DestinoHub() {
   const { destino } = useParams();
@@ -52,6 +53,7 @@ export default function DestinoHub() {
 
   return (
     <div className="bg-background overflow-x-hidden">
+      {/* Hero */}
       <section className="relative bg-gradient-to-br from-[#1A1208] via-[#3a2d18] to-[#1A1208] text-white py-20 md:py-32 overflow-hidden">
         <div className="relative container mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-700/40 border border-orange-400/30 rounded-full px-4 py-1.5 text-sm font-medium text-orange-200 mb-6">
@@ -75,6 +77,7 @@ export default function DestinoHub() {
         </div>
       </section>
 
+      {/* Destaques */}
       <section className="py-16 container mx-auto max-w-5xl px-4">
         <h2 className="text-2xl font-bold text-neutral-900 mb-8 text-center">
           Por que Trancoso Resolve em {label}?
@@ -94,16 +97,17 @@ export default function DestinoHub() {
         </div>
       </section>
 
+      {/* Grid de categorias */}
       <section className="py-16 bg-sand/30">
         <div className="container mx-auto max-w-5xl px-4">
           <h2 className="text-2xl font-bold text-neutral-900 mb-8 text-center">
             Escolha o serviço que precisa
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-            {CATEGORIAS.map(({ slug, label: catLabel, emoji }) => (
+            {CATEGORIAS.map(({ slug, label: catLabel }) => (
               <Link key={slug} to={`/${destino}/${slug}`} className="group">
                 <div className="flex flex-col items-center p-5 rounded-2xl border border-border bg-white hover:border-orange-400 hover:shadow-md transition-all text-center gap-2">
-                  <span className="text-3xl">{emoji}</span>
+                  <CategoryIcon category={slug} className="w-8 h-8" />
                   <span className="font-semibold text-sm text-neutral-900 group-hover:text-orange-700 transition-colors">{catLabel}</span>
                 </div>
               </Link>
@@ -112,6 +116,7 @@ export default function DestinoHub() {
         </div>
       </section>
 
+      {/* Formulário */}
       <section className="py-16">
         <div className="container mx-auto max-w-2xl px-4">
           <h2 className="text-2xl font-bold text-center mb-8">Pedir orçamento em {label}</h2>

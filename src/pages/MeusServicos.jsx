@@ -123,7 +123,7 @@ function MeusServicosContent() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
-        <Loader2 className="w-8 h-8 animate-spin text-amber-600" />
+        <Loader2 className="w-8 h-8 animate-spin text-orange-600" />
       </div>
     );
   }
@@ -131,10 +131,10 @@ function MeusServicosContent() {
   if (!provider) {
     return (
       <div className="px-5 py-12">
-        <div className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-8 text-center">
-          <AlertCircle className="w-12 h-12 text-amber-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-white mb-2">Complete seu Perfil</h2>
-          <p className="text-slate-400 mb-6">Primeiro você precisa completar seu perfil de prestador para cadastrar serviços.</p>
+        <div className="rounded-2xl bg-card border border-border p-8 text-center">
+          <AlertCircle className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+          <h2 className="text-xl font-bold text-foreground mb-2">Complete seu Perfil</h2>
+          <p className="text-muted-foreground mb-6">Primeiro você precisa completar seu perfil de prestador para cadastrar serviços.</p>
           <Link to={createPageUrl("MeuPerfilPrestador")}>
             <button className="px-6 py-3 rounded-xl gradient-amber text-white font-semibold">
               Completar Perfil
@@ -146,11 +146,11 @@ function MeusServicosContent() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a1628] pb-24">
+    <div className="min-h-screen bg-background pb-24">
       {/* HEADER PADRÃO */}
       <header className="px-5 pt-6 pb-2">
-        <h1 className="text-2xl font-extrabold text-white tracking-tight">Meus Serviços</h1>
-        <p className="text-sm text-slate-400 mt-1">Gerencie os serviços que você oferece</p>
+        <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Meus Serviços</h1>
+        <p className="text-sm text-muted-foreground mt-1">Gerencie os serviços que você oferece</p>
       </header>
 
       <div className="px-5 mt-6">
@@ -164,9 +164,9 @@ function MeusServicosContent() {
 
         {services.length === 0 ? (
           <div className="text-center py-12">
-            <AlertCircle className="w-16 h-16 text-slate-500 mx-auto mb-4" />
-            <h3 className="text-lg font-bold text-white">Nenhum serviço cadastrado</h3>
-            <p className="text-sm text-slate-400 mt-2 mb-6">Comece cadastrando seu primeiro serviço.</p>
+            <AlertCircle className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-bold text-foreground">Nenhum serviço cadastrado</h3>
+            <p className="text-sm text-muted-foreground mt-2 mb-6">Comece cadastrando seu primeiro serviço.</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -176,14 +176,14 @@ function MeusServicosContent() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="rounded-2xl overflow-hidden bg-white/5 backdrop-blur-sm border border-white/10 transition hover:scale-[1.02]"
+                className="rounded-2xl overflow-hidden bg-card border border-border transition hover:scale-[1.02]"
               >
                 {service.images?.[0] && (
                   <LazyImage src={service.images[0]} alt={service.title} className="w-full h-44 object-cover" />
                 )}
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-base font-bold text-white">{service.title}</h3>
+                    <h3 className="text-base font-bold text-foreground">{service.title}</h3>
                     <span className={cn(
                       "text-xs font-semibold px-2.5 py-1 rounded-full border",
                       service.active 
@@ -193,17 +193,17 @@ function MeusServicosContent() {
                       {service.active ? "Ativo" : "Inativo"}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-400 mt-2 line-clamp-2">{service.description}</p>
+                  <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{service.description}</p>
                   <div className="flex items-end justify-between mt-4">
-                    <span className="text-2xl font-extrabold bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">
+                    <span className="text-2xl font-extrabold bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent">
                       R$ {service.price?.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}
                     </span>
-                    <span className="text-xs text-slate-500">por {service.price_unit}</span>
+                    <span className="text-xs text-muted-foreground">por {service.price_unit}</span>
                   </div>
                   <div className="flex gap-2 mt-4">
                     <button
                       onClick={() => toggleActiveMutation.mutate({ id: service.id, active: !service.active })}
-                      className="flex-1 py-2.5 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-sm font-medium hover:bg-white/10 transition"
+                      className="flex-1 py-2.5 rounded-xl bg-muted border border-border text-muted-foreground text-sm font-medium hover:bg-card transition"
                     >
                       {service.active ? 'Desativar' : 'Ativar'}
                     </button>

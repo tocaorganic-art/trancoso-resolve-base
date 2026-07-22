@@ -7,8 +7,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Sparkles, Download, Image as ImageIcon, LogIn, RefreshCw, Wand2 } from 'lucide-react';
 import { toast } from 'sonner';
 
-import PermissionChecker from '@/components/auth/PermissionChecker';
-
 const STYLE_OPTIONS = ["Realista", "Ilustração", "3D", "Aquarela", "Minimalista"];
 const FORMAT_OPTIONS = [
   { label: "Quadrado", value: "quadrado" },
@@ -24,7 +22,7 @@ const TEMPLATE_PROMPTS = [
   { label: "Avatar 3D prestador", prompt: "Avatar estilizado em 3D para prestador de serviço, profissional, fundo neutro, traços modernos" },
 ];
 
-function GeradorDeImagemPageContent() {
+export default function GeradorDeImagemPage() {
   const [prompt, setPrompt] = useState('');
   const [style, setStyle] = useState('');
   const [detail, setDetail] = useState('');
@@ -37,30 +35,30 @@ function GeradorDeImagemPageContent() {
   });
 
   if (isUserLoading) {
-    return <div className="flex items-center justify-center h-screen"><Loader2 className="w-10 h-10 animate-spin text-blue-600" /></div>;
+    return <div className="flex items-center justify-center h-screen"><Loader2 className="w-10 h-10 animate-spin text-brand-primary" /></div>;
   }
 
   // Bloqueio para não logados
   if (!user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 to-slate-900 flex items-center justify-center px-4">
-        <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
-          <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Sparkles className="w-8 h-8 text-purple-600" />
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
+        <div className="bg-card rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+          <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
+            <Sparkles className="w-8 h-8 text-brand-primary" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 mb-2">Toca Vision</h1>
-          <p className="text-slate-600 mb-2 text-sm font-medium">Gerador de imagens com IA</p>
-          <p className="text-slate-500 text-sm mb-6">
+          <h1 className="text-2xl font-bold text-foreground mb-2">Toca Vision</h1>
+          <p className="text-muted-foreground mb-2 text-sm font-medium">Gerador de imagens com IA</p>
+          <p className="text-muted-foreground text-sm mb-6">
             Para usar o <strong>Toca Vision</strong>, é necessário ter cadastro e estar logado como prestador ou cliente.
           </p>
           <Button
-            className="w-full bg-purple-600 hover:bg-purple-700 mb-3"
+            className="w-full bg-brand-primary hover:bg-orange-700 mb-3"
             onClick={() => base44.auth.redirectToLogin(window.location.pathname)}
           >
             <LogIn className="w-4 h-4 mr-2" />
             Entrar para usar o Toca Vision
           </Button>
-          <p className="text-xs text-slate-400">Não tem conta? Clique em Entrar e escolha "Cadastre-se".</p>
+          <p className="text-xs text-muted-foreground">Não tem conta? Clique em Entrar e escolha "Cadastre-se".</p>
         </div>
       </div>
     );
@@ -124,16 +122,16 @@ function GeradorDeImagemPageContent() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-background py-8 px-4">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-semibold mb-3">
+          <div className="inline-flex items-center gap-2 bg-muted text-muted-foreground px-4 py-2 rounded-full text-sm font-semibold mb-3">
             <Sparkles className="w-4 h-4" />
             Toca Vision
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">Crie com o Toca Vision</h1>
-          <p className="text-slate-500 max-w-xl mx-auto text-sm md:text-base">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">Crie com o Toca Vision</h1>
+          <p className="text-muted-foreground max-w-xl mx-auto text-sm md:text-base">
             Gere imagens exclusivas em alta qualidade usando inteligência artificial, ideal para posts, marcas e experiências em Trancoso.
           </p>
         </div>
@@ -144,7 +142,7 @@ function GeradorDeImagemPageContent() {
             <Card className="border-none shadow-lg">
               <CardContent className="p-5 space-y-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Descreva sua imagem</label>
+                  <label className="block text-sm font-semibold text-foreground mb-2">Descreva sua imagem</label>
                   <Textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
@@ -156,13 +154,13 @@ function GeradorDeImagemPageContent() {
 
                 {/* Estilo */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wide">Estilo</label>
+                  <label className="block text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Estilo</label>
                   <div className="flex flex-wrap gap-2">
                     {STYLE_OPTIONS.map(s => (
                       <button
                         key={s}
                         onClick={() => setStyle(style === s ? '' : s)}
-                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${style === s ? 'bg-purple-600 text-white border-purple-600' : 'bg-white text-slate-600 border-slate-200 hover:border-purple-300'}`}
+                        className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${style === s ? 'bg-brand-primary text-white border-brand-primary' : 'bg-card text-muted-foreground border-border hover:border-orange-300'}`}
                       >{s}</button>
                     ))}
                   </div>
@@ -170,13 +168,13 @@ function GeradorDeImagemPageContent() {
 
                 {/* Detalhe */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-2 uppercase tracking-wide">Nível de detalhe</label>
+                  <label className="block text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">Nível de detalhe</label>
                   <div className="flex gap-2">
                     {DETAIL_OPTIONS.map(d => (
                       <button
                         key={d}
                         onClick={() => setDetail(detail === d ? '' : d)}
-                        className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-colors ${detail === d ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300'}`}
+                        className={`flex-1 py-1.5 rounded-lg text-xs font-medium border transition-colors ${detail === d ? 'bg-brand-primary text-white border-brand-primary' : 'bg-card text-muted-foreground border-border hover:border-orange-300'}`}
                       >{d}</button>
                     ))}
                   </div>
@@ -185,7 +183,7 @@ function GeradorDeImagemPageContent() {
                 <Button
                   onClick={handleGenerate}
                   disabled={isGenerating || !prompt.trim()}
-                  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 min-h-[48px] text-base font-semibold"
+                  className="w-full bg-brand-primary hover:bg-orange-700 min-h-[48px] text-base font-semibold"
                   size="lg"
                 >
                   {isGenerating ? (
@@ -195,23 +193,23 @@ function GeradorDeImagemPageContent() {
                   )}
                 </Button>
                 {isGenerating && (
-                  <p className="text-xs text-center text-slate-400">Criando sua arte… isso leva alguns segundos.</p>
+                  <p className="text-xs text-center text-muted-foreground">Criando sua arte… isso leva alguns segundos.</p>
                 )}
               </CardContent>
             </Card>
 
             {/* Templates */}
             <div>
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Prompts prontos — clique para usar</p>
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Prompts prontos — clique para usar</p>
               <div className="grid grid-cols-2 gap-2">
                 {TEMPLATE_PROMPTS.map(t => (
                   <button
                     key={t.label}
                     onClick={() => setPrompt(t.prompt)}
-                    className="text-left bg-white border border-slate-200 hover:border-purple-400 rounded-xl p-3 shadow-sm transition-all"
+                    className="text-left bg-card border border-border hover:border-orange-400 rounded-xl p-3 shadow-sm transition-all"
                   >
-                    <p className="text-xs font-semibold text-slate-700 mb-0.5">{t.label}</p>
-                    <p className="text-xs text-slate-400 line-clamp-2">{t.prompt}</p>
+                    <p className="text-xs font-semibold text-foreground mb-0.5">{t.label}</p>
+                    <p className="text-xs text-muted-foreground line-clamp-2">{t.prompt}</p>
                   </button>
                 ))}
               </div>
@@ -221,18 +219,18 @@ function GeradorDeImagemPageContent() {
           {/* Resultado */}
           <Card className="border-none shadow-lg">
             <CardContent className="p-5">
-              <p className="text-sm font-semibold text-slate-700 mb-3">Resultado</p>
+              <p className="text-sm font-semibold text-foreground mb-3">Resultado</p>
               {!generatedImage && !isGenerating && (
-                <div className="aspect-square bg-slate-100 rounded-xl flex flex-col items-center justify-center text-slate-400">
+                <div className="aspect-square bg-muted rounded-xl flex flex-col items-center justify-center text-muted-foreground">
                   <ImageIcon className="w-14 h-14 mb-3 opacity-50" />
                   <p className="text-sm">Sua imagem aparecerá aqui</p>
                 </div>
               )}
               {isGenerating && (
-                <div className="aspect-square bg-gradient-to-br from-purple-100 to-blue-100 rounded-xl flex flex-col items-center justify-center">
-                  <Loader2 className="w-14 h-14 text-purple-600 animate-spin mb-3" />
-                  <p className="text-sm text-purple-700 font-semibold">Criando sua arte…</p>
-                  <p className="text-xs text-purple-500 mt-1">Isso leva alguns segundos</p>
+                <div className="aspect-square bg-muted rounded-xl flex flex-col items-center justify-center">
+                  <Loader2 className="w-14 h-14 text-brand-primary animate-spin mb-3" />
+                  <p className="text-sm text-foreground font-semibold">Criando sua arte…</p>
+                  <p className="text-xs text-muted-foreground mt-1">Isso leva alguns segundos</p>
                 </div>
               )}
               {generatedImage && !isGenerating && (
@@ -258,13 +256,5 @@ function GeradorDeImagemPageContent() {
         </div>
       </div>
     </div>
-  );
-}
-
-export default function GeradorDeImagemPage() {
-  return (
-    <PermissionChecker requiredRole="admin">
-      <GeradorDeImagemPageContent />
-    </PermissionChecker>
   );
 }

@@ -27,11 +27,11 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange }) 
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 bg-slate-700/50 hover:bg-slate-700 border border-slate-600 hover:border-slate-500 text-white rounded-lg px-3 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-cyan-500"
-        aria-label="Select language"
+        className="flex items-center gap-2 bg-orange-900/20 hover:bg-orange-900/40 border border-orange-800/30 hover:border-orange-700/50 text-[#F2DEC4] rounded-pill px-3 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-orange-500"
+        aria-label="Selecionar idioma"
         aria-expanded={isOpen}
       >
-        <Globe className="w-4 h-4 text-cyan-400" />
+        <Globe className="w-4 h-4 text-orange-400" />
         <span className="text-xs font-semibold">
           {currentLang?.flag} {currentLang?.name || 'PT'}
         </span>
@@ -39,7 +39,7 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange }) 
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-40 bg-slate-800 border border-slate-700 rounded-lg shadow-lg z-50 overflow-hidden">
+        <div className="absolute right-0 mt-2 w-40 bg-[#130D06] border border-orange-900/30 rounded-brand-sm shadow-warm-md z-50 overflow-hidden">
           {LANGUAGES.map(lang => (
             <button
               key={lang.code}
@@ -49,8 +49,8 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange }) 
               }}
               className={`w-full px-4 py-2.5 text-left text-sm transition-colors flex items-center gap-2 ${
                 currentLanguage === lang.code
-                  ? 'bg-cyan-500/20 text-cyan-300 border-l-2 border-cyan-500 font-semibold'
-                  : 'text-slate-300 hover:bg-slate-700'
+                  ? 'bg-orange-500/20 text-orange-300 border-l-2 border-orange-500 font-semibold'
+                  : 'text-[#C8A882] hover:bg-orange-900/20'
               }`}
               aria-current={currentLanguage === lang.code}
             >

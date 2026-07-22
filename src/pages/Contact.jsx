@@ -17,18 +17,6 @@ export default function ContactPage() {
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
     canonical.href = `${window.location.origin}/Contact`;
-
-    let ogUrl = document.querySelector('meta[property="og:url"]');
-    if (!ogUrl) { ogUrl = document.createElement('meta'); ogUrl.setAttribute('property', 'og:url'); document.head.appendChild(ogUrl); }
-    ogUrl.content = `${window.location.origin}/Contact`;
-
-    let ogTitle = document.querySelector('meta[property="og:title"]');
-    if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
-    ogTitle.content = 'Contato | Trancoso Resolve';
-
-    let ogDesc = document.querySelector('meta[property="og:description"]');
-    if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
-    ogDesc.content = 'Entre em contato com a Trancoso Resolve. Estamos aqui para ajudar clientes e prestadores de serviço em Trancoso, Bahia.';
   }, []);
 
   const handleSubmit = async (e) => {
@@ -65,16 +53,16 @@ export default function ContactPage() {
           <div className="space-y-5">
             <h2 className="text-xl font-bold text-foreground mb-4">Formas de Contato</h2>
 
-            <a href="mailto:contato@trancosoresolve.com.br" className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border shadow-sm hover:border-primary transition-colors group">
-              <Mail className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+            <a href="mailto:suporte@trancosoresolve.com.br" className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border shadow-sm hover:border-orange-300 transition-colors group">
+              <Mail className="w-5 h-5 text-orange-700 mt-0.5 shrink-0" />
               <div>
-                <p className="font-semibold text-foreground group-hover:text-primary transition-colors">contato@trancosoresolve.com.br</p>
+                <p className="font-semibold text-foreground group-hover:text-orange-700 transition-colors">suporte@trancosoresolve.com.br</p>
                 <p className="text-xs text-muted-foreground mt-0.5">Resposta em até 24 horas</p>
               </div>
             </a>
 
-            <a href="https://wa.me/5573998283579" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border shadow-sm hover:border-green-400 transition-colors group">
-              <MessageSquare className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+            <a href="https://wa.me/5573998283579" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 p-4 bg-card rounded-xl border border-border shadow-sm hover:border-[#3E8E5A]/50 transition-colors group">
+              <MessageSquare className="w-5 h-5 text-[#3E8E5A] mt-0.5 shrink-0" />
               <div>
                 <p className="font-semibold text-foreground group-hover:text-green-700 transition-colors">WhatsApp</p>
                 <p className="text-xs text-muted-foreground mt-0.5">Atendimento em horário comercial</p>
@@ -89,10 +77,10 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="p-4 bg-primary/10 rounded-xl border border-primary/20">
-              <p className="text-sm text-foreground">
+            <div className="p-4 bg-orange-50 rounded-xl border border-orange-100">
+              <p className="text-sm text-orange-800">
                 Precisa de ajuda rápida? Veja nosso{' '}
-                <a href="/Manual" className="font-semibold underline hover:text-primary">FAQ e Manual</a>.
+                <a href="/Manual" className="font-semibold underline hover:text-orange-900">FAQ e Manual</a>.
               </p>
             </div>
           </div>
@@ -104,8 +92,8 @@ export default function ContactPage() {
             {status === 'success' ? (
               <div className="text-center py-8">
                 <CheckCircle className="w-12 h-12 text-green-500 mx-auto mb-3" />
-                <h3 className="text-lg font-bold text-slate-900 mb-1">Mensagem enviada!</h3>
-                <p className="text-slate-500 text-sm">Obrigado por entrar em contato. Retornaremos em breve.</p>
+                <h3 className="text-lg font-bold text-foreground mb-1">Mensagem enviada!</h3>
+                <p className="text-muted-foreground text-sm">Obrigado por entrar em contato. Retornaremos em breve.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -116,7 +104,7 @@ export default function ContactPage() {
                       type="text" required value={form.name}
                       onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                       placeholder="Seu nome"
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
                   <div>
@@ -125,7 +113,7 @@ export default function ContactPage() {
                       type="tel" value={form.phone}
                       onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                       placeholder="(73) 9 0000-0000"
-                      className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                      className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400"
                     />
                   </div>
                 </div>
@@ -135,7 +123,7 @@ export default function ContactPage() {
                     type="email" required value={form.email}
                     onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
                     placeholder="seu@email.com"
-                    className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400"
                   />
                 </div>
                 <div>
@@ -143,7 +131,7 @@ export default function ContactPage() {
                   <select
                     required value={form.subject}
                     onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
-                    className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400"
                   >
                     <option value="">Selecione...</option>
                     {ASSUNTOS.map(a => <option key={a} value={a}>{a}</option>)}
@@ -156,13 +144,13 @@ export default function ContactPage() {
                     onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                     placeholder="Deixe sua mensagem, dúvida ou sugestão..."
                     rows={4}
-                    className="w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring resize-none"
+                    className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none"
                   />
                 </div>
                 {status === 'error' && (
-                  <p className="text-destructive text-sm">Erro ao enviar. Tente novamente.</p>
+                  <p className="text-red-600 text-sm">Erro ao enviar. Tente novamente.</p>
                 )}
-                <Button type="submit" disabled={status === 'loading'} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold">
+                <Button type="submit" disabled={status === 'loading'} className="w-full bg-orange-700 hover:bg-orange-800 text-white font-bold">
                   {status === 'loading' ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Enviando...</> : 'Enviar Mensagem'}
                 </Button>
               </form>

@@ -8,43 +8,43 @@ import LazyImage from '@/components/ui/LazyImage';
 const banners = [
   {
     id: 1,
-    badge: "✨ A Plataforma Oficial de Serviços na Costa do Descobrimento",
+    badge: "✨ A Plataforma Oficial de Serviços em Trancoso",
     title: "Conecte-se aos Melhores",
     highlight: "Profissionais Verificados",
     subtitle: "Faxina, eletricista, jardinagem, cozinheiro e muito mais — tudo num só lugar, com avaliações reais e confiança garantida.",
     cta: "Começar Agora",
     ctaLink: "/ServicosCategoria",
-    bgColor: "linear-gradient(135deg, #0A81D1 0%, #0061FF 50%, #0D8A6F 100%)",
+    bgColor: "linear-gradient(135deg, #E8571A 0%, #C1440E 50%, #6B7C3A 100%)",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     Icon: Shield,
-    accent: "from-blue-400 to-cyan-300",
+    accent: "from-orange-400 to-sand",
   },
   {
     id: 2,
     badge: "🔥 OFERTA ESPECIAL — Primeira Vaga do Ano!",
     title: "R$ 29,90",
     highlight: "Mês Inaugural + 0% Comissão",
-    subtitle: "Seja um dos primeiros 100 prestadores na Costa do Descobrimento. Pague uma vez só e fique com 100% de tudo que você ganhar. Sem taxas escondidas.",
+    subtitle: "Seja um dos primeiros 100 prestadores em Trancoso. Pague uma vez só e fique com 100% de tudo que você ganhar. Sem taxas escondidas.",
     cta: "Garantir Vaga Agora",
     ctaLink: "/Planos",
     bgColor: "linear-gradient(135deg, #F95738 0%, #FF6B35 50%, #FFB627 100%)",
     image: "https://images.unsplash.com/photo-1516321318423-f06f70d504f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     Icon: Zap,
     spots: true,
-    accent: "from-orange-300 to-yellow-300",
+    accent: "from-orange-300 to-amber-300",
   },
   {
     id: 3,
     badge: "💰 Plano Estável & Previsível",
     title: "R$ 49,90/mês",
     highlight: "Mensal Fixo. 100% Seu.",
-    subtitle: "+ categorias de serviços profissionais. Se existe serviço na Costa do Descobrimento, está aqui. Todos verificados, todos avaliados.",
+    subtitle: "+ categorias de serviços profissionais. Se existe serviço em Trancoso, está aqui. Todos verificados, todos avaliados.",
     cta: "Explorar Categorias",
     ctaLink: "/ServicosCategoria",
-    bgColor: "linear-gradient(135deg, #0D8A6F 0%, #1DB584 50%, #2D3047 100%)",
+    bgColor: "linear-gradient(135deg, #6B7C3A 0%, #8C9B52 50%, #382F26 100%)",
     image: "https://images.unsplash.com/photo-1460925895917-adf4e565016c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     Icon: TrendingUp,
-    accent: "from-emerald-300 to-green-300",
+    accent: "from-olive-300 to-sand",
   },
   {
     id: 4,
@@ -54,10 +54,10 @@ const banners = [
     subtitle: "8 categorias e crescendo. Prestadores verificados. Clientes satisfeitos. Avaliações reais. Tudo que você precisa para gerenciar sua carreira profissional.",
     cta: "Explorar Categorias",
     ctaLink: "/ServicosCategoria",
-    bgColor: "linear-gradient(135deg, #1A2B3C 0%, #0A81D1 50%, #0061FF 100%)",
+    bgColor: "linear-gradient(135deg, #382F26 0%, #C1440E 50%, #E8571A 100%)",
     image: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
     Icon: Users,
-    accent: "from-blue-300 to-indigo-300",
+    accent: "from-orange-300 to-sand",
   }
 ];
 
@@ -158,7 +158,7 @@ export default function PromotionalBanner() {
                         {banner.cta}
                         <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-yellow-400 opacity-0 group-hover:opacity-20 transition-opacity" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-amber-400 opacity-0 group-hover:opacity-20 transition-opacity" />
                     </Button>
                   </Link>
                 </div>

@@ -60,8 +60,8 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-900">
-      <div className="bg-gradient-to-r from-amber-800 to-amber-600 text-white py-6 px-4">
+    <div className="min-h-screen bg-background">
+      <div className="bg-gradient-to-r from-orange-800 to-orange-600 text-white py-6 px-4">
         <div className="container mx-auto max-w-7xl">
           <Link to="/">
             <Button variant="ghost" className="text-white hover:bg-white/20 mb-4">
@@ -69,7 +69,7 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
             </Button>
           </Link>
           <h1 className="text-2xl md:text-3xl font-bold mb-2">Relatório Diário</h1>
-          <p className="text-amber-100">Acompanhe os serviços concluídos e métricas do dia</p>
+          <p className="text-orange-100">Acompanhe os serviços concluídos e métricas do dia</p>
         </div>
       </div>
 
@@ -79,7 +79,7 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-amber-600" />
+                <Calendar className="w-5 h-5 text-orange-600" />
                 Selecionar Data
               </CardTitle>
             </CardHeader>
@@ -88,7 +88,7 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                className="border border-slate-300 dark:border-slate-600 rounded-lg px-4 py-2 bg-white dark:bg-slate-800 text-slate-900 dark:text-white"
+                className="border border-border rounded-lg px-4 py-2 bg-card text-foreground"
                 max={new Date().toISOString().split('T')[0]}
               />
             </CardContent>
@@ -97,16 +97,16 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
 
         {/* Métricas */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-amber-50 to-orange-50 border-amber-200">
+          <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 mb-1">Serviços Concluídos</p>
-                  <p className="text-3xl font-bold text-slate-900">
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Serviços Concluídos</p>
+                  <p className="text-3xl font-bold text-foreground">
                     {relatorioDoDia?.metricas?.servicos_concluidos || 0}
                   </p>
                 </div>
-                <CheckCircle className="w-12 h-12 text-amber-600 opacity-50" />
+                <CheckCircle className="w-12 h-12 text-orange-600 opacity-50" />
               </div>
             </CardContent>
           </Card>
@@ -115,26 +115,26 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 mb-1">Receita Gerada</p>
-                  <p className="text-3xl font-bold text-slate-900">
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Receita Gerada</p>
+                  <p className="text-3xl font-bold text-foreground">
                     R$ {(relatorioDoDia?.metricas?.receita_gerada || 0).toFixed(2)}
                   </p>
                 </div>
-                <DollarSign className="w-12 h-12 text-green-600 opacity-50" />
+                <DollarSign className="w-12 h-12 text-[#3E8E5A] opacity-50" />
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+          <Card className="bg-card border-border">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-slate-600 mb-1">Tarefas Registradas</p>
-                  <p className="text-3xl font-bold text-slate-900">
+                  <p className="text-sm font-medium text-muted-foreground mb-1">Tarefas Registradas</p>
+                  <p className="text-3xl font-bold text-foreground">
                     {relatorioDoDia?.tarefas_concluidas?.length || 0}
                   </p>
                 </div>
-                <Calendar className="w-12 h-12 text-blue-600 opacity-50" />
+                <Calendar className="w-12 h-12 text-muted-foreground opacity-50" />
               </div>
             </CardContent>
           </Card>
@@ -144,7 +144,7 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
         <Card className="mb-8">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-amber-600" />
+              <CheckCircle className="w-5 h-5 text-orange-600" />
               Tarefas Concluídas em {format(new Date(selectedDate), "dd 'de' MMMM", { locale: ptBR })}
             </CardTitle>
             {relatorioDoDia && (
@@ -156,24 +156,24 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
           </CardHeader>
           <CardContent>
             {isLoading ? (
-              <div className="text-center py-8 text-slate-500">Carregando...</div>
+              <div className="text-center py-8 text-muted-foreground">Carregando...</div>
             ) : !relatorioDoDia || !relatorioDoDia.tarefas_concluidas || relatorioDoDia.tarefas_concluidas.length === 0 ? (
               <div className="text-center py-8">
-                <Calendar className="w-12 h-12 mx-auto text-slate-300 mb-3" />
-                <p className="text-slate-500 font-medium">Nenhuma tarefa concluída nesta data</p>
-                <p className="text-slate-400 text-sm mt-1">Os serviços aparecem aqui quando são marcados como concluídos</p>
+                <Calendar className="w-12 h-12 mx-auto text-muted-foreground mb-3 opacity-40" />
+                <p className="text-muted-foreground font-medium">Nenhuma tarefa concluída nesta data</p>
+                <p className="text-muted-foreground text-sm mt-1 opacity-70">Os serviços aparecem aqui quando são marcados como concluídos</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {relatorioDoDia.tarefas_concluidas.map((tarefa, index) => (
-                  <div key={tarefa.request_id || index} className="border border-slate-200 dark:border-slate-700 rounded-lg p-4 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                  <div key={tarefa.request_id || index} className="border border-border rounded-lg p-4 hover:bg-muted transition-colors">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-3 mb-2">
-                          <Badge className="bg-amber-600 text-white">#{index + 1}</Badge>
-                          <span className="font-semibold text-slate-900 dark:text-white">{tarefa.descricao}</span>
+                          <Badge className="bg-orange-600 text-white">#{index + 1}</Badge>
+                          <span className="font-semibold text-foreground">{tarefa.descricao}</span>
                         </div>
-                        <div className="flex items-center gap-4 text-sm text-slate-500">
+                        <div className="flex items-center gap-4 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             {tarefa.horario}
@@ -201,18 +201,18 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
         {relatorioDoDia && (
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-medium text-slate-500">
+              <CardTitle className="text-sm font-medium text-muted-foreground">
                 Última Atualização
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-slate-900 dark:text-white">
+              <p className="text-foreground">
                 {relatorioDoDia.ultima_atualizacao 
                   ? format(new Date(relatorioDoDia.ultima_atualizacao), "dd 'de' MMMM, yyyy 'às' HH:mm", { locale: ptBR })
                   : 'Não disponível'}
               </p>
               {relatorioDoDia.description && (
-                <p className="text-slate-600 dark:text-slate-400 mt-2 text-sm">
+                <p className="text-muted-foreground mt-2 text-sm">
                   {relatorioDoDia.description}
                 </p>
               )}

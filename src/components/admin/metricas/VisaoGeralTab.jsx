@@ -109,9 +109,9 @@ export default function VisaoGeralTab() {
     <div className="space-y-8">
       {/* KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <KPICard title="Leads (7 dias)" value={recentLeads.length} icon={TrendingUp} color="bg-blue-600" loading={loadingLeads} />
+        <KPICard title="Leads (7 dias)" value={recentLeads.length} icon={TrendingUp} color="bg-orange-600" loading={loadingLeads} />
         <KPICard title="Prestadores Ativos" value={activeProviders.length} icon={Users} color="bg-green-600" loading={loadingProviders} />
-        <KPICard title="Solicitações (7 dias)" value={recentRequests.length} icon={FileText} color="bg-purple-600" loading={loadingRequests} />
+        <KPICard title="Solicitações (7 dias)" value={recentRequests.length} icon={FileText} color="bg-[#6B7C3A]" loading={loadingRequests} />
         <KPICard title="Conversão Lead→Sol." value={conversionRate} icon={Zap} color="bg-amber-600" loading={loadingLeads || loadingRequests} />
       </div>
 

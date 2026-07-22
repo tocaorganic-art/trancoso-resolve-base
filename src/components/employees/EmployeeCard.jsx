@@ -10,15 +10,15 @@ import { ptBR } from "date-fns/locale";
 const availabilityColors = {
   "Disponível": "bg-green-100 text-green-800 border-green-200",
   "Ocupado": "bg-amber-100 text-amber-800 border-amber-200",
-  "Férias": "bg-blue-100 text-blue-800 border-blue-200",
+  "Férias": "bg-amber-100 text-amber-800 border-amber-200",
   "Licença": "bg-slate-100 text-slate-800 border-slate-200",
 };
 
 const roleColors = {
-  "Gerente": "bg-purple-100 text-purple-800",
-  "Coordenador": "bg-blue-100 text-blue-800",
+  "Gerente": "bg-orange-100 text-orange-800",
+  "Coordenador": "bg-[#6B7C3A]/10 text-[#6B7C3A]",
   "Operacional": "bg-green-100 text-green-800",
-  "Concierge": "bg-pink-100 text-pink-800",
+  "Concierge": "bg-[#C1440E]/10 text-[#C1440E]",
   "Suporte": "bg-slate-100 text-slate-800",
 };
 
@@ -40,7 +40,7 @@ export default function EmployeeCard({ employee }) {
 
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all">
-      <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b">
+      <CardHeader className="bg-gradient-to-r from-orange-50 to-sand/40 border-b">
         <div className="flex items-start justify-between">
           <div>
             <CardTitle className="text-lg mb-2">{employee.full_name}</CardTitle>

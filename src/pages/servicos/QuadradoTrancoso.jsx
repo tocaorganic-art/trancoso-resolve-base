@@ -5,6 +5,17 @@ export default function QuadradoTrancoso() {
     <ServicoLocalPage
       title="Serviços no Quadrado de Trancoso, BA | Profissionais Verificados | Trancoso Resolve"
       metaDescription="Encontre profissionais verificados para serviços no Quadrado de Trancoso: diaristas, eletricistas, encanadores, jardineiros e muito mais. Atendimento para pousadas, boutiques e residências de alto padrão."
+      keywords="serviços Quadrado Trancoso, profissional Quadrado Trancoso BA, diarista Quadrado, eletricista Quadrado, manutenção pousada Quadrado de Trancoso"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/quadrado-trancoso"
+      schemaData={{
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Trancoso Resolve - Serviços no Quadrado",
+        "description": "Profissionais verificados para pousadas, lojas e residências no Quadrado de Trancoso, BA.",
+        "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
+        "areaServed": { "@type": "Place", "name": "Quadrado, Trancoso, BA" },
+        "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 }
+      }}
       h1="Serviços no Quadrado de Trancoso: Profissionais Verificados para a Área Central"
       intro="O Quadrado de Trancoso é o coração histórico e comercial da vila — e manter pousadas boutique, lojas, restaurantes e residências funcionando nessa área exige profissionais que conhecem o ritmo e as exigências do local. Na Trancoso Resolve você encontra prestadores verificados com experiência comprovada em trabalhos no Quadrado e nas ruas adjacentes."
       servicesTitle="Serviços disponíveis no Quadrado de Trancoso"
@@ -25,6 +36,12 @@ export default function QuadradoTrancoso() {
       category="Diarista"
       heroEmoji="🟩"
       serviceLabel="profissionais"
+      locationLabel="Quadrado, Trancoso, Bahia"
+      seoText={[
+        "O Quadrado é o coração histórico de Trancoso, com casario colorido tombado, pousadas boutique, restaurantes e lojas que recebem um fluxo intenso de visitantes durante toda a temporada. Prestadores que atendem essa área precisam conhecer as restrições de preservação das edificações históricas e o ritmo acelerado do comércio local.",
+        "Manter estabelecimentos comerciais e residências no Quadrado funcionando exige profissionais ágeis e discretos, já que muitas vezes o atendimento acontece em horário comercial, com clientes e hóspedes circulando pelo local. Os prestadores da plataforma têm experiência em trabalhar nesse contexto sem interromper a rotina dos negócios.",
+        "Da restauração de fachadas históricas à segurança para eventos privados e festas, a Trancoso Resolve conecta lojistas, donos de pousada e moradores do Quadrado a profissionais verificados, com avaliações públicas de quem já contratou na área central de Trancoso.",
+      ]}
     />
   );
 }

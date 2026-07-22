@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
 import { base44 } from "@/api/base44Client";
@@ -9,46 +9,166 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import LazyImage from "@/components/ui/LazyImage";
 import Testimonials from "@/components/home/Testimonials";
-import HeroBanner from "@/components/home/HeroBanner";
 import HeroSearch from "@/components/home/HeroSearch";
-import ServiceCarousel from "@/components/home/ServiceCarousel";
 import SocialProofBar from "@/components/home/SocialProofBar";
 import CTAPrestador from "@/components/home/CTAPrestador";
-import { UtensilsCrossed, Hammer, Leaf,
-  Baby, Zap, Star, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, ChevronLeft, ChevronRight,
-  Sparkles, ChefHat, Brush, Waves, Anchor, Sun
+import {
+  Sparkles, UtensilsCrossed, Hammer, Leaf,
+  Baby, Zap, Star, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, MapPin, Paintbrush
 } from "lucide-react";
-
-const ICON_COLOR = "#E8571A";
 import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";
-import LeadCaptureForm from "@/components/servicos/LeadCaptureForm";
 import WhatsAppStickyBar from "@/components/servicos/WhatsAppStickyBar";
 import FounderBanner from "@/components/banners/FounderBanner";
 
-// Mapeamento completo de imagens por categoria (alinhado com enum da entidade ServiceListing)
+const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
+
 const categoryImageMap = {
-  // Categorias do enum: Limpeza, Garçom, Pedreiro, Jardinagem, Babá, Eletricista, Encanador, Pintor, Cozinheiro, Outro
-  'Limpeza': 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/inigQzgVMUPeKrkL.png',
-  'Garçom': 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Pedreiro': 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Jardinagem': 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/MmnYpPgxNHhyniba.png',
-  'Babá': 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Eletricista': 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/loNdoqfPbYrpiZUY.png',
-  'Encanador': 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/SzIYzgzmeNbfcRvv.png',
-  'Pintor': 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Cozinheiro': 'https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/XKIqXQfxYpLpcnsh.png',
-  'Outro': 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  // Categorias extras para compatibilidade
-  'Construção': 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Beleza': 'https://images.unsplash.com/photo-1560750588-73207b1ef5b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Turismo': 'https://images.unsplash.com/photo-1502920917128-1aa500764cbd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Gastronomia': 'https://images.unsplash.com/photo-1551218808-94e220e084d2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Festas': 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Aulas': 'https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Transporte': 'https://images.unsplash.com/photo-1601628828688-632f38a5a7d0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'Automóveis': 'https://images.unsplash.com/photo-1553440569-b506745199de?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'default': 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  limpeza: [
+    'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80',
+    'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+  ],
+  diarista: [
+    'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80',
+    'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=800&q=80',
+    'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=800&q=80',
+  ],
+  faxina: [
+    'https://images.unsplash.com/photo-1628177142898-93e36e4e3a50?w=800&q=80',
+    'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80',
+    'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?w=800&q=80',
+  ],
+  eletricista: [
+    'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618047-3c8c76ca1e28?w=800&q=80',
+    'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80',
+  ],
+  eletrica: [
+    'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618047-3c8c76ca1e28?w=800&q=80',
+    'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80',
+  ],
+  encanador: [
+    'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+    'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80',
+  ],
+  hidraulica: [
+    'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+    'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80',
+  ],
+  jardineiro: [
+    'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80',
+    'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618047-3c8c76ca1e28?w=800&q=80',
+  ],
+  jardinagem: [
+    'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80',
+    'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80',
+    'https://images.unsplash.com/photo-1599598425947-5202edd56fde?w=800&q=80',
+  ],
+  cozinheiro: [
+    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',
+    'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800&q=80',
+    'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80',
+  ],
+  chef: [
+    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',
+    'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800&q=80',
+    'https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?w=800&q=80',
+  ],
+  gastronomia: [
+    'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80',
+    'https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=800&q=80',
+    'https://images.unsplash.com/photo-1547592180-85f173990554?w=800&q=80',
+  ],
+  garcom: [
+    'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+    'https://images.unsplash.com/photo-1555939594-58d7cb561549?w=800&q=80',
+    'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80',
+  ],
+  piscineiro: [
+    'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&q=80',
+    'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80',
+    'https://images.unsplash.com/photo-1572331165267-854da2b021dc?w=800&q=80',
+  ],
+  piscina: [
+    'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=800&q=80',
+    'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=800&q=80',
+    'https://images.unsplash.com/photo-1572331165267-854da2b021dc?w=800&q=80',
+  ],
+  pintor: [
+    'https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=800&q=80',
+    'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618047-3c8c76ca1e28?w=800&q=80',
+  ],
+  pintura: [
+    'https://images.unsplash.com/photo-1562259929-b4e1fd3aef09?w=800&q=80',
+    'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=800&q=80',
+    'https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=800&q=80',
+  ],
+  marceneiro: [
+    'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&q=80',
+    'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&q=80',
+    'https://images.unsplash.com/photo-1611170540292-bc1e6f6a8462?w=800&q=80',
+  ],
+  marcenaria: [
+    'https://images.unsplash.com/photo-1504148455328-c376907d081c?w=800&q=80',
+    'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&q=80',
+    'https://images.unsplash.com/photo-1611170540292-bc1e6f6a8462?w=800&q=80',
+  ],
+  pedreiro: [
+    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
+    'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=800&q=80',
+    'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=800&q=80',
+  ],
+  construcao: [
+    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
+    'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=800&q=80',
+    'https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=800&q=80',
+  ],
+  baba: [
+    'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=800&q=80',
+    'https://images.unsplash.com/photo-1516627145497-ae6968895b74?w=800&q=80',
+    'https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80',
+  ],
+  seguranca: [
+    'https://images.unsplash.com/photo-1557597774-9d475d0c0e43?w=800&q=80',
+    'https://images.unsplash.com/photo-1558618047-3c8c76ca1e28?w=800&q=80',
+    'https://images.unsplash.com/photo-1609188076864-c35269136b09?w=800&q=80',
+  ],
+  som: [
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  ],
+  dj: [
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  ],
+  iluminacao: [
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  ],
+  musica: [
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  ],
+  outro: [
+    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
+    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80',
+    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+  ],
+  default: [
+    'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
+    'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80',
+  ],
 };
 
 // Descrições melhoradas por categoria para serviços sem descrição cadastrada
@@ -103,21 +223,9 @@ const ServiceSkeletonCard = () => (
   </Card>
 );
 
-const ProviderSkeletonCard = () => (
-    <Card className="border-none shadow-lg">
-        <CardContent className="p-4 text-center">
-            <Skeleton className="w-20 h-20 rounded-full mx-auto mb-3" />
-            <Skeleton className="h-4 w-3/4 mx-auto mb-2" />
-            <Skeleton className="h-3 w-1/2 mx-auto mb-2" />
-            <Skeleton className="h-4 w-1/4 mx-auto" />
-        </CardContent>
-    </Card>
-);
-
 // Função para validar se uma URL de imagem parece válida e relevante
 const isValidImageUrl = (url) => {
   if (!url || typeof url !== 'string') return false;
-  // Verifica se é uma URL válida de imagem
   const validDomains = ['unsplash.com', 'images.unsplash.com', 'storage.googleapis.com', 'base44.com', 'ui-avatars.com', 'manuscdn.com'];
   try {
     const urlObj = new URL(url);
@@ -127,13 +235,38 @@ const isValidImageUrl = (url) => {
   }
 };
 
+function getServiceImage(service) {
+  if (isValidImageUrl(service.images?.[0])) return service.images[0];
+
+  const raw = (service.category || service.serviceType || service.name || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '');
+
+  const categoryKey = Object.keys(categoryImageMap).find(key => raw.includes(key)) || 'default';
+  const imgs = categoryImageMap[categoryKey];
+
+  const id = service.id || service._id || '';
+  const hash = id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return imgs[hash % imgs.length];
+}
+
+function getCategoryFallback(service) {
+  const raw = (service.category || service.serviceType || service.name || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '');
+  const categoryKey = Object.keys(categoryImageMap).find(key => raw.includes(key)) || 'default';
+  const imgs = categoryImageMap[categoryKey];
+  const id = service.id || service._id || '';
+  const hash = id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+  return imgs[hash % imgs.length];
+}
+
 const ServiceCard = ({ service, provider }) => {
-    const serviceImage = service.images?.[0];
-    const hasValidImage = isValidImageUrl(serviceImage);
-    const fallbackImage = categoryImageMap[service.category] || categoryImageMap.default;
-    const imageSrc = hasValidImage ? serviceImage : fallbackImage;
+    const imageSrc = getServiceImage(service);
     const Icon = categoryIconMap[service.category] || categoryIconMap.default;
-    const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade na Costa do Descobrimento.';
+    const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade em Trancoso.';
 
     // Formata preço no padrão brasileiro com vírgula
     const formatPrice = (price) => {
@@ -149,25 +282,26 @@ const ServiceCard = ({ service, provider }) => {
                 {imageSrc ? (
                     <LazyImage
                         src={imageSrc}
-                        alt={`${service.title} — serviço de ${service.category} na Costa do Descobrimento`}
+                        fallbackSrc={getCategoryFallback(service)}
+                        alt={`${service.title} — serviço de ${service.category} em Trancoso`}
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                 ) : (
                     <div className="flex items-center justify-center h-full" aria-hidden="true">
-                        <Icon className="w-10 h-10 text-slate-400" />
+                        <Icon className="w-10 h-10 text-muted-foreground" />
                     </div>
                 )}
                 {/* Badge de categoria sobre a imagem */}
                 <div className="absolute top-3 right-3">
-                    <Badge className="bg-amber-600 text-white text-xs font-semibold px-2 py-0.5 shadow-md">
+                    <Badge className="bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 shadow-md rounded-pill">
                         {service.category}
                     </Badge>
                 </div>
                 {/* Selo "Novo" se não tiver avaliações */}
                 {isNew && (
                     <div className="absolute top-3 left-3">
-                        <Badge className="bg-yellow-400 text-yellow-900 text-xs font-bold px-2 py-0.5 shadow-md">
-                            ⭐ Novo
+                        <Badge className="bg-sand text-orange-700 text-xs font-bold px-2 py-0.5 shadow-md rounded-pill">
+                            Novo
                         </Badge>
                     </div>
                 )}
@@ -192,16 +326,16 @@ const ServiceCard = ({ service, provider }) => {
                 {/* Avaliação + Preço */}
                 <div className="flex items-end justify-between mt-auto mb-4">
                     <div className="flex items-center gap-1">
-                        <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                        <Star className="w-4 h-4 text-amber-400 fill-current" />
                         <span className="text-sm font-bold text-foreground">
-                                {provider?.rating ? provider.rating.toFixed(1) : 'Novo'}
-                            </span>
-                            {provider?.total_reviews > 0 && (
-                                <span className="text-xs text-muted-foreground ml-0.5">({provider.total_reviews})</span>
-                            )}
+                            {provider?.rating ? provider.rating.toFixed(1) : 'Novo'}
+                        </span>
+                        {provider?.total_reviews > 0 && (
+                            <span className="text-xs text-muted-foreground ml-0.5">({provider.total_reviews})</span>
+                        )}
                     </div>
                     <div className="text-right">
-                        <p className="text-lg font-extrabold text-primary leading-tight">
+                        <p className="text-lg font-extrabold text-brand-primary leading-tight">
                             R$ {formatPrice(service.price)}
                         </p>
                         <p className="text-xs text-muted-foreground">por {service.price_unit || 'serviço'}</p>
@@ -210,7 +344,7 @@ const ServiceCard = ({ service, provider }) => {
 
                 {/* Botão Ver Detalhes */}
                 <Link to={createPageUrl("ServicoDetalhes", `?id=${service.id}`)} data-testid={`service-card-link-${service.id}`} aria-label={`Ver detalhes do serviço ${service.title}`}>
-                    <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold">
+                    <Button className="w-full bg-brand-primary hover:bg-orange-600 text-white font-semibold rounded-pill">
                         Solicitar
                     </Button>
                 </Link>
@@ -220,17 +354,17 @@ const ServiceCard = ({ service, provider }) => {
 };
 
 export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [_searchQuery, _setSearchQuery] = useState("");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Trancoso Resolve | Profissionais Verificados da Costa do Descobrimento";
+    document.title = "Trancoso Resolve — Profissionais Verificados em Trancoso";
 
     // Meta description otimizada
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
-    meta.content = "Contrate profissionais da sua comunidade na Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Verificados, avaliados, com histórico real. Oportunidade que o governo não dá.";
+    meta.content = "Encontre diaristas, eletricistas, piscineiros, cozinheiros e mais em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva. Profissionais verificados, avaliados e prontos para atender sua villa ou pousada na Costa do Descobrimento.";
 
     // Canonical + OG URL da Home
     let canonical = document.querySelector('link[rel="canonical"]');
@@ -253,10 +387,10 @@ export default function HomePage() {
         {
           "@type": "LocalBusiness",
           "name": "Trancoso Resolve",
-          "description": "Marketplace de serviços locais em Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Profissionais verificados para limpeza, elétrica, jardinagem, cozinha, encanamento e muito mais na Costa do Descobrimento.",
+          "description": "Marketplace de serviços locais em Trancoso, Porto Seguro e Caraíva. Profissionais verificados para limpeza, elétrica, jardinagem, cozinha, encanamento e muito mais na Costa do Descobrimento.",
           "url": `${window.location.origin}`,
-          "logo": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png",
-          "image": "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png",
+          "logo": "https://trancosoresolve.com.br/brand/logo-mark-512.png",
+          "image": "https://trancosoresolve.com.br/brand/logo-mark-512.png",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Trancoso",
@@ -266,9 +400,9 @@ export default function HomePage() {
           "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 },
           "areaServed": [
             { "@type": "Place", "name": "Trancoso, Bahia, Brasil" },
+            { "@type": "Place", "name": "Arraial d'Ajuda, Bahia, Brasil" },
             { "@type": "Place", "name": "Porto Seguro, Bahia, Brasil" },
-            { "@type": "Place", "name": "Caraíva, Bahia, Brasil" },
-            { "@type": "Place", "name": "Arraial d'Ajuda, Bahia, Brasil" }
+            { "@type": "Place", "name": "Caraíva, Bahia, Brasil" }
           ],
           "hasOfferCatalog": {
             "@type": "OfferCatalog",
@@ -298,8 +432,8 @@ export default function HomePage() {
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Como encontrar prestadores de serviços na Costa do Descobrimento?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Na Trancoso Resolve você encontra prestadores verificados de limpeza, elétrica, jardinagem, garçom, pedreiro, encanador, pintor, cozinheiro e babá em Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda. Todos passam por verificação de antecedentes criminais antes de serem listados." }
+              "name": "Como encontrar prestadores de serviços em Trancoso?",
+              "acceptedAnswer": { "@type": "Answer", "text": "Na Trancoso Resolve você encontra prestadores verificados de limpeza, elétrica, jardinagem, garçom, pedreiro, encanador, pintor, cozinheiro e babá. Todos passam por verificação de antecedentes criminais antes de serem listados." }
             },
             {
               "@type": "Question",
@@ -314,7 +448,7 @@ export default function HomePage() {
             {
               "@type": "Question",
               "name": "O Trancoso Resolve atende villas e pousadas?",
-              "acceptedAnswer": { "@type": "Answer", "text": "Sim. A plataforma é ideal para gestores de villas, pousadas e empreendimentos em toda a Costa do Descobrimento — Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda — que precisam de prestadores de serviços pontuais ou recorrentes com confiança e rapidez." }
+              "acceptedAnswer": { "@type": "Answer", "text": "Sim. A plataforma é ideal para gestores de villas, pousadas e empreendimentos em Trancoso que precisam de prestadores de serviços pontuais ou recorrentes com confiança e rapidez." }
             }
           ]
         },
@@ -339,9 +473,8 @@ export default function HomePage() {
   }, [queryClient]);
 
   const { isPulling, pullDistance, threshold } = usePullToRefresh(handleRefresh);
-  const catScrollRef = useRef(null);
 
-  const { data: user, isLoading: isLoadingUser, isFetched: isUserFetched } = useQuery({
+  const { data: user, isLoading: _isLoadingUser, isFetched: isUserFetched } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me(),
     retry: false,
@@ -364,7 +497,7 @@ export default function HomePage() {
     }
   }, [user, isUserFetched, navigate]);
 
-  const { data: providers, isLoading: isLoadingProviders, isError: isErrorProviders } = useQuery({
+  const { data: providers } = useQuery({
     queryKey: ['serviceProviders'],
     queryFn: () => base44.entities.ServiceProvider.list('-rating', 50),
   });
@@ -390,12 +523,12 @@ export default function HomePage() {
   ).length || 0;
   const vagasRestantes = Math.max(0, 50 - totalPrestadoresVagas);
   const totalVerificados = allProviders?.filter(p => p.verificado === true || p.status === 'ativo').length || 0;
-  const totalCategorias = 9;
-  const totalAvaliacoes = allReviews?.length || 0;
+  const _totalCategorias = 9;
+  const _totalAvaliacoes = allReviews?.length || 0;
   
-  const { data: services, isLoading: isLoadingServices, isError: isErrorServices } = useQuery({
+  const { data: services, isLoading: isLoadingServices } = useQuery({
     queryKey: ['serviceListings'],
-    queryFn: () => base44.entities.ServiceListing.filter({ active: true, featured: true }, '-created_date', 6),
+    queryFn: () => base44.entities.ServiceListing.filter({ active: true }, '-created_date', 6),
   });
 
   const { data: recommendedServices, isLoading: isLoadingRecommendations } = useQuery({
@@ -404,17 +537,19 @@ export default function HomePage() {
     enabled: !!user,
   });
 
-  const popularServices = ["Faxina", "Eletricista", "Passeio Turístico", "Transporte", "Massagem"];
+  const _popularServices = ["Faxina", "Eletricista", "Passeio Turístico", "Transporte", "Massagem"];
 
   return (
     <div className="bg-background overflow-x-hidden">
+      {/* H1 semântico oculto para crawlers — SPA não renderiza H1 no HTML estático */}
+      <h1 className="sr-only">Trancoso Resolve — Profissionais Verificados em Trancoso</h1>
       {/* Pull-to-refresh indicator */}
       {pullDistance > 10 && (
         <div
-          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center bg-amber-50 border-b border-amber-200 transition-all"
+          className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center bg-orange-50 border-b border-orange-200 transition-all"
           style={{ height: `${Math.min(pullDistance, threshold)}px` }}
         >
-          <div className={`flex items-center gap-2 text-amber-700 text-sm font-medium ${isPulling ? 'animate-spin' : ''}`}>
+          <div className={`flex items-center gap-2 text-orange-600 text-sm font-medium ${isPulling ? 'animate-spin' : ''}`}>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
             </svg>
@@ -424,10 +559,7 @@ export default function HomePage() {
       )}
       <OnboardingTour />
 
-      {/* Hero com 3 slides humanizados */}
-      <HeroBanner vagasRestantes={vagasRestantes} total={totalVerificados} />
-
-      {/* Busca + categorias rápidas */}
+      {/* Hero com busca */}
       <HeroSearch />
 
       {/* Barra prova social */}
@@ -437,74 +569,95 @@ export default function HomePage() {
         {/* Banner Prestador Fundador — visível para não-assinantes */}
         <FounderBanner />
 
-        {/* Carrossel de serviços */}
-        <ServiceCarousel />
-
         {/* Recomendações com IA */}
         {user && (isLoadingRecommendations || (recommendedServices?.data && recommendedServices.data.length > 0)) && (
             <section className="mb-20">
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-foreground flex items-center gap-2"><BrainCircuit className="w-6 h-6 text-primary" /> Para Você</h2>
+                    <h2 className="text-2xl font-bold text-foreground flex items-center gap-2"><BrainCircuit className="w-6 h-6 text-brand-primary" /> Para Você</h2>
                     <Link to={createPageUrl("ServicosCategoria")}>
-                        <Button variant="ghost" className="text-primary hover:text-primary/80">Ver todos</Button>
+                        <Button variant="ghost" className="text-orange-600 hover:text-orange-700">Ver todos</Button>
                     </Link>
                 </div>
-                <div className="flex overflow-x-auto gap-4 pb-3 snap-x -mx-4 px-4 md:mx-0 md:px-0 md:grid md:overflow-visible md:pb-0 md:grid-cols-2 md:snap-none lg:grid-cols-3 md:gap-6" style={{scrollbarWidth:'none',msOverflowStyle:'none'}}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {isLoadingRecommendations ? (
-                        Array.from({ length: 3 }).map((_, i) => (
-                            <div key={i} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
-                                <ServiceSkeletonCard />
-                            </div>
-                        ))
+                        Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
                     ) : (
                         recommendedServices.data.map((service) => {
                             const provider = providers?.find(p => p.id === service.provider_id);
-                            return (
-                                <div key={service.id} className="flex-shrink-0 w-[280px] md:w-auto snap-start">
-                                    <ServiceCard service={service} provider={provider} />
-                                </div>
-                            );
+                            return <ServiceCard key={service.id} service={service} provider={provider} />;
                         })
                     )}
                 </div>
             </section>
         )}
 
+        {/* Featured Services */}
+        <section className="mb-10 md:mb-20">
+          <div className="flex items-center justify-between mb-4 md:mb-6">
+            <h2 className="text-lg md:text-2xl font-bold text-foreground leading-tight">Profissionais verificados em Trancoso, na hora que você precisa.</h2>
+            <Link to={createPageUrl("ServicosCategoria")} data-testid="home-ver-todos-servicos-link">
+              <Button variant="ghost" className="text-orange-600 hover:text-orange-700" aria-label="Ver todos os serviços">
+                Ver todos
+              </Button>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            {isLoadingServices ? (
+                  Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
+                ) : services && services.length > 0 ? (
+                  services.map((service) => {
+                    const provider = providers?.find(p => p.id === service.provider_id);
+                    return <ServiceCard key={service.id} service={service} provider={provider} />;
+                  })
+                ) : (
+                  <div className="col-span-full text-center py-12 bg-gradient-to-br from-orange-50 to-sand rounded-xl border border-orange-100">
+                    <Sparkles className="w-12 h-12 mx-auto text-amber-400 mb-3" />
+                    <h3 className="text-lg font-semibold text-foreground mb-2">Serviços em Destaque em Breve!</h3>
+                    <p className="text-muted-foreground mb-4 max-w-md mx-auto">
+                      Estamos selecionando os melhores serviços para você. Enquanto isso, explore nossos profissionais.
+                    </p>
+                    <Link to={createPageUrl("ServicosCategoria")}>
+                      <Button className="bg-orange-500 hover:bg-orange-600">
+                        Explorar Profissionais
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+          </div>
+        </section>
 
         {/* Landing Pages por Serviço - SEO Local */}
          <section className="mb-10 md:mb-20 pt-8 md:pt-16">
            <div className="text-center mb-8">
-             <h2 className="text-2xl md:text-4xl font-bold text-foreground drop-shadow-sm mb-2">Serviços Mais Buscados na Costa do Descobrimento</h2>
-             <p className="text-base md:text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Profissionais verificados da sua comunidade em cada categoria</p>
+             <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-2">Serviços Mais Buscados em Trancoso</h2>
+             <p className="text-base md:text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Acesse guias completos com profissionais verificados em cada categoria</p>
            </div>
-           <div className="relative">
-             <div className="hidden md:flex gap-2 absolute -top-14 right-0">
-               <button onClick={() => catScrollRef.current?.scrollBy({ left: -300, behavior: 'smooth' })} className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center hover:bg-accent transition-colors" aria-label="Anterior"><ChevronLeft className="w-5 h-5 text-foreground" /></button>
-               <button onClick={() => catScrollRef.current?.scrollBy({ left: 300, behavior: 'smooth' })} className="w-10 h-10 rounded-full border border-border bg-card flex items-center justify-center hover:bg-accent transition-colors" aria-label="Próximo"><ChevronRight className="w-5 h-5 text-foreground" /></button>
-             </div>
-             <div ref={catScrollRef} className="flex overflow-x-auto gap-3 pb-3 snap-x -mx-4 px-4 md:mx-0 md:px-0" style={{scrollbarWidth:'none',msOverflowStyle:'none'}}>
+           <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-4 md:overflow-visible">
              {[
-               { slug: 'limpeza-trancoso', label: 'Diarista', Icon: Sparkles },
-               { slug: 'eletricista-trancoso', label: 'Eletricista', Icon: Zap },
-               { slug: 'encanador-trancoso', label: 'Encanador', Icon: Wrench },
-               { slug: 'jardinagem-trancoso', label: 'Jardineiro', Icon: Leaf },
-               { slug: 'cozinheiro-trancoso', label: 'Cozinheiro', Icon: ChefHat },
-               { slug: 'pedreiro-trancoso', label: 'Pedreiro', Icon: Hammer },
-               { slug: 'pintor-trancoso', label: 'Pintor', Icon: Brush },
-               { slug: 'baba-trancoso', label: 'Babá', Icon: Baby },
-               { slug: 'garcom-trancoso', label: 'Garçom', Icon: UtensilsCrossed },
-             ].map(item => (
-               <div key={item.slug} className="flex-shrink-0 w-[148px] snap-start">
-                 <Link to={`/ServicoLanding?slug=${item.slug}`}>
-                   <div className="bg-card rounded-2xl p-4 text-center shadow-md hover:shadow-lg transition-all duration-300 border-2 border-border hover:border-primary cursor-pointer group flex flex-col items-center justify-center h-full min-h-[120px]">
-                     <item.Icon className="w-8 h-8 mb-2 mx-auto" style={{ color: ICON_COLOR }} aria-hidden="true" />
-                     <span className="text-sm font-bold text-foreground group-hover:text-primary transition-colors">{item.label}</span>
-                     <span className="block text-xs font-medium text-muted-foreground mt-1">na região</span>
+               { slug: 'limpeza-trancoso', label: 'Diarista', icon: Home },
+               { slug: 'eletricista-trancoso', label: 'Eletricista', icon: Zap },
+               { slug: 'encanador-trancoso', label: 'Encanador', icon: Wrench },
+               { slug: 'jardinagem-trancoso', label: 'Jardineiro', icon: Leaf },
+               { slug: 'cozinheiro-trancoso', label: 'Cozinheiro', icon: UtensilsCrossed },
+               { slug: 'pedreiro-trancoso', label: 'Pedreiro', icon: Hammer },
+               { slug: 'pintor-trancoso', label: 'Pintor', icon: Paintbrush },
+               { slug: 'baba-trancoso', label: 'Babá', icon: Baby },
+               { slug: 'garcom-trancoso', label: 'Garçom', icon: UtensilsCrossed },
+             ].map(item => {
+               const Icon = item.icon;
+               return (
+               <Link key={item.slug} to={`/ServicoLanding?slug=${item.slug}`} className="min-w-[110px] snap-start shrink-0 md:min-w-0 md:w-auto">
+                 <div className="bg-card rounded-brand-lg p-4 text-center shadow-warm-sm hover:shadow-warm-md transition-all duration-300 border border-border hover:border-orange-400 cursor-pointer group h-full flex flex-col items-center justify-center">
+                   <div className="w-10 h-10 rounded-brand-md bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center mb-2">
+                     <Icon className="w-5 h-5 text-orange-500" aria-hidden="true" />
                    </div>
-                 </Link>
-               </div>
-             ))}
-             </div>
+                   <span className="text-sm md:text-base font-bold text-foreground group-hover:text-orange-500 transition-colors">{item.label}</span>
+                   <span className="block text-xs font-medium text-muted-foreground mt-1">em Trancoso</span>
+                 </div>
+               </Link>
+               );
+             })}
            </div>
          </section>
 
@@ -514,17 +667,16 @@ export default function HomePage() {
         {/* Como Funciona */}
         <section className="mb-10 md:mb-20 mt-10 md:mt-20">
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground drop-shadow-sm">Simples assim — do pedido ao serviço</h2>
-            <p className="text-base md:text-lg text-muted-foreground font-medium mt-2 leading-relaxed">Profissional da sua comunidade ganha renda. Você contrata com confiança.</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Como funciona a Trancoso Resolve</h2>
           </div>
-          <div className="flex flex-col md:grid md:grid-cols-3 gap-4 md:gap-6">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
             {[
-              { step: '1', title: 'Você conta o que precisa', desc: 'Explique o tipo de serviço, bairro e melhor horário para contato.' },
-              { step: '2', title: 'Nós conectamos aos prestadores certos', desc: 'Nosso sistema distribui seu pedido para prestadores qualificados da Costa do Descobrimento.' },
-              { step: '3', title: 'Você recebe contatos e escolhe', desc: 'Compare respostas, avalie e decida com quem quer fechar. Sempre com segurança.' },
+              { step: '1', title: 'Você conta o que precisa', desc: 'Explique o tipo de serviço, bairro em Trancoso e melhor horário para contato.' },
+              { step: '2', title: 'Nós conectamos aos prestadores certos', desc: 'Nosso sistema distribui seu pedido para prestadores qualificados na região.' },
+              { step: '3', title: 'Você recebe contatos e escolhe', desc: 'Compare respostas, avalie e decida com quem quer fechar.' },
             ].map(item => (
-              <div key={item.step} className="bg-card rounded-2xl p-5 md:p-6 shadow-md border border-border flex items-start gap-4 md:block md:text-center">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary text-primary-foreground font-bold text-lg md:text-xl flex items-center justify-center shrink-0 md:mx-auto md:mb-4">{item.step}</div>
+              <div key={item.step} className="bg-card rounded-brand-lg p-5 md:p-6 shadow-warm-sm border border-border flex items-start gap-4 md:block md:text-center min-w-[85%] sm:min-w-[340px] snap-start shrink-0 md:min-w-0 md:w-auto">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-primary text-white font-bold text-lg md:text-xl flex items-center justify-center shrink-0 md:mx-auto md:mb-4 shadow-brand">{item.step}</div>
                 <div>
                   <h3 className="font-bold text-base md:text-lg text-foreground mb-1 md:mb-2">{item.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
@@ -535,25 +687,24 @@ export default function HomePage() {
         </section>
 
         {/* Por que usar */}
-        <section className="mb-10 md:mb-20 bg-secondary/30 rounded-3xl p-8 md:p-12 border border-border">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6 drop-shadow-sm">Por que usar a Trancoso Resolve</h2>
+        <section className="mb-10 md:mb-20 bg-gradient-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border">
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Por que usar a Trancoso Resolve em Trancoso</h2>
           <ul className="space-y-4">
             {[
-              'Prestadores locais e confiáveis, focados em atender toda a Costa do Descobrimento.',
+              'Prestadores locais e confiáveis, focados em atender Trancoso e região.',
               'Resposta rápida: seu pedido chega direto nos prestadores certos.',
-              'Mais segurança: perfis dos prestadores, histórico e verificação de antecedentes.',
-              'Inclusão social: profissional mal avaliado recebe treinamento e segunda chance, não é removido.',
+              'Mais segurança: perfis dos prestadores, histórico e verificação quando disponível.',
               'Sem custo para quem pede serviço: você pede, recebe retorno e escolhe.',
             ].map((item, i) => (
               <li key={i} className="flex items-start gap-3 text-foreground">
-                <span className="w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
+                <span className="w-6 h-6 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
                 <span className="text-base">{item}</span>
               </li>
             ))}
           </ul>
           <div className="mt-8">
             <Link to={createPageUrl("ServicosCategoria")} className="block sm:inline-block">
-              <Button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-base px-8 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95">
+              <Button className="w-full sm:w-auto bg-brand-primary hover:bg-orange-600 text-white font-bold text-base px-8 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95 rounded-pill shadow-brand">
                 Encontrar profissional agora
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
@@ -562,14 +713,13 @@ export default function HomePage() {
         </section>
 
         {/* Costa do Descobrimento */}
-        <section className="mb-10 md:mb-20 bg-secondary/30 rounded-3xl p-8 md:p-12 border border-border">
+        <section className="mb-10 md:mb-20 bg-gradient-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">Atendemos toda a Costa do Descobrimento</h2>
-          <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">Profissionais verificados para Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda — a mesma qualidade e segurança em toda a região.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">Profissionais verificados para Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva — a mesma qualidade e segurança em toda a Costa do Descobrimento.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {
                 cidade: 'Trancoso',
-                Icon: Waves,
                 desc: 'O destino mais icônico — villas de luxo, pousadas e o famoso Quadrado.',
                 destinoHref: '/destinos/trancoso',
                 links: [
@@ -579,8 +729,17 @@ export default function HomePage() {
                 ],
               },
               {
+                cidade: "Arraial d'Ajuda",
+                desc: "Vila turística charmosa — pousadas, casas de temporada e praias paradisíacas.",
+                destinoHref: '/destinos/arraial-dajuda',
+                links: [
+                  { label: "Diarista Arraial d'Ajuda", href: '/servicos/diarista-arraial-dajuda' },
+                  { label: "Eletricista Arraial d'Ajuda", href: '/servicos/eletricista-arraial-dajuda' },
+                  { label: "Piscineiro Arraial d'Ajuda", href: '/servicos/piscineiro-arraial-dajuda' },
+                ],
+              },
+              {
                 cidade: 'Porto Seguro',
-                Icon: Anchor,
                 desc: 'A maior cidade da região — hotéis, resorts e residências de alto padrão.',
                 destinoHref: '/destinos/porto-seguro',
                 links: [
@@ -591,7 +750,6 @@ export default function HomePage() {
               },
               {
                 cidade: 'Caraíva',
-                Icon: Waves,
                 desc: 'O paraíso preservado — sem asfalto, sem carros, só natureza e charme.',
                 destinoHref: '/destinos/caraiva',
                 links: [
@@ -600,33 +758,24 @@ export default function HomePage() {
                   { label: 'Piscineiro Caraíva', href: '/servicos/piscineiro-caraiva' },
                 ],
               },
-              {
-                cidade: 'Arraial d\'Ajuda',
-                Icon: Sun,
-                desc: 'O charme da Costa do Descobrimento — praias deslumbrantes e o melhor da gastronomia.',
-                destinoHref: '/destinos/arraial-dajuda',
-                links: [
-                  { label: 'Diarista Arraial d\'Ajuda', href: '/servicos/diarista-arraial-dajuda' },
-                  { label: 'Eletricista Arraial d\'Ajuda', href: '/servicos/eletricista-arraial-dajuda' },
-                  { label: 'Piscineiro Arraial d\'Ajuda', href: '/servicos/piscineiro-arraial-dajuda' },
-                ],
-              },
             ].map((dest) => (
-              <div key={dest.cidade} className="bg-card rounded-2xl p-6 shadow-sm border border-border flex flex-col">
-                <dest.Icon className="w-8 h-8 mb-3" style={{ color: ICON_COLOR }} aria-hidden="true" />
+              <div key={dest.cidade} className="bg-card rounded-brand-lg p-6 shadow-warm-sm border border-orange-100 dark:border-border flex flex-col">
+                <div className="w-10 h-10 rounded-brand-md bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center mb-3">
+                  <MapPin className="w-5 h-5 text-orange-500" />
+                </div>
                 <h3 className="font-bold text-lg text-foreground mb-2">{dest.cidade}</h3>
                 <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-grow">{dest.desc}</p>
                 <ul className="space-y-2 mb-4">
                   {dest.links.map((link) => (
                     <li key={link.href}>
-                      <Link to={link.href} className="text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-1 group">
+                      <Link to={link.href} className="text-orange-600 hover:text-orange-800 text-sm font-medium flex items-center gap-1 group">
                         <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                         {link.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
-                <Link to={dest.destinoHref} className="text-xs font-semibold text-primary hover:text-primary/80 flex items-center gap-1 border-t border-border pt-3 transition-colors group">
+                <Link to={dest.destinoHref} className="text-xs font-semibold text-orange-500 hover:text-orange-700 flex items-center gap-1 border-t border-orange-100 dark:border-border pt-3 transition-colors group">
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   Ver página de {dest.cidade}
                 </Link>
@@ -636,11 +785,13 @@ export default function HomePage() {
         </section>
 
         {/* Lead Capture Form */}
-        <LeadCaptureForm
-          serviceInterest="Geral"
-          serviceLabel="um profissional"
-          source="home"
-        />
+        <Suspense fallback={<div className="py-12"><Skeleton className="h-96 w-full rounded-lg" /></div>}>
+          <LeadCaptureForm
+            serviceInterest="Geral"
+            serviceLabel="um profissional"
+            source="home"
+          />
+        </Suspense>
 
         {/* CTA Prestadores */}
         <CTAPrestador vagasRestantes={vagasRestantes} />

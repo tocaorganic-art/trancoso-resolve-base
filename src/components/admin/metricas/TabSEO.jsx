@@ -53,12 +53,12 @@ export default function TabSEO({ pages, keywords }) {
   return (
     <div className="space-y-8">
       {/* Instrução importação */}
-      <Card className="bg-blue-900/20 border-blue-700">
+      <Card className="bg-orange-900/20 border-orange-700">
         <CardContent className="p-4 flex gap-3">
-          <Info className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-          <div className="text-sm text-blue-200">
+          <Info className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+          <div className="text-sm text-orange-200">
             <p className="font-semibold mb-1">Como importar dados do Google Search Console:</p>
-            <ol className="list-decimal list-inside space-y-1 text-blue-300">
+            <ol className="list-decimal list-inside space-y-1 text-orange-300">
               <li>Acesse <strong>search.google.com/search-console</strong></li>
               <li>Vá em Desempenho → Exportar → Download CSV</li>
               <li>Use os dados para preencher manualmente abaixo</li>
@@ -137,7 +137,7 @@ export default function TabSEO({ pages, keywords }) {
                   return (
                     <tr key={p.id} className="border-b border-slate-700/40 text-slate-300 hover:bg-slate-700/30">
                       <td className="p-3 font-mono text-xs max-w-[200px] truncate">{p.page_url}</td>
-                      <td className="p-3 font-bold text-cyan-400">{p.clicks || 0}</td>
+                      <td className="p-3 font-bold text-orange-400">{p.clicks || 0}</td>
                       <td className="p-3">
                         {delta !== null ? (
                           <span className={delta >= 0 ? "text-green-400" : "text-red-400"}>
@@ -179,7 +179,7 @@ export default function TabSEO({ pages, keywords }) {
                   {sortedKeywords.map(k => (
                     <tr key={k.id} className="border-b border-slate-700/40 text-slate-300 hover:bg-slate-700/30">
                       <td className="p-3 font-medium">{k.keyword}</td>
-                      <td className="p-3 text-cyan-400">{k.clicks || 0}</td>
+                      <td className="p-3 text-orange-400">{k.clicks || 0}</td>
                       <td className="p-3">{k.impressions || 0}</td>
                       <td className="p-3">{k.ctr ? `${k.ctr}%` : "—"}</td>
                       <td className="p-3">

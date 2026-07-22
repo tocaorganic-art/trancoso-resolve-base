@@ -44,12 +44,12 @@ export default function SeoTab() {
   return (
     <div className="space-y-6">
       {/* Import placeholder */}
-      <Card className="bg-blue-900/30 border-blue-700">
+      <Card className="bg-orange-900/30 border-orange-700">
         <CardContent className="p-5 flex items-start gap-3">
-          <Info className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-          <div className="text-sm text-blue-300">
+          <Info className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+          <div className="text-sm text-orange-300">
             <p className="font-semibold mb-1">Como importar dados do Google Search Console</p>
-            <ol className="list-decimal list-inside space-y-1 text-blue-200">
+            <ol className="list-decimal list-inside space-y-1 text-orange-200">
               <li>Acesse <strong>search.google.com/search-console</strong> com a conta tocaorganic@gmail.com</li>
               <li>Vá em "Desempenho" → "Páginas" ou "Consultas"</li>
               <li>Selecione o período de 7 dias desejado e exporte via "Exportar dados"</li>

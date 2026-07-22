@@ -221,7 +221,7 @@ export default function TocaTrIAPremium() {
       updateConversation(activeId, finalMessages);
       setStreamingId(assistantMsg.id);
     } catch (err) {
-      console.error('[TryA] Erro ao enviar:', err);
+      console.error('[TrIA] Erro ao enviar:', err);
       const isAuthError = err?.status === 401 || err?.message?.includes('autenticad') || err?.message?.includes('401');
       setError(
         isAuthError

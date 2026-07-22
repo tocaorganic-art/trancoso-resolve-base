@@ -1,0 +1,45 @@
+/* ============================================================
+   Trancoso Resolve — Base element defaults
+   Light reset + brand defaults. Consumers get warm page bg,
+   Nunito everywhere, and sensible heading rhythm for free.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--fw-regular);
+  line-height: var(--leading-relaxed);
+  color: var(--text-body);
+  background: var(--bg-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-family: var(--font-display);
+  color: var(--text-strong);
+  font-weight: var(--role-heading-weight);
+  letter-spacing: var(--role-heading-tracking);
+  line-height: var(--role-heading-leading);
+  text-wrap: balance;
+}
+
+p { margin: 0; text-wrap: pretty; }
+
+a { color: var(--text-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button { font-family: inherit; }
+
+::selection { background: var(--orange-200); color: var(--orange-900); }
+
+:focus-visible {
+  outline: 3px solid var(--ring-focus);
+  outline-offset: 2px;
+}

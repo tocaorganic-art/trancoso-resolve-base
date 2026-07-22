@@ -107,7 +107,7 @@ export default function DisponibilidadeEditor({ providerId }) {
   };
 
   if (isLoading || !availability) {
-    return <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-blue-600" /></div>;
+    return <div className="flex justify-center py-8"><Loader2 className="w-6 h-6 animate-spin text-orange-600" /></div>;
   }
 
   return (
@@ -116,7 +116,7 @@ export default function DisponibilidadeEditor({ providerId }) {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
-            <Clock className="w-5 h-5 text-blue-600" />
+            <Clock className="w-5 h-5 text-orange-600" />
             Horários por Dia da Semana
           </CardTitle>
         </CardHeader>
@@ -124,7 +124,7 @@ export default function DisponibilidadeEditor({ providerId }) {
           {DAYS.map(day => {
             const dayData = availability[day.key] || { enabled: false, slots: [] };
             return (
-              <div key={day.key} className={`rounded-xl border p-4 transition-colors ${dayData.enabled ? 'bg-white border-blue-200' : 'bg-slate-50 border-slate-200'}`}>
+              <div key={day.key} className={`rounded-xl border p-4 transition-colors ${dayData.enabled ? 'bg-white border-orange-200' : 'bg-slate-50 border-slate-200'}`}>
                 <div className="flex items-center justify-between mb-3">
                   <Label className="font-semibold text-slate-800">{day.label}</Label>
                   <Switch checked={dayData.enabled} onCheckedChange={() => toggleDay(day.key)} />
@@ -140,8 +140,8 @@ export default function DisponibilidadeEditor({ providerId }) {
                           onClick={() => toggleSlot(day.key, slot)}
                           className={`text-xs px-3 py-1 rounded-full border font-medium transition-colors ${
                             dayData.slots?.includes(slot)
-                              ? 'bg-blue-600 text-white border-blue-600'
-                              : 'bg-white text-slate-600 border-slate-300 hover:border-blue-400'
+                              ? 'bg-orange-600 text-white border-orange-600'
+                              : 'bg-white text-slate-600 border-slate-300 hover:border-orange-400'
                           }`}
                         >
                           {slot}
@@ -164,7 +164,7 @@ export default function DisponibilidadeEditor({ providerId }) {
                         type="time"
                         value={customSlotInput[day.key] || ''}
                         onChange={e => setCustomSlotInput(prev => ({ ...prev, [day.key]: e.target.value }))}
-                        className="text-xs border border-slate-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                        className="text-xs border border-slate-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-orange-400"
                       />
                       <Button type="button" size="sm" variant="outline" onClick={() => addCustomSlot(day.key)} className="text-xs gap-1">
                         <Plus className="w-3 h-3" /> Adicionar
@@ -214,7 +214,7 @@ export default function DisponibilidadeEditor({ providerId }) {
       <Button
         onClick={() => saveMutation.mutate({ weekly_availability: availability, blocked_dates: blockedDates })}
         disabled={saveMutation.isPending}
-        className="w-full bg-gradient-to-r from-blue-600 to-cyan-500"
+        className="w-full bg-gradient-to-r from-orange-600 to-orange-500"
         size="lg"
       >
         {saveMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}

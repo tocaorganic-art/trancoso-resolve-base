@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
 const COMMUNITY_IMAGES = [
-  "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=1400&h=900&fit=crop&q=80", // praia tropical brasil
-  "https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=1400&h=900&fit=crop&q=80", // vila colorida brasil
-  "https://images.unsplash.com/photo-1580537659466-0a9bfa916a54?w=1400&h=900&fit=crop&q=80", // por do sol praia
-  "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1400&h=900&fit=crop&q=80", // natureza verde tropical
-  "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1400&h=900&fit=crop&q=80", // praia serena
+  "https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=1400&h=900&fit=crop&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1559494007-9f5847c49d94?w=1400&h=900&fit=crop&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1580537659466-0a9bfa916a54?w=1400&h=900&fit=crop&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=1400&h=900&fit=crop&q=80&fm=webp",
+  "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=1400&h=900&fit=crop&q=80&fm=webp",
 ];
 
 export default function CommunityBackgroundGallery() {

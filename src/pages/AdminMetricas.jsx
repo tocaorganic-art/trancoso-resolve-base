@@ -81,7 +81,7 @@ export default function AdminMetricas() {
   if (loadingUser || !user || user.role !== "admin") {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="w-8 h-8 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin" />
+        <div className="w-8 h-8 border-4 border-border border-t-brand-primary rounded-full animate-spin" />
       </div>
     );
   }
@@ -92,32 +92,32 @@ export default function AdminMetricas() {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="flex items-center justify-between mb-8 flex-wrap gap-4">
         <div className="flex items-center gap-3">
-          <BarChart2 className="w-7 h-7 text-amber-400" />
-          <h1 className="text-2xl font-bold text-slate-100">📊 Métricas e Relatórios</h1>
-          {isLoading && <div className="w-4 h-4 border-2 border-slate-400 border-t-amber-400 rounded-full animate-spin" />}
+          <BarChart2 className="w-7 h-7 text-orange-400" />
+          <h1 className="text-2xl font-bold text-foreground">Métricas e Relatórios</h1>
+          {isLoading && <div className="w-4 h-4 border-2 border-border border-t-orange-400 rounded-full animate-spin" />}
         </div>
         <div className="flex gap-2">
           <Button size="sm" variant="outline" onClick={handleRefresh} className="gap-2">
             <RefreshCw className="w-4 h-4" /> Atualizar
           </Button>
-          <Button size="sm" onClick={handleSendReport} disabled={sendingReport} className="gap-2 bg-amber-600 hover:bg-amber-700">
+          <Button size="sm" onClick={handleSendReport} disabled={sendingReport} className="gap-2 bg-orange-600 hover:bg-orange-700">
             <Send className="w-4 h-4" /> {sendingReport ? "Enviando..." : "Relatório Semanal"}
           </Button>
         </div>
       </div>
 
       <Tabs defaultValue="visao-geral">
-        <TabsList className="bg-slate-800 border border-slate-700 mb-6 flex-wrap h-auto gap-1">
-          <TabsTrigger value="visao-geral" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white text-slate-300 border-b-2 border-transparent data-[state=active]:border-amber-400">
+        <TabsList className="bg-card border border-border mb-6 flex-wrap h-auto gap-1">
+          <TabsTrigger value="visao-geral" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-muted-foreground border-b-2 border-transparent data-[state=active]:border-orange-400">
             Visão Geral
           </TabsTrigger>
-          <TabsTrigger value="seo" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white text-slate-300 border-b-2 border-transparent data-[state=active]:border-amber-400">
+          <TabsTrigger value="seo" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-muted-foreground border-b-2 border-transparent data-[state=active]:border-orange-400">
             SEO / Buscas
           </TabsTrigger>
-          <TabsTrigger value="leads" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white text-slate-300 border-b-2 border-transparent data-[state=active]:border-amber-400">
+          <TabsTrigger value="leads" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-muted-foreground border-b-2 border-transparent data-[state=active]:border-orange-400">
             Leads ({leads.length})
           </TabsTrigger>
-          <TabsTrigger value="prestadores" className="data-[state=active]:bg-amber-600 data-[state=active]:text-white text-slate-300 border-b-2 border-transparent data-[state=active]:border-amber-400">
+          <TabsTrigger value="prestadores" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-muted-foreground border-b-2 border-transparent data-[state=active]:border-orange-400">
             Prestadores ({providers.length})
           </TabsTrigger>
         </TabsList>

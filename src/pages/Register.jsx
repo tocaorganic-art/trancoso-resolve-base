@@ -31,7 +31,7 @@ export default function Register() {
     e.preventDefault();
     setError("");
     if (password !== confirmPassword) {
-      setError("Passwords do not match");
+      setError("As senhas não correspondem");
       return;
     }
     setLoading(true);
@@ -67,8 +67,8 @@ export default function Register() {
     try {
       await base44.auth.resendOtp(email);
       toast({
-        title: "Code sent",
-        description: "Check your email for the new code.",
+        title: "Código enviado",
+        description: "Verifique seu e-mail pelo novo código.",
       });
     } catch (err) {
       setError(err.message || "Failed to resend code");
@@ -83,8 +83,8 @@ export default function Register() {
     return (
       <AuthLayout
         icon={Mail}
-        title="Verify your email"
-        subtitle={`We sent a code to ${email}`}
+        title="Verifique seu e-mail"
+        subtitle={`Enviamos um código para ${email}`}
       >
         {error && (
           <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
@@ -117,16 +117,16 @@ export default function Register() {
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Verifying...
+              Verificando...
             </>
           ) : (
-            "Verify"
+            "Verificar"
           )}
         </Button>
         <p className="text-center text-sm text-muted-foreground mt-4">
-          Didn't receive the code?{" "}
-          <button onClick={handleResend} className="text-amber-700 font-medium hover:underline">
-            Resend
+          Não recebeu o código?{" "}
+          <button onClick={handleResend} className="text-orange-700 font-medium hover:underline">
+            Reenviar
           </button>
         </p>
       </AuthLayout>
@@ -141,7 +141,7 @@ export default function Register() {
       footer={
         <>
           Já tem conta?{" "}
-          <Link to="/login" className="text-amber-400 font-medium hover:underline">
+          <Link to="/login" className="text-orange-400 font-medium hover:underline">
             Fazer login
           </Link>
         </>
@@ -149,7 +149,7 @@ export default function Register() {
     >
       <Button
         variant="outline"
-        className="w-full h-12 text-sm font-medium mb-6 border-white/20 text-white hover:bg-white/10"
+        className="w-full h-12 text-sm font-medium mb-6 border-border text-foreground hover:bg-muted"
         onClick={handleGoogle}
       >
         <GoogleIcon className="w-5 h-5 mr-2" />
@@ -158,10 +158,10 @@ export default function Register() {
 
       <div className="relative my-4">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-slate-300" />
+          <div className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-slate-900 px-2 text-slate-400">ou</span>
+          <span className="bg-background px-2 text-muted-foreground">ou</span>
         </div>
       </div>
 
@@ -173,9 +173,9 @@ export default function Register() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-white">Email</Label>
+          <Label htmlFor="email" className="text-foreground">Email</Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" aria-hidden="true" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
             <Input
               id="email"
               type="email"
@@ -184,15 +184,15 @@ export default function Register() {
               placeholder="seu@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500"
+              className="pl-10 h-12"
               required
             />
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password" className="text-white">Senha</Label>
+          <Label htmlFor="password" className="text-foreground">Senha</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" aria-hidden="true" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
             <Input
               id="password"
               type="password"
@@ -200,15 +200,15 @@ export default function Register() {
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="pl-10 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500"
+              className="pl-10 h-12"
               required
             />
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="confirm" className="text-white">Confirmar Senha</Label>
+          <Label htmlFor="confirm" className="text-foreground">Confirmar Senha</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" aria-hidden="true" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
             <Input
               id="confirm"
               type="password"
@@ -216,12 +216,12 @@ export default function Register() {
               placeholder="••••••••"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="pl-10 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500"
+              className="pl-10 h-12"
               required
             />
           </div>
         </div>
-        <Button type="submit" className="w-full h-12 font-medium bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600" disabled={loading}>
+        <Button type="submit" className="w-full h-12 font-medium bg-gradient-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600" disabled={loading}>
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />

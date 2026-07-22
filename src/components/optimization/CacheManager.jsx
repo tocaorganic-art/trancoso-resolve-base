@@ -77,7 +77,7 @@ export default function CacheManager() {
     <Card className="border-none shadow-lg">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 text-lg">
-          <Database className="w-5 h-5 text-blue-600" />
+          <Database className="w-5 h-5 text-orange-600" />
           Gerenciador de Cache
         </CardTitle>
       </CardHeader>

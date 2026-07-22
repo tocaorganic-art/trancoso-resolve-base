@@ -13,9 +13,9 @@ import { ptBR } from "date-fns/locale";
 import { toast } from "sonner";
 
 const statusConfig = {
-  pendente: { label: "Pendente", color: "bg-amber-100 text-amber-700 border-amber-200", icon: Clock },
-  em_analise_manual: { label: "Em Análise Manual", color: "bg-amber-100 text-amber-700 border-amber-200", icon: AlertTriangle },
-  aprovado: { label: "Aprovado", color: "bg-green-100 text-green-700 border-green-200", icon: CheckCircle },
+  pendente: { label: "Pendente", color: "bg-orange-100 text-orange-700 border-orange-200", icon: Clock },
+  em_analise_manual: { label: "Em Análise Manual", color: "bg-orange-100 text-orange-700 border-orange-200", icon: AlertTriangle },
+  aprovado: { label: "Aprovado", color: "bg-[#3E8E5A]/10 text-[#3E8E5A] border-[#3E8E5A]/30", icon: CheckCircle },
   reprovado: { label: "Reprovado", color: "bg-red-100 text-red-700 border-red-200", icon: XCircle },
 };
 
@@ -79,15 +79,15 @@ export default function AdminAntecedentesPage() {
   });
 
   if (isLoadingUser) {
-    return <div className="flex justify-center items-center h-screen"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>;
+    return <div className="flex justify-center items-center h-screen"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>;
   }
 
   if (user?.role !== "admin") {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-4 text-center px-4">
         <XCircle className="w-16 h-16 text-red-400" />
-        <h2 className="text-2xl font-bold text-slate-800">Acesso Restrito</h2>
-        <p className="text-slate-500">Esta página é exclusiva para administradores.</p>
+        <h2 className="text-2xl font-bold text-foreground">Acesso Restrito</h2>
+        <p className="text-muted-foreground">Esta página é exclusiva para administradores.</p>
       </div>
     );
   }
@@ -109,19 +109,19 @@ export default function AdminAntecedentesPage() {
   return (
     <div className="container mx-auto max-w-6xl py-8 px-4">
       <div className="mb-8 flex items-center gap-3">
-        <ShieldCheck className="w-7 h-7 text-amber-600" />
+        <ShieldCheck className="w-7 h-7 text-orange-600" />
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Verificações de Segurança</h1>
-          <p className="text-slate-500 text-sm">Gerencie a verificação de antecedentes criminais dos prestadores.</p>
+          <h1 className="text-2xl font-bold text-foreground">Verificações de Segurança</h1>
+          <p className="text-muted-foreground text-sm">Gerencie a verificação de antecedentes criminais dos prestadores.</p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         {[
-          { key: "pendente", label: "Pendentes", color: "border-amber-200 bg-amber-50", text: "text-amber-700" },
-          { key: "em_analise_manual", label: "Em Análise", color: "border-amber-200 bg-amber-50", text: "text-amber-700" },
-          { key: "aprovado", label: "Aprovados", color: "border-green-200 bg-green-50", text: "text-green-700" },
+          { key: "pendente", label: "Pendentes", color: "border-orange-200 bg-orange-50", text: "text-orange-700" },
+          { key: "em_analise_manual", label: "Em Análise", color: "border-orange-200 bg-orange-50", text: "text-orange-700" },
+          { key: "aprovado", label: "Aprovados", color: "border-[#3E8E5A]/30 bg-[#3E8E5A]/10", text: "text-[#3E8E5A]" },
           { key: "reprovado", label: "Reprovados", color: "border-red-200 bg-red-50", text: "text-red-700" },
         ].map(({ key, label, color, text }) => (
           <Card key={key} className={`border ${color}`}>
@@ -138,7 +138,7 @@ export default function AdminAntecedentesPage() {
         <CardContent className="p-4">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Buscar por nome ou e-mail..."
                 value={search}
@@ -153,8 +153,8 @@ export default function AdminAntecedentesPage() {
                   onClick={() => setFilterStatus(s)}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                     filterStatus === s
-                      ? "bg-slate-800 text-white border-slate-800"
-                      : "bg-white text-slate-600 border-slate-200 hover:border-slate-400"
+                      ? "bg-foreground text-background border-border"
+                      : "bg-card text-muted-foreground border-border hover:border-border"
                   }`}
                 >
                   {s === "todos" ? "Todos" : statusConfig[s]?.label || s}
@@ -174,28 +174,28 @@ export default function AdminAntecedentesPage() {
         </CardHeader>
         <CardContent className="p-0">
           {isLoading ? (
-            <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>
+            <div className="flex justify-center py-16"><Loader2 className="w-8 h-8 animate-spin text-orange-500" /></div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <CheckCircle className="w-12 h-12 text-green-300 mb-3" />
-              <p className="text-slate-500 font-medium">Nenhum prestador pendente de verificação</p>
+              <CheckCircle className="w-12 h-12 text-[#3E8E5A]/60 mb-3" />
+              <p className="text-muted-foreground font-medium">Nenhum prestador pendente de verificação</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b bg-slate-50">
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-6 py-3">Prestador</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden md:table-cell">CPF</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden lg:table-cell">Tipo</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden lg:table-cell">UF</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">Status</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden xl:table-cell">Relatório</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden lg:table-cell">Data</th>
-                    <th className="text-right text-xs font-semibold text-slate-500 uppercase tracking-wide px-6 py-3">Ações</th>
+                  <tr className="border-b bg-muted">
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-6 py-3">Prestador</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3 hidden md:table-cell">CPF</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3 hidden lg:table-cell">Tipo</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3 hidden lg:table-cell">UF</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3">Status</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3 hidden xl:table-cell">Relatório</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3 hidden lg:table-cell">Data</th>
+                    <th className="text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide px-6 py-3">Ações</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-border">
                   {filtered.map((p) => {
                     const s = p.status_verificacao || "pendente";
                     const cfg = statusConfig[s] || statusConfig.pendente;
@@ -204,7 +204,7 @@ export default function AdminAntecedentesPage() {
                       aprovaMutation.isPending || reprovaMutation.isPending || reverificaMutation.isPending;
 
                     return (
-                      <tr key={p.id} className="hover:bg-slate-50 transition-colors">
+                      <tr key={p.id} className="hover:bg-muted transition-colors">
                         <td className="px-6 py-4">
                          <div className="flex items-center gap-3">
                            {p.full_body_photo_url ? (
@@ -212,13 +212,13 @@ export default function AdminAntecedentesPage() {
                            ) : p.photo_url ? (
                              <img src={p.photo_url} alt={p.full_name} className="w-10 h-10 rounded-full object-cover border shrink-0" />
                            ) : (
-                             <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-                               <span className="text-slate-400 text-xs font-bold">{p.full_name?.charAt(0)}</span>
+                             <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center shrink-0">
+                               <span className="text-muted-foreground text-xs font-bold">{p.full_name?.charAt(0)}</span>
                              </div>
                            )}
                            <div>
-                             <p className="text-sm font-medium text-slate-900">{p.full_name}</p>
-                             <p className="text-xs text-slate-500">{p.email || "—"}</p>
+                             <p className="text-sm font-medium text-foreground">{p.full_name}</p>
+                             <p className="text-xs text-muted-foreground">{p.email || "—"}</p>
                              {!p.full_body_photo_url && (
                                <span className="text-xs text-amber-600 font-medium">⚠ Sem foto corporal</span>
                              )}
@@ -226,15 +226,15 @@ export default function AdminAntecedentesPage() {
                          </div>
                         </td>
                         <td className="px-4 py-4 hidden md:table-cell">
-                          <span className="text-sm text-slate-600 font-mono">{maskCPF(p.cpf)}</span>
+                          <span className="text-sm text-muted-foreground font-mono">{maskCPF(p.cpf)}</span>
                         </td>
                         <td className="px-4 py-4 hidden lg:table-cell">
-                          <span className="text-xs font-medium uppercase text-slate-600 bg-slate-100 px-2 py-0.5 rounded">
+                          <span className="text-xs font-medium uppercase text-muted-foreground bg-muted px-2 py-0.5 rounded">
                             {p.tipo_pessoa === 'pj' ? 'PJ/MEI' : 'PF'}
                           </span>
                         </td>
                         <td className="px-4 py-4 hidden lg:table-cell">
-                          <span className="text-sm text-slate-600">{p.location?.state || "—"}</span>
+                          <span className="text-sm text-muted-foreground">{p.location?.state || "—"}</span>
                         </td>
                         <td className="px-4 py-4">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${cfg.color}`}>
@@ -243,10 +243,10 @@ export default function AdminAntecedentesPage() {
                           </span>
                         </td>
                         <td className="px-4 py-4 hidden xl:table-cell max-w-xs">
-                          <p className="text-xs text-slate-500 line-clamp-2">{p.relatorio_verificacao || "—"}</p>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{p.relatorio_verificacao || "—"}</p>
                         </td>
                         <td className="px-4 py-4 hidden lg:table-cell">
-                          <span className="text-xs text-slate-500">
+                          <span className="text-xs text-muted-foreground">
                             {p.data_verificacao
                               ? format(new Date(p.data_verificacao), "dd/MM/yy HH:mm", { locale: ptBR })
                               : "—"}
@@ -259,7 +259,7 @@ export default function AdminAntecedentesPage() {
                               variant="outline"
                               onClick={() => reverificaMutation.mutate(p.id)}
                               disabled={isActing}
-                              className="text-xs text-amber-700 border-amber-200 hover:bg-amber-50"
+                              className="text-xs text-orange-700 border-orange-200 hover:bg-orange-50"
                             >
                               <RefreshCw className="w-3 h-3 mr-1" />
                               Reverificar
@@ -269,7 +269,7 @@ export default function AdminAntecedentesPage() {
                                 size="sm"
                                 onClick={() => aprovaMutation.mutate(p.id)}
                                 disabled={isActing}
-                                className="text-xs bg-amber-600 hover:bg-amber-700"
+                                className="text-xs bg-orange-600 hover:bg-orange-700"
                               >
                                 <CheckCircle className="w-3 h-3 mr-1" />
                                 Aprovar

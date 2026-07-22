@@ -13,11 +13,14 @@ export default function FinancialDashboard({ transactions }) {
 
     // Agrupa por mês
     const monthlyData = {};
+    const monthDates = {};
     transactions.forEach(t => {
       if (!t.date) return;
-      const monthKey = format(new Date(t.date), 'MMM/yy', { locale: ptBR });
+      const date = new Date(t.date);
+      const monthKey = format(date, 'MMM/yy', { locale: ptBR });
       if (!monthlyData[monthKey]) {
         monthlyData[monthKey] = { month: monthKey, receita: 0, despesa: 0 };
+        monthDates[monthKey] = date;
       }
       if (t.type === 'Receita') {
         monthlyData[monthKey].receita += t.amount;
@@ -27,9 +30,7 @@ export default function FinancialDashboard({ transactions }) {
     });
 
     return Object.values(monthlyData).sort((a, b) => {
-      const dateA = new Date(a.month.split('/').reverse().join('-'));
-      const dateB = new Date(b.month.split('/').reverse().join('-'));
-      return dateA - dateB;
+      return monthDates[a.month] - monthDates[b.month];
     });
   }, [transactions]);
 

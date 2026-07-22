@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CheckCircle, Loader2, X } from 'lucide-react';
 import { toast } from 'sonner';
+import { LogoMark } from '@/components/brand/Logo';
 
 export default function CompletarPerfilModal({ user, open, onClose }) {
   const queryClient = useQueryClient();
@@ -83,11 +84,7 @@ export default function CompletarPerfilModal({ user, open, onClose }) {
             <X className="w-4 h-4 text-white" />
           </button>
           <div className="flex items-center gap-3 mb-3">
-            <img
-              src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png"
-              alt="Logo"
-              className="h-8 w-8 rounded"
-            />
+            <LogoMark className="h-8 w-8" />
             <span className="font-bold text-base">Trancoso Resolve</span>
           </div>
           <h2 className="text-xl font-bold leading-tight">Complete seu cadastro</h2>
@@ -122,7 +119,7 @@ export default function CompletarPerfilModal({ user, open, onClose }) {
               value={form.phone}
               onChange={handlePhone}
               required
-              className="border-slate-300 text-xs md:text-sm h-9 md:h-10 focus:border-blue-500"
+              className="border-slate-300 text-xs md:text-sm h-9 md:h-10 focus:border-orange-500"
             />
             <p className="text-xs text-slate-500 leading-tight">
               Usado apenas para conectar você com prestadores verificados. Seu número não será exibido publicamente.

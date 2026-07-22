@@ -1,0 +1,72 @@
+{
+  "name": "LogWhatsApp",
+  "type": "object",
+  "properties": {
+    "prestador_id": {
+      "type": "string",
+      "description": "ID do ServiceProvider destinatário"
+    },
+    "tipo": {
+      "type": "string",
+      "enum": [
+        "boas_vindas_plano",
+        "lead_novo",
+        "lembrete_renovacao",
+        "verificacao_aprovada",
+        "aviso_admin"
+      ],
+      "description": "Tipo da mensagem enviada"
+    },
+    "telefone": {
+      "type": "string",
+      "description": "Número de destino no formato E.164 (ex: +5573999999999)"
+    },
+    "mensagem": {
+      "type": "string",
+      "description": "Texto da mensagem enviada"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "enviado",
+        "falhou",
+        "pendente"
+      ],
+      "default": "pendente",
+      "description": "Status do envio"
+    },
+    "message_id": {
+      "type": "string",
+      "description": "ID da mensagem retornado pelo provedor (WhatsApp Business API / Z-API / etc)"
+    },
+    "erro": {
+      "type": "string",
+      "description": "Detalhes do erro em caso de falha"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora do envio"
+    },
+    "referencia_id": {
+      "type": "string",
+      "description": "ID do objeto relacionado (Subscription, ServiceRequest, etc)"
+    },
+    "referencia_tipo": {
+      "type": "string",
+      "description": "Tipo do objeto relacionado (Subscription, ServiceRequest, etc)"
+    }
+  },
+  "required": [
+    "tipo",
+    "telefone"
+  ],
+  "rls": {
+    "read": {
+      "created_by": "admin"
+    },
+    "write": {
+      "created_by": "admin"
+    }
+  }
+}

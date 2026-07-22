@@ -10,45 +10,17 @@
     "plan": {
       "type": "string",
       "enum": [
-        "gratuito",
-        "profissional",
-        "elite",
-        "prestador_elite",
-        "lojista_essencial",
-        "lojista_pro",
-        "lojista_elite",
-        "boost_prestador",
-        "boost_lojista"
+        "trial",
+        "monthly"
       ],
-      "default": "gratuito",
+      "default": "trial",
       "description": "Plano da assinatura"
-    },
-    "plan_category": {
-      "type": "string",
-      "enum": [
-        "prestador",
-        "lojista",
-        "boost"
-      ],
-      "default": "prestador",
-      "description": "Categoria do plano (prestador, lojista ou boost sazonal)"
-    },
-    "is_annual": {
-      "type": "boolean",
-      "default": false,
-      "description": "Se a cobran\u00e7a \u00e9 anual (paga 10, leva 12 \u2014 2 meses gr\u00e1tis)"
-    },
-    "founder_badge": {
-      "type": "boolean",
-      "default": false,
-      "description": "Selo de fundador \u2014 concedido aos primeiros assinantes (vagas limitadas)"
     },
     "status": {
       "type": "string",
       "enum": [
         "trial",
         "active",
-        "pending",
         "expired",
         "cancelled"
       ],
@@ -75,22 +47,26 @@
       "format": "date",
       "description": "Pr\u00f3xima data de cobran\u00e7a"
     },
-    "mp_preapproval_id": {
+    "stripe_customer_id": {
       "type": "string",
-      "description": "ID da assinatura recorrente no Mercado Pago (Preapproval)"
+      "description": "ID do cliente no Stripe"
+    },
+    "stripe_subscription_id": {
+      "type": "string",
+      "description": "ID da assinatura no Stripe"
     },
     "amount": {
       "type": "number",
-      "default": 0,
+      "default": 99,
       "description": "Valor da mensalidade em R$"
     },
     "payment_method": {
       "type": "string",
       "enum": [
-        "mercadopago",
+        "stripe",
         "manual"
       ],
-      "default": "mercadopago",
+      "default": "stripe",
       "description": "M\u00e9todo de pagamento"
     },
     "notes": {

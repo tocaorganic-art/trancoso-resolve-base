@@ -84,7 +84,7 @@ function Base44ReportViewerContent() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-slate-900 mb-8">Base44 Report Viewer</h1>
+      <h1 className="text-3xl font-bold text-foreground mb-8">Base44 Report Viewer</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <Card>
@@ -122,9 +122,9 @@ function Base44ReportViewerContent() {
             <p>2. Clique em "Visualizar Relatório"</p>
             <p>3. O relatório será renderizado abaixo de forma visual</p>
             <p>4. Você pode baixar o relatório em formato Markdown</p>
-            <div className="mt-4 p-3 bg-blue-50 rounded">
-              <p className="font-semibold text-blue-900">Exemplo carregado:</p>
-              <p className="text-blue-700">BASE44_Total_Example_V1</p>
+            <div className="mt-4 p-3 bg-muted rounded">
+              <p className="font-semibold text-foreground">Exemplo carregado:</p>
+              <p className="text-muted-foreground">BASE44_Total_Example_V1</p>
             </div>
           </CardContent>
         </Card>

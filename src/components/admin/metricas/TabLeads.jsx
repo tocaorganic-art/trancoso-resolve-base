@@ -153,7 +153,7 @@ export default function TabLeads({ leads, onRefresh }) {
                       <td className="p-3 text-slate-300 text-xs">{lead.service_interest || "—"}</td>
                       <td className="p-3 text-slate-400 text-xs">{lead.source || "—"}</td>
                       <td className="p-3">
-                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${lead.type === "prestador" ? "bg-amber-900/50 text-amber-300" : "bg-cyan-900/50 text-cyan-300"}`}>
+                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${lead.type === "prestador" ? "bg-amber-900/50 text-amber-300" : "bg-orange-900/50 text-orange-300"}`}>
                           {lead.type || "—"}
                         </span>
                       </td>

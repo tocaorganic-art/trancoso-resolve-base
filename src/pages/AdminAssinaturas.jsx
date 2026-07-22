@@ -123,10 +123,10 @@ export default function AdminAssinaturasPage() {
   };
 
   const statusColors = {
-    trial: "bg-blue-100 text-blue-800 border-blue-200",
-    active: "bg-green-100 text-green-800 border-green-200",
+    trial: "bg-amber-100 text-amber-800 border-amber-200",
+    active: "bg-[#3E8E5A]/10 text-[#3E8E5A] border-[#3E8E5A]/30",
     expired: "bg-red-100 text-red-800 border-red-200",
-    cancelled: "bg-slate-100 text-slate-800 border-slate-200"
+    cancelled: "bg-muted text-foreground border-border"
   };
 
   const statusLabels = {
@@ -141,12 +141,12 @@ export default function AdminAssinaturasPage() {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-6">
-          <div className="p-3 bg-blue-100 rounded-xl">
-            <CreditCard className="w-8 h-8 text-blue-600" />
+          <div className="p-3 bg-muted rounded-xl">
+            <CreditCard className="w-8 h-8 text-brand-primary" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">Gestão de Assinaturas</h1>
-            <p className="text-slate-600">Painel administrativo</p>
+            <h1 className="text-3xl font-bold text-foreground">Gestão de Assinaturas</h1>
+            <p className="text-muted-foreground">Painel administrativo</p>
           </div>
         </div>
 
@@ -155,50 +155,50 @@ export default function AdminAssinaturasPage() {
           <Card className="border-none shadow-lg">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-slate-600">Total</span>
-                <Users className="w-5 h-5 text-slate-400" />
+                <span className="text-sm text-muted-foreground">Total</span>
+                <Users className="w-5 h-5 text-muted-foreground" />
               </div>
-              <p className="text-3xl font-bold text-slate-900">{stats.total}</p>
+              <p className="text-3xl font-bold text-foreground">{stats.total}</p>
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-lg">
+          <Card className="border-none shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-slate-600">Trial</span>
-                <Clock className="w-5 h-5 text-blue-400" />
+                <span className="text-sm text-muted-foreground">Trial</span>
+                <Clock className="w-5 h-5 text-amber-500" />
               </div>
-              <p className="text-3xl font-bold text-blue-600">{stats.trial}</p>
+              <p className="text-3xl font-bold text-amber-600">{stats.trial}</p>
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-lg">
+          <Card className="border-none shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-slate-600">Ativos</span>
-                <Check className="w-5 h-5 text-green-400" />
+                <span className="text-sm text-muted-foreground">Ativos</span>
+                <Check className="w-5 h-5 text-[#3E8E5A]" />
               </div>
-              <p className="text-3xl font-bold text-green-600">{stats.active}</p>
+              <p className="text-3xl font-bold text-[#3E8E5A]">{stats.active}</p>
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-lg">
+          <Card className="border-none shadow-sm">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-slate-600">Expirados</span>
+                <span className="text-sm text-muted-foreground">Expirados</span>
                 <X className="w-5 h-5 text-red-400" />
               </div>
               <p className="text-3xl font-bold text-red-600">{stats.expired}</p>
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-lg bg-gradient-to-br from-green-50 to-emerald-50">
+          <Card className="border-none shadow-sm bg-orange-50">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm text-green-700 font-medium">MRR</span>
-                <TrendingUp className="w-5 h-5 text-green-600" />
+                <span className="text-sm text-orange-700 font-medium">MRR</span>
+                <TrendingUp className="w-5 h-5 text-brand-primary" />
               </div>
-              <p className="text-3xl font-bold text-green-600">
+              <p className="text-3xl font-bold text-brand-primary">
                 R$ {stats.revenue.toLocaleString('pt-BR')}
               </p>
             </CardContent>
@@ -208,7 +208,7 @@ export default function AdminAssinaturasPage() {
         {/* Filters */}
         <div className="flex gap-4 mb-6">
           <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               placeholder="Buscar por email..."
               value={searchTerm}
@@ -237,7 +237,7 @@ export default function AdminAssinaturasPage() {
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-slate-50">
+                <TableRow className="bg-muted">
                   <TableHead>Usuário</TableHead>
                   <TableHead>Plano</TableHead>
                   <TableHead>Status</TableHead>
@@ -250,19 +250,19 @@ export default function AdminAssinaturasPage() {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                       Carregando...
                     </TableCell>
                   </TableRow>
                 ) : filteredSubscriptions.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8 text-slate-500">
+                    <TableCell colSpan={7} className="text-center py-8 text-muted-foreground">
                       Nenhuma assinatura encontrada
                     </TableCell>
                   </TableRow>
                 ) : (
                   filteredSubscriptions.map((sub) => (
-                    <TableRow key={sub.id} className="hover:bg-slate-50">
+                    <TableRow key={sub.id} className="hover:bg-muted">
                       <TableCell className="font-medium">{sub.user_email}</TableCell>
                       <TableCell>
                         <Badge variant="outline">
@@ -274,14 +274,14 @@ export default function AdminAssinaturasPage() {
                           {statusLabels[sub.status]}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className="text-sm text-muted-foreground">
                         {sub.trial_end ? (
                           <>
                             {new Date(sub.trial_end).toLocaleDateString('pt-BR')}
                           </>
                         ) : '-'}
                       </TableCell>
-                      <TableCell className="text-sm text-slate-600">
+                      <TableCell className="text-sm text-muted-foreground">
                         {sub.next_billing_date ? (
                           <>
                             {new Date(sub.next_billing_date).toLocaleDateString('pt-BR')}
@@ -319,7 +319,7 @@ export default function AdminAssinaturasPage() {
                               size="sm"
                               variant="ghost"
                               onClick={() => handleCancelSubscription(sub)}
-                              className="text-slate-600 hover:text-slate-900"
+                              className="text-muted-foreground hover:text-foreground"
                             >
                               Cancelar
                             </Button>
@@ -336,12 +336,12 @@ export default function AdminAssinaturasPage() {
       </Card>
 
       {/* Instructions */}
-      <Card className="mt-6 border-blue-200 bg-blue-50">
+      <Card className="mt-6 border-amber-200 bg-amber-50">
         <CardContent className="p-6">
-          <h3 className="font-bold text-blue-900 mb-3">📋 Como usar este painel:</h3>
-          <ul className="text-sm text-blue-800 space-y-2">
+          <h3 className="font-bold text-amber-900 mb-3">📋 Como usar este painel:</h3>
+          <ul className="text-sm text-amber-800 space-y-2">
             <li><strong>1.</strong> Usuários começam automaticamente com 7 dias de trial</li>
-            <li><strong>2.</strong> Quando o pagamento via Mercado Pago for confirmado, clique em "Ativar" para liberar acesso</li>
+            <li><strong>2.</strong> Quando pagarem no Mercado Pago, clique em "Ativar" para liberar acesso</li>
             <li><strong>3.</strong> Use "Expirar" se o pagamento não for confirmado</li>
             <li><strong>4.</strong> O sistema bloqueia acesso automaticamente para expirados</li>
             <li><strong>5.</strong> MRR = Receita Recorrente Mensal (apenas assinaturas ativas)</li>

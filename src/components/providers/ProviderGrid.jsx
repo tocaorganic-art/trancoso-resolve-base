@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { Search, Star, AlertCircle, Loader2, Filter } from "lucide-react";
-import ProvidersMap from "@/components/map/ProvidersMap";
+import { Skeleton } from "@/components/ui/skeleton";
 import ProviderCard from "./ProviderCard";
+
+const ProvidersMap = lazy(() => import("@/components/map/ProvidersMap"));
 
 export default function ProviderGrid({
     filteredProviders,
@@ -16,14 +19,12 @@ export default function ProviderGrid({
     ratingFilter,
     availabilityFilter,
     neighborhoodFilter,
-    cityFilter,
     selectedCategory,
     setSearchQuery,
     setPriceFilter,
     setRatingFilter,
     setAvailabilityFilter,
     setNeighborhoodFilter,
-    setCityFilter,
     setSelectedCategory
 }) {
     const renderContent = () => {
@@ -56,13 +57,13 @@ export default function ProviderGrid({
         }
         
         if (filteredProviders.length === 0) {
-            const hasActiveFilters = priceFilter !== 'all' || ratingFilter !== 'all' || availabilityFilter !== 'all' || neighborhoodFilter !== 'all' || cityFilter !== 'all' || searchQuery.trim() !== '';
+            const hasActiveFilters = priceFilter !== 'all' || ratingFilter !== 'all' || availabilityFilter !== 'all' || neighborhoodFilter !== 'all' || searchQuery.trim() !== '';
             const hasSearchQuery = searchQuery.trim() !== '';
 
             return (
                 <div className="col-span-full text-center py-16 bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700">
                     <div className="w-16 h-16 mx-auto mb-4 bg-slate-700 rounded-full flex items-center justify-center">
-                        <Search className="w-8 h-8 text-cyan-400" />
+                        <Search className="w-8 h-8 text-orange-400" />
                     </div>
                     <h3 className="text-xl font-semibold text-slate-100 mb-2">Nenhum Prestador Encontrado</h3>
                     <p className="text-slate-400 max-w-md mx-auto mb-6">
@@ -76,7 +77,7 @@ export default function ProviderGrid({
                         {hasActiveFilters && (
                             <Button variant="outline" onClick={() => {
                                 setSearchQuery(''); setPriceFilter('all'); setRatingFilter('all');
-                                setAvailabilityFilter('all'); setNeighborhoodFilter('all'); setCityFilter('all'); setSelectedCategory('Todos');
+                                setAvailabilityFilter('all'); setNeighborhoodFilter('all'); setSelectedCategory('Todos');
                             }} className="gap-2">
                                 <Filter className="w-4 h-4" /> Limpar Filtros
                             </Button>
@@ -92,7 +93,7 @@ export default function ProviderGrid({
         }
 
         if (viewMode === 'map') {
-            return <div className="col-span-full"><ProvidersMap providers={filteredProviders} cityFilter={cityFilter} /></div>;
+            return <div className="col-span-full"><Suspense fallback={<Skeleton className="h-96 w-full rounded-lg" />}><ProvidersMap providers={filteredProviders} /></Suspense></div>;
         }
         
         return filteredProviders.map((provider) => <ProviderCard key={provider.id} provider={provider} />);

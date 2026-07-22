@@ -16,8 +16,8 @@ const PERIOD_OPTIONS = [
 ];
 
 const LINE_COLORS = [
-  '#06b6d4', '#3b82f6', '#8b5cf6', '#f59e0b',
-  '#10b981', '#ef4444', '#ec4899', '#14b8a6',
+  '#E8571A', '#C1440E', '#6B7C3A', '#E59A12',
+  '#3E8E5A', '#D7382B', '#2D7D8A', '#b85c0a',
 ];
 
 function getStartDate(period) {
@@ -158,8 +158,8 @@ export default function SeoDashboard() {
   }, [filteredPages, pageData, latestWeek, prevWeek]);
 
   if (loadingUser) return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-900">
-      <div className="w-8 h-8 border-4 border-slate-600 border-t-cyan-400 rounded-full animate-spin" />
+    <div className="flex items-center justify-center min-h-screen bg-background">
+      <div className="w-8 h-8 border-4 border-border border-t-brand-primary rounded-full animate-spin" />
     </div>
   );
 
@@ -168,15 +168,15 @@ export default function SeoDashboard() {
   const isEmpty = keywordData.length === 0 && pageData.length === 0;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8">
+    <div className="min-h-screen bg-background text-foreground p-4 md:p-8">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-white flex items-center gap-2">
-            <BarChart2 className="w-7 h-7 text-cyan-400" />
+          <h1 className="text-2xl md:text-3xl font-bold text-foreground flex items-center gap-2">
+            <BarChart2 className="w-7 h-7 text-brand-primary" />
             Painel SEO
           </h1>
-          <p className="text-slate-400 text-sm mt-1">Métricas de busca orgânica — Trancoso Resolve</p>
+          <p className="text-muted-foreground text-sm mt-1">Métricas de busca orgânica — Trancoso Resolve</p>
         </div>
         <div className="flex gap-2">
           {PERIOD_OPTIONS.map(opt => (
@@ -185,8 +185,8 @@ export default function SeoDashboard() {
               onClick={() => setPeriod(opt.value)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 period === opt.value
-                  ? 'bg-cyan-500 text-white'
-                  : 'bg-slate-800 text-slate-300 hover:bg-slate-700'
+                  ? 'bg-brand-primary text-white'
+                  : 'bg-card text-muted-foreground border border-border hover:bg-muted'
               }`}
             >
               {opt.label}
@@ -196,10 +196,10 @@ export default function SeoDashboard() {
       </div>
 
       {isEmpty && (
-        <div className="bg-slate-800 rounded-2xl p-12 text-center">
-          <Search className="w-12 h-12 text-slate-500 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold text-slate-300 mb-2">Nenhum dado de SEO ainda</h2>
-          <p className="text-slate-500 text-sm max-w-md mx-auto">
+        <div className="bg-card border border-border rounded-2xl p-12 text-center">
+          <Search className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+          <h2 className="text-xl font-semibold text-foreground mb-2">Nenhum dado de SEO ainda</h2>
+          <p className="text-muted-foreground text-sm max-w-md mx-auto">
             Adicione registros nas entidades <strong>SearchKeywordWeekly</strong> e <strong>SearchPageWeekly</strong> para visualizar as métricas aqui.
           </p>
         </div>
@@ -209,20 +209,20 @@ export default function SeoDashboard() {
         <>
           {/* Section 1 – Keywords */}
           <section className="mb-10">
-            <h2 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
-              <Search className="w-5 h-5 text-cyan-400" />
+            <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
+              <Search className="w-5 h-5 text-brand-primary" />
               Palavras-chave monitoradas
             </h2>
 
             {keywordChartData.length > 0 && (
-              <div className="bg-slate-800 rounded-2xl p-4 md:p-6 mb-6">
-                <p className="text-sm text-slate-400 mb-4">Cliques por semana</p>
+              <div className="bg-card border border-border rounded-2xl p-4 md:p-6 mb-6">
+                <p className="text-sm text-muted-foreground mb-4">Cliques por semana</p>
                 <ResponsiveContainer width="100%" height={280}>
                   <LineChart data={keywordChartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis dataKey="week" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                    <YAxis tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                    <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: 8 }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                    <XAxis dataKey="week" tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />
+                    <YAxis tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />
+                    <Tooltip contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8 }} />
                     <Legend />
                     {keywords.map((kw, i) => (
                       <Line key={kw} type="monotone" dataKey={kw} stroke={LINE_COLORS[i % LINE_COLORS.length]} strokeWidth={2} dot={false} />
@@ -233,25 +233,25 @@ export default function SeoDashboard() {
             )}
 
             {keywordTableData.length > 0 && (
-              <div className="bg-slate-800 rounded-2xl overflow-hidden">
+              <div className="bg-card border border-border rounded-2xl overflow-hidden">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-slate-700">
-                      <th className="text-left px-4 py-3 text-slate-400 font-medium">Palavra-chave</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">Cliques</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">Impressões</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">CTR</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">Posição</th>
+                    <tr className="border-b border-border bg-muted">
+                      <th className="text-left px-4 py-3 text-muted-foreground font-medium">Palavra-chave</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">Cliques</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">Impressões</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">CTR</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">Posição</th>
                     </tr>
                   </thead>
                   <tbody>
                     {keywordTableData.map((row, i) => (
-                      <tr key={i} className="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors">
-                        <td className="px-4 py-3 text-white font-medium">{row.keyword}</td>
-                        <td className="px-4 py-3 text-right text-cyan-400 font-bold">{row.clicks ?? 0}</td>
-                        <td className="px-4 py-3 text-right text-slate-300">{row.impressions ?? 0}</td>
-                        <td className="px-4 py-3 text-right text-slate-300">{formatCtr(row.ctr)}</td>
-                        <td className="px-4 py-3 text-right text-slate-300">{formatPos(row.position)}</td>
+                      <tr key={i} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                        <td className="px-4 py-3 text-foreground font-medium">{row.keyword}</td>
+                        <td className="px-4 py-3 text-right text-brand-primary font-bold">{row.clicks ?? 0}</td>
+                        <td className="px-4 py-3 text-right text-muted-foreground">{row.impressions ?? 0}</td>
+                        <td className="px-4 py-3 text-right text-muted-foreground">{formatCtr(row.ctr)}</td>
+                        <td className="px-4 py-3 text-right text-muted-foreground">{formatPos(row.position)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -262,46 +262,46 @@ export default function SeoDashboard() {
 
           {/* Section 2 – Pages */}
           <section className="mb-10">
-            <h2 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-blue-400" />
+            <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-brand-primary" />
               Páginas mais acessadas via busca
             </h2>
 
             {pageBarData.length > 0 && (
-              <div className="bg-slate-800 rounded-2xl p-4 md:p-6 mb-6">
-                <p className="text-sm text-slate-400 mb-4">Cliques por página (semana atual)</p>
+              <div className="bg-card border border-border rounded-2xl p-4 md:p-6 mb-6">
+                <p className="text-sm text-muted-foreground mb-4">Cliques por página (semana atual)</p>
                 <ResponsiveContainer width="100%" height={280}>
                   <BarChart data={pageBarData} layout="vertical">
-                    <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis type="number" tick={{ fill: '#94a3b8', fontSize: 12 }} />
-                    <YAxis type="category" dataKey="page" tick={{ fill: '#94a3b8', fontSize: 11 }} width={160} />
-                    <Tooltip contentStyle={{ background: '#1e293b', border: '1px solid #334155', borderRadius: 8 }} />
-                    <Bar dataKey="clicks" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+                    <XAxis type="number" tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />
+                    <YAxis type="category" dataKey="page" tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} width={160} />
+                    <Tooltip contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8 }} />
+                    <Bar dataKey="clicks" fill="#E8571A" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             )}
 
             {pageTableData.length > 0 && (
-              <div className="bg-slate-800 rounded-2xl overflow-hidden overflow-x-auto">
+              <div className="bg-card border border-border rounded-2xl overflow-hidden overflow-x-auto">
                 <table className="w-full text-sm min-w-[600px]">
                   <thead>
-                    <tr className="border-b border-slate-700">
-                      <th className="text-left px-4 py-3 text-slate-400 font-medium">Página</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">Cliques</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">Impressões</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">CTR</th>
-                      <th className="text-right px-4 py-3 text-slate-400 font-medium">Posição</th>
+                    <tr className="border-b border-border bg-muted">
+                      <th className="text-left px-4 py-3 text-muted-foreground font-medium">Página</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">Cliques</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">Impressões</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">CTR</th>
+                      <th className="text-right px-4 py-3 text-muted-foreground font-medium">Posição</th>
                     </tr>
                   </thead>
                   <tbody>
                     {pageTableData.map((row, i) => (
-                      <tr key={i} className="border-b border-slate-700/50 hover:bg-slate-700/30 transition-colors">
-                        <td className="px-4 py-3 text-white text-xs font-mono max-w-xs truncate">{row.page_url}</td>
-                        <td className="px-4 py-3 text-right text-blue-400 font-bold">{row.clicks ?? 0}</td>
-                        <td className="px-4 py-3 text-right text-slate-300">{row.impressions ?? 0}</td>
-                        <td className="px-4 py-3 text-right text-slate-300">{formatCtr(row.ctr)}</td>
-                        <td className="px-4 py-3 text-right text-slate-300">{formatPos(row.position)}</td>
+                      <tr key={i} className="border-b border-border/50 hover:bg-muted/50 transition-colors">
+                        <td className="px-4 py-3 text-foreground text-xs font-mono max-w-xs truncate">{row.page_url}</td>
+                        <td className="px-4 py-3 text-right text-brand-primary font-bold">{row.clicks ?? 0}</td>
+                        <td className="px-4 py-3 text-right text-muted-foreground">{row.impressions ?? 0}</td>
+                        <td className="px-4 py-3 text-right text-muted-foreground">{formatCtr(row.ctr)}</td>
+                        <td className="px-4 py-3 text-right text-muted-foreground">{formatPos(row.position)}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -312,24 +312,24 @@ export default function SeoDashboard() {
 
           {/* Section 3 – Alerts */}
           <section className="mb-10">
-            <h2 className="text-xl font-bold text-white mb-5 flex items-center gap-2">
-              <AlertTriangle className="w-5 h-5 text-yellow-400" />
+            <h2 className="text-xl font-bold text-foreground mb-5 flex items-center gap-2">
+              <AlertTriangle className="w-5 h-5 text-amber-500" />
               Alertas de queda
             </h2>
-            <div className="bg-slate-800 rounded-2xl p-6">
+            <div className="bg-card border border-border rounded-2xl p-6">
               {alerts.length === 0 ? (
-                <div className="flex items-center gap-3 text-green-400">
+                <div className="flex items-center gap-3 text-[#3E8E5A]">
                   <CheckCircle className="w-5 h-5 shrink-0" />
                   <span className="font-medium">Nenhuma queda detectada esta semana.</span>
                 </div>
               ) : (
                 <ul className="space-y-3">
                   {alerts.map((alert, i) => (
-                    <li key={i} className="flex items-start gap-3 bg-red-900/20 border border-red-700/40 rounded-xl px-4 py-3">
-                      <TrendingDown className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                    <li key={i} className="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
+                      <TrendingDown className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-white font-medium text-sm">{alert.page}</p>
-                        <p className="text-red-400 text-xs mt-0.5">
+                        <p className="text-foreground font-medium text-sm">{alert.page}</p>
+                        <p className="text-red-600 text-xs mt-0.5">
                           Queda de <strong>{alert.drop}%</strong> em cliques —&nbsp;
                           de {alert.prevClicks} para {alert.currClicks} esta semana
                         </p>

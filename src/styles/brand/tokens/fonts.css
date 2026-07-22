@@ -1,11 +1,21 @@
-/* Nunito — Tipografia oficial Trancoso Resolve */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&display=swap');
+/* ============================================================
+   Trancoso Resolve — Webfonts
+   Nunito: modern rounded sans-serif. Single family, full weight
+   range (300–1000) drives the whole system. Self-hosted.
+   ============================================================ */
 
-:root {
-  --font-body:    'Nunito', ui-rounded, 'Segoe UI', system-ui, sans-serif;
-  --font-heading: 'Nunito', ui-rounded, system-ui, sans-serif;
-  --font-display: 'Nunito', ui-rounded, system-ui, sans-serif;
+@font-face {
+  font-family: "Nunito";
+  src: url("../fonts/Nunito-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 300 1000;
+  font-style: normal;
+  font-display: swap;
+}
 
-  --leading-body: 1.65;
-  --tracking-eyebrow: 0.08em;
+@font-face {
+  font-family: "Nunito";
+  src: url("../fonts/Nunito-Italic-VariableFont_wght.ttf") format("truetype-variations");
+  font-weight: 300 1000;
+  font-style: italic;
+  font-display: swap;
 }

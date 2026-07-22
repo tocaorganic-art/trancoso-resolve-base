@@ -136,9 +136,9 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
   const progress = (completedCount / checklist.length) * 100;
 
   const getStatusIcon = (status) => {
-    if (status === 'completed') return <CheckCircle2 className="w-5 h-5 text-green-600" />;
-    if (status === 'warning') return <AlertTriangle className="w-5 h-5 text-yellow-600" />;
-    return <Circle className="w-5 h-5 text-slate-300" />;
+    if (status === 'completed') return <CheckCircle2 className="w-5 h-5 text-[#3E8E5A]" />;
+    if (status === 'warning') return <AlertTriangle className="w-5 h-5 text-amber-500" />;
+    return <Circle className="w-5 h-5 text-muted-foreground" />;
   };
 
   const categories = {
@@ -156,18 +156,18 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
-              <Rocket className="w-8 h-8 text-blue-600" />
+            <h1 className="text-3xl font-bold text-foreground flex items-center gap-3">
+              <Rocket className="w-8 h-8 text-brand-primary" />
               Deploy Dashboard
             </h1>
-            <p className="text-slate-600 mt-2">
+            <p className="text-muted-foreground mt-2">
               Centro de controle para validação e deploy de produção
             </p>
           </div>
           <Badge className={`text-lg px-4 py-2 ${
-            deployStatus === 'completed' ? 'bg-green-600' :
-            deployStatus === 'running' ? 'bg-blue-600' :
-            'bg-slate-400'
+            deployStatus === 'completed' ? 'bg-[#3E8E5A]' :
+            deployStatus === 'running' ? 'bg-brand-primary' :
+            'bg-muted text-muted-foreground'
           }`}>
             {deployStatus === 'completed' ? '✅ Aprovado' :
              deployStatus === 'running' ? '🔄 Executando' :
@@ -175,14 +175,14 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
           </Badge>
         </div>
 
-        <Card className="border-none shadow-lg bg-gradient-to-r from-blue-50 to-cyan-50">
+        <Card className="border-none shadow-lg bg-gradient-to-r from-orange-50 to-sand">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm font-medium text-slate-700">Progresso Geral</p>
-              <p className="text-sm font-bold text-blue-600">{completedCount}/{checklist.length}</p>
+              <p className="text-sm font-medium text-foreground">Progresso Geral</p>
+              <p className="text-sm font-bold text-orange-600">{completedCount}/{checklist.length}</p>
             </div>
             <Progress value={progress} className="h-3" />
-            <p className="text-xs text-slate-500 mt-2">{progress.toFixed(0)}% concluído</p>
+            <p className="text-xs text-muted-foreground mt-2">{progress.toFixed(0)}% concluído</p>
           </CardContent>
         </Card>
       </div>
@@ -191,7 +191,7 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
         <Button 
           onClick={runValidation} 
           disabled={deployStatus === 'running'}
-          className="bg-blue-600 hover:bg-blue-700"
+          className="bg-brand-primary hover:bg-orange-700"
           size="lg"
         >
           <Play className="w-5 h-5 mr-2" />
@@ -243,9 +243,9 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
                 <CardContent className="p-4">
                   <div className="space-y-2">
                     {items.map(item => (
-                      <div key={item.id} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
+                      <div key={item.id} className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                         {getStatusIcon(item.status)}
-                        <span className={`flex-1 ${item.status === 'completed' ? 'text-slate-600 line-through' : 'text-slate-900'}`}>
+                        <span className={`flex-1 ${item.status === 'completed' ? 'text-muted-foreground line-through' : 'text-foreground'}`}>
                           {item.task}
                         </span>
                       </div>
@@ -261,30 +261,30 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Card className="border-none shadow-lg">
               <CardContent className="p-6 text-center">
-                <p className="text-sm text-slate-600 mb-2">QA Score</p>
-                <p className="text-4xl font-bold text-blue-600">{metrics.qa_score}</p>
-                <p className="text-xs text-slate-500 mt-1">/ 100</p>
+                <p className="text-sm text-muted-foreground mb-2">QA Score</p>
+                <p className="text-4xl font-bold text-brand-primary">{metrics.qa_score}</p>
+                <p className="text-xs text-muted-foreground mt-1">/ 100</p>
               </CardContent>
             </Card>
             <Card className="border-none shadow-lg">
               <CardContent className="p-6 text-center">
-                <p className="text-sm text-slate-600 mb-2">SEO Score</p>
-                <p className="text-4xl font-bold text-indigo-600">{metrics.seo_score}</p>
-                <p className="text-xs text-slate-500 mt-1">/ 100</p>
+                <p className="text-sm text-muted-foreground mb-2">SEO Score</p>
+                <p className="text-4xl font-bold text-orange-600">{metrics.seo_score}</p>
+                <p className="text-xs text-muted-foreground mt-1">/ 100</p>
               </CardContent>
             </Card>
             <Card className="border-none shadow-lg">
               <CardContent className="p-6 text-center">
-                <p className="text-sm text-slate-600 mb-2">Security</p>
+                <p className="text-sm text-muted-foreground mb-2">Security</p>
                 <p className="text-4xl font-bold text-red-600">{metrics.security_score}</p>
-                <p className="text-xs text-slate-500 mt-1">/ 100</p>
+                <p className="text-xs text-muted-foreground mt-1">/ 100</p>
               </CardContent>
             </Card>
             <Card className="border-none shadow-lg">
               <CardContent className="p-6 text-center">
-                <p className="text-sm text-slate-600 mb-2">Performance</p>
+                <p className="text-sm text-muted-foreground mb-2">Performance</p>
                 <p className="text-4xl font-bold text-orange-600">{metrics.performance_score}</p>
-                <p className="text-xs text-slate-500 mt-1">/ 100</p>
+                <p className="text-xs text-muted-foreground mt-1">/ 100</p>
               </CardContent>
             </Card>
           </div>
@@ -298,32 +298,32 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
                 <div>
                   <div className="flex justify-between mb-2">
                     <span className="text-sm font-medium">LCP (Largest Contentful Paint)</span>
-                    <span className={`text-sm font-bold ${metrics.lcp < 2500 ? 'text-green-600' : 'text-red-600'}`}>
+                    <span className={`text-sm font-bold ${metrics.lcp < 2500 ? 'text-[#3E8E5A]' : 'text-red-600'}`}>
                       {metrics.lcp}ms
                     </span>
                   </div>
                   <Progress value={(metrics.lcp / 2500) * 100} className="h-2" />
-                  <p className="text-xs text-slate-500 mt-1">Threshold: &lt; 2500ms</p>
+                  <p className="text-xs text-muted-foreground mt-1">Threshold: &lt; 2500ms</p>
                 </div>
                 <div>
                   <div className="flex justify-between mb-2">
                     <span className="text-sm font-medium">FID (First Input Delay)</span>
-                    <span className={`text-sm font-bold ${metrics.fid < 100 ? 'text-green-600' : 'text-red-600'}`}>
+                    <span className={`text-sm font-bold ${metrics.fid < 100 ? 'text-[#3E8E5A]' : 'text-red-600'}`}>
                       {metrics.fid}ms
                     </span>
                   </div>
                   <Progress value={(metrics.fid / 100) * 100} className="h-2" />
-                  <p className="text-xs text-slate-500 mt-1">Threshold: &lt; 100ms</p>
+                  <p className="text-xs text-muted-foreground mt-1">Threshold: &lt; 100ms</p>
                 </div>
                 <div>
                   <div className="flex justify-between mb-2">
                     <span className="text-sm font-medium">CLS (Cumulative Layout Shift)</span>
-                    <span className={`text-sm font-bold ${metrics.cls < 0.1 ? 'text-green-600' : 'text-red-600'}`}>
+                    <span className={`text-sm font-bold ${metrics.cls < 0.1 ? 'text-[#3E8E5A]' : 'text-red-600'}`}>
                       {metrics.cls}
                     </span>
                   </div>
                   <Progress value={(metrics.cls / 0.1) * 100} className="h-2" />
-                  <p className="text-xs text-slate-500 mt-1">Threshold: &lt; 0.1</p>
+                  <p className="text-xs text-muted-foreground mt-1">Threshold: &lt; 0.1</p>
                 </div>
               </div>
             </CardContent>
@@ -351,7 +351,7 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
 
               <h4>2. Build de Produção</h4>
               <p>A plataforma Base44 executa automaticamente:</p>
-              <pre className="bg-slate-900 text-green-400 p-4 rounded-lg overflow-x-auto">
+              <pre className="bg-neutral-900 text-[#3E8E5A] p-4 rounded-lg overflow-x-auto">
 {`# Build automático Base44
 npm install
 npm run build
@@ -382,8 +382,8 @@ npm run build
               <h4>6. Rollback (se necessário)</h4>
               <p>Em caso de problemas críticos, use o dashboard Base44 para reverter para a versão anterior.</p>
 
-              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-4">
-                <p className="text-sm text-yellow-800">
+              <div className="bg-amber-50 border-l-4 border-amber-400 p-4 my-4">
+                <p className="text-sm text-amber-800">
                   <strong>⚠️ Importante:</strong> Sempre faça backup antes de deploy em produção e tenha um plano de rollback preparado.
                 </p>
               </div>

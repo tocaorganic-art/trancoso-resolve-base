@@ -179,7 +179,7 @@ Retorne um JSON válido.
             category: t.category,
             date: t.date || new Date().toISOString().split('T')[0],
             payment_method: t.payment_method || "Outro",
-            status: "Validado", // MUDANÇA: Validado ao invés de Pendente
+            status: "Pendente", // Requer revisão manual antes de entrar nos relatórios
             notes: t.notes || ""
           }));
 

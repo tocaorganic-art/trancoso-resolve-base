@@ -4,40 +4,40 @@
   "properties": {
     "lojista_id": {
       "type": "string",
-      "description": "ID do lojista dono do an\u00fancio"
+      "description": "ID do lojista dono do anúncio"
     },
     "titulo": {
       "type": "string",
-      "description": "T\u00edtulo do an\u00fancio"
+      "description": "Título do anúncio"
     },
     "descricao": {
       "type": "string",
-      "description": "Descri\u00e7\u00e3o do an\u00fancio"
+      "description": "Descrição do anúncio"
     },
     "imagem_url": {
       "type": "string",
-      "description": "URL da imagem do an\u00fancio"
+      "description": "URL da imagem do anúncio"
     },
     "cta_label": {
       "type": "string",
-      "description": "Texto do bot\u00e3o de call-to-action"
+      "description": "Texto do botão de call-to-action"
     },
     "cta_url": {
       "type": "string",
-      "description": "URL de destino do bot\u00e3o CTA"
+      "description": "URL de destino do call-to-action"
     },
     "categoria": {
       "type": "string",
-      "description": "Categoria do an\u00fancio"
+      "description": "Categoria do anúncio"
     },
     "destino": {
       "type": "string",
-      "description": "Destino/regi\u00e3o do an\u00fancio (ex: Trancoso, Porto Seguro)"
+      "description": "Destino relacionado ao anúncio (ex: Trancoso, Arraial d'Ajuda)"
     },
     "ativo": {
       "type": "boolean",
       "default": true,
-      "description": "Se o an\u00fancio est\u00e1 ativo"
+      "description": "Se o anúncio está ativo e visível na plataforma"
     },
     "plano": {
       "type": "string",
@@ -46,28 +46,27 @@
         "destaque",
         "premium"
       ],
-      "default": "basico",
-      "description": "Plano do an\u00fancio"
+      "description": "Plano de veiculação do anúncio"
     },
     "impressoes": {
       "type": "number",
       "default": 0,
-      "description": "Total de impress\u00f5es"
+      "description": "Número de impressões do anúncio"
     },
     "cliques": {
       "type": "number",
       "default": 0,
-      "description": "Total de cliques"
+      "description": "Número de cliques no CTA do anúncio"
     },
     "data_inicio": {
       "type": "string",
       "format": "date",
-      "description": "Data de in\u00edcio da veicula\u00e7\u00e3o"
+      "description": "Data de início da veiculação"
     },
     "data_fim": {
       "type": "string",
       "format": "date",
-      "description": "Data de fim da veicula\u00e7\u00e3o"
+      "description": "Data de término da veiculação"
     }
   },
   "required": [

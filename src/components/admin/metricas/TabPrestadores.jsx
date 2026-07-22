@@ -10,8 +10,8 @@ import { createPageUrl } from "@/utils";
 
 const STATUS_COLORS = {
   aprovado: "bg-green-900/50 text-green-300",
-  pendente: "bg-yellow-900/50 text-yellow-300",
-  em_analise_manual: "bg-blue-900/50 text-blue-300",
+  pendente: "bg-amber-900/50 text-amber-300",
+  em_analise_manual: "bg-orange-900/50 text-orange-300",
   reprovado: "bg-red-900/50 text-red-300",
 };
 
@@ -122,7 +122,7 @@ export default function TabPrestadores({ providers, requests }) {
                     </td>
                     <td className="p-3">
                       <Link to={`${createPageUrl("PrestadorPerfil")}?id=${p.id}`}>
-                        <Button size="sm" variant="ghost" className="text-xs gap-1 text-cyan-400 hover:text-cyan-300 h-7">
+                        <Button size="sm" variant="ghost" className="text-xs gap-1 text-orange-400 hover:text-orange-300 h-7">
                           <ExternalLink className="w-3 h-3" /> Ver Perfil
                         </Button>
                       </Link>

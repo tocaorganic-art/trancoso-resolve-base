@@ -17,11 +17,27 @@ import { ptBR } from "date-fns/locale";
 import { toast } from "sonner";
 import VerificacaoBadge from "@/components/verificacao/VerificacaoBadge";
 
+// Status normalizados (apenas português)
+const STATUS_MAP = {
+  'in_progress': 'Em Análise',
+  'pending': 'Pendente',
+  'awaiting_admin': 'Aguardando Admin',
+  'approved': 'Verificado',
+  'rejected': 'Rejeitado',
+  'Em Análise': 'Em Análise',
+  'Pendente': 'Pendente',
+  'Aguardando Admin': 'Aguardando Admin',
+  'Verificado': 'Verificado',
+  'Rejeitado': 'Rejeitado',
+};
+
+const normalizeStatus = (status) => STATUS_MAP[status] || 'Pendente';
+
 const statusConfig = {
 "Em Análise": { color: "bg-amber-100 text-amber-700 border-amber-200", icon: Clock },
 "Aguardando Admin": { color: "bg-amber-100 text-amber-700 border-amber-200", icon: ShieldCheck },
 "Pendente": { color: "bg-amber-100 text-amber-700 border-amber-200", icon: AlertTriangle },
-"Verificado": { color: "bg-green-100 text-green-700 border-green-200", icon: BadgeCheck },
+"Verificado": { color: "bg-[#3E8E5A]/10 text-[#3E8E5A] border-[#3E8E5A]/30", icon: BadgeCheck },
 "Rejeitado": { color: "bg-red-100 text-red-700 border-red-200", icon: XCircle },
 };
 
@@ -50,6 +66,17 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
     enabled: !!verificacao?.user_email && isOpen,
   });
 
+  const normalizeStatus = (status) => {
+    const STATUS_MAP = {
+      'in_progress': 'Em Análise',
+      'pending': 'Pendente',
+      'awaiting_admin': 'Aguardando Admin',
+      'approved': 'Verificado',
+      'rejected': 'Rejeitado',
+    };
+    return STATUS_MAP[status] || status;
+  };
+
   const tipoPessoaLabel = { pf: 'Pessoa Física', mei: 'MEI', pj: 'Pessoa Jurídica' };
 
   const handleAction = async (action) => {
@@ -74,7 +101,7 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
       <DialogContent className="sm:max-w-4xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Eye className="w-5 h-5 text-slate-500" />
+            <Eye className="w-5 h-5 text-muted-foreground" />
             Analisar Documento — {verificacao.user_name}
           </DialogTitle>
         </DialogHeader>
@@ -82,8 +109,8 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 py-2">
           {/* Imagem do documento */}
           <div className="space-y-2">
-            <Label className="text-xs text-slate-500 uppercase tracking-wide">Documento Enviado</Label>
-            <div className="rounded-xl border bg-slate-50 overflow-hidden">
+            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Documento Enviado</Label>
+            <div className="rounded-xl border bg-muted overflow-hidden">
               <img
                 src={verificacao.document_url}
                 alt="Documento"
@@ -94,115 +121,115 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
 
           {/* Fotos do prestador para confronto visual */}
           <div className="space-y-2">
-            <Label className="text-xs text-slate-500 uppercase tracking-wide">Fotos do Prestador</Label>
+            <Label className="text-xs text-muted-foreground uppercase tracking-wide">Fotos do Prestador</Label>
             {provider ? (
               <div className="flex gap-2 flex-wrap">
                 {provider.full_body_photo_url && (
                   <div className="space-y-1">
-                    <p className="text-xs text-slate-500">Corpo inteiro</p>
+                    <p className="text-xs text-muted-foreground">Corpo inteiro</p>
                     <img src={provider.full_body_photo_url} alt="Foto de corpo inteiro" className="h-44 rounded-lg object-cover border" />
                   </div>
                 )}
                 {provider.photo_url && (
                   <div className="space-y-1">
-                    <p className="text-xs text-slate-500">Perfil</p>
+                    <p className="text-xs text-muted-foreground">Perfil</p>
                     <img src={provider.photo_url} alt="Foto de perfil" className="h-44 w-28 rounded-lg object-cover border" />
                   </div>
                 )}
                 {!provider.full_body_photo_url && !provider.photo_url && (
-                  <p className="text-sm text-slate-400 italic">Nenhuma foto enviada ainda.</p>
+                  <p className="text-sm text-muted-foreground italic">Nenhuma foto enviada ainda.</p>
                 )}
               </div>
             ) : (
-              <p className="text-sm text-slate-400 italic">Carregando...</p>
+              <p className="text-sm text-muted-foreground italic">Carregando...</p>
             )}
           </div>
 
           {/* Detalhes */}
           <div className="space-y-4">
             <div>
-              <Label className="text-xs text-slate-500 uppercase tracking-wide">Usuário</Label>
-              <p className="font-medium text-slate-900 mt-0.5">{verificacao.user_name}</p>
-              <p className="text-sm text-slate-500">{verificacao.user_email}</p>
+              <Label className="text-xs text-muted-foreground uppercase tracking-wide">Usuário</Label>
+              <p className="font-medium text-foreground mt-0.5">{verificacao.user_name}</p>
+              <p className="text-sm text-muted-foreground">{verificacao.user_email}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs text-slate-500 uppercase tracking-wide">Tipo Doc.</Label>
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Tipo Doc.</Label>
                 <p className="font-medium text-sm mt-0.5">{verificacao.document_type}</p>
               </div>
               <div>
-                <Label className="text-xs text-slate-500 uppercase tracking-wide">Status</Label>
+                <Label className="text-xs text-muted-foreground uppercase tracking-wide">Status</Label>
                 <div className="mt-0.5">
-                  <StatusBadge status={verificacao.status} />
+                  <StatusBadge status={normalizeStatus(verificacao.status)} />
                 </div>
               </div>
             </div>
 
             {/* Dados do prestador */}
             {provider && (
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 space-y-2">
-                <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide">Dados do Prestador</p>
+              <div className="bg-muted border border-border rounded-lg p-3 space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Dados do Prestador</p>
                 {provider.phone && (
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <Phone className="w-3.5 h-3.5 text-slate-400" />
-                    <a href={`https://wa.me/55${provider.phone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="text-green-600 hover:underline font-medium">{provider.phone}</a>
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <Phone className="w-3.5 h-3.5 text-muted-foreground" />
+                    <a href={`https://wa.me/55${provider.phone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="text-[#3E8E5A] hover:underline font-medium">{provider.phone}</a>
                   </div>
                 )}
                 {provider.cpf && (
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CreditCard className="w-3.5 h-3.5 text-slate-400" />
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
                     <span>CPF: {provider.cpf}</span>
                   </div>
                 )}
                 {provider.cnpj && (
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <CreditCard className="w-3.5 h-3.5 text-slate-400" />
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
                     <span>CNPJ: {provider.cnpj}</span>
                   </div>
                 )}
                 {provider.tipo_pessoa && (
-                  <div className="flex items-center gap-2 text-sm text-slate-700">
-                    <User className="w-3.5 h-3.5 text-slate-400" />
+                  <div className="flex items-center gap-2 text-sm text-foreground">
+                    <User className="w-3.5 h-3.5 text-muted-foreground" />
                     <span>{tipoPessoaLabel[provider.tipo_pessoa] || provider.tipo_pessoa} — {provider.occupation}</span>
                   </div>
                 )}
                 {provider.razao_social && (
-                  <p className="text-xs text-slate-500">Razão Social: {provider.razao_social}</p>
+                  <p className="text-xs text-muted-foreground">Razão Social: {provider.razao_social}</p>
                 )}
               </div>
             )}
 
             {verificacao.ai_extracted_name && (
-              <div className="bg-purple-50 border border-purple-200 rounded-lg p-3 space-y-1.5">
-                <p className="text-xs font-semibold text-purple-700 uppercase tracking-wide">Análise da IA</p>
-                <p className="text-sm text-purple-900">
-                  <span className="text-purple-600">Nome extraído:</span> {verificacao.ai_extracted_name}
+              <div className="bg-muted border border-border rounded-lg p-3 space-y-1.5">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Análise da IA</p>
+                <p className="text-sm text-foreground">
+                  <span className="text-brand-primary font-medium">Nome extraído:</span> {verificacao.ai_extracted_name}
                 </p>
                 {verificacao.ai_extracted_dob && (
-                  <p className="text-sm text-purple-900">
-                    <span className="text-purple-600">Data nasc.:</span> {verificacao.ai_extracted_dob}
+                  <p className="text-sm text-foreground">
+                    <span className="text-brand-primary font-medium">Data nasc.:</span> {verificacao.ai_extracted_dob}
                   </p>
                 )}
                 {verificacao.ai_confidence != null && (
-                  <p className="text-sm text-purple-900">
-                    <span className="text-purple-600">Confiança:</span> {Math.round((verificacao.ai_confidence || 0) * 100)}%
+                  <p className="text-sm text-foreground">
+                    <span className="text-brand-primary font-medium">Confiança:</span> {Math.round((verificacao.ai_confidence || 0) * 100)}%
                   </p>
                 )}
               </div>
             )}
 
             {verificacao.admin_notes && (
-              <div className="bg-slate-50 border rounded-lg p-3">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Observações</p>
-                <p className="text-sm text-slate-700 whitespace-pre-wrap">{verificacao.admin_notes}</p>
+              <div className="bg-muted border border-border rounded-lg p-3">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-1">Observações</p>
+                <p className="text-sm text-foreground whitespace-pre-wrap">{verificacao.admin_notes}</p>
               </div>
             )}
 
             {/* Motivo rejeição */}
             {["Em Análise", "Aguardando Admin", "Pendente"].includes(verificacao.status) && (
               <div className="space-y-1.5">
-                <Label htmlFor="motivo" className="text-xs text-slate-500 uppercase tracking-wide">
+                <Label htmlFor="motivo" className="text-xs text-muted-foreground uppercase tracking-wide">
                   Motivo da rejeição (se for rejeitar)
                 </Label>
                 <Textarea
@@ -234,7 +261,7 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
               <Button
                 onClick={() => handleAction("aprovar")}
                 disabled={isSubmitting}
-                className="bg-blue-600 hover:bg-blue-700 gap-1.5"
+                className="bg-brand-primary hover:bg-orange-700 gap-1.5"
               >
                 {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
                 Aprovar
@@ -270,7 +297,32 @@ export default function FilaVerificacaoPage() {
   const handleAction = async (id, action, motivo) => {
     setQuickActionId(id);
     try {
-      await base44.functions.invoke('adminVerificacao', { verificacao_id: id, action, motivo });
+      const verificacao = verificacoes.find(v => v.id === id);
+      if (!verificacao) throw new Error('Verificação não encontrada');
+
+      // Atualizar status da verificação (sempre salvar em português para consistência)
+      const newStatus = action === "aprovar" ? "Verificado" : "Rejeitado";
+      await base44.entities.Verificacao.update(id, {
+        status: newStatus,
+        ...(action === "rejeitar" && { rejection_reason: motivo }),
+        admin_action_date: new Date().toISOString(),
+      });
+
+      // Se aprovado, atualizar ServiceProvider para aprovado
+      if (action === "aprovar" && verificacao.provider_id) {
+        await base44.entities.ServiceProvider.update(verificacao.provider_id, {
+          status_verificacao: "aprovado",
+          verified: true,
+          verification_approved_date: new Date().toISOString(),
+        });
+      } else if (action === "rejeitar" && verificacao.provider_id) {
+        await base44.entities.ServiceProvider.update(verificacao.provider_id, {
+          status_verificacao: "reprovado",
+          verified: false,
+          rejection_reason: motivo,
+        });
+      }
+
       toast.success(action === "aprovar" ? "✅ Identidade aprovada!" : "❌ Verificação rejeitada.");
       queryClient.invalidateQueries({ queryKey: ["todasVerificacoes"] });
     } catch (error) {
@@ -283,7 +335,7 @@ export default function FilaVerificacaoPage() {
   if (isLoadingUser) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+        <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
       </div>
     );
   }
@@ -292,22 +344,24 @@ export default function FilaVerificacaoPage() {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-4 text-center px-4">
         <XCircle className="w-16 h-16 text-red-400" />
-        <h2 className="text-2xl font-bold text-slate-800">Acesso Restrito</h2>
-        <p className="text-slate-500 max-w-sm">Esta página é exclusiva para administradores da plataforma.</p>
+        <h2 className="text-2xl font-bold text-foreground">Acesso Restrito</h2>
+        <p className="text-muted-foreground max-w-sm">Esta página é exclusiva para administradores da plataforma.</p>
       </div>
     );
   }
 
   const filtered = (verificacoes || []).filter((v) => {
-    const matchStatus = statusFilter === "Todos" || v.status === statusFilter;
+    const normalizedStatus = normalizeStatus(v.status);
+    const matchStatus = statusFilter === "Todos" || normalizedStatus === statusFilter;
     const matchSearch = !search.trim() ||
-      v.user_name?.toLowerCase().includes(search.toLowerCase()) ||
+      (v.user_name || v.user_email)?.toLowerCase().includes(search.toLowerCase()) ||
       v.user_email?.toLowerCase().includes(search.toLowerCase());
     return matchStatus && matchSearch;
   });
 
   const counts = (verificacoes || []).reduce((acc, v) => {
-    acc[v.status] = (acc[v.status] || 0) + 1;
+    const normalized = normalizeStatus(v.status);
+    acc[normalized] = (acc[normalized] || 0) + 1;
     return acc;
   }, {});
 
@@ -318,9 +372,9 @@ export default function FilaVerificacaoPage() {
         <div>
           <div className="flex items-center gap-3 mb-1">
             <ShieldCheck className="w-7 h-7 text-amber-600" />
-            <h1 className="text-2xl font-bold text-slate-900">Fila de Verificação</h1>
+            <h1 className="text-2xl font-bold text-foreground">Fila de Verificação</h1>
           </div>
-          <p className="text-slate-500 text-sm">Analise os documentos enviados e aprove ou rejeite identidades.</p>
+          <p className="text-muted-foreground text-sm">Analise os documentos enviados e aprove ou rejeite identidades.</p>
         </div>
         <Button
           variant="outline"
@@ -337,9 +391,9 @@ export default function FilaVerificacaoPage() {
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
         {[
           { label: "Em Análise", key: "Em Análise", color: "border-amber-200 bg-amber-50", textColor: "text-amber-700" },
-          { label: "Aguardando Admin", key: "Aguardando Admin", color: "border-indigo-200 bg-indigo-50", textColor: "text-indigo-700" },
+          { label: "Aguardando Admin", key: "Aguardando Admin", color: "border-orange-200 bg-orange-50", textColor: "text-orange-700" },
           { label: "Pendente", key: "Pendente", color: "border-orange-200 bg-orange-50", textColor: "text-orange-700" },
-          { label: "Verificado", key: "Verificado", color: "border-blue-200 bg-blue-50", textColor: "text-blue-700" },
+          { label: "Verificado", key: "Verificado", color: "border-[#3E8E5A]/30 bg-[#3E8E5A]/10", textColor: "text-[#3E8E5A]" },
           { label: "Rejeitado", key: "Rejeitado", color: "border-red-200 bg-red-50", textColor: "text-red-700" },
         ].map(({ label, key, color, textColor }) => (
           <Card key={key} className={`border ${color} cursor-pointer hover:shadow-sm transition-shadow`} onClick={() => setStatusFilter(key)}>
@@ -356,7 +410,7 @@ export default function FilaVerificacaoPage() {
         <CardContent className="p-4">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Buscar por nome ou email..."
                 value={search}
@@ -366,7 +420,7 @@ export default function FilaVerificacaoPage() {
             </div>
             <Select value={statusFilter} onValueChange={setStatusFilter}>
               <SelectTrigger className="w-full sm:w-44">
-                <Filter className="w-4 h-4 mr-2 text-slate-400" />
+                <Filter className="w-4 h-4 mr-2 text-muted-foreground" />
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -392,13 +446,13 @@ export default function FilaVerificacaoPage() {
         <CardContent className="p-0">
           {isLoading ? (
             <div className="flex items-center justify-center py-16">
-              <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+              <Loader2 className="w-8 h-8 animate-spin text-brand-primary" />
             </div>
           ) : filtered.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
-              <ShieldCheck className="w-12 h-12 text-slate-300 mb-3" />
-              <p className="text-slate-500 font-medium">Nenhuma verificação encontrada</p>
-              <p className="text-slate-400 text-sm mt-1">
+              <ShieldCheck className="w-12 h-12 text-muted-foreground mb-3 opacity-40" />
+              <p className="text-muted-foreground font-medium">Nenhuma verificação encontrada</p>
+              <p className="text-muted-foreground text-sm mt-1 opacity-70">
                 {statusFilter === "Em Análise" ? "Não há documentos aguardando análise." : "Tente outro filtro."}
               </p>
             </div>
@@ -406,43 +460,45 @@ export default function FilaVerificacaoPage() {
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b bg-slate-50">
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-6 py-3">Usuário</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden md:table-cell">Tipo</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3 hidden lg:table-cell">Enviado em</th>
-                    <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide px-4 py-3">Status</th>
-                    <th className="text-right text-xs font-semibold text-slate-500 uppercase tracking-wide px-6 py-3">Ações</th>
+                  <tr className="border-b bg-muted">
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-6 py-3">Usuário</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3 hidden md:table-cell">Tipo</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3 hidden lg:table-cell">Enviado em</th>
+                    <th className="text-left text-xs font-semibold text-muted-foreground uppercase tracking-wide px-4 py-3">Status</th>
+                    <th className="text-right text-xs font-semibold text-muted-foreground uppercase tracking-wide px-6 py-3">Ações</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-border">
                   {filtered.map((v) => {
-                    const isPending = ["Em Análise", "Aguardando Admin", "Pendente"].includes(v.status);
+                    const normalizedStatus = normalizeStatus(v.status);
+                    const isPending = ["Em Análise", "Aguardando Admin", "Pendente"].includes(normalizedStatus);
                     const isProcessing = quickActionId === v.id;
+                    const displayName = v.user_name || v.user_email || 'Usuário removido';
                     return (
-                    <tr key={v.id} className="hover:bg-slate-50 transition-colors">
+                    <tr key={v.id} className="hover:bg-muted transition-colors">
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                                           <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
                             <span className="text-amber-700 font-semibold text-xs">
-                              {v.user_name?.charAt(0)?.toUpperCase() || "?"}
+                              {displayName?.charAt(0)?.toUpperCase() || "?"}
                             </span>
                           </div>
                           <div>
-                            <p className="text-sm font-medium text-slate-900 flex items-center gap-1.5">
-                              {v.user_name}
-                              {v.status === "Verificado" && <VerificacaoBadge verified size="xs" />}
+                            <p className="text-sm font-medium text-foreground flex items-center gap-1.5">
+                              {displayName}
+                              {normalizedStatus === "Verificado" && <VerificacaoBadge verified size="xs" />}
                             </p>
-                            <p className="text-xs text-slate-500">{v.user_email}</p>
+                            <p className="text-xs text-muted-foreground">{v.user_email}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-4 py-4 hidden md:table-cell">
-                        <span className="text-sm font-medium text-slate-700 bg-slate-100 px-2 py-0.5 rounded">
+                        <span className="text-sm font-medium text-foreground bg-muted px-2 py-0.5 rounded">
                           {v.document_type}
                         </span>
                       </td>
                       <td className="px-4 py-4 hidden lg:table-cell">
-                        <div className="flex items-center gap-1.5 text-sm text-slate-500">
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
                           <Calendar className="w-3.5 h-3.5" />
                           {v.submission_date
                             ? format(new Date(v.submission_date), "dd/MM/yyyy HH:mm", { locale: ptBR })
@@ -450,7 +506,7 @@ export default function FilaVerificacaoPage() {
                         </div>
                       </td>
                       <td className="px-4 py-4">
-                        <StatusBadge status={v.status} />
+                        <StatusBadge status={normalizeStatus(v.status)} />
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center justify-end gap-2">

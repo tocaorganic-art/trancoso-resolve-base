@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Star } from 'lucide-react';
+import LazyImage from '@/components/ui/LazyImage';
 
 const testimonials = [
   {
@@ -14,7 +15,7 @@ const testimonials = [
     role: 'Chef de Cozinha',
     avatar: 'https://i.pravatar.cc/150?img=32',
     rating: 5,
-    comment: 'Desde que me cadastrei, minha agenda está sempre cheia. A plataforma me deu a visibilidade que eu precisava para conseguir clientes de alto padrão na Costa do Descobrimento.'
+    comment: 'Desde que me cadastrei, minha agenda está sempre cheia. A plataforma me deu a visibilidade que eu precisava para conseguir clientes de alto padrão em Trancoso.'
   },
   {
     name: 'Mariana C.',
@@ -30,7 +31,7 @@ const StarRating = ({ rating }) => (
     {Array.from({ length: 5 }).map((_, index) => (
       <Star
         key={index}
-        className={`w-4 h-4 ${index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-muted-foreground/40'}`}
+        className={`w-4 h-4 ${index < rating ? 'text-amber-400 fill-amber-400' : 'text-slate-300'}`}
       />
     ))}
   </div>
@@ -38,25 +39,25 @@ const StarRating = ({ rating }) => (
 
 export default function Testimonials() {
   return (
-    <section className="bg-muted py-20">
+    <section className="bg-slate-100 py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground">O que nossos usuários dizem</h2>
-          <p className="text-muted-foreground mt-2 font-medium text-lg">Histórias reais de quem usa e aprova a nossa plataforma.</p>
+          <h2 className="text-3xl font-bold text-slate-900 drop-shadow-sm">O que nossos usuários dizem</h2>
+          <p className="text-slate-700 mt-2 font-medium text-lg">Histórias reais de quem usa e aprova a nossa plataforma.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
            {testimonials.map((testimonial, index) => (
-             <Card key={index} className="border border-border shadow-lg bg-card">
+             <Card key={index} className="border-none shadow-lg bg-white">
                <CardContent className="p-8 flex flex-col h-full">
                  <div className="flex-grow mb-4">
                    <StarRating rating={testimonial.rating} />
-                   <p className="text-foreground/90 mt-4 italic leading-relaxed text-base">"{testimonial.comment}"</p>
+                   <p className="text-slate-800 mt-4 italic leading-relaxed text-base">"{testimonial.comment}"</p>
                  </div>
                  <div className="flex items-center mt-auto">
-                   <img src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full object-cover mr-4" />
+                   <LazyImage src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" priority={true} />
                    <div>
-                     <p className="font-bold text-foreground text-base">{testimonial.name}</p>
-                     <p className="text-sm font-medium text-muted-foreground">{testimonial.role}</p>
+                     <p className="font-bold text-slate-900 text-base">{testimonial.name}</p>
+                     <p className="text-sm font-medium text-slate-700">{testimonial.role}</p>
                    </div>
                  </div>
                </CardContent>

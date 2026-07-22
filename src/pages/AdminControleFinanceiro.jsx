@@ -119,14 +119,14 @@ function AdminControleFinanceiroContent() {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-96"><Loader2 className="w-8 h-8 animate-spin text-blue-600" /></div>;
+    return <div className="flex items-center justify-center h-96"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Controle Financeiro</h1>
-        <p className="text-slate-600">Gestão centralizada de todas as transações da plataforma</p>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Controle Financeiro</h1>
+        <p className="text-muted-foreground">Gestão centralizada de todas as transações da plataforma</p>
       </div>
 
       {/* KPIs */}
@@ -151,13 +151,13 @@ function AdminControleFinanceiroContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-blue-50 to-white">
+        <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <FileText className="w-5 h-5 text-blue-600" />
-              <Badge className="bg-blue-500">Saldo</Badge>
+              <FileText className="w-5 h-5 text-orange-600" />
+              <Badge className="bg-orange-500">Saldo</Badge>
             </div>
-            <p className={`text-3xl font-bold ${saldo >= 0 ? 'text-blue-700' : 'text-red-700'}`}>
+            <p className={`text-3xl font-bold ${saldo >= 0 ? 'text-orange-700' : 'text-red-700'}`}>
               R$ {saldo.toFixed(2)}
             </p>
           </CardContent>
@@ -180,7 +180,7 @@ function AdminControleFinanceiroContent() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Buscar..."
                 value={filters.search}
@@ -229,9 +229,9 @@ function AdminControleFinanceiroContent() {
           </div>
 
           {selectedTransactions.length > 0 && (
-            <div className="flex items-center gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <CheckSquare className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-medium text-blue-900">
+            <div className="flex items-center gap-3 p-3 bg-muted border border-border rounded-lg">
+              <CheckSquare className="w-5 h-5 text-brand-primary" />
+              <span className="text-sm font-medium text-foreground">
                 {selectedTransactions.length} selecionada(s)
               </span>
               <div className="flex gap-2 ml-auto">
@@ -255,7 +255,7 @@ function AdminControleFinanceiroContent() {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-slate-50 border-b">
+              <thead className="bg-muted border-b">
                 <tr>
                   <th className="p-4 text-left">
                     <Checkbox
@@ -263,48 +263,48 @@ function AdminControleFinanceiroContent() {
                       onCheckedChange={toggleAll}
                     />
                   </th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Data</th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Descrição</th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Tipo</th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Categoria</th>
-                  <th className="p-4 text-right text-sm font-semibold text-slate-700">Valor</th>
-                  <th className="p-4 text-center text-sm font-semibold text-slate-700">Status</th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Usuário</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Data</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Descrição</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Tipo</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Categoria</th>
+                  <th className="p-4 text-right text-sm font-semibold text-foreground">Valor</th>
+                  <th className="p-4 text-center text-sm font-semibold text-foreground">Status</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Usuário</th>
                 </tr>
               </thead>
               <tbody>
                 {transactions.map((transaction) => (
-                  <tr key={transaction.id} className="border-b hover:bg-slate-50">
+                  <tr key={transaction.id} className="border-b hover:bg-muted">
                     <td className="p-4">
                       <Checkbox
                         checked={selectedTransactions.includes(transaction.id)}
                         onCheckedChange={() => toggleTransaction(transaction.id)}
                       />
                     </td>
-                    <td className="p-4 text-sm text-slate-600">
+                    <td className="p-4 text-sm text-muted-foreground">
                       {new Date(transaction.date).toLocaleDateString('pt-BR')}
                     </td>
-                    <td className="p-4 text-sm text-slate-900">{transaction.description}</td>
+                    <td className="p-4 text-sm text-foreground">{transaction.description}</td>
                     <td className="p-4">
                       <Badge className={transaction.type === 'Receita' ? 'bg-green-500' : 'bg-red-500'}>
                         {transaction.type}
                       </Badge>
                     </td>
-                    <td className="p-4 text-sm text-slate-600">{transaction.category}</td>
+                    <td className="p-4 text-sm text-muted-foreground">{transaction.category}</td>
                     <td className="p-4 text-right text-sm font-semibold">
                       R$ {transaction.amount.toFixed(2)}
                     </td>
                     <td className="p-4 text-center">
                       <Badge variant="outline" className={
                         transaction.status === 'Validado' ? 'border-green-500 text-green-700' :
-                        transaction.status === 'Pendente' ? 'border-yellow-500 text-yellow-700' :
+                        transaction.status === 'Pendente' ? 'border-amber-500 text-amber-700' :
                         transaction.status === 'Divergente' ? 'border-orange-500 text-orange-700' :
                         'border-red-500 text-red-700'
                       }>
                         {transaction.status}
                       </Badge>
                     </td>
-                    <td className="p-4 text-sm text-slate-600">{transaction.created_by}</td>
+                    <td className="p-4 text-sm text-muted-foreground">{transaction.created_by}</td>
                   </tr>
                 ))}
               </tbody>
@@ -312,7 +312,7 @@ function AdminControleFinanceiroContent() {
           </div>
 
           {transactions.length === 0 && (
-            <div className="p-12 text-center text-slate-500">
+            <div className="p-12 text-center text-muted-foreground">
               Nenhuma transação encontrada com os filtros aplicados.
             </div>
           )}

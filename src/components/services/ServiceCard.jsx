@@ -1,31 +1,46 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, DollarSign } from "lucide-react";
+import LazyImage from "@/components/ui/LazyImage";
+
+const isValidImageUrl = (url) => {
+  if (!url || typeof url !== 'string') return false;
+  const validDomains = ['unsplash.com', 'images.unsplash.com', 'storage.googleapis.com', 'base44.com', 'ui-avatars.com', 'manuscdn.com'];
+  try {
+    const urlObj = new URL(url);
+    return validDomains.some(domain => urlObj.hostname.includes(domain));
+  } catch {
+    return false;
+  }
+};
+
+const FALLBACK_SERVICE_IMAGE = 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80';
 
 export default function ServiceCard({ service }) {
   const categoryColors = {
-    "Eventos": "bg-purple-100 text-purple-800",
+    "Eventos": "bg-orange-100 text-orange-800",
     "Restaurantes": "bg-orange-100 text-orange-800",
-    "Passeios": "bg-blue-100 text-blue-800",
-    "Praias": "bg-cyan-100 text-cyan-800",
+    "Passeios": "bg-[#6B7C3A]/10 text-[#6B7C3A]",
+    "Praias": "bg-orange-50 text-orange-700",
     "Fornecedores": "bg-green-100 text-green-800",
-    "Transporte": "bg-yellow-100 text-yellow-800",
-    "Bem-estar": "bg-pink-100 text-pink-800",
-    "Compras": "bg-indigo-100 text-indigo-800",
+    "Transporte": "bg-amber-100 text-amber-800",
+    "Bem-estar": "bg-[#C1440E]/10 text-[#C1440E]",
+    "Compras": "bg-[#6B7C3A]/10 text-[#6B7C3A]",
   };
+
+  const rawImage = service.images?.[0];
+  const imageSrc = isValidImageUrl(rawImage) ? rawImage : FALLBACK_SERVICE_IMAGE;
 
   return (
     <Card className="glass-card border-none shadow-lg hover:shadow-xl transition-all hover:scale-[1.02]">
-      {service.images && service.images[0] && (
-        <div className="h-48 overflow-hidden rounded-t-xl">
-          <img 
-            src={service.images[0]} 
-            alt={service.name}
-            className="w-full h-full object-cover"
-          />
-        </div>
-      )}
-      <CardHeader className={`${service.images && service.images[0] ? '' : 'bg-gradient-to-r from-blue-50 to-cyan-50'} border-b`}>
+      <div className="h-48 overflow-hidden rounded-t-xl">
+        <LazyImage
+          src={imageSrc}
+          alt={service.name}
+          className="h-48"
+        />
+      </div>
+      <CardHeader className="border-b">
         <div className="flex items-start justify-between gap-3">
           <CardTitle className="text-lg">{service.name}</CardTitle>
           <Badge className={categoryColors[service.category]}>

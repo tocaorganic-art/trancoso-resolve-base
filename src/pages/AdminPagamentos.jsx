@@ -2,21 +2,22 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, DollarSign, TrendingUp, Clock, AlertTriangle } from 'lucide-react';
+import { Loader2, DollarSign, TrendingUp, Clock, AlertTriangle, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 const statusColors = {
-  'captured': { bg: '#dcfce7', color: '#15803d', label: '✅ Pago' },
+  'captured': { bg: '#dcfce7', color: '#15803d', label: 'Pago', Icon: CheckCircle2 },
   'requires_payment_method': { bg: '#fef9c3', color: '#854d0e', label: 'Aguardando Pagamento' },
-  'requires_capture': { bg: '#dbeafe', color: '#1d4ed8', label: '💰 Em Custódia' },
+  'requires_capture': { bg: '#dbeafe', color: '#1d4ed8', label: 'Em Custódia', Icon: DollarSign },
   'canceled': { bg: '#f3f4f6', color: '#6b7280', label: 'Cancelado' },
-  'disputed': { bg: '#fee2e2', color: '#dc2626', label: '⚠️ Em Disputa' },
+  'disputed': { bg: '#fee2e2', color: '#dc2626', label: 'Em Disputa', Icon: ShieldAlert },
   'refunded': { bg: '#f3e8ff', color: '#6b21a8', label: 'Reembolsado' },
 };
 
 function StatusBadge({ status }) {
   const cfg = statusColors[status] || { bg: '#f3f4f6', color: '#6b7280', label: status };
+  const Icon = cfg.Icon;
   return (
     <span style={{
       padding: '4px 12px',
@@ -25,8 +26,11 @@ function StatusBadge({ status }) {
       fontWeight: 600,
       background: cfg.bg,
       color: cfg.color,
-      display: 'inline-block'
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 4
     }}>
+      {Icon && <Icon className="w-3.5 h-3.5" />}
       {cfg.label}
     </span>
   );
@@ -59,13 +63,13 @@ export default function AdminPagamentosPage() {
 
   // Aguarda usuário carregar (undefined = ainda carregando)
   if (user === undefined) {
-    return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>;
+    return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
   }
 
   // Usuário não autenticado → redireciona para login
   if (user === null) {
     base44.auth.redirectToLogin(window.location.pathname);
-    return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin text-blue-500" /></div>;
+    return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
   }
 
   // Usuário autenticado mas sem role admin
@@ -73,9 +77,9 @@ export default function AdminPagamentosPage() {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-4 text-center px-4">
         <AlertTriangle className="w-16 h-16 text-red-400" />
-        <h2 className="text-2xl font-bold text-slate-800">Acesso Restrito</h2>
-        <p className="text-slate-500 max-w-sm">Esta página é exclusiva para administradores da plataforma.</p>
-        <button onClick={() => base44.auth.redirectToLogin()} className="text-sm text-blue-600 underline">Entrar com outra conta</button>
+        <h2 className="text-2xl font-bold text-foreground">Acesso Restrito</h2>
+        <p className="text-muted-foreground max-w-sm">Esta página é exclusiva para administradores da plataforma.</p>
+        <button onClick={() => base44.auth.redirectToLogin()} className="text-sm text-orange-600 underline">Entrar com outra conta</button>
       </div>
     );
   }
@@ -88,7 +92,7 @@ export default function AdminPagamentosPage() {
     const matchSearch = !search ||
       p.client_email?.toLowerCase().includes(search.toLowerCase()) ||
       p.request_id?.includes(search) ||
-      p.mp_payment_id?.includes(search);
+      p.stripe_payment_intent_id?.includes(search);
     const matchStatus = statusFilter === 'all' || p.status === statusFilter;
     return matchSearch && matchStatus;
   });
@@ -110,7 +114,7 @@ export default function AdminPagamentosPage() {
   const providerMap = Object.fromEntries(providers.map(p => [p.id, p]));
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-background">
       <style>{`
         @media (max-width: 768px) {
           .kpi-grid { grid-template-columns: 1fr 1fr !important; }
@@ -118,64 +122,64 @@ export default function AdminPagamentosPage() {
           .filter-bar { flex-direction: column; }
         }
       `}</style>
-      
-      <div className="bg-slate-900 border-b border-slate-800">
+
+      <div className="bg-card border-b border-border">
         <div className="container mx-auto px-4 py-6">
-          <h1 className="text-2xl font-bold text-white">Dashboard de Pagamentos</h1>
-          <p className="text-slate-400 text-sm">Monitoramento de transações e split</p>
+          <h1 className="text-2xl font-bold text-foreground">Dashboard de Pagamentos</h1>
+          <p className="text-muted-foreground text-sm">Monitoramento de transações e split</p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-6 space-y-6">
         {/* Cards de métricas */}
         <div className="kpi-grid grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Card style={{ background: '#111827', borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #22c55e', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Card style={{ borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #22c55e', display: 'flex', flexDirection: 'column', gap: 8 }} className="bg-card">
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-1">
                 <DollarSign className="w-4 h-4 text-green-500" />
-                <span className="text-xs text-slate-400">Volume Capturado</span>
+                <span className="text-xs text-muted-foreground">Volume Capturado</span>
               </div>
               {totalCaptured === 0 ? (
-                <span style={{color:'#4b5563', fontSize:13}}>Nenhuma transação ainda</span>
+                <span className="text-muted-foreground text-xs">Nenhuma transação ainda</span>
               ) : (
-                <p className="text-xl font-bold text-white">R$ {(totalCaptured / 100).toFixed(2)}</p>
+                <p className="text-xl font-bold text-foreground">R$ {(totalCaptured / 100).toFixed(2)}</p>
               )}
             </CardContent>
           </Card>
-          <Card style={{ background: '#111827', borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #3b82f6', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Card style={{ borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #3b82f6', display: 'flex', flexDirection: 'column', gap: 8 }} className="bg-card">
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-1">
-                <TrendingUp className="w-4 h-4 text-blue-500" />
-                <span className="text-xs text-slate-400">Comissão Plataforma (20%)</span>
+                <TrendingUp className="w-4 h-4 text-brand-primary" />
+                <span className="text-xs text-muted-foreground">Comissão Plataforma (20%)</span>
               </div>
               {totalPlatform === 0 ? (
-                <span style={{color:'#4b5563', fontSize:13}}>Nenhuma transação ainda</span>
+                <span className="text-muted-foreground text-xs">Nenhuma transação ainda</span>
               ) : (
-                <p className="text-xl font-bold text-white">R$ {(totalPlatform / 100).toFixed(2)}</p>
+                <p className="text-xl font-bold text-foreground">R$ {(totalPlatform / 100).toFixed(2)}</p>
               )}
             </CardContent>
           </Card>
-          <Card style={{ background: '#111827', borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #f59e0b', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Card style={{ borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #f59e0b', display: 'flex', flexDirection: 'column', gap: 8 }} className="bg-card">
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-1">
-                <Clock className="w-4 h-4 text-amber-500" />
-                <span className="text-xs text-slate-400">Em Custódia</span>
+                <Clock className="w-4 h-4 text-orange-500" />
+                <span className="text-xs text-muted-foreground">Em Custódia</span>
               </div>
               {pendingCapture === 0 ? (
-                <span style={{color:'#4b5563', fontSize:13}}>Nenhuma transação ainda</span>
+                <span className="text-muted-foreground text-xs">Nenhuma transação ainda</span>
               ) : (
-                <p className="text-xl font-bold text-white">{pendingCapture}</p>
+                <p className="text-xl font-bold text-foreground">{pendingCapture}</p>
               )}
             </CardContent>
           </Card>
-          <Card style={{ background: '#111827', borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #ef4444', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <Card style={{ borderRadius: 12, padding: '20px 24px', borderLeft: '4px solid #ef4444', display: 'flex', flexDirection: 'column', gap: 8 }} className="bg-card">
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-1">
                 <AlertTriangle className="w-4 h-4 text-red-500" />
-                <span className="text-xs text-slate-400">Em Disputa</span>
+                <span className="text-xs text-muted-foreground">Em Disputa</span>
               </div>
               {disputed === 0 ? (
-                <span style={{color:'#4b5563', fontSize:13}}>Nenhuma transação ainda</span>
+                <span className="text-muted-foreground text-xs">Nenhuma transação ainda</span>
               ) : (
                 <p className="text-xl font-bold text-red-500">{disputed}</p>
               )}
@@ -189,29 +193,12 @@ export default function AdminPagamentosPage() {
             placeholder="Buscar por email, ID da solicitação..."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            style={{
-              flex: 1,
-              padding: '10px 16px',
-              borderRadius: 8,
-              border: '1px solid #374151',
-              background: '#1f2937',
-              color: '#fff',
-              fontSize: 14,
-              width: '100%'
-            }}
+            className="flex-1 px-4 py-2.5 rounded-lg border border-border bg-card text-foreground text-sm w-full"
           />
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            style={{
-              padding: '10px 16px',
-              borderRadius: 8,
-              border: '1px solid #374151',
-              background: '#1f2937',
-              color: '#fff',
-              fontSize: 14,
-              minWidth: 140
-            }}
+            className="px-4 py-2.5 rounded-lg border border-border bg-card text-foreground text-sm min-w-[140px]"
           >
             <option value="all">Todos os status</option>
             <option value="requires_payment_method">Aguardando Pagamento</option>
@@ -224,49 +211,40 @@ export default function AdminPagamentosPage() {
         </div>
 
         {/* Tabela */}
-        <Card className="table-container" style={{ background: '#0b1120', border: '1px solid #1e293b' }}>
+        <Card className="table-container bg-card border-border">
           <CardContent className="p-0 overflow-x-auto">
             {filtered.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '48px 24px', color: '#6b7280' }}>
-                <span style={{ fontSize: 40 }}>💳</span>
-                <p style={{ marginTop: 12, fontSize: 16, fontWeight: 600, color: '#9ca3af' }}>Nenhuma transação encontrada</p>
-                <p style={{ fontSize: 13 }}>As transações aparecerão aqui assim que ocorrerem.</p>
+              <div className="text-center py-12 px-6">
+                <p className="text-lg font-semibold text-muted-foreground mt-3">Nenhuma transação encontrada</p>
+                <p className="text-sm text-muted-foreground">As transações aparecerão aqui assim que ocorrerem.</p>
               </div>
             ) : (
               <table className="w-full text-sm">
                 <thead>
-                  <tr style={{ background: '#1f2937' }}>
-                    <th style={{ color: '#9ca3af', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'left', padding: '12px 16px' }}>Data</th>
-                    <th style={{ color: '#9ca3af', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'left', padding: '12px 16px' }}>Cliente</th>
-                    <th style={{ color: '#9ca3af', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'left', padding: '12px 16px' }}>Prestador</th>
-                    <th style={{ color: '#9ca3af', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'right', padding: '12px 16px' }}>Total</th>
-                    <th style={{ color: '#9ca3af', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'right', padding: '12px 16px' }}>Prestador (80%)</th>
-                    <th style={{ color: '#9ca3af', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'right', padding: '12px 16px' }}>Plataforma (20%)</th>
-                    <th style={{ color: '#9ca3af', fontSize: 12, textTransform: 'uppercase', letterSpacing: 1, textAlign: 'left', padding: '12px 16px' }}>Status</th>
+                  <tr className="bg-muted">
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-left px-4 py-3">Data</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-left px-4 py-3">Cliente</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-left px-4 py-3">Prestador</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Total</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Prestador (80%)</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Plataforma (20%)</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-left px-4 py-3">Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   {paginatedData.map((payment, index) => {
                     const provider = providerMap[payment.provider_id];
                     return (
-                      <tr 
-                        key={payment.id} 
-                        style={{ 
-                          background: index % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.03)',
-                          transition: 'background 0.2s'
-                        }}
-                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.06)'}
-                        onMouseLeave={(e) => e.currentTarget.style.background = index % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.03)'}
-                      >
-                        <td style={{ padding: '12px 16px', color: '#9ca3af', textAlign: 'left' }}>
+                      <tr key={payment.id} className="border-b border-border hover:bg-muted transition-colors">
+                        <td className="px-4 py-3 text-muted-foreground text-left">
                           {format(new Date(payment.created_date), 'dd/MM/yy HH:mm', { locale: ptBR })}
                         </td>
-                        <td style={{ padding: '12px 16px', color: '#e5e7eb', textAlign: 'left' }}>{payment.client_email}</td>
-                        <td style={{ padding: '12px 16px', color: '#e5e7eb', textAlign: 'left' }}>{provider?.full_name || payment.provider_id}</td>
-                        <td style={{ padding: '12px 16px', color: '#f9fafb', fontWeight: 600, textAlign: 'right' }}>R$ {((payment.amount_total || 0) / 100).toFixed(2)}</td>
-                        <td style={{ padding: '12px 16px', color: '#86efac', textAlign: 'right' }}>R$ {((payment.amount_provider || 0) / 100).toFixed(2)}</td>
-                        <td style={{ padding: '12px 16px', color: '#fcd34d', textAlign: 'right' }}>R$ {((payment.amount_platform || 0) / 100).toFixed(2)}</td>
-                        <td style={{ padding: '12px 16px', textAlign: 'left' }}>
+                        <td className="px-4 py-3 text-foreground text-left">{payment.client_email}</td>
+                        <td className="px-4 py-3 text-foreground text-left">{provider?.full_name || payment.provider_id}</td>
+                        <td className="px-4 py-3 text-foreground font-semibold text-right">R$ {((payment.amount_total || 0) / 100).toFixed(2)}</td>
+                        <td className="px-4 py-3 text-[#3E8E5A] text-right">R$ {((payment.amount_provider || 0) / 100).toFixed(2)}</td>
+                        <td className="px-4 py-3 text-orange-600 text-right">R$ {((payment.amount_platform || 0) / 100).toFixed(2)}</td>
+                        <td className="px-4 py-3 text-left">
                           <StatusBadge status={payment.status} />
                         </td>
                       </tr>
@@ -278,45 +256,20 @@ export default function AdminPagamentosPage() {
             
             {/* Paginação */}
             {filtered.length > 0 && (
-              <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginTop: 16,
-                padding: '12px 16px',
-                borderTop: '1px solid #374151',
-                color: '#9ca3af',
-                fontSize: 13
-              }}>
+              <div className="flex justify-between items-center mt-4 px-4 py-3 border-t border-border text-muted-foreground text-sm">
                 <span>Mostrando {startIndex + 1}–{endIndex} de {filtered.length} transações</span>
-                <div style={{ display: 'flex', gap: 8 }}>
-                  <button 
-                    onClick={prevPage} 
+                <div className="flex gap-2">
+                  <button
+                    onClick={prevPage}
                     disabled={page === 1}
-                    style={{
-                      padding: '6px 14px',
-                      borderRadius: 6,
-                      border: '1px solid #374151',
-                      background: page === 1 ? '#1f2937' : 'transparent',
-                      color: page === 1 ? '#6b7280' : '#fff',
-                      cursor: page === 1 ? 'not-allowed' : 'pointer',
-                      opacity: page === 1 ? 0.5 : 1
-                    }}
+                    className="px-3 py-1.5 rounded border border-border bg-card text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     ← Anterior
                   </button>
-                  <button 
-                    onClick={nextPage} 
+                  <button
+                    onClick={nextPage}
                     disabled={page === totalPages}
-                    style={{
-                      padding: '6px 14px',
-                      borderRadius: 6,
-                      border: '1px solid #374151',
-                      background: page === totalPages ? '#1f2937' : 'transparent',
-                      color: page === totalPages ? '#6b7280' : '#fff',
-                      cursor: page === totalPages ? 'not-allowed' : 'pointer',
-                      opacity: page === totalPages ? 0.5 : 1
-                    }}
+                    className="px-3 py-1.5 rounded border border-border bg-card text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     Próxima →
                   </button>

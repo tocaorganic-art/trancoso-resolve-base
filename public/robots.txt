@@ -1,35 +1,40 @@
 User-agent: *
 Allow: /
-Allow: /servicos/
-Allow: /destinos/
-Allow: /ServicosCategoria
-Allow: /seja-prestador
-Allow: /como-funciona
-Allow: /planos
-Allow: /sobre
-Allow: /contato
-Allow: /Assistentevirtual
-Allow: /guides/
-
-# Não indexar rotas autenticadas / privadas
-Disallow: /Dashboard
-Disallow: /Financeiro
-Disallow: /MinhaAgenda
-Disallow: /MeusServicos
-Disallow: /MeusPedidos
-Disallow: /MeuPerfilPrestador
-Disallow: /Chat
-Disallow: /GeradorDeImagem
-Disallow: /FilaVerificacao
+Disallow: /admin/
+Disallow: /Admin
+Disallow: /AdminAssinaturas
+Disallow: /AdminControleFinanceiro
+Disallow: /AdminUserManagement
 Disallow: /AdminPagamentos
 Disallow: /AdminAntecedentes
-Disallow: /admin/
+Disallow: /AdminMetricas
+Disallow: /FilaVerificacao
+Disallow: /ManutencaoSistema
+Disallow: /MonitoringDashboard
+Disallow: /DeployDashboard
+Disallow: /Base44ReportViewer
+Disallow: /Base44Templates
+Disallow: /Financeiro
+Disallow: /Dashboard
+Disallow: /MeuPerfilPrestador
+Disallow: /MeusServicos
+Disallow: /MinhaAgenda
+Disallow: /MeusPedidos
+Disallow: /Chat
+Disallow: /GeradorDeImagem
+Disallow: /DiagnosticosCompletos
 Disallow: /VerificacaoDocumento
 Disallow: /VerificacaoAntecedentes
-Disallow: /AssinaturaConfirmada
 Disallow: /RelatorioDiario
-Disallow: /PreLancamento
 Disallow: /api/
+Disallow: /*.json$
 
-# Sitemap
-Sitemap: https://trancosoresolve.com.br/api/functions/sitemap
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Crawl-delay: 1
+
+Sitemap: https://www.trancosoresolve.com.br/sitemap.xml

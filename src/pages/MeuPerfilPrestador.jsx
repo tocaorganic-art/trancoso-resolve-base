@@ -78,29 +78,29 @@ const ProfileCompleteness = ({ formData }) => {
         }
     }
     
-    const progressColor = score > 80 ? 'bg-green-600' : score > 50 ? 'bg-yellow-500' : 'bg-red-600';
+    const progressColor = score > 80 ? 'bg-[#3E8E5A]' : score > 50 ? 'bg-amber-500' : 'bg-red-600';
 
     return (
-        <Card className="mb-8 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+        <Card className="mb-8 bg-muted border-border">
             <CardHeader>
-                <CardTitle className="text-lg dark:text-slate-100">Força do Perfil</CardTitle>
-                 <CardDescription className="dark:text-slate-400">Perfis completos recebem mais propostas. Siga as dicas para melhorar o seu.</CardDescription>
+                <CardTitle className="text-lg">Força do Perfil</CardTitle>
+                 <CardDescription>Perfis completos recebem mais propostas. Siga as dicas para melhorar o seu.</CardDescription>
             </CardHeader>
             <CardContent>
                 <div className="flex items-center gap-4 mb-4">
-                    <Progress value={score} className="h-2 [&>*]:bg-green-500" />
-                    <span className="text-lg font-bold text-slate-700 dark:text-slate-200">{score}%</span>
+                    <Progress value={score} className="h-2 [&>*]:bg-[#3E8E5A]" />
+                    <span className="text-lg font-bold text-foreground">{score}%</span>
                 </div>
                 {suggestions.length > 0 && (
                     <div>
-                        <h4 className="font-semibold text-sm mb-2 text-slate-800 dark:text-slate-200">Dicas para melhorar:</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-slate-600 dark:text-slate-400">
+                        <h4 className="font-semibold text-sm mb-2 text-foreground">Dicas para melhorar:</h4>
+                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                             {suggestions.slice(0, 3).map(suggestion => <li key={suggestion}>{suggestion}</li>)}
                         </ul>
                     </div>
                 )}
                  {suggestions.length === 0 && (
-                    <p className="text-sm text-green-700 dark:text-green-400 font-medium">🎉 Ótimo trabalho! Seu perfil está excelente.</p>
+                    <p className="text-sm text-green-700 font-medium">Ótimo trabalho! Seu perfil está excelente.</p>
                 )}
             </CardContent>
         </Card>
@@ -126,7 +126,7 @@ function MeuPerfilPrestadorContent() {
   });
 
   const [formData, setFormData] = useState(null);
-  const [uploading, setUploading] = useState({ profile: false, document: false, cover: false, fullbody: false });
+  const [uploading, setUploading] = useState({ profile: false, document: false, cover: false });
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
@@ -328,10 +328,10 @@ function MeuPerfilPrestadorContent() {
   return (
     <>
     <div className="container mx-auto max-w-4xl py-8">
-      <Card className="dark:bg-slate-800 dark:border-slate-700">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-2xl dark:text-slate-100">Meu Perfil de Prestador</CardTitle>
-          <CardDescription className="dark:text-slate-400">Mantenha suas informações atualizadas para atrair mais clientes.</CardDescription>
+          <CardTitle className="text-2xl">Meu Perfil de Prestador</CardTitle>
+          <CardDescription>Mantenha suas informações atualizadas para atrair mais clientes.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-3 mb-4">
@@ -340,11 +340,11 @@ function MeuPerfilPrestadorContent() {
           <ProfileCompleteness formData={formData} />
 
           {!provider && (
-             <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-900/50 rounded-lg flex items-start gap-3">
-                <AlertCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 mt-1 shrink-0" />
+             <div className="mb-6 p-4 bg-orange-50 border border-orange-200 rounded-lg flex items-start gap-3">
+                <AlertCircle className="w-5 h-5 text-brand-primary mt-1 shrink-0" />
                 <div>
-                    <h4 className="font-semibold text-blue-900 dark:text-blue-300">Complete seu perfil!</h4>
-                    <p className="text-sm text-blue-800 dark:text-blue-200">Seu perfil ainda não está visível para clientes. Preencha as informações abaixo e salve para começar a receber solicitações.</p>
+                    <h4 className="font-semibold text-orange-900">Complete seu perfil!</h4>
+                    <p className="text-sm text-orange-800">Seu perfil ainda não está visível para clientes. Preencha as informações abaixo e salve para começar a receber solicitações.</p>
                 </div>
             </div>
           )}
@@ -356,12 +356,12 @@ function MeuPerfilPrestadorContent() {
                 {formData.photo_url ? (
                   <img src={formData.photo_url} alt="Perfil" className="w-24 h-24 rounded-full object-cover" />
                 ) : (
-                  <div className="w-24 h-24 rounded-full bg-slate-200 flex items-center justify-center">
-                    <User className="w-12 h-12 text-slate-400" />
+                  <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center">
+                    <User className="w-12 h-12 text-muted-foreground" />
                   </div>
                 )}
-                <label htmlFor="profile-pic" className="absolute -bottom-1 -right-1 bg-white p-1.5 rounded-full shadow-md cursor-pointer hover:bg-slate-100">
-                  <Camera className="w-4 h-4 text-slate-600" />
+                <label htmlFor="profile-pic" className="absolute -bottom-1 -right-1 bg-card p-1.5 rounded-full shadow-md cursor-pointer hover:bg-muted">
+                  <Camera className="w-4 h-4 text-muted-foreground" />
                   <input id="profile-pic" type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e.target.files[0], 'profile')} />
                 </label>
               </div>
@@ -388,9 +388,9 @@ function MeuPerfilPrestadorContent() {
             <div className="space-y-2">
               <Label>
                 Foto de Capa <span className="text-red-500">*</span>
-                <span className="ml-2 text-xs font-normal text-slate-500">JPG/PNG/WebP · máx. 5MB · proporção 16:9 recomendada</span>
+                <span className="ml-2 text-xs font-normal text-muted-foreground">JPG/PNG/WebP · máx. 5MB · proporção 16:9 recomendada</span>
               </Label>
-              <div className={`relative w-full h-40 sm:h-56 rounded-xl overflow-hidden border-2 border-dashed flex items-center justify-center bg-slate-100 ${errors.cover_photo_url ? 'border-red-400' : 'border-slate-300'}`}>
+              <div className={`relative w-full h-40 rounded-xl overflow-hidden border-2 border-dashed flex items-center justify-center bg-muted ${errors.cover_photo_url ? 'border-red-400' : 'border-border'}`}>
                 {formData.cover_photo_url ? (
                   <>
                     <img src={formData.cover_photo_url} alt="Foto de capa" className="w-full h-full object-cover" />
@@ -399,14 +399,14 @@ function MeuPerfilPrestadorContent() {
                     </label>
                   </>
                 ) : (
-                  <label htmlFor="cover-upload" className="flex flex-col items-center gap-2 cursor-pointer text-slate-500 hover:text-slate-700 w-full h-full justify-center">
+                  <label htmlFor="cover-upload" className="flex flex-col items-center gap-2 cursor-pointer text-muted-foreground hover:text-foreground w-full h-full justify-center">
                     <ImagePlus className="w-8 h-8" />
                     <span className="text-sm font-medium">Clique para enviar a foto de capa</span>
                   </label>
                 )}
                 <input id="cover-upload" type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
                   onChange={(e) => { if (e.target.files[0] && e.target.files[0].size <= 5 * 1024 * 1024) handleFileUpload(e.target.files[0], 'cover'); else toast.error('Arquivo muito grande. Máximo 5MB.'); }} />
-                {uploading.cover && <div className="absolute inset-0 bg-white/70 flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-blue-600" /></div>}
+                {uploading.cover && <div className="absolute inset-0 bg-background/70 flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-brand-primary" /></div>}
               </div>
               {errors.cover_photo_url && <p className="text-xs text-red-500 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.cover_photo_url}</p>}
             </div>
@@ -461,15 +461,15 @@ function MeuPerfilPrestadorContent() {
                       <Input id="nome_fantasia" value={formData.nome_fantasia || ''} onChange={(e) => handleInputChange('nome_fantasia', e.target.value)} />
                     </div>
                   </div>
-                  <div className="flex items-start gap-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                  <div className="flex items-start gap-3 p-3 bg-orange-50 border border-orange-200 rounded-lg">
                     <input
                       type="checkbox"
                       id="tem_ponto_fisico"
                       checked={!!formData.tem_ponto_fisico_em_trancoso}
                       onChange={(e) => handleInputChange('tem_ponto_fisico_em_trancoso', e.target.checked)}
-                      className="mt-0.5 accent-amber-600 w-4 h-4 shrink-0"
+                      className="mt-0.5 accent-orange-600 w-4 h-4 shrink-0"
                     />
-                    <label htmlFor="tem_ponto_fisico" className="text-sm text-slate-700 cursor-pointer">
+                    <label htmlFor="tem_ponto_fisico" className="text-sm text-foreground cursor-pointer">
                       <span className="font-semibold block mb-0.5">Possuo ponto físico em Trancoso</span>
                       Marque se você tem uma loja, restaurante, pousada, bar, beach club, clínica ou estabelecimento físico em Trancoso. Isso determina o plano correto para o seu negócio.
                     </label>
@@ -535,7 +535,7 @@ function MeuPerfilPrestadorContent() {
               <div>
                 <Label htmlFor="coverage_radius_km">Raio de Atendimento (km)</Label>
                 <Input id="coverage_radius_km" type="number" value={formData.location?.coverage_radius_km || ''} onChange={(e) => handleNestedInputChange('location', 'coverage_radius_km', parseInt(e.target.value) || 0)} />
-                 <p className="text-xs text-slate-500 mt-1">Até que distância de sua localização principal você atende.</p>
+                 <p className="text-xs text-muted-foreground mt-1">Até que distância de sua localização principal você atende.</p>
               </div>
             </div>
 
@@ -546,7 +546,7 @@ function MeuPerfilPrestadorContent() {
                   Sobre mim (Biografia) <span className="text-red-500">*</span>
                 </Label>
                 <span className={`text-xs font-medium ${
-                  (formData.bio?.length || 0) >= 50 ? 'text-green-600' : 'text-red-500'
+                  (formData.bio?.length || 0) >= 50 ? 'text-[#3E8E5A]' : 'text-red-500'
                 }`}>
                   {formData.bio?.length || 0}/50 {(formData.bio?.length || 0) >= 50 ? '✓ Mínimo atingido' : `caracteres mínimos`}
                 </span>
@@ -637,36 +637,10 @@ function MeuPerfilPrestadorContent() {
                 {provider?.verified && <VerificacaoBadge verified showLabel size="md" />}
               </h3>
               {user && <VerificacaoStatusCard user={user} />}
-
-              {/* Foto de corpo inteiro para identificação */}
-              <div className="space-y-2">
-                <Label>
-                  Foto de corpo inteiro (identificação)
-                  <span className="ml-2 text-xs font-normal text-slate-500">JPG/PNG/WebP · máx. 5MB · usada apenas na verificação, não aparece no perfil público</span>
-                </Label>
-                <div className="relative w-40 h-56 rounded-xl overflow-hidden border-2 border-dashed border-slate-300 flex items-center justify-center bg-slate-100">
-                  {formData.full_body_photo_url ? (
-                    <>
-                      <img src={formData.full_body_photo_url} alt="Foto de corpo inteiro" className="w-full h-full object-cover" />
-                      <label htmlFor="fullbody-upload" className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity cursor-pointer">
-                        <span className="text-white text-sm font-medium flex items-center gap-2"><Camera className="w-4 h-4" /> Alterar</span>
-                      </label>
-                    </>
-                  ) : (
-                    <label htmlFor="fullbody-upload" className="flex flex-col items-center gap-2 cursor-pointer text-slate-500 hover:text-slate-700 w-full h-full justify-center text-center px-3">
-                      <ImagePlus className="w-8 h-8" />
-                      <span className="text-sm font-medium">Enviar foto de corpo inteiro</span>
-                    </label>
-                  )}
-                  <input id="fullbody-upload" type="file" accept="image/jpeg,image/png,image/webp" className="hidden"
-                    onChange={(e) => { if (e.target.files[0] && e.target.files[0].size <= 5 * 1024 * 1024) handleFileUpload(e.target.files[0], 'fullbody'); else toast.error('Arquivo muito grande. Máximo 5MB.'); }} />
-                  {uploading.fullbody && <div className="absolute inset-0 bg-white/70 flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-blue-600" /></div>}
-                </div>
-              </div>
             </div>
 
             {/* Ações */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t dark:border-slate-700">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-border">
               <AccountDeletionDialog providerId={provider?.id} userEmail={user?.email} />
               <Button type="submit" disabled={mutation.isPending || isUploading} className="select-none">
                 {(mutation.isPending || isUploading) && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}

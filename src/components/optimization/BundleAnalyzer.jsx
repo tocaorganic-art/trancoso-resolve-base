@@ -52,10 +52,10 @@ export default function BundleAnalyzer() {
   };
 
   return (
-    <Card className="bg-gradient-to-br from-purple-50 to-blue-50">
+    <Card className="bg-gradient-to-br from-orange-50 to-sand/50">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
-          <Package className="w-5 h-5 text-purple-600" />
+          <Package className="w-5 h-5 text-orange-600" />
           Bundle Analyzer
         </CardTitle>
       </CardHeader>
@@ -81,7 +81,7 @@ export default function BundleAnalyzer() {
 
         <div className="grid grid-cols-2 gap-4 pt-4 border-t">
           <div className="text-center">
-            <div className="text-2xl font-bold text-blue-600">{bundleInfo.loadTime}ms</div>
+            <div className="text-2xl font-bold text-orange-600">{bundleInfo.loadTime}ms</div>
             <div className="text-xs text-slate-600">Tempo Médio</div>
           </div>
           <div className="text-center">
@@ -91,9 +91,9 @@ export default function BundleAnalyzer() {
         </div>
 
         {parseFloat(bundleInfo.totalSize) > 2 && (
-          <div className="flex items-center gap-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <AlertTriangle className="w-4 h-4 text-yellow-600" />
-            <p className="text-xs text-yellow-800">
+          <div className="flex items-center gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+            <AlertTriangle className="w-4 h-4 text-amber-600" />
+            <p className="text-xs text-amber-800">
               Bundle acima do recomendado. Considere code-splitting adicional.
             </p>
           </div>

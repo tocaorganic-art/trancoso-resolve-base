@@ -8,6 +8,7 @@ import {
   TrendingUp, CreditCard, Menu, X, FileText, User, Bot, Rocket, Globe, ShieldCheck, Banknote, ArrowLeft, ListOrdered, ChevronDown, MapPin, Sun, Moon, Megaphone } from
 "lucide-react";
 
+import Logo from "./components/brand/Logo";
 import RoutePreloader from "./components/optimization/RoutePreloader";
 import ImagePreloader from "./components/optimization/ImagePreloader";
 import PerformanceMonitor from "./components/optimization/PerformanceMonitor";
@@ -76,6 +77,10 @@ export default function Layout({ children, currentPageName }) {
       '/Chat': 'Minhas Conversas | Trancoso Resolve',
       '/About': 'Sobre Nós | Trancoso Resolve',
       '/Contact': 'Contato | Trancoso Resolve',
+      '/Planos': 'Planos e Preços | Trancoso Resolve',
+      '/SejaPrestador': 'Seja um Prestador | Trancoso Resolve',
+      '/ComoFunciona': 'Como Funciona | Trancoso Resolve',
+      '/Assistentevirtual': 'Assistente IA | Trancoso Resolve',
       '/login': 'Entrar | Trancoso Resolve',
       '/register': 'Cadastrar | Trancoso Resolve',
     };
@@ -197,8 +202,7 @@ export default function Layout({ children, currentPageName }) {
           <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-warm-sm" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
             <div className="container mx-auto px-3 md:px-4 py-3 flex items-center justify-between gap-2">
               <Link to={createPageUrl("Home")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="nav-logo-link">
-                <img src="/brand/logo-mark.svg" alt="Trancoso Resolve - Serviços em Trancoso, Bahia" className="h-12 md:h-14 shrink-0" width="48" height="48" loading="eager" fetchPriority="high" />
-                <span className="font-bold text-sm md:text-lg text-foreground whitespace-nowrap hidden sm:inline">Trancoso Resolve</span>
+                <Logo markClassName="h-12 w-12 md:h-14 md:w-14" textClassName="text-sm md:text-base hidden sm:flex" />
               </Link>
 
               {/* Desktop Navigation */}
@@ -369,8 +373,7 @@ export default function Layout({ children, currentPageName }) {
           {isRoot &&
           <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-card border-b border-border flex items-center px-3 h-12" style={{ paddingTop: "env(safe-area-inset-top, 0px)", top: "env(safe-area-inset-top, 0px)" }}>
             <Link to="/" className="flex items-center gap-2">
-              <img src="/brand/logo-mark.svg" alt="Trancoso Resolve" className="h-8 w-8" />
-              <span className="font-bold text-sm text-foreground">Trancoso Resolve</span>
+              <Logo markClassName="h-8 w-8" textClassName="text-xs" />
             </Link>
           </div>
           }
@@ -493,8 +496,7 @@ export default function Layout({ children, currentPageName }) {
           <div className="container mx-auto px-4 py-3">
             <div className="flex items-center justify-between gap-4">
               <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="admin-nav-logo-link">
-                <img src="/brand/logo-mark.svg" alt="Trancoso Resolve Logo" className="h-10 w-10" />
-                <span className="font-bold text-xl text-foreground">Trancoso Resolve</span>
+                <Logo markClassName="h-10 w-10" textClassName="text-sm" />
               </Link>
 
               <div className="hidden lg:flex items-center gap-2">

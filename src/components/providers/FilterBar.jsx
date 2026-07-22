@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import MultilingualAutocomplete from "@/components/search/MultilingualAutocomplete";
-import { Filter, List, Map, MapPin, Navigation, X } from "lucide-react";
+import { Filter, List, Map, Navigation, X } from "lucide-react";
 
 export default function FilterBar({
     searchQuery,
@@ -15,8 +15,6 @@ export default function FilterBar({
     setAvailabilityFilter,
     neighborhoodFilter,
     setNeighborhoodFilter,
-    cityFilter,
-    setCityFilter,
     filterCounts,
     viewMode,
     setViewMode,
@@ -93,29 +91,6 @@ export default function FilterBar({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 pt-4 border-t border-slate-100">
-            <Select value={cityFilter} onValueChange={setCityFilter}>
-                <SelectTrigger aria-label="Filtrar por destino" style={{
-                    border: '1.5px solid #d1d5db',
-                    borderRadius: 8,
-                    padding: '10px 14px',
-                    fontSize: 14,
-                    color: '#111827',
-                    background: '#fff',
-                    fontWeight: 500
-                }}>
-                    <SelectValue placeholder="Destino / Região" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectItem value="all">
-                        <span className="flex items-center gap-2"><MapPin className="w-3 h-3" /> Todos os Destinos ({filterCounts.cities?.all || 0})</span>
-                    </SelectItem>
-                    <SelectItem value="Trancoso">📍 Trancoso ({filterCounts.cities?.['Trancoso'] || 0})</SelectItem>
-                    <SelectItem value="Caraíva">📍 Caraíva ({filterCounts.cities?.['Caraíva'] || 0})</SelectItem>
-                    <SelectItem value="Arraial d'Ajuda">📍 Arraial d'Ajuda ({filterCounts.cities?.["Arraial d'Ajuda"] || 0})</SelectItem>
-                    <SelectItem value="Porto Seguro">📍 Porto Seguro ({filterCounts.cities?.['Porto Seguro'] || 0})</SelectItem>
-                </SelectContent>
-            </Select>
-
             <Select value={availabilityFilter} onValueChange={setAvailabilityFilter}>
                 <SelectTrigger aria-label="Filtrar por disponibilidade" style={{
                     border: '1.5px solid #d1d5db',
@@ -157,12 +132,12 @@ export default function FilterBar({
                 </SelectContent>
             </Select>
 
-            {(priceFilter !== 'all' || ratingFilter !== 'all' || availabilityFilter !== 'all' || neighborhoodFilter !== 'all' || cityFilter !== 'all' || searchQuery.trim() !== '') && (
+            {(priceFilter !== 'all' || ratingFilter !== 'all' || availabilityFilter !== 'all' || neighborhoodFilter !== 'all' || searchQuery.trim() !== '') && (
                 <Button
                     variant="outline"
                     onClick={() => {
                         setSearchQuery(''); setPriceFilter('all'); setRatingFilter('all');
-                        setAvailabilityFilter('all'); setNeighborhoodFilter('all'); setCityFilter('all');
+                        setAvailabilityFilter('all'); setNeighborhoodFilter('all');
                     }}
                     style={{
                         border: '1.5px solid #d1d5db',

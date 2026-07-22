@@ -263,7 +263,7 @@ export default function ContinuousMonitor() {
   const overallScore = calculateOverallScore(metrics);
   const getScoreColor = (score) => {
     if (score >= 90) return 'text-green-600';
-    if (score >= 75) return 'text-yellow-600';
+    if (score >= 75) return 'text-amber-600';
     return 'text-red-600';
   };
 
@@ -271,7 +271,7 @@ export default function ContinuousMonitor() {
     const colors = {
       healthy: 'bg-green-500',
       operational: 'bg-green-500',
-      warning: 'bg-yellow-500',
+      warning: 'bg-amber-500',
       critical: 'bg-red-500',
       checking: 'bg-gray-500',
       degraded: 'bg-orange-500',
@@ -281,13 +281,13 @@ export default function ContinuousMonitor() {
 
   return (
     <div className="space-y-6">
-      <Card className="border-none shadow-xl bg-gradient-to-br from-blue-50 to-cyan-50">
+      <Card className="border-none shadow-xl bg-gradient-to-br from-orange-50 to-sand/30">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-3">
-              <Activity className="w-6 h-6 text-blue-600" />
+              <Activity className="w-6 h-6 text-orange-600" />
               Monitoramento Contínuo
-              <Badge className="bg-blue-600 text-white">
+              <Badge className="bg-orange-600 text-white">
                 {isMonitoring ? '🟢 ATIVO' : '🔴 INATIVO'}
               </Badge>
             </CardTitle>
@@ -327,11 +327,11 @@ export default function ContinuousMonitor() {
             <Card className="bg-white">
               <CardContent className="p-4">
                 <div className="flex items-center justify-between mb-2">
-                  <Eye className="w-5 h-5 text-purple-500" />
+                  <Eye className="w-5 h-5 text-[#6B7C3A]" />
                   {getStatusBadge(metrics.accessibility.status)}
                 </div>
                 <p className="text-sm font-medium text-slate-700 mb-1">Acessibilidade</p>
-                <div className="text-2xl font-bold text-purple-600">{metrics.accessibility.score}</div>
+                <div className="text-2xl font-bold text-[#6B7C3A]">{metrics.accessibility.score}</div>
                 <Progress value={metrics.accessibility.score} className="h-2 mt-2" />
               </CardContent>
             </Card>
@@ -366,7 +366,7 @@ export default function ContinuousMonitor() {
       <Card className="border-none shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Brain className="w-5 h-5 text-purple-600" />
+            <Brain className="w-5 h-5 text-[#6B7C3A]" />
             Status dos Módulos de IA
             {getStatusBadge(metrics.ai.status)}
           </CardTitle>
@@ -403,7 +403,7 @@ export default function ContinuousMonitor() {
               {history.map((entry, index) => {
                 const height = (entry.overall_score / 100) * 100;
                 const color = entry.overall_score >= 90 ? 'bg-green-500' :
-                             entry.overall_score >= 75 ? 'bg-yellow-500' : 'bg-red-500';
+                             entry.overall_score >= 75 ? 'bg-amber-500' : 'bg-red-500';
                 
                 return (
                   <div

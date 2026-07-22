@@ -78,7 +78,7 @@ export default function ServicoDetalhesPage() {
 
     let ogImage = document.querySelector('meta[property="og:image"]');
     if (!ogImage) { ogImage = document.createElement('meta'); ogImage.setAttribute('property', 'og:image'); document.head.appendChild(ogImage); }
-    ogImage.content = service.images?.[0] || 'https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png';
+    ogImage.content = service.images?.[0] || 'https://trancosoresolve.com.br/brand/logo-mark-512.png';
 
     // Schema markup
     const schemaId = `schema-servico-${serviceId}`;
@@ -136,8 +136,8 @@ export default function ServicoDetalhesPage() {
   if (isLoading) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600 mx-auto mb-4" />
-        <p className="text-slate-600">Carregando detalhes do serviço...</p>
+        <Loader2 className="w-12 h-12 animate-spin text-brand-primary mx-auto mb-4" />
+        <p className="text-muted-foreground">Carregando detalhes do serviço...</p>
       </div>
     );
   }
@@ -147,12 +147,12 @@ export default function ServicoDetalhesPage() {
       <div className="container mx-auto px-4 py-16 max-w-lg">
         <Card className="border-none shadow-lg">
           <CardContent className="p-8 text-center">
-            <AlertCircle className="w-14 h-14 text-slate-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">Serviço não encontrado 😕</h2>
-            <p className="text-slate-600 mb-6">O serviço que você procura pode ter sido removido ou o link está incorreto.</p>
+            <AlertCircle className="w-14 h-14 text-muted-foreground mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-foreground mb-2">Serviço não encontrado</h2>
+            <p className="text-muted-foreground mb-6">O serviço que você procura pode ter sido removido ou o link está incorreto.</p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to={createPageUrl("ServicosCategoria")}>
-                <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600">
+                <Button className="w-full bg-brand-primary hover:bg-orange-600">
                   Explorar todos os serviços →
                 </Button>
               </Link>
@@ -169,8 +169,8 @@ export default function ServicoDetalhesPage() {
   const imageSrc = service.images?.[0] || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="relative h-48 md:h-72 bg-gradient-to-r from-cyan-500 to-blue-600 overflow-hidden">
+    <div className="min-h-screen bg-background">
+      <div className="relative h-48 md:h-72 bg-gradient-to-r from-orange-500 to-orange-700 overflow-hidden">
         <img
           src={imageSrc}
           alt={`Imagem de capa do serviço: ${service.title}`}
@@ -191,19 +191,19 @@ export default function ServicoDetalhesPage() {
           <CardContent className="p-4 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
               <div className="flex-1 min-w-0">
-                <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2 break-words">{service.title}</h1>
-                <Badge className="bg-cyan-100 text-cyan-800">{service.category}</Badge>
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 break-words">{service.title}</h1>
+                <Badge className="bg-orange-100 text-orange-800">{service.category}</Badge>
               </div>
               <div className="text-left sm:text-right shrink-0">
-                <p className="text-2xl sm:text-3xl font-bold text-cyan-600">
+                <p className="text-2xl sm:text-3xl font-bold text-orange-600">
                   R$ {service.price?.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
-                <p className="text-sm text-slate-500">por {service.price_unit || 'serviço'}</p>
+                <p className="text-sm text-muted-foreground">por {service.price_unit || 'serviço'}</p>
               </div>
             </div>
 
             {service.duration_estimate && (
-              <div className="flex items-center gap-2 text-slate-600 mb-4">
+              <div className="flex items-center gap-2 text-muted-foreground mb-4">
                 <Clock className="w-5 h-5 shrink-0" />
                 <span>Duração estimada: {service.duration_estimate}</span>
               </div>
@@ -211,12 +211,12 @@ export default function ServicoDetalhesPage() {
 
             <div className="prose prose-slate max-w-none mb-6">
               <h3 className="text-xl font-semibold mb-3">O que está incluso:</h3>
-              <p className="text-slate-700 whitespace-pre-line">{service.description}</p>
+              <p className="text-foreground whitespace-pre-line">{service.description}</p>
 
               {service.not_included && (
                 <>
                   <h3 className="text-xl font-semibold mb-3 mt-6">O que NÃO está incluso:</h3>
-                  <p className="text-slate-700 whitespace-pre-line">{service.not_included}</p>
+                  <p className="text-foreground whitespace-pre-line">{service.not_included}</p>
                 </>
               )}
             </div>
@@ -243,11 +243,11 @@ export default function ServicoDetalhesPage() {
                   />
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-base sm:text-lg truncate">{provider.full_name}</p>
-                    <p className="text-sm text-slate-600">{provider.occupation}</p>
+                    <p className="text-sm text-muted-foreground">{provider.occupation}</p>
                     <div className="flex items-center gap-2 mt-1">
-                      <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                      <Star className="w-4 h-4 text-amber-400 fill-current" />
                       <span className="text-sm font-medium">{provider?.rating && provider.rating > 0 ? provider.rating.toFixed(1) : 'Novo'}</span>
-                      {provider?.total_reviews && provider.total_reviews > 0 && <span className="text-xs text-slate-500">({provider.total_reviews} avaliações)</span>}
+                      {provider?.total_reviews && provider.total_reviews > 0 && <span className="text-xs text-muted-foreground">({provider.total_reviews} avaliações)</span>}
                     </div>
                   </div>
                   <Link to={createPageUrl("PrestadorPerfil", `?id=${provider.id}`)} className="shrink-0">
@@ -263,7 +263,7 @@ export default function ServicoDetalhesPage() {
                   <>
                     <Button
                       size="lg"
-                      className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700"
+                      className="flex-1 bg-brand-primary hover:bg-orange-600"
                       onClick={() => setShowBooking(true)}
                     >
                       <CalendarIcon className="w-5 h-5 mr-2" />

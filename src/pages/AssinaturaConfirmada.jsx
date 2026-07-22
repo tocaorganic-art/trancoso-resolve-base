@@ -31,23 +31,23 @@ export default function AssinaturaConfirmada() {
     : null;
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4 py-16">
+    <div className="min-h-screen bg-background flex items-center justify-center px-4 py-16">
       <div className="max-w-lg w-full text-center">
 
         {/* Ícone de sucesso */}
         <div className="flex justify-center mb-6">
-          <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center">
-            <CheckCircle className="w-10 h-10 text-green-400" />
+          <div className="w-20 h-20 bg-[#3E8E5A]/20 rounded-full flex items-center justify-center">
+            <CheckCircle className="w-10 h-10 text-[#3E8E5A]" />
           </div>
         </div>
 
         {/* Título */}
-        <h1 className="text-3xl font-extrabold text-white mb-3">
+        <h1 className="text-3xl font-extrabold text-foreground mb-3">
           {isAvulso ? "Acesso ativado!" : "Bem-vindo à Trancoso Resolve!"}
         </h1>
 
         {/* Mensagem contextual */}
-        <p className="text-lg text-slate-300 mb-8">
+        <p className="text-lg text-muted-foreground mb-8">
           {isAvulso
             ? "Seu acesso de 1 mês está ativo! Aproveite a temporada."
             : trialEndDate
@@ -56,34 +56,34 @@ export default function AssinaturaConfirmada() {
         </p>
 
         {/* Card de detalhes */}
-        <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 mb-8 text-left space-y-4">
+        <div className="bg-card border border-border rounded-2xl p-6 mb-8 text-left space-y-4">
           {planInfo && (
             <div className="flex items-center gap-3">
-              <CreditCard className="w-5 h-5 text-cyan-400 shrink-0" />
+              <CreditCard className="w-5 h-5 text-brand-primary shrink-0" />
               <div>
-                <p className="text-xs text-slate-400 uppercase tracking-wide">Plano contratado</p>
-                <p className="text-white font-semibold">{planInfo.nome}</p>
+                <p className="text-xs text-muted-foreground uppercase tracking-wide">Plano contratado</p>
+                <p className="text-foreground font-semibold">{planInfo.nome}</p>
               </div>
             </div>
           )}
 
           <div className="flex items-center gap-3">
-            <CreditCard className="w-5 h-5 text-green-400 shrink-0" />
+            <CreditCard className="w-5 h-5 text-[#3E8E5A] shrink-0" />
             <div>
-              <p className="text-xs text-slate-400 uppercase tracking-wide">Valor</p>
-              <p className="text-white font-semibold">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">Valor</p>
+              <p className="text-foreground font-semibold">
                 {trialEndDate ? `Gratuito por ${planInfo.trial} dias, depois ${planInfo?.valor}` : planInfo?.valor || "—"}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <Calendar className="w-5 h-5 text-amber-400 shrink-0" />
+            <Calendar className="w-5 h-5 text-amber-500 shrink-0" />
             <div>
-              <p className="text-xs text-slate-400 uppercase tracking-wide">
+              <p className="text-xs text-muted-foreground uppercase tracking-wide">
                 {isAvulso ? "Renovação" : "Próxima cobrança"}
               </p>
-              <p className="text-white font-semibold">
+              <p className="text-foreground font-semibold">
                 {isAvulso
                   ? "Sem renovação automática"
                   : trialEndDate
@@ -94,9 +94,9 @@ export default function AssinaturaConfirmada() {
           </div>
 
           {trialEndDate && (
-            <div className="flex items-center gap-3 bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
-              <Clock className="w-5 h-5 text-blue-400 shrink-0" />
-              <p className="text-blue-300 text-sm">
+            <div className="flex items-center gap-3 bg-orange-50 border border-orange-200 rounded-lg p-3">
+              <Clock className="w-5 h-5 text-orange-500 shrink-0" />
+              <p className="text-orange-700 text-sm">
                 Seu cartão foi salvo, mas <strong>nenhuma cobrança será feita</strong> durante o período gratuito.
               </p>
             </div>
@@ -105,18 +105,18 @@ export default function AssinaturaConfirmada() {
 
         {/* CTAs */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Button asChild className="bg-cyan-500 hover:bg-cyan-600 text-white font-bold px-8">
+          <Button asChild className="bg-brand-primary hover:bg-orange-700 text-white font-bold px-8">
             <Link to="/Dashboard">
               Acessar meu painel <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
           </Button>
-          <Button asChild variant="outline" className="border-slate-600 text-slate-300 hover:bg-slate-800">
+          <Button asChild variant="outline">
             <Link to="/">Voltar ao início</Link>
           </Button>
         </div>
 
-        <p className="text-slate-500 text-sm mt-6">
-          Dúvidas? <a href="mailto:suporte@trancosoresolve.com.br" className="underline text-slate-400">suporte@trancosoresolve.com.br</a>
+        <p className="text-muted-foreground text-sm mt-6">
+          Dúvidas? <a href="mailto:suporte@trancosoresolve.com.br" className="underline text-muted-foreground">suporte@trancosoresolve.com.br</a>
         </p>
       </div>
     </div>

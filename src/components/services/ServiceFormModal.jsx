@@ -104,7 +104,7 @@ export default function ServiceFormModal({ open, onClose, onSubmit, initialData,
               </SelectContent>
             </Select>
             {form.category && PRICE_SUGGESTIONS[form.category] && (
-              <p className="text-xs text-blue-600 mt-1 flex items-center gap-1">
+              <p className="text-xs text-orange-600 mt-1 flex items-center gap-1">
                 <Lightbulb className="w-3 h-3" />
                 Média de mercado: <strong>{PRICE_SUGGESTIONS[form.category].label}</strong>
               </p>
@@ -115,7 +115,7 @@ export default function ServiceFormModal({ open, onClose, onSubmit, initialData,
             <div className="flex items-center justify-between mb-1">
               <Label>Descrição</Label>
               {form.category && DESCRIPTION_TEMPLATES[form.category] && !form.description && (
-                <button type="button" onClick={applyTemplate} className="text-xs text-blue-600 hover:underline flex items-center gap-1">
+                <button type="button" onClick={applyTemplate} className="text-xs text-orange-600 hover:underline flex items-center gap-1">
                   <Lightbulb className="w-3 h-3" /> Usar template
                 </button>
               )}

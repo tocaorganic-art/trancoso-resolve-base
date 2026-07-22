@@ -57,10 +57,10 @@ export default function VerificacaoDocumentoPage() {
 
   if (isLoadingUser || isLoadingProvider) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-cyan-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 text-cyan-600 animate-spin mx-auto mb-4" />
-          <p className="text-slate-600">Carregando...</p>
+          <Loader2 className="w-12 h-12 text-brand-primary animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Carregando...</p>
         </div>
       </div>
     );
@@ -68,12 +68,12 @@ export default function VerificacaoDocumentoPage() {
 
   if (!user || user.user_type !== 'prestador') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-cyan-50 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <Card className="max-w-md border-none shadow-lg">
           <CardContent className="p-8 text-center space-y-4">
             <AlertCircle className="w-12 h-12 text-orange-500 mx-auto" />
-            <h2 className="text-xl font-bold text-slate-900">Acesso Restrito</h2>
-            <p className="text-slate-600">
+            <h2 className="text-xl font-bold text-foreground">Acesso Restrito</h2>
+            <p className="text-muted-foreground">
               Esta página é apenas para prestadores de serviço verificados.
             </p>
           </CardContent>
@@ -83,14 +83,14 @@ export default function VerificacaoDocumentoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-cyan-50 py-8 px-4">
+    <div className="min-h-screen bg-background py-8 px-4">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-2">
             Verificação de Identidade
           </h1>
-          <p className="text-slate-600 text-lg">
+          <p className="text-muted-foreground text-lg">
             Aumente sua credibilidade e apareça no topo das buscas
           </p>
         </div>
@@ -99,33 +99,33 @@ export default function VerificacaoDocumentoPage() {
         {provider && (
           <div className="mb-8">
             {provider.verified ? (
-              <Card className="bg-green-50 border-green-200">
+              <Card className="bg-[#3E8E5A]/10 border-[#3E8E5A]/30">
                 <CardContent className="p-6 flex items-center gap-4">
-                  <CheckCircle className="w-12 h-12 text-green-600 shrink-0" />
+                  <CheckCircle className="w-12 h-12 text-[#3E8E5A] shrink-0" />
                   <div>
-                    <h3 className="font-bold text-green-900 text-lg">Seu perfil já está verificado!</h3>
-                    <p className="text-green-800 text-sm mt-1">
+                    <h3 className="font-bold text-foreground text-lg">Seu perfil já está verificado!</h3>
+                    <p className="text-muted-foreground text-sm mt-1">
                       Você aparece nos topo das buscas e tem acesso a todos os recursos premium.
                     </p>
                   </div>
                 </CardContent>
               </Card>
             ) : verificacao?.status === 'pending_review' ? (
-              <Card className="bg-blue-50 border-blue-200">
+              <Card className="bg-orange-50 border-orange-200">
                 <CardContent className="p-6 flex items-center gap-4">
-                  <Loader2 className="w-12 h-12 text-blue-600 shrink-0 animate-spin" />
+                  <Loader2 className="w-12 h-12 text-orange-500 shrink-0 animate-spin" />
                   <div>
-                    <h3 className="font-bold text-blue-900 text-lg">Verificação em análise</h3>
-                    <p className="text-blue-800 text-sm mt-1">
+                    <h3 className="font-bold text-orange-900 text-lg">Verificação em análise</h3>
+                    <p className="text-orange-700 text-sm mt-1">
                       Seu documento foi recebido e está sendo analisado. Você receberá um email em breve.
                     </p>
                   </div>
                 </CardContent>
               </Card>
             ) : (
-              <div className="bg-white rounded-lg p-6 border border-slate-200 mb-8">
-                <h3 className="font-bold text-slate-900 mb-2">Por que se verificar?</h3>
-                <ul className="space-y-2 text-sm text-slate-600">
+              <div className="bg-card rounded-lg p-6 border border-border mb-8">
+                <h3 className="font-bold text-foreground mb-2">Por que se verificar?</h3>
+                <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>✅ Apareça no topo das buscas</li>
                   <li>✅ Aumente a confiança de clientes em 40%</li>
                   <li>✅ Desbloqueie planos premium</li>
@@ -145,9 +145,9 @@ export default function VerificacaoDocumentoPage() {
         )}
 
         {/* Info de Segurança */}
-        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <h4 className="font-bold text-slate-900 mb-3 text-sm">🔒 Segurança de Dados</h4>
-          <ul className="text-sm text-slate-600 space-y-2">
+        <div className="mt-8 bg-orange-50 border border-orange-200 rounded-lg p-6">
+          <h4 className="font-bold text-foreground mb-3 text-sm">Segurança de Dados</h4>
+          <ul className="text-sm text-muted-foreground space-y-2">
             <li>• Seus dados são criptografados e nunca compartilhados com terceiros</li>
             <li>• Análise é feita com IA moderna de visão computacional</li>
             <li>• Documentos são validados contra bases oficiais</li>

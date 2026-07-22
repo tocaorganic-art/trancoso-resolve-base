@@ -1,0 +1,85 @@
+<svg width="900" height="1180" viewBox="0 0 900 1180" xmlns="http://www.w3.org/2000/svg" font-family="Nunito, ui-rounded, system-ui, sans-serif">
+  <rect width="900" height="1180" fill="#F8ECDC"/>
+  <rect x="40" y="40" width="820" height="1100" rx="36" fill="#FBF7F1" stroke="#E7DBCB" stroke-width="1.5"/>
+
+  <!-- Header: mark + wordmark -->
+  <g transform="translate(80,84)">
+    <rect width="76" height="76" rx="20" fill="#E8571A"/>
+    <rect x="36.4" y="10.7" width="3.1" height="13" rx="1.5" fill="#FFFFFF"/>
+    <rect x="32.7" y="14.5" width="10.7" height="3.1" rx="1.5" fill="#FFFFFF"/>
+    <path d="M38 22 L20 38.5 L20 63 Q20 64 21 64 L55 64 Q56 64 56 63 L56 38.5 Z" fill="#FFFFFF"/>
+    <path d="M32.7 64 L32.7 52.7 Q32.7 46.7 38 46.7 Q43.3 46.7 43.3 52.7 L43.3 64 Z" fill="#C1440E"/>
+    <circle cx="38" cy="38.5" r="3.7" fill="#C1440E"/>
+    <text x="98" y="30" font-weight="700" font-size="22" letter-spacing="2.4" fill="#1A1208">Trancoso</text>
+    <text x="98" y="66" font-weight="900" font-size="40" letter-spacing="0.5" fill="#E8571A">RESOLVE</text>
+  </g>
+  <text x="80" y="200" font-size="17" fill="#6F5F4C">Encontre quem resolve, pertinho de você.</text>
+  <text x="80" y="226" font-weight="700" font-size="11" letter-spacing="3" fill="#91806A">SERVIÇOS · TRANCOSO, BAHIA</text>
+
+  <!-- Color palette -->
+  <text x="80" y="290" font-weight="800" font-size="22" letter-spacing="-0.3" fill="#241D16">Paleta de cores</text>
+
+  <!-- swatch row -->
+  <g transform="translate(80,310)" font-size="13">
+    <g transform="translate(0,0)">
+      <rect width="148" height="120" rx="20" fill="#E8571A"/>
+      <text x="0" y="146" font-weight="700" fill="#241D16">Laranja queimado</text>
+      <text x="0" y="166" fill="#6F5F4C">#E8571A · primária</text>
+    </g>
+    <g transform="translate(166,0)">
+      <rect width="148" height="120" rx="20" fill="#C1440E"/>
+      <text x="0" y="146" font-weight="700" fill="#241D16">Terracota</text>
+      <text x="0" y="166" fill="#6F5F4C">#C1440E · secundária</text>
+    </g>
+    <g transform="translate(332,0)">
+      <rect width="148" height="120" rx="20" fill="#6B7C3A"/>
+      <text x="0" y="146" font-weight="700" fill="#241D16">Verde-oliva</text>
+      <text x="0" y="166" fill="#6F5F4C">#6B7C3A · acento</text>
+    </g>
+    <g transform="translate(498,0)">
+      <rect width="148" height="120" rx="20" fill="#F2DEC4" stroke="#E6CDA9" stroke-width="1.5"/>
+      <text x="0" y="146" font-weight="700" fill="#241D16">Areia</text>
+      <text x="0" y="166" fill="#6F5F4C">#F2DEC4 · fundo claro</text>
+    </g>
+    <g transform="translate(664,0)">
+      <rect width="148" height="120" rx="20" fill="#1A1208"/>
+      <text x="0" y="146" font-weight="700" fill="#241D16">Café escuro</text>
+      <text x="0" y="166" fill="#6F5F4C">#1A1208 · fundo escuro</text>
+    </g>
+  </g>
+
+  <!-- semantic chips -->
+  <g transform="translate(80,520)" font-size="12" font-weight="700">
+    <g><rect width="150" height="40" rx="20" fill="#E3F1E7"/><circle cx="22" cy="20" r="7" fill="#3E8E5A"/><text x="40" y="25" fill="#241D16">Sucesso #3E8E5A</text></g>
+    <g transform="translate(166,0)"><rect width="150" height="40" rx="20" fill="#FBEFD2"/><circle cx="22" cy="20" r="7" fill="#E59A12"/><text x="40" y="25" fill="#241D16">Alerta #E59A12</text></g>
+    <g transform="translate(332,0)"><rect width="150" height="40" rx="20" fill="#FBE3E0"/><circle cx="22" cy="20" r="7" fill="#D7382B"/><text x="40" y="25" fill="#241D16">Erro #D7382B</text></g>
+    <g transform="translate(498,0)"><rect width="150" height="40" rx="20" fill="#DBEDEF"/><circle cx="22" cy="20" r="7" fill="#2D7D8A"/><text x="40" y="25" fill="#241D16">Info #2D7D8A</text></g>
+  </g>
+
+  <!-- Typography -->
+  <text x="80" y="630" font-weight="800" font-size="22" letter-spacing="-0.3" fill="#241D16">Tipografia · Nunito</text>
+  <text x="80" y="700" font-weight="900" font-size="56" letter-spacing="-1" fill="#241D16">A gente resolve.</text>
+  <text x="80" y="744" font-weight="800" font-size="28" fill="#382F26">Encontre quem resolve</text>
+  <text x="80" y="784" font-weight="400" font-size="17" fill="#514538">Corpo em Nunito Regular (400), leading generoso (1.65) para leitura</text>
+  <text x="80" y="816" font-weight="700" font-size="13" letter-spacing="3" fill="#91806A">EYEBROW · BOLD 700 · CAIXA-ALTA</text>
+
+  <!-- weight chips -->
+  <g transform="translate(80,840)" font-size="14">
+    <g><rect width="120" height="44" rx="22" fill="#FDF3EC"/><text x="24" y="29" font-weight="400" fill="#241D16">Regular 400</text></g>
+    <g transform="translate(132,0)"><rect width="120" height="44" rx="22" fill="#FDF3EC"/><text x="24" y="29" font-weight="700" fill="#241D16">Bold 700</text></g>
+    <g transform="translate(264,0)"><rect width="140" height="44" rx="22" fill="#FDF3EC"/><text x="24" y="29" font-weight="800" fill="#241D16">Extrabold 800</text></g>
+    <g transform="translate(416,0)"><rect width="120" height="44" rx="22" fill="#E8571A"/><text x="22" y="29" font-weight="900" fill="#FFFFFF">Black 900</text></g>
+  </g>
+
+  <!-- Voice / components -->
+  <text x="80" y="952" font-weight="800" font-size="22" letter-spacing="-0.3" fill="#241D16">Voz &amp; componentes</text>
+  <g transform="translate(80,978)" font-size="15">
+    <!-- primary pill button -->
+    <g><rect width="230" height="52" rx="26" fill="#E8571A"/><text x="115" y="33" font-weight="700" text-anchor="middle" fill="#FFFFFF">Encontrar profissional</text></g>
+    <!-- secondary -->
+    <g transform="translate(248,0)"><rect width="190" height="52" rx="26" fill="#FFFFFF" stroke="#6B7C3A" stroke-width="2"/><text x="95" y="33" font-weight="700" text-anchor="middle" fill="#475226">Sou profissional</text></g>
+    <!-- chip -->
+    <g transform="translate(458,8)"><rect width="178" height="36" rx="18" fill="#E3F1E7"/><text x="89" y="24" font-weight="700" font-size="13" text-anchor="middle" fill="#3E8E5A">Profissional verificado</text></g>
+  </g>
+  <text x="80" y="1080" font-size="15" fill="#6F5F4C">Voz descontraída e profissional · cantos arredondados · sombras quentes · sem emoji na UI.</text>
+</svg>

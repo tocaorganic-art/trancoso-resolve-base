@@ -1,44 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { X, Search, Star, MessageCircle, ArrowRight, ChevronRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { createPageUrl } from '@/utils';
+import { Smartphone, Bell, Zap, Download } from 'lucide-react';
 
 const STORAGE_KEY = 'tr_onboarding_done';
 
-const steps = [
-  {
-    icon: <Search className="w-10 h-10 text-cyan-500" />,
-    title: "Encontre o profissional certo",
-    description: "Use a busca inteligente para descrever o que você precisa — ex: 'preciso de uma faxineira para amanhã' — e a IA encontra os melhores profissionais.",
-    color: "from-cyan-50 to-blue-50",
-    border: "border-cyan-200",
-  },
-  {
-    icon: <Star className="w-10 h-10 text-yellow-500" />,
-    title: "Profissionais verificados",
-    description: "Todos os prestadores passam por verificação de identidade. Veja avaliações reais de outros clientes antes de contratar.",
-    color: "from-yellow-50 to-amber-50",
-    border: "border-yellow-200",
-  },
-  {
-    icon: <MessageCircle className="w-10 h-10 text-green-500" />,
-    title: "Chat direto e seguro",
-    description: "Converse diretamente com o profissional pelo chat da plataforma. Combine detalhes, datas e valores com segurança.",
-    color: "from-green-50 to-emerald-50",
-    border: "border-green-200",
-  },
-];
-
 export default function OnboardingTour() {
   const [visible, setVisible] = useState(false);
-  const [step, setStep] = useState(0);
 
   useEffect(() => {
     const done = localStorage.getItem(STORAGE_KEY);
     if (!done) {
-      // Delay pequeno para não aparecer imediatamente na carga
       const timer = setTimeout(() => setVisible(true), 1200);
       return () => clearTimeout(timer);
     }
@@ -49,23 +20,13 @@ export default function OnboardingTour() {
     setVisible(false);
   };
 
-  const next = () => {
-    if (step < steps.length - 1) {
-      setStep(step + 1);
-    } else {
-      dismiss();
-    }
-  };
-
-  const current = steps[step];
-
   return (
     <AnimatePresence>
       {visible && (
         <>
           {/* Overlay */}
           <motion.div
-            className="fixed inset-0 bg-black/50 z-50 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -75,84 +36,87 @@ export default function OnboardingTour() {
           {/* Modal */}
           <motion.div
             className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            initial={{ opacity: 0, scale: 0.88, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.88, y: 20 }}
+            transition={{ type: 'spring', stiffness: 320, damping: 28 }}
           >
-            <div className={`pointer-events-auto bg-white rounded-2xl shadow-2xl w-full max-w-sm border-2 ${current.border} overflow-hidden`}>
-              {/* Header */}
-              <div className={`bg-gradient-to-br ${current.color} p-8 text-center relative`}>
+            <div className="pointer-events-auto bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border border-amber-100">
+
+              {/* Header — gradiente terra */}
+              <div className="bg-gradient-to-br from-amber-600 to-amber-800 px-6 pt-8 pb-6 text-center relative">
+                {/* Ícone central */}
+                <div className="mx-auto w-20 h-20 bg-white/15 rounded-full flex items-center justify-center mb-4 ring-4 ring-white/20">
+                  <Smartphone className="w-10 h-10 text-white" />
+                </div>
+
+                <h2 className="text-xl font-bold text-white mb-2 leading-snug">
+                  Baixe o App<br />Trancoso Resolve
+                </h2>
+                <p className="text-amber-100 text-sm leading-relaxed">
+                  Acesso direto a profissionais verificados, atualizações em tempo real e notificações do seu pedido — tudo na palma da mão.
+                </p>
+              </div>
+
+              {/* Benefícios rápidos */}
+              <div className="px-6 py-4 space-y-2 bg-amber-50/60">
+                {[
+                  { icon: <Zap className="w-4 h-4 text-amber-600" />, text: 'Solicite serviços em segundos' },
+                  { icon: <Bell className="w-4 h-4 text-amber-600" />, text: 'Notificações em tempo real' },
+                  { icon: <Download className="w-4 h-4 text-amber-600" />, text: 'Acesso offline ao seu histórico' },
+                ].map(({ icon, text }) => (
+                  <div key={text} className="flex items-center gap-2 text-sm text-stone-700">
+                    {icon}
+                    <span>{text}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Botões de download */}
+              <div className="px-6 pb-6 pt-4 space-y-3">
+                {/* App Store */}
+                <a
+                  href="https://apps.apple.com/app/trancoso-resolve"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={dismiss}
+                  className="flex items-center justify-center gap-3 w-full bg-stone-900 hover:bg-stone-800 text-white rounded-xl py-3 px-4 transition-colors"
+                >
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
+                  </svg>
+                  <div className="text-left">
+                    <p className="text-xs text-stone-300 leading-none">Baixar na</p>
+                    <p className="text-sm font-semibold leading-tight">App Store</p>
+                  </div>
+                </a>
+
+                {/* Google Play */}
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.trancosoresolve"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={dismiss}
+                  className="flex items-center justify-center gap-3 w-full bg-amber-600 hover:bg-amber-700 text-white rounded-xl py-3 px-4 transition-colors"
+                >
+                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3.18 23.76c.3.17.64.24.99.2l12.7-7.34-2.75-2.75-10.94 9.89zm17.12-10.62L17.44 11.5l-2.98 2.98 2.86 2.86 3-1.73c.86-.5.86-1.87-.02-2.37zM2.01 1.16C1.7 1.48 1.5 2 1.5 2.67v18.67c0 .67.2 1.17.51 1.5l.08.07L13.12 12 2.09 1.09l-.08.07zm11.55 10.34L3.18 1.24c.06-.06.13-.1.19-.14L15.96 9.05l-2.4 2.45z" />
+                  </svg>
+                  <div className="text-left">
+                    <p className="text-xs text-amber-100 leading-none">Disponível no</p>
+                    <p className="text-sm font-semibold leading-tight">Google Play</p>
+                  </div>
+                </a>
+
+                {/* Continuar no site */}
                 <button
                   onClick={dismiss}
-                  className="absolute top-3 right-3 p-1 rounded-full text-slate-400 hover:text-slate-700 hover:bg-white/70 transition-colors"
+                  className="w-full text-sm text-stone-500 hover:text-stone-700 py-2 transition-colors"
                 >
-                  <X className="w-4 h-4" />
+                  Continuar no site →
                 </button>
-
-                <motion.div
-                  key={step}
-                  initial={{ scale: 0.5, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-                  className="flex justify-center mb-4"
-                >
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-md">
-                    {current.icon}
-                  </div>
-                </motion.div>
-
-                <motion.h2
-                  key={`title-${step}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-xl font-bold text-slate-900 mb-2"
-                >
-                  {current.title}
-                </motion.h2>
-                <motion.p
-                  key={`desc-${step}`}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 }}
-                  className="text-sm text-slate-600"
-                >
-                  {current.description}
-                </motion.p>
               </div>
 
-              {/* Footer */}
-              <div className="p-5">
-                {/* Dots */}
-                <div className="flex justify-center gap-2 mb-5">
-                  {steps.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setStep(i)}
-                      className={`rounded-full transition-all duration-300 ${
-                        i === step ? 'w-6 h-2 bg-cyan-500' : 'w-2 h-2 bg-slate-200'
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <div className="flex gap-3">
-                  <Button variant="outline" onClick={dismiss} className="flex-1 text-slate-500">
-                    Pular
-                  </Button>
-                  {step < steps.length - 1 ? (
-                    <Button onClick={next} className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 gap-1">
-                      Próximo <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  ) : (
-                    <Link to={createPageUrl("ServicosCategoria")} className="flex-1" onClick={dismiss}>
-                      <Button className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 gap-1">
-                        Explorar <ArrowRight className="w-4 h-4" />
-                      </Button>
-                    </Link>
-                  )}
-                </div>
-              </div>
             </div>
           </motion.div>
         </>

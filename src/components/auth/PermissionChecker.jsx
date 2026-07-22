@@ -4,9 +4,8 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, RefreshCw, LogOut } from 'lucide-react';
-import { isAdminUser } from '@/lib/adminConfig';
 
-// ADMIN_WHITELIST removida deste arquivo — centralizada em src/lib/adminConfig.js
+const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
 
 const MAX_RETRIES = 10;
 const RETRY_INTERVAL_MS = 1000;
@@ -31,11 +30,13 @@ export default function PermissionChecker({ children, requiredRole = null, requi
   useEffect(() => {
     const timeout = setTimeout(() => {
       timedOutRef.current = true;
+      // Só mostra timeout se ainda não foi autorizado
       if (permissionStatus === 'checking') {
         localStorage.removeItem('user_type_prestador_pendente');
         setPermissionStatus('timeout');
       }
     }, TIMEOUT_MS);
+    // Cancela o timeout se o status mudar para 'authorized' antes do prazo
     if (permissionStatus === 'authorized') {
       clearTimeout(timeout);
     }
@@ -43,6 +44,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
   }, [permissionStatus]);
 
   useEffect(() => {
+    // Limpa retry timer anterior
     if (timerRef.current) {
       clearTimeout(timerRef.current);
       timerRef.current = null;
@@ -65,9 +67,9 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       return;
     }
 
-    // Verificar role — usa função centralizada de adminConfig.js
-    const isAdmin = isAdminUser(user);
-    if (requiredRole && user.role !== requiredRole && !isAdmin) {
+    // Verificar role (whitelist de emails admin sempre passa)
+    const isAdminByEmail = ADMIN_WHITELIST.includes(user.email);
+    if (requiredRole && user.role !== requiredRole && !isAdminByEmail) {
       setPermissionStatus('forbidden');
       setErrorDetails({
         code: 'INSUFFICIENT_ROLE',
@@ -79,6 +81,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
     // Verificar user_type
     if (requiredUserType) {
       if (user.user_type === requiredUserType) {
+        // Correto! Limpa flags e autoriza
         localStorage.removeItem('user_type_prestador_pendente');
         setPermissionStatus('authorized');
         return;
@@ -88,6 +91,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       const cadastroTs = localStorage.getItem('user_type_prestador_pendente');
       const cadastroRecente = cadastroTs && (Date.now() - parseInt(cadastroTs)) < 30000;
 
+      // Se cadastro recente OU user_type indefinido: tenta até MAX_RETRIES
       if ((cadastroRecente || userTypeUndefined) && retryCountRef.current < MAX_RETRIES) {
         retryCountRef.current += 1;
         setPermissionStatus('checking');
@@ -97,17 +101,20 @@ export default function PermissionChecker({ children, requiredRole = null, requi
         return;
       }
 
+      // Esgotou tentativas com cadastro recente → deixa passar (benefício da dúvida)
       if (cadastroRecente) {
         localStorage.removeItem('user_type_prestador_pendente');
         setPermissionStatus('authorized');
         return;
       }
 
+      // user_type indefinido após retries → cadastro incompleto
       if (userTypeUndefined) {
         setPermissionStatus('needs_setup');
         return;
       }
 
+      // user_type definido mas errado (ex: cliente tentando acessar área de prestador)
       setPermissionStatus('forbidden');
       setErrorDetails({
         code: 'INSUFFICIENT_USER_TYPE',
@@ -126,6 +133,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
     setPermissionStatus('authorized');
   }, [user, isLoading, error, requiredRole, requiredUserType]);
 
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -135,10 +143,10 @@ export default function PermissionChecker({ children, requiredRole = null, requi
 
   if (permissionStatus === 'checking') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-cyan-50">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-sand/30">
         <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
-            <RefreshCw className="w-12 h-12 text-blue-600 animate-spin mx-auto mb-4" />
+            <RefreshCw className="w-12 h-12 text-orange-600 animate-spin mx-auto mb-4" />
             <h2 className="text-xl font-bold text-slate-900 mb-2">Verificando acesso...</h2>
             <p className="text-slate-600">Aguarde enquanto validamos suas credenciais.</p>
           </CardContent>
@@ -158,10 +166,18 @@ export default function PermissionChecker({ children, requiredRole = null, requi
               Tente fazer login novamente. Se o problema persistir, entre em contato com o suporte.
             </p>
             <div className="flex gap-3">
-              <Button variant="outline" onClick={() => window.location.href = '/SejaPrestador'} className="flex-1">
+              <Button
+                variant="outline"
+                onClick={() => window.location.href = '/SejaPrestador'}
+                className="flex-1"
+              >
                 Ir para Cadastro
               </Button>
-              <Button onClick={() => base44.auth.logout()} variant="destructive" className="flex-1">
+              <Button
+                onClick={() => base44.auth.logout()}
+                variant="destructive"
+                className="flex-1"
+              >
                 <LogOut className="w-4 h-4 mr-2" />
                 Fazer login novamente
               </Button>
@@ -184,10 +200,10 @@ export default function PermissionChecker({ children, requiredRole = null, requi
 
   if (permissionStatus === 'forbidden') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-50 to-orange-50">
-        <Card className="w-full max-w-md border-yellow-200">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-50">
+        <Card className="w-full max-w-md border-amber-200">
           <CardContent className="p-8 text-center">
-            <AlertCircle className="w-16 h-16 text-yellow-500 mx-auto mb-4" />
+            <AlertCircle className="w-16 h-16 text-amber-500 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-slate-900 mb-2">Acesso Restrito</h2>
             <p className="text-slate-600 mb-6">{errorDetails?.details}</p>
             <div className="flex gap-3">

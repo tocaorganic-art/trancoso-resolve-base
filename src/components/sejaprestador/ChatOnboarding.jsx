@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
+import { Send, Loader2, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ReactMarkdown from 'react-markdown';
 
@@ -12,17 +12,24 @@ Use português brasileiro, tom "baiano-chic" — caloroso mas profissional.
 Mantenha respostas curtas e diretas (máximo 3 parágrafos).
 IMPORTANTE: Nunca mencione "Trancoso Experience" — o nome correto é sempre "Trancoso Resolve".`;
 
+const quickQuestions = [
+  'Como me cadastro?',
+  'Quanto custa?',
+  'Quais serviços posso oferecer?',
+  'Como recebo os pagamentos?',
+];
+
 export default function ChatOnboarding() {
-  const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Olá! Sou a **Toca** 🌴\n\nTem dúvidas sobre como ser um parceiro? Estou aqui para ajudar!' }
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const sendMessage = async () => {
-    if (!input.trim() || loading) return;
-    const userMsg = { role: 'user', content: input };
+  const sendMessage = async (text) => {
+    const content = text || input;
+    if (!content.trim() || loading) return;
+    const userMsg = { role: 'user', content };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
     setInput('');
@@ -37,80 +44,86 @@ export default function ChatOnboarding() {
   };
 
   return (
-    <>
-      {/* Floating button */}
-      {!open && (
-        <button
-          onClick={() => setOpen(true)}
-          className="fixed bottom-24 right-5 z-50 flex items-center gap-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-4 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all"
-          aria-label="Falar com a Toca"
-        >
-          <MessageCircle className="w-5 h-5" />
-          <span className="text-sm font-semibold">Dúvidas? Fale com a Toca</span>
-        </button>
-      )}
-
-      {/* Chat window */}
-      {open && (
-        <div className="fixed bottom-6 right-4 z-50 w-[calc(100vw-2rem)] max-w-sm bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-slate-200">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                <MessageCircle className="w-4 h-4 text-white" />
-              </div>
-              <div>
-                <p className="text-white font-semibold text-sm">Toca — Assistente Parceiros</p>
-                <p className="text-blue-100 text-xs">Online agora</p>
-              </div>
+    <section className="container mx-auto px-4 max-w-2xl pb-10">
+      <div className="bg-white rounded-2xl shadow-md border border-amber-100 overflow-hidden">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-amber-700 to-amber-600 px-5 py-4 flex items-center gap-3">
+          <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+            <Bot className="w-5 h-5 text-white" />
+          </div>
+          <div>
+            <p className="text-white font-semibold text-sm">Toca — Assistente de Parceiros</p>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <div className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
+              <span className="text-amber-100 text-xs">Online agora</span>
             </div>
-            <button onClick={() => setOpen(false)} className="text-white/70 hover:text-white">
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Messages */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 max-h-72 bg-slate-50">
-            {messages.map((msg, i) => (
-              <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
-                  msg.role === 'user'
-                    ? 'bg-blue-600 text-white rounded-br-none'
-                    : 'bg-white border border-slate-200 text-slate-800 rounded-bl-none shadow-sm'
-                }`}>
-                  {msg.role === 'assistant' ? (
-                    <ReactMarkdown className="prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
-                      {msg.content}
-                    </ReactMarkdown>
-                  ) : msg.content}
-                </div>
-              </div>
-            ))}
-            {loading && (
-              <div className="flex justify-start">
-                <div className="bg-white border border-slate-200 rounded-xl px-3 py-2">
-                  <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Input */}
-          <div className="p-3 border-t border-slate-200 bg-white flex gap-2">
-            <input
-              type="text"
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && sendMessage()}
-              placeholder="Tire sua dúvida..."
-              className="flex-1 text-sm border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <Button size="icon" onClick={sendMessage} disabled={loading || !input.trim()} className="bg-blue-600 hover:bg-blue-700 shrink-0">
-              <Send className="w-4 h-4" />
-            </Button>
           </div>
         </div>
-      )}
-    </>
+
+        {/* Messages */}
+        <div className="p-4 space-y-3 max-h-72 overflow-y-auto bg-amber-50/40">
+          {messages.map((msg, i) => (
+            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
+                msg.role === 'user'
+                  ? 'bg-amber-700 text-white rounded-br-none'
+                  : 'bg-white border border-amber-100 text-slate-800 rounded-bl-none shadow-sm'
+              }`}>
+                {msg.role === 'assistant' ? (
+                  <ReactMarkdown className="prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+                    {msg.content}
+                  </ReactMarkdown>
+                ) : msg.content}
+              </div>
+            </div>
+          ))}
+          {loading && (
+            <div className="flex justify-start">
+              <div className="bg-white border border-amber-100 rounded-xl px-3 py-2">
+                <Loader2 className="w-4 h-4 text-amber-600 animate-spin" />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Quick questions */}
+        {messages.length <= 1 && !loading && (
+          <div className="px-4 py-3 bg-white border-t border-amber-50">
+            <p className="text-xs text-slate-500 font-medium mb-2">Perguntas frequentes:</p>
+            <div className="grid grid-cols-2 gap-1.5">
+              {quickQuestions.map(q => (
+                <button
+                  key={q}
+                  onClick={() => sendMessage(q)}
+                  className="text-xs text-left px-3 py-2 rounded-lg border border-amber-200 hover:border-amber-400 hover:bg-amber-50 transition-colors text-slate-700"
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Input */}
+        <div className="p-3 border-t border-amber-100 bg-white flex gap-2">
+          <input
+            type="text"
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && sendMessage()}
+            placeholder="Tire sua dúvida sobre como ser parceiro..."
+            className="flex-1 text-sm border border-amber-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300 bg-amber-50/30"
+          />
+          <Button
+            size="icon"
+            onClick={() => sendMessage()}
+            disabled={loading || !input.trim()}
+            className="bg-amber-700 hover:bg-amber-800 shrink-0"
+          >
+            <Send className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+    </section>
   );
 }

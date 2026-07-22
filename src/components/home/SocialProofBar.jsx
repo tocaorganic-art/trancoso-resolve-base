@@ -7,7 +7,7 @@ export default function SocialProofBar({ totalVerificados = 0 }) {
   const metrics = [
     { icon: Users, value: `${prestadoresDisplay} profissionais`, label: "cadastrados na plataforma" },
     { icon: ShieldCheck, value: "Prestadores verificados", label: "com antecedentes checados" },
-    { icon: MapPin, value: "4 destinos", label: "Trancoso, Porto Seguro, Caraíva e Arraial d'Ajuda" },
+    { icon: MapPin, value: "4 destinos", label: "Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva" },
     { icon: CreditCard, value: "Pagamento seguro", label: "para todos os serviços" },
   ];
 
@@ -21,8 +21,8 @@ export default function SocialProofBar({ totalVerificados = 0 }) {
               <React.Fragment key={m.value}>
                 {i > 0 && <div className="hidden md:block w-px h-8 bg-border" />}
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Icon className="w-5 h-5 text-primary" />
+                  <div className="w-9 h-9 rounded-brand-md bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center shrink-0">
+                    <Icon className="w-5 h-5 text-orange-500" />
                   </div>
                   <div>
                     <p className="text-foreground font-bold text-sm leading-tight">{m.value}</p>

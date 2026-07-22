@@ -97,7 +97,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
     <Card className="bg-slate-800/50 rounded-lg shadow-md p-5 my-6 border border-slate-700">
       <div className="mb-4">
         <h3 className="font-semibold text-lg flex items-center gap-2 text-white mb-3">
-          <Sparkles className="w-5 h-5 text-blue-400"/>
+          <Sparkles className="w-5 h-5 text-orange-400"/>
           Assistente Financeiro
         </h3>
         
@@ -114,7 +114,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
         <Button
           onClick={analisarFinancas}
           disabled={loading || !transacoes?.length}
-          className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+          className="bg-orange-600 hover:bg-orange-700 text-white w-full sm:w-auto"
         >
           {loading ? (
             <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Analisando...</>
@@ -126,7 +126,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
       
       {loading && (
           <div className="text-center py-8">
-              <Loader2 className="w-8 h-8 mx-auto animate-spin text-blue-500" />
+              <Loader2 className="w-8 h-8 mx-auto animate-spin text-orange-500" />
               <p className="mt-2 text-slate-500">Aguarde, nossa IA está processando seus dados...</p>
           </div>
       )}
@@ -134,10 +134,10 @@ export default function AssistenteFinanceiro({ transacoes }) {
       {insights && (
         <div className="animate-in fade-in-50 duration-500">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            <Card className="bg-blue-50 p-4 border-blue-200">
+            <Card className="bg-orange-50 p-4 border-orange-200">
               <CardContent>
-                  <h4 className="text-sm font-medium text-blue-800 mb-1 flex items-center gap-1.5"><TrendingUp className="w-4 h-4"/>Receita Projetada</h4>
-                  <p className="text-2xl font-bold text-blue-900">R$ {insights.receitaProjetada?.toLocaleString('pt-BR')}</p>
+                  <h4 className="text-sm font-medium text-orange-800 mb-1 flex items-center gap-1.5"><TrendingUp className="w-4 h-4"/>Receita Projetada</h4>
+                  <p className="text-2xl font-bold text-orange-900">R$ {insights.receitaProjetada?.toLocaleString('pt-BR')}</p>
                   <p className={`text-xs font-semibold mt-1 ${insights.crescimentoProjetado > 0 ? 'text-green-600' : 'text-red-600'}`}>
                     {insights.crescimentoProjetado > 0 ? '+' : ''}{insights.crescimentoProjetado?.toFixed(1)}% vs. mês anterior
                   </p>
@@ -154,11 +154,11 @@ export default function AssistenteFinanceiro({ transacoes }) {
               </CardContent>
             </Card>
             
-            <Card className="bg-purple-50 p-4 border-purple-200">
+            <Card className="bg-[#6B7C3A]/10 p-4 border-[#6B7C3A]/30">
                <CardContent>
-                  <h4 className="text-sm font-medium text-purple-800 mb-1 flex items-center gap-1.5"><Scissors className="w-4 h-4"/>Serviço Mais Rentável</h4>
-                  <p className="text-xl font-bold text-purple-900">{insights.servicoMaisLucrativo}</p>
-                  <p className="text-xs text-purple-700 mt-1">
+                  <h4 className="text-sm font-medium text-[#6B7C3A] mb-1 flex items-center gap-1.5"><Scissors className="w-4 h-4"/>Serviço Mais Rentável</h4>
+                  <p className="text-xl font-bold text-[#6B7C3A]">{insights.servicoMaisLucrativo}</p>
+                  <p className="text-xs text-[#6B7C3A] mt-1">
                     {insights.margemLucro?.toFixed(0)}% de margem estimada
                   </p>
               </CardContent>

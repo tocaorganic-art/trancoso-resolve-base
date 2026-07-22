@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
@@ -27,6 +28,8 @@ function FacebookIcon({ className }) {
 
 export default function Login() {
   const [twoFAState, setTwoFAState] = useState(null); // null | { maskedEmail }
+  const location = useLocation();
+  const fromPath = location.state?.from?.pathname || null;
 
   useEffect(() => {
     document.title = 'Entrar | Trancoso Resolve';
@@ -66,8 +69,16 @@ export default function Login() {
     if (!user) { window.location.href = "/"; return; }
     if (!user.user_type || user.user_type === "indefinido") {
       window.location.href = "/CadastroTipo";
-    } else if (user.user_type === "prestador") {
+      return;
+    }
+    if (fromPath && fromPath !== '/login') {
+      window.location.href = fromPath;
+      return;
+    }
+    if (user.user_type === "prestador") {
       window.location.href = "/MeuPerfilPrestador";
+    } else if (user.user_type === "cliente") {
+      window.location.href = "/MeusPedidos";
     } else {
       window.location.href = "/";
     }
@@ -100,6 +111,23 @@ export default function Login() {
     >
       <div className="space-y-3">
         <Button
+          className="w-full h-12 text-sm font-medium bg-orange-600 hover:bg-orange-700"
+          onClick={() => base44.auth.redirectToLogin('/login')}
+        >
+          <LogIn className="w-5 h-5 mr-2" />
+          Entrar com Email
+        </Button>
+
+        <div className="relative my-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-border" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card px-2 text-muted-foreground">ou continue com</span>
+          </div>
+        </div>
+
+        <Button
           variant="outline"
           className="w-full h-12 text-sm font-medium"
           onClick={handleGoogle}
@@ -124,23 +152,6 @@ export default function Login() {
         >
           <FacebookIcon className="w-5 h-5 mr-2" />
           Continuar com Facebook
-        </Button>
-
-        <div className="relative my-4">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-slate-300" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-2 text-slate-500">ou</span>
-          </div>
-        </div>
-
-        <Button
-          className="w-full h-12 text-sm font-medium bg-amber-600 hover:bg-amber-700"
-          onClick={() => base44.auth.redirectToLogin("/")}
-        >
-          <LogIn className="w-5 h-5 mr-2" />
-          Entrar com Email
         </Button>
       </div>
     </AuthLayout>

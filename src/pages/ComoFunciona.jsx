@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Search, Calendar, Smile, UserCheck, Briefcase, BarChart, CheckCircle, Star, MapPin, MessageCircle, Sparkles, Zap, Wrench, Leaf, ChefHat, Hammer, Brush, Baby, UtensilsCrossed } from 'lucide-react';
-
-const ICON_COLOR = "#E8571A";
+import { Search, Calendar, Smile, UserCheck, Briefcase, BarChart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { createPageUrl } from '@/utils';
@@ -10,7 +8,7 @@ import TocaAvatar from '@/components/toca/TocaAvatar';
 
 const ProcessStep = ({ icon, title, description }) => (
   <div className="flex flex-col items-center text-center">
-    <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center mb-4 shadow-lg">
+    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center mb-4 shadow-lg">
       {icon}
     </div>
     <h3 className="font-bold text-lg mb-2 text-foreground">{title}</h3>
@@ -18,7 +16,15 @@ const ProcessStep = ({ icon, title, description }) => (
   </div>
 );
 
-
+const ProcessStepPrestador = ({ icon, title, description }) => (
+  <div className="flex flex-col items-center text-center">
+    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 text-white flex items-center justify-center mb-4 shadow-lg">
+      {icon}
+    </div>
+    <h3 className="font-bold text-lg mb-2 text-foreground">{title}</h3>
+    <p className="text-muted-foreground">{description}</p>
+  </div>
+);
 
 export default function ComoFuncionaPage() {
   useEffect(() => {
@@ -157,17 +163,17 @@ export default function ComoFuncionaPage() {
         <section className="mb-20 bg-card p-8 md:p-12 rounded-2xl shadow-xl border border-border">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-foreground">Para Prestadores: Transforme seu Talento em Negócio</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            <ProcessStep 
+            <ProcessStepPrestador 
               icon={<UserCheck className="w-8 h-8" />} 
               title="1. Crie seu Perfil" 
               description="Cadastre-se gratuitamente, adicione seus serviços, fotos e defina seus preços. Um perfil completo atrai mais clientes." 
             />
-            <ProcessStep 
+            <ProcessStepPrestador 
               icon={<Briefcase className="w-8 h-8" />} 
               title="2. Receba Propostas" 
               description="Seja notificado sobre novas solicitações de serviço. Gerencie sua agenda, confirme os trabalhos e comunique-se com os clientes." 
             />
-            <ProcessStep 
+            <ProcessStepPrestador 
               icon={<BarChart className="w-8 h-8" />} 
               title="3. Cresça seu Negócio" 
               description="Receba pagamentos diretamente dos clientes, construa uma reputação com boas avaliações e use nosso painel para acompanhar seu desempenho." 
@@ -175,7 +181,7 @@ export default function ComoFuncionaPage() {
           </div>
           <div className="text-center mt-12">
              <Link to={createPageUrl("SejaPrestador")}>
-                <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold shadow-lg">Quero ser um Prestador</Button>
+                <Button size="lg" className="bg-gradient-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600 text-white font-bold shadow-lg">Quero ser um Prestador</Button>
             </Link>
           </div>
         </section>
@@ -184,13 +190,13 @@ export default function ComoFuncionaPage() {
         <section className="mb-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {[
-              { Icon: CheckCircle, label: 'Verificados', sub: 'Identidade + Antecedentes' },
-              { Icon: Star, label: 'Avaliados', sub: 'Feedbacks reais de clientes' },
-              { Icon: MapPin, label: 'Locais', sub: 'Profissionais de Trancoso' },
-              { Icon: MessageCircle, label: 'Ágeis', sub: 'Contato direto via WhatsApp' },
+              { emoji: '✅', label: 'Verificados', sub: 'Identidade + Antecedentes' },
+              { emoji: '⭐', label: 'Avaliados', sub: 'Feedbacks reais de clientes' },
+              { emoji: '📍', label: 'Locais', sub: 'Profissionais de Trancoso' },
+              { emoji: '💬', label: 'Ágeis', sub: 'Contato direto via WhatsApp' },
             ].map((item, i) => (
               <div key={i} className="bg-card rounded-xl p-5 shadow-sm border border-border">
-                <item.Icon className="w-8 h-8 mb-2 mx-auto" style={{ color: ICON_COLOR }} aria-hidden="true" />
+                <span className="text-3xl block mb-2">{item.emoji}</span>
                 <p className="font-bold text-foreground">{item.label}</p>
                 <p className="text-xs text-muted-foreground mt-1">{item.sub}</p>
               </div>
@@ -199,31 +205,30 @@ export default function ComoFuncionaPage() {
         </section>
 
         {/* Link Building Interno — Categorias populares */}
-        <section className="mb-16 bg-card rounded-2xl p-8 shadow-sm border border-border">
+        <section className="mb-16 bg-card rounded-2xl p-8 shadow-sm border">
           <h2 className="text-2xl font-bold text-foreground mb-4">Serviços Mais Procurados em Trancoso</h2>
           <p className="text-muted-foreground mb-6">Navegue pelas categorias e encontre o profissional ideal para cada necessidade:</p>
           <div className="flex flex-wrap gap-3">
             {[
-              { slug: 'limpeza-trancoso', label: 'Limpeza em Trancoso', Icon: Sparkles },
-              { slug: 'eletricista-trancoso', label: 'Eletricista em Trancoso', Icon: Zap },
-              { slug: 'encanador-trancoso', label: 'Encanador em Trancoso', Icon: Wrench },
-              { slug: 'jardinagem-trancoso', label: 'Jardineiro em Trancoso', Icon: Leaf },
-              { slug: 'cozinheiro-trancoso', label: 'Cozinheiro em Trancoso', Icon: ChefHat },
-              { slug: 'pedreiro-trancoso', label: 'Pedreiro em Trancoso', Icon: Hammer },
-              { slug: 'pintor-trancoso', label: 'Pintor em Trancoso', Icon: Brush },
-              { slug: 'baba-trancoso', label: 'Babá em Trancoso', Icon: Baby },
-              { slug: 'garcom-trancoso', label: 'Garçom em Trancoso', Icon: UtensilsCrossed },
+              { slug: 'limpeza-trancoso', label: '🧹 Limpeza em Trancoso' },
+              { slug: 'eletricista-trancoso', label: '⚡ Eletricista em Trancoso' },
+              { slug: 'encanador-trancoso', label: '🔧 Encanador em Trancoso' },
+              { slug: 'jardinagem-trancoso', label: '🌿 Jardineiro em Trancoso' },
+              { slug: 'cozinheiro-trancoso', label: '👨‍🍳 Cozinheiro em Trancoso' },
+              { slug: 'pedreiro-trancoso', label: '🏗️ Pedreiro em Trancoso' },
+              { slug: 'pintor-trancoso', label: '🖌️ Pintor em Trancoso' },
+              { slug: 'baba-trancoso', label: '👶 Babá em Trancoso' },
+              { slug: 'garcom-trancoso', label: '🍽️ Garçom em Trancoso' },
             ].map(item => (
               <Link key={item.slug} to={`/ServicoLanding?slug=${item.slug}`}>
-                <span className="inline-flex items-center gap-1.5 bg-secondary hover:bg-primary/10 hover:text-primary border border-border hover:border-primary/30 rounded-full px-4 py-2 text-sm font-medium text-foreground transition-colors cursor-pointer">
-                  <item.Icon className="w-4 h-4 flex-shrink-0" style={{ color: ICON_COLOR }} aria-hidden="true" />
+                <span className="inline-block bg-muted hover:bg-orange-50 hover:text-orange-700 border border-border hover:border-orange-200 rounded-full px-4 py-2 text-sm font-medium text-muted-foreground transition-colors cursor-pointer">
                   {item.label}
                 </span>
               </Link>
             ))}
           </div>
           <div className="mt-4 pt-4 border-t border-border">
-            <Link to={createPageUrl("ServicosCategoria")} className="text-sm text-primary hover:underline font-medium">
+            <Link to={createPageUrl("ServicosCategoria")} className="text-sm text-orange-600 hover:underline font-medium">
               Ver todos os profissionais verificados em Trancoso →
             </Link>
           </div>
@@ -234,7 +239,7 @@ export default function ComoFuncionaPage() {
            <h2 className="text-3xl font-bold text-center mb-10 text-foreground">Dúvidas Frequentes sobre Contratar em Trancoso</h2>
            <div className="max-w-3xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
-              <Card key={index}>
+              <Card key={index} className="border-border">
                 <CardHeader>
                   <CardTitle className="text-base">{faq.q}</CardTitle>
                 </CardHeader>
@@ -247,18 +252,18 @@ export default function ComoFuncionaPage() {
         </section>
 
         {/* CTA Final */}
-        <section className="bg-primary rounded-2xl p-10 text-center text-primary-foreground">
+        <section className="bg-gradient-to-r from-orange-600 to-orange-700 rounded-2xl p-10 text-center text-white">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Pronto para Resolver?</h2>
-          <p className="text-primary-foreground/80 mb-6 max-w-md mx-auto">Encontre profissionais verificados em Trancoso agora mesmo.</p>
+          <p className="text-orange-100 mb-6 max-w-md mx-auto">Encontre profissionais verificados em Trancoso agora mesmo.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to={createPageUrl("ServicosCategoria")}>
-              <Button size="lg" className="bg-background text-foreground hover:bg-background/90 font-bold w-full sm:w-auto">
+              <Button size="lg" className="bg-white text-orange-700 hover:bg-orange-50 font-bold w-full sm:w-auto">
                 <Search className="w-5 h-5 mr-2" />
                 Buscar Profissional
               </Button>
             </Link>
             <Link to={createPageUrl("SejaPrestador")}>
-              <Button size="lg" variant="outline" className="border-primary-foreground/50 text-primary-foreground hover:bg-primary-foreground/20 w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 w-full sm:w-auto">
                 Seja um Prestador
               </Button>
             </Link>

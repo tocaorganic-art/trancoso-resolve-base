@@ -15,11 +15,11 @@ import StatusPagamentoBadge from '@/components/pagamento/StatusPagamentoBadge';
 
 const statusConfig = {
   Pendente: { color: "bg-amber-100 text-amber-800 border-amber-200", text: "Pendente" },
-  Confirmado: { color: "bg-green-100 text-green-800 border-green-200", text: "Confirmado" },
-  "Em Andamento": { color: "bg-blue-100 text-blue-800 border-blue-200", text: "Em Andamento" },
-  Concluído: { color: "bg-slate-100 text-slate-800 border-slate-200", text: "Concluído" },
+  Confirmado: { color: "bg-[#3E8E5A]/10 text-[#3E8E5A] border-[#3E8E5A]/30", text: "Confirmado" },
+  "Em Andamento": { color: "bg-orange-100 text-orange-800 border-orange-200", text: "Em Andamento" },
+  Concluído: { color: "bg-muted text-foreground border-border", text: "Concluído" },
   Rejeitado: { color: "bg-red-100 text-red-800 border-red-200", text: "Rejeitado" },
-  Cancelado: { color: "bg-slate-100 text-slate-800 border-slate-200", text: "Cancelado" },
+  Cancelado: { color: "bg-muted text-foreground border-border", text: "Cancelado" },
 };
 
 function RequestCard({ request, provider, onReviewClick, hasReview, payment, onPaymentConfirmed }) {
@@ -28,7 +28,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
       <CardHeader>
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-sm text-slate-500">Prestador:</p>
+            <p className="text-sm text-muted-foreground">Prestador:</p>
             <CardTitle className="text-lg">{provider?.full_name || "Carregando..."}</CardTitle>
           </div>
           <Badge className={`${statusConfig[request.status]?.color} font-medium`}>
@@ -38,22 +38,22 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
       </CardHeader>
       <CardContent className="flex-grow space-y-3">
         <div className="flex items-center gap-2 text-sm">
-          <Calendar className="w-4 h-4 text-slate-500" />
+          <Calendar className="w-4 h-4 text-muted-foreground" />
           <span>{format(new Date(request.date), "PPP", { locale: ptBR })}</span>
         </div>
-        <p className="text-sm text-slate-600 bg-slate-50 p-3 rounded-md border">{request.message || "Nenhuma observação enviada."}</p>
+        <p className="text-sm text-muted-foreground bg-muted p-3 rounded-md border border-border">{request.message || "Nenhuma observação enviada."}</p>
 
         {/* Informações de pagamento */}
         {payment && (
-          <div className="border rounded-lg p-3 bg-slate-50 space-y-2">
+          <div className="border border-border rounded-lg p-3 bg-muted space-y-2">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 text-sm font-medium text-slate-700">
+              <div className="flex items-center gap-2 text-sm font-medium text-foreground">
                 <CreditCard className="w-4 h-4" />
                 Pagamento
               </div>
               <StatusPagamentoBadge status={payment.status} />
             </div>
-            <div className="text-sm text-slate-600">
+            <div className="text-sm text-muted-foreground">
               <span>Total: <strong>R$ {((payment.amount_total || 0) / 100).toFixed(2)}</strong></span>
             </div>
             {payment.status === 'requires_capture' && payment.auto_capture_after && (
@@ -77,7 +77,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
       {(request.status === 'Concluído' || hasReview) && (
         <div className="p-4 pt-0">
           <Button
-            className="w-full border-slate-300 text-slate-700 dark:border-slate-600 dark:text-slate-300"
+            className="w-full border-border text-foreground"
             variant={hasReview ? "secondary" : "outline"}
             onClick={() => !hasReview && onReviewClick(request, provider)}
             disabled={hasReview}
@@ -145,7 +145,7 @@ export default function MeusPedidosPage() {
       )}
       <header className="px-5 pt-6 pb-2">
         <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Meus Pedidos</h1>
-        <p className="text-sm text-muted-foreground mt-1">Acompanhe, confirme e avalie suas solicitações 🌴</p>
+        <p className="text-sm text-muted-foreground mt-1">Acompanhe, confirme e avalie suas solicitações</p>
       </header>
       <div className="px-5 mt-6">
         {requests && requests.length > 0 ? (
@@ -169,11 +169,11 @@ export default function MeusPedidosPage() {
           </div>
         ) : (
           <div className="text-center py-12 rounded-2xl bg-card border border-border">
-            <Info className="w-12 h-12 text-primary mx-auto mb-4" />
+            <Info className="w-12 h-12 text-orange-500 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-foreground">Nenhum pedido encontrado</h3>
-            <p className="text-muted-foreground mt-2 mb-6">Por enquanto, nada por aqui 🌴 — assim que pintar algo, te aviso!</p>
+            <p className="text-muted-foreground mt-2 mb-6">Por enquanto, nada por aqui — assim que pintar algo, te aviso!</p>
             <Link to={createPageUrl("Home")}>
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">Bora resolver</Button>
+              <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">Bora resolver</Button>
             </Link>
           </div>
         )}

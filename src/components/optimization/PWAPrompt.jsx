@@ -57,8 +57,8 @@ export default function PWAPrompt() {
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl p-5 border border-slate-200 dark:border-slate-700">
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-2">
-            <Download className="w-5 h-5 text-blue-600" />
-            <h3 className="font-bold text-slate-900 dark:text-white">Baixe agora</h3>
+            <Download className="w-5 h-5 text-orange-600" />
+            <h3 className="font-bold text-slate-900 dark:text-white">Instalar App</h3>
           </div>
           <button
             onClick={handleDismiss}
@@ -69,14 +69,9 @@ export default function PWAPrompt() {
           </button>
         </div>
         
-        <p className="text-sm text-slate-600 dark:text-slate-300 mb-3">
-          Solicite serviços em segundos. Funciona offline, instale em segundos.
+        <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
+          Instale o Trancoso Resolve na sua tela inicial para acesso mais rápido e funcionamento offline.
         </p>
-        <ul className="text-sm text-slate-600 dark:text-slate-300 mb-4 space-y-1">
-          <li className="flex items-center gap-2"><span className="text-green-500 font-bold">✅</span> Notificação em tempo real</li>
-          <li className="flex items-center gap-2"><span className="text-green-500 font-bold">✅</span> Funciona offline — sem gastar memória</li>
-          <li className="flex items-center gap-2"><span className="text-green-500 font-bold">✅</span> Acesse seu histórico mesmo sem internet</li>
-        </ul>
 
         <div className="flex gap-2">
           <Button
@@ -90,9 +85,9 @@ export default function PWAPrompt() {
           <Button
             size="sm"
             onClick={handleInstall}
-            className="flex-1 bg-blue-600 hover:bg-blue-700"
+            className="flex-1 bg-orange-600 hover:bg-orange-700"
           >
-            Baixe agora
+            Instalar
           </Button>
         </div>
       </div>

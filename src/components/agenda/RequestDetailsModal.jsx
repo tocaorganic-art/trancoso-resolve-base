@@ -60,7 +60,7 @@ export default function RequestDetailsModal({ request, service, isOpen, onClose,
           <DialogTitle>Detalhes da Solicitação</DialogTitle>
           <div className="flex items-center justify-between">
             <DialogDescription>#{request.id.slice(0, 8)}</DialogDescription>
-            <Badge className={request.status === 'Pendente' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'}>
+            <Badge className={request.status === 'Pendente' ? 'bg-amber-100 text-amber-800' : 'bg-orange-100 text-orange-800'}>
               {request.status}
             </Badge>
           </div>

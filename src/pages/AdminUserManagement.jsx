@@ -109,7 +109,7 @@ function AdminUserManagementContent() {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center h-96"><Loader2 className="w-8 h-8 animate-spin text-blue-600" /></div>;
+    return <div className="flex items-center justify-center h-96"><Loader2 className="w-8 h-8 animate-spin text-brand-primary" /></div>;
   }
 
   const totalUsers = users.length;
@@ -120,8 +120,8 @@ function AdminUserManagementContent() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-slate-900 mb-2">Gestão de Usuários</h1>
-        <p className="text-slate-600">Administração centralizada de todos os usuários da plataforma</p>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Gestão de Usuários</h1>
+        <p className="text-muted-foreground">Administração centralizada de todos os usuários da plataforma</p>
       </div>
 
       {/* Stats */}
@@ -129,44 +129,44 @@ function AdminUserManagementContent() {
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <Users className="w-5 h-5 text-blue-600" />
-              <Badge className="bg-blue-500">Total</Badge>
+              <Users className="w-5 h-5 text-brand-primary" />
+              <Badge className="bg-brand-primary">Total</Badge>
             </div>
-            <p className="text-3xl font-bold text-slate-900">{totalUsers}</p>
-            <p className="text-sm text-slate-500 mt-1">Usuários cadastrados</p>
+            <p className="text-3xl font-bold text-foreground">{totalUsers}</p>
+            <p className="text-sm text-muted-foreground mt-1">Usuários cadastrados</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <Shield className="w-5 h-5 text-purple-600" />
-              <Badge className="bg-purple-500">Admins</Badge>
+              <Shield className="w-5 h-5 text-brand-primary" />
+              <Badge className="bg-brand-primary">Admins</Badge>
             </div>
-            <p className="text-3xl font-bold text-slate-900">{totalAdmins}</p>
-            <p className="text-sm text-slate-500 mt-1">Administradores</p>
+            <p className="text-3xl font-bold text-foreground">{totalAdmins}</p>
+            <p className="text-sm text-muted-foreground mt-1">Administradores</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <UserCheck className="w-5 h-5 text-green-600" />
-              <Badge className="bg-green-500">Prestadores</Badge>
+              <UserCheck className="w-5 h-5 text-[#3E8E5A]" />
+              <Badge style={{ backgroundColor: '#3E8E5A' }}>Prestadores</Badge>
             </div>
-            <p className="text-3xl font-bold text-slate-900">{totalPrestadores}</p>
-            <p className="text-sm text-slate-500 mt-1">Prestadores de serviço</p>
+            <p className="text-3xl font-bold text-foreground">{totalPrestadores}</p>
+            <p className="text-sm text-muted-foreground mt-1">Prestadores de serviço</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
-              <Users className="w-5 h-5 text-cyan-600" />
-              <Badge className="bg-cyan-500">Clientes</Badge>
+              <Users className="w-5 h-5 text-muted-foreground" />
+              <Badge className="bg-muted text-muted-foreground border border-border">Clientes</Badge>
             </div>
-            <p className="text-3xl font-bold text-slate-900">{totalClientes}</p>
-            <p className="text-sm text-slate-500 mt-1">Clientes ativos</p>
+            <p className="text-3xl font-bold text-foreground">{totalClientes}</p>
+            <p className="text-sm text-muted-foreground mt-1">Clientes ativos</p>
           </CardContent>
         </Card>
       </div>
@@ -179,7 +179,7 @@ function AdminUserManagementContent() {
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
                 placeholder="Buscar por nome ou email..."
                 value={searchQuery}
@@ -213,9 +213,9 @@ function AdminUserManagementContent() {
           </div>
 
           {selectedUsers.length > 0 && (
-            <div className="flex flex-wrap items-center gap-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-              <CheckSquare className="w-5 h-5 text-blue-600" />
-              <span className="text-sm font-medium text-blue-900">
+            <div className="flex flex-wrap items-center gap-3 p-3 bg-muted border border-border rounded-lg">
+              <CheckSquare className="w-5 h-5 text-brand-primary" />
+              <span className="text-sm font-medium text-foreground">
                 {selectedUsers.length} selecionado(s)
               </span>
               <div className="flex gap-2 ml-auto">
@@ -242,7 +242,7 @@ function AdminUserManagementContent() {
         <CardContent className="p-0">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-slate-50 border-b">
+              <thead className="bg-muted border-b">
                 <tr>
                   <th className="p-4 text-left">
                     <Checkbox
@@ -250,16 +250,16 @@ function AdminUserManagementContent() {
                       onCheckedChange={toggleAll}
                     />
                   </th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Usuário</th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Email</th>
-                  <th className="p-4 text-center text-sm font-semibold text-slate-700">Role</th>
-                  <th className="p-4 text-center text-sm font-semibold text-slate-700">Tipo</th>
-                  <th className="p-4 text-left text-sm font-semibold text-slate-700">Cadastro</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Usuário</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Email</th>
+                  <th className="p-4 text-center text-sm font-semibold text-foreground">Role</th>
+                  <th className="p-4 text-center text-sm font-semibold text-foreground">Tipo</th>
+                  <th className="p-4 text-left text-sm font-semibold text-foreground">Cadastro</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredUsers.map((user) => (
-                  <tr key={user.id} className="border-b hover:bg-slate-50">
+                  <tr key={user.id} className="border-b hover:bg-muted">
                     <td className="p-4">
                       <Checkbox
                         checked={selectedUsers.includes(user.id)}
@@ -268,34 +268,34 @@ function AdminUserManagementContent() {
                     </td>
                     <td className="p-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-[#C1440E] flex items-center justify-center text-white font-bold">
                           {user.full_name?.[0] || user.email[0].toUpperCase()}
                         </div>
-                        <span className="text-sm font-medium text-slate-900">{user.full_name || 'Sem nome'}</span>
+                        <span className="text-sm font-medium text-foreground">{user.full_name || 'Sem nome'}</span>
                       </div>
                     </td>
                     <td className="p-4">
-                      <div className="flex items-center gap-2 text-sm text-slate-600">
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Mail className="w-4 h-4" />
                         {user.email}
                       </div>
                     </td>
                     <td className="p-4 text-center">
-                      <Badge className={user.role === 'admin' ? 'bg-purple-500' : 'bg-slate-500'}>
+                      <Badge className={user.role === 'admin' ? 'bg-orange-600' : 'bg-muted text-muted-foreground'}>
                         {user.role}
                       </Badge>
                     </td>
                     <td className="p-4 text-center">
                       <Badge variant="outline" className={
-                        user.user_type === 'prestador' ? 'border-green-500 text-green-700' :
-                        user.user_type === 'cliente' ? 'border-blue-500 text-blue-700' :
-                        'border-yellow-500 text-yellow-700'
+                        user.user_type === 'prestador' ? 'border-[#3E8E5A] text-[#3E8E5A]' :
+                        user.user_type === 'cliente' ? 'border-orange-400 text-orange-700' :
+                        'border-amber-500 text-amber-700'
                       }>
                         {user.user_type || 'indefinido'}
                       </Badge>
                     </td>
                     <td className="p-4">
-                      <div className="flex items-center gap-2 text-xs text-slate-500">
+                      <div className="flex items-center gap-2 text-xs text-muted-foreground">
                         <Calendar className="w-3 h-3" />
                         {new Date(user.created_date).toLocaleDateString('pt-BR')}
                       </div>
@@ -307,7 +307,7 @@ function AdminUserManagementContent() {
           </div>
 
           {filteredUsers.length === 0 && (
-            <div className="p-12 text-center text-slate-500">
+            <div className="p-12 text-center text-muted-foreground">
               Nenhum usuário encontrado com os filtros aplicados.
             </div>
           )}

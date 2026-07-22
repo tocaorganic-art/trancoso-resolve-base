@@ -16,9 +16,9 @@ export default function SolicitacaoConfirmadaPage() {
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-          className="w-20 h-20 mx-auto rounded-full bg-emerald-500/15 flex items-center justify-center"
+          className="w-20 h-20 mx-auto rounded-full bg-[#3E8E5A]/15 flex items-center justify-center"
         >
-          <span className="text-emerald-400 text-4xl font-bold">✓</span>
+          <span className="text-[#3E8E5A] text-4xl font-bold">✓</span>
         </motion.div>
 
         <h1 className="text-2xl font-extrabold text-white mt-6">
@@ -31,8 +31,8 @@ export default function SolicitacaoConfirmadaPage() {
 
         {/* Timeline */}
         <div className="flex items-center justify-between mt-8 text-xs px-4">
-          <span className="text-emerald-400 flex items-center gap-1">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span className="text-[#3E8E5A] flex items-center gap-1">
+            <span className="w-2 h-2 rounded-full bg-[#3E8E5A]"></span>
             Enviada
           </span>
           <div className="flex-1 mx-2 h-px bg-slate-700"></div>

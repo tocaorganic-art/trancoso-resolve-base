@@ -17,9 +17,9 @@ import FinancialReports from "../components/financial/FinancialReports";
 import AssistenteFinanceiro from "../components/financial/AssistenteFinanceiro";
 import { createPageUrl } from "@/utils";
 import { Link } from "react-router-dom";
-import PermissionChecker from "../components/auth/PermissionChecker";
+import PermissionChecker from "../components/auth/PermissionChecker"; // Added import
 
-function FinanceiroPageContent() {
+export default function FinanceiroPage() {
   useEffect(() => {
     document.title = "Financeiro — Gestão de Receitas e Pagamentos | Trancoso Resolve";
     const setMeta = (name, content, prop = false) => {
@@ -71,8 +71,8 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center h-96">
-        <Loader2 className="w-12 h-12 animate-spin text-blue-600 mb-4" />
-        <p className="text-slate-600">Carregando dados financeiros...</p>
+        <Loader2 className="w-12 h-12 animate-spin text-brand-primary mb-4" />
+        <p className="text-muted-foreground">Carregando dados financeiros...</p>
       </div>
     );
   }
@@ -134,12 +134,12 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <div className="p-2 bg-green-100 rounded-lg">
-                <TrendingUp className="w-7 h-7 text-green-600" />
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <TrendingUp className="w-7 h-7 text-brand-primary" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold text-slate-900">Portal Financeiro</h1>
-                <p className="text-slate-600">Sua central de ganhos, despesas e relatórios.</p>
+                <h1 className="text-3xl font-bold text-foreground">Portal Financeiro</h1>
+                <p className="text-muted-foreground">Sua central de ganhos, despesas e relatórios.</p>
               </div>
             </div>
           </div>
@@ -147,9 +147,9 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
              <Link to={createPageUrl("Planos")}>
                 <Button variant="outline">Ver Planos</Button>
              </Link>
-             <Button 
+             <Button
                 onClick={() => setShowForm(!showForm)}
-                className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+                className="bg-brand-primary hover:bg-orange-700"
               >
                 <Plus className="w-5 h-5 mr-2" />
                 Nova Transação
@@ -159,26 +159,26 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
 
         {/* KPIs Financeiros - Linha 1 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <Card className={`border-2 shadow-lg bg-white/90 backdrop-blur-sm transition-all ${
-            saldo < 0 ? 'border-red-400 bg-red-50/50' : 'border-green-400'
+          <Card className={`border-2 shadow-sm transition-all ${
+            saldo < 0 ? 'border-red-400 bg-red-50/50' : 'border-[#3E8E5A]/40'
           }`}>
             <CardContent className="p-5">
               <div className="flex items-center justify-between mb-2">
-                <p className="text-sm font-medium text-slate-600">Saldo Disponível</p>
+                <p className="text-sm font-medium text-muted-foreground">Saldo Disponível</p>
                 {saldo < 0 && <AlertCircle className="w-5 h-5 text-red-500" />}
               </div>
-              <p className={`text-3xl font-bold ${saldo >= 0 ? 'text-blue-600' : 'text-red-600'}`}>
+              <p className={`text-3xl font-bold ${saldo >= 0 ? 'text-brand-primary' : 'text-red-600'}`}>
                 R$ {saldo.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </p>
               {saldo < 0 && (
-                <p className="text-xs text-red-600 mt-2 font-medium">⚠️ Atenção: saldo negativo</p>
+                <p className="text-xs text-red-600 mt-2 font-medium">Atenção: saldo negativo</p>
               )}
             </CardContent>
           </Card>
-          <Card className="border-none shadow-lg bg-white/90 backdrop-blur-sm">
+          <Card className="border-none shadow-sm">
             <CardContent className="p-5">
-              <p className="text-sm font-medium text-slate-600 mb-2">Total Faturado (mês)</p>
-              <p className="text-3xl font-bold text-green-600">
+              <p className="text-sm font-medium text-muted-foreground mb-2">Total Faturado (mês)</p>
+              <p className="text-3xl font-bold text-[#3E8E5A]">
                 R$ {totalReceita.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
               </p>
             </CardContent>
@@ -187,19 +187,19 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
 
         {/* Métricas de Reputação - Linha 2 */}
         <div className="kpi-section-reputacao grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2 md:col-span-2">Reputação</p>
-          <Card className="border-none shadow-lg bg-white/90 backdrop-blur-sm">
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 md:col-span-2">Reputação</p>
+          <Card className="border-none shadow-sm">
             <CardContent className="p-5">
-              <p className="text-sm font-medium text-slate-600 mb-2">Serviços Concluídos</p>
+              <p className="text-sm font-medium text-muted-foreground mb-2">Serviços Concluídos</p>
               <p className="text-3xl font-bold text-amber-600">{servicosConcluidos}</p>
             </CardContent>
           </Card>
-          <Card className="border-none shadow-lg bg-white/90 backdrop-blur-sm">
+          <Card className="border-none shadow-sm">
             <CardContent className="p-5">
-              <p className="text-sm font-medium text-slate-600 mb-2">Sua Avaliação Média</p>
+              <p className="text-sm font-medium text-muted-foreground mb-2">Sua Avaliação Média</p>
               <div className="flex items-baseline gap-2">
-                <p className="text-3xl font-bold text-yellow-600">{mediaAvaliacao}</p>
-                <Star className="w-6 h-6 text-yellow-500 fill-current" />
+                <p className="text-3xl font-bold text-amber-600">{mediaAvaliacao}</p>
+                <Star className="w-6 h-6 text-amber-500 fill-current" />
               </div>
             </CardContent>
           </Card>
@@ -213,38 +213,22 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
       )}
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4 bg-slate-800 border border-slate-700">
-          <TabsTrigger 
-            value="dashboard" 
-            className="gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors relative"
-          >
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+          <TabsTrigger value="dashboard" className="gap-2">
             <TrendingUp className="w-4 h-4" />
             Dashboard
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 transform transition-transform data-[state=active]:scale-x-100 scale-x-0" />
           </TabsTrigger>
-          <TabsTrigger 
-            value="transactions" 
-            className="gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors relative"
-          >
+          <TabsTrigger value="transactions" className="gap-2">
             <FileText className="w-4 h-4" />
             Transações
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 transform transition-transform data-[state=active]:scale-x-100 scale-x-0" />
           </TabsTrigger>
-          <TabsTrigger 
-            value="upload" 
-            className="gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors relative"
-          >
+          <TabsTrigger value="upload" className="gap-2">
             <Upload className="w-4 h-4" />
             Importar com IA
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 transform transition-transform data-[state=active]:scale-x-100 scale-x-0" />
           </TabsTrigger>
-          <TabsTrigger 
-            value="reports" 
-            className="gap-2 data-[state=active]:bg-slate-700 data-[state=active]:text-white text-slate-300 hover:text-white transition-colors relative"
-          >
+          <TabsTrigger value="reports" className="gap-2">
             <Download className="w-4 h-4" />
             Relatórios
-            <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-500 transform transition-transform data-[state=active]:scale-x-100 scale-x-0" />
           </TabsTrigger>
         </TabsList>
 
@@ -266,13 +250,5 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
         </TabsContent>
       </Tabs>
     </div>
-  );
-}
-
-export default function FinanceiroPage() {
-  return (
-    <PermissionChecker requiredUserType="prestador">
-      <FinanceiroPageContent />
-    </PermissionChecker>
   );
 }

@@ -1,8 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import Stripe from 'npm:stripe@14.21.0';
 
-// Cancela pagamento de serviço (escrow)
-// Nota: o cancelamento financeiro real depende do gateway usado para criarPagamentoServico.
-// Se migrado para MP, o reembolso deve ser feito via MP Payments API.
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
 
 Deno.serve(async (req) => {
   try {
@@ -37,20 +36,20 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Não autorizado' }, { status: 403 });
     }
 
-    const cancelableStatuses = ['pending', 'requires_capture', 'authorized'];
+    const cancelableStatuses = ['requires_payment_method', 'requires_confirmation', 'requires_capture'];
     if (!cancelableStatuses.includes(payment.status)) {
-      return Response.json({
-        error: `Pagamento com status "${payment.status}" não pode ser cancelado`,
-      }, { status: 400 });
+      return Response.json({ error: `Pagamento com status "${payment.status}" não pode ser cancelado` }, { status: 400 });
     }
 
-    // ─── Atualiza status no Base44 ────────────────────────────────────────────
+    console.log(`[cancelarPagamento] Cancelando PaymentIntent: ${payment.stripe_payment_intent_id}`);
+
+    await stripe.paymentIntents.cancel(payment.stripe_payment_intent_id);
+
     await base44.asServiceRole.entities.Payment.update(payment.id, {
       status: 'canceled',
       notes: reason ? `Cancelado: ${reason}` : 'Cancelado pelo usuário',
     });
 
-    // ─── Atualiza ServiceRequest se existir ──────────────────────────────────
     if (payment.request_id) {
       try {
         await base44.asServiceRole.entities.ServiceRequest.update(payment.request_id, {
@@ -62,11 +61,6 @@ Deno.serve(async (req) => {
     }
 
     console.log(`[cancelarPagamento] Pagamento ${payment.id} cancelado`);
-
-    // ⚠️ NOTA: Se o pagamento foi processado via MP, o reembolso financeiro precisa
-    // ser feito manualmente no painel do Mercado Pago ou via API de reembolso:
-    // POST https://api.mercadopago.com/v1/payments/{id}/refunds
-    // Isso será implementado quando criarPagamentoServico for migrado para MP.
 
     return Response.json({ ok: true, status: 'canceled' });
 

@@ -34,6 +34,14 @@
       },
       "description": "Lista de benef\u00edcios do plano"
     },
+    "stripe_buy_button_id": {
+      "type": "string",
+      "description": "ID do 'Buy Button' gerado no Stripe"
+    },
+    "stripe_publishable_key": {
+      "type": "string",
+      "description": "Chave public\u00e1vel do Stripe"
+    },
     "color_theme": {
       "type": "string",
       "description": "C\u00f3digo de cor para destaque visual"

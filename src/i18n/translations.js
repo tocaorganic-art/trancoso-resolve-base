@@ -35,13 +35,13 @@ const translations = {
       copyright: '© 2026 Trancoso Resolve · Todos os direitos reservados',
     },
     hero: {
-      badge: 'Profissionais verificados da Costa do Descobrimento',
-      headline: 'Contrate profissionais da sua comunidade',
-      subtitle: 'Verificados, avaliados, com histórico real. Oportunidade que o governo não dá — em Trancoso, Porto Seguro, Caraíva e Arraial d\'Ajuda.',
-      searchPlaceholder: 'O que você precisa? Ex: jardineiro em Arraial d\'Ajuda',
+      badge: 'Profissionais verificados em Trancoso, Porto Seguro e Caraíva',
+      headline: 'Precisa resolver algo na Costa do Descobrimento?',
+      subtitle: 'Encontre profissionais verificados em Trancoso, Porto Seguro e Caraíva — rápido e sem complicação.',
+      searchPlaceholder: 'O que você precisa resolver hoje?',
       searchButton: 'Encontrar profissional',
       categories: {
-        Limpeza: 'Faxineira',
+        Limpeza: 'Limpeza',
         Eletricista: 'Eletricista',
         Encanador: 'Encanador',
         Jardineiro: 'Jardineiro',
@@ -81,10 +81,10 @@ const translations = {
       copyright: '© 2026 Trancoso Resolve · Todos los derechos reservados',
     },
     hero: {
-      badge: 'Profesionales verificados de la Costa do Descobrimento',
-      headline: 'Contrate profesionales de su comunidad',
-      subtitle: 'Verificados, evaluados, con historial real. Oportunidad que el gobierno no da — en Trancoso, Porto Seguro, Caraíva y Arraial d\'Ajuda.',
-      searchPlaceholder: '¿Qué necesita? Ej: jardinero en Arraial d\'Ajuda',
+      badge: 'Profesionales verificados en Trancoso, Porto Seguro y Caraíva',
+      headline: '¿Necesita resolver algo en la Costa do Descobrimento?',
+      subtitle: 'Encuentre profesionales verificados en Trancoso, Porto Seguro y Caraíva — rápido y sin complicaciones.',
+      searchPlaceholder: '¿Qué necesita resolver hoy?',
       searchButton: 'Encontrar profesional',
       categories: {
         Limpeza: 'Limpieza',
@@ -127,10 +127,10 @@ const translations = {
       copyright: '© 2026 Trancoso Resolve · All rights reserved',
     },
     hero: {
-      badge: 'Verified professionals from the Costa do Descobrimento',
-      headline: 'Hire professionals from your community',
-      subtitle: 'Verified, reviewed, with real history. Opportunity the government doesn\'t provide — in Trancoso, Porto Seguro, Caraíva and Arraial d\'Ajuda.',
-      searchPlaceholder: 'What do you need? E.g: gardener in Arraial d\'Ajuda',
+      badge: 'Verified professionals in Trancoso, Porto Seguro and Caraíva',
+      headline: 'Need to sort something out on the Costa do Descobrimento?',
+      subtitle: 'Find verified professionals in Trancoso, Porto Seguro and Caraíva — fast and hassle-free.',
+      searchPlaceholder: 'What do you need to sort out today?',
       searchButton: 'Find a professional',
       categories: {
         Limpeza: 'Cleaning',
@@ -173,10 +173,10 @@ const translations = {
       copyright: '© 2026 Trancoso Resolve · Tous droits réservés',
     },
     hero: {
-      badge: 'Professionnels vérifiés de la Costa do Descobrimento',
-      headline: 'Engagez des professionnels de votre communauté',
-      subtitle: 'Vérifiés, évalués, avec un historique réel. Opportunité que le gouvernement ne donne pas — à Trancoso, Porto Seguro, Caraíva et Arraial d\'Ajuda.',
-      searchPlaceholder: 'De quoi avez-vous besoin? Ex: jardinier à Arraial d\'Ajuda',
+      badge: 'Professionnels vérifiés à Trancoso, Porto Seguro et Caraíva',
+      headline: 'Besoin de régler quelque chose sur la Costa do Descobrimento?',
+      subtitle: 'Trouvez des professionnels vérifiés à Trancoso, Porto Seguro et Caraíva — rapide et sans complications.',
+      searchPlaceholder: "Que devez-vous régler aujourd'hui?",
       searchButton: 'Trouver un professionnel',
       categories: {
         Limpeza: 'Ménage',

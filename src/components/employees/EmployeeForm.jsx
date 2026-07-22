@@ -55,10 +55,10 @@ export default function EmployeeForm({ employee, onClose }) {
 
   return (
     <Card className="border-none shadow-xl">
-      <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b">
+      <CardHeader className="bg-gradient-to-r from-orange-50 to-sand/40 border-b">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <UserCog className="w-5 h-5 text-purple-600" />
+            <UserCog className="w-5 h-5 text-orange-600" />
             <CardTitle>{employee ? "Editar Funcionário" : "Novo Funcionário"}</CardTitle>
           </div>
           <Button variant="ghost" size="icon" onClick={onClose}>
@@ -190,7 +190,7 @@ export default function EmployeeForm({ employee, onClose }) {
             <Button 
               type="submit" 
               disabled={createMutation.isPending}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="bg-gradient-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
             >
               {createMutation.isPending ? "Salvando..." : "Salvar Funcionário"}
             </Button>

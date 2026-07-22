@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { Trash2, Loader2, GripVertical, ImagePlus, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
 import { base44 } from '@/api/base44Client';
+import LazyImage from '@/components/ui/LazyImage';
 
 const MAX_IMAGES = 20;
 const MAX_FILE_SIZE_MB = 10;
@@ -111,11 +112,10 @@ export default function PortfolioGallery({ images = [], onChange }) {
               ${draggingIdx === idx ? 'opacity-40' : 'opacity-100'}
             `}
           >
-            <img
+            <LazyImage
               src={img}
               alt={`Portfólio ${idx + 1}`}
-              className="w-full h-full object-cover"
-              loading="lazy"
+              className="w-full h-full"
             />
             {/* Overlay com ações */}
             <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-start justify-between p-2">

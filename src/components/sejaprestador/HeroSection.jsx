@@ -9,12 +9,13 @@ export default function HeroSection() {
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-          alt="Residência de luxo em Trancoso — o tipo de ambiente onde os parceiros Trancoso Resolve atuam"
-          className="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+          alt="Praia paradisíaca de Trancoso"
+          className="w-full h-full object-cover [filter:sepia(0.45)_saturate(1.3)_hue-rotate(-15deg)_brightness(0.9)]"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-900/90 via-terracotta/70 to-transparent" />
+        <div className="absolute inset-0 bg-neutral-900/30" />
       </div>
 
       <div className="relative container mx-auto px-4 py-10 md:py-24">
@@ -53,7 +54,7 @@ export default function HeroSection() {
           {/* Mini stats */}
           <div className="flex flex-wrap gap-4 md:gap-10">
             <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-cyan-400" />
+              <Users className="w-4 h-4 text-orange-300" />
               <span className="text-white font-semibold text-sm">500+</span>
               <span className="text-slate-400 text-xs">Clientes ativos</span>
             </div>

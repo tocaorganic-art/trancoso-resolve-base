@@ -37,7 +37,6 @@ const SupportChat = lazy(() => import("./components/support/SupportChat"));
 const FeedbackCollector = lazy(() => import("./components/feedback/FeedbackCollector"));
 import BottomNav from "./components/BottomNav";
 import ProFloatingButton from "./components/banners/ProFloatingButton";
-import CompletarPerfilModal from "./components/auth/CompletarPerfilModal";
 import PWAPrompt from "./components/optimization/PWAPrompt";
 
 export default function Layout({ children, currentPageName }) {
@@ -135,8 +134,7 @@ export default function Layout({ children, currentPageName }) {
 
   const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
   const isAdmin = user?.role === "admin" || ADMIN_WHITELIST.includes(user?.email);
-  const [perfilModalFechado, setPerfilModalFechado] = useState(false);
-  const precisaCompletarPerfil = !!user && !user.profile_completed && !user.phone && !location.pathname.includes('CadastroTipo') && location.pathname === '/' && !perfilModalFechado;
+
 
   const isPrestador = user?.user_type === 'prestador';
   const isLojista = user?.user_type === 'lojista';
@@ -476,7 +474,7 @@ export default function Layout({ children, currentPageName }) {
         <Suspense fallback={null}><SupportChat /></Suspense>
         <Suspense fallback={null}><FeedbackCollector /></Suspense>
         <PWAPrompt />
-        <CompletarPerfilModal user={user} open={precisaCompletarPerfil} onClose={() => setPerfilModalFechado(true)} />
+
       </ErrorBoundary>);
 
   }

@@ -1,15 +1,17 @@
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles, Zap, Wrench, Leaf, Waves, Hammer, ChefHat } from "lucide-react";
+
+const ICON_COLOR = "#E8571A";
 
 const CATEGORIAS = [
-  { emoji: "🧹", label: "Diarista", cat: "Limpeza" },
-  { emoji: "⚡", label: "Eletricista", cat: "Eletricista" },
-  { emoji: "🔧", label: "Encanador", cat: "Encanador" },
-  { emoji: "🌿", label: "Jardineiro", cat: "Jardinagem" },
-  { emoji: "🏊", label: "Piscineiro", cat: "Piscineiro" },
-  { emoji: "🏗️", label: "Pedreiro", cat: "Pedreiro" },
-  { emoji: "👨‍🍳", label: "Cozinheiro", cat: "Cozinheiro" },
+  { Icon: Sparkles, label: "Diarista", cat: "Limpeza" },
+  { Icon: Zap, label: "Eletricista", cat: "Eletricista" },
+  { Icon: Wrench, label: "Encanador", cat: "Encanador" },
+  { Icon: Leaf, label: "Jardineiro", cat: "Jardinagem" },
+  { Icon: Waves, label: "Piscineiro", cat: "Piscineiro" },
+  { Icon: Hammer, label: "Pedreiro", cat: "Pedreiro" },
+  { Icon: ChefHat, label: "Cozinheiro", cat: "Cozinheiro" },
 ];
 
 export default function CategoriasGrid() {
@@ -23,7 +25,7 @@ export default function CategoriasGrid() {
           {CATEGORIAS.map((item) => (
             <Link key={item.cat} to={createPageUrl("ServicosCategoria", `?cat=${item.cat}`)}>
               <div className="bg-card rounded-2xl p-3 md:p-4 text-center shadow-sm hover:shadow-md border-2 border-border hover:border-cyan-400 transition-all cursor-pointer group flex flex-col items-center justify-center aspect-square">
-                <span className="text-2xl md:text-3xl block mb-1">{item.emoji}</span>
+                <item.Icon className="w-7 h-7 md:w-8 md:h-8 mb-1" style={{ color: ICON_COLOR }} aria-hidden="true" />
                 <span className="text-xs font-bold text-foreground/80 group-hover:text-cyan-500 transition-colors leading-tight">{item.label}</span>
               </div>
             </Link>

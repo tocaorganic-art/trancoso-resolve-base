@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, TrendingUp, Calendar, Scissors } from 'lucide-react';
-import { callClaude } from '@/functions/callClaude';
+import { base44 } from '@/api/base44Client';
 import { toast } from "sonner";
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -76,7 +76,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
     `;
 
     try {
-       const response = await callClaude({
+       const response = await base44.functions.invoke('callClaude', {
          messages: [{ role: 'user', content: prompt }],
          response_json_schema: jsonSchema,
          systemPrompt: 'Você é um assistente financeiro especializado em análise de dados. Retorne insights acionáveis em português do Brasil.'

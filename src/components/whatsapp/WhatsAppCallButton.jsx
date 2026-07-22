@@ -3,7 +3,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { MessageCircle, Loader2, X } from "lucide-react";
-import { chamarPrestador } from "@/functions/chamarPrestador";
 import { toast } from "sonner";
 import CompletarPerfilModal from "@/components/auth/CompletarPerfilModal";
 
@@ -167,7 +166,7 @@ export default function WhatsAppCallButton({ provider, className = "", size = "d
 
     setLoading(true);
     try {
-      const res = await chamarPrestador({ id_prestador: provider.id });
+      const res = await base44.functions.invoke('chamarPrestador', { id_prestador: provider.id });
       const data = res.data;
 
       if (data.error) {

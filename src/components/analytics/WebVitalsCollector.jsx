@@ -4,7 +4,7 @@
  */
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { logPerformance } from '@/functions/logPerformance';
+import { base44 } from '@/api/base44Client';
 
 const SESSION_KEY = 'wv_reported_pages';
 
@@ -71,7 +71,7 @@ export default function WebVitalsCollector() {
       markReported(page);
       observers.forEach((obs) => { try { obs.disconnect(); } catch {} });
 
-      logPerformance({
+      base44.functions.invoke('logPerformance', {
         page,
         lcp: collected.lcp || null,
         fid: null, // FID requer interação do usuário

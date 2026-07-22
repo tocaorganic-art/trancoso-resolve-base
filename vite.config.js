@@ -4,9 +4,7 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
-    base44({
-      legacySDKImports: true
-    }),
+    base44(),
     react(),
   ],
   build: {

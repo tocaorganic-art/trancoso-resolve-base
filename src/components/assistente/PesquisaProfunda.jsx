@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { manusPesquisa } from '@/functions/manusPesquisa';
+import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Search, Loader2, CheckCircle2, Clock, XCircle, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
@@ -21,7 +21,7 @@ export default function PesquisaProfunda() {
   const pollStatus = (taskId) => {
     const intervalId = setInterval(async () => {
       try {
-        const res = await manusPesquisa({ action: 'status', task_id: taskId });
+        const res = await base44.functions.invoke('manusPesquisa', { action: 'status', task_id: taskId });
         const { status, result, task_url } = res.data;
 
         setTasks(prev => prev.map(t =>
@@ -47,7 +47,7 @@ export default function PesquisaProfunda() {
     if (!prompt.trim() || loading) return;
     setLoading(true);
     try {
-      const res = await manusPesquisa({ action: 'create', prompt: prompt.trim() });
+      const res = await base44.functions.invoke('manusPesquisa', { action: 'create', prompt: prompt.trim() });
       const { task_id, status, task_url } = res.data;
       const newTask = {
         task_id,

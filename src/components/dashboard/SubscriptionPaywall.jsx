@@ -4,7 +4,7 @@ import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
 import { LockKeyhole, CreditCard, Zap, Gift, Loader2 } from "lucide-react";
 import CancelSubscriptionButton from "./CancelSubscriptionButton";
-import { criarTrialPrestador } from "@/functions/criarTrialPrestador";
+import { base44 } from "@/api/base44Client";
 import { toast } from "sonner";
 
 export default function SubscriptionPaywall({ subscriptionStatus, isTrial, hasAnySubscription, userEmail }) {
@@ -13,7 +13,7 @@ export default function SubscriptionPaywall({ subscriptionStatus, isTrial, hasAn
   const handleActivateTrial = async () => {
     setActivatingTrial(true);
     try {
-      await criarTrialPrestador({ user_email: userEmail });
+      await base44.functions.invoke('criarTrialPrestador', { user_email: userEmail });
       localStorage.setItem('trial_pendente', Date.now().toString());
       toast.success("Trial ativado! Carregando seu painel...");
       setTimeout(() => window.location.reload(), 1500);

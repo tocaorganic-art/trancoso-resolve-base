@@ -6,7 +6,7 @@ import {
   AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Loader2, XCircle } from "lucide-react";
-import { cancelarAssinatura } from "@/functions/cancelarAssinatura";
+import { base44 } from "@/api/base44Client";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -17,7 +17,7 @@ export default function CancelSubscriptionButton({ accessUntil }) {
   const handleCancel = async () => {
     setLoading(true);
     try {
-      const res = await cancelarAssinatura({});
+      const res = await base44.functions.invoke('cancelarAssinatura', {});
       if (res.data?.ok) {
         const until = res.data.access_until;
         toast.success(

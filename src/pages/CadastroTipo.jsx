@@ -8,8 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Briefcase, Shield, Building2, ChevronRight, Loader2 } from 'lucide-react';
-import { criarTrialPrestador } from '@/functions/criarTrialPrestador';
-import { verificarAntecedentes } from '@/functions/verificarAntecedentes';
 
 const formatCpf = (v) => {
   const d = v.replace(/\D/g, '').substring(0, 11);
@@ -47,7 +45,7 @@ export default function CadastroTipoPage() {
 
   const redirectPrestador = async (email, name) => {
     // Fire-and-forget: cria trial em paralelo
-    criarTrialPrestador({ user_email: email, user_name: name }).catch(() => {
+    base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name }).catch(() => {
       localStorage.setItem('trial_pendente', 'true');
     });
 
@@ -66,7 +64,7 @@ export default function CadastroTipoPage() {
           ...(nomFantasia && { nome_fantasia: nomFantasia }),
         };
         await base44.entities.ServiceProvider.update(providerId, providerData);
-        verificarAntecedentes({ service_provider_id: providerId }).catch(() => {});
+        base44.functions.invoke('verificarAntecedentes', { service_provider_id: providerId }).catch(() => {});
       })
       .catch(() => {});
 

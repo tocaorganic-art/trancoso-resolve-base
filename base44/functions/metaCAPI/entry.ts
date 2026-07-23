@@ -17,11 +17,18 @@ const CAPI_URL = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events`;
 
 Deno.serve(async (req) => {
   try {
-    const token = Deno.env.get('META_CAPI_TOKEN');
+    const token = Deno.env.get('META_CONVERSIONS_API_TOKEN');
     if (!token) {
-      // Sem token configurado — retorna 200 para não quebrar o frontend
-      console.warn('[metaCAPI] META_CAPI_TOKEN não configurado. Configure em Base44 → Settings → Environment Variables.');
-      return Response.json({ ok: false, reason: 'META_CAPI_TOKEN not set' });
+      console.warn('[metaCAPI] META_CONVERSIONS_API_TOKEN não configurado.');
+      return Response.json({ ok: false, reason: 'META_CONVERSIONS_API_TOKEN not set' });
+    }
+
+    // ── AUTH SERVER-SIDE: exige secret header — apenas chamadas internas (backend/automações)
+    const ingestSecret = req.headers.get('x-capi-secret');
+    const expectedSecret = Deno.env.get('META_CAPI_INGEST_SECRET');
+    if (!expectedSecret || ingestSecret !== expectedSecret) {
+      console.warn('[metaCAPI] Requisição não autenticada — apenas chamadas server-side permitidas.');
+      return Response.json({ error: 'Forbidden: server-side only' }, { status: 403 });
     }
 
     const body = await req.json();

@@ -1,14 +1,9 @@
 /**
- * Utilitário centralizado de rastreamento — GA4 + Meta Pixel + Meta CAPI (server-side)
+ * Utilitário centralizado de rastreamento — GA4 + Meta Pixel (browser-side)
  *
- * IMPORTANTE — Para ativar o CAPI server-side:
- * 1. Acesse Meta Business Suite → Events Manager → seu Pixel → Configurações → API de Conversões
- * 2. Gere um "Access Token" do sistema
- * 3. Adicione no painel Base44 → Settings → Environment Variables:
- *    Nome: META_CAPI_TOKEN   Valor: <token gerado>
+ * Meta CAPI (server-side) foi movido para chamadas autenticadas no backend.
+ * Este módulo NÃO invoca mais metaCAPI diretamente do navegador.
  */
-
-import { base44 } from '@/api/base44Client';
 
 // ──────────────────────────────────────────
 // Helpers
@@ -30,12 +25,6 @@ function detectCity() {
   return 'Trancoso';
 }
 
-/** Lê cookie pelo nome */
-function getCookie(name) {
-  const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
-  return match ? decodeURIComponent(match[1]) : undefined;
-}
-
 /** Dispara evento no GA4 (window.gtag) */
 function ga4(eventName, params = {}) {
   if (typeof window.gtag === 'function') {
@@ -51,25 +40,6 @@ function fbPixel(eventName, data = {}, eventId = null) {
     } else {
       window.fbq('track', eventName, data);
     }
-  }
-}
-
-/** Envia evento para a Meta Conversions API (server-side) via backend function */
-async function sendCAPI(eventName, customData = {}, userData = {}, eventId = null) {
-  try {
-    await base44.functions.invoke('metaCAPI', {
-      event_name: eventName,
-      event_id: eventId || uuid(),
-      event_source_url: window.location.href,
-      custom_data: { ...customData, city: detectCity() },
-      user_data: {
-        fbc: getCookie('_fbc'),
-        fbp: getCookie('_fbp'),
-        ...userData,
-      },
-    });
-  } catch {
-    // CAPI falha silenciosamente — pixel client-side continua funcionando
   }
 }
 
@@ -97,11 +67,6 @@ export function trackLead(data = {}) {
     content_category: 'servico_local',
     city,
   }, eventId);
-
-  sendCAPI('Lead', {
-    content_name: data.service_interest || '',
-    content_category: 'servico_local',
-  }, {}, eventId);
 }
 
 /**
@@ -121,11 +86,6 @@ export function trackPrestadorCadastro(data = {}) {
     status: true,
     occupation: data.occupation || '',
   }, eventId);
-
-  sendCAPI('CompleteRegistration', {
-    content_name: 'Cadastro Prestador',
-    status: true,
-  }, {}, eventId);
 }
 
 /**
@@ -142,10 +102,6 @@ export function trackClienteCadastro() {
   fbPixel('CompleteRegistration', {
     content_name: 'Cadastro Cliente',
   }, eventId);
-
-  sendCAPI('CompleteRegistration', {
-    content_name: 'Cadastro Cliente',
-  }, {}, eventId);
 }
 
 /**
@@ -170,13 +126,6 @@ export function trackSolicitacaoServico(data = {}) {
     content_name: data.service_title || '',
     content_category: data.category || '',
   }, eventId);
-
-  sendCAPI('Purchase', {
-    currency: 'BRL',
-    value,
-    content_name: data.service_title || '',
-    content_category: data.category || '',
-  }, {}, eventId);
 }
 
 /**
@@ -196,11 +145,6 @@ export function trackContatoWhatsApp(service = '') {
     content_name: service,
     city,
   }, eventId);
-
-  sendCAPI('Contact', {
-    content_name: service,
-    city,
-  }, {}, eventId);
 }
 
 /**
@@ -223,10 +167,4 @@ export function trackViewServico(data = {}) {
     content_category: data.category || '',
     city,
   }, eventId);
-
-  sendCAPI('ViewContent', {
-    content_name: data.title || '',
-    content_category: data.category || '',
-    city,
-  }, {}, eventId);
 }

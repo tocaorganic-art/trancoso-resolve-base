@@ -1,0 +1,18 @@
+/* ============================================================
+   Trancoso Resolve — Brand design-system entry (additive)
+   Imports the brand tokens + Nunito webfonts ONLY. It does NOT
+   pull in base.css (the element reset), so it can be layered on
+   top of the existing app without overriding its body/theme.
+
+   Source of truth: handoff bundle from claude.ai/design
+   (warm, earthy identity — burnt orange #E8571A leads).
+
+   For the full, faithful design-system reference (including the
+   element-level base reset), import ./styles.css instead.
+   ============================================================ */
+
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/radius.css";

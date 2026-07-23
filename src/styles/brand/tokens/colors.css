@@ -1,0 +1,110 @@
+/* ============================================================
+   Trancoso Resolve — Color tokens
+   Warm, earthy identity. Burnt orange leads, terracotta deepens,
+   olive grounds, sand warms every surface. Neutrals are warm-
+   tinted (never pure gray) so the whole UI feels sun-baked.
+   ============================================================ */
+
+:root {
+  /* ---- Primary · Laranja queimado (burnt orange) ---- */
+  --orange-50:  #FDF3EC;
+  --orange-100: #FBE0D0;
+  --orange-200: #F7C2A3;
+  --orange-300: #F19C6B;
+  --orange-400: #ED7740;
+  --orange-500: #E8571A;   /* brand primary */
+  --orange-600: #D24A12;
+  --orange-700: #C1440E;   /* terracota */
+  --orange-800: #9A3A12;
+  --orange-900: #762E11;
+
+  /* ---- Terracota · deep clay (primary's grounded twin) ---- */
+  --terracotta: #C1440E;
+  --terracotta-deep: #9A3A12;
+
+  /* ---- Secondary · Verde-oliva (olive) ---- */
+  --olive-50:  #F4F6EC;
+  --olive-100: #E7EBD2;
+  --olive-200: #CFD7A6;
+  --olive-300: #B2BE7B;
+  --olive-400: #8C9B52;
+  --olive-500: #6B7C3A;   /* brand secondary */
+  --olive-600: #59682F;
+  --olive-700: #475226;
+  --olive-800: #38401F;
+  --olive-900: #2B3118;
+
+  /* ---- Sand · the signature warm cream ---- */
+  --sand: #F2DEC4;
+  --sand-soft: #F8ECDC;
+  --sand-deep: #E6CDA9;
+
+  /* ---- Warm neutrals (clay-tinted, never pure gray) ---- */
+  --white:      #FFFFFF;
+  --neutral-50: #FBF7F1;
+  --neutral-100:#F4ECE0;
+  --neutral-200:#E7DBCB;
+  --neutral-300:#D6C6B0;
+  --neutral-400:#B5A48C;
+  --neutral-500:#91806A;
+  --neutral-600:#6F5F4C;
+  --neutral-700:#514538;
+  --neutral-800:#382F26;
+  --neutral-900:#241D16;   /* warm near-black */
+
+  /* ---- Semantic hues ---- */
+  --green-success: #3E8E5A;
+  --green-success-soft: #E3F1E7;
+  --amber-warning: #E59A12;
+  --amber-warning-soft: #FBEFD2;
+  --red-error: #D7382B;
+  --red-error-soft: #FBE3E0;
+  --teal-info: #2D7D8A;
+  --teal-info-soft: #DBEDEF;
+
+  /* ============================================================
+     SEMANTIC ALIASES — reference these in components, not raw hues
+     ============================================================ */
+
+  /* Brand */
+  --brand-primary:        var(--orange-500);
+  --brand-primary-hover:  var(--orange-600);
+  --brand-primary-press:  var(--orange-700);
+  --brand-secondary:      var(--olive-500);
+  --brand-secondary-hover:var(--olive-600);
+  --brand-accent:         var(--terracotta);
+
+  /* Surfaces */
+  --bg-page:        var(--neutral-50);
+  --bg-page-warm:   var(--sand-soft);
+  --surface-card:   var(--white);
+  --surface-sunken: var(--neutral-100);
+  --surface-raised: var(--white);
+  --surface-brand:  var(--orange-500);
+  --surface-brand-soft: var(--orange-50);
+  --surface-olive-soft: var(--olive-50);
+  --surface-sand:   var(--sand);
+  --surface-dark:   var(--neutral-900);
+
+  /* Text */
+  --text-strong:    var(--neutral-900);
+  --text-body:      var(--neutral-800);
+  --text-muted:     var(--neutral-600);
+  --text-subtle:    var(--neutral-500);
+  --text-on-brand:  var(--white);
+  --text-on-dark:   var(--sand-soft);
+  --text-link:      var(--orange-700);
+
+  /* Borders & dividers */
+  --border-subtle:  var(--neutral-200);
+  --border-default: var(--neutral-300);
+  --border-strong:  var(--neutral-400);
+  --border-brand:   var(--orange-500);
+  --ring-focus:     color-mix(in srgb, var(--orange-500) 45%, transparent);
+
+  /* Status */
+  --status-success: var(--green-success);
+  --status-warning: var(--amber-warning);
+  --status-error:   var(--red-error);
+  --status-info:    var(--teal-info);
+}

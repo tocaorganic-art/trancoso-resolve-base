@@ -1,0 +1,12 @@
+/* ============================================================
+   Trancoso Resolve — Design System
+   Root entry point. Consumers link THIS file only.
+   Imports-only: every token + font-face is reached from here.
+   ============================================================ */
+
+@import "./tokens/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/radius.css";
+@import "./tokens/base.css";

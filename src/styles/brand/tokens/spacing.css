@@ -1,0 +1,32 @@
+/* ============================================================
+   Trancoso Resolve — Spacing & sizing tokens
+   4px base grid. Generous, breezy spacing to match the
+   relaxed-but-professional voice.
+   ============================================================ */
+
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 48px;
+  --space-10: 64px;
+  --space-11: 80px;
+  --space-12: 96px;
+  --space-13: 128px;
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-narrow: 760px;
+  --gutter: var(--space-6);
+
+  /* Control heights */
+  --control-sm: 36px;
+  --control-md: 44px;   /* default — meets 44px touch target */
+  --control-lg: 54px;
+}

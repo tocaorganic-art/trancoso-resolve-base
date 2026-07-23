@@ -70,12 +70,12 @@ Deno.serve(async (req) => {
         from_name: 'Trancoso Resolve',
       });
     } catch (emailErr) {
-      console.warn('[cancelarAssinatura] email não enviado:', emailErr.message);
+      console.warn('[cancelarAssinatura] email não enviado:', (emailErr as Error).message);
     }
 
     return Response.json({ ok: true, access_until: periodEnd });
   } catch (error) {
-    console.error('[cancelarAssinatura] erro:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[cancelarAssinatura] erro:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

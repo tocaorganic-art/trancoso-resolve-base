@@ -17,7 +17,7 @@ const getSimpleRecommendations = async (base44: any, userId: string) => {
     // 2. Pega as categorias desses serviços
     const serviceIds = recentRequests.map(req => req.service_id);
     const recentServices = await base44.entities.ServiceListing.filter({ id: { $in: serviceIds } });
-    const recentCategories = [...new Set(recentServices.map(s => s.category))];
+    const recentCategories = [...new Set(recentServices.map((s: any) => s.category))];
     
     // 3. Busca outros serviços populares nessas categorias
     const recommendedServices = await base44.entities.ServiceListing.filter(
@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
             status: 200,
         });
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify({ error: (error as Error).message }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 500,
         });

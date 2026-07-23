@@ -18,8 +18,8 @@ function classify(metric: string, value: number) {
   return 'warning';
 }
 
-function buildEmailBody(page, badMetrics) {
-  const rows = badMetrics.map(({ metric, value, threshold, status }) =>
+function buildEmailBody(page: string, badMetrics: any[]) {
+  const rows = badMetrics.map(({ metric, value, threshold, status }: any) =>
     `<tr style="background:${status === 'bad' ? '#fee2e2' : '#fef9c3'}">
       <td style="padding:8px 12px;font-weight:bold">${metric.toUpperCase()}</td>
       <td style="padding:8px 12px">${value}</td>

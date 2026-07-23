@@ -20,8 +20,8 @@ async function getTranslation(base44: any, text: string, sourceLanguage: string,
   }
 
   try {
-    const sourceLang = languageNames[sourceLanguage] || sourceLanguage;
-    const targetLang = languageNames[targetLanguage] || targetLanguage;
+    const sourceLang = languageNames as Record<string, string>)[sourceLanguage] || sourceLanguage;
+    const targetLang = languageNames as Record<string, string>)[targetLanguage] || targetLanguage;
 
     const result = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt: `Translate the following text from ${sourceLang} to ${targetLang}. Return ONLY the translated text, nothing else, no explanations.\n\nText: ${text}`,

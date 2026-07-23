@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
       'Alta': '🟠',
       'Média': '🟡',
       'Baixa': '🟢',
-    }[alert.priority] || '⚪';
+    } as Record<string, string>)[alert.priority as string] || '⚪';
 
     const typeEmoji = alert.alert_type === 'Urgente' ? '🚨' : '🔧';
 

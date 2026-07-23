@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
     });
 
   } catch (error) {
-    console.error('[searchServices] Erro:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[searchServices] Erro:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

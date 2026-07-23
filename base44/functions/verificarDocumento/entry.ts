@@ -38,7 +38,7 @@ Retorne um JSON com:
   "recommendation": "approve" | "reject" | "manual_review"
 }`;
 
-    const analysis = await base44.integrations.Core.InvokeLLM({
+    const analysis: any = await base44.integrations.Core.InvokeLLM({
       prompt: analysisPrompt,
       file_urls: [documentUrl, selfieUrl],
       response_json_schema: {

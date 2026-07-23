@@ -1,8 +1,9 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.23';
 import Stripe from 'npm:stripe@14.21.0';
 
-// Logging helper
-function logStructured(action, data, level = 'info') {
+const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
+
+function logStructured(action: string, data: Record<string, unknown>, level = 'info') {
   const log = {
     timestamp: new Date().toISOString(),
     action,
@@ -15,43 +16,39 @@ function logStructured(action, data, level = 'info') {
 }
 
 Deno.serve(async (req) => {
-  let body;
-  let user;
+  let body: Record<string, unknown> = {};
+  let user: { email?: string } | null = null;
+
   try {
     const base44 = createClientFromRequest(req);
     user = await base44.auth.me();
 
-    // SEGURANÇA: Verifica autenticação do usuário
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
-    if (!stripeKey) {
-      return Response.json({ error: 'Stripe não configurado: STRIPE_SECRET_KEY ausente.' }, { status: 503 });
-    }
-    const stripe = new Stripe(stripeKey);
-
     body = await req.json();
-    const { request_id, amount_brl, service_date, provider_id } = body;
+    const { request_id, amount_brl, service_date, provider_id } = body as {
+      request_id: string;
+      amount_brl: number;
+      service_date?: string;
+      provider_id: string;
+    };
 
     if (!request_id || !amount_brl || !provider_id) {
       return Response.json({ error: 'Campos obrigatórios: request_id, amount_brl, provider_id' }, { status: 400 });
     }
 
-    // SEGURANÇA: Usa email do usuário autenticado, não do body
     const clientEmail = user.email;
 
-    const amountCents = Math.round(amount_brl * 100);
+    const amountCents = Math.round((amount_brl as number) * 100);
     const platformFee = Math.round(amountCents * 0.20);
     const providerAmount = amountCents - platformFee;
 
-    // Busca conta Stripe do prestador (se já tiver feito onboarding)
     const stripeAccounts = await base44.asServiceRole.entities.ProviderStripeAccount.filter({ provider_id });
     const providerAccount = stripeAccounts?.[0];
 
-    // Cria Payment Intent com captura manual (escrow)
-    const paymentIntentParams = {
+    const paymentIntentParams: Record<string, unknown> = {
       amount: amountCents,
       currency: 'brl',
       capture_method: 'manual',
@@ -67,7 +64,6 @@ Deno.serve(async (req) => {
       description: `Trancoso Resolve - Serviço #${request_id}`,
     };
 
-    // Se o prestador já tem conta Connect, configura o split
     if (providerAccount?.stripe_account_id && providerAccount?.charges_enabled) {
       paymentIntentParams.application_fee_amount = platformFee;
       paymentIntentParams.transfer_data = {
@@ -78,15 +74,13 @@ Deno.serve(async (req) => {
       console.log(`[criarPagamento] Prestador sem conta Connect. Split manual será feito na captura.`);
     }
 
-    const paymentIntent = await stripe.paymentIntents.create(paymentIntentParams);
+    const paymentIntent = await stripe.paymentIntents.create(paymentIntentParams as Parameters<typeof stripe.paymentIntents.create>[0]);
     console.log(`[criarPagamento] PaymentIntent criado: ${paymentIntent.id}, amount: ${amountCents}`);
 
-    // Calcula prazo de auto-captura: 48h após a data do serviço
-    const serviceDateTime = service_date ? new Date(service_date) : new Date();
-    serviceDateTime.setDate(serviceDateTime.getDate() + 1); // dia seguinte ao serviço
+    const serviceDateTime = service_date ? new Date(service_date as string) : new Date();
+    serviceDateTime.setDate(serviceDateTime.getDate() + 1);
     const autoCaptureAfter = new Date(serviceDateTime.getTime() + 48 * 60 * 60 * 1000).toISOString();
 
-    // Salva no banco
     const payment = await base44.asServiceRole.entities.Payment.create({
       request_id,
       provider_id,
@@ -116,12 +110,12 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     logStructured('criarPagamento_error', {
-      errorMessage: error.message,
-      errorCode: error.code,
+      errorMessage: (error as Error).message,
+      errorCode: (error as { code?: string }).code,
       requestId: body?.request_id,
-      userEmail: user?.email
+      userEmail: user?.email,
     }, 'error');
-    
-    return Response.json({ error: error.message }, { status: 500 });
+
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

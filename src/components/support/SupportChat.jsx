@@ -15,7 +15,7 @@ Clientes encontram prestadores verificados â†’ agendam serviÃ§os â†’
 CATEGORIAS DE SERVIÃ‡O: Limpeza, GarÃ§om, Pedreiro, Jardinagem, BabÃ¡, Eletricista, Encanador, Pintor, Cozinheiro.
 
 PAGAMENTOS:
-- Método: Mercado Pago (cartão, boleto, Pix)
+- Método: Stripe (cartão, Pix)
 - CustÃ³dia: valor fica retido por 48h apÃ³s o serviÃ§o
 - Divisão: 100% para o prestador (sem comissão da plataforma)
 - LiberaÃ§Ã£o: automÃ¡tica apÃ³s 48h ou quando cliente confirmar conclusÃ£o
@@ -49,7 +49,7 @@ TRANCOSO LOCAL:
 const FAQ_CACHE = {
   'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviÃ§o na data e hora desejada\n3. **Pague** com cartÃ£o â€” o valor fica em custÃ³dia segura por 48h\n4. **Confirme** a conclusÃ£o para liberar o pagamento ao prestador\n\nPrecisa de mais alguma informaÃ§Ã£o?`,
   'como agendar': `Para agendar um serviÃ§o:\n\n1. Acesse o perfil do prestador desejado\n2. Clique em **Agendar ServiÃ§o**\n3. Preencha data, horÃ¡rio e localizaÃ§Ã£o\n4. O prestador receberÃ¡ a solicitaÃ§Ã£o e confirmarÃ¡\n\nGostaria de buscar um prestador agora?`,
-  'como funciona o pagamento': `O pagamento Ã© **100% seguro**:\n\n- Aceito via **Mercado Pago** (cartão, boleto, Pix)\n- Valor fica em **custÃ³dia por 48h** apÃ³s o serviÃ§o\n- O prestador recebe **100%** do valor (sem comissão)\n- Cancelamento **gratuito** antes da confirmaÃ§Ã£o\n\nAlguma dÃºvida sobre pagamentos?`,
+  'como funciona o pagamento': `O pagamento Ã© **100% seguro**:\n\n- Aceito via **Stripe** (cartão, Pix)\n- Valor fica em **custÃ³dia por 48h** apÃ³s o serviÃ§o\n- O prestador recebe **100%** do valor (sem comissão)\n- Cancelamento **gratuito** antes da confirmaÃ§Ã£o\n\nAlguma dÃºvida sobre pagamentos?`,
   'quero ser um prestador': `Para se cadastrar como prestador:\n\n1. Clique em **"Seja um Prestador"** no menu superior\n2. Preencha seus dados e especialidade\n3. Envie um documento (CNH ou RG) para verificaÃ§Ã£o\n4. Configure sua conta bancÃ¡ria no painel Financeiro\n\nQuer saber mais sobre como funciona para prestadores?`,
 };
 
@@ -442,4 +442,3 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
     </>
   );
 }
-

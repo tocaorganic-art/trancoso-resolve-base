@@ -549,9 +549,9 @@ export default function PlanosPage() {
           ))}
         </div>
 
-        {/* Nota Mercado Pago */}
+        {/* Nota Stripe */}
         <p className="text-center text-muted-foreground text-xs mb-4">
-          Pagamento seguro via Mercado Pago — cancele quando quiser, sem multa.
+          Pagamento seguro via Stripe — cancele quando quiser, sem multa.
         </p>
 
         {/* Transparência */}

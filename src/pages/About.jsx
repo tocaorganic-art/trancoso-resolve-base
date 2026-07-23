@@ -129,7 +129,7 @@ export default function AboutPage() {
                 'Verificação de antecedentes criminais em todos os prestadores',
                 'Avaliações auditadas e transparentes',
                 'Suporte em português, inglês e espanhol (argentino)',
-                'Pagamentos seguros via Mercado Pago',
+                'Pagamentos seguros via Stripe',
                 'IA integrada: TryA e Toca Vision',
                 'Dashboard financeiro completo para prestadores',
               ].map((item, i) => (

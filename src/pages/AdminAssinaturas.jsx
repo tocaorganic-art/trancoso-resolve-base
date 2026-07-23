@@ -341,7 +341,7 @@ export default function AdminAssinaturasPage() {
           <h3 className="font-bold text-amber-900 mb-3">📋 Como usar este painel:</h3>
           <ul className="text-sm text-amber-800 space-y-2">
             <li><strong>1.</strong> Usuários começam automaticamente com 7 dias de trial</li>
-            <li><strong>2.</strong> Quando pagarem no Mercado Pago, clique em "Ativar" para liberar acesso</li>
+            <li><strong>2.</strong> Quando pagarem via Stripe, clique em "Ativar" para liberar acesso</li>
             <li><strong>3.</strong> Use "Expirar" se o pagamento não for confirmado</li>
             <li><strong>4.</strong> O sistema bloqueia acesso automaticamente para expirados</li>
             <li><strong>5.</strong> MRR = Receita Recorrente Mensal (apenas assinaturas ativas)</li>

@@ -77,7 +77,7 @@ export default function OnboardingStripeConnect({ providerId }) {
               Conecte sua conta bancária para receber <strong>80%</strong> do valor dos serviços automaticamente após confirmação do cliente.
             </p>
             <ul className="text-xs text-slate-500 space-y-1">
-              <li>✅ Pagamentos seguros via Mercado Pago</li>
+              <li>✅ Pagamentos seguros via Stripe</li>
               <li>✅ Transferência automática após confirmação</li>
               <li>✅ Painel de ganhos e histórico</li>
             </ul>

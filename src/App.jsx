@@ -82,6 +82,7 @@ const CozinheiroArraialDajuda = lazy(() => import('@/pages/servicos/CozinheiroAr
 const JardineiroArraialDajuda = lazy(() => import('@/pages/servicos/JardineiroArraialDajuda'));
 const PedreiroArraialDajuda = lazy(() => import('@/pages/servicos/PedreiroArraialDajuda'));
 const MorarTrancoso = lazy(() => import('@/pages/guides/MorarTrancoso'));
+const RecomendadorPage = lazy(() => import('@/pages/Recomendador'));
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -395,6 +396,15 @@ const AuthenticatedApp = () => {
               <AnimatedPage><MorarTrancoso /></AnimatedPage>
             </LayoutWrapper>
           } />
+
+          {/* Recomendador de prestadores por IA */}
+          <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+            <Route path="/Recomendador" element={
+              <LayoutWrapper currentPageName="Recomendador">
+                <AnimatedPage><RecomendadorPage /></AnimatedPage>
+              </LayoutWrapper>
+            } />
+          </Route>
 
           {/* Novas páginas: DJ, Casamento, Réveillon */}
           <Route path="/servicos/dj-trancoso" element={

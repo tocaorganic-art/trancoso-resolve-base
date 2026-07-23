@@ -51,7 +51,12 @@
   "memory_config": {
     "enabled": true,
     "scope": "both",
+    "include_other_conversation_context": false,
     "instructions": "Mantenha contexto completo da conversa:\n- user_type (cliente/prestador PF/empresa)\n- user_authenticated (true/false)\n- Servi\u00e7o/categoria procurado\n- Bairro/regi\u00e3o informado\n- \u00daltima inten\u00e7\u00e3o detectada ([BUSCA_SERVICO], [AGENDAMENTO], etc.)\n- Dados j\u00e1 coletados (n\u00e3o repita perguntas)\n- Hist\u00f3rico de solu\u00e7\u00f5es oferecidas\n\nUse contexto para personalizar respostas e evitar repeti\u00e7\u00e3o. Confirme apenas dados cr\u00edticos antes de a\u00e7\u00f5es."
   },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
   "name": "toca"
 }

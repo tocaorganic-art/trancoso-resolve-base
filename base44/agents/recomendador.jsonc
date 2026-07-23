@@ -44,7 +44,12 @@
   "memory_config": {
     "enabled": true,
     "scope": "both",
+    "include_other_conversation_context": false,
     "instructions": "Lembre do perfil do usu\u00e1rio constru\u00eddo ao longo da conversa: categorias preferidas, bairros recorrentes, prestadores j\u00e1 contratados e bem avaliados. Use isso para refinar recomenda\u00e7\u00f5es sem repetir perguntas."
   },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
   "name": "recomendador"
 }

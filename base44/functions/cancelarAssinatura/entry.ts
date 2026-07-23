@@ -1,15 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import Stripe from 'npm:stripe@14.21.0';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-
-    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
-    if (!stripeKey) {
-      return Response.json({ error: 'Stripe não configurado: STRIPE_SECRET_KEY ausente.' }, { status: 503 });
-    }
-    const stripe = new Stripe(stripeKey);
 
     const user = await base44.auth.me();
     if (!user) {
@@ -27,9 +20,8 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Assinatura já cancelada.' }, { status: 400 });
     }
 
-    // Se for trial: cancela direto sem passar pelo Stripe
-    let periodEnd = null;
-    if (sub.plan === 'trial' || sub.status === 'trial') {
+    // Se for trial sem assinatura MP: cancela direto
+    if ((sub.plan === 'trial' || sub.status === 'trial') && !sub.mp_preapproval_id) {
       await base44.asServiceRole.entities.Subscription.update(sub.id, {
         status: 'cancelled',
         notes: `Trial cancelado pelo prestador em ${new Date().toLocaleDateString('pt-BR')}.`,
@@ -38,20 +30,33 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, access_until: null });
     }
 
-    // Cancela no Stripe ao fim do período (cancel_at_period_end = true)
-    if (sub.stripe_subscription_id) {
-      const stripeSub = await stripe.subscriptions.update(sub.stripe_subscription_id, {
-        cancel_at_period_end: true,
+    // Cancela a assinatura (preapproval) no Mercado Pago
+    if (sub.mp_preapproval_id) {
+      const mpToken = Deno.env.get('MP_ACCESS_TOKEN');
+      if (!mpToken) {
+        return Response.json({ error: 'Mercado Pago não configurado: MP_ACCESS_TOKEN ausente.' }, { status: 503 });
+      }
+      const mpRes = await fetch(`https://api.mercadopago.com/preapproval/${sub.mp_preapproval_id}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${mpToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: 'cancelled' }),
       });
-      periodEnd = stripeSub.current_period_end
-        ? new Date(stripeSub.current_period_end * 1000).toISOString().split('T')[0]
-        : null;
+      if (!mpRes.ok) {
+        const mpErr = await mpRes.json();
+        console.error('[cancelarAssinatura] Erro MP:', JSON.stringify(mpErr));
+        return Response.json({ error: 'Erro ao cancelar no Mercado Pago. Tente novamente.' }, { status: 502 });
+      }
     }
+
+    const periodEnd = sub.next_billing_date || null;
 
     // Atualiza localmente
     await base44.asServiceRole.entities.Subscription.update(sub.id, {
       status: 'cancelled',
-      notes: `Cancelado pelo prestador em ${new Date().toLocaleDateString('pt-BR')}. Acesso até: ${periodEnd || sub.next_billing_date || 'fim do período'}`,
+      notes: `Cancelado pelo prestador em ${new Date().toLocaleDateString('pt-BR')}. Acesso até: ${periodEnd || 'fim do período'}`,
     });
 
     console.log(`[cancelarAssinatura] Assinatura cancelada para ${user.email}`);
@@ -61,14 +66,14 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: user.email,
         subject: 'Cancelamento de assinatura — Trancoso Resolve',
-        body: `Olá, ${user.full_name?.split(' ')[0] || 'Prestador'}!\n\nConfirmamos o cancelamento da sua assinatura no Trancoso Resolve.\n\n${periodEnd ? `Você manterá o acesso até ${new Date(periodEnd + 'T00:00:00').toLocaleDateString('pt-BR')}.` : 'O acesso será encerrado ao fim do período atual.'}\n\nSentiremos sua falta! Quando quiser voltar: https://trancosoresolve.base44.app/Planos\n\nDúvidas? contato@tocaexperience.com.br\n\nEquipe Trancoso Resolve 🌊`,
+        body: `Olá, ${user.full_name?.split(' ')[0] || 'Prestador'}!\n\nConfirmamos o cancelamento da sua assinatura no Trancoso Resolve.\n\n${periodEnd ? `Você manterá o acesso até ${new Date(periodEnd + 'T00:00:00').toLocaleDateString('pt-BR')}.` : 'O acesso será encerrado ao fim do período atual.'}\n\nSentiremos sua falta! Quando quiser voltar: https://trancosoresolve.com.br/Planos\n\nDúvidas? contato@tocaexperience.com.br\n\nEquipe Trancoso Resolve 🌊`,
         from_name: 'Trancoso Resolve',
       });
     } catch (emailErr) {
       console.warn('[cancelarAssinatura] email não enviado:', emailErr.message);
     }
 
-    return Response.json({ ok: true, access_until: periodEnd || sub.next_billing_date });
+    return Response.json({ ok: true, access_until: periodEnd });
   } catch (error) {
     console.error('[cancelarAssinatura] erro:', error.message);
     return Response.json({ error: error.message }, { status: 500 });

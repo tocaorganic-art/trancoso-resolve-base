@@ -11,7 +11,14 @@
       "type": "string",
       "enum": [
         "trial",
-        "monthly"
+        "monthly",
+        "profissional",
+        "prestador_elite",
+        "lojista_essencial",
+        "lojista_pro",
+        "lojista_elite",
+        "boost_prestador",
+        "boost_lojista"
       ],
       "default": "trial",
       "description": "Plano da assinatura"
@@ -26,6 +33,15 @@
       ],
       "default": "trial",
       "description": "Status da assinatura"
+    },
+    "billing": {
+      "type": "string",
+      "enum": [
+        "monthly",
+        "annual"
+      ],
+      "default": "monthly",
+      "description": "Ciclo de cobran\u00e7a"
     },
     "trial_start": {
       "type": "string",
@@ -47,13 +63,13 @@
       "format": "date",
       "description": "Pr\u00f3xima data de cobran\u00e7a"
     },
-    "stripe_customer_id": {
+    "mp_preapproval_id": {
       "type": "string",
-      "description": "ID do cliente no Stripe"
+      "description": "ID da assinatura (preapproval) no Mercado Pago"
     },
-    "stripe_subscription_id": {
+    "mp_payer_id": {
       "type": "string",
-      "description": "ID da assinatura no Stripe"
+      "description": "ID do pagador no Mercado Pago"
     },
     "amount": {
       "type": "number",
@@ -63,10 +79,10 @@
     "payment_method": {
       "type": "string",
       "enum": [
-        "stripe",
+        "mercadopago",
         "manual"
       ],
-      "default": "stripe",
+      "default": "mercadopago",
       "description": "M\u00e9todo de pagamento"
     },
     "notes": {

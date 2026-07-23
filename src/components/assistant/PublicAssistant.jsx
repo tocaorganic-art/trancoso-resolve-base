@@ -13,7 +13,7 @@ Sofisticado, acolhedor, "baiano-chic", exclusivo e proativo. Use **negrito** par
 ## BASE DE CONHECIMENTO — PLATAFORMA
 - **Como funciona:** clientes encontram prestadores verificados → agendam → pagam (escrow 48h) → confirmam conclusão
 - **Categorias:** Limpeza, Garçom, Pedreiro, Jardinagem, Babá, Eletricista, Encanador, Pintor, Cozinheiro
-- **Pagamentos:** Stripe (cartão, Pix), custódia 48h, 100% para o prestador (sem comissão)
+- **Pagamentos:** Mercado Pago (cartão, Pix), custódia 48h, 100% para o prestador (sem comissão)
 - **Cadastro prestador:** menu → "Seja um Prestador" → verificação de documento
 - **Pedidos:** acompanhar em "Meus Pedidos"
 - **Segurança:** prestadores verificados, pagamentos em custódia, conformidade com LGPD

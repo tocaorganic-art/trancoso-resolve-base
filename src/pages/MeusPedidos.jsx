@@ -10,7 +10,6 @@ import { ptBR } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReviewModal from '@/components/reviews/ReviewModal';
-import ConfirmarServicoButton from '@/components/pagamento/ConfirmarServicoButton';
 import StatusPagamentoBadge from '@/components/pagamento/StatusPagamentoBadge';
 
 const statusConfig = {
@@ -65,13 +64,6 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
           </div>
         )}
       </CardContent>
-
-      {/* Botão confirmar serviço (escrow) */}
-      {payment && (
-        <div className="px-6 pb-3">
-          <ConfirmarServicoButton payment={payment} onConfirmed={onPaymentConfirmed} />
-        </div>
-      )}
 
       {/* Botão avaliação */}
       {(request.status === 'Concluído' || hasReview) && (

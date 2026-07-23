@@ -43,7 +43,7 @@ export default function TermosDeServico() {
           <ul className="list-disc pl-6 space-y-2">
             <li>Preços podem ser alterados sem aviso prévio</li>
             <li>Todos os preços são em Real (BRL)</li>
-            <li>Pagamentos são processados via Stripe de forma segura</li>
+            <li>Pagamentos são processados via Mercado Pago de forma segura</li>
             <li>Refúndos seguem nossa Política de Devoluções</li>
             <li>Cobranças recorrentes podem ser canceladas a qualquer momento</li>
           </ul>

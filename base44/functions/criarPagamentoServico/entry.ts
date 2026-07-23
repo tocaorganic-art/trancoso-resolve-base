@@ -7,7 +7,7 @@ function logStructured(action: string, data: Record<string, unknown>, level = 'i
     action,
     level,
     data,
-    environment: Deno.env.get('ENVIRONMENT') || 'production',
+    environment: 'production',
   }));
 }
 

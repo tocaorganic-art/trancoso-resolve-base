@@ -69,7 +69,7 @@ function formatDate(dateStr: string) {
   return new Date(dateStr).toISOString().split('T')[0];
 }
 
-function escapeXml(str) {
+function escapeXml(str: string) {
   if (!str) return '';
   return String(str)
     .replace(/&/g, '&amp;')

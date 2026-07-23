@@ -12,7 +12,7 @@ function generateCode() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-function maskEmail(email) {
+function maskEmail(email: string) {
   const [local, domain] = email.split('@');
   if (!local || !domain) return email;
   const masked = local.length <= 2

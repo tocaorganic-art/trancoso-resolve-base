@@ -38,7 +38,7 @@ async function getTranslation(base44: any, text: string, sourceLanguage: string,
     console.log(`[TRANSLATE] ${sourceLanguage}→${targetLanguage}: OK`);
     return translated;
   } catch (error) {
-    console.error('[TRANSLATE ERROR]', error.message);
+    console.error('[TRANSLATE ERROR]', (error as Error).message);
     return text;
   }
 }
@@ -68,6 +68,6 @@ Deno.serve(async (req) => {
     });
   } catch (error) {
     console.error('[TOCA-TRIA-TRANSLATOR] Error:', error);
-    return Response.json({ error: 'Translation error', details: error.message }, { status: 500 });
+    return Response.json({ error: 'Translation error', details: (error as Error).message }, { status: 500 });
   }
 });

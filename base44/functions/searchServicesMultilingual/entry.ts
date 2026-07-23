@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
       ? `Analiza la consulta: "${query}". Devuelve categorías y palabras clave relevantes en JSON: { "categories": ["cat1"], "keywords": ["kw1"] }`
       : `Analysez la requête: "${query}". Retournez catégories et mots-clés pertinents en JSON: { "categories": ["cat1"], "keywords": ["kw1"] }`;
 
-    let searchParams = { limit };
+    let searchParams: Record<string, unknown> = { limit };
 
     try {
       const aiResult = await base44.integrations.Core.InvokeLLM({

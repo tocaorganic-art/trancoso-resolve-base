@@ -162,7 +162,7 @@ Equipe Trancoso Resolve 🌊
     return Response.json({ ok: true });
 
   } catch (error) {
-    console.error('Erro em notifyBookingConfirmation:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Erro em notifyBookingConfirmation:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

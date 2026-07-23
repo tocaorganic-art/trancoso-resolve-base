@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'No alert data in payload' }, { status: 400 });
     }
 
-    const priorityEmoji = {
+    const priorityEmoji = ({
       'Crítica': '🔴',
       'Alta': '🟠',
       'Média': '🟡',

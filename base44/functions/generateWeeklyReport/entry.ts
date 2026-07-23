@@ -9,7 +9,7 @@ function weekStart(daysBack = 0) {
   return d;
 }
 
-function formatDate(d) {
+function formatDate(d: Date) {
   return d.toLocaleDateString('pt-BR');
 }
 
@@ -38,13 +38,13 @@ Deno.serve(async (req) => {
       base44.asServiceRole.entities.ServiceRequest.list('-created_date', 500),
     ]);
 
-    const weekLeads = allLeads.filter(l => l.created_date >= fmtStart && l.created_date <= fmtEnd);
-    const weekRequests = allRequests.filter(r => r.created_date >= fmtStart && r.created_date <= fmtEnd);
-    const weekProviders = allProviders.filter(p => p.created_date >= fmtStart && p.created_date <= fmtEnd);
+    const weekLeads = allLeads.filter((l: any) => l.created_date >= fmtStart && l.created_date <= fmtEnd);
+    const weekRequests = allRequests.filter((r: any) => r.created_date >= fmtStart && r.created_date <= fmtEnd);
+    const weekProviders = allProviders.filter((p: any) => p.created_date >= fmtStart && p.created_date <= fmtEnd);
 
     // Top serviços
     const serviceCounts: Record<string, number> = {};
-    weekRequests.forEach(r => {
+    weekRequests.forEach((r: any) => {
       const k = r.service_id || 'Desconhecido';
       serviceCounts[k] = (serviceCounts[k] || 0) + 1;
     });
@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
 
     // Top origens
     const sourceCounts: Record<string, number> = {};
-    weekLeads.forEach(l => {
+    weekLeads.forEach((l: any) => {
       const k = l.source || 'Desconhecida';
       sourceCounts[k] = (sourceCounts[k] || 0) + 1;
     });
@@ -116,6 +116,6 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error('generateWeeklyReport error:', error);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

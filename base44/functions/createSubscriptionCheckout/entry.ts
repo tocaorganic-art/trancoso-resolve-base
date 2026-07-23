@@ -1,7 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // ─── Planos e preços (BRL) ───────────────────────────────────────────────────
-const PLANS = {
+interface PlanDef { nome: string; monthly: number; annual: number | null; trialDays: number; }
+const PLANS: Record<string, PlanDef> = {
   profissional:      { nome: 'Plano Profissional',            monthly: 19.90, annual: 199,  trialDays: 30 },
   prestador_elite:   { nome: 'Plano Premium Elite',           monthly: 197,   annual: 1970, trialDays: 7 },
   lojista_essencial: { nome: 'Plano Lojista Essencial',       monthly: 89,    annual: 890,  trialDays: 7 },
@@ -28,8 +29,8 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { plan, billing } = await req.json();
-    const planDef = PLANS[plan];
+    const { plan, billing } = await req.json() as { plan?: string; billing?: string };
+    const planDef = plan ? PLANS[plan] : undefined;
     if (!planDef) {
       return Response.json({ error: 'Plano inválido' }, { status: 400 });
     }
@@ -37,9 +38,9 @@ Deno.serve(async (req) => {
     // ─── Limite de vagas do preço de lançamento (Fundador) ────────────────────
     if (plan === 'profissional') {
       const subs = await base44.asServiceRole.entities.Subscription.list('-created_date', 500);
-      const taken = (subs || []).filter((s) =>
+      const taken = (subs || []).filter((s: { status?: string; plan?: string }) =>
         (s.status === 'active' || s.status === 'trial') &&
-        ['profissional', 'lancamento', 'prestador_profissional'].includes(s.plan)
+        ['profissional', 'lancamento', 'prestador_profissional'].includes(s.plan as string)
       ).length;
       if (taken >= VAGAS_FUNDADOR) {
         return Response.json({
@@ -88,7 +89,7 @@ Deno.serve(async (req) => {
     return Response.json({ url: mpData.init_point, preapproval_id: mpData.id });
 
   } catch (error) {
-    console.error('Erro ao criar checkout:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Erro ao criar checkout:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

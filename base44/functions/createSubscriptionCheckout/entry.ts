@@ -92,7 +92,7 @@ Deno.serve(async (req) => {
     }
 
     const session = await stripe.checkout.sessions.create(
-      sessionParams as Parameters<typeof stripe.checkout.sessions.create>[0]
+      sessionParams as any
     );
 
     console.log(`Checkout criado: ${session.id} para plano ${plan} (user: ${customerEmail})`);

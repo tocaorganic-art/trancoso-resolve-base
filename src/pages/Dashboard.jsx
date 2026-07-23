@@ -10,6 +10,7 @@ import VerificacaoStatusBlock from "@/components/verificacao/VerificacaoStatusBl
 import FinancialDashboard from "../components/financial/FinancialDashboard";
 import AssistenteFinanceiro from "../components/financial/AssistenteFinanceiro";
 import GettingStartedGuide from "../components/dashboard/GettingStartedGuide";
+import ClientMetrics from "../components/dashboard/ClientMetrics";
 import PermissionChecker from "../components/auth/PermissionChecker";
 import SubscriptionPaywall from "../components/dashboard/SubscriptionPaywall";
 import CheckoutSuccessBanner from "../components/dashboard/CheckoutSuccessBanner";
@@ -302,6 +303,9 @@ function DashboardContent() {
           </Card>
         </motion.div>
       </motion.div>
+
+      {/* Métricas de clientes — ativos e mais engajados */}
+      <ClientMetrics serviceRequests={serviceRequests} />
       
       <div className="mt-10">
          <h2 className="text-xl font-bold text-foreground mb-4">Visão Geral Financeira</h2>

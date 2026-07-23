@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-const ADMIN_EMAIL = 'suporte@trancosoresolve.com.br';
+const ADMIN_EMAIL = 'tocaorganic@gmail.com';
 
 function weekStart(daysBack = 0) {
   const d = new Date();
@@ -104,15 +104,33 @@ Deno.serve(async (req) => {
       </div>
     `;
 
-    await base44.asServiceRole.integrations.Core.SendEmail({
-      to: ADMIN_EMAIL,
-      from_name: 'Trancoso Resolve Analytics',
-      subject: `📊 Relatório Semanal Trancoso Resolve — ${formatDate(lastMonday)} a ${formatDate(lastSunday)}`,
-      body: emailBody,
+    // Persiste o relatório na entidade RelatorioDiario (sempre funciona, independente de email)
+    await base44.asServiceRole.entities.RelatorioDiario.create({
+      data: fmtStart,
+      ultima_atualizacao: new Date().toISOString(),
+      description: `Relatório Semanal ${formatDate(lastMonday)} a ${formatDate(lastSunday)} | Leads: ${weekLeads.length} | Prestadores: ${weekProviders.length} | Solicitações: ${weekRequests.length} | Conversão: ${convRate}%`,
+      metricas: {
+        servicos_concluidos: weekRequests.length,
+        receita_gerada: 0,
+      },
     });
 
-    console.info('Weekly report sent', { weekLeads: weekLeads.length, weekRequests: weekRequests.length });
-    return Response.json({ ok: true, sent_to: ADMIN_EMAIL, week: { start: fmtStart, end: fmtEnd }, stats: { leads: weekLeads.length, providers: weekProviders.length, requests: weekRequests.length } });
+    // Tenta enviar por email — se falhar, o relatório já foi salvo acima
+    let emailSent = false;
+    try {
+      await base44.asServiceRole.integrations.Core.SendEmail({
+        to: ADMIN_EMAIL,
+        from_name: 'Trancoso Resolve Analytics',
+        subject: `📊 Relatório Semanal Trancoso Resolve — ${formatDate(lastMonday)} a ${formatDate(lastSunday)}`,
+        body: emailBody,
+      });
+      emailSent = true;
+    } catch (emailError) {
+      console.warn('Email send failed (report still saved):', (emailError as Error).message);
+    }
+
+    console.info('Weekly report saved', { weekLeads: weekLeads.length, weekRequests: weekRequests.length, emailSent });
+    return Response.json({ ok: true, saved: true, email_sent: emailSent, week: { start: fmtStart, end: fmtEnd }, stats: { leads: weekLeads.length, providers: weekProviders.length, requests: weekRequests.length } });
 
   } catch (error) {
     console.error('generateWeeklyReport error:', error);

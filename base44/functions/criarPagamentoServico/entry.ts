@@ -17,16 +17,18 @@ function logStructured(action, data, level = 'info') {
 }
 
 Deno.serve(async (req) => {
+  let body;
+  let user;
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
+    user = await base44.auth.me();
 
     // SEGURANÇA: Verifica autenticação do usuário
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await req.json();
+    body = await req.json();
     const { request_id, amount_brl, service_date, provider_id } = body;
 
     if (!request_id || !amount_brl || !provider_id) {
@@ -112,7 +114,7 @@ Deno.serve(async (req) => {
     logStructured('criarPagamento_error', {
       errorMessage: error.message,
       errorCode: error.code,
-      requestId: body.request_id,
+      requestId: body?.request_id,
       userEmail: user?.email
     }, 'error');
     

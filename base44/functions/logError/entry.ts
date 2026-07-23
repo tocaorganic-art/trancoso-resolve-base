@@ -22,19 +22,6 @@ Deno.serve(async (req) => {
       return Response.json({ error: "Payload muito grande. Máximo 2KB por entrada." }, { status: 413 });
     }
 
-    // Rate limiting básico: máximo de 10 logs por minuto por usuário
-    const rateLimitKey = `log_rate_limit:${user.email}`;
-    const logTimesKey = `${rateLimitKey}:times`;
-    const now = Date.now();
-    
-    // Simular rate limiting (em produção, usar Redis ou similar)
-    const logTimes = JSON.parse(Deno.env.get(logTimesKey) || '[]');
-    const recentLogs = logTimes.filter(t => now - t < 60000); // Últimos 60 segundos
-    
-    if (recentLogs.length >= 10) {
-      return Response.json({ error: "Muitos logs enviados. Tente novamente em 60 segundos." }, { status: 429 });
-    }
-
     // Log error with structured format
     console.error('CLIENT_ERROR', {
       timestamp: errorData.timestamp,

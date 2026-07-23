@@ -22,23 +22,6 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Email and verification_code required' }, { status: 400 });
     }
 
-    // Rate limiting básico: máximo de 3 tentativas por hora
-    const rateLimitKey = `email_rate_limit:${user.email}`;
-    const lastAttemptTime = localStorage?.getItem(rateLimitKey);
-    const now = Date.now();
-    const attempts = JSON.parse(localStorage?.getItem(`${rateLimitKey}:attempts`) || '[]');
-    const recentAttempts = attempts.filter(t => now - t < 3600000); // Últimas 1 hora
-    
-    if (recentAttempts.length >= 3) {
-      return Response.json({ error: "Muitas tentativas. Tente novamente em uma hora." }, { status: 429 });
-    }
-
-    // Registrar tentativa
-    recentAttempts.push(now);
-    if (typeof localStorage !== 'undefined') {
-      localStorage.setItem(`${rateLimitKey}:attempts`, JSON.stringify(recentAttempts));
-    }
-
     // Email templates
     const templates = {
       verify_email: {

@@ -1,4 +1,3 @@
-import React from "react";
 import { ShieldCheck, CreditCard, Users, MapPin } from "lucide-react";
 
 export default function SocialProofBar({ totalVerificados = 0 }) {

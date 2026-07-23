@@ -7,6 +7,10 @@ export default defineConfig({
     base44(),
     react(),
   ],
+  optimizeDeps: {
+    // Evita reotimização sob demanda (504) ao abrir páginas que usam locales do date-fns
+    include: ['date-fns', 'date-fns/locale'],
+  },
   build: {
     target: 'esnext',
     minify: 'esbuild',

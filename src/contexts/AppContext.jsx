@@ -22,12 +22,28 @@ export function AppProvider({ children }) {
     localStorage.setItem('tr-theme', theme);
   }, [theme]);
 
+  // Segue mudanças de tema do sistema operacional durante o uso,
+  // exceto se o usuário já escolheu um tema manualmente.
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-color-scheme: dark)');
+    const onChange = (e) => {
+      if (!localStorage.getItem('tr-theme-manual')) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
   useEffect(() => {
     localStorage.setItem('tr-lang', lang);
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
   }, [lang]);
 
-  const toggleTheme = () => setTheme(t => (t === 'dark' ? 'light' : 'dark'));
+  const toggleTheme = () => {
+    localStorage.setItem('tr-theme-manual', '1');
+    setTheme(t => (t === 'dark' ? 'light' : 'dark'));
+  };
 
   const t = (key) => {
     const dict = translations[lang] ?? translations.pt;

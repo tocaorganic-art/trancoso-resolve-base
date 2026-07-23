@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import ResponsiveSelect from "@/components/ui/ResponsiveSelect";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
@@ -418,20 +418,21 @@ export default function FilaVerificacaoPage() {
                 className="pl-9"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-full sm:w-44">
-                <Filter className="w-4 h-4 mr-2 text-muted-foreground" />
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Todos">Todos os status</SelectItem>
-                <SelectItem value="Em Análise">Em Análise</SelectItem>
-                <SelectItem value="Aguardando Admin">Aguardando Admin</SelectItem>
-                <SelectItem value="Pendente">Pendente</SelectItem>
-                <SelectItem value="Verificado">Verificado</SelectItem>
-                <SelectItem value="Rejeitado">Rejeitado</SelectItem>
-              </SelectContent>
-            </Select>
+            <ResponsiveSelect
+              value={statusFilter}
+              onValueChange={setStatusFilter}
+              placeholder="Filtrar status"
+              className="w-full sm:w-44"
+              triggerPrefix={<Filter className="w-4 h-4 mr-2 text-muted-foreground" />}
+              options={[
+                { value: 'Todos', label: 'Todos os status' },
+                { value: 'Em Análise', label: 'Em Análise' },
+                { value: 'Aguardando Admin', label: 'Aguardando Admin' },
+                { value: 'Pendente', label: 'Pendente' },
+                { value: 'Verificado', label: 'Verificado' },
+                { value: 'Rejeitado', label: 'Rejeitado' },
+              ]}
+            />
           </div>
         </CardContent>
       </Card>

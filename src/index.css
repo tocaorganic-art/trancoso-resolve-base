@@ -292,6 +292,13 @@ button:focus-visible {
   }
 }
 
+/* Mobile/WebView: contém o efeito rubber-band em containers internos roláveis (chat, listagens) */
+.overflow-y-auto,
+.overflow-y-scroll,
+.overflow-auto {
+  overscroll-behavior-y: contain;
+}
+
 /* Mobile: prevent accidental text selection on interactive elements */
 button, a, nav, [role="button"], [role="tab"],
 .select-none, svg, img {

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import ResponsiveSelect from '@/components/ui/ResponsiveSelect';
 import { Loader2, User, Camera, AlertCircle, ImagePlus } from 'lucide-react';
 import PortfolioGallery from '@/components/perfil/PortfolioGallery';
 import VerificacaoStatusCard from '@/components/verificacao/VerificacaoStatusCard';
@@ -418,14 +418,16 @@ function MeuPerfilPrestadorContent() {
               <h3 className="text-lg font-semibold border-b pb-2">Tipo de Cadastro</h3>
               <div>
                 <Label>Tipo de Pessoa <span className="text-red-500">*</span></Label>
-                <Select value={formData.tipo_pessoa || 'pf'} onValueChange={(v) => handleInputChange('tipo_pessoa', v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="pf">Pessoa Física (CPF)</SelectItem>
-                    <SelectItem value="mei">MEI – Microempreendedor Individual</SelectItem>
-                    <SelectItem value="pj">Empresa / PJ (CNPJ)</SelectItem>
-                  </SelectContent>
-                </Select>
+                <ResponsiveSelect
+                  value={formData.tipo_pessoa || 'pf'}
+                  onValueChange={(v) => handleInputChange('tipo_pessoa', v)}
+                  placeholder="Tipo de Pessoa"
+                  options={[
+                    { value: 'pf', label: 'Pessoa Física (CPF)' },
+                    { value: 'mei', label: 'MEI – Microempreendedor Individual' },
+                    { value: 'pj', label: 'Empresa / PJ (CNPJ)' },
+                  ]}
+                />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -484,18 +486,13 @@ function MeuPerfilPrestadorContent() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="occupation">Ocupação Principal <span className="text-red-500">*</span></Label>
-                  <Select 
-                    required 
-                    value={formData.occupation} 
+                  <ResponsiveSelect
+                    value={formData.occupation}
                     onValueChange={(value) => handleInputChange('occupation', value)}
-                  >
-                    <SelectTrigger className={errors.occupation ? 'border-red-500' : ''}>
-                      <SelectValue placeholder="Selecione sua ocupação" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {occupations.map(o => <SelectItem key={o} value={o}>{o}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
+                    placeholder="Selecione sua ocupação"
+                    options={occupations.map(o => ({ value: o, label: o }))}
+                    className={errors.occupation ? 'border-red-500' : ''}
+                  />
                   {errors.occupation && <p className="text-xs text-red-500 mt-1">{errors.occupation}</p>}
                 </div>
                 <div>
@@ -577,12 +574,12 @@ function MeuPerfilPrestadorContent() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <Label htmlFor="price_range">Faixa de Preço</Label>
-                  <Select value={formData.price_range} onValueChange={(value) => handleInputChange('price_range', value)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {priceRanges.map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
+                  <ResponsiveSelect
+                    value={formData.price_range}
+                    onValueChange={(value) => handleInputChange('price_range', value)}
+                    placeholder="Faixa de Preço"
+                    options={priceRanges.map(p => ({ value: p, label: p }))}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="hourly_rate">Valor por Hora (R$)</Label>

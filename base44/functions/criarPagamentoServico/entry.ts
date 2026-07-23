@@ -133,7 +133,7 @@ Deno.serve(async (req) => {
     }
 
     const paymentIntent = await stripe.paymentIntents.create(
-      paymentIntentParams as Parameters<typeof stripe.paymentIntents.create>[0]
+      paymentIntentParams as any
     );
     console.log(`[criarPagamento] PaymentIntent criado: ${paymentIntent.id}, amount: ${amountCents}, fee: ${platformFee}`);
 

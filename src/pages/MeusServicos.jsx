@@ -179,7 +179,12 @@ function MeusServicosContent() {
                 className="rounded-2xl overflow-hidden bg-card border border-border transition hover:scale-[1.02]"
               >
                 {service.images?.[0] && (
-                  <LazyImage src={service.images[0]} alt={service.title} className="w-full h-44 object-cover" />
+                  <LazyImage
+                    src={service.images[0]}
+                    fallbackSrc="https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80"
+                    alt={service.title}
+                    className="w-full h-44 object-cover"
+                  />
                 )}
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">

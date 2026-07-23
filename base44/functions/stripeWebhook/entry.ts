@@ -30,6 +30,9 @@ Deno.serve(async (req) => {
   if (!webhookSecret) {
     return Response.json({ error: 'Stripe não configurado: STRIPE_WEBHOOK_SECRET ausente.' }, { status: 503 });
   }
+  if (!signature) {
+    return Response.json({ error: 'Missing stripe-signature header' }, { status: 400 });
+  }
   const stripe = new Stripe(stripeKey);
 
   let event;

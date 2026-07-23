@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'MP_ACCESS_TOKEN ausente' }, { status: 503 });
     }
 
-    let body = {};
+    let body: any = {};
     try { body = await req.json(); } catch { /* notificações antigas podem vir vazias */ }
 
     const url = new URL(req.url);

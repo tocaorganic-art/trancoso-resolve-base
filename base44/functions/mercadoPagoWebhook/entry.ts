@@ -3,14 +3,14 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 // Webhook do Mercado Pago — configure a URL desta função no painel do MP
 // (Suas integrações → Webhooks) e use o mesmo segredo em MP_WEBHOOK_SECRET.
 
-async function isValidSignature(req, dataId) {
+async function isValidSignature(req: Request, dataId: string): Promise<boolean> {
   const secret = Deno.env.get('MP_WEBHOOK_SECRET');
   if (!secret) return false;
 
   const xSignature = req.headers.get('x-signature') || '';
   const xRequestId = req.headers.get('x-request-id') || '';
-  const parts = Object.fromEntries(
-    xSignature.split(',').map((p) => p.trim().split('=').map((s) => s.trim()))
+  const parts: Record<string, string> = Object.fromEntries(
+    xSignature.split(',').map((p: string) => p.trim().split('=').map((s: string) => s.trim()))
   );
   const ts = parts.ts;
   const v1 = parts.v1;
@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'MP_ACCESS_TOKEN ausente' }, { status: 503 });
     }
 
-    let body: any = {};
+    let body: { data?: { id?: string }; type?: string } = {};
     try { body = await req.json(); } catch { /* notificações antigas podem vir vazias */ }
 
     const url = new URL(req.url);
@@ -76,7 +76,7 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, ignored: 'external_reference inválido' });
     }
 
-    const statusMap = {
+    const statusMap: Record<string, string> = {
       authorized: 'active',
       cancelled: 'cancelled',
       paused: 'expired',
@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
     const nextBilling = pre.next_payment_date ? String(pre.next_payment_date).split('T')[0] : undefined;
     const amount = pre.auto_recurring?.transaction_amount;
 
-    const patch = {
+    const patch: Record<string, unknown> = {
       user_email: email,
       plan: plan || 'monthly',
       billing: billing === 'annual' ? 'annual' : 'monthly',
@@ -103,7 +103,7 @@ Deno.serve(async (req) => {
     };
 
     const existing = await base44.asServiceRole.entities.Subscription.filter({ user_email: email });
-    const current = (existing || []).find((s) => s.mp_preapproval_id === pre.id) || existing?.[0];
+    const current = (existing || []).find((s: { mp_preapproval_id?: string }) => s.mp_preapproval_id === pre.id) || existing?.[0];
 
     if (current) {
       await base44.asServiceRole.entities.Subscription.update(current.id, patch);
@@ -114,7 +114,7 @@ Deno.serve(async (req) => {
     console.log(`[mercadoPagoWebhook] ${email} → ${newStatus} (plano ${plan}, preapproval ${pre.id})`);
     return Response.json({ ok: true });
   } catch (error) {
-    console.error('[mercadoPagoWebhook] erro:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[mercadoPagoWebhook] erro:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

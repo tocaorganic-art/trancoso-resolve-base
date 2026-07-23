@@ -10,7 +10,7 @@ const languageNames = {
   'fr': 'French'
 };
 
-async function getTranslation(base44, text, sourceLanguage, targetLanguage) {
+async function getTranslation(base44: any, text: string, sourceLanguage: string, targetLanguage: string) {
   if (sourceLanguage === targetLanguage) return text;
 
   const cacheKey = `${text}|${sourceLanguage}|${targetLanguage}`;

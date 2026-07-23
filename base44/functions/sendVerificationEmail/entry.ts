@@ -69,7 +69,7 @@ Deno.serve(async (req) => {
       }
     };
 
-    const template = templates[action] || templates.verify_email;
+    const template = (templates as Record<string, { subject: string; html: string }>)[action] || templates.verify_email;
 
     // In production, use SendGrid, AWS SES, or similar
     // For now, we'll log to simulate email sending

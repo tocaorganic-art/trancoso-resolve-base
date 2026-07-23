@@ -9,10 +9,11 @@ export default defineConfig({
   ],
   optimizeDeps: {
     // Evita reotimização sob demanda (504) ao abrir páginas que usam locales do date-fns
+    // Dica: Se usar date-fns v3+ e notar avisos no terminal, especifique o locale (ex: 'date-fns/locale/pt-BR')
     include: ['date-fns', 'date-fns/locale'],
   },
   build: {
-    target: 'esnext',
-    minify: 'esbuild',
+    // 'es2022' oferece melhor compatibilidade com navegadores do que 'esnext'
+    target: 'es2022', 
   },
 });

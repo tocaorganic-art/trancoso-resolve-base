@@ -260,7 +260,8 @@ function getCategoryFallback(service) {
   const imgs = categoryImageMap[categoryKey];
   const id = service.id || service._id || '';
   const hash = id.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
-  return imgs[hash % imgs.length];
+  // +1 garante URL diferente de getServiceImage → fallback real
+  return imgs[(hash + 1) % imgs.length];
 }
 
 const ServiceCard = ({ service, provider }) => {
@@ -582,7 +583,7 @@ export default function HomePage() {
                     {isLoadingRecommendations ? (
                         Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
                     ) : (
-                        recommendedServices.data.map((service) => {
+                        [...new Map(recommendedServices.data.map(s => [s.id, s])).values()].map((service) => {
                             const provider = providers?.find(p => p.id === service.provider_id);
                             return <ServiceCard key={service.id} service={service} provider={provider} />;
                         })
@@ -606,7 +607,7 @@ export default function HomePage() {
             {isLoadingServices ? (
                   Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
                 ) : services && services.length > 0 ? (
-                  services.map((service) => {
+                  [...new Map(services.map(s => [s.id, s])).values()].map((service) => {
                     const provider = providers?.find(p => p.id === service.provider_id);
                     return <ServiceCard key={service.id} service={service} provider={provider} />;
                   })

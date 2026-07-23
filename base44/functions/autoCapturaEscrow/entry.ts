@@ -1,12 +1,15 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 import Stripe from 'npm:stripe@14.21.0';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
-
 // Função agendada: captura automaticamente pagamentos que passaram 48h sem confirmação do cliente
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
+    if (!stripeKey) {
+      return Response.json({ error: 'Stripe não configurado: STRIPE_SECRET_KEY ausente.' }, { status: 503 });
+    }
+    const stripe = new Stripe(stripeKey);
 
     // Verifica autenticação: apenas admin ou chamada interna (automação)
     const user = await base44.auth.me().catch(() => null);

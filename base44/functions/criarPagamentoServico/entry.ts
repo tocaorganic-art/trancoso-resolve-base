@@ -1,8 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.23';
 import Stripe from 'npm:stripe@14.21.0';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
-
 // Logging helper
 function logStructured(action, data, level = 'info') {
   const log = {
@@ -27,6 +25,12 @@ Deno.serve(async (req) => {
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
+    if (!stripeKey) {
+      return Response.json({ error: 'Stripe não configurado: STRIPE_SECRET_KEY ausente.' }, { status: 503 });
+    }
+    const stripe = new Stripe(stripeKey);
 
     body = await req.json();
     const { request_id, amount_brl, service_date, provider_id } = body;

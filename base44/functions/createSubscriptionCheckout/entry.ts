@@ -1,8 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 import Stripe from 'npm:stripe@14.21.0';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
-
 // ─── Price IDs ────────────────────────────────────────────────────────────────
 const PRICE_IDS = {
   // Assinaturas recorrentes
@@ -21,6 +19,11 @@ const BASE_URL = 'https://trancosoresolve.com.br';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
+    if (!stripeKey) {
+      return Response.json({ error: 'Stripe não configurado: STRIPE_SECRET_KEY ausente.' }, { status: 503 });
+    }
+    const stripe = new Stripe(stripeKey);
     const user = await base44.auth.me();
 
     if (!user) {

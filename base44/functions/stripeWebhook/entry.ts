@@ -18,12 +18,19 @@ async function notificarWhatsApp(base44: any, payload: {
   }
 }
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
-
 Deno.serve(async (req) => {
   const body = await req.text();
   const signature = req.headers.get('stripe-signature');
   const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
+
+  const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
+  if (!stripeKey) {
+    return Response.json({ error: 'Stripe não configurado: STRIPE_SECRET_KEY ausente.' }, { status: 503 });
+  }
+  if (!webhookSecret) {
+    return Response.json({ error: 'Stripe não configurado: STRIPE_WEBHOOK_SECRET ausente.' }, { status: 503 });
+  }
+  const stripe = new Stripe(stripeKey);
 
   let event;
   try {

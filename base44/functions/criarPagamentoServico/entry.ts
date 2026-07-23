@@ -1,18 +1,14 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.23';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import Stripe from 'npm:stripe@14.21.0';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
-
 function logStructured(action: string, data: Record<string, unknown>, level = 'info') {
-  const log = {
+  console.log(JSON.stringify({
     timestamp: new Date().toISOString(),
     action,
     level,
     data,
-    environment: Deno.env.get('ENVIRONMENT') || 'production'
-  };
-  console.log(JSON.stringify(log));
-  return log;
+    environment: Deno.env.get('ENVIRONMENT') || 'production',
+  }));
 }
 
 Deno.serve(async (req) => {
@@ -20,6 +16,12 @@ Deno.serve(async (req) => {
   let user: { email?: string } | null = null;
 
   try {
+    const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
+    if (!stripeKey) {
+      return Response.json({ error: 'Stripe não configurado: STRIPE_SECRET_KEY ausente.' }, { status: 503 });
+    }
+    const stripe = new Stripe(stripeKey);
+
     const base44 = createClientFromRequest(req);
     user = await base44.auth.me();
 
@@ -40,7 +42,6 @@ Deno.serve(async (req) => {
     }
 
     const clientEmail = user.email;
-
     const amountCents = Math.round((amount_brl as number) * 100);
     const platformFee = Math.round(amountCents * 0.20);
     const providerAmount = amountCents - platformFee;
@@ -66,15 +67,15 @@ Deno.serve(async (req) => {
 
     if (providerAccount?.stripe_account_id && providerAccount?.charges_enabled) {
       paymentIntentParams.application_fee_amount = platformFee;
-      paymentIntentParams.transfer_data = {
-        destination: providerAccount.stripe_account_id,
-      };
+      paymentIntentParams.transfer_data = { destination: providerAccount.stripe_account_id };
       console.log(`[criarPagamento] Usando Connect account: ${providerAccount.stripe_account_id}`);
     } else {
-      console.log(`[criarPagamento] Prestador sem conta Connect. Split manual será feito na captura.`);
+      console.log(`[criarPagamento] Prestador sem conta Connect.`);
     }
 
-    const paymentIntent = await stripe.paymentIntents.create(paymentIntentParams as Parameters<typeof stripe.paymentIntents.create>[0]);
+    const paymentIntent = await stripe.paymentIntents.create(
+      paymentIntentParams as Parameters<typeof stripe.paymentIntents.create>[0]
+    );
     console.log(`[criarPagamento] PaymentIntent criado: ${paymentIntent.id}, amount: ${amountCents}`);
 
     const serviceDateTime = service_date ? new Date(service_date as string) : new Date();
@@ -115,7 +116,6 @@ Deno.serve(async (req) => {
       requestId: body?.request_id,
       userEmail: user?.email,
     }, 'error');
-
     return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

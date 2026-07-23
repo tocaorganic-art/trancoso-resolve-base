@@ -16,7 +16,7 @@ Deno.serve(async (req) => {
 
     const headers = {
       "Content-Type": "application/json",
-      "API_KEY": MANUS_API_KEY,
+      "API_KEY": MANUS_API_KEY as string,
     };
 
     // Criar nova tarefa
@@ -65,10 +65,10 @@ Deno.serve(async (req) => {
       let result = null;
       if (data.status === "completed" && data.output) {
         const assistantMessages = data.output
-          .filter(m => m.role === "assistant")
-          .flatMap(m => m.content || [])
-          .filter(c => c.type === "output_text" && c.text)
-          .map(c => c.text);
+          .filter((m: any) => m.role === "assistant")
+          .flatMap((m: any) => m.content || [])
+          .filter((c: any) => c.type === "output_text" && c.text)
+          .map((c: any) => c.text);
         result = assistantMessages.join("\n\n") || null;
       }
 
@@ -79,6 +79,6 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error("[Manus] Erro inesperado:", error);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

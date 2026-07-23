@@ -4,6 +4,7 @@ import { base44 } from '@/api/base44Client';
 import TrIASidebar from './TrIASidebar.jsx';
 import TrIAChatArea from './TrIAChatArea.jsx';
 import LanguageSelector from './LanguageSelector.jsx';
+import WhatsAppConnectButton from './WhatsAppConnectButton.jsx';
 
 const STORAGE_KEY = 'tria_conversations_v2';
 
@@ -267,7 +268,10 @@ export default function TocaTrIAPremium() {
             </span>
           </div>
 
-          <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
+          <div className="flex items-center gap-2">
+            <WhatsAppConnectButton />
+            <LanguageSelector currentLanguage={language} onLanguageChange={setLanguage} />
+          </div>
         </div>
 
         {/* Chat */}

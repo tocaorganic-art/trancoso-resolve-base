@@ -88,7 +88,7 @@ Deno.serve(async (req) => {
 
     return Response.json({ ok: res.ok, result });
   } catch (error) {
-    console.error('[metaCAPI] Erro interno:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[metaCAPI] Erro interno:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

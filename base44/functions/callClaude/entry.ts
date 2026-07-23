@@ -91,7 +91,7 @@ Deno.serve(async (req) => {
         console.error("Erro na função callClaude:", error);
         return Response.json({ 
             error: 'Erro ao processar requisição',
-            details: error.message
+            details: (error as Error).message
         }, { status: 500 });
     }
 });

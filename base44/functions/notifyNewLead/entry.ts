@@ -86,6 +86,6 @@ ${lead.type === 'prestador'
     return Response.json({ success: true, message: 'Notifications sent' });
   } catch (error) {
     console.error('[notifyNewLead] Error:', error);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

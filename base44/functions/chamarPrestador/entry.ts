@@ -94,7 +94,7 @@ Deno.serve(async (req) => {
       provider_name: provider.full_name,
     });
   } catch (error) {
-    console.error('[chamarPrestador] erro:', error.message);
+    console.error('[chamarPrestador] erro:', (error as Error).message);
     return Response.json({ error: 'Ocorreu um problema. Tente novamente em alguns instantes.' }, { status: 500 });
   }
 });

@@ -74,7 +74,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error('Test Meta Conversion Error:', error);
     return Response.json(
-      { error: error.message },
+      { error: (error as Error).message },
       { status: 500 }
     );
   }

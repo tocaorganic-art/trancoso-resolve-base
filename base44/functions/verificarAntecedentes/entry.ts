@@ -78,8 +78,8 @@ Deno.serve(async (req) => {
       console.log(`[PF] code=${pfData?.code} status=${pfData?.data_status}`);
       resultados.push({ fonte: 'Polícia Federal', data: pfData });
     } catch (err) {
-      console.error('[PF] Erro:', err.message);
-      resultados.push({ fonte: 'Polícia Federal', erro: true, mensagem: err.message });
+      console.error('[PF] Erro:', (err as Error).message);
+      resultados.push({ fonte: 'Polícia Federal', erro: true, mensagem: (err as Error).message });
     }
 
     // 2. SP
@@ -93,8 +93,8 @@ Deno.serve(async (req) => {
         console.log(`[SP] code=${spData?.code} status=${spData?.data_status}`);
         resultados.push({ fonte: 'SP', data: spData });
       } catch (err) {
-        console.error('[SP] Erro:', err.message);
-        resultados.push({ fonte: 'SP', erro: true, mensagem: err.message });
+        console.error('[SP] Erro:', (err as Error).message);
+        resultados.push({ fonte: 'SP', erro: true, mensagem: (err as Error).message });
       }
     }
 
@@ -109,8 +109,8 @@ Deno.serve(async (req) => {
         console.log(`[MG] code=${mgData?.code} status=${mgData?.data_status}`);
         resultados.push({ fonte: 'MG', data: mgData });
       } catch (err) {
-        console.error('[MG] Erro:', err.message);
-        resultados.push({ fonte: 'MG', erro: true, mensagem: err.message });
+        console.error('[MG] Erro:', (err as Error).message);
+        resultados.push({ fonte: 'MG', erro: true, mensagem: (err as Error).message });
       }
     }
 
@@ -133,8 +133,8 @@ Deno.serve(async (req) => {
           }
         }
       } catch (err) {
-        console.error('[CEIS] Erro:', err.message);
-        resultados.push({ fonte: 'CEIS (Portal Transparência)', erro: true, mensagem: err.message });
+        console.error('[CEIS] Erro:', (err as Error).message);
+        resultados.push({ fonte: 'CEIS (Portal Transparência)', erro: true, mensagem: (err as Error).message });
       }
     }
 
@@ -161,8 +161,8 @@ Deno.serve(async (req) => {
           relatorio_verificacao_empresa: relatorioEmpresa,
         });
       } catch (err) {
-        console.error('[CNPJ] Erro:', err.message);
-        resultados.push({ fonte: 'Receita Federal CNPJ', erro: true, mensagem: err.message });
+        console.error('[CNPJ] Erro:', (err as Error).message);
+        resultados.push({ fonte: 'Receita Federal CNPJ', erro: true, mensagem: (err as Error).message });
       }
     }
 

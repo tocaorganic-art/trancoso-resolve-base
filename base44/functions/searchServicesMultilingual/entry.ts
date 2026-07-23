@@ -81,6 +81,6 @@ Deno.serve(async (req) => {
     return Response.json({ services: result });
   } catch (error) {
     console.error('Erro em searchServicesMultilingual:', error);
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
 
     return Response.json({ success: true, notified: (admins || []).length });
   } catch (error) {
-    console.error('Erro ao notificar alerta de manutenção:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Erro ao notificar alerta de manutenção:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

@@ -90,7 +90,7 @@ Deno.serve(async (req) => {
     });
 
   } catch (error) {
-    console.error('[sendVerificationEmail] Error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[sendVerificationEmail] Error:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

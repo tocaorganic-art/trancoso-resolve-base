@@ -1,10 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "npm run build && npm run prerender",
   "cleanUrls": true,
   "outputDirectory": "dist",
-  "installCommand": "npm install",
-  "framework": "vite",
   "headers": [
     {
       "source": "/sitemap.xml",

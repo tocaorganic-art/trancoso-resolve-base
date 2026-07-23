@@ -40,7 +40,7 @@ Deno.serve(async (req) => {
     const event_time = Math.floor(Date.now() / 1000);
 
     // Monta user_data — inclui apenas campos presentes
-    const ud = {
+    const ud: Record<string, string> = {
       client_ip_address: req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || req.headers.get('cf-connecting-ip') || '',
       client_user_agent: req.headers.get('user-agent') || '',
     };

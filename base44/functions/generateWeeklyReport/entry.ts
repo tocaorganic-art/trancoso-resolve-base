@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
     const weekProviders = allProviders.filter(p => p.created_date >= fmtStart && p.created_date <= fmtEnd);
 
     // Top serviços
-    const serviceCounts = {};
+    const serviceCounts: Record<string, number> = {};
     weekRequests.forEach(r => {
       const k = r.service_id || 'Desconhecido';
       serviceCounts[k] = (serviceCounts[k] || 0) + 1;
@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
     const topServices = Object.entries(serviceCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
 
     // Top origens
-    const sourceCounts = {};
+    const sourceCounts: Record<string, number> = {};
     weekLeads.forEach(l => {
       const k = l.source || 'Desconhecida';
       sourceCounts[k] = (sourceCounts[k] || 0) + 1;

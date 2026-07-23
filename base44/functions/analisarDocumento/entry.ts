@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
     // Verifica se é PDF (não suportado por visão da IA)
     const isPdf = document_url?.toLowerCase().includes('.pdf') || document_type === 'PDF';
     
-    let aiResult;
+    let aiResult: any;
     if (isPdf) {
       // PDFs não suportam análise por visão — aprovação manual direta
       aiResult = {
@@ -64,16 +64,7 @@ Deno.serve(async (req) => {
 
     // Análise por IA — extrai nome e data de nascimento do documento
     aiResult = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `Você é um especialista em verificação de documentos brasileiros. Analise a imagem do documento (${document_type}) e extraia as seguintes informações:
-1. Nome completo da pessoa
-2. Data de nascimento (formato DD/MM/AAAA)
-3. Se o documento parece autêntico e legível
-
-Responda APENAS no formato JSON exigido, sem texto adicional.
-
-Nome do usuário cadastrado na plataforma: "${user_full_name}"
-
-Compare o nome extraído com o nome cadastrado. Considere 100% de correspondência apenas se os nomes forem exatamente iguais (desconsiderando maiúsculas/minúsculas e acentuação mínima). Se houver qualquer diferença, marque name_matches como false e explique na divergence_notes.`,
+      prompt: `Você é um especialista em verificação de documentos brasileiros. Analise a imagem do documento (${document_type}) e extraia as seguintes informações:\n1. Nome completo da pessoa\n2. Data de nascimento (formato DD/MM/AAAA)\n3. Se o documento parece autêntico e legível\n\nResponda APENAS no formato JSON exigido, sem texto adicional.\n\nNome do usuário cadastrado na plataforma: \"${user_full_name}\"\n\nCompare o nome extraído com o nome cadastrado. Considere 100% de correspondência apenas se os nomes forem exatamente iguais (desconsiderando maiúsculas/minúsculas e acentuação mínima). Se houver qualquer diferença, marque name_matches como false e explique na divergence_notes.`,
       file_urls: [document_url],
       response_json_schema: {
         type: "object",
@@ -135,7 +126,7 @@ Compare o nome extraído com o nome cadastrado. Considere 100% de correspondênc
     });
 
   } catch (error) {
-    console.error('[analisarDocumento] Error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[analisarDocumento] Error:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

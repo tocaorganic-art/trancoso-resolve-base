@@ -140,7 +140,7 @@ Deno.serve(async (req) => {
 
       // Busca a assinatura no Stripe para pegar detalhes
       const stripeSub = subscriptionId
-        ? await stripe.subscriptions.retrieve(subscriptionId)
+        ? await stripe.subscriptions.retrieve(subscriptionId as string)
         : null;
 
       const priceId = stripeSub?.items?.data?.[0]?.price?.id;
@@ -242,7 +242,7 @@ Deno.serve(async (req) => {
         });
         if (existing.length > 0) {
           // Atualiza próxima data de cobrança a cada renovação
-          const stripeSub = await stripe.subscriptions.retrieve(subId);
+          const stripeSub = await stripe.subscriptions.retrieve(subId as string);
           const nextBilling = stripeSub?.current_period_end
             ? new Date(stripeSub.current_period_end * 1000).toISOString().split('T')[0]
             : null;

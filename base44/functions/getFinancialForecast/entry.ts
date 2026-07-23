@@ -2,12 +2,12 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { format, subMonths, addMonths } from 'npm:date-fns@3.6.0';
 
 // Simulação de um modelo Prophet/Pandas
-const generateForecast = (transactions) => {
+const generateForecast = (transactions: any[]) => {
     if (!transactions || transactions.length === 0) return [];
     
     // 1. Agrupar transações por mês
     const monthlyRevenue: Record<string, number> = {};
-    transactions.forEach(t => {
+    transactions.forEach((t: any) => {
         if (t.type === 'Receita' && t.status === 'Validado' && t.date) {
             const monthKey = format(new Date(t.date), 'yyyy-MM');
             monthlyRevenue[monthKey] = (monthlyRevenue[monthKey] || 0) + t.amount;
@@ -76,7 +76,7 @@ Deno.serve(async (req) => {
             status: 200,
         });
     } catch (error) {
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify({ error: (error as Error).message }), {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
             status: 500,
         });

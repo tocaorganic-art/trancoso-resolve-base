@@ -103,7 +103,7 @@ Deno.serve(async (req) => {
     };
 
     const existing = await base44.asServiceRole.entities.Subscription.filter({ user_email: email });
-    const current = (existing || []).find((s: { mp_preapproval_id?: string }) => s.mp_preapproval_id === pre.id) || existing?.[0];
+    const current: any = (existing || []).find((s: any) => s.mp_preapproval_id === pre.id) || existing?.[0];
 
     if (current) {
       await base44.asServiceRole.entities.Subscription.update(current.id, patch);

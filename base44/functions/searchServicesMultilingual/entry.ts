@@ -30,7 +30,7 @@ Deno.serve(async (req) => {
     let searchParams: Record<string, unknown> = { limit };
 
     try {
-      const aiResult = await base44.integrations.Core.InvokeLLM({
+      const aiResult: any = await base44.integrations.Core.InvokeLLM({
         prompt: searchPrompt,
         response_json_schema: {
           type: 'object',

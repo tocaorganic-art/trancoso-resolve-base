@@ -6,7 +6,7 @@ const generateForecast = (transactions) => {
     if (!transactions || transactions.length === 0) return [];
     
     // 1. Agrupar transações por mês
-    const monthlyRevenue = {};
+    const monthlyRevenue: Record<string, number> = {};
     transactions.forEach(t => {
         if (t.type === 'Receita' && t.status === 'Validado' && t.date) {
             const monthKey = format(new Date(t.date), 'yyyy-MM');
@@ -17,7 +17,7 @@ const generateForecast = (transactions) => {
     const historicalData = Object.entries(monthlyRevenue).map(([date, revenue]) => ({
         date: `${date}-01`,
         actual: revenue,
-    })).sort((a, b) => new Date(a.date) - new Date(b.date));
+    })).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
     if (historicalData.length < 2) {
       // Se não há dados históricos suficientes, retorna o que tem

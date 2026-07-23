@@ -77,7 +77,7 @@ Equipe Trancoso Resolve 🌊
     return Response.json({ ok: true, sent_to: providerEmail });
 
   } catch (error) {
-    console.error('Erro ao notificar prestador:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Erro ao notificar prestador:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

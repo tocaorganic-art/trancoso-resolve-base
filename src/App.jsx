@@ -11,6 +11,7 @@ import VisualEditAgent from '@/lib/VisualEditAgent'
 import NavigationTracker from '@/lib/NavigationTracker'
 import AndroidBackHandler from '@/components/android/AndroidBackHandler'
 import AndroidBottomTabsPreserver from '@/components/android/AndroidBottomTabsPreserver'
+import WhatsAppStickyBar from '@/components/servicos/WhatsAppStickyBar'
 import { pagesConfig } from './pages.config'
 import { BrowserRouter as Router, Route, Routes, useLocation, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
@@ -539,6 +540,7 @@ function App() {
               <AndroidBackHandler />
               <AndroidBottomTabsPreserver />
               <AuthenticatedApp />
+              <WhatsAppStickyBar serviceLabel="um profissional" />
               <Analytics />
               <SpeedInsights />
             </Router>

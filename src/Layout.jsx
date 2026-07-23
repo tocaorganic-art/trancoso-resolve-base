@@ -444,15 +444,44 @@ export default function Layout({ children, currentPageName }) {
                 <Link to="/destinos/caraiva" className="text-orange-500 hover:text-orange-400 font-semibold transition-colors flex items-center gap-1"><MapPin className="w-3.5 h-3.5" />Caraíva</Link>
               </div>
 
-              {/* Links SEO Porto Seguro */}
-              <div className="flex justify-center gap-x-4 gap-y-1 mb-4 flex-wrap text-xs text-slate-400">
-                <span className="text-slate-500 font-semibold">Porto Seguro:</span>
-                <Link to="/servicos/diarista-porto-seguro" className="hover:text-slate-200 transition-colors">Diarista</Link>
-                <Link to="/servicos/eletricista-porto-seguro" className="hover:text-slate-200 transition-colors">Eletricista</Link>
-                <Link to="/servicos/piscineiro-porto-seguro" className="hover:text-slate-200 transition-colors">Piscineiro</Link>
-                <Link to="/servicos/cozinheiro-porto-seguro" className="hover:text-slate-200 transition-colors">Cozinheiro</Link>
-                <Link to="/servicos/jardineiro-porto-seguro" className="hover:text-slate-200 transition-colors">Jardineiro</Link>
-                <Link to="/servicos/pedreiro-porto-seguro" className="hover:text-slate-200 transition-colors">Pedreiro</Link>
+              {/* Links SEO — Todas as cidades */}
+              <div className="flex flex-col gap-1.5 mb-4 text-xs text-slate-400">
+                <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
+                  <span className="text-slate-500 font-semibold">Trancoso:</span>
+                  <Link to="/servicos/diarista-trancoso" className="hover:text-slate-200 transition-colors">Diarista</Link>
+                  <Link to="/servicos/eletricista-trancoso" className="hover:text-slate-200 transition-colors">Eletricista</Link>
+                  <Link to="/servicos/piscineiro-trancoso" className="hover:text-slate-200 transition-colors">Piscineiro</Link>
+                  <Link to="/servicos/chef-trancoso" className="hover:text-slate-200 transition-colors">Cozinheiro</Link>
+                  <Link to="/servicos/jardineiro-trancoso" className="hover:text-slate-200 transition-colors">Jardineiro</Link>
+                  <Link to="/servicos/pedreiro-trancoso" className="hover:text-slate-200 transition-colors">Pedreiro</Link>
+                </div>
+                <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
+                  <span className="text-slate-500 font-semibold">Porto Seguro:</span>
+                  <Link to="/servicos/diarista-porto-seguro" className="hover:text-slate-200 transition-colors">Diarista</Link>
+                  <Link to="/servicos/eletricista-porto-seguro" className="hover:text-slate-200 transition-colors">Eletricista</Link>
+                  <Link to="/servicos/piscineiro-porto-seguro" className="hover:text-slate-200 transition-colors">Piscineiro</Link>
+                  <Link to="/servicos/cozinheiro-porto-seguro" className="hover:text-slate-200 transition-colors">Cozinheiro</Link>
+                  <Link to="/servicos/jardineiro-porto-seguro" className="hover:text-slate-200 transition-colors">Jardineiro</Link>
+                  <Link to="/servicos/pedreiro-porto-seguro" className="hover:text-slate-200 transition-colors">Pedreiro</Link>
+                </div>
+                <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
+                  <span className="text-slate-500 font-semibold">Arraial d'Ajuda:</span>
+                  <Link to="/servicos/diarista-arraial-dajuda" className="hover:text-slate-200 transition-colors">Diarista</Link>
+                  <Link to="/servicos/eletricista-arraial-dajuda" className="hover:text-slate-200 transition-colors">Eletricista</Link>
+                  <Link to="/servicos/piscineiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">Piscineiro</Link>
+                  <Link to="/servicos/cozinheiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">Cozinheiro</Link>
+                  <Link to="/servicos/jardineiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">Jardineiro</Link>
+                  <Link to="/servicos/pedreiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">Pedreiro</Link>
+                </div>
+                <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
+                  <span className="text-slate-500 font-semibold">Caraíva:</span>
+                  <Link to="/servicos/diarista-caraiva" className="hover:text-slate-200 transition-colors">Diarista</Link>
+                  <Link to="/servicos/eletricista-caraiva" className="hover:text-slate-200 transition-colors">Eletricista</Link>
+                  <Link to="/servicos/piscineiro-caraiva" className="hover:text-slate-200 transition-colors">Piscineiro</Link>
+                  <Link to="/servicos/cozinheiro-caraiva" className="hover:text-slate-200 transition-colors">Cozinheiro</Link>
+                  <Link to="/servicos/jardineiro-caraiva" className="hover:text-slate-200 transition-colors">Jardineiro</Link>
+                  <Link to="/servicos/pedreiro-caraiva" className="hover:text-slate-200 transition-colors">Pedreiro</Link>
+                </div>
               </div>
 
               <p className="text-muted-foreground text-base font-medium">

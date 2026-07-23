@@ -24,7 +24,7 @@ Deno.serve(async (req) => {
       ? `❌ Rejeitado pelo admin: ${motivo}`
       : (action === 'aprovar' ? `✅ Aprovado pelo admin ${user.full_name || user.email}` : '');
 
-    const updateData = { status: newStatus };
+    const updateData: Record<string, unknown> = { status: newStatus };
     if (adminNotes) updateData.admin_notes = adminNotes;
 
     await base44.asServiceRole.entities.Verificacao.update(verificacao_id, updateData);

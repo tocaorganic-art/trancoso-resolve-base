@@ -41,13 +41,26 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
     setStep('processing');
 
     try {
-      const result = await base44.functions.invoke('verificarAntecedentesIA', {
-        prestadorId,
+      // Salva o CPF informado no cadastro do prestador (o backend consulta a partir dele)
+      await base44.entities.ServiceProvider.update(prestadorId, {
         cpf: formData.cpf.replace(/\D/g, ''),
-        fullName: formData.fullName,
-        dateOfBirth: formData.dateOfBirth,
-        motherName: formData.motherName,
       });
+
+      const res = await base44.functions.invoke('verificarAntecedentes', {
+        service_provider_id: prestadorId,
+      });
+      const data = res?.data || {};
+
+      const statusMap = {
+        aprovado: 'approved',
+        em_analise_manual: 'pending_review',
+        reprovado: 'rejected',
+      };
+      const result = {
+        status: statusMap[data.status] || 'rejected',
+        message: data.relatorio || data.message || data.error || 'Não foi possível concluir a verificação.',
+        details: data.relatorio,
+      };
 
       setVerificationResult(result);
       setStep('result');

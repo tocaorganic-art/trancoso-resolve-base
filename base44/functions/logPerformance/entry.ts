@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
 
     const metrics = { lcp, fid, cls, ttfb, loadTime };
     const results = {};
-    const badMetrics = [];
+    const badMetrics: any[] = [];
     let overallStatus = 'ok';
 
     for (const [metric, value] of Object.entries(metrics)) {
@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
         badMetrics.push({
           metric,
           value,
-          threshold: `bom < ${THRESHOLDS[metric].good} / ruim > ${THRESHOLDS[metric].bad}`,
+          threshold: `bom < ${THRESHOLDS[metric as keyof typeof THRESHOLDS].good} / ruim > ${THRESHOLDS[metric as keyof typeof THRESHOLDS].bad}`,
           status,
         });
       } else if (status === 'warning' && overallStatus !== 'critical') {
@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
         badMetrics.push({
           metric,
           value,
-          threshold: `bom < ${THRESHOLDS[metric].good} / ruim > ${THRESHOLDS[metric].bad}`,
+          threshold: `bom < ${THRESHOLDS[metric as keyof typeof THRESHOLDS].good} / ruim > ${THRESHOLDS[metric as keyof typeof THRESHOLDS].bad}`,
           status,
         });
       }

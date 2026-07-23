@@ -15,7 +15,7 @@ const getSimpleRecommendations = async (base44: any, userId: string) => {
     }
     
     // 2. Pega as categorias desses serviços
-    const serviceIds = recentRequests.map(req => req.service_id);
+    const serviceIds = recentRequests.map((req: any) => req.service_id);
     const recentServices = await base44.entities.ServiceListing.filter({ id: { $in: serviceIds } });
     const recentCategories = [...new Set(recentServices.map((s: any) => s.category))];
     

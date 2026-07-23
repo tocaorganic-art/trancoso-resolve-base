@@ -84,8 +84,8 @@ Deno.serve(async (req) => {
     const base44 = createClientFromRequest(req);
 
     // Usa service role para não precisar de auth do usuário
-    let providers = [];
-    let services = [];
+    let providers: any[] = [];
+    let services: any[] = [];
     
     try {
       [providers, services] = await Promise.all([
@@ -93,7 +93,7 @@ Deno.serve(async (req) => {
         base44.asServiceRole.entities.ServiceListing.filter({ active: true }, '-updated_date', 500),
       ]);
     } catch (dataError) {
-      console.warn('Could not fetch provider/service data for sitemap:', dataError.message);
+      console.warn('Could not fetch provider/service data for sitemap:', (dataError as Error).message);
       // Continua sem dados dinâmicos
     }
 
@@ -134,7 +134,7 @@ Deno.serve(async (req) => {
     }
 
     // Categorias únicas de ServiceListing (pode ter outras além das ocupações)
-    const extraCats = [...new Set((services || []).map(s => s.category).filter(Boolean))]
+    const extraCats = [...new Set((services || []).map((s: any) => s.category).filter(Boolean))]
       .filter(c => !categoryOccupations.includes(c));
     for (const cat of extraCats) {
       urls.push(`

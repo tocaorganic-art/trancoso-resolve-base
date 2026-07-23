@@ -33,6 +33,7 @@ export default function ProviderCard({ provider }) {
                     src={provider.cover_photo_url}
                     alt={`Foto de capa de ${provider.full_name}`}
                     className="w-full h-full object-cover"
+                    hideErrorIcon={true}
                 />
             ) : null}
         </div>

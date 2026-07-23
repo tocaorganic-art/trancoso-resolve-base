@@ -18,7 +18,6 @@ import {
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";
-import WhatsAppStickyBar from "@/components/servicos/WhatsAppStickyBar";
 import FounderBanner from "@/components/banners/FounderBanner";
 
 const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
@@ -798,7 +797,6 @@ export default function HomePage() {
         <CTAPrestador vagasRestantes={vagasRestantes} />
       </div>
 
-      <WhatsAppStickyBar serviceLabel="um profissional" />
     </div>
   );
 }

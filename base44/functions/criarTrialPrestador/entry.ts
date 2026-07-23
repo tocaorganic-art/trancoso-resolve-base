@@ -98,11 +98,11 @@ Dúvidas? Fale com a gente: contato@tocaexperience.com.br
 Um abraço,
 Equipe Trancoso Resolve 🌊`,
       from_name: 'Trancoso Resolve',
-    }); } catch (emailErr) { console.warn('[criarTrialPrestador] email não enviado:', emailErr.message); }
+    }); } catch (emailErr) { console.warn('[criarTrialPrestador] email não enviado:', (emailErr as Error).message); }
 
     return Response.json({ ok: true, trial_start: trialStart, trial_end: trialEndDate });
   } catch (error) {
-    console.error('[criarTrialPrestador] erro:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[criarTrialPrestador] erro:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

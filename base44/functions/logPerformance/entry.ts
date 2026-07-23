@@ -9,9 +9,9 @@ const THRESHOLDS = {
   loadTime: { good: 3000,  bad: 6000  }, // ms
 };
 
-function classify(metric, value) {
+function classify(metric: string, value: number) {
   if (value === null || value === undefined) return 'unknown';
-  const t = THRESHOLDS[metric];
+  const t = THRESHOLDS[metric as keyof typeof THRESHOLDS];
   if (!t) return 'unknown';
   if (value <= t.good) return 'good';
   if (value >= t.bad) return 'bad';

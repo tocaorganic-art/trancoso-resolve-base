@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-async function sha256Hash(str) {
+async function sha256Hash(str: string) {
   const encoder = new TextEncoder();
   const data = encoder.encode(str.toLowerCase().trim());
   const hashBuffer = await crypto.subtle.digest('SHA-256', data);

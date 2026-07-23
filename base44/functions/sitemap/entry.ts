@@ -64,7 +64,7 @@ const categoryOccupations = [
   'Cozinheiro', 'Pedreiro', 'Pintor', 'Babá', 'Garçom'
 ];
 
-function formatDate(dateStr) {
+function formatDate(dateStr: string) {
   if (!dateStr) return new Date().toISOString().split('T')[0];
   return new Date(dateStr).toISOString().split('T')[0];
 }

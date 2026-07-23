@@ -1,7 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Lógica de recomendação simplificada (placeholder para o motor de IA real)
-const getSimpleRecommendations = async (base44, userId) => {
+const getSimpleRecommendations = async (base44: any, userId: string) => {
     // 1. Pega os últimos 3 serviços contratados pelo usuário
     const recentRequests = await base44.entities.ServiceRequest.filter(
         { client_id: userId, status: 'Concluído' }, 

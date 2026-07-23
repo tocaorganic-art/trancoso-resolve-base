@@ -24,12 +24,12 @@ const categoryAliases = {
   'passador': 'Outro',
 };
 
-function normalizeCategory(query) {
+function normalizeCategory(query: string) {
   const normalized = query.toLowerCase().trim();
-  return categoryAliases[normalized] || normalized;
+  return (categoryAliases as Record<string,string>)[normalized] || normalized;
 }
 
-function calculateRelevance(service, query) {
+function calculateRelevance(service: any, query: string) {
   let score = 0;
   const queryWords = query.toLowerCase().split(' ');
   

@@ -124,7 +124,7 @@ Deno.serve(async (req) => {
     return Response.json({ success: true, message_id: resultado.message_id, log_id: logEntry?.id });
 
   } catch (err) {
-    console.error('[enviarMensagemWhatsApp] erro:', err.message);
-    return Response.json({ error: err.message }, { status: 500 });
+    console.error('[enviarMensagemWhatsApp] erro:', (err as Error).message);
+    return Response.json({ error: (err as Error).message }, { status: 500 });
   }
 });

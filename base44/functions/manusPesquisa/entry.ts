@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { action, task_id, prompt } = body;
 
-    const headers = {
+    const headers: Record<string, string> = {
       "Content-Type": "application/json",
       "API_KEY": MANUS_API_KEY as string,
     };

@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
         base44_app_id: Deno.env.get('BASE44_APP_ID'),
         request_id,
         provider_id,
-        client_email,
+        client_email: clientEmail,
         platform_fee_cents: platformFee.toString(),
         provider_amount_cents: providerAmount.toString(),
       },

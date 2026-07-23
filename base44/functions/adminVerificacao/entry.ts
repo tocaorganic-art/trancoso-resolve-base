@@ -95,7 +95,7 @@ Equipe Trancoso Resolve`,
     return Response.json({ ok: true, status: newStatus });
 
   } catch (error) {
-    console.error('[adminVerificacao] Error:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('[adminVerificacao] Error:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

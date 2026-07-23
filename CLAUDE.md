@@ -570,4 +570,4 @@ Nenhuma configurada explicitamente no `.env`. Verificar Vercel dashboard para se
 
 ---
 
-**Última atualização:** 27/06/2026
+**Última atualização:** 23/07/2026

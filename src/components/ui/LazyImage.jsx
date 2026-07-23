@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import { ImageOff } from "lucide-react";
 import { getImageFormats } from "@/utils/images";
 
-export default function LazyImage({ src, srcSet, sizes, alt, className, placeholderClassName, priority = false, fallbackSrc }) {
+export default function LazyImage({ src, srcSet, sizes, alt, className, placeholderClassName, priority = false, fallbackSrc, hideErrorIcon = false }) {
   const [imgSrc, setImgSrc] = useState(src);
   const [imageFormats, setImageFormats] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -60,7 +60,7 @@ export default function LazyImage({ src, srcSet, sizes, alt, className, placehol
           placeholderClassName
         )} />
       )}
-      {hasError && (
+      {hasError && !hideErrorIcon && (
         <div className="absolute inset-0 flex items-center justify-center bg-slate-100 text-slate-400">
           <ImageOff className="w-1/4 h-1/4" />
         </div>

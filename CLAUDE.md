@@ -409,9 +409,16 @@ Nenhuma configurada explicitamente no `.env`. Verificar Vercel dashboard para se
 
 ### Prioridade alta
 
-1. **Sync GitHub ↔ Base44** — o app no Base44 (ID `68eb21726a9614db4a82ba99`)
-   ainda usa `git_remote_source: s3`. Conectar GitHub nas Configurações do Base44,
-   selecionar branch `main` e fazer pull.
+1. ~~Sync GitHub ↔ Base44~~ **RESOLVIDO (23/07/2026)** — publish falhava com "Failed to
+   publish app assets to S3". Causa raiz: `node_modules/` e `dist/` estavam **rastreados
+   pelo git** desde o `[Base44] Initial sync` (27.300+ arquivos, incluindo symlinks em
+   `node_modules/.bin/*` que provavelmente quebravam o upload para o S3). Corrigido com
+   `git rm --cached -r node_modules dist` (arquivos preservados em disco, nada apagado) —
+   commit `44656e3d`. Publish confirmado funcionando: hash dos assets em produção
+   (`index-Cm9KorLe.js`) bate exatamente com o build local.
+   ⚠️ **REGRA:** `node_modules` e `dist` já estão no `.gitignore` — nunca force adicioná-los
+   de volta ao índice do git. Se o publish voltar a falhar com erro de S3, confira primeiro
+   `git ls-files | grep -c node_modules` — deve ser sempre `0`.
    ⚠️ **NUNCA** push do Base44 → GitHub (sobrescreve migração de marca).
 
 2. **QA visual das páginas** — rodar `npm run dev`, conferir claro/escuro

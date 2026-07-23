@@ -2,15 +2,13 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import Stripe from 'npm:stripe@14.21.0';
 
 // ─── Price IDs ────────────────────────────────────────────────────────────────
-const PRICE_IDS = {
-  // Assinaturas recorrentes
-  lancamento:          'price_1TY77iRX4Ldl6df52JOZUGqj', // Prestador Lançamento R$29,90/mês (60 dias grátis)
-  regular:             'price_1TY77iRX4Ldl6df5cHFJebEA', // Prestador Mensal R$49,90/mês (7 dias grátis)
-  empresa_lancamento:  'price_1TY77iRX4Ldl6df5BxKiMcBo', // Empresas Lançamento R$59,90/mês (7 dias grátis)
-  empresa_regular:     'price_1TY77iRX4Ldl6df5VHk21uBQ', // Empresas Mensal R$89,90/mês (7 dias grátis)
-  // Avulsos (one-time)
-  avulso_prestador:    'price_1TY77iRX4Ldl6df5eEcvFJzq', // R$69,90 avulso prestador
-  avulso_empresa:      'price_1TY77iRX4Ldl6df5CvfHR8pL', // R$99,99 avulso empresa
+const PRICE_IDS: Record<string, string> = {
+  lancamento:         'price_1TY77iRX4Ldl6df52JOZUGqj',
+  regular:            'price_1TY77iRX4Ldl6df5cHFJebEA',
+  empresa_lancamento: 'price_1TY77iRX4Ldl6df5BxKiMcBo',
+  empresa_regular:    'price_1TY77iRX4Ldl6df5VHk21uBQ',
+  avulso_prestador:   'price_1TY77iRX4Ldl6df5eEcvFJzq',
+  avulso_empresa:     'price_1TY77iRX4Ldl6df5CvfHR8pL',
 };
 
 const VAGAS_LANCAMENTO = 50;
@@ -32,16 +30,10 @@ Deno.serve(async (req) => {
 
     const { plan, success_url, cancel_url } = await req.json();
 
-    // ─── Verificar limite de vagas para plano lançamento prestador ────────────
+    // ─── Verificar limite de vagas para plano lançamento ──────────────────────
     if (plan === 'lancamento') {
-      const activeSubs = await base44.asServiceRole.entities.Subscription.filter({
-        plan: 'lancamento',
-        status: 'active',
-      });
-      const trialSubs = await base44.asServiceRole.entities.Subscription.filter({
-        plan: 'lancamento',
-        status: 'trial',
-      });
+      const activeSubs = await base44.asServiceRole.entities.Subscription.filter({ plan: 'lancamento', status: 'active' });
+      const trialSubs  = await base44.asServiceRole.entities.Subscription.filter({ plan: 'lancamento', status: 'trial' });
       const total = (activeSubs?.length || 0) + (trialSubs?.length || 0);
       if (total >= VAGAS_LANCAMENTO) {
         return Response.json({
@@ -57,8 +49,8 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Plano inválido' }, { status: 400 });
     }
 
-    const customerEmail = user.email;
-    const isAvulso = plan.startsWith('avulso_');
+    const customerEmail = user.email as string;
+    const isAvulso = (plan as string).startsWith('avulso_');
     const isLancamento = plan === 'lancamento' || plan === 'empresa_lancamento';
 
     const successUrl = success_url ||
@@ -67,10 +59,14 @@ Deno.serve(async (req) => {
         : `${BASE_URL}/AssinaturaConfirmada?session_id={CHECKOUT_SESSION_ID}`);
     const cancelUrl = cancel_url || `${BASE_URL}/Planos`;
 
-    let sessionParams = {
+    const trialDays = (!isAvulso && isLancamento && plan === 'lancamento') ? 60 : 7;
+
+    // Constrói params de forma tipada — evita "property does not exist" do TypeScript
+    const sessionParams: Record<string, unknown> = {
       payment_method_types: ['card'],
       payment_method_collection: 'always',
       line_items: [{ price: priceId, quantity: 1 }],
+      mode: isAvulso ? 'payment' : 'subscription',
       success_url: successUrl,
       cancel_url: cancelUrl,
       customer_email: customerEmail,
@@ -84,13 +80,7 @@ Deno.serve(async (req) => {
       },
     };
 
-    if (isAvulso) {
-      // Pagamento único
-      sessionParams.mode = 'payment';
-    } else {
-      // Assinatura recorrente
-      sessionParams.mode = 'subscription';
-      const trialDays = isLancamento && plan === 'lancamento' ? 60 : 7;
+    if (!isAvulso) {
       sessionParams.subscription_data = {
         trial_period_days: trialDays,
         metadata: {
@@ -101,13 +91,15 @@ Deno.serve(async (req) => {
       };
     }
 
-    const session = await stripe.checkout.sessions.create(sessionParams);
+    const session = await stripe.checkout.sessions.create(
+      sessionParams as Parameters<typeof stripe.checkout.sessions.create>[0]
+    );
 
     console.log(`Checkout criado: ${session.id} para plano ${plan} (user: ${customerEmail})`);
     return Response.json({ url: session.url, session_id: session.id });
 
   } catch (error) {
-    console.error('Erro ao criar checkout:', error.message);
-    return Response.json({ error: error.message }, { status: 500 });
+    console.error('Erro ao criar checkout:', (error as Error).message);
+    return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

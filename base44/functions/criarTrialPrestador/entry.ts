@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Chamada pela automação de entity (User update com user_type='prestador')
 // ou diretamente do CadastroTipo após set do user_type

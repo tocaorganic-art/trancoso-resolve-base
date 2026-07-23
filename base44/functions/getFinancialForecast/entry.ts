@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.7.1';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { format, subMonths, addMonths } from 'npm:date-fns@3.6.0';
 
 // Simulação de um modelo Prophet/Pandas

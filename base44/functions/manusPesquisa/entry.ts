@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 const MANUS_BASE_URL = "https://api.manus.im";
 const MANUS_API_KEY = Deno.env.get("APY_KEY_MANUS");

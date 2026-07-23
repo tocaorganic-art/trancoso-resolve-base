@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.7.1';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Lógica de recomendação simplificada (placeholder para o motor de IA real)
 const getSimpleRecommendations = async (base44, userId) => {

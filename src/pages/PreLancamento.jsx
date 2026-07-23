@@ -635,7 +635,7 @@ export default function PreLancamento() {
                   <p style={{ fontSize: "0.8rem", color: "rgba(255,255,255,0.5)", marginBottom: 8, fontWeight: 600, letterSpacing: "0.5px" }}>FORMA DE PAGAMENTO PREFERIDA</p>
                   <div style={{ display: "flex", gap: 8 }}>
                     {["Pix", "Boleto", "Cartão"].map((opt) => (
-                      <React.Fragment key={opt}>
+                      <div key={opt} className="contents">
                         <input
                           type="radio"
                           id={`pag-${opt}`}
@@ -646,7 +646,7 @@ export default function PreLancamento() {
                           onChange={() => setForm(f => ({ ...f, pagamento: opt }))}
                         />
                         <label htmlFor={`pag-${opt}`} className="pl-radio-label">{opt}</label>
-                      </React.Fragment>
+                      </div>
                     ))}
                   </div>
                 </div>

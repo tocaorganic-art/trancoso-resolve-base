@@ -8,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import ResponsiveSelect from '@/components/ui/ResponsiveSelect';
 import { Loader2, User, Camera, AlertCircle, ImagePlus } from 'lucide-react';
+import { motion } from 'framer-motion';
 import PortfolioGallery from '@/components/perfil/PortfolioGallery';
 import VerificacaoStatusCard from '@/components/verificacao/VerificacaoStatusCard';
 import VerificacaoBadge from '@/components/verificacao/VerificacaoBadge';
@@ -352,7 +353,13 @@ function MeuPerfilPrestadorContent() {
           <form onSubmit={handleSubmit} className="space-y-8">
             {/* Foto de Perfil */}
             <div className="flex items-center gap-6">
-              <div className="relative">
+              <motion.div
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 14 }}
+                whileHover={{ scale: 1.05 }}
+                className="relative"
+              >
                 {formData.photo_url ? (
                   <img src={formData.photo_url} alt="Perfil" className="w-24 h-24 rounded-full object-cover" />
                 ) : (
@@ -364,7 +371,7 @@ function MeuPerfilPrestadorContent() {
                   <Camera className="w-4 h-4 text-muted-foreground" />
                   <input id="profile-pic" type="file" accept="image/*" className="hidden" onChange={(e) => handleFileUpload(e.target.files[0], 'profile')} />
                 </label>
-              </div>
+              </motion.div>
               <div className="flex-1">
                 <Label htmlFor="full_name">Nome Completo <span className="text-red-500">*</span></Label>
                 <Input 
@@ -415,7 +422,7 @@ function MeuPerfilPrestadorContent() {
 
             {/* Tipo de Pessoa / Dados Jurídicos */}
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold border-b pb-2">Tipo de Cadastro</h3>
+              <motion.h3 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: 0.05 }} className="text-lg font-semibold border-b pb-2">Tipo de Cadastro</motion.h3>
               <div>
                 <Label>Tipo de Pessoa <span className="text-red-500">*</span></Label>
                 <ResponsiveSelect
@@ -482,7 +489,7 @@ function MeuPerfilPrestadorContent() {
 
             {/* Informações Profissionais */}
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold border-b pb-2">Informações Profissionais</h3>
+              <motion.h3 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: 0.05 }} className="text-lg font-semibold border-b pb-2">Informações Profissionais</motion.h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="occupation">Ocupação Principal <span className="text-red-500">*</span></Label>
@@ -508,7 +515,7 @@ function MeuPerfilPrestadorContent() {
 
             {/* Contato e Localização */}
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold border-b pb-2">Contato e Localização</h3>
+              <motion.h3 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: 0.05 }} className="text-lg font-semibold border-b pb-2">Contato e Localização</motion.h3>
               <div>
                 <Label htmlFor="phone">Telefone de Contato (WhatsApp) <span className="text-red-500">*</span></Label>
                 <Input 
@@ -570,7 +577,7 @@ function MeuPerfilPrestadorContent() {
 
             {/* Preços e Pagamento */}
             <div className="space-y-6">
-              <h3 className="text-lg font-semibold border-b pb-2">Preços e Pagamento</h3>
+              <motion.h3 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.35, delay: 0.05 }} className="text-lg font-semibold border-b pb-2">Preços e Pagamento</motion.h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <Label htmlFor="price_range">Faixa de Preço</Label>
@@ -639,10 +646,12 @@ function MeuPerfilPrestadorContent() {
             {/* Ações */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-border">
               <AccountDeletionDialog providerId={provider?.id} userEmail={user?.email} />
-              <Button type="submit" disabled={mutation.isPending || isUploading} className="select-none">
-                {(mutation.isPending || isUploading) && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                Salvar Perfil
-              </Button>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+                <Button type="submit" disabled={mutation.isPending || isUploading} className="select-none w-full">
+                  {(mutation.isPending || isUploading) && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                  Salvar Perfil
+                </Button>
+              </motion.div>
             </div>
           </form>
         </CardContent>

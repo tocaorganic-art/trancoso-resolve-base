@@ -36,18 +36,22 @@ const RequestCard = ({ request, service, onConfirm, onReject }) => {
       </div>
       {request.status === 'Pendente' && (
         <div className="flex gap-2 mt-4">
-          <button 
+          <motion.button 
             onClick={() => onConfirm(request.id)}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             className="flex-1 py-2.5 rounded-xl gradient-amber text-white font-semibold text-sm"
           >
             Aceitar
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={() => onReject(request)}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
             className="flex-1 py-2.5 rounded-xl bg-muted border border-border text-muted-foreground font-medium text-sm"
           >
             Recusar
-          </button>
+          </motion.button>
         </div>
       )}
     </motion.div>
@@ -207,16 +211,22 @@ function MinhaAgendaContent() {
   return (
     <div className="bg-background min-h-screen pb-24">
       {/* HEADER PADRÃO */}
-      <header className="px-5 pt-6 pb-2">
+      <motion.header className="px-5 pt-6 pb-2"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Minha Agenda</h1>
         <p className="text-sm text-muted-foreground mt-1">Gerencie solicitações e disponibilidade</p>
-      </header>
+      </motion.header>
 
       <div className="px-5 mt-6">
         {/* ABAS SIMPLIFICADAS */}
         <div className="flex gap-2 bg-muted p-1 rounded-xl mb-6">
-          <button 
+          <motion.button 
             onClick={() => setActiveTab('Pendente')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
             className={cn(
               "flex-1 py-2 rounded-lg text-sm font-semibold transition",
               activeTab === 'Pendente' 
@@ -225,9 +235,11 @@ function MinhaAgendaContent() {
             )}
           >
             Pendentes <span className="ml-1 px-1.5 rounded-full bg-muted-foreground/20 text-xs">{requestsByStatus.Pendente.length}</span>
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={() => setActiveTab('Confirmado')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
             className={cn(
               "flex-1 py-2 rounded-lg text-sm font-semibold transition",
               activeTab === 'Confirmado'
@@ -236,9 +248,11 @@ function MinhaAgendaContent() {
             )}
           >
             Confirmados
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={() => setActiveTab('Disponibilidade')}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
             className={cn(
               "flex-1 py-2 rounded-lg text-sm font-semibold transition",
               activeTab === 'Disponibilidade'
@@ -247,7 +261,7 @@ function MinhaAgendaContent() {
             )}
           >
             Horários
-          </button>
+          </motion.button>
         </div>
 
         {/* CONTEÚDO DAS ABAS */}

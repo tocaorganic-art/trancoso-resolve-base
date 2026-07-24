@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Loader2, Calendar, Info, Star, CreditCard, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Link } from 'react-router-dom';
@@ -21,8 +22,15 @@ const statusConfig = {
   Cancelado: { color: "bg-muted text-foreground border-border", text: "Cancelado" },
 };
 
-function RequestCard({ request, provider, onReviewClick, hasReview, payment, onPaymentConfirmed }) {
+function RequestCard({ request, provider, onReviewClick, hasReview, payment, onPaymentConfirmed, index = 0 }) {
   return (
+    <motion.div
+      initial={{ opacity: 0, x: -16 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.35, delay: index * 0.06 }}
+      whileHover={{ x: 4, transition: { duration: 0.15 } }}
+    >
     <Card className="shadow-md hover:shadow-lg transition-shadow flex flex-col">
       <CardHeader>
         <div className="flex justify-between items-start">
@@ -30,9 +38,11 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
             <p className="text-sm text-muted-foreground">Prestador:</p>
             <CardTitle className="text-lg">{provider?.full_name || "Carregando..."}</CardTitle>
           </div>
-          <Badge className={`${statusConfig[request.status]?.color} font-medium`}>
-            {statusConfig[request.status]?.text}
-          </Badge>
+          <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 14 }}>
+            <Badge className={`${statusConfig[request.status]?.color} font-medium`}>
+              {statusConfig[request.status]?.text}
+            </Badge>
+          </motion.div>
         </div>
       </CardHeader>
       <CardContent className="flex-grow space-y-3">
@@ -80,6 +90,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
         </div>
       )}
     </Card>
+    </motion.div>
   );
 }
 
@@ -135,14 +146,18 @@ export default function MeusPedidosPage() {
           onClose={() => setReviewingRequest(null)}
         />
       )}
-      <header className="px-5 pt-6 pb-2">
+      <motion.header className="px-5 pt-6 pb-2"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Meus Pedidos</h1>
         <p className="text-sm text-muted-foreground mt-1">Acompanhe, confirme e avalie suas solicitações</p>
-      </header>
+      </motion.header>
       <div className="px-5 mt-6">
         {requests && requests.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {requests.map(req => {
+            {requests.map((req, i) => {
               const provider = providers.find(p => p.id === req.provider_id);
               const hasReview = reviewedRequestIds.has(req.id);
               const payment = paymentByRequestId[req.id];
@@ -153,6 +168,7 @@ export default function MeusPedidosPage() {
                   provider={provider}
                   hasReview={hasReview}
                   payment={payment}
+                  index={i}
                   onPaymentConfirmed={refetchPayments}
                   onReviewClick={(request, provider) => setReviewingRequest({ request, provider })}
                 />
@@ -160,14 +176,20 @@ export default function MeusPedidosPage() {
             })}
           </div>
         ) : (
-          <div className="text-center py-12 rounded-2xl bg-card border border-border">
-            <Info className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+          <motion.div className="text-center py-12 rounded-2xl bg-card border border-border"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <motion.div initial={{ scale: 0.7 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 14, delay: 0.1 }}>
+              <Info className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+            </motion.div>
             <h3 className="text-xl font-semibold text-foreground">Nenhum pedido encontrado</h3>
             <p className="text-muted-foreground mt-2 mb-6">Por enquanto, nada por aqui — assim que pintar algo, te aviso!</p>
             <Link to={createPageUrl("Home")}>
               <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">Bora resolver</Button>
             </Link>
-          </div>
+          </motion.div>
         )}
       </div>
     </div>

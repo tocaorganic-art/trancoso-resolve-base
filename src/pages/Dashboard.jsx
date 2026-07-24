@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
@@ -15,7 +15,20 @@ import PermissionChecker from "../components/auth/PermissionChecker";
 import SubscriptionPaywall from "../components/dashboard/SubscriptionPaywall";
 import CheckoutSuccessBanner from "../components/dashboard/CheckoutSuccessBanner";
 import FounderBanner from "@/components/banners/FounderBanner";
-import { motion } from "framer-motion";
+import { motion, useMotionValue, animate, useInView } from "framer-motion";
+
+function Counter({ target, suffix = '' }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const count = useMotionValue(0);
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const c = animate(count, target, { duration: 1.4, ease: 'easeOut', onUpdate: v => setDisplay(Math.round(v)) });
+    return c.stop;
+  }, [inView, target]);
+  return <span ref={ref}>{display}{suffix}</span>;
+}
 
 export default function DashboardPage() {
   return (
@@ -144,17 +157,21 @@ function DashboardContent() {
     {checkoutSuccess && <CheckoutSuccessBanner />}
     <FounderBanner />
 
-    <div className="mb-8 pt-4">
+    <motion.div className="mb-8 pt-4"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: 0.05 }}
+    >
       <div className="flex items-center gap-3">
         <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
           <TrendingUp className="w-6 h-6 text-white" />
         </div>
         <div>
           <h1 className="text-3xl font-extrabold text-foreground tracking-tight">Painel do Prestador</h1>
-          <p className="text-muted-foreground text-sm">Bem-vindo(a) de volta, {user?.full_name || 'Prestador'}!</p>
+          <p className="text-muted-foreground text-sm">Bem-vindo(a) de volta, <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }}>{user?.full_name || 'Prestador'}</motion.span>!</p>
         </div>
       </div>
-    </div>
+    </motion.div>
       
       {/* Alerta: prestador sem telefone cadastrado */}
       {user && !user.phone && (
@@ -190,9 +207,10 @@ function DashboardContent() {
         transition={{ duration: 0.4, staggerChildren: 0.1 }}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.06 }}
+          whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
         >
           <Card
             style={{
@@ -218,16 +236,17 @@ function DashboardContent() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-extrabold text-foreground mb-1">{pendingRequests}</div>
+              <div className="text-4xl font-extrabold text-foreground mb-1"><Counter target={pendingRequests} /></div>
               <p className="text-xs text-orange-700/70 dark:text-orange-200/70">Aguardando sua confirmação</p>
             </CardContent>
           </Card>
         </motion.div>
         
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.2 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.12 }}
+          whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
         >
           <Card
             style={{
@@ -253,16 +272,17 @@ function DashboardContent() {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="text-4xl font-extrabold text-foreground mb-1">{confirmedServices}</div>
+              <div className="text-4xl font-extrabold text-foreground mb-1"><Counter target={confirmedServices} /></div>
               <p className="text-xs text-olive-700/70 dark:text-olive-300/70">Agendados para os próximos dias</p>
             </CardContent>
           </Card>
         </motion.div>
         
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3, delay: 0.3 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.18 }}
+          whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
         >
           <Card
             style={{

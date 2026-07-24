@@ -43,8 +43,16 @@ export default function Layout({ children, currentPageName }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const isRoot = location.pathname === "/" || location.pathname === "/Home";
   const { theme, toggleTheme, lang, setLang, t, LANGUAGES } = useApp();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
@@ -193,14 +201,14 @@ export default function Layout({ children, currentPageName }) {
 
         <div className="min-h-screen bg-background overflow-x-hidden flex flex-col">
           <header role="banner">
-          <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-warm-sm" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
-            <div className="container mx-auto px-3 md:px-4 py-3 flex items-center justify-between gap-2">
+          <nav className={`bg-card/95 backdrop-blur-md border-b border-border sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-warm-md' : 'shadow-warm-sm'}`} style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+            <div className={`container mx-auto px-3 md:px-4 flex items-center justify-between gap-2 transition-all duration-300 ${scrolled ? 'py-1.5' : 'py-3'}`}>
               <Link to={createPageUrl("Home")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="nav-logo-link">
                 <Logo markClassName="h-12 w-12 md:h-14 md:w-14" textClassName="text-sm md:text-base hidden sm:flex" />
               </Link>
 
               {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center gap-3 lg:gap-6 min-w-0 overflow-hidden">
+              <div className={`hidden md:flex items-center gap-3 lg:gap-6 min-w-0 overflow-hidden transition-all duration-300 ${scrolled ? 'opacity-0 pointer-events-none w-0' : 'opacity-100'}`}>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <button className="flex items-center gap-1 text-sm font-semibold text-foreground hover:text-orange-500 transition-colors focus:outline-none">
@@ -244,7 +252,7 @@ export default function Layout({ children, currentPageName }) {
                 )}
               </div>
 
-              <div className="flex items-center gap-1 min-w-0 shrink">
+              <div className={`flex items-center gap-1 min-w-0 shrink transition-all duration-300 ${scrolled ? 'opacity-0 pointer-events-none w-0 overflow-hidden' : 'opacity-100'}`}>
                 {/* Language selector */}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

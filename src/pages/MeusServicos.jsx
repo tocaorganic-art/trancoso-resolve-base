@@ -148,35 +148,51 @@ function MeusServicosContent() {
   return (
     <div className="min-h-screen bg-background pb-24">
       {/* HEADER PADRÃO */}
-      <header className="px-5 pt-6 pb-2">
+      <motion.header className="px-5 pt-6 pb-2"
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
         <h1 className="text-2xl font-extrabold text-foreground tracking-tight">Meus Serviços</h1>
         <p className="text-sm text-muted-foreground mt-1">Gerencie os serviços que você oferece</p>
-      </header>
+      </motion.header>
 
       <div className="px-5 mt-6">
-        <button 
+        <motion.button 
           onClick={handleOpenCreate}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
           className="w-full gradient-amber-hover text-white font-semibold py-3 rounded-xl mb-6 flex items-center justify-center gap-2"
         >
-          <Plus className="w-5 h-5" />
+          <motion.span whileHover={{ rotate: 90 }} transition={{ duration: 0.2 }}>
+            <Plus className="w-5 h-5" />
+          </motion.span>
           Novo Serviço
-        </button>
+        </motion.button>
 
         {services.length === 0 ? (
-          <div className="text-center py-12">
-            <AlertCircle className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+          <motion.div className="text-center py-12"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.4 }}
+          >
+            <motion.div initial={{ scale: 0.7 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 200, damping: 14, delay: 0.1 }}>
+              <AlertCircle className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+            </motion.div>
             <h3 className="text-lg font-bold text-foreground">Nenhum serviço cadastrado</h3>
             <p className="text-sm text-muted-foreground mt-2 mb-6">Comece cadastrando seu primeiro serviço.</p>
-          </div>
+          </motion.div>
         ) : (
           <div className="space-y-4">
             {services.map((service, index) => (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className="rounded-2xl overflow-hidden bg-card border border-border transition hover:scale-[1.02]"
+                initial={{ opacity: 0, y: 24, scale: 0.97 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.07 }}
+                whileHover={{ y: -4, transition: { duration: 0.18 } }}
+                className="rounded-2xl overflow-hidden bg-card border border-border"
               >
                 {service.images?.[0] && (
                   <LazyImage

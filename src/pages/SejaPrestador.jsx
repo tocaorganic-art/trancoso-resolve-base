@@ -223,30 +223,49 @@ export default function SejaPrestadorPage() {
       </section>
 
       {/* CTA Final */}
-      <div className="bg-card py-16 md:py-24 border-t border-border">
-        <div className="container mx-auto text-center px-4 max-w-2xl">
-          <span className="inline-block bg-orange-500/10 border border-orange-500/30 text-orange-400 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-4">Vagas limitadas por categoria</span>
-          <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4 leading-tight">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-20 md:py-28 border-t border-border">
+        {/* Aurora blobs */}
+        <motion.div
+          animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-[-20%] left-[-10%] w-[500px] h-[400px] rounded-full bg-orange-600/25 blur-[120px] pointer-events-none"
+        />
+        <motion.div
+          animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.28, 0.15] }}
+          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[300px] rounded-full bg-amber-500/20 blur-[100px] pointer-events-none"
+        />
+        <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: 'linear-gradient(rgba(232,87,26,0.4) 1px,transparent 1px),linear-gradient(90deg,rgba(232,87,26,0.4) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
+
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="container mx-auto text-center px-4 max-w-2xl relative z-10"
+        >
+          <span className="inline-block bg-orange-500/15 border border-orange-500/30 text-orange-300 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">Vagas limitadas por categoria</span>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
             Sua Expertise no<br />
-            <span className="text-orange-400">Coração de Trancoso.</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-400">Coração de Trancoso.</span>
           </h2>
-          <p className="text-muted-foreground mb-8 max-w-lg mx-auto text-base md:text-lg leading-relaxed">
+          <p className="text-slate-300 mb-8 max-w-lg mx-auto text-base md:text-lg leading-relaxed">
             Conecte-se a uma audiência VIP de moradores, proprietários de villas e turistas de alto padrão que buscam exatamente o que você oferece. Sem custo de marketing. Sem intermediários.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to={createPageUrl('CadastroTipo')}>
-              <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white font-bold text-lg px-10 py-4 shadow-xl min-h-[52px]">
+              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg px-10 shadow-xl shadow-orange-900/30 min-h-[52px] w-full sm:w-auto">
                 Cadastre-se Agora — É Grátis
               </Button>
             </Link>
             <Link to={createPageUrl('Planos')}>
-              <Button size="lg" variant="outline" className="border-border text-foreground hover:bg-muted font-semibold px-8 min-h-[52px]">
+              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 font-semibold px-8 min-h-[52px] w-full sm:w-auto">
                 Ver Planos e Preços
               </Button>
             </Link>
           </div>
-          <p className="text-muted-foreground text-xs mt-6">Todos os prestadores passam por verificação de identidade e análise de antecedentes.</p>
-        </div>
+          <p className="text-slate-400 text-xs mt-6">Todos os prestadores passam por verificação de identidade e análise de antecedentes.</p>
+        </motion.div>
       </div>
 
     </div>

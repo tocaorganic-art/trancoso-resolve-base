@@ -239,7 +239,7 @@ export default function TocaTrIAPremium() {
   }, []);
 
   return (
-    <div className="flex h-screen bg-[#120C05] overflow-hidden font-nunito">
+    <div className="flex h-[100dvh] bg-[#120C05] overflow-hidden font-nunito">
       <TrIASidebar
         isOpen={sidebarOpen}
         conversations={conversations}

@@ -849,7 +849,7 @@ export default function HomePage() {
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   Ver página de {dest.cidade}
                 </Link>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>

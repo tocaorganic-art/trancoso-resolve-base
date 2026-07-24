@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from '@/components/ui/card';
-import { Loader2, DollarSign, TrendingUp, Clock, AlertTriangle, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Loader2, DollarSign, TrendingUp, Clock, AlertTriangle, CheckCircle2, ShieldAlert, Search, CreditCard } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -115,8 +115,15 @@ export default function AdminPagamentosPage() {
 
       <div className="bg-card border-b border-border">
         <div className="container mx-auto px-4 py-6">
-          <h1 className="text-2xl font-bold text-foreground">Dashboard de Pagamentos</h1>
-          <p className="text-muted-foreground text-sm">Monitoramento de transações e split</p>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow">
+              <CreditCard className="w-5 h-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Dashboard de Pagamentos</h1>
+              <p className="text-muted-foreground text-sm">Monitoramento de transações e split de receita</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -204,8 +211,11 @@ export default function AdminPagamentosPage() {
         <Card className="table-container bg-card border-border">
           <CardContent className="p-0 overflow-x-auto">
             {filtered.length === 0 ? (
-              <div className="text-center py-12 px-6">
-                <p className="text-lg font-semibold text-muted-foreground mt-3">Nenhuma transação encontrada</p>
+              <div className="text-center py-16 px-6">
+                <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-7 h-7 text-muted-foreground" />
+                </div>
+                <p className="text-base font-semibold text-foreground mb-1">Nenhuma transação encontrada</p>
                 <p className="text-sm text-muted-foreground">As transações aparecerão aqui assim que ocorrerem.</p>
               </div>
             ) : (

@@ -6,31 +6,21 @@ import { Loader2, DollarSign, TrendingUp, Clock, AlertTriangle, CheckCircle2, Sh
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-const statusColors = {
-  'captured': { bg: '#dcfce7', color: '#15803d', label: 'Pago', Icon: CheckCircle2 },
-  'requires_payment_method': { bg: '#fef9c3', color: '#854d0e', label: 'Aguardando Pagamento' },
-  'requires_capture': { bg: '#dbeafe', color: '#1d4ed8', label: 'Em Custódia', Icon: DollarSign },
-  'canceled': { bg: '#f3f4f6', color: '#6b7280', label: 'Cancelado' },
-  'disputed': { bg: '#fee2e2', color: '#dc2626', label: 'Em Disputa', Icon: ShieldAlert },
-  'refunded': { bg: '#f3e8ff', color: '#6b21a8', label: 'Reembolsado' },
+const STATUS_CONFIG = {
+  'captured':                { label: 'Pago',               Icon: CheckCircle2, className: 'bg-green-500/15 text-green-400 border border-green-500/30' },
+  'requires_payment_method': { label: 'Aguard. Pagamento',  Icon: Clock,        className: 'bg-yellow-500/15 text-yellow-400 border border-yellow-500/30' },
+  'requires_capture':        { label: 'Em Custódia',        Icon: DollarSign,   className: 'bg-blue-500/15 text-blue-400 border border-blue-500/30' },
+  'canceled':                { label: 'Cancelado',          Icon: null,         className: 'bg-muted text-muted-foreground border border-border' },
+  'disputed':                { label: 'Em Disputa',         Icon: ShieldAlert,  className: 'bg-red-500/15 text-red-400 border border-red-500/30' },
+  'refunded':                { label: 'Reembolsado',        Icon: null,         className: 'bg-purple-500/15 text-purple-400 border border-purple-500/30' },
 };
 
 function StatusBadge({ status }) {
-  const cfg = statusColors[status] || { bg: '#f3f4f6', color: '#6b7280', label: status };
+  const cfg = STATUS_CONFIG[status] || { label: status, Icon: null, className: 'bg-muted text-muted-foreground border border-border' };
   const Icon = cfg.Icon;
   return (
-    <span style={{
-      padding: '4px 12px',
-      borderRadius: 20,
-      fontSize: 12,
-      fontWeight: 600,
-      background: cfg.bg,
-      color: cfg.color,
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 4
-    }}>
-      {Icon && <Icon className="w-3.5 h-3.5" />}
+    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${cfg.className}`}>
+      {Icon && <Icon className="w-3 h-3" />}
       {cfg.label}
     </span>
   );

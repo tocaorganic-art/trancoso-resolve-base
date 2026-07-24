@@ -170,17 +170,30 @@ export default function SejaPrestadorPage() {
           <span className="text-sm font-semibold text-orange-600 uppercase tracking-widest">Simples e rápido</span>
           <h2 className="text-xl md:text-3xl font-bold text-foreground mt-2">Como funciona</h2>
         </div>
-        <ul className="space-y-6">
-          {steps.map(s => (
-            <li key={s.n} className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-700 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md">
+        <ul className="space-y-5">
+          {steps.map((s, i) => (
+            <motion.li
+              key={s.n}
+              initial={{ opacity: 0, x: -28 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-start gap-4"
+            >
+              <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.1 + 0.2, type: 'spring', stiffness: 220 }}
+                className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-700 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md"
+              >
                 {s.n}
-              </div>
+              </motion.div>
               <div>
                 <h3 className="font-semibold text-lg text-foreground">{s.title}</h3>
                 <p className="text-muted-foreground mt-1">{s.desc}</p>
               </div>
-            </li>
+            </motion.li>
           ))}
         </ul>
       </section>

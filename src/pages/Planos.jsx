@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
@@ -194,26 +195,43 @@ const FAQ_ITEMS = [
 function FaqItem({ q, r }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="border border-border rounded-xl overflow-hidden">
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4 }}
+      className="border border-border rounded-xl overflow-hidden"
+    >
       <button
         className="w-full text-left px-5 py-4 flex justify-between items-center bg-card hover:bg-muted transition-colors"
         onClick={() => setOpen(!open)}
       >
         <span className="font-semibold text-foreground text-sm pr-4">{q}</span>
-        {open
-          ? <ChevronUp className="w-4 h-4 text-muted-foreground shrink-0" />
-          : <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />}
+        <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }}>
+          <ChevronDown className="w-4 h-4 text-muted-foreground shrink-0" />
+        </motion.div>
       </button>
-      {open && (
-        <div className="px-5 py-4 bg-muted text-sm text-muted-foreground border-t border-border leading-relaxed">
-          {r}
-        </div>
-      )}
-    </div>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="answer"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <div className="px-5 py-4 bg-muted text-sm text-muted-foreground border-t border-border leading-relaxed">
+              {r}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
-function PlanCard({ plano, anual, onCta, loading }) {
+function PlanCard({ plano, anual, onCta, loading, index = 0 }) {
   const preco = anual && plano.precoAnual
     ? (plano.precoAnual / 12).toFixed(2).replace(".", ",")
     : plano.preco === 0
@@ -223,7 +241,14 @@ function PlanCard({ plano, anual, onCta, loading }) {
   const Icon = plano.icone;
 
   return (
-    <div className={`relative flex flex-col ${plano.destaque ? "pt-5" : "pt-0"}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: plano.destaque ? -8 : -5, transition: { duration: 0.2 } }}
+      className={`relative flex flex-col ${plano.destaque ? "pt-5" : "pt-0"}`}
+    >
       {plano.destaque && (
         <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
           <Badge className="bg-orange-500 text-white font-bold text-xs px-3 py-1 shadow-md">
@@ -317,7 +342,7 @@ function PlanCard({ plano, anual, onCta, loading }) {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </motion.div>
   );
 }
 
@@ -490,22 +515,32 @@ export default function PlanosPage() {
       <div className="container mx-auto max-w-5xl px-4">
 
         {/* Cabeçalho */}
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-foreground tracking-tight mb-3">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-8"
+        >
+          <h1 className="text-4xl font-extrabold tracking-tight mb-3 bg-gradient-to-r from-orange-400 via-orange-300 to-amber-300 bg-clip-text text-transparent">
             Escolha seu plano
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto text-base">
             Sem comissão sobre serviços. Você negocia direto com o cliente e fica com 100% do valor.
           </p>
           {aba === "prestador" && founderRestam > 0 && founderRestam <= 100 && (
-            <div className="mt-3 inline-flex items-center gap-2 bg-orange-900/30 border border-orange-600 text-orange-200 text-sm font-semibold rounded-full px-4 py-1.5">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, type: 'spring', stiffness: 300, damping: 18 }}
+              className="mt-3 inline-flex items-center gap-2 bg-orange-900/30 border border-orange-600 text-orange-200 text-sm font-semibold rounded-full px-4 py-1.5"
+            >
               <Shield className="w-4 h-4 text-orange-400" />
               {founderRestam === 100
                 ? "Seja um dos 100 primeiros Prestadores Fundadores de Trancoso"
                 : `Restam ${founderRestam} vagas de Prestador Fundador — preço de lançamento R$19,90/mês`}
-            </div>
+            </motion.div>
           )}
-        </div>
+        </motion.div>
 
         {/* Toggle Prestador / Lojista */}
         <div className="flex items-center justify-center mb-6">
@@ -537,17 +572,27 @@ export default function PlanosPage() {
         <AnnualStrip anual={anual} onToggle={() => setAnual(v => !v)} />
 
         {/* Cards de plano */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-4">
-          {planos.map(plano => (
-            <PlanCard
-              key={plano.id}
-              plano={plano}
-              anual={anual && plano.precoAnual !== null}
-              onCta={handleCheckout}
-              loading={loadingPlan === plano.ctaKey}
-            />
-          ))}
-        </div>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={aba}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.35 }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-4"
+          >
+            {planos.map((plano, i) => (
+              <PlanCard
+                key={plano.id}
+                plano={plano}
+                anual={anual && plano.precoAnual !== null}
+                onCta={handleCheckout}
+                loading={loadingPlan === plano.ctaKey}
+                index={i}
+              />
+            ))}
+          </motion.div>
+        </AnimatePresence>
 
         {/* Nota Mercado Pago */}
         <p className="text-center text-muted-foreground text-xs mb-4">
@@ -560,11 +605,18 @@ export default function PlanosPage() {
         </div>
 
         {/* Boost Alta Temporada */}
+        <motion.div
+          initial={{ opacity: 0, x: 32 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
         <BoostSection
           tipo={aba}
           onCta={handleCheckout}
           loading={loadingPlan === (aba === "prestador" ? "boost_prestador" : "boost_lojista")}
         />
+        </motion.div>
 
         {/* Prova social */}
         <div className="text-center mb-12">

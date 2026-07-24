@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { checkContactData } from "@/lib/contactFilter";
 import { toast } from "sonner";
 import { playMessageSound } from "@/components/chat/ChatNotificationSound";
+import { motion, AnimatePresence } from "framer-motion";
 
 function EmptyConversations() {
   const suggestions = ["Preciso de uma diarista", "Quero um eletricista", "Buscar cozinheiro particular"];
@@ -47,16 +48,20 @@ function ConversationList({ conversations, selectedId, onSelect, currentUser }) 
 
   return (
     <div className="divide-y divide-border">
-      {conversations.map((conv) => {
+      {conversations.map((conv, i) => {
         const isClient = conv.client_email === currentUser?.email;
         const otherName = isClient ? conv.provider_name : conv.client_name;
         const unread = isClient ? conv.unread_client : conv.unread_provider;
         const isSelected = conv.id === selectedId;
 
         return (
-          <button
+          <motion.button
             key={conv.id}
             onClick={() => onSelect(conv)}
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: i * 0.05 }}
+            whileHover={{ x: 2 }}
             className={`w-full text-left p-4 hover:bg-muted transition-colors ${isSelected ? "bg-orange-50 border-l-4 border-brand-primary" : ""}`}
           >
             <div className="flex items-center gap-3">
@@ -81,7 +86,7 @@ function ConversationList({ conversations, selectedId, onSelect, currentUser }) 
                 )}
               </div>
             </div>
-          </button>
+          </motion.button>
         );
       })}
     </div>
@@ -90,7 +95,12 @@ function ConversationList({ conversations, selectedId, onSelect, currentUser }) 
 
 function MessageBubbleChat({ message, isOwn }) {
   return (
-    <div className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-3`}>
+    <motion.div
+      initial={{ opacity: 0, y: 12, scale: 0.97, x: isOwn ? 16 : -16 }}
+      animate={{ opacity: 1, y: 0, scale: 1, x: 0 }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+      className={`flex ${isOwn ? "justify-end" : "justify-start"} mb-3`}
+    >
       <div className={`max-w-[75%] rounded-2xl px-4 py-2.5 ${isOwn ? "bg-brand-primary text-white rounded-br-sm" : "bg-card border border-border text-foreground rounded-bl-sm"}`}>
         <p className="text-sm leading-relaxed">{message.content}</p>
         <div className={`flex items-center gap-1 mt-1 ${isOwn ? "justify-end" : "justify-start"}`}>
@@ -100,7 +110,7 @@ function MessageBubbleChat({ message, isOwn }) {
           {isOwn && <CheckCheck className={`w-3 h-3 ${message.read ? "text-orange-200" : "text-orange-300"}`} />}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -202,19 +212,27 @@ function ChatWindow({ conversation, currentUser, onBack }) {
             <p className="text-sm">Inicie a conversa!</p>
           </div>
         ) : (
-          messages.map((msg) => (
+          <AnimatePresence>
+          {messages.map((msg) => (
             <MessageBubbleChat
               key={msg.id}
               message={msg}
               isOwn={msg.sender_email === currentUser?.email}
             />
-          ))
+          ))}
+          </AnimatePresence>
         )}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSend} className="p-4 bg-white border-t flex gap-2">
+      <motion.form
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        onSubmit={handleSend}
+        className="p-4 bg-white border-t flex gap-2"
+      >
         <Input
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
@@ -222,6 +240,7 @@ function ChatWindow({ conversation, currentUser, onBack }) {
           className="flex-1"
           autoComplete="off"
         />
+        <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
         <Button
           type="submit"
           disabled={!newMessage.trim() || sendMessageMutation.isPending}
@@ -229,7 +248,8 @@ function ChatWindow({ conversation, currentUser, onBack }) {
         >
           <Send className="w-4 h-4" />
         </Button>
-      </form>
+        </motion.div>
+      </motion.form>
     </div>
   );
 }

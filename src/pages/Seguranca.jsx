@@ -8,6 +8,7 @@ import { createPageUrl } from '@/utils';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { motion } from 'framer-motion';
 
 // ─── 2FA Settings Panel ────────────────────────────────────────────────
 function TwoFAPanel({ user }) {
@@ -211,16 +212,30 @@ function DangerZonePanel({ user }) {
 }
 
 // ─── Security Feature card (public section) ────────────────────────────
-const SecurityFeature = ({ icon, title, description }) => (
+const SecurityFeature = ({ icon, title, description, index = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 28 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.4, delay: index * 0.07 }}
+    whileHover={{ y: -4 }}
+  >
   <Card className="border-none shadow-lg text-center">
     <CardContent className="p-6">
-      <div className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4">
+      <motion.div
+        initial={{ scale: 0.85 }}
+        whileInView={{ scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ type: 'spring', stiffness: 200, damping: 14, delay: index * 0.07 + 0.1 }}
+        className="w-16 h-16 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-4"
+      >
         {icon}
-      </div>
+      </motion.div>
       <h3 className="text-xl font-bold text-slate-800 mb-2">{title}</h3>
       <p className="text-slate-600">{description}</p>
     </CardContent>
   </Card>
+  </motion.div>
 );
 
 // ─── Main Page ────────────────────────────────────────────────────────
@@ -278,22 +293,32 @@ export default function SegurancaPage() {
         )}
 
         {/* ── Conteúdo público ── */}
-        <div className="text-center mb-12">
-          <ShieldCheck className="w-16 h-16 mx-auto text-amber-600 mb-4" />
+        <motion.div className="text-center mb-12"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <motion.div
+            initial={{ scale: 0.85 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 14 }}
+          >
+            <ShieldCheck className="w-16 h-16 mx-auto text-amber-600 mb-4" />
+          </motion.div>
           <h1 className="text-4xl font-extrabold text-slate-900 mb-4">Sua Segurança é Nossa Prioridade</h1>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
             Construímos uma comunidade de confiança em Trancoso. Veja as medidas que tomamos para garantir uma experiência segura para todos.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <SecurityFeature icon={<UserCheck className="w-8 h-8" />} title="Identidade Verificada"
+          <SecurityFeature index={0} icon={<UserCheck className="w-8 h-8" />} title="Identidade Verificada"
             description="Todos os prestadores passam por análise de documentos e verificação de identidade antes de aparecerem na plataforma." />
-          <SecurityFeature icon={<ShieldCheck className="w-8 h-8" />} title="Antecedentes Criminais"
+          <SecurityFeature index={1} icon={<ShieldCheck className="w-8 h-8" />} title="Antecedentes Criminais"
             description="Consultamos antecedentes criminais de cada prestador com autorização expressa (LGPD), garantindo uma comunidade mais segura." />
-          <SecurityFeature icon={<Star className="w-8 h-8" />} title="Avaliações Reais"
+          <SecurityFeature index={2} icon={<Star className="w-8 h-8" />} title="Avaliações Reais"
             description="Após cada serviço, clientes avaliam os prestadores. Feedbacks reais para você escolher com confiança." />
-          <SecurityFeature icon={<Lock className="w-8 h-8" />} title="Proteção de Dados"
+          <SecurityFeature index={3} icon={<Lock className="w-8 h-8" />} title="Proteção de Dados"
             description="Seus dados são protegidos conforme a LGPD. Nunca vendemos ou compartilhamos seus dados com terceiros." />
         </div>
 
@@ -305,13 +330,20 @@ export default function SegurancaPage() {
               { title: "Sem Antecedentes", desc: "Consulta de antecedentes limpa." },
               { title: "Aprovado pela Equipe", desc: "Análise manual pela equipe Trancoso Resolve." },
             ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3">
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.07, duration: 0.35 }}
+                className="flex items-start gap-3"
+              >
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
                 <div>
                   <p className="font-semibold text-green-900 text-sm">{item.title}</p>
                   <p className="text-green-700 text-xs mt-0.5">{item.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -348,12 +380,20 @@ export default function SegurancaPage() {
                 { slug: 'encanador-trancoso', label: 'Encanador verificado' },
                 { slug: 'jardinagem-trancoso', label: 'Jardineiro verificado' },
                 { slug: 'cozinheiro-trancoso', label: 'Cozinheiro verificado' },
-              ].map(item => (
-                <Link key={item.slug} to={`/ServicoLanding?slug=${item.slug}`}>
+              ].map((item, i) => (
+                <motion.div
+                  key={item.slug}
+                  initial={{ opacity: 0, scale: 0.82 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 14, delay: i * 0.05 }}
+                >
+                <Link to={`/ServicoLanding?slug=${item.slug}`}>
                   <span className="inline-flex items-center gap-1 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-full px-3 py-1.5 text-xs font-medium text-amber-800 transition-colors cursor-pointer">
                     ✅ {item.label}
                   </span>
                 </Link>
+                </motion.div>
               ))}
             </div>
             <Link to={createPageUrl("ServicosCategoria")} className="text-sm text-amber-700 hover:underline font-medium">

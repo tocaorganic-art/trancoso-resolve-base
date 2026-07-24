@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { 
@@ -8,6 +8,22 @@ import {
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { motion, useMotionValue, animate, useInView } from "framer-motion";
+
+function MoneyCounter({ value }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const mv = useMotionValue(0);
+  const [display, setDisplay] = useState('0,00');
+  useEffect(() => {
+    if (!inView) return;
+    const c = animate(mv, value, { duration: 1.5, ease: 'easeOut',
+      onUpdate: v => setDisplay(v.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
+    });
+    return c.stop;
+  }, [inView, value]);
+  return <span ref={ref}>R$ {display}</span>;
+}
 
 import FinancialDashboard from "../components/financial/FinancialDashboard";
 import TransactionForm from "../components/financial/TransactionForm";
@@ -131,7 +147,12 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
       
       {/* Header */}
       <div className="mb-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+          className="flex flex-wrap items-center justify-between gap-4 mb-4"
+        >
           <div>
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 bg-orange-100 rounded-lg">
@@ -148,17 +169,23 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
                 <Button variant="outline">Ver Planos</Button>
              </Link>
              <Button
-                onClick={() => setShowForm(!showForm)}
-                className="bg-brand-primary hover:bg-orange-700"
-              >
-                <Plus className="w-5 h-5 mr-2" />
-                Nova Transação
-              </Button>
+               onClick={() => setShowForm(!showForm)}
+               className="bg-brand-primary hover:bg-orange-700"
+             >
+               <Plus className="w-5 h-5 mr-2" />
+               Nova Transação
+             </Button>
           </div>
-        </div>
+        </motion.div>
 
         {/* KPIs Financeiros - Linha 1 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.07 }}
+            whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
+          >
           <Card className={`border-2 shadow-sm transition-all ${
             saldo < 0 ? 'border-red-400 bg-red-50/50' : 'border-[#3E8E5A]/40'
           }`}>
@@ -168,32 +195,53 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
                 {saldo < 0 && <AlertCircle className="w-5 h-5 text-red-500" />}
               </div>
               <p className={`text-3xl font-bold ${saldo >= 0 ? 'text-brand-primary' : 'text-red-600'}`}>
-                R$ {saldo.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                <MoneyCounter value={saldo} />
               </p>
               {saldo < 0 && (
                 <p className="text-xs text-red-600 mt-2 font-medium">Atenção: saldo negativo</p>
               )}
             </CardContent>
           </Card>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.14 }}
+            whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
+          >
           <Card className="border-none shadow-sm">
             <CardContent className="p-5">
               <p className="text-sm font-medium text-muted-foreground mb-2">Total Faturado (mês)</p>
               <p className="text-3xl font-bold text-[#3E8E5A]">
-                R$ {totalReceita.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                <MoneyCounter value={totalReceita} />
               </p>
             </CardContent>
           </Card>
+          </motion.div>
         </div>
 
         {/* Métricas de Reputação - Linha 2 */}
         <div className="kpi-section-reputacao grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
           <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2 md:col-span-2">Reputação</p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.21 }}
+            whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
+          >
           <Card className="border-none shadow-sm">
             <CardContent className="p-5">
               <p className="text-sm font-medium text-muted-foreground mb-2">Serviços Concluídos</p>
               <p className="text-3xl font-bold text-amber-600">{servicosConcluidos}</p>
             </CardContent>
           </Card>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.28 }}
+            whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
+          >
           <Card className="border-none shadow-sm">
             <CardContent className="p-5">
               <p className="text-sm font-medium text-muted-foreground mb-2">Sua Avaliação Média</p>
@@ -203,6 +251,7 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
               </div>
             </CardContent>
           </Card>
+          </motion.div>
         </div>
       </div>
 
@@ -212,6 +261,11 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
         </div>
       )}
 
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+      >
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
           <TabsTrigger value="dashboard" className="gap-2">
@@ -249,6 +303,7 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
           <FinancialReports transactions={safeTransactions} />
         </TabsContent>
       </Tabs>
+      </motion.div>
     </div>
   );
 }

@@ -820,8 +820,16 @@ export default function HomePage() {
                   { label: 'Piscineiro Caraíva', href: '/servicos/piscineiro-caraiva' },
                 ],
               },
-            ].map((dest) => (
-              <div key={dest.cidade} className="bg-card rounded-brand-lg p-6 shadow-warm-sm border border-orange-100 dark:border-border flex flex-col">
+            ].map((dest, i) => (
+              <motion.div
+                key={dest.cidade}
+                initial={{ opacity: 0, y: 32, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-50px' }}
+                transition={{ duration: 0.5, delay: i * 0.09, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                className="bg-card rounded-brand-lg p-6 shadow-warm-sm border border-orange-100 dark:border-border flex flex-col hover:border-orange-300 hover:shadow-md transition-shadow duration-300"
+              >
                 <div className="w-10 h-10 rounded-brand-md bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center mb-3">
                   <MapPin className="w-5 h-5 text-orange-500" />
                 </div>

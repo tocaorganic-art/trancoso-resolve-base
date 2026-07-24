@@ -1,6 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { LogoMark } from "@/components/brand/Logo";
+import { motion, AnimatePresence, useInView, useMotionValue, animate } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+
+function Counter({ target, suffix = '' }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const count = useMotionValue(0);
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const c = animate(count, target, { duration: 1.6, ease: 'easeOut', onUpdate: v => setDisplay(Math.round(v)) });
+    return c.stop;
+  }, [inView, target]);
+  return <span ref={ref}>{display}{suffix}</span>;
+}
 
 const TOTAL_VAGAS = 50;
 const CTA_URL = "https://trancosoresolve.com.br/SejaPrestador";
@@ -103,10 +118,15 @@ function CountdownBox({ value, label }) {
   );
 }
 
-function FAQItem({ q, a }) {
+function FAQItem({ q, a, index = 0 }) {
   const [open, setOpen] = useState(false);
   return (
-    <div style={{
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.06 }}
+      style={{
       background: "rgba(255,255,255,0.06)",
       border: "1px solid rgba(255,255,255,0.14)",
       borderRadius: 14,
@@ -129,19 +149,25 @@ function FAQItem({ q, a }) {
         }}
       >
         <span style={{ fontWeight: 700, fontSize: "0.92rem", color: "#fff", lineHeight: 1.4 }}>{q}</span>
-        <span style={{
-          color: "#10b981",
-          fontSize: "1.4rem",
-          flexShrink: 0,
-          transition: "transform 0.3s ease",
-          transform: open ? "rotate(45deg)" : "rotate(0)",
-          display: "inline-block",
-        }}>+</span>
+        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }} style={{ flexShrink: 0, display: "inline-flex" }}>
+          <ChevronDown style={{ width: 20, height: 20, color: "#10b981" }} />
+        </motion.span>
       </button>
-      <div className={`faq-body${open ? " open" : ""}`} style={{ borderTop: open ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-        <p style={{ fontSize: "0.87rem", color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: "14px 20px 18px" }}>{a}</p>
-      </div>
-    </div>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="answer"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            style={{ overflow: "hidden", borderTop: "1px solid rgba(255,255,255,0.08)" }}
+          >
+            <p style={{ fontSize: "0.87rem", color: "rgba(255,255,255,0.75)", lineHeight: 1.7, margin: "14px 20px 18px" }}>{a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
@@ -351,18 +377,30 @@ export default function PreLancamento() {
             <LogoMark className="h-7 w-7" />
             <span style={{ fontWeight: 800, fontSize: "0.88rem", color: "#fff", whiteSpace: "nowrap" }}>Trancoso Resolve</span>
           </div>
-          <button className="btn-cta" onClick={scrollToForm} style={{ padding: "8px 18px", fontSize: "0.78rem", minHeight: 38 }}>
+          <motion.button className="btn-cta" onClick={scrollToForm} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} style={{ padding: "8px 18px", fontSize: "0.78rem", minHeight: 38 }}>
             Garantir vaga →
-          </button>
+          </motion.button>
         </div>
       </header>
 
       <div style={{ paddingTop: 56, paddingBottom: "calc(6rem + env(safe-area-inset-bottom, 0px))" }}>
 
         {/* ══════════════ HERO ══════════════ */}
-        <section className="sec-pad" style={{ padding: "64px 24px 56px", textAlign: "center", maxWidth: 640, margin: "0 auto" }}>
+        <section className="sec-pad" style={{ padding: "64px 24px 56px", textAlign: "center", maxWidth: 640, margin: "0 auto", position: "relative", overflow: "hidden" }}>
+          <motion.div className="absolute top-[-80px] left-[-80px] w-[340px] h-[340px] rounded-full pointer-events-none"
+            style={{ background: "rgba(232,87,26,0.18)", filter: "blur(100px)" }}
+            animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+            transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }} />
+          <motion.div className="absolute bottom-[-60px] right-[-60px] w-[280px] h-[280px] rounded-full pointer-events-none"
+            style={{ background: "rgba(245,158,11,0.12)", filter: "blur(90px)" }}
+            animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+            transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
 
-          <div style={{
+          <motion.div
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.35, type: 'spring', stiffness: 300, damping: 18 }}
+            style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             background: "rgba(232,87,26,0.12)",
             border: "1px solid rgba(232,87,26,0.4)",
@@ -372,9 +410,13 @@ export default function PreLancamento() {
           }}>
             <span className="pulse-dot" style={{ width: 9, height: 9, borderRadius: "50%", background: "#E8571A", display: "inline-block", flexShrink: 0 }} />
             Pré-lançamento · Vagas de Fundador
-          </div>
+          </motion.div>
 
-          <h1 className="hero-title" style={{
+          <motion.h1
+            initial={{ opacity: 0, y: 32 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            className="hero-title" style={{
             fontSize: "clamp(1.95rem, 7vw, 3rem)",
             fontWeight: 900,
             lineHeight: 1.1,
@@ -384,15 +426,19 @@ export default function PreLancamento() {
             textShadow: "0 2px 24px rgba(0,0,0,0.5)",
           }}>
             Seja um dos{" "}
-            <em style={{ fontStyle: "italic", color: "#60a5fa" }}>50 primeiros prestadores</em>{" "}
+            <span style={{ background: "linear-gradient(to right, #fb923c, #fbbf24)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text" }}>50 primeiros prestadores</span>{" "}
             da Trancoso Resolve
-          </h1>
+          </motion.h1>
 
-          <p style={{ fontSize: "clamp(1rem, 3vw, 1.1rem)", color: "rgba(255,255,255,0.78)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 12px" }}>
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.25 }}
+            style={{ fontSize: "clamp(1rem, 3vw, 1.1rem)", color: "rgba(255,255,255,0.78)", lineHeight: 1.7, maxWidth: 500, margin: "0 auto 12px" }}>
             Garanta sua vitrine digital oficial em Trancoso e ganhe{" "}
             <strong style={{ color: "#fbbf24" }}>60 dias grátis</strong>{" "}
             ao pagar a primeira mensalidade.
-          </p>
+          </motion.p>
           <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.5)", marginBottom: 36 }}>
             Para eletricistas, diaristas, pedreiros, pintores, piscineiros, manutenção, beleza e outros serviços locais.
           </p>
@@ -443,9 +489,9 @@ export default function PreLancamento() {
             <p style={{ fontSize: "0.7rem", color: "rgba(255,255,255,0.35)", marginTop: 6 }}>Atualizado em tempo real</p>
           </div>
 
-          <a href={CTA_URL} className="btn-cta" style={{ padding: "16px 40px", fontSize: "1.05rem", width: "100%", maxWidth: 400, display: "flex", margin: "0 auto" }}>
+          <motion.a href={CTA_URL} className="btn-cta" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} style={{ padding: "16px 40px", fontSize: "1.05rem", width: "100%", maxWidth: 400, display: "flex", margin: "0 auto" }}>
             QUERO GARANTIR MINHA VAGA
-          </a>
+          </motion.a>
           <p style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.38)", marginTop: 12 }}>
             Leva menos de 2 minutos • Sem cartão de crédito agora
           </p>
@@ -459,26 +505,35 @@ export default function PreLancamento() {
             <p style={secLabel}>Vantagens</p>
             <h2 style={secTitle}>Por que entrar agora na Trancoso Resolve?</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 32 }}>
-              {BENEFICIOS.map((b) => (
-                <div key={b.title} style={{
+              {BENEFICIOS.map((b, i) => (
+                <motion.div key={b.title}
+                  initial={{ opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  whileHover={{ y: -4 }}
+                  style={{
                   display: "flex", gap: 14, alignItems: "flex-start",
                   background: "rgba(255,255,255,0.05)",
                   border: "1px solid rgba(232,87,26,0.25)",
                   backdropFilter: "blur(6px)",
                   borderRadius: 14, padding: "16px 18px",
                 }}>
-                  <div style={{
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: 'spring', stiffness: 300 }}
+                    style={{
                     width: 46, height: 46, borderRadius: 12, flexShrink: 0,
                     background: "rgba(232,87,26,0.15)",
                     border: "1px solid rgba(232,87,26,0.4)",
                     display: "flex", alignItems: "center", justifyContent: "center",
                     fontSize: "1.3rem",
-                  }}>{b.emoji}</div>
+                  }}>{b.emoji}</motion.div>
                   <div>
                     <p style={{ fontWeight: 700, fontSize: "0.93rem", color: "#fff", marginBottom: 4 }}>{b.title}</p>
                     <p style={{ fontSize: "0.82rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>{b.desc}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -536,9 +591,9 @@ export default function PreLancamento() {
                 </p>
               </div>
 
-              <a href={CTA_URL} className="btn-cta" style={{ padding: "15px 36px", fontSize: "1rem", width: "100%", maxWidth: 360, display: "flex", margin: "0 auto" }}>
+              <motion.a href={CTA_URL} className="btn-cta" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} style={{ padding: "15px 36px", fontSize: "1rem", width: "100%", maxWidth: 360, display: "flex", margin: "0 auto" }}>
                 GARANTIR MINHA VAGA AGORA
-              </a>
+              </motion.a>
               <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.3)", marginTop: 10 }}>
                 ✔ CPF, MEI ou CNPJ · ✔ Pix, boleto ou cartão · ✔ Cancele quando quiser
               </p>
@@ -555,7 +610,12 @@ export default function PreLancamento() {
             <h2 style={secTitle}>Como funciona na prática</h2>
             <div style={{ marginTop: 36 }}>
               {PASSOS.map((p, i) => (
-                <div key={p.num} style={{
+                <motion.div key={p.num}
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                  style={{
                   display: "flex", gap: 18, alignItems: "flex-start",
                   padding: "22px 0",
                   borderBottom: i < PASSOS.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none",
@@ -571,7 +631,7 @@ export default function PreLancamento() {
                     <p style={{ fontWeight: 700, fontSize: "1rem", color: "#fff", marginBottom: 6 }}>{p.title}</p>
                     <p style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>{p.desc}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -652,9 +712,9 @@ export default function PreLancamento() {
                 </div>
 
                 {error && <p style={{ color: "#f87171", fontSize: "0.82rem", textAlign: "center" }}>{error}</p>}
-                <button type="submit" className="btn-cta" disabled={loading} style={{ padding: "16px", fontSize: "1rem", width: "100%", marginTop: 4 }}>
+                <motion.button type="submit" className="btn-cta" disabled={loading} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} style={{ padding: "16px", fontSize: "1rem", width: "100%", marginTop: 4 }}>
                   {loading ? "Enviando..." : "Garantir minha vaga agora 🚀"}
-                </button>
+                </motion.button>
                 <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.32)", textAlign: "center" }}>
                   🔒 Seus dados são seguros e não serão compartilhados.
                 </p>
@@ -670,7 +730,7 @@ export default function PreLancamento() {
           <div style={{ maxWidth: 580, margin: "0 auto" }}>
             <p style={secLabel}>Dúvidas</p>
             <h2 style={{ ...secTitle, marginBottom: 32 }}>Perguntas frequentes</h2>
-            {FAQS.map((f) => <FAQItem key={f.q} q={f.q} a={f.a} />)}
+            {FAQS.map((f, i) => <FAQItem key={f.q} q={f.q} a={f.a} index={i} />)}
           </div>
         </section>
 
@@ -693,9 +753,9 @@ export default function PreLancamento() {
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: "0.82rem", marginBottom: 36 }}>
               Quando esgotarem, a oferta encerra.
             </p>
-            <a href={CTA_URL} className="btn-cta" style={{ padding: "18px 44px", fontSize: "1.1rem", width: "100%", maxWidth: 380, display: "flex", margin: "0 auto 20px" }}>
+            <motion.a href={CTA_URL} className="btn-cta" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} style={{ padding: "18px 44px", fontSize: "1.1rem", width: "100%", maxWidth: 380, display: "flex", margin: "0 auto 20px" }}>
               CADASTRAR AGORA
-            </a>
+            </motion.a>
             <p style={{ fontSize: "0.72rem", color: "rgba(255,255,255,0.28)", lineHeight: 1.6, maxWidth: 380, margin: "0 auto", fontStyle: "italic" }}>
               *Depoimentos e exemplos de resultados são ilustrativos e representam o potencial da plataforma.
             </p>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
@@ -7,9 +7,65 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import LazyImage from "@/components/ui/LazyImage";
+import { motion, AnimatePresence, useInView, useMotionValue, animate } from "framer-motion";
 import {
-  Star, MapPin, CheckCircle, ArrowRight, Shield, Clock, Loader2
+  Star, MapPin, CheckCircle, ArrowRight, Shield, Clock, Loader2, ChevronDown
 } from "lucide-react";
+
+/* ─── Counter animado ────────────────────────────────────────────── */
+function Counter({ target, suffix = '' }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const count = useMotionValue(0);
+  const [display, setDisplay] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const c = animate(count, target, { duration: 1.6, ease: 'easeOut', onUpdate: v => setDisplay(Math.round(v)) });
+    return c.stop;
+  }, [inView, target]);
+  return <span ref={ref}>{display}{suffix}</span>;
+}
+
+/* ─── FAQ Accordion com AnimatePresence ──────────────────────────── */
+function FAQAccordionItem({ item, index }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.06 }}
+      className="bg-card rounded-xl border border-border overflow-hidden"
+    >
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="w-full flex items-center justify-between gap-4 p-5 text-left hover:bg-muted/50 transition-colors"
+      >
+        <h3 className="font-semibold text-foreground text-sm flex items-start gap-2">
+          <span className="text-orange-500 shrink-0 mt-0.5">Q.</span>
+          {item.q}
+        </h3>
+        <motion.span animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.25 }} className="shrink-0">
+          <ChevronDown className="w-4 h-4 text-orange-500" />
+        </motion.span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            key="answer"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden"
+          >
+            <p className="px-5 pb-5 pt-2 text-sm text-muted-foreground leading-relaxed border-t border-border">{item.a}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
 
 const servicoConfig = {
   "limpeza-trancoso": {
@@ -137,7 +193,14 @@ const servicoConfig = {
   },
 };
 
-const ProviderMiniCard = ({ provider }) => (
+const ProviderMiniCard = ({ provider, index = 0 }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 32 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true }}
+    transition={{ duration: 0.5, delay: index * 0.07, ease: [0.22, 1, 0.36, 1] }}
+    whileHover={{ y: -4, transition: { duration: 0.2 } }}
+  >
   <Link to={createPageUrl("PrestadorPerfil", `?id=${provider.id}`)}>
     <Card className="border-none shadow-md hover:shadow-xl transition-all cursor-pointer group">
       <CardContent className="p-4 flex items-center gap-3">
@@ -178,6 +241,7 @@ const ProviderMiniCard = ({ provider }) => (
       </CardContent>
     </Card>
   </Link>
+  </motion.div>
 );
 
 export default function ServicoLandingPage() {
@@ -298,9 +362,9 @@ export default function ServicoLandingPage() {
     <div className="bg-background min-h-screen">
       {/* Hero */}
       <section className={`bg-gradient-to-r ${config.color} text-white py-12 md:py-20`}>
-        <div className="container mx-auto max-w-6xl px-4 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="container mx-auto max-w-6xl px-4 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div>
-            <nav className="text-sm text-white/70 mb-4" aria-label="Breadcrumb">
+            <motion.nav initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="text-sm text-white/70 mb-4" aria-label="Breadcrumb">
               <ol className="flex items-center gap-1 flex-wrap">
                 <li><Link to="/" className="hover:text-white">Início</Link></li>
                 <li>/</li>
@@ -308,20 +372,20 @@ export default function ServicoLandingPage() {
                 <li>/</li>
                 <li className="text-white font-medium">{config.occupation}</li>
               </ol>
-            </nav>
-            <h1 className="text-2xl sm:text-4xl font-bold mb-4 leading-tight">{config.h1}</h1>
-            <p className="text-lg text-white/90 mb-6">{config.description}</p>
+            </motion.nav>
+            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="text-2xl sm:text-4xl font-extrabold mb-4 leading-tight bg-gradient-to-r from-orange-400 via-orange-300 to-amber-300 bg-clip-text text-transparent">{config.h1}</motion.h1>
+            <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg text-white/90 mb-6">{config.description}</motion.p>
             <div className="flex flex-wrap gap-3 mb-6">
               {availableCount > 0 && (
                 <div className="flex items-center gap-2 bg-white/20 rounded-full px-3 py-1.5 text-sm">
                   <Clock className="w-4 h-4" />
-                  <span>{availableCount} disponível{availableCount > 1 ? 'is' : ''} agora</span>
+                  <span><Counter target={availableCount} /> disponível{availableCount > 1 ? 'is' : ''} agora</span>
                 </div>
               )}
               {verifiedCount > 0 && (
                 <div className="flex items-center gap-2 bg-white/20 rounded-full px-3 py-1.5 text-sm">
                   <Shield className="w-4 h-4" />
-                  <span>{verifiedCount} verificado{verifiedCount > 1 ? 's' : ''}</span>
+                  <span><Counter target={verifiedCount} /> verificado{verifiedCount > 1 ? 's' : ''}</span>
                 </div>
               )}
             </div>
@@ -340,7 +404,7 @@ export default function ServicoLandingPage() {
               loading="eager"
             />
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Trust Badges */}
@@ -379,7 +443,7 @@ export default function ServicoLandingPage() {
             </div>
           ) : providers && providers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {providers.map(p => <ProviderMiniCard key={p.id} provider={p} />)}
+              {providers.map((p, i) => <ProviderMiniCard key={p.id} provider={p} index={i} />)}
             </div>
           ) : (
             <div className="text-center py-12 bg-card rounded-xl border border-border">
@@ -396,15 +460,9 @@ export default function ServicoLandingPage() {
           <h2 className="text-xl md:text-2xl font-bold text-foreground mb-6">
             Perguntas Frequentes sobre {config.occupation} em Trancoso
           </h2>
-          <div className="space-y-4">
+          <div className="space-y-3">
             {config.faq.map((item, i) => (
-              <div key={i} className="bg-card rounded-xl p-5 shadow-sm border border-border">
-                <h3 className="font-semibold text-foreground mb-2 flex items-start gap-2">
-                  <span className="text-orange-600 shrink-0 mt-0.5">Q.</span>
-                  {item.q}
-                </h3>
-                <p className="text-muted-foreground text-sm leading-relaxed pl-5">{item.a}</p>
-              </div>
+              <FAQAccordionItem key={i} item={item} index={i} />
             ))}
           </div>
         </section>
@@ -427,8 +485,17 @@ export default function ServicoLandingPage() {
       </div>
 
       {/* CTA Final */}
-      <section className={`bg-gradient-to-r ${config.color} py-12`}>
-        <div className="container mx-auto max-w-2xl px-4 text-center text-white">
+      <section className="relative bg-gradient-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-12 overflow-hidden">
+        <motion.div className="absolute top-[-60px] left-[-60px] w-[300px] h-[300px] rounded-full bg-orange-600/20 blur-[100px] pointer-events-none"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }} />
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="container mx-auto max-w-2xl px-4 text-center text-white relative z-10"
+        >
           <h2 className="text-2xl font-bold mb-3">Precisa de {config.occupation} em Trancoso?</h2>
           <p className="text-white/90 mb-6">Profissionais verificados prontos para atender você.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -443,7 +510,7 @@ export default function ServicoLandingPage() {
               </Button>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </section>
     </div>
   );

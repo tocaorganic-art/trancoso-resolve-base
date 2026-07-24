@@ -128,13 +128,25 @@ export default function SejaPrestadorPage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             {beneficios.map((item, index) => (
-              <div key={index} className="group bg-background rounded-2xl p-6 md:p-8 border border-border hover:border-orange-500/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                <div className="w-14 h-14 md:w-16 md:h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/20 transition-colors">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.55, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                className="group bg-background rounded-2xl p-6 md:p-8 border border-border hover:border-orange-500/50 shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 3 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 12 }}
+                  className="w-14 h-14 md:w-16 md:h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-500/20 transition-colors"
+                >
                   {item.icon}
-                </div>
-                <h3 className="text-lg md:text-xl font-bold text-foreground mb-2 transition-colors">{item.title}</h3>
+                </motion.div>
+                <h3 className="text-lg md:text-xl font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-sm md:text-base text-muted-foreground leading-relaxed">{item.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

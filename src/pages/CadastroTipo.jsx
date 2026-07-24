@@ -312,6 +312,7 @@ export default function CadastroTipoPage() {
           </div>
         </CardContent>
       </Card>
+      </motion.div>
     </div>
   );
 }

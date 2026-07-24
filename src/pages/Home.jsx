@@ -645,18 +645,31 @@ export default function HomePage() {
                { slug: 'pintor-trancoso', label: 'Pintor', icon: Paintbrush },
                { slug: 'baba-trancoso', label: 'Babá', icon: Baby },
                { slug: 'garcom-trancoso', label: 'Garçom', icon: UtensilsCrossed },
-             ].map(item => {
+             ].map((item, i) => {
                const Icon = item.icon;
                return (
-               <Link key={item.slug} to={`/ServicoLanding?slug=${item.slug}`} className="min-w-[110px] snap-start shrink-0 md:min-w-0 md:w-auto">
-                 <div className="bg-card rounded-brand-lg p-4 text-center shadow-warm-sm hover:shadow-warm-md transition-all duration-300 border border-border hover:border-orange-400 cursor-pointer group h-full flex flex-col items-center justify-center">
-                   <div className="w-10 h-10 rounded-brand-md bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center mb-2">
-                     <Icon className="w-5 h-5 text-orange-500" aria-hidden="true" />
+               <motion.div
+                 key={item.slug}
+                 initial={{ opacity: 0, scale: 0.82, y: 16 }}
+                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                 viewport={{ once: true, margin: '-30px' }}
+                 transition={{ duration: 0.4, delay: i * 0.055, type: 'spring', stiffness: 180, damping: 14 }}
+                 className="min-w-[110px] snap-start shrink-0 md:min-w-0 md:w-auto"
+               >
+                 <Link to={`/ServicoLanding?slug=${item.slug}`}>
+                   <div className="bg-card rounded-brand-lg p-4 text-center shadow-warm-sm hover:shadow-warm-md transition-all duration-300 border border-border hover:border-orange-400 cursor-pointer group h-full flex flex-col items-center justify-center">
+                     <motion.div
+                       whileHover={{ scale: 1.15, rotate: 5 }}
+                       transition={{ type: 'spring', stiffness: 300, damping: 12 }}
+                       className="w-10 h-10 rounded-brand-md bg-orange-50 dark:bg-orange-500/10 flex items-center justify-center mb-2"
+                     >
+                       <Icon className="w-5 h-5 text-orange-500" aria-hidden="true" />
+                     </motion.div>
+                     <span className="text-sm md:text-base font-bold text-foreground group-hover:text-orange-500 transition-colors">{item.label}</span>
+                     <span className="block text-xs font-medium text-muted-foreground mt-1">em Trancoso</span>
                    </div>
-                   <span className="text-sm md:text-base font-bold text-foreground group-hover:text-orange-500 transition-colors">{item.label}</span>
-                   <span className="block text-xs font-medium text-muted-foreground mt-1">em Trancoso</span>
-                 </div>
-               </Link>
+                 </Link>
+               </motion.div>
                );
              })}
            </div>

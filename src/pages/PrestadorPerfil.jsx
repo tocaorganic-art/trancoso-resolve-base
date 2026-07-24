@@ -578,6 +578,12 @@ export default function PrestadorPerfilPage() {
 
         {/* Portfolio */}
         {provider.portfolio_images && provider.portfolio_images.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
           <Card className="border-none shadow-lg mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -588,15 +594,32 @@ export default function PrestadorPerfilPage() {
             <CardContent>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                 {provider.portfolio_images.map((img, index) => (
-                  <LazyImage key={index} src={img} alt={`Trabalho ${index + 1} do portfólio de ${provider.full_name}`} className="rounded-lg w-full h-32 sm:h-40 object-cover" />
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.92 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.06, duration: 0.4 }}
+                    whileHover={{ scale: 1.04 }}
+                    className="overflow-hidden rounded-lg"
+                  >
+                    <LazyImage src={img} alt={`Trabalho ${index + 1} do portfólio de ${provider.full_name}`} className="w-full h-32 sm:h-40 object-cover" />
+                  </motion.div>
                 ))}
               </div>
             </CardContent>
           </Card>
+          </motion.div>
         )}
 
         {/* Services */}
         {services.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
           <Card className="border-none shadow-lg mb-8">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -606,8 +629,16 @@ export default function PrestadorPerfilPage() {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {services.map((service) => (
-                  <div key={service.id} className="p-4 bg-muted rounded-xl border border-border">
+                {services.map((service, i) => (
+                  <motion.div
+                    key={service.id}
+                    initial={{ opacity: 0, x: -16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08, duration: 0.4 }}
+                    whileHover={{ x: 4 }}
+                    className="p-4 bg-muted rounded-xl border border-border"
+                  >
                     <div className="flex justify-between items-start gap-4">
                       <div className="flex-1">
                         <h4 className="font-bold text-foreground mb-1 leading-snug">{service.title}</h4>
@@ -625,11 +656,12 @@ export default function PrestadorPerfilPage() {
                         <p className="text-xs text-muted-foreground font-medium">por {service.price_unit}</p>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </CardContent>
           </Card>
+          </motion.div>
         )}
 
         {/* Reviews */}

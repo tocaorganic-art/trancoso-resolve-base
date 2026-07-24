@@ -21,10 +21,10 @@ function classificarIntencao(texto: string): 'lead' | 'info' | 'outro' {
 }
 
 async function enviarRespostaWABA(fromPhone: string, mensagem: string): Promise<void> {
-  const token = Deno.env.get('WABA_TOKEN');
-  const phoneId = Deno.env.get('WABA_PHONE_ID');
+  const token = Deno.env.get('WHATSAPP_ACCESS_TOKEN') || Deno.env.get('WABA_TOKEN') || '';
+  const phoneId = Deno.env.get('WHATSAPP_PHONE_NUMBER_ID') || Deno.env.get('WABA_PHONE_ID') || '';
   if (!token || !phoneId) {
-    console.warn('[whatsappWebhook] WABA_TOKEN ou WABA_PHONE_ID não configurados — pulando resposta automática');
+    console.warn('[whatsappWebhook] WHATSAPP_ACCESS_TOKEN ou WHATSAPP_PHONE_NUMBER_ID não configurados — pulando resposta automática');
     return;
   }
 

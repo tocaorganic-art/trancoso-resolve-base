@@ -769,8 +769,15 @@ export default function HomePage() {
 
         {/* Costa do Descobrimento */}
         <section className="mb-10 md:mb-20 bg-gradient-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">Atendemos toda a Costa do Descobrimento</h2>
-          <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">Profissionais verificados para Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva — a mesma qualidade e segurança em toda a Costa do Descobrimento.</p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+          >
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">Atendemos toda a Costa do Descobrimento</h2>
+            <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">Profissionais verificados para Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva — a mesma qualidade e segurança em toda a Costa do Descobrimento.</p>
+          </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               {

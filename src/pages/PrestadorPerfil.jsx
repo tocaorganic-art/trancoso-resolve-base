@@ -574,6 +574,7 @@ export default function PrestadorPerfilPage() {
             </CardContent>
           </Card>
         )}
+        </AnimatePresence>
 
         {/* Portfolio */}
         {provider.portfolio_images && provider.portfolio_images.length > 0 && (

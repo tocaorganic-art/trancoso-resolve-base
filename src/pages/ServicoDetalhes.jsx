@@ -10,6 +10,7 @@ import { ArrowLeft, Star, Clock, AlertCircle, Loader2, CalendarIcon } from "luci
 import BookingForm from "@/components/booking/BookingForm";
 import StartChatButton from "@/components/chat/StartChatButton";
 import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ServicoDetalhesPage() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -170,23 +171,40 @@ export default function ServicoDetalhesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="relative h-48 md:h-72 bg-gradient-to-r from-orange-500 to-orange-700 overflow-hidden">
+      <motion.div
+        initial={{ opacity: 0, scale: 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="relative h-48 md:h-72 bg-gradient-to-r from-orange-500 to-orange-700 overflow-hidden"
+      >
         <img
           src={imageSrc}
           alt={`Imagem de capa do serviço: ${service.title}`}
           className="absolute inset-0 w-full h-full object-cover opacity-30"
           onError={e => { e.target.style.display = 'none'; }}
         />
-      </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+      </motion.div>
 
       <div className="container mx-auto max-w-4xl px-4 -mt-32 pb-12">
-        <Link to={createPageUrl("ServicosCategoria", `?cat=${service.category}`)}>
-          <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/30 backdrop-blur-sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Voltar
-          </Button>
-        </Link>
+        <motion.div
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, delay: 0.15 }}
+        >
+          <Link to={createPageUrl("ServicosCategoria", `?cat=${service.category}`)}>
+            <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/30 backdrop-blur-sm">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Voltar
+            </Button>
+          </Link>
+        </motion.div>
 
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
         <Card className="border-none shadow-2xl mb-8">
           <CardContent className="p-4 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
@@ -226,11 +244,21 @@ export default function ServicoDetalhesPage() {
                 <h3 className="text-xl font-semibold mb-4">Galeria</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
                   {service.images.map((img, idx) => (
-                    <LazyImage key={idx} src={img} alt={`${service.title} - imagem ${idx + 1}`} className="w-full h-32 sm:h-40 object-cover rounded-lg" />
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, scale: 0.92 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: idx * 0.07, duration: 0.4 }}
+                      whileHover={{ scale: 1.03 }}
+                      className="overflow-hidden rounded-lg"
+                    >
+                      <LazyImage src={img} alt={`${service.title} - imagem ${idx + 1}`} className="w-full h-32 sm:h-40 object-cover" />
+                    </motion.div>
                   ))}
                 </div>
               </div>
-            )}
+            ))
 
             {provider && (
               <div className="border-t pt-6 mt-6">
@@ -257,38 +285,62 @@ export default function ServicoDetalhesPage() {
               </div>
             )}
 
-            {!showBooking && (
-              <div className="flex flex-col sm:flex-row gap-3 mt-6">
-                {user && provider ? (
-                  <>
-                    <Button
-                      size="lg"
-                      className="flex-1 bg-brand-primary hover:bg-orange-600"
-                      onClick={() => setShowBooking(true)}
-                    >
-                      <CalendarIcon className="w-5 h-5 mr-2" />
-                      Agendar Agora
-                    </Button>
-                    <StartChatButton provider={provider} size="lg" className="flex-1" />
-                  </>
-                ) : (
-                  <Button size="lg" className="w-full" onClick={() => base44.auth.redirectToLogin()}>
-                    Faça login para agendar
-                  </Button>
-                )}
-              </div>
-            )}
+            <AnimatePresence>
+              {!showBooking && (
+                <motion.div
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex flex-col sm:flex-row gap-3 mt-6"
+                >
+                  {user && provider ? (
+                    <>
+                      <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <Button
+                          size="lg"
+                          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/25"
+                          onClick={() => setShowBooking(true)}
+                        >
+                          <CalendarIcon className="w-5 h-5 mr-2" />
+                          Agendar Agora
+                        </Button>
+                      </motion.div>
+                      <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                        <StartChatButton provider={provider} size="lg" className="w-full" />
+                      </motion.div>
+                    </>
+                  ) : (
+                    <motion.div className="w-full" whileHover={{ scale: 1.02 }}>
+                      <Button size="lg" className="w-full" onClick={() => base44.auth.redirectToLogin()}>
+                        Faça login para agendar
+                      </Button>
+                    </motion.div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </CardContent>
         </Card>
+        </motion.div>
 
-        {showBooking && provider && (
-          <BookingForm
-            provider={provider}
-            services={providerServices}
-            user={user}
-            onCancel={() => setShowBooking(false)}
-          />
-        )}
+        <AnimatePresence>
+          {showBooking && provider && (
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 16 }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <BookingForm
+                provider={provider}
+                services={providerServices}
+                user={user}
+                onCancel={() => setShowBooking(false)}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

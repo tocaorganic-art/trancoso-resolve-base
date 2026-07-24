@@ -258,7 +258,7 @@ export default function ServicoDetalhesPage() {
                   ))}
                 </div>
               </div>
-            ))
+            )}
 
             {provider && (
               <div className="border-t pt-6 mt-6">

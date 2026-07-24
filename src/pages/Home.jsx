@@ -668,21 +668,45 @@ export default function HomePage() {
         {/* Como Funciona */}
         <section className="mb-10 md:mb-20 mt-10 md:mt-20">
           <div className="text-center mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground">Como funciona a Trancoso Resolve</h2>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55 }}
+              className="text-2xl md:text-3xl font-bold text-foreground"
+            >
+              Como funciona a Trancoso Resolve
+            </motion.h2>
           </div>
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
             {[
               { step: '1', title: 'Você conta o que precisa', desc: 'Explique o tipo de serviço, bairro em Trancoso e melhor horário para contato.' },
               { step: '2', title: 'Nós conectamos aos prestadores certos', desc: 'Nosso sistema distribui seu pedido para prestadores qualificados na região.' },
               { step: '3', title: 'Você recebe contatos e escolhe', desc: 'Compare respostas, avalie e decida com quem quer fechar.' },
-            ].map(item => (
-              <div key={item.step} className="bg-card rounded-brand-lg p-5 md:p-6 shadow-warm-sm border border-border flex items-start gap-4 md:block md:text-center min-w-[85%] sm:min-w-[340px] snap-start shrink-0 md:min-w-0 md:w-auto">
-                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-primary text-white font-bold text-lg md:text-xl flex items-center justify-center shrink-0 md:mx-auto md:mb-4 shadow-brand">{item.step}</div>
+            ].map((item, i) => (
+              <motion.div
+                key={item.step}
+                initial={{ opacity: 0, y: 36 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-60px' }}
+                transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ y: -3, transition: { duration: 0.2 } }}
+                className="bg-card rounded-brand-lg p-5 md:p-6 shadow-warm-sm border border-border flex items-start gap-4 md:block md:text-center min-w-[85%] sm:min-w-[340px] snap-start shrink-0 md:min-w-0 md:w-auto hover:border-orange-300 hover:shadow-md transition-shadow duration-300"
+              >
+                <motion.div
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.35, delay: i * 0.1 + 0.2, type: 'spring', stiffness: 220 }}
+                  className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-brand-primary text-white font-bold text-lg md:text-xl flex items-center justify-center shrink-0 md:mx-auto md:mb-4 shadow-brand"
+                >
+                  {item.step}
+                </motion.div>
                 <div>
                   <h3 className="font-bold text-base md:text-lg text-foreground mb-1 md:mb-2">{item.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </section>

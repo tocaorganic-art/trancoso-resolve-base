@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
 import { base44 } from "@/api/base44Client";
@@ -299,31 +300,58 @@ export default function ServicosCategoriaPage() {
         </div>
       )}
       
-      {/* HERO HEADER - Corrigido: padding adequado, cor navy, contagem correta */}
+      {/* HERO HEADER */}
       <div className="bg-card px-5 pt-6 pb-4 border-b border-border">
         <div className="max-w-7xl mx-auto">
-          <Link to={createPageUrl("Home")}>
-            <Button variant="ghost" className="text-foreground hover:bg-muted mb-4 -ml-2">
-              <ArrowLeft className="w-4 h-4 mr-2 text-orange-400" /> Voltar
-            </Button>
-          </Link>
-          <h1 className="text-2xl md:text-3xl font-extrabold mb-2 text-foreground">
-            {selectedCategory === 'Todos' ? 'Serviços em Trancoso, BA' : `${selectedCategory} em Trancoso, BA`}
-          </h1>
-          <p className="text-muted-foreground text-sm md:text-base">
-            {isLoadingProviders ? "Carregando..." : (isSearching ? "Buscando com IA..." : `${filteredProviders.length} profissional${filteredProviders.length !== 1 ? 'is' : 'l'} encontrado${filteredProviders.length !== 1 ? 's' : ''}`)}
-          </p>
-          {selectedCategory !== 'Todos' && slugMap[selectedCategory] && (
-            <Link to={`/ServicoLanding?slug=${slugMap[selectedCategory]}`} className="inline-block mt-3">
-              <span className="text-xs bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 rounded-full px-3 py-1 transition-colors border border-orange-500/30">
-                📄 Guia completo de {selectedCategory} em Trancoso →
-              </span>
+          <motion.div initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.35 }}>
+            <Link to={createPageUrl("Home")}>
+              <Button variant="ghost" className="text-foreground hover:bg-muted mb-4 -ml-2">
+                <ArrowLeft className="w-4 h-4 mr-2 text-orange-400" /> Voltar
+              </Button>
             </Link>
-          )}
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, delay: 0.08, ease: [0.22, 1, 0.36, 1] }}
+            className="text-2xl md:text-3xl font-extrabold mb-2 text-foreground"
+          >
+            {selectedCategory === 'Todos' ? 'Serviços em Trancoso, BA' : `${selectedCategory} em Trancoso, BA`}
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.15 }}
+            className="text-muted-foreground text-sm md:text-base"
+          >
+            {isLoadingProviders ? "Carregando..." : (isSearching ? "Buscando com IA..." : `${filteredProviders.length} profissional${filteredProviders.length !== 1 ? 'is' : 'l'} encontrado${filteredProviders.length !== 1 ? 's' : ''}`)}
+          </motion.p>
+          <AnimatePresence>
+            {selectedCategory !== 'Todos' && slugMap[selectedCategory] && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.2 }}
+                className="inline-block mt-3"
+              >
+                <Link to={`/ServicoLanding?slug=${slugMap[selectedCategory]}`}>
+                  <span className="text-xs bg-orange-500/20 hover:bg-orange-500/30 text-orange-400 rounded-full px-3 py-1 transition-colors border border-orange-500/30">
+                    📄 Guia completo de {selectedCategory} em Trancoso →
+                  </span>
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
-      <div className="container mx-auto max-w-7xl px-4 py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        className="container mx-auto max-w-7xl px-4 py-8"
+      >
         <FilterBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}

@@ -222,7 +222,14 @@ export default function CadastroTipoPage() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl shadow-2xl">
+      <motion.div
+        key="tipo_pessoa"
+        initial={{ opacity: 0, x: 32, scale: 0.97 }}
+        animate={{ opacity: 1, x: 0, scale: 1 }}
+        transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full max-w-2xl"
+      >
+      <Card className="shadow-2xl">
         <CardContent className="p-8 md:p-10">
           <button onClick={() => setStep('tipo_conta')} className="text-sm text-muted-foreground hover:text-foreground mb-6 flex items-center gap-1">
             ← Voltar

@@ -153,47 +153,66 @@ export default function CadastroTipoPage() {
   if (step === 'tipo_conta') {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-2xl text-center shadow-2xl">
-          <CardContent className="p-10">
-            <h1 className="text-3xl font-bold text-foreground mb-4">
-              {user?.user_type && user.user_type !== 'indefinido' ? 'Alterar tipo de conta' : 'Bem-vindo(a) ao Trancoso Resolve!'}
-            </h1>
-            <p className="text-muted-foreground mb-10 text-lg">Para começar, nos diga como você gostaria de usar a plataforma.</p>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key="tipo_conta"
+            initial={{ opacity: 0, y: 24, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -16, scale: 0.97 }}
+            transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-2xl"
+          >
+            <Card className="text-center shadow-2xl">
+              <CardContent className="p-10">
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                  <h1 className="text-3xl font-bold text-foreground mb-4">
+                    {user?.user_type && user.user_type !== 'indefinido' ? 'Alterar tipo de conta' : 'Bem-vindo(a) ao Trancoso Resolve!'}
+                  </h1>
+                  <p className="text-muted-foreground mb-10 text-lg">Para começar, nos diga como você gostaria de usar a plataforma.</p>
+                </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card
-                className="border-2 border-border hover:border-orange-500 hover:shadow-lg transition-all cursor-pointer"
-                onClick={handleClienteClick}
-              >
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-orange-400 to-orange-500">
-                    <User className="w-8 h-8 text-white" />
-                  </div>
-                  <h2 className="text-xl font-semibold mb-2 text-foreground">Sou Cliente</h2>
-                  <p className="text-muted-foreground">Quero encontrar e contratar os melhores serviços em Trancoso.</p>
-                </CardContent>
-              </Card>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {[
+                    { icon: User, title: 'Sou Cliente', desc: 'Quero encontrar e contratar os melhores serviços em Trancoso.', action: handleClienteClick, cta: null },
+                    { icon: Briefcase, title: 'Sou Prestador / Empresa', desc: 'Quero oferecer serviços ou cadastrar meu negócio em Trancoso.', action: () => setStep('tipo_pessoa'), cta: 'Continuar' },
+                  ].map((opt, i) => (
+                    <motion.div
+                      key={opt.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.15 + i * 0.1, duration: 0.45 }}
+                      whileHover={{ y: -4, transition: { duration: 0.2 } }}
+                    >
+                      <Card
+                        className="border-2 border-border hover:border-orange-500 hover:shadow-xl transition-all cursor-pointer h-full"
+                        onClick={opt.action}
+                      >
+                        <CardContent className="p-8">
+                          <motion.div
+                            whileHover={{ scale: 1.08, rotate: -3 }}
+                            transition={{ type: 'spring', stiffness: 280, damping: 12 }}
+                            className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg"
+                          >
+                            <opt.icon className="w-8 h-8 text-white" />
+                          </motion.div>
+                          <h2 className="text-xl font-semibold mb-2 text-foreground">{opt.title}</h2>
+                          <p className="text-muted-foreground">{opt.desc}</p>
+                          {opt.cta && (
+                            <div className="mt-3 flex items-center justify-center gap-1 text-orange-400 text-sm font-medium">
+                              {opt.cta} <ChevronRight className="w-4 h-4" />
+                            </div>
+                          )}
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
 
-              <Card
-                className="border-2 border-border hover:border-orange-500 hover:shadow-lg transition-all cursor-pointer"
-                onClick={() => setStep('tipo_pessoa')}
-              >
-                <CardContent className="p-8">
-                  <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-orange-400 to-orange-500">
-                    <Briefcase className="w-8 h-8 text-white" />
-                  </div>
-                  <h2 className="text-xl font-semibold mb-2 text-foreground">Sou Prestador / Empresa</h2>
-                  <p className="text-muted-foreground">Quero oferecer serviços ou cadastrar meu negócio em Trancoso.</p>
-                  <div className="mt-3 flex items-center justify-center gap-1 text-orange-400 text-sm font-medium">
-                    Continuar <ChevronRight className="w-4 h-4" />
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {updateUserMutation.isPending && <p className="mt-8 text-muted-foreground">Salvando sua escolha...</p>}
-          </CardContent>
-        </Card>
+                {updateUserMutation.isPending && <p className="mt-8 text-muted-foreground">Salvando sua escolha...</p>}
+              </CardContent>
+            </Card>
+          </motion.div>
+        </AnimatePresence>
       </div>
     );
   }

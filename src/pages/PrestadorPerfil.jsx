@@ -1,4 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Link, useNavigate } from "react-router-dom";
@@ -277,35 +278,56 @@ export default function PrestadorPerfilPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header — usa foto de capa do prestador se disponível */}
-      <div className="relative h-56 bg-gradient-to-r from-orange-500 to-orange-700">
+      <motion.div
+        initial={{ opacity: 0, scale: 1.04 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        className="relative h-56 bg-gradient-to-r from-orange-500 to-orange-700 overflow-hidden"
+      >
         <LazyImage
           src={provider.cover_photo_url || "https://images.unsplash.com/photo-1541599360-14863869b657?q=80&w=1964&auto=format&fit=crop"}
           alt={provider.cover_photo_url ? `Foto de capa de ${provider.full_name}` : "Imagem de fundo abstrata"}
           className={`absolute inset-0 w-full h-full object-cover ${provider.cover_photo_url ? 'opacity-80' : 'opacity-20'}`}
         />
-        {/* Overlay gradiente na parte inferior para legibilidade */}
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
-      </div>
+      </motion.div>
 
       <div className="container mx-auto max-w-4xl px-4 -mt-24 pb-12">
-        <Link to={createPageUrl("ServicosCategoria", `?cat=${provider.occupation}`)}>
-          <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/20 backdrop-blur-sm" aria-label="Voltar para a categoria de serviços">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Voltar
-          </Button>
-        </Link>
+        <motion.div
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <Link to={createPageUrl("ServicosCategoria", `?cat=${provider.occupation}`)}>
+            <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/20 backdrop-blur-sm" aria-label="Voltar para a categoria de serviços">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Voltar
+            </Button>
+          </Link>
+        </motion.div>
 
         {/* Profile Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+        >
         <Card className="border-none shadow-2xl mb-8 overflow-hidden">
           <CardContent className="p-0">
             <div className="p-8">
               <div className="flex flex-col md:flex-row gap-6">
-                <LazyImage
-                  src={provider.photo_url || `https://ui-avatars.com/api/?name=${provider.full_name}&size=400`}
-                  alt={`Foto de perfil de ${provider.full_name}`}
-                  className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg mx-auto md:mx-0"
-                />
+                <motion.div
+                  initial={{ scale: 0.7, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 14, delay: 0.35 }}
+                  className="shrink-0"
+                >
+                  <LazyImage
+                    src={provider.photo_url || `https://ui-avatars.com/api/?name=${provider.full_name}&size=400`}
+                    alt={`Foto de perfil de ${provider.full_name}`}
+                    className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg mx-auto md:mx-0"
+                  />
+                </motion.div>
 
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
@@ -366,32 +388,40 @@ export default function PrestadorPerfilPage() {
 
             <div className="p-8">
               <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
-              <Button
-              size="lg"
-              className="flex-1 bg-brand-primary hover:bg-orange-600"
-              onClick={() => {
-                if (!user) {
-                  base44.auth.redirectToLogin(window.location.href);
-                } else {
-                  setShowRequestForm(true);
-                  setStep(1);
-                }
-              }}
-              aria-label="Agendar um serviço com o prestador"
-              >
-              <CalendarIcon className="w-5 h-5 mr-2" />
-              {user ? "Agendar Serviço" : "Faça login para Agendar"}
-              </Button>
-              <WhatsAppCallButton provider={provider} className="flex-1" size="lg" />
+              <motion.div className="flex-1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} whileHover={{ y: -2 }}>
+                <Button
+                  size="lg"
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/20"
+                  onClick={() => {
+                    if (!user) {
+                      base44.auth.redirectToLogin(window.location.href);
+                    } else {
+                      setShowRequestForm(true);
+                      setStep(1);
+                    }
+                  }}
+                  aria-label="Agendar um serviço com o prestador"
+                >
+                  <CalendarIcon className="w-5 h-5 mr-2" />
+                  {user ? "Agendar Serviço" : "Faça login para Agendar"}
+                </Button>
+              </motion.div>
+              <motion.div className="flex-1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} whileHover={{ y: -2 }}>
+                <WhatsAppCallButton provider={provider} className="w-full" size="lg" />
+              </motion.div>
               {isUserLoaded && user && (
-              <StartChatButton provider={provider} className="flex-1" size="lg" />
+                <motion.div className="flex-1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} whileHover={{ y: -2 }}>
+                  <StartChatButton provider={provider} className="w-full" size="lg" />
+                </motion.div>
               )}
               </div>
             </div>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Request Form with Calendar */}
+        <AnimatePresence>
         {showRequestForm && (
           <Card className="border-none shadow-xl mb-8">
             <CardHeader className="bg-gradient-to-r from-orange-50 to-orange-50">

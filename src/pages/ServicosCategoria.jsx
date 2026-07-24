@@ -400,7 +400,7 @@ export default function ServicosCategoriaPage() {
           setNeighborhoodFilter={setNeighborhoodFilter}
           setSelectedCategory={setSelectedCategory}
         />
-      </div>
+      </motion.div>
     </div>
   );
 };

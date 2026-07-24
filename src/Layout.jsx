@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useApp } from "@/contexts/AppContext";
 import {
   Home, Calendar, Briefcase, UserCog,
-  TrendingUp, CreditCard, Menu, X, FileText, User, Bot, Rocket, Globe, ShieldCheck, Banknote, ArrowLeft, ListOrdered, ChevronDown, MapPin, Sun, Moon, Megaphone } from
+  TrendingUp, CreditCard, Menu, X, FileText, User, Bot, Rocket, Globe, ShieldCheck, Banknote, ArrowLeft, ListOrdered, ChevronDown, MapPin, Sun, Moon, Megaphone, BarChart2 } from
 "lucide-react";
 
 import Logo from "./components/brand/Logo";
@@ -145,7 +145,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Verificações", path: "/FilaVerificacao", icon: ShieldCheck },
     { name: "Antecedentes", path: "/AdminAntecedentes", icon: ShieldCheck },
     { name: "Pagamentos", path: "/AdminPagamentos", icon: Banknote },
-    { name: "📊 Métricas", path: "/admin/metricas", icon: TrendingUp },
+    { name: "Métricas", path: "/admin/metricas", icon: BarChart2 },
     { name: "Deploy", path: createPageUrl("DeployDashboard"), icon: Rocket },
     { name: "Ver Site", path: "/", icon: Globe, clearLogin: true },
   ] : isPrestador ? [

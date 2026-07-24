@@ -712,29 +712,59 @@ export default function HomePage() {
         </section>
 
         {/* Por que usar */}
-        <section className="mb-10 md:mb-20 bg-gradient-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">Por que usar a Trancoso Resolve em Trancoso</h2>
-          <ul className="space-y-4">
+        <section className="mb-10 md:mb-20 bg-gradient-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-orange-400/10 blur-[80px] rounded-full pointer-events-none" />
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.55 }}
+            className="text-2xl md:text-3xl font-bold text-foreground mb-6 relative"
+          >
+            Por que usar a Trancoso Resolve em Trancoso
+          </motion.h2>
+          <ul className="space-y-3 relative">
             {[
               'Prestadores locais e confiáveis, focados em atender Trancoso e região.',
               'Resposta rápida: seu pedido chega direto nos prestadores certos.',
               'Mais segurança: perfis dos prestadores, histórico e verificação quando disponível.',
               'Sem custo para quem pede serviço: você pede, recebe retorno e escolhe.',
             ].map((item, i) => (
-              <li key={i} className="flex items-start gap-3 text-foreground">
-                <span className="w-6 h-6 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">✓</span>
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, x: -24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.45, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-start gap-3 text-foreground"
+              >
+                <motion.span
+                  initial={{ scale: 0 }}
+                  whileInView={{ scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.3, delay: i * 0.08 + 0.15, type: 'spring', stiffness: 260 }}
+                  className="w-6 h-6 rounded-full bg-brand-primary text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5"
+                >
+                  ✓
+                </motion.span>
                 <span className="text-base">{item}</span>
-              </li>
+              </motion.li>
             ))}
           </ul>
-          <div className="mt-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.35 }}
+            className="mt-8"
+          >
             <Link to={createPageUrl("ServicosCategoria")} className="block sm:inline-block">
               <Button className="w-full sm:w-auto bg-brand-primary hover:bg-orange-600 text-white font-bold text-base px-8 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95 rounded-pill shadow-brand">
                 Encontrar profissional agora
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
-          </div>
+          </motion.div>
         </section>
 
         {/* Costa do Descobrimento */}

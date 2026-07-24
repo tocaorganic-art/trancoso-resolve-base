@@ -6,6 +6,7 @@ import { LogIn } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import TwoFactorVerification from "@/components/auth/TwoFactorVerification";
+import { motion } from "framer-motion";
 
 function MicrosoftIcon({ className }) {
   return (
@@ -110,49 +111,59 @@ export default function Login() {
       subtitle="Entre com sua conta para continuar"
     >
       <div className="space-y-3">
-        <Button
-          className="w-full h-12 text-sm font-medium bg-orange-600 hover:bg-orange-700"
-          onClick={() => base44.auth.redirectToLogin('/login')}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25, duration: 0.45 }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.97 }}
         >
-          <LogIn className="w-5 h-5 mr-2" />
-          Entrar com Email
-        </Button>
+          <Button
+            className="w-full h-12 text-sm font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
+            onClick={() => base44.auth.redirectToLogin('/login')}
+          >
+            <LogIn className="w-5 h-5 mr-2" />
+            Entrar com Email
+          </Button>
+        </motion.div>
 
-        <div className="relative my-4">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="relative my-4"
+        >
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-border" />
+            <div className="w-full border-t border-white/10" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-card px-2 text-muted-foreground">ou continue com</span>
+            <span className="bg-[#2d1200] px-2 text-white/40">ou continue com</span>
           </div>
-        </div>
+        </motion.div>
 
-        <Button
-          variant="outline"
-          className="w-full h-12 text-sm font-medium"
-          onClick={handleGoogle}
-        >
-          <GoogleIcon className="w-5 h-5 mr-2" />
-          Continuar com Google
-        </Button>
-
-        <Button
-          variant="outline"
-          className="w-full h-12 text-sm font-medium"
-          onClick={handleMicrosoft}
-        >
-          <MicrosoftIcon className="w-5 h-5 mr-2" />
-          Continuar com Microsoft
-        </Button>
-
-        <Button
-          variant="outline"
-          className="w-full h-12 text-sm font-medium"
-          onClick={handleFacebook}
-        >
-          <FacebookIcon className="w-5 h-5 mr-2" />
-          Continuar com Facebook
-        </Button>
+        {[
+          { icon: <GoogleIcon className="w-5 h-5 mr-2" />, label: 'Continuar com Google', onClick: handleGoogle },
+          { icon: <MicrosoftIcon className="w-5 h-5 mr-2" />, label: 'Continuar com Microsoft', onClick: handleMicrosoft },
+          { icon: <FacebookIcon className="w-5 h-5 mr-2" />, label: 'Continuar com Facebook', onClick: handleFacebook },
+        ].map((btn, i) => (
+          <motion.div
+            key={btn.label}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 + i * 0.08, duration: 0.4 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Button
+              variant="outline"
+              className="w-full h-12 text-sm font-medium border-white/20 text-white hover:bg-white/10"
+              onClick={btn.onClick}
+            >
+              {btn.icon}
+              {btn.label}
+            </Button>
+          </motion.div>
+        ))}
       </div>
     </AuthLayout>
   );

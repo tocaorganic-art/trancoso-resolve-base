@@ -5,11 +5,42 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { UserPlus, Mail, Lock, Loader2 } from "lucide-react";
+import { UserPlus, Mail, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { toast } from "@/components/ui/use-toast";
+
+function FloatingInput({ id, label, type = 'text', value, onChange, ...props }) {
+  const [focused, setFocused] = useState(false);
+  const lifted = focused || !!value;
+  return (
+    <div className="relative">
+      <input
+        id={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        className="peer w-full pt-5 pb-2 px-3 bg-white/8 border border-white/20 rounded-xl text-white placeholder-transparent focus:outline-none focus:ring-2 focus:ring-orange-500/50 transition-all"
+        {...props}
+      />
+      <label
+        htmlFor={id}
+        className="absolute left-3 text-white/60 pointer-events-none transition-all duration-200"
+        style={{
+          top: lifted ? '6px' : '50%',
+          transform: lifted ? 'none' : 'translateY(-50%)',
+          fontSize: lifted ? '10px' : '14px',
+        }}
+      >
+        {label}
+      </label>
+    </div>
+  );
+}
 
 export default function Register() {
   useEffect(() => {
@@ -86,11 +117,20 @@ export default function Register() {
         title="Verifique seu e-mail"
         subtitle={`Enviamos um código para ${email}`}
       >
-        {error && (
-          <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
-            {error}
-          </div>
-        )}
+        <AnimatePresence>
+          {error && (
+            <motion.div
+              key="otp-error"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="mb-4 p-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20"
+            >
+              {error}
+            </motion.div>
+          )}
+        </AnimatePresence>
         <div className="flex justify-center mb-6">
           <InputOTP
             maxLength={6}
@@ -109,23 +149,25 @@ export default function Register() {
             </InputOTPGroup>
           </InputOTP>
         </div>
-        <Button
-          className="w-full h-12 font-medium"
-          onClick={handleVerify}
-          disabled={loading || otpCode.length < 6}
-        >
-          {loading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Verificando...
-            </>
-          ) : (
-            "Verificar"
-          )}
-        </Button>
-        <p className="text-center text-sm text-muted-foreground mt-4">
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+          <Button
+            className="w-full h-12 font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
+            onClick={handleVerify}
+            disabled={loading || otpCode.length < 6}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Verificando...
+              </>
+            ) : (
+              "Verificar"
+            )}
+          </Button>
+        </motion.div>
+        <p className="text-center text-sm text-white/60 mt-4">
           Não recebeu o código?{" "}
-          <button onClick={handleResend} className="text-orange-700 font-medium hover:underline">
+          <button onClick={handleResend} className="text-orange-400 font-medium hover:underline">
             Reenviar
           </button>
         </p>
@@ -147,90 +189,91 @@ export default function Register() {
         </>
       }
     >
-      <Button
-        variant="outline"
-        className="w-full h-12 text-sm font-medium mb-6 border-border text-foreground hover:bg-muted"
-        onClick={handleGoogle}
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.4 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.97 }}
       >
-        <GoogleIcon className="w-5 h-5 mr-2" />
-        Continuar com Google
-      </Button>
+        <Button
+          variant="outline"
+          className="w-full h-12 text-sm font-medium mb-6 border-white/20 text-white hover:bg-white/10"
+          onClick={handleGoogle}
+        >
+          <GoogleIcon className="w-5 h-5 mr-2" />
+          Continuar com Google
+        </Button>
+      </motion.div>
 
       <div className="relative my-4">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
+          <div className="w-full border-t border-white/10" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">ou</span>
+          <span className="bg-[#2d1200] px-2 text-white/40">ou</span>
         </div>
       </div>
 
-      {error && (
-        <div className="mb-4 p-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20">
-          {error}
-        </div>
-      )}
+      <AnimatePresence>
+        {error && (
+          <motion.div
+            key="error"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25 }}
+            className="mb-4 p-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20"
+          >
+            {error}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="email" className="text-foreground">Email</Label>
-          <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="email"
-              type="email"
-              autoComplete="email"
-              autoFocus
-              placeholder="seu@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="pl-10 h-12"
-              required
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password" className="text-foreground">Senha</Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="password"
-              type="password"
-              autoComplete="new-password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="pl-10 h-12"
-              required
-            />
-          </div>
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="confirm" className="text-foreground">Confirmar Senha</Label>
-          <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
-            <Input
-              id="confirm"
-              type="password"
-              autoComplete="new-password"
-              placeholder="••••••••"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="pl-10 h-12"
-              required
-            />
-          </div>
-        </div>
-        <Button type="submit" className="w-full h-12 font-medium bg-gradient-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600" disabled={loading}>
-          {loading ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Criando conta...
-            </>
-          ) : (
-            "Criar conta"
-          )}
-        </Button>
+        <FloatingInput
+          id="email"
+          label="Email"
+          type="email"
+          autoComplete="email"
+          autoFocus
+          placeholder="seu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <FloatingInput
+          id="password"
+          label="Senha"
+          type="password"
+          autoComplete="new-password"
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <FloatingInput
+          id="confirm"
+          label="Confirmar Senha"
+          type="password"
+          autoComplete="new-password"
+          placeholder="••••••••"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }}>
+          <Button type="submit" className="w-full h-12 font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30" disabled={loading}>
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Criando conta...
+              </>
+            ) : (
+              "Criar conta"
+            )}
+          </Button>
+        </motion.div>
       </form>
     </AuthLayout>
   );

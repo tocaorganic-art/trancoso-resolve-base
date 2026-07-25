@@ -84,6 +84,7 @@ const JardineiroArraialDajuda = lazy(() => import('@/pages/servicos/JardineiroAr
 const PedreiroArraialDajuda = lazy(() => import('@/pages/servicos/PedreiroArraialDajuda'));
 const MorarTrancoso = lazy(() => import('@/pages/guides/MorarTrancoso'));
 const RecomendadorPage = lazy(() => import('@/pages/Recomendador'));
+const PrestadorFundadorPage = lazy(() => import('@/pages/PrestadorFundador'));
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -395,6 +396,13 @@ const AuthenticatedApp = () => {
           <Route path="/guides/morar-em-trancoso" element={
             <LayoutWrapper currentPageName="MorarTrancoso">
               <AnimatedPage><MorarTrancoso /></AnimatedPage>
+            </LayoutWrapper>
+          } />
+
+          {/* Landing Prestador Fundador */}
+          <Route path="/prestador-fundador" element={
+            <LayoutWrapper currentPageName="PrestadorFundador">
+              <AnimatedPage><PrestadorFundadorPage /></AnimatedPage>
             </LayoutWrapper>
           } />
 

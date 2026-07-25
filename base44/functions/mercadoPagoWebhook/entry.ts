@@ -111,6 +111,47 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.entities.Subscription.create(patch);
     }
 
+    // ─── Concessão do Selo Prestador Fundador ────────────────────────────────
+    // Só concede quando a assinatura Profissional é autorizada (ativa) e:
+    // 1. o prestador está verificado e aprovado;
+    // 2. ainda existem vagas (< 100);
+    // 3. não há concessão ativa anterior (idempotência).
+    if (newStatus === 'active' && plan === 'profissional') {
+      try {
+        const providers = await base44.asServiceRole.entities.ServiceProvider.filter({ email });
+        const provider = providers?.[0];
+        const isVerified = provider && provider.verified === true && provider.status_verificacao === 'aprovado';
+
+        const existingGrants = await base44.asServiceRole.entities.FounderGrant.list('-granted_at', 200);
+        const alreadyGranted = (existingGrants || []).some(
+          (g: { provider_email?: string; status?: string }) =>
+            g.provider_email === email && g.status === 'active'
+        );
+
+        if (isVerified && !alreadyGranted) {
+          const taken = (existingGrants || []).filter((g: { status?: string }) => g.status === 'active').length;
+          if (taken < 100) {
+            await base44.asServiceRole.entities.FounderGrant.create({
+              provider_id: provider.id,
+              provider_email: email,
+              provider_name: provider.full_name || '',
+              position: taken + 1,
+              status: 'active',
+              granted_at: new Date().toISOString(),
+              promotion_version: 'prestador_fundador_v1',
+            });
+            console.log(`[mercadoPagoWebhook] Selo Fundador concedido para ${email} (posição ${taken + 1})`);
+          } else {
+            console.log(`[mercadoPagoWebhook] Vagas Fundador esgotadas — selo não concedido para ${email}`);
+          }
+        } else if (!isVerified) {
+          console.log(`[mercadoPagoWebhook] ${email} não verificado — selo Fundador não concedido`);
+        }
+      } catch (grantErr) {
+        console.warn('[mercadoPagoWebhook] erro ao conceder selo Fundador:', (grantErr as Error).message);
+      }
+    }
+
     console.log(`[mercadoPagoWebhook] ${email} → ${newStatus} (plano ${plan}, preapproval ${pre.id})`);
     return Response.json({ ok: true });
   } catch (error) {

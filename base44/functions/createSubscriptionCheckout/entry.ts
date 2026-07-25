@@ -3,7 +3,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 // ─── Planos e preços (BRL) ───────────────────────────────────────────────────
 interface PlanDef { nome: string; monthly: number; annual: number | null; trialDays: number; }
 const PLANS: Record<string, PlanDef> = {
-  profissional:      { nome: 'Plano Profissional',            monthly: 19.90, annual: 199,  trialDays: 30 },
+  profissional:      { nome: 'Plano Profissional',            monthly: 19.90, annual: 199,  trialDays: 7 },
   prestador_elite:   { nome: 'Plano Premium Elite',           monthly: 197,   annual: 1970, trialDays: 7 },
   lojista_essencial: { nome: 'Plano Lojista Essencial',       monthly: 89,    annual: 890,  trialDays: 7 },
   lojista_pro:       { nome: 'Plano Lojista Pro',             monthly: 197,   annual: 1970, trialDays: 7 },
@@ -35,20 +35,10 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Plano inválido' }, { status: 400 });
     }
 
-    // ─── Limite de vagas do preço de lançamento (Fundador) ────────────────────
-    if (plan === 'profissional') {
-      const subs = await base44.asServiceRole.entities.Subscription.list('-created_date', 500);
-      const taken = (subs || []).filter((s: { status?: string; plan?: string }) =>
-        (s.status === 'active' || s.status === 'trial') &&
-        ['profissional', 'lancamento', 'prestador_profissional'].includes(s.plan as string)
-      ).length;
-      if (taken >= VAGAS_FUNDADOR) {
-        return Response.json({
-          error: 'vagas_esgotadas',
-          message: 'As vagas do preço de lançamento estão esgotadas. Escolha outro plano para continuar.',
-        }, { status: 409 });
-      }
-    }
+    // ─── Selo Fundador: concessão e limite de 100 vagas são controlados
+    // no webhook (mercadoPagoWebhook) quando a assinatura é autorizada,
+    // com revalidação server-side anti-race. O checkout apenas cria o
+    // preapproval a R$ 19,90; o selo é concedido apenas se houver vaga.
 
     const isAnnual = billing === 'annual' && planDef.annual !== null;
     const amount = isAnnual ? planDef.annual : planDef.monthly;

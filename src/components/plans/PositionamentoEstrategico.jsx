@@ -38,7 +38,7 @@ export default function PositionamentoEstrategico() {
           title="TryA"
           subtitle="Agente de IA autônomo"
           color="bg-orange-50 border-orange-200"
-          text="O TryA é o primeiro agente de inteligência artificial integrado a um site de serviços no Brasil. Mais do que um simples assistente, ele atua de forma autônoma, aprendendo com o seu negócio e otimizando processos para prestadores e lojistas."
+          text="O TryA é um agente de inteligência artificial integrado à Trancoso Resolve. Mais do que um simples assistente, ele atua de forma autônoma, aprendendo com o seu negócio e otimizando processos para prestadores e lojistas."
           benefits={[
             "Automação inteligente: gerencia agendamentos, responde perguntas frequentes, qualifica leads e otimiza a comunicação com clientes",
             "Otimização de processos: analisa dados de desempenho, sugere melhorias em serviços e precificação e identifica oportunidades de mercado",

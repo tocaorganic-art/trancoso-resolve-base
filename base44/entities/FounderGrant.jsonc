@@ -1,0 +1,76 @@
+{
+  "name": "FounderGrant",
+  "type": "object",
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "ID do ServiceProvider fundador"
+    },
+    "provider_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email do prestador fundador"
+    },
+    "provider_name": {
+      "type": "string",
+      "description": "Nome do prestador (denormalizado para exibi\u00e7\u00e3o)"
+    },
+    "position": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Posi\u00e7\u00e3o \u00fanica do Fundador (1 a 100)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "revoked"
+      ],
+      "default": "active",
+      "description": "active = selo vigente; revoked = selo revogado por cancelamento"
+    },
+    "granted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora da concess\u00e3o do selo"
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora da revoga\u00e7\u00e3o do selo"
+    },
+    "revocation_reason": {
+      "type": "string",
+      "description": "Motivo da revoga\u00e7\u00e3o (ex: cancelamento de assinatura)"
+    },
+    "promotion_version": {
+      "type": "string",
+      "default": "prestador_fundador_v1",
+      "description": "Vers\u00e3o da promo\u00e7\u00e3o (controle de elegibilidade futura)"
+    }
+  },
+  "required": [
+    "provider_id",
+    "provider_email",
+    "position"
+  ],
+  "rls": {
+    "read": true,
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

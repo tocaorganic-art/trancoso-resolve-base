@@ -59,6 +59,25 @@ Deno.serve(async (req) => {
       notes: `Cancelado pelo prestador em ${new Date().toLocaleDateString('pt-BR')}. Acesso até: ${periodEnd || 'fim do período'}`,
     });
 
+    // ─── Revoga definitivamente o Selo Prestador Fundador ──────────────────
+    try {
+      const grants = await base44.asServiceRole.entities.FounderGrant.list('-granted_at', 200);
+      const active = (grants || []).find(
+        (g: { provider_email?: string; status?: string }) =>
+          g.provider_email === user.email && g.status === 'active'
+      );
+      if (active) {
+        await base44.asServiceRole.entities.FounderGrant.update(active.id, {
+          status: 'revoked',
+          revoked_at: new Date().toISOString(),
+          revocation_reason: `Cancelamento de assinatura em ${new Date().toLocaleDateString('pt-BR')}`,
+        });
+        console.log(`[cancelarAssinatura] Selo Fundador revogado para ${user.email}`);
+      }
+    } catch (revokeErr) {
+      console.warn('[cancelarAssinatura] erro ao revogar selo Fundador:', (revokeErr as Error).message);
+    }
+
     console.log(`[cancelarAssinatura] Assinatura cancelada para ${user.email}`);
 
     // Email de confirmação (fire-and-forget)

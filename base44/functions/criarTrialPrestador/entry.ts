@@ -51,7 +51,7 @@ Deno.serve(async (req) => {
     // Trial de 14 dias
     const today = new Date();
     const trialEnd = new Date(today);
-    trialEnd.setDate(trialEnd.getDate() + 14);
+    trialEnd.setDate(trialEnd.getDate() + 30);
 
     const trialStart = today.toISOString().split('T')[0];
     const trialEndDate = trialEnd.toISOString().split('T')[0];
@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
 
 Seja muito bem-vindo(a) ao Trancoso Resolve, a plataforma que conecta os melhores profissionais aos turistas e moradores de Trancoso.
 
-Seu período de teste de 14 dias começa agora (até ${trialEnd.toLocaleDateString('pt-BR')}).
+Seu período de teste de 30 dias começa agora (até ${trialEnd.toLocaleDateString('pt-BR')}).
 
 Durante o trial você pode:
 • Criar e publicar seus serviços
@@ -91,7 +91,7 @@ Para aproveitar ao máximo:
 2. Cadastre seus serviços: https://trancosoresolve.base44.app/MeusServicos
 3. Acesse seu painel: https://trancosoresolve.base44.app/Dashboard
 
-Após o trial, continue com a assinatura mensal por apenas R$ 29,90/mês (plano lançamento) ou R$ 49,90/mês.
+Após o trial, continue com a assinatura mensal do plano Profissional por apenas R$ 19,90/mês (preço de lançamento para os 100 primeiros prestadores verificados).
 
 Dúvidas? Fale com a gente: contato@tocaexperience.com.br
 

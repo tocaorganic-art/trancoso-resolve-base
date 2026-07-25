@@ -19,7 +19,7 @@ import PositionamentoEstrategico from "@/components/plans/PositionamentoEstrateg
 const PLANOS_PRESTADOR = [
   {
     id: "gratuito",
-    nome: "Gratuito",
+    nome: "Teste Gratuito",
     preco: 0,
     precoAnual: null,
     trial: null,
@@ -43,22 +43,25 @@ const PLANOS_PRESTADOR = [
     nome: "Profissional",
     preco: 19.90,
     precoAnual: 199,
-    trial: 30,
-    trialLabel: "30 dias grátis · LANÇAMENTO",
+    trial: 7,
+    trialLabel: "7 dias grátis · OFERTA DE LANÇAMENTO",
     destaque: true,
     cor: "from-orange-600 to-orange-500",
     borda: "border-orange-400",
     icone: Zap,
     badge: "Mais Popular",
     features: [
-      "Tudo do Gratuito, sem limite de tempo",
+      "Perfil profissional ativo",
       "Até 10 serviços ativos simultâneos",
       "Destaque nas buscas da região",
       "Agenda integrada de atendimentos",
       "Selo de prestador verificado",
+      "Selo Prestador Fundador para os primeiros 100 aprovados",
+      "Sem comissão sobre os serviços",
+      "Negociação direta com o cliente",
       "Suporte por WhatsApp",
     ],
-    ctaLabel: "Assinar — R$19,90/mês",
+    ctaLabel: "Quero ser Prestador Fundador",
     ctaKey: "profissional",
   },
   {
@@ -173,8 +176,8 @@ const FAQ_ITEMS = [
     r: "Seu cartão é salvo no cadastro, mas nenhuma cobrança é feita durante o período grátis. Você pode cancelar antes do fim sem pagar nada.",
   },
   {
-    q: "Por que o Profissional tem 30 dias grátis e os outros têm 7?",
-    r: "O Plano Profissional é nosso preço de lançamento — os primeiros 100 prestadores verificados de Trancoso ganham 30 dias grátis e o Selo Fundador permanente. Os demais planos têm 7 dias de trial padrão.",
+    q: "Por que o Profissional tem 7 dias grátis?",
+    r: "O plano Profissional é nossa oferta de lançamento: R$ 19,90 por mês, 7 dias grátis e Selo Prestador Fundador para os primeiros 100 prestadores aprovados na verificação, em Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro.",
   },
   {
     q: "O que é o Boost Alta Temporada?",
@@ -465,16 +468,8 @@ export default function PlanosPage() {
   const { data: founderStats } = useQuery({
     queryKey: ["founderProgress"],
     queryFn: async () => {
-      const subs = await base44.entities.Subscription.list("-created_date", 200);
-      const taken =
-        subs?.filter(
-          s =>
-            (s.status === "active" || s.status === "trial") &&
-            (s.plan === "profissional" ||
-              s.plan === "lancamento" ||
-              s.plan === "prestador_profissional")
-        ).length || 0;
-      return { taken, remaining: Math.max(0, 100 - taken) };
+      const res = await base44.functions.invoke("getFounderStats", {});
+      return res?.data || { taken: 0, remaining: 100, limit: 100, open: true };
     },
     staleTime: 60000,
   });
@@ -536,8 +531,8 @@ export default function PlanosPage() {
             >
               <Shield className="w-4 h-4 text-orange-400" />
               {founderRestam === 100
-                ? "Seja um dos 100 primeiros Prestadores Fundadores de Trancoso"
-                : `Restam ${founderRestam} vagas de Prestador Fundador — preço de lançamento R$19,90/mês`}
+                ? "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento"
+                : `Restam ${founderRestam} vagas de Prestador Fundador — R$19,90/mês`}
             </motion.div>
           )}
         </motion.div>
@@ -601,7 +596,7 @@ export default function PlanosPage() {
 
         {/* Transparência */}
         <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 text-sm text-orange-200 text-center mb-2">
-          <strong>Transparência total:</strong> Sem comissão sobre seus serviços. Você negocia diretamente com o cliente e fica com 100% do valor.
+          <strong>Transparência total:</strong> A cobrança começa somente após os 7 dias gratuitos. Cancele antes do término do período gratuito para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços — você negocia diretamente com o cliente e fica com 100% do valor.
         </div>
 
         {/* Boost Alta Temporada */}
@@ -622,7 +617,7 @@ export default function PlanosPage() {
         <div className="text-center mb-12">
           <p className="text-muted-foreground text-sm flex items-center justify-center gap-2">
             <Users className="w-5 h-5 text-orange-500" />
-            Junte-se aos primeiros prestadores verificados de Trancoso, Caraíva e Arraial d'Ajuda
+            Junte-se aos primeiros prestadores verificados de Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro
           </p>
         </div>
 

@@ -53,6 +53,24 @@
       "format": "date",
       "description": "Data de fim do trial"
     },
+    "trial_consumed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp ISO da primeira vez que qualquer benef\u00edcio de trial foi consumido. Preenchido na concess\u00e3o do Teste Gratuito (30d) ou do trial Profissional (7d). Nunca apagado ou reatribu\u00eddo."
+    },
+    "trial_type": {
+      "type": "string",
+      "enum": [
+        "free_30d",
+        "profissional_7d"
+      ],
+      "description": "Tipo do primeiro trial consumido. 'free_30d' = Teste Gratuito sem cart\u00e3o; 'profissional_7d' = trial do Plano Profissional com cart\u00e3o."
+    },
+    "trial_version": {
+      "type": "integer",
+      "default": 1,
+      "description": "Vers\u00e3o da regra de trial no momento do consumo. Usar para auditoria e reconcilia\u00e7\u00e3o se a pol\u00edtica mudar."
+    },
     "subscription_start": {
       "type": "string",
       "format": "date",

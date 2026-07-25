@@ -4,8 +4,8 @@
 // (ver test/README.md para por que não é um import direto). Qualquer mudança
 // no comportamento de entry.ts deve ser espelhada aqui.
 
-const test = require('node:test');
-const assert = require('node:assert/strict');
+import test from 'node:test';
+import assert from 'node:assert/strict';
 
 const FOUNDER_LIMIT = 100;
 

@@ -464,12 +464,20 @@ export default function PlanosPage() {
     enabled: !!user,
   });
 
-  // Contagem de vagas Fundador (prestadores ativos)
+  // Contagem de vagas Fundador (prestadores ativos).
+  // Em erro (invoke lança exceção — SDK usa axios, que rejeita em não-2xx) ou
+  // em resposta unavailable:true, NÃO caímos em taken:0/remaining:100/open:true.
+  // Isso reproduziria o fail-open que getFounderStats foi corrigido para evitar.
+  const FOUNDER_STATS_UNAVAILABLE = { taken: null, remaining: null, limit: 100, open: false, unavailable: true };
   const { data: founderStats } = useQuery({
     queryKey: ["founderProgress"],
     queryFn: async () => {
-      const res = await base44.functions.invoke("getFounderStats", {});
-      return res?.data || { taken: 0, remaining: 100, limit: 100, open: true };
+      try {
+        const res = await base44.functions.invoke("getFounderStats", {});
+        return res?.data && typeof res.data.taken !== "undefined" ? res.data : FOUNDER_STATS_UNAVAILABLE;
+      } catch {
+        return FOUNDER_STATS_UNAVAILABLE;
+      }
     },
     staleTime: 60000,
   });
@@ -503,7 +511,8 @@ export default function PlanosPage() {
   };
 
   const planos = aba === "prestador" ? PLANOS_PRESTADOR : PLANOS_LOJISTA;
-  const founderRestam = founderStats?.remaining ?? 100;
+  const founderStatsUnavailable = founderStats?.unavailable || typeof founderStats?.remaining !== "number";
+  const founderRestam = founderStats?.remaining;
 
   return (
     <div className="bg-background min-h-screen py-12">
@@ -522,7 +531,18 @@ export default function PlanosPage() {
           <p className="text-muted-foreground max-w-lg mx-auto text-base">
             Sem comissão sobre serviços. Você negocia direto com o cliente e fica com 100% do valor.
           </p>
-          {aba === "prestador" && founderRestam > 0 && founderRestam <= 100 && (
+          {aba === "prestador" && founderStats && founderStatsUnavailable && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3, type: 'spring', stiffness: 300, damping: 18 }}
+              className="mt-3 inline-flex items-center gap-2 bg-muted border border-border text-muted-foreground text-sm font-semibold rounded-full px-4 py-1.5"
+            >
+              <Shield className="w-4 h-4" />
+              Disponibilidade de vagas Fundador temporariamente indisponível
+            </motion.div>
+          )}
+          {aba === "prestador" && !founderStatsUnavailable && founderRestam > 0 && founderRestam <= 100 && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}

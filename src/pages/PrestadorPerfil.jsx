@@ -29,6 +29,7 @@ const ServiceLocationMap = lazy(() => import("@/components/map/ServiceLocationMa
 import WhatsAppCallButton from "@/components/whatsapp/WhatsAppCallButton";
 import SlotPicker from "@/components/agenda/SlotPicker";
 import VerificacaoBadge from "@/components/verificacao/VerificacaoBadge";
+import FounderBadge from "@/components/prestador-fundador/FounderBadge";
 
 export default function PrestadorPerfilPage() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -76,6 +77,13 @@ export default function PrestadorPerfilPage() {
     queryFn: () => base44.entities.ServiceReview.filter({ provider_id: providerId }, '-created_date'),
     initialData: [],
     enabled: !!providerId,
+  });
+
+  const { data: founderStatus } = useQuery({
+    queryKey: ['founderStatus', providerId],
+    queryFn: () => base44.functions.invoke('getProviderFounderStatus', { provider_id: providerId }),
+    enabled: !!providerId,
+    staleTime: 5 * 60 * 1000, // 5 min — status de fundador não muda frequentemente
   });
 
   const createRequestMutation = useMutation({
@@ -335,9 +343,14 @@ export default function PrestadorPerfilPage() {
                       <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1 break-words">{provider.full_name}</h1>
                       <p className="text-lg text-orange-600 font-medium">{provider.occupation}</p>
                     </div>
-                    {provider.verified && (
-                      <VerificacaoBadge verified showLabel size="md" />
-                    )}
+                    <div className="flex flex-wrap items-center gap-2">
+                      {provider.verified && (
+                        <VerificacaoBadge verified showLabel size="md" />
+                      )}
+                      {founderStatus?.is_founder && (
+                        <FounderBadge position={founderStatus.position} size="md" />
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-4 mb-4 flex-wrap">

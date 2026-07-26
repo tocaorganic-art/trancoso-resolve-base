@@ -1,0 +1,73 @@
+{
+  "name": "InvestorLead",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome do investidor ou representante"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email de contato"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Telefone/WhatsApp de contato"
+    },
+    "organization": {
+      "type": "string",
+      "description": "Fundo, family office ou organização (opcional)"
+    },
+    "investor_type": {
+      "type": "string",
+      "enum": [
+        "angel",
+        "vc",
+        "family_office",
+        "corporate",
+        "outro"
+      ],
+      "description": "Perfil declarado do investidor"
+    },
+    "ticket_range": {
+      "type": "string",
+      "description": "Faixa de ticket de interesse, informada pelo próprio investidor (opcional)"
+    },
+    "message": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Mensagem, pergunta ou contexto adicional"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "pt",
+        "es",
+        "en"
+      ],
+      "description": "Idioma em que o investidor navegava a página"
+    },
+    "source": {
+      "type": "string",
+      "description": "Origem do lead (ex: pagina-investidores)"
+    },
+    "consent": {
+      "type": "boolean",
+      "description": "Consentimento LGPD para contato e armazenamento dos dados"
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "consent"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": true
+  }
+}

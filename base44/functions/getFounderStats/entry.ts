@@ -1,25 +1,22 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-// Contador server-side e auditável de vagas de Prestador Fundador.
-// Este é o ÚNICO DTO público sobre o programa Fundador — não expõe e-mail,
-// nome, provider_id, motivo de revogação nem qualquer registro individual de
-// FounderGrant (que é privada, ver base44/entities/FounderGrant.jsonc).
+// ─── getFounderStats ──────────────────────────────────────────────────────────
+// Contador server-side e auditável de vagas Fundador. ÚNICO DTO público sobre o
+// programa — não expõe email, nome, provider_id nem registro individual.
 //
-// REGRA COMERCIAL IMUTÁVEL: posições revogadas continuam consumindo uma das
-// 100 vagas originais. Quem cancelou e voltou NÃO recupera o selo. Por isso
-// "taken" conta TODOS os grants (active + revoked), não apenas os ativos.
-// Exemplo: 100 grants, 10 revogados → taken=100, active=90, remaining=0, open=false.
+// FONTE DE VERDADE:
+//   1. FounderSlot (preferencial): conta slots consumidos (não 'available').
+//      Garantia de máximo 100 e rastreamento de posições revogadas.
+//   2. FounderGrant (legado/fallback): usado enquanto initFounderSlots não foi chamado.
 //
-// Contrato de resposta (sempre HTTP 200 — ver nota sobre fail-closed):
-//   sucesso:      { taken, active, remaining, limit, open, unavailable: false }
-//   indisponível: { taken: null, active: null, remaining: null, limit,
-//                   open: false, unavailable: true, error: "FOUNDER_STATS_UNAVAILABLE" }
+// REGRA COMERCIAL IMUTÁVEL:
+//   taken = total permanentemente consumido (active + revoked).
+//   Posições revogadas NÃO voltam ao pool.
+//   Exemplo: 100 grants, 10 cancelados → taken=100, active=90, remaining=0, open=false.
 //
-// Por que sempre 200 (e não 503) em erro:
-// @base44/sdk usa axios internamente para functions.invoke(), e axios lança
-// exceção em qualquer resposta HTTP não-2xx. Um 503 faria o SDK jogar a Promise
-// em reject, e os consumidores (FounderCounter.jsx, Planos.jsx) cairiam de volta
-// no estado inicial otimista — recriando o fail-open que esta função elimina.
+// CONTRATO (sempre HTTP 200 — fail-closed para evitar estado otimista):
+//   Sucesso:       { taken, active, remaining, limit, open, available: true,  unavailable: false }
+//   Indisponível:  { taken: null, active: null, remaining: null, limit, open: false, unavailable: true }
 
 const FOUNDER_LIMIT = 100;
 
@@ -27,34 +24,61 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    // Lista todos os grants — ativos E revogados.
-    // Todos consomem uma das 100 vagas permanentemente.
-    const grants = await base44.asServiceRole.entities.FounderGrant.list('-granted_at', 200);
-    const allGrants = grants || [];
+    // ─── Tenta FounderSlot (fonte primária) ──────────────────────────────────
+    let taken: number;
+    let active: number;
+    let source: string;
 
-    // taken = total de vagas PERMANENTEMENTE consumidas (active + revoked)
-    const taken = allGrants.length;
-    // active = fundadores que ainda mantêm o selo vigente
-    const active = allGrants.filter((g: { status?: string }) => g.status === 'active').length;
+    try {
+      const slots = await base44.asServiceRole.entities.FounderSlot.list('position', 200);
+      const allSlots: any[] = slots || [];
+
+      if (allSlots.length > 0) {
+        // FounderSlots inicializados — fonte autoritativa
+        taken = allSlots.filter((s) => s.status !== 'available').length;
+        active = allSlots.filter((s) => s.status === 'granted').length;
+        source = 'founder_slot';
+      } else {
+        // Slots ainda não inicializados — fallback para FounderGrant (sistema legado)
+        const grants = await base44.asServiceRole.entities.FounderGrant.list('-granted_at', 200);
+        const allGrants: any[] = grants || [];
+        taken = allGrants.length;
+        active = allGrants.filter((g) => g.status === 'active').length;
+        source = 'founder_grant_legacy';
+        console.warn('[getFounderStats] FounderSlots não inicializados — usando fallback FounderGrant. Execute initFounderSlots como admin.');
+      }
+    } catch (slotErr) {
+      // Se FounderSlot falhar, tenta FounderGrant como fallback
+      console.warn('[getFounderStats] Erro ao ler FounderSlot, tentando FounderGrant:', (slotErr as Error).message);
+      const grants = await base44.asServiceRole.entities.FounderGrant.list('-granted_at', 200);
+      const allGrants: any[] = grants || [];
+      taken = allGrants.length;
+      active = allGrants.filter((g: any) => g.status === 'active').length;
+      source = 'founder_grant_fallback';
+    }
 
     return Response.json({
-      taken,                                          // vagas usadas permanentemente
-      active,                                         // fundadores com selo vigente
-      remaining: Math.max(0, FOUNDER_LIMIT - taken),  // vagas ainda disponíveis
+      taken,
+      active,
+      remaining: Math.max(0, FOUNDER_LIMIT - taken),
       limit: FOUNDER_LIMIT,
       open: taken < FOUNDER_LIMIT,
+      available: true,   // Resposta bem-sucedida
       unavailable: false,
+      // source omitido do payload público — informativo apenas em logs
     });
+
   } catch (error) {
     console.error('[getFounderStats] erro ao consultar disponibilidade:', (error as Error).message);
 
-    // Fail-closed: nunca inventar vagas quando a consulta real falhou.
+    // Fail-closed: nunca inventar vagas quando a consulta falhou
     return Response.json({
       taken: null,
       active: null,
       remaining: null,
       limit: FOUNDER_LIMIT,
       open: false,
+      available: false,
       unavailable: true,
       error: 'FOUNDER_STATS_UNAVAILABLE',
     });

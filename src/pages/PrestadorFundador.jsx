@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { pixelClickFounderCTA } from "@/lib/pixel";
 import {
   ShieldCheck, Calendar, Search, MessageSquare, Wallet,
-  CalendarCheck, Crown, HelpCircle, CheckCircle2, MapPin, Lock, Users,
+  CalendarCheck, Crown, HelpCircle, MapPin, Lock, Users,
 } from "lucide-react";
 import FounderCounter from "@/components/prestador-fundador/FounderCounter";
 import FounderBadge from "@/components/prestador-fundador/FounderBadge";

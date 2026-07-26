@@ -23,7 +23,7 @@ const __dirname  = path.dirname(__filename);
 const BASE_URL = 'https://www.trancosoresolve.com.br';
 const DIST_DIR = path.join(__dirname, '..', 'dist');
 
-// Cada entrada = { path, title, description, ogTitle?, ogDescription? }
+// Cada entrada = { path, title, description, ogTitle?, ogDescription?, noIndex? }
 const ROUTES = [
   // ── Destinos principais ────────────────────────────────────────────────
   {
@@ -260,6 +260,16 @@ const ROUTES = [
     title: 'Morar em Trancoso, BA — Guia Completo | Trancoso Resolve',
     description: 'Guia completo para quem quer morar em Trancoso, Bahia: serviços essenciais, infraestrutura, profissionais locais e dicas de quem vive no Quadrado.',
   },
+
+  // ── Página de investidores (PRIVADA: noindex, mas com preview social bonito) ──
+  {
+    path: '/investidores',
+    title: 'Trancoso Resolve — Tese de Investimento | Marketplace da Costa do Descobrimento',
+    description: 'Marketplace de serviços locais em Trancoso, Porto Seguro, Arraial d\'Ajuda e Caraíva. Tese, plano de 18 meses, modelo financeiro e uso de recursos. Contato via formulário na página.',
+    ogTitle: 'Trancoso Resolve — Tese de Investimento',
+    ogDescription: 'Marketplace de serviços verificados da Costa do Descobrimento (BA). Tese, plano 18 meses, calculadora financeira e roteiro de Q&A no link.',
+    noIndex: true,
+  },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────────────────
@@ -279,13 +289,25 @@ function injectHead(html, route) {
   const ogTitle   = escapeForAttr(route.ogTitle        || route.title);
   const ogDesc    = escapeForAttr(route.ogDescription  || route.description);
 
-  return html
+  let out = html
     .replace(/<title>[^<]*<\/title>/, `<title>${title}</title>`)
     .replace(/(<meta name="description" content=")[^"]*(")/,   `$1${desc}$2`)
     .replace(/(<link rel="canonical" href=")[^"]*(")/,         `$1${canonical}$2`)
     .replace(/(<meta property="og:url" content=")[^"]*(")/,    `$1${canonical}$2`)
     .replace(/(<meta property="og:title" content=")[^"]*(")/,  `$1${ogTitle}$2`)
     .replace(/(<meta property="og:description" content=")[^"]*(")/,  `$1${ogDesc}$2`);
+
+  // Se a rota for privada (noIndex), sobrescreve a diretiva robots — mesmo assim
+  // OG tags continuam funcionando (preview bonito no WhatsApp/LinkedIn/e-mail).
+  if (route.noIndex) {
+    if (/<meta name="robots" content="[^"]*"/.test(out)) {
+      out = out.replace(/(<meta name="robots" content=")[^"]*(")/, `$1noindex, nofollow$2`);
+    } else {
+      out = out.replace(/<\/head>/, `  <meta name="robots" content="noindex, nofollow"/>\n</head>`);
+    }
+  }
+
+  return out;
 }
 
 function outputPath(routePath) {

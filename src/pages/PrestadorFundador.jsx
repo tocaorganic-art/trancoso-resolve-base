@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { pixelClickFounderCTA } from "@/lib/pixel";
 import {
   ShieldCheck, Calendar, Search, MessageSquare, Wallet,
   CalendarCheck, Crown, HelpCircle, CheckCircle2, MapPin, Lock, Users,
@@ -119,7 +120,7 @@ export default function PrestadorFundador() {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
             <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600 text-white font-bold text-base h-12 px-8">
-              <Link to="/Planos">Quero ser Prestador Fundador</Link>
+              <Link to="/Planos" onClick={() => pixelClickFounderCTA('hero')}>Quero ser Prestador Fundador</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-12 px-8">
               <Link to="/ComoFunciona">Como funciona</Link>
@@ -245,7 +246,7 @@ export default function PrestadorFundador() {
             7 dias grátis, R$ 19,90 por mês, sem comissão sobre seus serviços e cancelamento a qualquer momento.
           </p>
           <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-bold text-base h-12 px-8">
-            <Link to="/Planos">Quero ser Prestador Fundador</Link>
+            <Link to="/Planos" onClick={() => pixelClickFounderCTA('cta_final')}>Quero ser Prestador Fundador</Link>
           </Button>
         </div>
       </section>

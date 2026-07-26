@@ -138,6 +138,52 @@ export default function Layout({ children, currentPageName }) {
     }
     ogDescription.content = currentDescription;
 
+    // og:url — URL canônica da página atual
+    const currentUrl = window.location.origin + location.pathname;
+    let ogUrl = document.querySelector('meta[property="og:url"]');
+    if (!ogUrl) {
+      ogUrl = document.createElement('meta');
+      ogUrl.setAttribute('property', 'og:url');
+      document.head.appendChild(ogUrl);
+    }
+    ogUrl.content = currentUrl;
+
+    // canonical link — atualizado por rota
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = currentUrl;
+
+    // twitter:title e twitter:description
+    const setTwitterMeta = (name, value) => {
+      let el = document.querySelector(`meta[name="${name}"]`);
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('name', name);
+        document.head.appendChild(el);
+      }
+      el.content = value;
+    };
+    setTwitterMeta('twitter:title', currentTitle);
+    setTwitterMeta('twitter:description', currentDescription);
+
+    // og:image por página (fallback = imagem padrão do site)
+    const BASE_OG_IMAGE = 'https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg';
+    const ogImages = {
+      '/PrestadorFundador': BASE_OG_IMAGE, // pode ser substituído por imagem da campanha futuramente
+    };
+    const ogImageSrc = ogImages[currentPath] || BASE_OG_IMAGE;
+    let ogImage = document.querySelector('meta[property="og:image"]');
+    if (!ogImage) {
+      ogImage = document.createElement('meta');
+      ogImage.setAttribute('property', 'og:image');
+      document.head.appendChild(ogImage);
+    }
+    ogImage.content = ogImageSrc;
+
   }, [location.pathname]);
 
   const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];

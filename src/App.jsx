@@ -26,6 +26,7 @@ import ProtectedRoute from '@/components/ProtectedRoute';
 const FilaVerificacaoPage = lazy(() => import('@/pages/FilaVerificacao'));
 const AdminPagamentosPage = lazy(() => import('@/pages/AdminPagamentos'));
 const PreLancamentoPage = lazy(() => import('@/pages/PreLancamento'));
+const InvestidoresPage = lazy(() => import('@/pages/Investidores'));
 const AdminAntecedentesPage = lazy(() => import('@/pages/AdminAntecedentes'));
 const ServicoLandingPage = lazy(() => import('@/pages/ServicoLanding'));
 const SolicitacaoConfirmadaPage = lazy(() => import('@/pages/SolicitacaoConfirmada'));
@@ -170,6 +171,10 @@ const AuthenticatedApp = () => {
           </Route>
           <Route path="/PreLancamento" element={
             <AnimatedPage><PreLancamentoPage /></AnimatedPage>
+          } />
+
+          <Route path="/investidores" element={
+            <AnimatedPage><InvestidoresPage /></AnimatedPage>
           } />
 
           <Route path="/ServicoLanding" element={

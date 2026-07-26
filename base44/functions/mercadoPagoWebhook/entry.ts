@@ -1,5 +1,36 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
+// ─── CAPI (Meta Conversions API) inline helper ────────────────────────────────
+// Envia evento server-side para o Meta. No-op silencioso se secret não configurado.
+async function sendCapiEvent(
+  eventName: string,
+  customData: Record<string, unknown> = {},
+  eventId?: string,
+): Promise<void> {
+  const accessToken = Deno.env.get('FB_ACCESS_TOKEN');
+  if (!accessToken) return; // secret não configurado — analytics é opcional
+  const pixelId = '2222634538513651';
+  try {
+    await fetch(`https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${accessToken}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [{
+          event_name: eventName,
+          event_time: Math.floor(Date.now() / 1000),
+          event_id: eventId || crypto.randomUUID(),
+          event_source_url: 'https://trancosoresolve.com.br/PrestadorFundador',
+          action_source: 'website',
+          custom_data: customData,
+        }],
+      }),
+    });
+    console.log(`[capi] ${eventName} enviado`);
+  } catch (err) {
+    console.warn(`[capi] Falha ao enviar ${eventName}:`, (err as Error).message);
+  }
+}
+
 // ─── Webhook do Mercado Pago ─────────────────────────────────────────────────
 // Configure a URL desta função no painel MP → Integrações → Webhooks.
 // Defina o mesmo segredo em MP_WEBHOOK_SECRET (gerenciador de secrets do Base44).
@@ -358,9 +389,26 @@ Deno.serve(async (req) => {
               });
 
               console.log(`[mercadoPagoWebhook] Selo Fundador concedido: ${email} → posição ${slot.position}`);
+              // CAPI: FounderBadgeGranted — sem PII, posição não é dado pessoal
+              sendCapiEvent('FounderBadgeGranted', {
+                position: slot.position,
+                value: 19.90,
+                currency: 'BRL',
+                content_ids: ['prestador_fundador'],
+                content_type: 'product',
+              }).catch(() => {});
             }
           }
         }
+
+        // CAPI: Subscribe — assinatura ativa (independente de vaga Fundador)
+        sendCapiEvent('Subscribe', {
+          value: amount || 19.90,
+          currency: 'BRL',
+          predicted_ltv: (amount || 19.90) * 12,
+          content_name: plan || 'profissional',
+        }).catch(() => {});
+
       } catch (grantErr) {
         grantError = (grantErr as Error).message;
 

@@ -5,6 +5,9 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import BadgeEmVerificacao from "@/components/verificacao/BadgeEmVerificacao";
 import FavoriteButton from "@/components/favorites/FavoriteButton";
 import { DEMO_PROFILE_WARNING } from "@/lib/mockProviderImages";
+import { useQuery } from "@tanstack/react-query";
+import { base44 } from "@/api/base44Client";
+import FounderBadge from "@/components/prestador-fundador/FounderBadge";
 
 // Cores quentes da marca para o fundo das iniciais quando não há foto
 const AVATAR_COLORS = ["#E8571A", "#C1440E", "#6B7C3A", "#2D7D8A", "#9a3412"];
@@ -24,6 +27,13 @@ function getAvatarColor(name) {
 }
 
 export default function ProviderCard({ provider }) {
+    const { data: founderStatus } = useQuery({
+        queryKey: ['founderStatus', provider.id],
+        queryFn: () => base44.functions.invoke('getProviderFounderStatus', { provider_id: provider.id }),
+        staleTime: 5 * 60 * 1000, // 5 min — status de fundador não muda com frequência
+        enabled: !!provider?.id,
+    });
+
     return (
     <div className="rounded-2xl overflow-hidden bg-[#1a1a2e] shadow-lg flex flex-col h-full border border-white/5">
         {/* 1) IMAGEM DE CAPA no topo - altura fixa, sem sobreposição */}
@@ -71,6 +81,12 @@ export default function ProviderCard({ provider }) {
                             <span className="text-orange-500 text-sm" title="Verificado" aria-label="Profissional verificado">✔</span>
                         )}
                     </div>
+                    {/* Selo Fundador — exibido apenas quando confirmado pelo servidor */}
+                    {founderStatus?.is_founder && (
+                        <div className="mt-1">
+                            <FounderBadge position={founderStatus.position} size="sm" />
+                        </div>
+                    )}
                     {/* Ocupação em cinza abaixo do nome */}
                     <div className="text-sm text-[#9ca3af] mt-0.5">
                         {provider.occupation}

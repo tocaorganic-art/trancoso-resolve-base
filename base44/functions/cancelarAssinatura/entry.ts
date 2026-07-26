@@ -1,5 +1,21 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
+// ─── CAPI inline helper ────────────────────────────────────────────────
+async function sendCapiEvent(eventName: string, customData: Record<string, unknown> = {}): Promise<void> {
+  const accessToken = Deno.env.get('FB_ACCESS_TOKEN');
+  if (!accessToken) return;
+  const pixelId = '2222634538513651';
+  try {
+    await fetch(`https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${accessToken}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [{ event_name: eventName, event_time: Math.floor(Date.now() / 1000), event_id: crypto.randomUUID(), action_source: 'website', custom_data: customData }],
+      }),
+    });
+  } catch { /* analytics não pode quebrar o fluxo */ }
+}
+
 // ─── cancelarAssinatura ───────────────────────────────────────────────────────
 // Cancela a assinatura do prestador autenticado.
 //
@@ -164,6 +180,9 @@ Deno.serve(async (req) => {
     }
 
     console.log('[cancelarAssinatura] Cancelamento concluído' + (revokeError ? ' — RECONCILIAÇÃO PENDENTE' : ''));
+
+    // CAPI: CancelSubscription — sem PII
+    sendCapiEvent('CancelSubscription', {}).catch(() => {});
 
     return Response.json({
       ok: true,

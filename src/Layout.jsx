@@ -86,7 +86,7 @@ export default function Layout({ children, currentPageName }) {
       '/Contact': 'Contato | Trancoso Resolve',
       '/login': 'Entrar | Trancoso Resolve',
       '/register': 'Cadastrar | Trancoso Resolve',
-      '/PrestadorFundador': 'Prestador Fundador — Garanta sua Vaga | Trancoso Resolve',
+      '/prestador-fundador': 'Prestador Fundador — Garanta sua Vaga | Trancoso Resolve',
       '/AssinaturaConfirmada': 'Assinatura Confirmada | Trancoso Resolve',
     };
 
@@ -104,7 +104,7 @@ export default function Layout({ children, currentPageName }) {
       '/Assistentevirtual': 'Converse com o TryA, o assistente inteligente da Trancoso Resolve. Encontre o profissional certo para sua necessidade em segundos.',
       '/login': 'Acesse sua conta na Trancoso Resolve para gerenciar pedidos, contratar serviços e conectar-se com profissionais verificados em Trancoso.',
       '/register': 'Crie sua conta gratuita na Trancoso Resolve e acesse os melhores profissionais verificados de Trancoso, Bahia.',
-      '/PrestadorFundador': 'Seja um dos 100 Prestadores Fundadores do Trancoso Resolve. Assine por R$ 19,90/mês e garanta seu Selo Fundador com benefícios exclusivos. Vagas limitadas.',
+      '/prestador-fundador': 'Seja um dos 100 Prestadores Fundadores do Trancoso Resolve. Assine por R$ 19,90/mês e garanta seu Selo Fundador com benefícios exclusivos. Vagas limitadas.',
       '/AssinaturaConfirmada': 'Sua assinatura foi confirmada com sucesso. Bem-vindo ao Trancoso Resolve!',
     };
 

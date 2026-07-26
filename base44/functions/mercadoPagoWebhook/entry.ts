@@ -7,7 +7,7 @@ async function sendCapiEvent(
   customData: Record<string, unknown> = {},
   eventId?: string,
 ): Promise<void> {
-  const accessToken = Deno.env.get('FB_ACCESS_TOKEN');
+  const accessToken = Deno.env.get('FB_ACCESS_TOKEN') || Deno.env.get('META_CONVERSIONS_API_TOKEN');
   if (!accessToken) return; // secret não configurado — analytics é opcional
   const pixelId = '2222634538513651';
   try {

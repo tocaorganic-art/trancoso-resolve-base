@@ -1,0 +1,83 @@
+{
+  "name": "FounderSlot",
+  "type": "object",
+  "description": "100 vagas pr\u00e9-criadas do programa Prestador Fundador (posi\u00e7\u00f5es 1-100). Cada slot representa uma posi\u00e7\u00e3o \u00fanica e imut\u00e1vel. NUNCA deletar um slot. Status 'revoked' \u00e9 PERMANENTE \u2014 n\u00e3o volta a 'available'. Totalmente privado: nenhuma leitura ou escrita pelo prestador ou visitante an\u00f4nimo.",
+  "properties": {
+    "position": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "description": "Posi\u00e7\u00e3o \u00fanica (1 a 100). Imut\u00e1vel ap\u00f3s cria\u00e7\u00e3o pelo initFounderSlots."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "available",
+        "reserved",
+        "granted",
+        "revoked",
+        "pending_reconciliation"
+      ],
+      "default": "available",
+      "description": "available: vaga livre; reserved: reserva tempor\u00e1ria (expira em 10min); granted: concedido definitivamente; revoked: revogado permanentemente (cancelamento); pending_reconciliation: falha que precisa de a\u00e7\u00e3o manual do admin."
+    },
+    "provider_id": {
+      "type": "string",
+      "description": "ID do ServiceProvider que recebeu (ou tentou receber) esta posi\u00e7\u00e3o."
+    },
+    "subscription_id": {
+      "type": "string",
+      "description": "ID interno da Subscription associada."
+    },
+    "idempotency_key": {
+      "type": "string",
+      "description": "Chave de idempot\u00eancia no formato 'providerId:preapprovalId'. Usada para detectar replays e conflitos de concorr\u00eancia. Nunca reutilizar para outro prestador."
+    },
+    "reserved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp da reserva. Reservas sem confirma\u00e7\u00e3o expiram ap\u00f3s 10 minutos e podem ser realocadas."
+    },
+    "granted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp da concess\u00e3o definitiva (status \u2192 granted)."
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp da revoga\u00e7\u00e3o (status \u2192 revoked). Uma vez revogado, nunca volta a available \u2014 a posi\u00e7\u00e3o \u00e9 consumida permanentemente."
+    },
+    "promotion_version": {
+      "type": "string",
+      "default": "prestador_fundador_v1",
+      "description": "Vers\u00e3o da promo\u00e7\u00e3o em vigor no momento da concess\u00e3o. Permite auditar mudan\u00e7as de pol\u00edtica."
+    }
+  },
+  "required": [
+    "position",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

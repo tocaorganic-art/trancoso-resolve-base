@@ -331,3 +331,157 @@ test('concorrência: email revogado não recebe novo grant (regra comercial)', (
   assert.equal(result.ok, false, 'ex-fundador não recupera o selo ao retornar');
   assert.equal(result.reason, 'ja_tem_grant');
 });
+
+// ────────────────────────────────────────────────────────────────────────────
+// FOUNDER SLOT — lógica de alocação atômica
+// Espelha base44/functions/mercadoPagoWebhook/entry.ts :: allocateFounderSlot
+// ────────────────────────────────────────────────────────────────────────────
+
+const RESERVATION_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutos
+
+// Replica a lógica de filtragem de candidatos em allocateFounderSlot.
+function findCandidateSlots(allSlots, nowMs = Date.now()) {
+  return allSlots
+    .filter((s) => {
+      if (s.status === 'available') return true;
+      if (s.status === 'reserved') {
+        // Reserva expirada (> 10 min) — pode ser reutilizada
+        const age = nowMs - new Date(s.reserved_at || 0).getTime();
+        return age > RESERVATION_TIMEOUT_MS;
+      }
+      return false; // granted, revoked, pending_reconciliation não são candidatos
+    })
+    .sort((a, b) => a.position - b.position);
+}
+
+// Replica a verificação de idempotência por idempotency_key.
+function checkIdempotencyKey(allSlots, key) {
+  return allSlots.find((s) => s.idempotency_key === key) || null;
+}
+
+test('FounderSlot: slot disponível é encontrado corretamente', () => {
+  const slots = [
+    { position: 1, status: 'granted' },
+    { position: 2, status: 'available' },
+    { position: 3, status: 'available' },
+  ];
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 2);
+  assert.equal(candidates[0].position, 2, 'deve retornar o menor position disponível primeiro');
+});
+
+test('FounderSlot: sem slots não há candidatos', () => {
+  const slots = [
+    { position: 1, status: 'granted' },
+    { position: 2, status: 'revoked' },
+    { position: 3, status: 'pending_reconciliation' },
+  ];
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 0, 'granted/revoked/pending_reconciliation não são candidatos');
+});
+
+test('FounderSlot: reserva ainda válida não é candidato', () => {
+  const recentReservation = new Date(Date.now() - 5 * 60 * 1000).toISOString(); // 5 min atrás
+  const slots = [{ position: 1, status: 'reserved', reserved_at: recentReservation }];
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 0, 'reserva com menos de 10 min não é candidato');
+});
+
+test('FounderSlot: reserva expirada (> 10 min) é candidato para realocação', () => {
+  const expiredReservation = new Date(Date.now() - 11 * 60 * 1000).toISOString(); // 11 min atrás
+  const slots = [{ position: 1, status: 'reserved', reserved_at: expiredReservation }];
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 1, 'reserva expirada volta ao pool de candidatos');
+});
+
+test('FounderSlot: idempotência — chave duplicada retorna slot existente', () => {
+  const key = 'provider123:preapproval456';
+  const slots = [
+    { position: 1, status: 'granted', idempotency_key: key },
+    { position: 2, status: 'available' },
+  ];
+  const existing = checkIdempotencyKey(slots, key);
+  assert.ok(existing, 'deve encontrar slot existente pela idempotency_key');
+  assert.equal(existing.position, 1);
+});
+
+test('FounderSlot: chave inexistente retorna null (prossegue para nova alocação)', () => {
+  const slots = [{ position: 1, status: 'granted', idempotency_key: 'outro:key' }];
+  const existing = checkIdempotencyKey(slots, 'provider123:preapproval456');
+  assert.equal(existing, null, 'chave não encontrada — alocar novo slot');
+});
+
+test('FounderSlot: slot revogado NUNCA vira candidato (regra permanente)', () => {
+  const slots = [
+    { position: 1, status: 'revoked', revoked_at: new Date().toISOString() },
+  ];
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 0, 'slot revogado nunca retorna ao pool');
+});
+
+test('FounderSlot: 100 slots todos granted — nenhum candidato disponível', () => {
+  const slots = Array.from({ length: 100 }, (_, i) => ({
+    position: i + 1,
+    status: 'granted',
+  }));
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 0, 'nenhuma vaga disponível após 100 concessões');
+});
+
+test('FounderSlot: 99 granted + 1 available — apenas 1 candidato, posição correta', () => {
+  const slots = [
+    ...Array.from({ length: 99 }, (_, i) => ({ position: i + 1, status: 'granted' })),
+    { position: 100, status: 'available' },
+  ];
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 1);
+  assert.equal(candidates[0].position, 100);
+});
+
+test('FounderSlot: idempotency_key formato correto (providerId:preapprovalId)', () => {
+  const providerId = 'abc123';
+  const preapprovalId = 'PAP-xyz789';
+  const key = `${providerId}:${preapprovalId}`;
+  assert.ok(key.includes(':'), 'formato deve conter ":" como separador');
+  const [pid, paid] = key.split(':');
+  assert.equal(pid, providerId);
+  assert.equal(paid, preapprovalId);
+});
+
+test('FounderSlot: dois checkouts do mesmo prestador não alocam dois slots', () => {
+  // Simula: primeiro checkout já tem idempotency_key; segundo deve reusar o mesmo slot
+  const providerId = 'provider-A';
+  const preapprovalId = 'PAP-111';
+  const key = `${providerId}:${preapprovalId}`;
+
+  const slots = [
+    { position: 1, status: 'reserved', idempotency_key: key, provider_id: providerId },
+    { position: 2, status: 'available' },
+  ];
+
+  // Segundo checkout verifica idempotência primeiro
+  const existing = checkIdempotencyKey(slots, key);
+  assert.ok(existing, 'segundo checkout deve encontrar slot já reservado pela key');
+  assert.equal(existing.position, 1, 'não aloca novo slot — reutiliza o existente');
+});
+
+test('FounderSlot: 10 webhooks para o mesmo slot não criam 10 grants', () => {
+  // Simula: idempotency_key é a mesma nos 10 webhooks
+  const key = 'provider-B:PAP-222';
+  const slots = [{ position: 5, status: 'granted', idempotency_key: key }];
+
+  let grantsCreated = 0;
+  for (let i = 0; i < 10; i++) {
+    const existing = checkIdempotencyKey(slots, key);
+    if (!existing) {
+      grantsCreated++; // Nunca deve cair aqui
+    }
+  }
+  assert.equal(grantsCreated, 0, '10 webhooks idênticos não criam novos grants');
+});
+
+test('FounderSlot: slot pending_reconciliation não retorna ao pool (aguarda admin)', () => {
+  const slots = [{ position: 50, status: 'pending_reconciliation' }];
+  const candidates = findCandidateSlots(slots);
+  assert.equal(candidates.length, 0, 'slot em reconciliação não pode ser realocado automaticamente');
+});

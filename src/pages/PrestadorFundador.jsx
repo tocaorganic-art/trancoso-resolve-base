@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -82,36 +81,7 @@ const FAQ = [
 ];
 
 export default function PrestadorFundador() {
-  // SEO protegido — sobrescreve após o efeito do Layout (que seta title default)
-  useEffect(() => {
-    const applySeo = () => {
-      document.title = "Prestador Fundador | Trancoso Resolve";
-      const setMeta = (selector, attr, value, createAttr) => {
-        let el = document.querySelector(selector);
-        if (!el) {
-          el = document.createElement("meta");
-          el.setAttribute(createAttr.attr, createAttr.value);
-          document.head.appendChild(el);
-        }
-        el.setAttribute(attr, value);
-      };
-      setMeta('meta[name="description"]', "content", "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento. Tenha 7 dias grátis e continue por R$ 19,90 por mês, sem comissão.", { attr: "name", value: "description" });
-      setMeta('meta[property="og:title"]', "content", "Prestador Fundador | Trancoso Resolve", { attr: "property", value: "og:title" });
-      setMeta('meta[property="og:description"]', "content", "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento. 7 dias grátis, R$ 19,90/mês, sem comissão.", { attr: "property", value: "og:description" });
-      setMeta('meta[property="og:type"]', "content", "website", { attr: "property", value: "og:type" });
-      let canonical = document.querySelector('link[rel="canonical"]');
-      if (!canonical) {
-        canonical = document.createElement("link");
-        canonical.setAttribute("rel", "canonical");
-        document.head.appendChild(canonical);
-      }
-      canonical.setAttribute("href", "https://trancosoresolve.com.br/prestador-fundador");
-    };
-    // Defer para rodar após o useEffect do Layout (parent effects rodam depois dos child)
-    const t = setTimeout(applySeo, 0);
-    return () => clearTimeout(t);
-  }, []);
-
+  // SEO gerenciado pelo Layout.jsx — não é necessário setTimeout aqui.
   return (
     <div className="min-h-screen bg-background">
       {/* HERO */}

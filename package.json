@@ -20,7 +20,9 @@
     "deploy:vercel": "npx vercel deploy --prod --yes",
     "deploy:base44": "npx base44 deploy --yes",
     "deploy:base44:fn": "npx base44 functions deploy",
-    "deploy:base44:entities": "npx base44 entities push"
+    "deploy:base44:entities": "npx base44 entities push",
+    "test:investors": "vitest run src/components/investors/investors.test.jsx",
+    "test:all": "vitest run"
   },
   "dependencies": {
     "@base44/sdk": "^0.8.40",

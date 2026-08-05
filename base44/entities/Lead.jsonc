@@ -1,0 +1,122 @@
+{
+  "name": "Lead",
+  "type": "object",
+  "properties": {
+    "nome": {
+      "type": "string",
+      "description": "Nome do lead"
+    },
+    "whatsapp": {
+      "type": "string",
+      "description": "WhatsApp do lead"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email do lead"
+    },
+    "bairro": {
+      "type": "string",
+      "description": "Bairro"
+    },
+    "horario": {
+      "type": "string",
+      "description": "Hor\u00e1rio preferido"
+    },
+    "servico": {
+      "type": "string",
+      "description": "Servi\u00e7o de interesse"
+    },
+    "origem": {
+      "type": "string",
+      "description": "Origem do lead"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status legado (campo existente mantido intacto)"
+    },
+    "email_boas_vindas_enviado": {
+      "type": "boolean",
+      "default": false,
+      "description": "Email de boas-vindas enviado"
+    },
+    "notas": {
+      "type": "string",
+      "description": "Notas internas"
+    },
+    "profile_type": {
+      "type": "string",
+      "enum": [
+        "cliente",
+        "prestador",
+        "lojista",
+        "empresa"
+      ],
+      "description": "Tipo de perfil do lead"
+    },
+    "locality": {
+      "type": "string",
+      "description": "Localidade de interesse"
+    },
+    "category_interest": {
+      "type": "string",
+      "description": "Categoria de interesse"
+    },
+    "message": {
+      "type": "string",
+      "description": "Mensagem do lead"
+    },
+    "utm_source": {
+      "type": "string",
+      "description": "UTM source"
+    },
+    "utm_medium": {
+      "type": "string",
+      "description": "UTM medium"
+    },
+    "utm_campaign": {
+      "type": "string",
+      "description": "UTM campaign"
+    },
+    "consent": {
+      "type": "boolean",
+      "default": false,
+      "description": "Consentimento para contato"
+    },
+    "lead_status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "in_review",
+        "qualified",
+        "contacted",
+        "converted",
+        "not_qualified",
+        "archived"
+      ],
+      "default": "new",
+      "description": "Status do funil de leads"
+    }
+  },
+  "required": [
+    "nome"
+  ],
+  "rls": {
+    "create": true,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

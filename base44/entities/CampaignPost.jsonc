@@ -1,0 +1,136 @@
+{
+  "name": "CampaignPost",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "T\u00edtulo do conte\u00fado"
+    },
+    "campaign_day": {
+      "type": "number",
+      "description": "Dia da campanha (1-30)"
+    },
+    "publish_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data de publica\u00e7\u00e3o"
+    },
+    "phase": {
+      "type": "string",
+      "description": "Fase da campanha"
+    },
+    "channels": {
+      "type": "string",
+      "description": "Canais de veicula\u00e7\u00e3o"
+    },
+    "format": {
+      "type": "string",
+      "description": "Formato do conte\u00fado"
+    },
+    "localities": {
+      "type": "string",
+      "description": "Localidades-alvo"
+    },
+    "audience": {
+      "type": "string",
+      "description": "P\u00fablico-alvo"
+    },
+    "objective": {
+      "type": "string",
+      "description": "Objetivo da pe\u00e7a"
+    },
+    "benefit": {
+      "type": "string",
+      "description": "Benef\u00edcio comunicado"
+    },
+    "main_message": {
+      "type": "string",
+      "description": "Mensagem principal"
+    },
+    "caption": {
+      "type": "string",
+      "description": "Legenda"
+    },
+    "cta": {
+      "type": "string",
+      "description": "Call-to-action"
+    },
+    "language": {
+      "type": "string",
+      "description": "Idioma"
+    },
+    "hashtags": {
+      "type": "string",
+      "description": "Hashtags"
+    },
+    "primary_metric": {
+      "type": "string",
+      "description": "M\u00e9trica principal"
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "confirmed",
+        "partially_confirmed",
+        "pending_validation",
+        "blocked"
+      ],
+      "default": "pending_validation",
+      "description": "Status de valida\u00e7\u00e3o"
+    },
+    "production_status": {
+      "type": "string",
+      "enum": [
+        "planned",
+        "in_production",
+        "ready_for_review",
+        "approved",
+        "scheduled",
+        "published",
+        "cancelled"
+      ],
+      "default": "planned",
+      "description": "Status de produ\u00e7\u00e3o"
+    },
+    "publication_url": {
+      "type": "string",
+      "description": "URL da publica\u00e7\u00e3o"
+    },
+    "canva_url": {
+      "type": "string",
+      "description": "Link do Canva (admin only)"
+    },
+    "asset_url": {
+      "type": "string",
+      "description": "URL do asset"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Aprovado por"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data de aprova\u00e7\u00e3o"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas internas"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

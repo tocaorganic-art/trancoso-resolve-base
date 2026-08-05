@@ -86,6 +86,9 @@ const PedreiroArraialDajuda = lazy(() => import('@/pages/servicos/PedreiroArraia
 const MorarTrancoso = lazy(() => import('@/pages/guides/MorarTrancoso'));
 const RecomendadorPage = lazy(() => import('@/pages/Recomendador'));
 const PrestadorFundadorPage = lazy(() => import('@/pages/PrestadorFundador'));
+const CostaDoDescobrimentoPage = lazy(() => import('@/pages/CostaDoDescobrimento'));
+const ParticiparPage = lazy(() => import('@/pages/Participar'));
+const CampanhaRegionalPage = lazy(() => import('@/pages/admin/CampanhaRegional'));
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -235,6 +238,11 @@ const AuthenticatedApp = () => {
             <Route path="/admin/metricas" element={
               <LayoutWrapper currentPageName="AdminMetricas">
                 <AnimatedPage><AdminMetricasPage /></AnimatedPage>
+              </LayoutWrapper>
+            } />
+            <Route path="/admin/campanha-regional" element={
+              <LayoutWrapper currentPageName="CampanhaRegional">
+                <AnimatedPage><CampanhaRegionalPage /></AnimatedPage>
               </LayoutWrapper>
             } />
           </Route>
@@ -408,6 +416,18 @@ const AuthenticatedApp = () => {
           <Route path="/prestador-fundador" element={
             <LayoutWrapper currentPageName="PrestadorFundador">
               <AnimatedPage><PrestadorFundadorPage /></AnimatedPage>
+            </LayoutWrapper>
+          } />
+
+          {/* Campanha Regional — Costa do Descobrimento */}
+          <Route path="/costa-do-descobrimento" element={
+            <LayoutWrapper currentPageName="CostaDoDescobrimento">
+              <AnimatedPage><CostaDoDescobrimentoPage /></AnimatedPage>
+            </LayoutWrapper>
+          } />
+          <Route path="/participar" element={
+            <LayoutWrapper currentPageName="Participar">
+              <AnimatedPage><ParticiparPage /></AnimatedPage>
             </LayoutWrapper>
           } />
 

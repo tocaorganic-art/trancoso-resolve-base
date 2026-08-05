@@ -1,0 +1,55 @@
+{
+  "name": "BrandAsset",
+  "type": "object",
+  "properties": {
+    "brand": {
+      "type": "string",
+      "enum": [
+        "trancoso_resolve",
+        "trancoso_move"
+      ],
+      "description": "Marca do asset"
+    },
+    "asset_type": {
+      "type": "string",
+      "description": "Tipo do asset (logo, foto, v\u00eddeo, template)"
+    },
+    "file": {
+      "type": "string",
+      "description": "URL do arquivo"
+    },
+    "variation": {
+      "type": "string",
+      "description": "Varia\u00e7\u00e3o do asset"
+    },
+    "approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Asset aprovado"
+    },
+    "usage_notes": {
+      "type": "string",
+      "description": "Notas de uso"
+    },
+    "source": {
+      "type": "string",
+      "description": "Origem do asset"
+    }
+  },
+  "required": [
+    "brand",
+    "asset_type"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

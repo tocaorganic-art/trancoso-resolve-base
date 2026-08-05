@@ -1,0 +1,84 @@
+{
+  "name": "CampaignMetric",
+  "type": "object",
+  "properties": {
+    "campaign_post_id": {
+      "type": "string",
+      "description": "ID do CampaignPost vinculado"
+    },
+    "date": {
+      "type": "string",
+      "format": "date",
+      "description": "Data da m\u00e9trica"
+    },
+    "channel": {
+      "type": "string",
+      "description": "Canal da m\u00e9trica"
+    },
+    "reach": {
+      "type": "number",
+      "default": 0,
+      "description": "Alcance"
+    },
+    "impressions": {
+      "type": "number",
+      "default": 0,
+      "description": "Impress\u00f5es"
+    },
+    "likes": {
+      "type": "number",
+      "default": 0,
+      "description": "Curtidas"
+    },
+    "comments": {
+      "type": "number",
+      "default": 0,
+      "description": "Coment\u00e1rios"
+    },
+    "saves": {
+      "type": "number",
+      "default": 0,
+      "description": "Salvamentos"
+    },
+    "shares": {
+      "type": "number",
+      "default": 0,
+      "description": "Compartilhamentos"
+    },
+    "clicks": {
+      "type": "number",
+      "default": 0,
+      "description": "Cliques"
+    },
+    "leads": {
+      "type": "number",
+      "default": 0,
+      "description": "Leads gerados"
+    },
+    "qualified_leads": {
+      "type": "number",
+      "default": 0,
+      "description": "Leads qualificados"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas sobre a m\u00e9trica"
+    }
+  },
+  "required": [
+    "campaign_post_id",
+    "date"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

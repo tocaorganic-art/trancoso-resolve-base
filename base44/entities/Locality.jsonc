@@ -1,0 +1,71 @@
+{
+  "name": "Locality",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Nome da localidade"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Slug URL da localidade"
+    },
+    "display_order": {
+      "type": "number",
+      "default": 0,
+      "description": "Ordem de exibi\u00e7\u00e3o"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Localidade ativa"
+    },
+    "communication_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Comunica\u00e7\u00e3o habilitada para a localidade"
+    },
+    "operation_status": {
+      "type": "string",
+      "enum": [
+        "confirmed",
+        "partially_confirmed",
+        "pending_validation",
+        "inactive"
+      ],
+      "default": "pending_validation",
+      "description": "Status operacional da localidade"
+    },
+    "description": {
+      "type": "string",
+      "description": "Descri\u00e7\u00e3o da localidade"
+    },
+    "validation_status": {
+      "type": "string",
+      "enum": [
+        "confirmed",
+        "partially_confirmed",
+        "pending_validation",
+        "blocked"
+      ],
+      "default": "pending_validation",
+      "description": "Status de valida\u00e7\u00e3o"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas internas"
+    }
+  },
+  "required": [
+    "name",
+    "slug"
+  ],
+  "rls": {
+    "read": true,
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

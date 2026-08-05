@@ -1,0 +1,49 @@
+{
+  "name": "ContentApproval",
+  "type": "object",
+  "properties": {
+    "campaign_post_id": {
+      "type": "string",
+      "description": "ID do CampaignPost vinculado"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "changes_requested"
+      ],
+      "default": "pending",
+      "description": "Status da aprova\u00e7\u00e3o"
+    },
+    "reviewer": {
+      "type": "string",
+      "description": "Revisor"
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data da revis\u00e3o"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notas da revis\u00e3o"
+    }
+  },
+  "required": [
+    "campaign_post_id"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

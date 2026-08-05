@@ -88,6 +88,8 @@ export default function Layout({ children, currentPageName }) {
       '/register': 'Cadastrar | Trancoso Resolve',
       '/prestador-fundador': 'Prestador Fundador — Garanta sua Vaga | Trancoso Resolve',
       '/AssinaturaConfirmada': 'Assinatura Confirmada | Trancoso Resolve',
+      '/costa-do-descobrimento': 'Costa do Descobrimento | Trancoso Resolve',
+      '/participar': 'Participar | Trancoso Resolve',
     };
 
     const pageDescriptions = {
@@ -106,6 +108,8 @@ export default function Layout({ children, currentPageName }) {
       '/register': 'Crie sua conta gratuita na Trancoso Resolve e acesse os melhores profissionais verificados de Trancoso, Bahia.',
       '/prestador-fundador': 'Seja um dos 100 Prestadores Fundadores do Trancoso Resolve. Assine por R$ 19,90/mês e garanta seu Selo Fundador com benefícios exclusivos. Vagas limitadas.',
       '/AssinaturaConfirmada': 'Sua assinatura foi confirmada com sucesso. Bem-vindo ao Trancoso Resolve!',
+      '/costa-do-descobrimento': 'Quatro destinos da Costa do Descobrimento conectados por uma experiência regional de descoberta de serviços, profissionais e negócios locais.',
+      '/participar': 'Escolha como participar da Trancoso Resolve como cliente, prestador ou lojista. Preencha o formulário e entraremos em contato.',
     };
 
     const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
@@ -204,6 +208,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Antecedentes", path: "/AdminAntecedentes", icon: ShieldCheck },
     { name: "Pagamentos", path: "/AdminPagamentos", icon: Banknote },
     { name: "Métricas", path: "/admin/metricas", icon: BarChart2 },
+    { name: "Campanha Regional", path: "/admin/campanha-regional", icon: Megaphone },
     { name: "Deploy", path: createPageUrl("DeployDashboard"), icon: Rocket },
     { name: "Ver Site", path: "/", icon: Globe, clearLogin: true },
   ] : isPrestador ? [
@@ -228,7 +233,7 @@ export default function Layout({ children, currentPageName }) {
   ];
 
 
-  const publicPages = ['/', '/Home', '/ServicosCategoria', '/PrestadorPerfil', '/ServicoDetalhes', '/MeusPedidos', '/PoliticaPrivacidade', '/Manual', '/SejaPrestador', '/ComoFunciona', '/Seguranca', '/Assistentevirtual', '/GeradorDeImagem', '/Chat', '/About', '/Contact', '/ServicoLanding', '/SolicitacaoConfirmada', '/Planos', '/PrestadorFundador', '/AssinaturaConfirmada'];
+  const publicPages = ['/', '/Home', '/ServicosCategoria', '/PrestadorPerfil', '/ServicoDetalhes', '/MeusPedidos', '/PoliticaPrivacidade', '/Manual', '/SejaPrestador', '/ComoFunciona', '/Seguranca', '/Assistentevirtual', '/GeradorDeImagem', '/Chat', '/About', '/Contact', '/ServicoLanding', '/SolicitacaoConfirmada', '/Planos', '/PrestadorFundador', '/AssinaturaConfirmada', '/costa-do-descobrimento', '/participar'];
   const isPublicPage = publicPages.some((page) => {
     const pagePath = page === '/Home' ? '/' : page;
     const currentLocationPath = location.pathname === '/Home' ? '/' : location.pathname;

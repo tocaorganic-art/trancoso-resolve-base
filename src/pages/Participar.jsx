@@ -72,7 +72,7 @@ export default function Participar() {
     }
     setSubmitting(true);
     try {
-      await base44.entities.Lead.create({
+      const result = await base44.functions.invoke("registrarInteresseRegional", {
         nome: form.nome.trim(),
         profile_type: form.profile_type,
         locality: form.locality,
@@ -81,8 +81,6 @@ export default function Participar() {
         email: form.email.trim(),
         message: form.message.trim(),
         consent: form.consent,
-        origem: "costa-do-descobrimento",
-        lead_status: "new",
         ...getUTM(),
       });
       setDone(true);

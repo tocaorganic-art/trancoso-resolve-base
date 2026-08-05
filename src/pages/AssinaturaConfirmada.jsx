@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Crown, Calendar, CreditCard, ArrowRight, Clock, Sparkles } from "lucide-react";
+import { Crown, CreditCard, ArrowRight, Clock, Sparkles } from "lucide-react";
 
 const PLAN_INFO = {
   lancamento:         { nome: "Plano Prestador - Lançamento", valor: "R$ 29,90/mês", trial: 60 },

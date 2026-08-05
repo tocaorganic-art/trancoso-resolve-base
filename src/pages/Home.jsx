@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, lazy, Suspense, useRef } from "react";
+import { useState, useEffect, useCallback, lazy, Suspense } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { motion, useInView } from "framer-motion";
 import usePullToRefresh from "@/hooks/usePullToRefresh";

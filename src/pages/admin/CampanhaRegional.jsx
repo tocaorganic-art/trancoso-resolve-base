@@ -10,6 +10,7 @@ import VisaoGeralTab from "@/components/admin/campanha/VisaoGeralTab";
 import CalendarioEditorialTab from "@/components/admin/campanha/CalendarioEditorialTab";
 import ConteudosPrioritarios from "@/components/admin/campanha/ConteudosPrioritarios";
 import MetricasTab from "@/components/admin/campanha/MetricasTab";
+import AutomacaoLeadsTab from "@/components/admin/campanha/AutomacaoLeadsTab";
 
 export default function CampanhaRegional() {
   const navigate = useNavigate();
@@ -111,6 +112,12 @@ export default function CampanhaRegional() {
           >
             Métricas
           </TabsTrigger>
+          <TabsTrigger
+            value="automacao"
+            className="data-[state=active]:bg-[#F26A21] data-[state=active]:text-white text-muted-foreground"
+          >
+            Automação de Leads
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="visao-geral">
@@ -124,6 +131,9 @@ export default function CampanhaRegional() {
         </TabsContent>
         <TabsContent value="metricas">
           <MetricasTab metrics={metrics} posts={posts} onRefresh={handleRefresh} />
+        </TabsContent>
+        <TabsContent value="automacao">
+          <AutomacaoLeadsTab leads={leads} />
         </TabsContent>
       </Tabs>
     </div>

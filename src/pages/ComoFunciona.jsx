@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Search, Calendar, Smile, UserCheck, Briefcase, BarChart2,
-  ShieldCheck, Star, MapPin, MessageCircle, ChevronDown,
+  Star, MapPin, MessageCircle, ChevronDown,
   ArrowRight, CheckCircle2, Zap, Users, BadgeCheck, Sparkles
 } from 'lucide-react';
 import { Link } from 'react-router-dom';

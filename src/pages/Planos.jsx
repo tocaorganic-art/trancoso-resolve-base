@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
   Check, Zap, Star, Calendar, Lock, Users, Crown,
-  Building2, ChevronDown, ChevronUp, Loader2, Shield, Flame
+  Building2, ChevronDown, Loader2, Shield, Flame
 } from "lucide-react";
 import { toast } from "sonner";
 import CancelSubscriptionButton from "@/components/dashboard/CancelSubscriptionButton";

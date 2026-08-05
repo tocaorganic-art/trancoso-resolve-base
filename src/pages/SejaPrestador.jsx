@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, BarChart2, Users, Star, Bot, Camera } from 'lucide-react';
 import LeadPrestadorForm from '@/components/leads/LeadPrestadorForm';

@@ -31,7 +31,7 @@ const STATUS_VALID = [
 
 export default function CalendarioEditorialTab({ posts, onRefresh }) {
   const [filtroLocal, setFiltroLocal] = useState("todas");
-  const [filtroCanal, setFiltroCanal] = useState("todos");
+  const [filtroFase, setFiltroFase] = useState("todas");
   const [filtroStatus, setFiltroStatus] = useState("todos");
   const [saving, setSaving] = useState(null);
 
@@ -39,18 +39,18 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
     const set = new Set((posts || []).map((p) => p.localities).filter(Boolean));
     return [...set];
   }, [posts]);
-  const canais = useMemo(() => {
-    const set = new Set((posts || []).map((p) => p.channels).filter(Boolean));
+  const fases = useMemo(() => {
+    const set = new Set((posts || []).map((p) => p.phase).filter(Boolean));
     return [...set];
   }, [posts]);
 
   const filtered = useMemo(() => {
     let data = [...(posts || [])];
     if (filtroLocal !== "todas") data = data.filter((p) => p.localities === filtroLocal);
-    if (filtroCanal !== "todos") data = data.filter((p) => p.channels === filtroCanal);
+    if (filtroFase !== "todas") data = data.filter((p) => p.phase === filtroFase);
     if (filtroStatus !== "todos") data = data.filter((p) => p.production_status === filtroStatus);
     return data.sort((a, b) => (a.campaign_day || 0) - (b.campaign_day || 0));
-  }, [posts, filtroLocal, filtroCanal, filtroStatus]);
+  }, [posts, filtroLocal, filtroFase, filtroStatus]);
 
   const updatePost = async (id, patch) => {
     setSaving(id);
@@ -60,6 +60,29 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
       onRefresh?.();
     } catch {
       toast.error("Erro ao atualizar conteúdo.");
+    } finally {
+      setSaving(null);
+    }
+  };
+
+  const aprovarPost = async (post) => {
+    setSaving(post.id);
+    try {
+      await base44.entities.CampaignPost.update(post.id, {
+        validation_status: "confirmed",
+        production_status: "approved",
+        approved_at: new Date().toISOString(),
+      });
+      await base44.entities.ContentApproval.create({
+        campaign_post_id: post.id,
+        status: "approved",
+        reviewed_at: new Date().toISOString(),
+        notes: "Aprovado via painel Campanha Regional",
+      });
+      toast.success("Conteúdo aprovado.");
+      onRefresh?.();
+    } catch {
+      toast.error("Erro ao aprovar conteúdo.");
     } finally {
       setSaving(null);
     }
@@ -84,15 +107,15 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
             </Select>
           </div>
           <div>
-            <p className="text-xs text-[#666] mb-1">Canal</p>
-            <Select value={filtroCanal} onValueChange={setFiltroCanal}>
+            <p className="text-xs text-[#666] mb-1">Fase</p>
+            <Select value={filtroFase} onValueChange={setFiltroFase}>
               <SelectTrigger className="w-40 min-h-[40px] border-[#E3DED5]">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="todos">Todos</SelectItem>
-                {canais.map((c) => (
-                  <SelectItem key={c} value={c}>{c}</SelectItem>
+                <SelectItem value="todas">Todas</SelectItem>
+                {fases.map((f) => (
+                  <SelectItem key={f} value={f}>{f}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -205,13 +228,7 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
                           size="sm"
                           variant="ghost"
                           disabled={saving === p.id}
-                          onClick={() =>
-                            updatePost(p.id, {
-                              validation_status: "confirmed",
-                              production_status: "approved",
-                              approved_at: new Date().toISOString(),
-                            })
-                          }
+                          onClick={() => aprovarPost(p)}
                           className="h-8 text-xs text-green-600 hover:text-green-700 gap-1"
                         >
                           <Check className="w-3 h-3" /> Aprovar

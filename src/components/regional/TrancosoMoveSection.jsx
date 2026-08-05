@@ -1,6 +1,6 @@
 export default function TrancosoMoveSection() {
   return (
-    <section className="py-12 md:py-16 px-4 bg-[#E3DED5]">
+    <section className="py-12 md:py-16 px-4 bg-[#F5F5F5]">
       <div className="container mx-auto max-w-3xl text-center">
         <p className="text-xs font-bold tracking-widest text-[#666] uppercase mb-4">
           Um serviço oficial Trancoso Resolve

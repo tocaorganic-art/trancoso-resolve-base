@@ -36,7 +36,7 @@ export default function CampanhaRegional() {
 
   const { data: leads = [], isLoading: loadingLeads } = useQuery({
     queryKey: ["campaignLeads"],
-    queryFn: () => base44.entities.Lead.list("-created_date", 500),
+    queryFn: () => base44.entities.Lead.filter({ origem: "costa-do-descobrimento" }, "-created_date", 500),
     enabled: !!user && user.role === "admin",
   });
 

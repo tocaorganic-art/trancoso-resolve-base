@@ -25,7 +25,7 @@ export default function RegionalHero() {
           </Link>
           <Link
             to="/participar"
-            className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3 rounded-lg min-h-[44px] transition-colors border border-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+            className="inline-flex items-center justify-center bg-transparent hover:bg-[#F26A21]/10 text-[#F26A21] font-bold px-6 py-3 rounded-lg min-h-[44px] transition-colors border-2 border-[#F26A21] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F26A21] focus-visible:ring-offset-2 focus-visible:ring-offset-[#20382C]"
           >
             Escolha como participar
           </Link>

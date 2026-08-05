@@ -11,10 +11,10 @@ const FALLBACK = [
 ];
 
 const STATUS_LABELS = {
-  confirmed: "Disponível",
+  confirmed: "Operação ativa",
   partially_confirmed: "Parcialmente disponível",
-  pending_validation: "Disponibilidade em validação",
-  inactive: "Indisponível",
+  pending_validation: "Em validação",
+  inactive: "Em validação",
 };
 
 export default function LocalitySelector() {
@@ -54,7 +54,7 @@ export default function LocalitySelector() {
                 <MapPin className="w-6 h-6 text-[#F26A21] mb-2" />
                 <span className="font-bold text-[#333333] text-sm md:text-base">{loc.name}</span>
                 {isPending && (
-                  <span className="mt-2 inline-flex items-center gap-1 text-xs text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">
+                  <span className="mt-2 inline-flex items-center gap-1 text-xs text-[#888] bg-[#F5F5F5] px-2 py-0.5 rounded-full">
                     <AlertCircle className="w-3 h-3" /> {STATUS_LABELS[loc.operation_status] || "Em validação"}
                   </span>
                 )}
@@ -74,13 +74,11 @@ export default function LocalitySelector() {
               <MapPin className="w-5 h-5 text-[#F26A21]" />
               {selectedLoc.name}
             </h3>
-            {selectedLoc.description ? (
+            {selectedLoc.operation_status === "confirmed" && selectedLoc.description ? (
               <p className="text-[#555] leading-relaxed">{selectedLoc.description}</p>
             ) : (
               <p className="text-[#888] italic">
-                {selectedLoc.operation_status === "pending_validation"
-                  ? "Disponibilidade em validação. Em breve traremos mais informações sobre este destino."
-                  : "Conteúdo em preparação."}
+                Conteúdo desta localidade será disponibilizado conforme validação.
               </p>
             )}
           </div>

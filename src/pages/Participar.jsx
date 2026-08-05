@@ -81,7 +81,7 @@ export default function Participar() {
         email: form.email.trim(),
         message: form.message.trim(),
         consent: form.consent,
-        origem: "pagina-participar",
+        origem: "costa-do-descobrimento",
         lead_status: "new",
         ...getUTM(),
       });

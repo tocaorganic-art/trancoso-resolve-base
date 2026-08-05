@@ -33,6 +33,7 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
   const [filtroLocal, setFiltroLocal] = useState("todas");
   const [filtroFase, setFiltroFase] = useState("todas");
   const [filtroStatus, setFiltroStatus] = useState("todos");
+  const [filtroCanal, setFiltroCanal] = useState("todos");
   const [saving, setSaving] = useState(null);
 
   const localidades = useMemo(() => {
@@ -43,14 +44,19 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
     const set = new Set((posts || []).map((p) => p.phase).filter(Boolean));
     return [...set];
   }, [posts]);
+  const canais = useMemo(() => {
+    const set = new Set((posts || []).map((p) => p.channels).filter(Boolean));
+    return [...set];
+  }, [posts]);
 
   const filtered = useMemo(() => {
     let data = [...(posts || [])];
     if (filtroLocal !== "todas") data = data.filter((p) => p.localities === filtroLocal);
     if (filtroFase !== "todas") data = data.filter((p) => p.phase === filtroFase);
     if (filtroStatus !== "todos") data = data.filter((p) => p.production_status === filtroStatus);
+    if (filtroCanal !== "todos") data = data.filter((p) => p.channels === filtroCanal);
     return data.sort((a, b) => (a.campaign_day || 0) - (b.campaign_day || 0));
-  }, [posts, filtroLocal, filtroFase, filtroStatus]);
+  }, [posts, filtroLocal, filtroFase, filtroStatus, filtroCanal]);
 
   const updatePost = async (id, patch) => {
     setSaving(id);
@@ -130,6 +136,20 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
                 <SelectItem value="todos">Todos</SelectItem>
                 {STATUS_PROD.map((s) => (
                   <SelectItem key={s} value={s}>{s}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <p className="text-xs text-[#666] mb-1">Canal</p>
+            <Select value={filtroCanal} onValueChange={setFiltroCanal}>
+              <SelectTrigger className="w-44 min-h-[40px] border-[#E3DED5]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="todos">Todos</SelectItem>
+                {canais.map((c) => (
+                  <SelectItem key={c} value={c}>{c}</SelectItem>
                 ))}
               </SelectContent>
             </Select>

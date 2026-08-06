@@ -23,14 +23,14 @@ export default function DestinoCaraiva() {
   useDestinationSeo({
     title: "Caraíva Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
     description: "Encontre profissionais verificados em Caraíva, BA: diaristas, eletricistas, piscineiros, cozinheiros e jardineiros. Atendimento na vila sem carros mais charmosa da Bahia.",
-    canonical: "https://www.trancosoresolve.com.br/caraiva",
+    canonical: "https://trancosoresolve.com.br/caraiva",
     schemaId: "schema-destino-caraiva",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Trancoso Resolve — Serviços em Caraíva",
       "description": "Marketplace de serviços locais em Caraíva, Bahia. Profissionais verificados para a vila sem carros mais charmosa do Brasil.",
-      "url": "https://www.trancosoresolve.com.br/caraiva",
+      "url": "https://trancosoresolve.com.br/caraiva",
       "address": { "@type": "PostalAddress", "addressLocality": "Caraíva", "addressRegion": "BA", "addressCountry": "BR" },
       "geo": { "@type": "GeoCoordinates", "latitude": -16.7667, "longitude": -39.2167 },
       "areaServed": { "@type": "Place", "name": "Caraíva, Bahia, Brasil" }

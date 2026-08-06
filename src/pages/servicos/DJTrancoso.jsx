@@ -6,20 +6,20 @@ export default function DJTrancoso() {
       title="DJ para Casamento e Eventos em Trancoso | Som Profissional | Trancoso Resolve"
       metaDescription="DJ profissional em Trancoso para casamento, Réveillon, aniversário e festas corporativas. Som cristalino, equipamento de ponta, playlist personalizada. Orçamento grátis!"
       keywords="DJ Trancoso, DJ casamento Trancoso, DJ eventos Trancoso, som para evento Trancoso, DJ Bahia, DJ Réveillon Trancoso"
-      canonicalUrl="https://www.trancosoresolve.com.br/servicos/dj-trancoso"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/dj-trancoso"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'DJ para Eventos em Trancoso',
         description: 'DJ profissional para casamentos, Réveillon e festas em Trancoso, BA. Equipamento de ponta, playlist personalizada, suporte técnico completo.',
         serviceType: 'DJ e Som para Eventos',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: [
           { '@type': 'City', name: 'Trancoso, BA' },
           { '@type': 'City', name: 'Arraial d\'Ajuda, BA' },
           { '@type': 'City', name: 'Porto Seguro, BA' },
         ],
-        url: 'https://www.trancosoresolve.com.br/servicos/dj-trancoso',
+        url: 'https://trancosoresolve.com.br/servicos/dj-trancoso',
       }}
       faqData={[
         {

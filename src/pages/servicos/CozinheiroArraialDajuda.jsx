@@ -6,17 +6,17 @@ export default function CozinheiroArraialDajuda() {
       title="Cozinheiro e Chef em Arraial d'Ajuda | Eventos e Temporada | Trancoso Resolve"
       metaDescription="Chef e cozinheiro verificado em Arraial d'Ajuda, BA. Refeições diárias, eventos, jantares privados e culinária baiana para pousadas e villas. Orçamento grátis!"
       keywords="cozinheiro Arraial d'Ajuda, chef Arraial d'Ajuda, chef particular Arraial Ajuda BA, gastronomia Arraial d'Ajuda, cozinheiro temporada Arraial"
-      canonicalUrl="https://www.trancosoresolve.com.br/servicos/cozinheiro-arraial-dajuda"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/cozinheiro-arraial-dajuda"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: "Cozinheiro e Chef em Arraial d'Ajuda",
         description: "Chefs e cozinheiros verificados em Arraial d'Ajuda, BA. Refeições diárias e eventos para pousadas, villas e residências de temporada.",
         serviceType: 'Cozinheiro e Chef',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: { '@type': 'City', name: "Arraial d'Ajuda, BA" },
         geo: { '@type': 'GeoCoordinates', latitude: -16.5344, longitude: -39.0667 },
-        url: 'https://www.trancosoresolve.com.br/servicos/cozinheiro-arraial-dajuda',
+        url: 'https://trancosoresolve.com.br/servicos/cozinheiro-arraial-dajuda',
       }}
       faqData={[
         {

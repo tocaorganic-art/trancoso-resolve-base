@@ -76,7 +76,7 @@ export default function OnboardingTour() {
               <div className="px-6 pb-6 pt-4 space-y-3">
                 {/* Baixar Agora */}
                 <a
-                  href="https://www.trancosoresolve.com.br"
+                  href="https://trancosoresolve.com.br"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={dismiss}

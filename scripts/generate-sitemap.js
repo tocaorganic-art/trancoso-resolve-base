@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 
-const BASE_URL = 'https://www.trancosoresolve.com.br';
+const BASE_URL = 'https://trancosoresolve.com.br';
 const TODAY = new Date().toISOString().split('T')[0];
 
 const routes = [

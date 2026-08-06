@@ -6,16 +6,16 @@ export default function CasamentoTrancoso() {
       title="Casamento em Trancoso: Guia Completo | Profissionais Verificados"
       metaDescription="Tudo para seu casamento em Trancoso: chef, DJ, decoração, segurança, fotógrafo e mais. Profissionais verificados, orçamento grátis. A gente resolve!"
       keywords="casamento Trancoso, wedding Trancoso, casamento Bahia, casamento praia Trancoso, fornecedores casamento Trancoso, buffet casamento Trancoso"
-      canonicalUrl="https://www.trancosoresolve.com.br/destinos/casamento-trancoso"
+      canonicalUrl="https://trancosoresolve.com.br/destinos/casamento-trancoso"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'Fornecedores para Casamento em Trancoso',
         description: 'Plataforma completa de fornecedores verificados para casamentos em Trancoso, Bahia: chef, DJ, segurança, decoração, fotógrafo e mais.',
         serviceType: 'Organização e Fornecedores de Casamento',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: { '@type': 'City', name: 'Trancoso, BA' },
-        url: 'https://www.trancosoresolve.com.br/destinos/casamento-trancoso',
+        url: 'https://trancosoresolve.com.br/destinos/casamento-trancoso',
       }}
       faqData={[
         {

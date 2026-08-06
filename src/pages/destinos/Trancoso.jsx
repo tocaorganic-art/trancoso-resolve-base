@@ -34,14 +34,14 @@ export default function DestinoTrancoso() {
   useDestinationSeo({
     title: "Trancoso Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
     description: "Encontre diaristas, eletricistas, piscineiros, chefs e mais em Trancoso, BA. Profissionais verificados para sua villa, pousada ou residência no Quadrado.",
-    canonical: "https://www.trancosoresolve.com.br/trancoso",
+    canonical: "https://trancosoresolve.com.br/trancoso",
     schemaId: "schema-destino-trancoso",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Trancoso Resolve — Serviços em Trancoso",
       "description": "Marketplace de serviços locais em Trancoso, Bahia. Profissionais verificados para villas, pousadas e residências.",
-      "url": "https://www.trancosoresolve.com.br/trancoso",
+      "url": "https://trancosoresolve.com.br/trancoso",
       "address": { "@type": "PostalAddress", "addressLocality": "Trancoso", "addressRegion": "BA", "addressCountry": "BR" },
       "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 },
       "areaServed": { "@type": "Place", "name": "Trancoso, Bahia, Brasil" }

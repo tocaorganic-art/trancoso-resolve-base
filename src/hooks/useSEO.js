@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-const BASE_URL = 'https://www.trancosoresolve.com.br';
+const BASE_URL = 'https://trancosoresolve.com.br';
 
 export function useSEO({ title, description, canonical, ogImage, noIndex = false }) {
   useEffect(() => {

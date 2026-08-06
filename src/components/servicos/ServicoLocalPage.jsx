@@ -119,9 +119,9 @@ export default function ServicoLocalPage({
     document.head.appendChild(faqScript);
 
     const breadcrumbItems = [
-      { position: 1, name: 'Trancoso Resolve', item: 'https://www.trancosoresolve.com.br' },
-      { position: 2, name: 'Serviços', item: 'https://www.trancosoresolve.com.br/ServicosCategoria' },
-      { position: 3, name: h1 || title, item: canonicalUrl || 'https://www.trancosoresolve.com.br' },
+      { position: 1, name: 'Trancoso Resolve', item: 'https://trancosoresolve.com.br' },
+      { position: 2, name: 'Serviços', item: 'https://trancosoresolve.com.br/ServicosCategoria' },
+      { position: 3, name: h1 || title, item: canonicalUrl || 'https://trancosoresolve.com.br' },
     ];
     const breadcrumbSchema = {
       '@context': 'https://schema.org/',

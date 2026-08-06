@@ -6,16 +6,16 @@ export default function RevelionTrancoso() {
       title="Réveillon em Trancoso 2027 | Serviços e Profissionais para Ano Novo"
       metaDescription="Celebre o Réveillon em Trancoso com profissionais verificados: cozinheiro, DJ, segurança, garçom. A virada de ano mais bonita da Bahia. Contrate já!"
       keywords="Réveillon Trancoso, Ano Novo Trancoso, virada de ano Trancoso, festa Réveillon Trancoso, DJ Réveillon Trancoso, cozinheiro Réveillon Trancoso"
-      canonicalUrl="https://www.trancosoresolve.com.br/destinos/reveillon-trancoso"
+      canonicalUrl="https://trancosoresolve.com.br/destinos/reveillon-trancoso"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'Profissionais para Réveillon em Trancoso',
         description: 'Contrate DJ, chef, garçom, segurança e outros profissionais verificados para o Réveillon em Trancoso, Bahia.',
         serviceType: 'Fornecedores para Eventos de Ano Novo',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: { '@type': 'City', name: 'Trancoso, BA' },
-        url: 'https://www.trancosoresolve.com.br/destinos/reveillon-trancoso',
+        url: 'https://trancosoresolve.com.br/destinos/reveillon-trancoso',
       }}
       faqData={[
         {

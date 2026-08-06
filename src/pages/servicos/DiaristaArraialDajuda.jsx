@@ -6,17 +6,17 @@ export default function DiaristaArraialDajuda() {
       title="Diarista em Arraial d'Ajuda | Limpeza Verificada | Trancoso Resolve"
       metaDescription="Contrate diarista verificada em Arraial d'Ajuda, BA. Limpeza para pousadas, villas e casas de temporada. Antecedentes checados, resposta rápida. Orçamento grátis!"
       keywords="diarista Arraial d'Ajuda, limpeza Arraial d'Ajuda, diarista Arraial Ajuda BA, profissional verificado Arraial d'Ajuda"
-      canonicalUrl="https://www.trancosoresolve.com.br/servicos/diarista-arraial-dajuda"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/diarista-arraial-dajuda"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: 'Diarista em Arraial d\'Ajuda',
         description: 'Diaristas verificadas em Arraial d\'Ajuda, BA. Limpeza para pousadas, villas e casas de temporada na Costa do Descobrimento.',
         serviceType: 'Limpeza e Diarista',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: { '@type': 'City', name: "Arraial d'Ajuda, BA" },
         geo: { '@type': 'GeoCoordinates', latitude: -16.5344, longitude: -39.0667 },
-        url: 'https://www.trancosoresolve.com.br/servicos/diarista-arraial-dajuda',
+        url: 'https://trancosoresolve.com.br/servicos/diarista-arraial-dajuda',
       }}
       faqData={[
         {

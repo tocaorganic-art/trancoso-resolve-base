@@ -6,17 +6,17 @@ export default function EletricistaArraialDajuda() {
       title="Eletricista em Arraial d'Ajuda | Emergência 24h | Trancoso Resolve"
       metaDescription="Eletricista verificado em Arraial d'Ajuda, BA. Emergências elétricas, instalações e reformas para pousadas e residências. Resposta rápida. Orçamento grátis!"
       keywords="eletricista Arraial d'Ajuda, eletricista Arraial Ajuda BA, elétrica Arraial d'Ajuda, emergência elétrica Arraial d'Ajuda"
-      canonicalUrl="https://www.trancosoresolve.com.br/servicos/eletricista-arraial-dajuda"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/eletricista-arraial-dajuda"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: "Eletricista em Arraial d'Ajuda",
         description: "Eletricistas verificados em Arraial d'Ajuda, BA. Emergências e instalações para pousadas, chalés e residências.",
         serviceType: 'Eletricista',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: { '@type': 'City', name: "Arraial d'Ajuda, BA" },
         geo: { '@type': 'GeoCoordinates', latitude: -16.5344, longitude: -39.0667 },
-        url: 'https://www.trancosoresolve.com.br/servicos/eletricista-arraial-dajuda',
+        url: 'https://trancosoresolve.com.br/servicos/eletricista-arraial-dajuda',
       }}
       faqData={[
         {

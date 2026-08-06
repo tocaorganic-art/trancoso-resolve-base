@@ -6,15 +6,15 @@ export default function MorarTrancoso() {
       title="Morar em Trancoso 2026: Guia Completo para Nômades e Moradores"
       metaDescription="Tudo sobre morar em Trancoso: custo de vida, internet, comunidade, serviços essenciais, imobiliária e dicas para nômades digitais. Guia atualizado 2026."
       keywords="morar em Trancoso, custo de vida Trancoso, nômade digital Trancoso, trabalhar remoto Trancoso, comunidade Trancoso, imóvel Trancoso, moradia Trancoso"
-      canonicalUrl="https://www.trancosoresolve.com.br/guides/morar-em-trancoso"
+      canonicalUrl="https://trancosoresolve.com.br/guides/morar-em-trancoso"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Article',
         headline: 'Guia Completo: Morar em Trancoso 2026',
         description: 'Tudo o que você precisa saber para morar em Trancoso, Bahia: custo de vida, internet, comunidade, serviços essenciais e dicas para nômades digitais.',
         author: { '@type': 'Organization', name: 'Trancoso Resolve' },
-        publisher: { '@type': 'Organization', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
-        url: 'https://www.trancosoresolve.com.br/guides/morar-em-trancoso',
+        publisher: { '@type': 'Organization', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
+        url: 'https://trancosoresolve.com.br/guides/morar-em-trancoso',
         datePublished: '2026-06-24',
         dateModified: '2026-06-24',
       }}

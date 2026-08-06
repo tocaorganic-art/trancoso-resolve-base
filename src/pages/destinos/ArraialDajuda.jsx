@@ -27,14 +27,14 @@ export default function DestinoArraialDajuda() {
   useDestinationSeo({
     title: "Arraial d'Ajuda Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
     description: "Encontre diaristas, eletricistas, piscineiros, chefs e mais em Arraial d'Ajuda, BA. Profissionais verificados para sua vila, pousada ou residência no litoral baiano.",
-    canonical: "https://www.trancosoresolve.com.br/arraial-dajuda",
+    canonical: "https://trancosoresolve.com.br/arraial-dajuda",
     schemaId: "schema-destino-arraial-dajuda",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Trancoso Resolve — Serviços em Arraial d'Ajuda",
       "description": "Marketplace de serviços locais em Arraial d'Ajuda, Bahia. Profissionais verificados para vilas, pousadas e residências.",
-      "url": "https://www.trancosoresolve.com.br/arraial-dajuda",
+      "url": "https://trancosoresolve.com.br/arraial-dajuda",
       "address": { "@type": "PostalAddress", "addressLocality": "Arraial d'Ajuda", "addressRegion": "BA", "addressCountry": "BR" },
       "geo": { "@type": "GeoCoordinates", "latitude": -16.4467, "longitude": -39.0744 },
       "areaServed": { "@type": "Place", "name": "Arraial d'Ajuda, Bahia, Brasil" }

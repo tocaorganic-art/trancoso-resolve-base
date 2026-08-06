@@ -6,17 +6,17 @@ export default function JardineiroArraialDajuda() {
       title="Jardineiro em Arraial d'Ajuda | Paisagismo e Manutenção | Trancoso Resolve"
       metaDescription="Jardineiro verificado em Arraial d'Ajuda, BA. Manutenção de jardins, paisagismo e poda para pousadas, villas e residências. Planos semanais. Orçamento grátis!"
       keywords="jardineiro Arraial d'Ajuda, jardim Arraial d'Ajuda, paisagismo Arraial Ajuda BA, manutenção jardim Arraial d'Ajuda"
-      canonicalUrl="https://www.trancosoresolve.com.br/servicos/jardineiro-arraial-dajuda"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/jardineiro-arraial-dajuda"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: "Jardineiro em Arraial d'Ajuda",
         description: "Jardineiros verificados em Arraial d'Ajuda, BA. Manutenção, paisagismo e poda para pousadas e residências de temporada.",
         serviceType: 'Jardinagem',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: { '@type': 'City', name: "Arraial d'Ajuda, BA" },
         geo: { '@type': 'GeoCoordinates', latitude: -16.5344, longitude: -39.0667 },
-        url: 'https://www.trancosoresolve.com.br/servicos/jardineiro-arraial-dajuda',
+        url: 'https://trancosoresolve.com.br/servicos/jardineiro-arraial-dajuda',
       }}
       faqData={[
         {

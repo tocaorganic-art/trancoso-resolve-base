@@ -6,17 +6,17 @@ export default function PedreiroArraialDajuda() {
       title="Pedreiro em Arraial d'Ajuda | Reforma e Construção | Trancoso Resolve"
       metaDescription="Pedreiro verificado em Arraial d'Ajuda, BA. Reformas, construção, acabamento e manutenção para pousadas e residências. Orçamento grátis. Trancoso Resolve!"
       keywords="pedreiro Arraial d'Ajuda, reforma Arraial d'Ajuda, construção Arraial Ajuda BA, pedreiro verificado Arraial d'Ajuda"
-      canonicalUrl="https://www.trancosoresolve.com.br/servicos/pedreiro-arraial-dajuda"
+      canonicalUrl="https://trancosoresolve.com.br/servicos/pedreiro-arraial-dajuda"
       schemaData={{
         '@context': 'https://schema.org',
         '@type': 'Service',
         name: "Pedreiro em Arraial d'Ajuda",
         description: "Pedreiros verificados em Arraial d'Ajuda, BA. Reformas, construção e acabamento para pousadas e residências de temporada.",
         serviceType: 'Pedreiro',
-        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://www.trancosoresolve.com.br' },
+        provider: { '@type': 'LocalBusiness', name: 'Trancoso Resolve', url: 'https://trancosoresolve.com.br' },
         areaServed: { '@type': 'City', name: "Arraial d'Ajuda, BA" },
         geo: { '@type': 'GeoCoordinates', latitude: -16.5344, longitude: -39.0667 },
-        url: 'https://www.trancosoresolve.com.br/servicos/pedreiro-arraial-dajuda',
+        url: 'https://trancosoresolve.com.br/servicos/pedreiro-arraial-dajuda',
       }}
       faqData={[
         {

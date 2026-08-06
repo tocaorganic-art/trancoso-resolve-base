@@ -203,7 +203,7 @@ export default function PrestadorPerfilPage() {
       "worksFor": {
         "@type": "Organization",
         "name": "Trancoso Resolve",
-        "url": "https://www.trancosoresolve.com.br"
+        "url": "https://trancosoresolve.com.br"
       }
     };
     if (provider.photo_url) personSchema.image = provider.photo_url;

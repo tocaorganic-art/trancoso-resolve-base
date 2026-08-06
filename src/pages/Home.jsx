@@ -416,7 +416,7 @@ export default function HomePage() {
               { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cozinheiro em Trancoso" } }
             ]
           },
-          "sameAs": ["https://www.trancosoresolve.com.br"]
+          "sameAs": ["https://trancosoresolve.com.br"]
         },
         {
           "@type": "WebSite",

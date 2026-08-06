@@ -263,12 +263,12 @@ export default function ServicoLandingPage() {
     // Canonical
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
-    canonical.href = `https://www.trancosoresolve.com.br/ServicoLanding?slug=${slug}`;
+    canonical.href = `https://trancosoresolve.com.br/ServicoLanding?slug=${slug}`;
 
     // OG:URL dinâmico
     let ogUrl = document.querySelector('meta[property="og:url"]');
     if (!ogUrl) { ogUrl = document.createElement('meta'); ogUrl.setAttribute('property', 'og:url'); document.head.appendChild(ogUrl); }
-    ogUrl.content = `https://www.trancosoresolve.com.br/ServicoLanding?slug=${slug}`;
+    ogUrl.content = `https://trancosoresolve.com.br/ServicoLanding?slug=${slug}`;
 
     // OG:Title dinâmico
     let ogTitle = document.querySelector('meta[property="og:title"]');
@@ -301,11 +301,11 @@ export default function ServicoLandingPage() {
           "@type": "Service",
           "name": config.h1,
           "description": config.description,
-          "url": `https://www.trancosoresolve.com.br/ServicoLanding?slug=${slug}`,
+          "url": `https://trancosoresolve.com.br/ServicoLanding?slug=${slug}`,
           "provider": {
             "@type": "LocalBusiness",
             "name": "Trancoso Resolve",
-            "url": "https://www.trancosoresolve.com.br",
+            "url": "https://trancosoresolve.com.br",
             "address": {
               "@type": "PostalAddress",
               "addressLocality": "Trancoso",
@@ -331,9 +331,9 @@ export default function ServicoLandingPage() {
         {
           "@type": "BreadcrumbList",
           "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://www.trancosoresolve.com.br" },
-            { "@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://www.trancosoresolve.com.br/ServicosCategoria" },
-            { "@type": "ListItem", "position": 3, "name": config.occupation, "item": `https://www.trancosoresolve.com.br/ServicoLanding?slug=${slug}` }
+            { "@type": "ListItem", "position": 1, "name": "Início", "item": "https://trancosoresolve.com.br" },
+            { "@type": "ListItem", "position": 2, "name": "Serviços", "item": "https://trancosoresolve.com.br/ServicosCategoria" },
+            { "@type": "ListItem", "position": 3, "name": config.occupation, "item": `https://trancosoresolve.com.br/ServicoLanding?slug=${slug}` }
           ]
         }
       ]

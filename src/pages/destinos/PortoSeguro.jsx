@@ -23,14 +23,14 @@ export default function DestinoPortoSeguro() {
   useDestinationSeo({
     title: "Porto Seguro Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
     description: "Encontre profissionais verificados em Porto Seguro, BA: diaristas, eletricistas, piscineiros, cozinheiros e jardineiros para hotéis, resorts e residências de alto padrão.",
-    canonical: "https://www.trancosoresolve.com.br/porto-seguro",
+    canonical: "https://trancosoresolve.com.br/porto-seguro",
     schemaId: "schema-destino-porto-seguro",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
       "name": "Trancoso Resolve — Serviços em Porto Seguro",
       "description": "Marketplace de serviços locais em Porto Seguro, Bahia. Profissionais verificados para hotéis, resorts e residências.",
-      "url": "https://www.trancosoresolve.com.br/porto-seguro",
+      "url": "https://trancosoresolve.com.br/porto-seguro",
       "address": { "@type": "PostalAddress", "addressLocality": "Porto Seguro", "addressRegion": "BA", "addressCountry": "BR" },
       "geo": { "@type": "GeoCoordinates", "latitude": -16.4497, "longitude": -39.0648 },
       "areaServed": { "@type": "Place", "name": "Porto Seguro, Bahia, Brasil" }

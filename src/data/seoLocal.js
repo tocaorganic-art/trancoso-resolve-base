@@ -16,4 +16,4 @@ export const CATEGORIAS = [
 export const DESTINO_MAP = Object.fromEntries(DESTINOS.map(d => [d.slug, d]));
 export const CATEGORIA_MAP = Object.fromEntries(CATEGORIAS.map(c => [c.slug, c]));
 
-export const BASE_URL = 'https://www.trancosoresolve.com.br';
+export const BASE_URL = 'https://trancosoresolve.com.br';

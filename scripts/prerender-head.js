@@ -20,7 +20,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
-const BASE_URL = 'https://www.trancosoresolve.com.br';
+const BASE_URL = 'https://trancosoresolve.com.br';
 const DIST_DIR = path.join(__dirname, '..', 'dist');
 
 // Cada entrada = { path, title, description, ogTitle?, ogDescription?, noIndex? }

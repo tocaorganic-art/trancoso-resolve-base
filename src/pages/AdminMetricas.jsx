@@ -63,6 +63,10 @@ export default function AdminMetricas() {
     queryClient.invalidateQueries({ queryKey: ["adminLeads"] });
     queryClient.invalidateQueries({ queryKey: ["adminProviders"] });
     queryClient.invalidateQueries({ queryKey: ["adminRequests"] });
+    queryClient.invalidateQueries({ queryKey: ["searchPages"] });
+    queryClient.invalidateQueries({ queryKey: ["searchKeywords"] });
+    queryClient.invalidateQueries({ queryKey: ["searchPageWeekly"] });
+    queryClient.invalidateQueries({ queryKey: ["searchKeywordWeekly"] });
     toast.success("Dados atualizados!");
   };
 

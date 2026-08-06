@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { cn } from "@/lib/utils";
+import { BASE_URL } from "@/data/seoLocal";
 import { useApp } from "@/contexts/AppContext";
 import {
   Home, Calendar, Briefcase, UserCog,
@@ -159,7 +160,7 @@ export default function Layout({ children, currentPageName }) {
       canonicalLink.setAttribute('rel', 'canonical');
       document.head.appendChild(canonicalLink);
     }
-    canonicalLink.href = currentUrl;
+    canonicalLink.href = BASE_URL + window.location.pathname;
 
     // twitter:title e twitter:description
     const setTwitterMeta = (name, value) => {

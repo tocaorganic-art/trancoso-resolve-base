@@ -44,6 +44,8 @@ const routes = [
   { path: '/servicos/cozinheiro-caraiva',  priority: '0.7', changefreq: 'monthly' },
   { path: '/servicos/jardineiro-caraiva',  priority: '0.7', changefreq: 'monthly' },
   { path: '/servicos/pedreiro-caraiva',    priority: '0.7', changefreq: 'monthly' },
+  { path: '/participar',          priority: '0.8', changefreq: 'weekly' },
+  { path: '/costa-do-descobrimento', priority: '0.8', changefreq: 'monthly' },
 ];
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>

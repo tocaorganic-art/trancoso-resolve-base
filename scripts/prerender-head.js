@@ -270,6 +270,18 @@ const ROUTES = [
     ogDescription: 'Marketplace de serviços verificados da Costa do Descobrimento (BA). Tese, plano 18 meses, calculadora financeira e roteiro de Q&A no link.',
     noIndex: true,
   },
+
+  // ── Campanha regional ─────────────────────────────────────────────────
+  {
+    path: '/participar',
+    title: 'Participe da Campanha Regional | Trancoso Resolve',
+    description: 'Participe da campanha regional da Trancoso Resolve na Costa do Descobrimento. Moradores, empresários e prestadores conectados em uma vitrine digital oficial.',
+  },
+  {
+    path: '/costa-do-descobrimento',
+    title: 'Costa do Descobrimento — Trancoso Resolve',
+    description: "Conheça a Costa do Descobrimento com a Trancoso Resolve. Serviços verificados em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva.",
+  },
 ];
 
 // ── Helpers ────────────────────────────────────────────────────────────────

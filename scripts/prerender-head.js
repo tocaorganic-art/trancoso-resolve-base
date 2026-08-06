@@ -43,8 +43,8 @@ const ROUTES = [
   },
   {
     path: '/caraiva',
-    title: 'Serviços em Caraíva — Profissionais Verificados | Trancoso Resolve',
-    description: 'Diaristas, piscineiros e profissionais verificados em Caraíva, Bahia. Plataforma com avaliações reais e análise de antecedentes.',
+    title: 'Serviços em Caraíva, BA — Diaristas, Piscineiros e Mais | Trancoso Resolve',
+    description: 'Precisa de um serviço em Caraíva? Encontre diaristas, piscineiros, jardineiros e pedreiros verificados na vila de Caraíva, Bahia. Plataforma com avaliações reais.',
   },
 
   // ── Páginas institucionais ─────────────────────────────────────────────
@@ -55,13 +55,13 @@ const ROUTES = [
   },
   {
     path: '/Planos',
-    title: 'Planos para Prestadores | Trancoso Resolve',
-    description: "Escolha o plano ideal para seu negócio em Trancoso, Arraial d'Ajuda ou Porto Seguro. Visibilidade, agendamentos e ferramentas para crescer.",
+    title: 'Planos para Prestadores — Comece a Receber Clientes Hoje | Trancoso Resolve',
+    description: 'Escolha o plano ideal para seu negócio na Costa do Descobrimento. Cadastre-se gratuitamente ou assine um plano premium para receber mais clientes e ganhar visibilidade.',
   },
   {
     path: '/About',
-    title: 'Sobre o Trancoso Resolve — Nossa História e Missão',
-    description: 'Conheça o Trancoso Resolve, o marketplace de serviços locais da Costa do Descobrimento. Nossa missão é conectar moradores e turistas a profissionais de confiança.',
+    title: 'Sobre a Trancoso Resolve — Plataforma de Serviços Verificados na Costa do Descobrimento',
+    description: 'Conheça a Trancoso Resolve: a vitrine digital oficial que conecta moradores, turistas e prestadores verificados em Trancoso, Arraial d\'Ajuda, Porto Seguro e Caraíva.',
   },
   {
     path: '/Contact',
@@ -317,6 +317,31 @@ function injectHead(html, route) {
     } else {
       out = out.replace(/<\/head>/, `  <meta name="robots" content="noindex, nofollow"/>\n</head>`);
     }
+  }
+
+  // JSON-LD Service para rotas /servicos/*
+  if (route.path.startsWith('/servicos/')) {
+    const serviceName = route.title.split(/[|—–-]/)[0].trim();
+    let areaServed = 'Costa do Descobrimento, Bahia';
+    if (route.path.includes('trancoso')) areaServed = 'Trancoso, Bahia';
+    else if (route.path.includes('arraial-dajuda')) areaServed = "Arraial d'Ajuda, Bahia";
+    else if (route.path.includes('porto-seguro')) areaServed = 'Porto Seguro, Bahia';
+    else if (route.path.includes('caraiva')) areaServed = 'Caraíva, Bahia';
+
+    const jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: serviceName,
+      provider: {
+        '@type': 'Organization',
+        name: 'Trancoso Resolve',
+        url: 'https://trancosoresolve.com.br',
+      },
+      areaServed,
+      url: canonical,
+    };
+    const jsonLdTag = `  <script type="application/ld+json">${JSON.stringify(jsonLd)}</script>\n`;
+    out = out.replace(/<\/head>/, `${jsonLdTag}</head>`);
   }
 
   return out;

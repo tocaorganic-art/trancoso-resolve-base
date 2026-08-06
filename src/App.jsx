@@ -139,6 +139,7 @@ const AuthenticatedApp = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/login" element={<Login />} />
 
+          <Route path="/Home" element={<Navigate to="/" replace />} />
           <Route path="/" element={
             <LayoutWrapper currentPageName={mainPageKey}>
               <AnimatedPage><MainPage /></AnimatedPage>

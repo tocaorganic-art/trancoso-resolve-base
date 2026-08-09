@@ -13,65 +13,37 @@ export default async function criarTemplateBoasVindas(req: Request): Promise<Res
       "Content-Type": "application/json"
     };
     
-    // Step 1: List existing templates to find rejected ones
-    const listRes = await fetch("https://graph.facebook.com/v20.0/" + wabaId + "/message_templates?limit=100", {
-      method: "GET",
-      headers: headers
-    });
-    const listData = await listRes.json();
-    
-    const deleteResults = [];
-    
-    // Delete rejected templates with our names
-    if (listData.data) {
-      for (const tmpl of listData.data) {
-        if (tmpl.status === "REJECTED" && (
-          tmpl.name === "trancoso_resolve_boas_vindas" ||
-          tmpl.name === "trancoso_resolve_lead_recebida" ||
-          tmpl.name === "trancoso_resolve_follow_up"
-        )) {
-          const delRes = await fetch("https://graph.facebook.com/v20.0/" + tmpl.id, {
-            method: "DELETE",
-            headers: headers
-          });
-          const delData = await delRes.json();
-          deleteResults.push({ name: tmpl.name, id: tmpl.id, deleted: delData.success === true });
-        }
-      }
-    }
-    
-    // Step 2: Create new templates with category MARKETING
     const templates = [
       {
-        name: "trancoso_resolve_boas_vindas",
+        name: "trancoso_bem_vindo_2026",
         language: "pt_BR",
         category: "MARKETING",
         components: [
           {
             type: "BODY",
-            text: "Oi, {{1}}!\n\nAqui e da Trancoso Resolve - o hub de servicos locais de Trancoso.\n\nRecebemos sua mensagem e ja estamos aqui pra te ajudar. Me conta: que tipo de servico voce esta precisando?"
+            text: "Oi, {{1}}! Aqui e da Trancoso Resolve, o hub de servicos locais de Trancoso. Recebemos sua mensagem e ja estamos aqui pra te ajudar. Me conta: que tipo de servico voce esta precisando?"
           }
         ]
       },
       {
-        name: "trancoso_resolve_lead_recebida",
+        name: "trancoso_lead_ok_2026",
         language: "pt_BR",
         category: "MARKETING",
         components: [
           {
             type: "BODY",
-            text: "Oi, {{1}}!\n\nRecebemos seu contato aqui no Trancoso Resolve. Nossa equipe ja esta buscando o profissional ideal para {{2}} na regiao de Trancoso.\n\nEm breve retornamos com uma indicacao."
+            text: "Oi, {{1}}! Recebemos seu contato no Trancoso Resolve. Nossa equipe ja esta buscando o profissional ideal para {{2}} na regiao de Trancoso. Em breve retornamos com uma indicacao."
           }
         ]
       },
       {
-        name: "trancoso_resolve_follow_up",
+        name: "trancoso_followup_2026",
         language: "pt_BR",
         category: "MARKETING",
         components: [
           {
             type: "BODY",
-            text: "Oi, {{1}}! Tudo bem?\n\nPassando pra saber se voce ainda esta precisando de {{2}} em Trancoso. Ainda estamos por aqui pra te ajudar - e so dar um sinal!\n\nTrancoso Resolve - quem resolve, pertinho de voce."
+            text: "Oi, {{1}}! Tudo bem? Passando pra saber se voce ainda esta precisando de {{2}} em Trancoso. Ainda estamos por aqui pra te ajudar. Trancoso Resolve - quem resolve, pertinho de voce."
           }
         ]
       }
@@ -89,18 +61,13 @@ export default async function criarTemplateBoasVindas(req: Request): Promise<Res
       const data = await response.json();
       
       if (data.error) {
-        createResults.push({ name: template.name, success: false, error: data.error.message, code: data.error.code, subcode: data.error.error_subcode });
+        createResults.push({ name: template.name, success: false, error: data.error.message, code: data.error.code, subcode: data.error.error_subcode, fbtrace_id: data.error.fbtrace_id });
       } else {
         createResults.push({ name: template.name, success: true, id: data.id, status: data.status, category: data.category });
       }
     }
     
-    return new Response(JSON.stringify({ 
-      success: true, 
-      waba_id: wabaId, 
-      deleted: deleteResults, 
-      created: createResults 
-    }, null, 2), {
+    return new Response(JSON.stringify({ success: true, waba_id: wabaId, created: createResults }, null, 2), {
       status: 200,
       headers: { "Content-Type": "application/json" }
     });

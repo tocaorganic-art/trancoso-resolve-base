@@ -1,41 +1,16 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-// Suporte a dois provedores: Z-API (padrão) ou WhatsApp Business Cloud API
-// Variáveis de ambiente necessárias:
-//   WHATSAPP_PROVIDER = "zapi" | "waba"  (padrão: zapi)
-//   ZAPI_INSTANCE_ID  — ID da instância Z-API
-//   ZAPI_TOKEN        — token Z-API
-//   WABA_TOKEN        — token da WhatsApp Business Cloud API
-//   WABA_PHONE_ID     — phone number ID (WABA)
-
-async function enviarViaZapi(telefone: string, mensagem: string): Promise<{ message_id?: string; erro?: string }> {
-  const instanceId = Deno.env.get('ZAPI_INSTANCE_ID');
-  const token = Deno.env.get('ZAPI_TOKEN');
-
-  if (!instanceId || !token) {
-    return { erro: 'ZAPI_INSTANCE_ID ou ZAPI_TOKEN não configurados' };
-  }
-
-  const url = `https://api.z-api.io/instances/${instanceId}/token/${token}/send-text`;
-  const res = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ phone: telefone, message: mensagem }),
-  });
-
-  const data = await res.json();
-  if (!res.ok) {
-    return { erro: data?.error || `HTTP ${res.status}` };
-  }
-  return { message_id: data?.messageId || data?.id };
-}
+// Envio de mensagens via WhatsApp Business Cloud API (WABA — Meta oficial).
+// Secrets necessários (configurar no painel Base44):
+//   token-id-whatsapp       — token do System User da Meta (permanente)
+//   phone-number-id-whatsapp — Phone Number ID do número no WhatsApp Manager
 
 async function enviarViaWABA(telefone: string, mensagem: string): Promise<{ message_id?: string; erro?: string }> {
-  const token = Deno.env.get('WABA_TOKEN');
-  const phoneId = Deno.env.get('WABA_PHONE_ID');
+  const token = Deno.env.get('token-id-whatsapp');
+  const phoneId = Deno.env.get('phone-number-id-whatsapp');
 
   if (!token || !phoneId) {
-    return { erro: 'WABA_TOKEN ou WABA_PHONE_ID não configurados' };
+    return { erro: 'token-id-whatsapp ou phone-number-id-whatsapp não configurados' };
   }
 
   // Número em formato E.164 sem o +
@@ -94,10 +69,7 @@ Deno.serve(async (req) => {
     if (!tel.startsWith('55') && tel.length <= 11) tel = `55${tel}`;
     const telE164 = `+${tel}`;
 
-    const provider = Deno.env.get('WHATSAPP_PROVIDER') || 'zapi';
-    const resultado = provider === 'waba'
-      ? await enviarViaWABA(telE164, mensagem)
-      : await enviarViaZapi(telE164, mensagem);
+    const resultado = await enviarViaWABA(telE164, mensagem);
 
     const status = resultado.erro ? 'falhou' : 'enviado';
 

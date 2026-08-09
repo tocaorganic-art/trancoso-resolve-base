@@ -20,31 +20,22 @@ export default async function listarTemplatesWhatsApp(req: Request): Promise<Res
     
     const data = await response.json();
     
-    // For rejected templates, try fetching individual details if rejection reason is missing
+    // For rejected templates, fetch full details with NO fields filter
+    // to see everything the API returns
     if (data?.data) {
       for (const tmpl of data.data) {
-        if (tmpl.status === "REJECTED" && !tmpl.rejected_reason && !tmpl.rejection_reason && tmpl.id) {
+        if (tmpl.status === "REJECTED" && tmpl.id) {
           try {
-            const detailUrl = `https://graph.facebook.com/v20.0/${tmpl.id}?fields=name,status,category,components,rejected_reason,rejection_reason,quality_score`;
+            const detailUrl = `https://graph.facebook.com/v20.0/${tmpl.id}`;
             const detailRes = await fetch(detailUrl, {
               method: "GET",
               headers: { "Authorization": "Bearer " + token }
             });
             const detailData = await detailRes.json();
-            // Merge any new fields from the individual response
-            if (detailData?.rejected_reason) tmpl.rejected_reason = detailData.rejected_reason;
-            if (detailData?.rejection_reason) tmpl.rejection_reason = detailData.rejection_reason;
-            if (detailData?.quality_score) tmpl.quality_score = detailData.quality_score;
-            // Also check components for rejection info
-            if (detailData?.components) {
-              for (const comp of detailData.components) {
-                if (comp?.rejection_reason) {
-                  tmpl.component_rejection_reason = comp.rejection_reason;
-                }
-              }
-            }
+            // Store the raw individual response
+            tmpl._raw_detail = detailData;
           } catch (e) {
-            // ignore individual fetch errors
+            tmpl._detail_error = e instanceof Error ? e.message : String(e);
           }
         }
       }

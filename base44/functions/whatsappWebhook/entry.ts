@@ -95,11 +95,12 @@ function identificarServico(texto: string): string | null {
 function classificarIntencao(texto: string): 'servico' | 'prestador' | 'como_funciona' | 'seguranca' | 'planos' | 'saudacao' | 'outro' {
   const lower = texto.toLowerCase().trim();
 
-  // Ordem de prioridade: servico > prestador > como_funciona > seguranca > planos > saudacao > outro
-  if (SERVICO_KEYWORDS.some((kw) => lower.includes(kw))) return 'servico';
-  if (PRESTADOR_KEYWORDS.some((kw) => lower.includes(kw))) return 'prestador';
-  if (COMO_FUNCIONA_KEYWORDS.some((kw) => lower.includes(kw))) return 'como_funciona';
+  // Ordem de prioridade: seguranca > como_funciona > prestador > servico > planos > saudacao > outro
+  // Seguranca e como_funciona primeiro para nao conflitar com 'contratar'/'servico' que sao genericos
   if (SEGURANCA_KEYWORDS.some((kw) => lower.includes(kw))) return 'seguranca';
+  if (COMO_FUNCIONA_KEYWORDS.some((kw) => lower.includes(kw))) return 'como_funciona';
+  if (PRESTADOR_KEYWORDS.some((kw) => lower.includes(kw))) return 'prestador';
+  if (SERVICO_KEYWORDS.some((kw) => lower.includes(kw))) return 'servico';
   if (PLANOS_KEYWORDS.some((kw) => lower.includes(kw))) return 'planos';
   if (SAUDACAO_KEYWORDS.some((kw) => lower.includes(kw))) return 'saudacao';
   return 'outro';

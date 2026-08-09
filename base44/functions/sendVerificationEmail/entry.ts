@@ -22,6 +22,8 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Email and verification_code required' }, { status: 400 });
     }
 
+    const SITE_URL = 'https://trancosoresolve.com.br';
+
     // Email templates
     const templates = {
       verify_email: {
@@ -33,7 +35,7 @@ Deno.serve(async (req) => {
           <h3 style="font-size: 24px; letter-spacing: 2px; background: #f0f0f0; padding: 10px; border-radius: 5px;">
             ${verification_code}
           </h3>
-          <p>Ou clique no link: <a href="https://trancosoresolve.com/verify?code=${verification_code}">Verificar Email</a></p>
+          <p>Ou clique no link: <a href="${SITE_URL}/verify?code=${verification_code}">Verificar Email</a></p>
           <p>Este código expira em 24 horas.</p>
           <p>Se você não solicitou isso, ignore este email.</p>
         `
@@ -44,7 +46,7 @@ Deno.serve(async (req) => {
           <h2>Redefinição de Senha</h2>
           <p>Olá ${user_name || 'usuário'},</p>
           <p>Clique no link abaixo para redefinir sua senha:</p>
-          <a href="https://trancosoresolve.com/reset-password?code=${verification_code}" 
+          <a href="${SITE_URL}/reset-password?code=${verification_code}" 
              style="display: inline-block; padding: 10px 20px; background: #0A81D1; color: white; text-decoration: none; border-radius: 5px;">
             Redefinir Senha
           </a>
@@ -64,7 +66,7 @@ Deno.serve(async (req) => {
             <li>Horário: ${body.service_time || 'A confirmar'}</li>
             <li>Valor: R$ ${body.amount || '0'}</li>
           </ul>
-          <p>Acesse sua conta para ver mais detalhes: <a href="https://trancosoresolve.com/MeusPedidos">Meus Pedidos</a></p>
+          <p>Acesse sua conta para ver mais detalhes: <a href="${SITE_URL}/MeusPedidos">Meus Pedidos</a></p>
         `
       }
     };

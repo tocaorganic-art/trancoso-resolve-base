@@ -21,6 +21,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Login from '@/pages/Login';
+import Register from '@/pages/Register';
 import ProtectedRoute from '@/components/ProtectedRoute';
 // Páginas carregadas sob demanda (code-splitting) para reduzir o bundle inicial.
 const FilaVerificacaoPage = lazy(() => import('@/pages/FilaVerificacao'));
@@ -138,6 +139,7 @@ const AuthenticatedApp = () => {
       <AnimatePresence mode="wait">
         <Routes location={location} key={location.pathname}>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           <Route path="/Home" element={<Navigate to="/" replace />} />
           <Route path="/" element={

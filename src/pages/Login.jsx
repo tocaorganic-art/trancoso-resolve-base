@@ -109,6 +109,14 @@ export default function Login() {
       icon={LogIn}
       title="Bem-vindo(a)"
       subtitle="Entre com sua conta para continuar"
+      footer={
+        <>
+          Não tem conta?{" "}
+          <a href="/register" className="text-orange-400 font-medium hover:underline">
+            Criar conta
+          </a>
+        </>
+      }
     >
       <div className="space-y-3">
         <motion.div

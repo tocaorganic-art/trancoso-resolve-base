@@ -152,7 +152,7 @@ export default function TermosDeServico() {
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
           <h2 className="text-2xl font-bold text-orange-400">16. Contato</h2>
           <p>
-            Para dúvidas sobre estes termos: <strong>suporte@trancosoresolve.com</strong>
+            Para dúvidas sobre estes termos: <strong>suporte@trancosoresolve.com.br</strong>
           </p>
           <p className="text-sm text-muted-foreground mt-4">Última atualização: 16 de maio de 2026</p>
         </motion.section>

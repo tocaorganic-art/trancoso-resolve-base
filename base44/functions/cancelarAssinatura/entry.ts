@@ -2,7 +2,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // ─── CAPI inline helper ────────────────────────────────────────────────
 async function sendCapiEvent(eventName: string, customData: Record<string, unknown> = {}): Promise<void> {
-  const accessToken = Deno.env.get('FB_ACCESS_TOKEN');
+  const accessToken = Deno.env.get('META_CONVERSIONS_API_TOKEN');
   if (!accessToken) return;
   const pixelId = '2222634538513651';
   try {

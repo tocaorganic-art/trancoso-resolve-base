@@ -61,7 +61,7 @@ export default function PoliticaDevolucoes() {
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
           <h2 className="text-2xl font-bold text-orange-400">5. Processo de Solicitação</h2>
           <ol className="list-decimal pl-6 space-y-2">
-            <li>Entre em contato com nosso suporte em <strong>suporte@trancosoresolve.com</strong> com detalhes do motivo</li>
+            <li>Entre em contato com nosso suporte em <strong>suporte@trancosoresolve.com.br</strong> com detalhes do motivo</li>
             <li>Forneça documentação do problema (fotos, mensagens de erro, etc.)</li>
             <li>Nossa equipe analisará sua solicitação em até <strong>5 dias úteis</strong></li>
             <li>Se aprovado, o reembolso será processado em até <strong>30 dias úteis</strong> na conta original</li>
@@ -104,7 +104,7 @@ export default function PoliticaDevolucoes() {
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
           <h2 className="text-2xl font-bold text-orange-400">10. Contato</h2>
           <p>
-            Para solicitações de reembolso ou dúvidas: <strong>suporte@trancosoresolve.com</strong>
+            Para solicitações de reembolso ou dúvidas: <strong>suporte@trancosoresolve.com.br</strong>
           </p>
           <p className="text-sm text-muted-foreground mt-4">Última atualização: 16 de maio de 2026</p>
         </motion.section>

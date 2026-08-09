@@ -12,7 +12,7 @@
 
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-const PIXEL_ID = '2222634538513651';
+const PIXEL_ID = '1469130194903035';
 const CAPI_URL = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events`;
 
 Deno.serve(async (req) => {

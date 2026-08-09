@@ -13,9 +13,10 @@
         "lead_novo",
         "lembrete_renovacao",
         "verificacao_aprovada",
-        "aviso_admin"
+        "aviso_admin",
+        "recebido"
       ],
-      "description": "Tipo da mensagem enviada"
+      "description": "Tipo da mensagem enviada (recebido = mensagem inbound do cliente via webhook)"
     },
     "telefone": {
       "type": "string",
@@ -30,10 +31,11 @@
       "enum": [
         "enviado",
         "falhou",
-        "pendente"
+        "pendente",
+        "recebido"
       ],
       "default": "pendente",
-      "description": "Status do envio"
+      "description": "Status do envio (recebido = mensagem inbound registrada)"
     },
     "message_id": {
       "type": "string",

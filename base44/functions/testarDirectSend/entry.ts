@@ -8,61 +8,58 @@ export default async function testarDirectSend(req: Request): Promise<Response> 
         status: 500, headers: { "Content-Type": "application/json" } });
     }
     
-    // Test 1: Try Direct Send with category=utility (text message)
-    const directSendPayload = {
-      messaging_product: "whatsapp",
-      to: "5573999854625",
-      type: "text",
-      text: {
-        body: "Teste Direct Send API - Trancoso Resolve. Se voce recebeu esta mensagem, a Direct Send API esta funcionando!",
-        category: "utility"
-      }
+    const headers = {
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json"
     };
     
-    const directSendRes = await fetch("https://graph.facebook.com/v20.0/" + phoneNumberId + "/messages", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(directSendPayload)
-    });
+    const url = "https://graph.facebook.com/v20.0/" + phoneNumberId + "/messages";
     
-    const directSendData = await directSendRes.json();
+    // Test 1: category at top level
+    const test1 = {
+      messaging_product: "whatsapp",
+      to: "5573999854625",
+      type: "text",
+      category: "utility",
+      text: {
+        body: "Teste 1: Direct Send com category no top level."
+      }
+    };
+    const res1 = await fetch(url, { method: "POST", headers, body: JSON.stringify(test1) });
+    const data1 = await res1.json();
     
-    // Test 2: Try Direct Send with category=utility and a named template
-    const namedPayload = {
+    // Test 2: category inside text with name
+    const test2 = {
       messaging_product: "whatsapp",
       to: "5573999854625",
       type: "text",
       text: {
-        body: "Oi! Aqui e da Trancoso Resolve. Recebemos sua mensagem e estamos aqui pra te ajudar. Que tipo de servico voce precisa?",
+        body: "Teste 2: Direct Send com category dentro do text.",
         category: "utility",
-        name: "trancoso_boas_vindas_direct"
+        name: "trancoso_test"
       }
     };
+    const res2 = await fetch(url, { method: "POST", headers, body: JSON.stringify(test2) });
+    const data2 = await res2.json();
     
-    const namedRes = await fetch("https://graph.facebook.com/v20.0/" + phoneNumberId + "/messages", {
-      method: "POST",
-      headers: {
-        "Authorization": "Bearer " + token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(namedPayload)
-    });
-    
-    const namedData = await namedRes.json();
+    // Test 3: Using v21.0 API with category at top level
+    const url21 = "https://graph.facebook.com/v21.0/" + phoneNumberId + "/messages";
+    const test3 = {
+      messaging_product: "whatsapp",
+      to: "5573999854625",
+      type: "text",
+      category: "utility",
+      text: {
+        body: "Teste 3: Direct Send API v21.0 category top level."
+      }
+    };
+    const res3 = await fetch(url21, { method: "POST", headers, body: JSON.stringify(test3) });
+    const data3 = await res3.json();
     
     return new Response(JSON.stringify({
-      success: true,
-      test_1_basic_direct_send: {
-        status: directSendRes.status,
-        response: directSendData
-      },
-      test_2_named_direct_send: {
-        status: namedRes.status,
-        response: namedData
-      }
+      test1_v20_category_toplevel: { status: res1.status, response: data1 },
+      test2_v20_category_in_text: { status: res2.status, response: data2 },
+      test3_v21_category_toplevel: { status: res3.status, response: data3 }
     }, null, 2), {
       status: 200,
       headers: { "Content-Type": "application/json" }

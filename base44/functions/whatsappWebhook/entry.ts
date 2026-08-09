@@ -144,7 +144,7 @@ function gerarResposta(intencao: string, messageText: string, contactName: strin
       const respostas = [
         `Oi${nome ? ' ' + nome : ''}! Posso te explicar como funciona 😊\n\nA Trancoso Resolve é uma vitrine digital: você busca pelo serviço que precisa, vê os profissionais verificados de Trancoso, compara avaliações e entra em contato direto.\n\nConfira todos os detalhes aqui: ${SITE_URL}/ComoFunciona\n\nFicou com dúvida? Me pergunta aqui que eu te ajudo! 🌴`,
         `Olá${nome ? ' ' + nome : ''}! Funciona assim: a Trancoso Resolve conecta moradores e turistas aos prestadores de serviço verificados em Trancoso. Você busca, compara, avalia e contrata direto.\n\nVeja o passo a passo completo: ${SITE_URL}/ComoFunciona\n\nQuer que eu te ajude com algo específico? 😊`,
-        `Oi${nome ? ' ' + nome : ''}! A Trancoso Resolve é simples: busca o serviço, escolhe o profissional verificado, entra em contato e contrata. Tudo direto, sem intermediário.\n\nDetalhes completos: ${SITE_URL}/ComoFuncinoa\n\nMe conta: você procura um serviço ou quer se cadastrar? 🌴`,
+        `Oi${nome ? ' ' + nome : ''}! A Trancoso Resolve é simples: busca o serviço, escolhe o profissional verificado, entra em contato e contrata. Tudo direto, sem intermediário.\n\nDetalhes completos: ${SITE_URL}/ComoFunciona\n\nMe conta: você procura um serviço ou quer se cadastrar? 🌴`,
       ];
       return getRandomResponse(respostas);
     }

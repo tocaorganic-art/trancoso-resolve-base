@@ -1,9 +1,12 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Cria um template de mensagem de boas-vindas no WhatsApp Manager via WABA API.
-// Secrets necessários (painel Base44):
-//   token-id-whatsapp  — token do System User da Meta (WABA access token)
-//   waba-id-whatsapp   — WhatsApp Business Account ID
+// Secrets (mesmos nomes usados por enviarMensagemWhatsApp):
+//   token-id-whatsapp        — token do System User da Meta (deve ter permissão whatsapp_business_management)
+//   waba-id-whatsapp         — (opcional) ID numérico da conta WABA; se ausente, é derivado via /me
+//
+// REQUISITO: o token precisa da permissão whatsapp_business_management (além da whatsapp_business_messaging
+// usada para enviar mensagens). Sem ela, a Meta rejeita a criação de templates com erro 100/33.
 
 const TEMPLATE_NAME = 'boas_vindas_trancoso';
 const TEMPLATE_LANGUAGE = 'pt_BR';
@@ -23,6 +26,35 @@ const COMPONENTS = [
   },
 ];
 
+// Deriva o WABA ID numericamente válido a partir das credenciais disponíveis.
+async function resolverWabaId(token: string): Promise<string | null> {
+  // 1) Secret explícito se for numericamente válido
+  const explicit = Deno.env.get('waba-id-whatsapp');
+  if (explicit && /^\d+$/.test(explicit.trim())) {
+    return explicit.trim();
+  }
+
+  // 2) GET /me — com token de System User que tem gestão de WABA, retorna o nó da WABA
+  try {
+    const meRes = await fetch('https://graph.facebook.com/v19.0/me', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const meData = await meRes.json();
+    if (meRes.ok && meData?.id && /^\d+$/.test(String(meData.id))) {
+      const candidate = String(meData.id);
+      // Confirma que o nó comporta message_templates (edge de WABA)
+      const probe = await fetch(`https://graph.facebook.com/v19.0/${candidate}/message_templates?limit=1`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (probe.ok) return candidate;
+    }
+  } catch {
+    // ignora
+  }
+
+  return null;
+}
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -39,11 +71,17 @@ Deno.serve(async (req) => {
     }
 
     const token = Deno.env.get('token-id-whatsapp');
-    const wabaId = Deno.env.get('waba-id-whatsapp');
+    if (!token) {
+      return Response.json({ error: 'token-id-whatsapp não configurado' }, { status: 500 });
+    }
 
-    if (!token || !wabaId) {
+    const wabaId = await resolverWabaId(token);
+    if (!wabaId) {
       return Response.json(
-        { error: 'token-id-whatsapp ou waba-id-whatsapp não configurados' },
+        {
+          error:
+            'Não foi possível obter o WABA ID. O token-id-whatsapp provavelmente só tem a permissão whatsapp_business_messaging. Ações necessárias: (1) no Meta Business Manager, edite o System User e adicione a permissão whatsapp_business_management ao token; (2) defina o secret waba-id-whatsapp com o ID numérico da conta WABA (WhatsApp Manager > Account Details).',
+        },
         { status: 500 }
       );
     }
@@ -67,22 +105,33 @@ Deno.serve(async (req) => {
 
     if (!res.ok) {
       console.error('[criarTemplateBoasVindas] erro Meta:', JSON.stringify(data?.error || data));
+      const errMsg = data?.error?.message || `HTTP ${res.status}`;
+      const isPermission = /permission|nonexisting|does not exist|support this operation/i.test(errMsg);
       return Response.json(
-        { success: false, error: data?.error?.message || `HTTP ${res.status}`, raw: data },
+        {
+          success: false,
+          waba_id: wabaId,
+          error: errMsg,
+          permission_issue: isPermission,
+          hint: isPermission
+            ? 'O token não tem permissão de gestão. Adicione whatsapp_business_management ao System User no Meta Business Manager e gere um novo token.'
+            : undefined,
+          raw: data,
+        },
         { status: res.status }
       );
     }
 
-    console.log(`[criarTemplateBoasVindas] template criado id=${data?.id} status=${data?.status}`);
+    console.log(`[criarTemplateBoasVindas] template criado id=${data?.id} status=${data?.status} waba=${wabaId}`);
 
     return Response.json({
       success: true,
+      waba_id: wabaId,
       template_id: data?.id,
       name: data?.name,
       status: data?.status,
       category: data?.category,
       language: data?.language,
-      raw: data,
     });
   } catch (err) {
     console.error('[criarTemplateBoasVindas] erro:', (err as Error).message);

@@ -20,7 +20,7 @@
 
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-const FB_PIXEL_ID = '2222634538513651';
+const FB_PIXEL_ID = '1469130194903035';
 const CAPI_ENDPOINT = `https://graph.facebook.com/v19.0/${FB_PIXEL_ID}/events`;
 
 /**

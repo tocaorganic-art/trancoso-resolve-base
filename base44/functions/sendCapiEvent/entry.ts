@@ -8,10 +8,10 @@
  * - NUNCA expor tokens ou dados PII no response.
  * - Sem hashed_email, sem hashed_phone (por padrão) — apenas dados agregados de negócio.
  * - event_id deve ser o mesmo enviado pelo Pixel client-side para deduplicação.
- * - Se FB_ACCESS_TOKEN não estiver configurado, falha silenciosamente (analytics não bloqueia fluxo).
+ * - Se META_CONVERSIONS_API_TOKEN não estiver configurado, falha silenciosamente (analytics não bloqueia fluxo).
  *
  * Secrets necessários:
- *   FB_ACCESS_TOKEN — token de acesso da API de Conversões do Meta
+ *   META_CONVERSIONS_API_TOKEN — token de acesso da API de Conversões do Meta
  *   (FB_PIXEL_ID embutido no código — não é segredo)
  *
  * Chamada típica (de dentro de outra function):
@@ -36,11 +36,11 @@ export async function sendCapiEventInternal(
   eventId?: string,
   sourceUrl?: string,
 ): Promise<{ ok: boolean; error?: string }> {
-  const accessToken = Deno.env.get('FB_ACCESS_TOKEN');
+  const accessToken = Deno.env.get('META_CONVERSIONS_API_TOKEN');
   if (!accessToken) {
     // Secret não configurado — analytics é opcional, não bloqueia fluxo
-    console.warn('[capi] FB_ACCESS_TOKEN não configurado — evento não enviado:', eventName);
-    return { ok: false, error: 'FB_ACCESS_TOKEN_NOT_SET' };
+    console.warn('[capi] META_CONVERSIONS_API_TOKEN não configurado — evento não enviado:', eventName);
+    return { ok: false, error: 'META_CONVERSIONS_API_TOKEN_NOT_SET' };
   }
 
   const now = Math.floor(Date.now() / 1000);

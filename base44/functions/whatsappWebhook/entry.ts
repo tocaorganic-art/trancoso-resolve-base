@@ -21,14 +21,14 @@ function classificarIntencao(texto: string): 'lead' | 'info' | 'outro' {
 }
 
 async function enviarRespostaWABA(fromPhone: string, mensagem: string): Promise<void> {
-  const token = Deno.env.get('WHATSAPP_ACCESS_TOKEN') || Deno.env.get('WABA_TOKEN') || '';
-  const phoneId = Deno.env.get('WHATSAPP_PHONE_NUMBER_ID') || Deno.env.get('WABA_PHONE_ID') || '';
+  const token = Deno.env.get('token-id-whatsapp') || '';
+  const phoneId = Deno.env.get('phone-number-id-whatsapp') || '';
   if (!token || !phoneId) {
-    console.warn('[whatsappWebhook] WHATSAPP_ACCESS_TOKEN ou WHATSAPP_PHONE_NUMBER_ID não configurados — pulando resposta automática');
+    console.warn('[whatsappWebhook] token-id-whatsapp ou phone-number-id-whatsapp não configurados — pulando resposta automática');
     return;
   }
 
-  await fetch(`https://graph.facebook.com/v19.0/${phoneId}/messages`, {
+  await fetch(`https://graph.facebook.com/v20.0/${phoneId}/messages`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

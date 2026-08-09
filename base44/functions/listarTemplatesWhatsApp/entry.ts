@@ -8,7 +8,10 @@ export default async function listarTemplatesWhatsApp(req: Request): Promise<Res
         status: 500, headers: { "Content-Type": "application/json" } });
     }
     
-    const response = await fetch("https://graph.facebook.com/v20.0/" + wabaId + "/message_templates?limit=100", {
+    const fields = "name,status,category,language,components,rejected_reason,quality_score";
+    const url = `https://graph.facebook.com/v20.0/${wabaId}/message_templates?fields=${fields}&limit=100`;
+    
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         "Authorization": "Bearer " + token

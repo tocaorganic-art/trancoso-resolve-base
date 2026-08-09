@@ -64,7 +64,7 @@ export default function PoliticaPrivacidade() {
             <li><strong>Portabilidade:</strong> Direito de receber dados em formato estruturado</li>
             <li><strong>Revogação:</strong> Direito de revogar consentimento</li>
           </ul>
-          <p className="mt-4">Para exercer esses direitos, contacte: <strong>privacidade@trancosoresolve.com</strong></p>
+          <p className="mt-4">Para exercer esses direitos, contacte: <strong>privacidade@trancosoresolve.com.br</strong></p>
         </motion.section>
 
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
@@ -92,7 +92,7 @@ export default function PoliticaPrivacidade() {
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
           <h2 className="text-2xl font-bold text-orange-400">9. Contato</h2>
           <p>
-            Para dúvidas sobre privacidade: <strong>privacidade@trancosoresolve.com</strong>
+            Para dúvidas sobre privacidade: <strong>privacidade@trancosoresolve.com.br</strong>
           </p>
         </motion.section>
       </div>

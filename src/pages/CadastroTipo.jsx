@@ -53,24 +53,30 @@ export default function CadastroTipoPage() {
       localStorage.setItem('trial_pendente', 'true');
     });
 
-    // Fire-and-forget: salva CPF e dispara verificação
+    // Fire-and-forget: upsert ServiceProvider e dispara verificação de antecedentes
     const cpfLimpo = cpf.replace(/\D/g, '');
+    const providerData = {
+      tipo_pessoa: tipoPessoa,
+      cpf: cpfLimpo,
+      full_name: nomeCompleto.trim(),
+      data_nascimento: dataNascimento,
+      ...(nomeMae && { nome_mae: nomeMae.trim() }),
+      ...(cnpj && { cnpj: cnpj.replace(/\D/g, '') }),
+      tem_ponto_fisico_em_trancoso: temPontoFisico,
+      ...(razaoSocial && { razao_social: razaoSocial }),
+      ...(nomFantasia && { nome_fantasia: nomFantasia }),
+      email: email,
+    };
     base44.entities.ServiceProvider.filter({ created_by: email })
       .then(async (providers) => {
-        if (!providers || providers.length === 0) return;
-        const providerId = providers[0].id;
-        const providerData = {
-          tipo_pessoa: tipoPessoa,
-          cpf: cpfLimpo,
-          full_name: nomeCompleto.trim(),
-          data_nascimento: dataNascimento,
-          ...(nomeMae && { nome_mae: nomeMae.trim() }),
-          ...(cnpj && { cnpj: cnpj.replace(/\D/g, '') }),
-          tem_ponto_fisico_em_trancoso: temPontoFisico,
-          ...(razaoSocial && { razao_social: razaoSocial }),
-          ...(nomFantasia && { nome_fantasia: nomFantasia }),
-        };
-        await base44.entities.ServiceProvider.update(providerId, providerData);
+        let providerId;
+        if (!providers || providers.length === 0) {
+          const created = await base44.entities.ServiceProvider.create(providerData);
+          providerId = created.id;
+        } else {
+          providerId = providers[0].id;
+          await base44.entities.ServiceProvider.update(providerId, providerData);
+        }
         base44.functions.invoke('verificarAntecedentes', { service_provider_id: providerId }).catch(() => {});
       })
       .catch(() => {});

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { LocateFixed, MapPin, Search, Loader2 } from 'lucide-react';
 
-const GOOGLE_MAPS_API_KEY = "AIzaSyAOc54TuiYbL5mWlIsdGx7kAsABOvRZ79g";
+const GOOGLE_MAPS_API_KEY = "AIzaSyCdWK09YW_aZcO6aM5C8u3PiWImCc4QoUw";
 
 const trancosoDefault = { lat: -16.5925, lng: -39.0931 };
 

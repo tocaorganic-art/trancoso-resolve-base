@@ -8,12 +8,6 @@ const GOOGLE_MAPS_API_KEY = "AIzaSyCdWK09YW_aZcO6aM5C8u3PiWImCc4QoUw";
 
 const trancosoDefault = { lat: -16.5925, lng: -39.0931 };
 
-const landmarks = [
-  { id: 1, name: "Quadrado",            position: { lat: -16.5925, lng: -39.0931 } },
-  { id: 2, name: "Praia dos Nativos",   position: { lat: -16.5931, lng: -39.0881 } },
-  { id: 3, name: "Praia dos Coqueiros", position: { lat: -16.5966, lng: -39.0911 } },
-];
-
 function loadGoogleMaps() {
   return new Promise((resolve, reject) => {
     if (window.google?.maps) { resolve(); return; }
@@ -234,26 +228,11 @@ export default function ServiceLocationMap({ initialPosition, onLocationSelect }
         </div>
 
         {/* Atalhos */}
-        <div className="p-4 bg-slate-50 border-t space-y-3">
-          <p className="text-sm text-slate-600">
-            Digite seu endereço acima, clique no mapa para ajustar a posição exata, ou use os atalhos abaixo.
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm" onClick={handleUseCurrentLocation}>
-              <LocateFixed className="w-4 h-4 mr-2" />
-              Usar minha localização
-            </Button>
-            {landmarks.map(lm => (
-              <Button key={lm.id} variant="outline" size="sm" onClick={() => {
-                flyTo(lm.position);
-                setSelectedAddress(lm.name);
-                if (onLocationSelect) onLocationSelect([lm.position.lat, lm.position.lng], lm.name);
-              }}>
-                <MapPin className="w-4 h-4 mr-2" />
-                {lm.name}
-              </Button>
-            ))}
-          </div>
+        <div className="p-4 bg-slate-50 border-t">
+          <Button variant="outline" size="sm" onClick={handleUseCurrentLocation}>
+            <LocateFixed className="w-4 h-4 mr-2" />
+            Usar minha localização
+          </Button>
         </div>
       </CardContent>
     </Card>

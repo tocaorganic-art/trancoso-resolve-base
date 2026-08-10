@@ -142,6 +142,7 @@ function MeuPerfilPrestadorContent() {
           coverage_radius_km: provider.location?.coverage_radius_km || 5,
           lat: provider.location?.lat || -16.5925, // Default Trancoso lat
           lng: provider.location?.lng || -39.0931, // Default Trancoso lng
+          address: provider.location?.address || '',
         },
       });
     } else if (!isLoadingProvider) {
@@ -156,7 +157,7 @@ function MeuPerfilPrestadorContent() {
         specialties: [],
         price_range: '$',
         rates: { hourly: 0, daily: 0 },
-        location: { city: 'Trancoso', coverage_radius_km: 5, lat: -16.5925, lng: -39.0931 },
+        location: { city: 'Trancoso', coverage_radius_km: 5, lat: -16.5925, lng: -39.0931, address: '' },
         portfolio_images: [],
         payment_methods: [],
         verification_document_url: '',
@@ -238,13 +239,14 @@ function MeuPerfilPrestadorContent() {
     }
   };
 
-  const handleLocationSelect = (newPosition) => {
+  const handleLocationSelect = (newPosition, address) => {
     setFormData(prev => ({
       ...prev,
       location: {
         ...prev.location,
         lat: newPosition[0],
         lng: newPosition[1],
+        ...(address !== undefined && { address }),
       }
     }))
   };

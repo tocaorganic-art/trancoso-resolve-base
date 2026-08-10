@@ -1,9 +1,9 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
 
 const DEFAULT_VERIFY_TOKEN = 'trancoso_resolve_2026';
-const CODE_VERSION = 'v5.2-filtered';
+const CODE_VERSION = 'v5.3-filtered';
 
-const IGNORED_NUMBERS = ['5573998283579', '55739998283579'];
+const IGNORED_NUMBERS = ['5573998283579', '55739998283579', '13368103670', '3368103670'];
 
 function isIgnoredNumber(phone: string): boolean {
   const clean = phone.replace(/\D/g, '');

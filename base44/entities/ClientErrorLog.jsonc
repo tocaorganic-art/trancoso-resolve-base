@@ -1,0 +1,52 @@
+{
+  "name": "ClientErrorLog",
+  "type": "object",
+  "properties": {
+    "error_message": {
+      "type": "string",
+      "description": "Mensagem do erro capturado pelo ErrorBoundary"
+    },
+    "error_stack": {
+      "type": "string",
+      "description": "Stack trace do erro (texto longo)"
+    },
+    "component_stack": {
+      "type": "string",
+      "description": "Component stack do React (texto longo)"
+    },
+    "page_url": {
+      "type": "string",
+      "description": "URL da p\u00e1gina onde o erro ocorreu"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "User agent do navegador/dispositivo"
+    },
+    "user_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email do usu\u00e1rio logado (opcional)"
+    }
+  },
+  "required": [
+    "error_message"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": true,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

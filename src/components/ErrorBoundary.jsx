@@ -2,6 +2,7 @@ import React from 'react';
 import { AlertCircle, RefreshCw, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { base44 } from '@/api/base44Client';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -16,7 +17,18 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({ error, errorInfo });
     console.error('ErrorBoundary caught an error:', error, errorInfo);
-    
+
+    // Loga o erro no backend (fire-and-forget, nunca bloqueia a UI)
+    try {
+      base44.functions.invoke('logClientError', {
+        error_message: error?.message || String(error),
+        error_stack: error?.stack || '',
+        component_stack: errorInfo?.componentStack || '',
+        page_url: window.location.href,
+        user_agent: navigator.userAgent,
+      }).catch(() => {});
+    } catch (e) { /* nunca deixar o log quebrar a UI */ }
+
     // Log error to monitoring service (if available)
     if (window.logErrorToService) {
       window.logErrorToService(error, errorInfo);

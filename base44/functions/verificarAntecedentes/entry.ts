@@ -1,235 +1,137 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from "npm:@base44/sdk@0.8.31";
 
-Deno.serve(async (req) => {
+interface VerificarAntecedentesRequest {
+  service_provider_id: string;
+}
+
+Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
-
     if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      return Response.json({ error: "Não autorizado" }, { status: 401 });
     }
 
-    const { service_provider_id } = await req.json();
+    const { service_provider_id }: VerificarAntecedentesRequest = await req.json();
 
     if (!service_provider_id) {
-      return Response.json({ error: 'service_provider_id é obrigatório' }, { status: 400 });
+      return Response.json({ error: "service_provider_id é obrigatório" }, { status: 400 });
     }
 
-    // SEGURANÇA: Verifica se o usuário autenticado é admin ou o próprio prestador
-    // NOTA: service_provider_id é o ID do registro ServiceProvider, não o user.id
-    // Precisamos checar se o provider pertence ao usuário autenticado via created_by
-    const userRole = user?.role;
-    const isAdmin = userRole === 'admin';
-    console.log(`[verificarAntecedentes] user.email=${user?.email} role=${userRole} provider_id=${service_provider_id}`);
+    // Buscar dados do prestador
+    const provider = await base44.entities.ServiceProvider.get(service_provider_id);
 
-    if (!isAdmin) {
-      // Verifica ownership via created_by
-      const ownProviders = await base44.entities.ServiceProvider.filter({ created_by: user.email });
-      const isOwner = ownProviders.some(p => p.id === service_provider_id);
-      if (!isOwner) {
-        console.error(`[verificarAntecedentes] 403 - user ${user.email} não é dono do provider ${service_provider_id}`);
-        return Response.json({ error: 'Sem permissão para verificar este prestador' }, { status: 403 });
-      }
+    if (!provider) {
+      return Response.json({ error: "Prestador não encontrado" }, { status: 404 });
     }
 
-    // Busca o prestador
-    const providers = await base44.asServiceRole.entities.ServiceProvider.filter({});
-    const prestador = providers.find(p => p.id === service_provider_id);
+    const cpf = (provider as any).cpf || (provider as any).document_number;
+    const nome = (provider as any).full_name || (provider as any).name;
+    const birthdate = (provider as any).data_nascimento || (provider as any).birthdate;
+    const nome_mae = (provider as any).nome_mae || (provider as any).mother_name;
+    const nome_pai = (provider as any).nome_pai || (provider as any).father_name;
+    const uf_nascimento = (provider as any).uf_nascimento || (provider as any).birth_state;
 
-    if (!prestador) {
-      return Response.json({ error: 'Prestador não encontrado' }, { status: 404 });
+    if (!cpf) {
+      return Response.json({ error: "CPF do prestador não encontrado no cadastro" }, { status: 400 });
     }
 
-    // Se não tiver CPF, marca para análise manual
-    if (!prestador.cpf) {
-      await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
-        status_verificacao: 'em_analise_manual',
-        relatorio_verificacao: 'CPF não informado. Verificação automática não pôde ser realizada. Necessária análise manual.',
-        data_verificacao: new Date().toISOString(),
-      });
-      console.log(`[verificarAntecedentes] CPF ausente para ${prestador.full_name} (${service_provider_id})`);
-      return Response.json({ status: 'em_analise_manual', message: 'CPF não encontrado, análise manual necessária' });
+    // Chamar API da Infosimples
+    const token = Deno.env.get("INFOSIMPLES_API_KEY");
+    if (!token) {
+      return Response.json({ error: "INFOSIMPLES_API_KEY não configurada" }, { status: 500 });
     }
 
-    const INFOSIMPLES_API_KEY = Deno.env.get('INFOSIMPLES_API_KEY');
+    const apiUrl = "https://data.infosimples.com/api/v2/consultas/antecedentes-criminais/pf/emit";
 
-    if (!INFOSIMPLES_API_KEY) {
-      console.error('[verificarAntecedentes] INFOSIMPLES_API_KEY não configurada');
-      return Response.json({ error: 'INFOSIMPLES_API_KEY não configurada' }, { status: 500 });
-    }
-
-    const headers = {
-      'Authorization': `Token token=${INFOSIMPLES_API_KEY}`,
-      'Content-Type': 'application/json',
+    const params: Record<string, string> = {
+      token: token,
+      cpf: cpf,
     };
+    if (nome) params.nome = nome;
+    if (birthdate) params.birthdate = birthdate;
+    if (nome_mae) params.nome_mae = nome_mae;
+    if (nome_pai) params.nome_pai = nome_pai;
+    if (uf_nascimento) params.uf_nascimento = uf_nascimento;
 
-    const cpfLimpo = prestador.cpf.replace(/\D/g, '');
-    const bodyBase = { cpf: cpfLimpo, nome: prestador.full_name };
-    const uf = prestador.location?.state || '';
-    const resultados = [];
-
-    // 1. Sempre: Polícia Federal
-    try {
-      const pfRes = await fetch(
-        'https://api.infosimples.com/api/v2/consultas/antecedentes-criminais/policia-federal/emitir',
-        { method: 'POST', headers, body: JSON.stringify(bodyBase) }
-      );
-      const pfData = await pfRes.json();
-      console.log(`[PF] code=${pfData?.code} status=${pfData?.data_status}`);
-      resultados.push({ fonte: 'Polícia Federal', data: pfData });
-    } catch (err) {
-      console.error('[PF] Erro:', (err as Error).message);
-      resultados.push({ fonte: 'Polícia Federal', erro: true, mensagem: (err as Error).message });
-    }
-
-    // 2. SP
-    if (uf === 'SP') {
-      try {
-        const spRes = await fetch(
-          'https://api.infosimples.com/api/v2/consultas/antecedentes-criminais/sp',
-          { method: 'POST', headers, body: JSON.stringify(bodyBase) }
-        );
-        const spData = await spRes.json();
-        console.log(`[SP] code=${spData?.code} status=${spData?.data_status}`);
-        resultados.push({ fonte: 'SP', data: spData });
-      } catch (err) {
-        console.error('[SP] Erro:', (err as Error).message);
-        resultados.push({ fonte: 'SP', erro: true, mensagem: (err as Error).message });
-      }
-    }
-
-    // 3. MG
-    if (uf === 'MG') {
-      try {
-        const mgRes = await fetch(
-          'https://api.infosimples.com/api/v2/consultas/antecedentes-criminais/mg',
-          { method: 'POST', headers, body: JSON.stringify(bodyBase) }
-        );
-        const mgData = await mgRes.json();
-        console.log(`[MG] code=${mgData?.code} status=${mgData?.data_status}`);
-        resultados.push({ fonte: 'MG', data: mgData });
-      } catch (err) {
-        console.error('[MG] Erro:', (err as Error).message);
-        resultados.push({ fonte: 'MG', erro: true, mensagem: (err as Error).message });
-      }
-    }
-
-    // 4. CEIS e CNEP no Portal da Transparência (apenas para PJ com ponto físico)
-    // Nota: Portal da Transparência é público, não requer chave de API
-    if (prestador.tipo_pessoa === 'pj' && prestador.tem_ponto_fisico_em_trancoso && prestador.cnpj) {
-      const cnpjLimpo = prestador.cnpj.replace(/\D/g, '');
-      try {
-        const ceisRes = await fetch(
-          `https://api.portaldatransparencia.gov.br/api-de-dados/ceis?cnpjSancionado=${cnpjLimpo}&pagina=1`,
-          { headers: { 'Accept': 'application/json' } }
-        );
-        if (ceisRes.ok) {
-          const ceisData = await ceisRes.json();
-          if (ceisData && ceisData.length > 0) {
-            resultados.push({ fonte: 'CEIS (Portal Transparência)', data: ceisData, temRegistro: true });
-            console.log(`[CEIS] Registros encontrados para CNPJ ${cnpjLimpo}: ${ceisData.length}`);
-          } else {
-            resultados.push({ fonte: 'CEIS (Portal Transparência)', data: [], temRegistro: false });
-          }
-        }
-      } catch (err) {
-        console.error('[CEIS] Erro:', (err as Error).message);
-        resultados.push({ fonte: 'CEIS (Portal Transparência)', erro: true, mensagem: (err as Error).message });
-      }
-    }
-
-    // 4b. CNPJ na Receita Federal (se houver)
-    if (prestador.cnpj) {
-      const cnpjLimpo = prestador.cnpj.replace(/\D/g, '');
-      try {
-        const receitaRes = await fetch(
-          'https://api.infosimples.com/api/v2/consultas/receita-federal/cnpj',
-          { method: 'POST', headers, body: JSON.stringify({ cnpj: cnpjLimpo }) }
-        );
-        const receitaData = await receitaRes.json();
-        console.log(`[CNPJ] code=${receitaData?.code} situacao=${receitaData?.data?.[0]?.situacao_cadastral}`);
-        resultados.push({ fonte: 'Receita Federal CNPJ', data: receitaData });
-
-        // Atualiza status da empresa separadamente
-        const situacao = receitaData?.data?.[0]?.situacao_cadastral;
-        const statusEmpresa = situacao === 'ATIVA' ? 'regular' : (situacao ? 'em_risco' : 'pendente');
-        const relatorioEmpresa = situacao
-          ? `Situação cadastral na Receita Federal: ${situacao}`
-          : 'Situação cadastral não encontrada.';
-        await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
-          status_verificacao_empresa: statusEmpresa,
-          relatorio_verificacao_empresa: relatorioEmpresa,
-        });
-      } catch (err) {
-        console.error('[CNPJ] Erro:', (err as Error).message);
-        resultados.push({ fonte: 'Receita Federal CNPJ', erro: true, mensagem: (err as Error).message });
-      }
-    }
-
-    // 5. Classificar resultado
-    const temErro = resultados.some(r => r.erro === true);
-
-    const temAntecedente = resultados.some(r => {
-      if (r.erro || !r.data) return false;
-      if (r.fonte === 'Receita Federal CNPJ') return false;
-      if (r.fonte === 'CEIS (Portal Transparência)') return r.temRegistro === true;
-      const item = r.data?.data?.[0];
-      if (!item) return false;
-      const txt = JSON.stringify(item).toLowerCase();
-      return (
-        item.nada_consta === false ||
-        item.possui_antecedentes === true ||
-        item.resultado === 'positivo' ||
-        item.condenacao === true ||
-        (txt.includes('condenação') && !txt.includes('nada consta')) ||
-        (txt.includes('antecedentes') && !txt.includes('nada consta') && !txt.includes('sem registro'))
-      );
+    const apiResponse = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
     });
 
-    const cnpjIrregular = resultados.some(r =>
-      r.fonte === 'Receita Federal CNPJ' &&
-      r.data?.data?.[0]?.situacao_cadastral &&
-      r.data.data[0].situacao_cadastral !== 'ATIVA'
-    );
+    const apiData = await apiResponse.json() as any;
 
-    let status_verificacao = 'aprovado';
-    let relatorio_verificacao = '';
+    // Verificar resposta da Infosimples
+    // Code 200 = single result (certidão emitida com sucesso)
+    // Code 201 = multiple results
+    // Code 603 = sem autorização (precisa ativar serviço na conta)
+    // Code 602 = serviço inválido
+    if (apiData.code === 603) {
+      return Response.json({
+        success: false,
+        error: "Serviço de antecedentes criminais não ativado na conta Infosimples. Acesse infosimples.com → Área do Cliente para ativar.",
+        api_code: apiData.code,
+        provider_id: service_provider_id,
+      }, { status: 402 });
+    }
 
-    if (temAntecedente) {
-      status_verificacao = 'reprovado';
-      relatorio_verificacao = 'Foram encontrados registros de antecedentes criminais em bases oficiais. Perfil bloqueado para proteção da comunidade.';
-    } else if (temErro || cnpjIrregular) {
-      status_verificacao = 'em_analise_manual';
-      const motivos = [];
-      if (temErro) motivos.push('erro em uma das bases consultadas');
-      if (cnpjIrregular) motivos.push('CNPJ com situação irregular na Receita Federal');
-      relatorio_verificacao = `Verificação com inconsistências (${motivos.join(', ')}). Necessária análise manual pela equipe.`;
+    if (apiData.code !== 200 && apiData.code !== 201) {
+      return Response.json({
+        success: false,
+        error: apiData.code_message || "Erro ao consultar antecedentes criminais",
+        api_code: apiData.code,
+        provider_id: service_provider_id,
+      }, { status: 502 });
+    }
+
+    // Processar resultado
+    const dataResult = Array.isArray(apiData.data) ? apiData.data[0] : apiData.data;
+
+    const conseguiuEmitirNegativa = dataResult?.conseguiu_emitir_certidao_negativa === true;
+    const certidaoCodigo = dataResult?.certidao_codigo || "";
+    const certidaoNumero = dataResult?.numero || "";
+    const certidaoValidade = dataResult?.validade_data || "";
+    const certidaoEmissao = dataResult?.emissao_data || "";
+    const mensagemApi = dataResult?.mensagem || "";
+
+    let statusVerificacao = "aprovado";
+    let relatorioVerificacao = "";
+
+    if (conseguiuEmitirNegativa) {
+      // Nada consta — certidão negativa emitida com sucesso
+      statusVerificacao = "aprovado";
+      relatorioVerificacao = `✅ ANTECEDENTES CRIMINAIS — NADA CONSTA\nCertidão nº: ${certidaoNumero}\nCódigo: ${certidaoCodigo}\nEmissão: ${certidaoEmissao}\nValidade: ${certidaoValidade}`;
     } else {
-      status_verificacao = 'aprovado';
-      const bases = ['Polícia Federal'];
-      if (uf === 'SP') bases.push('IIRGD-SP');
-      if (uf === 'MG') bases.push('PCMG');
-      relatorio_verificacao = `Nenhum antecedente criminal encontrado. Bases consultadas: ${bases.join(', ')}.`;
+      // Há registros criminais — encaminhar para análise manual
+      statusVerificacao = "em_analise_manual";
+      relatorioVerificacao = `⚠️ ANTECEDENTES CRIMINAIS — REGISTROS ENCONTRADOS\nMensagem: ${mensagemApi}\nCertidão nº: ${certidaoNumero}\nEmissão: ${certidaoEmissao}\n\nEncaminhado para análise manual do administrador.`;
     }
 
-    // 6. Atualiza prestador
-    await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
-      status_verificacao,
-      relatorio_verificacao,
-      data_verificacao: new Date().toISOString(),
+    // Atualizar o registro do prestador
+    await base44.entities.ServiceProvider.update(service_provider_id, {
+      status_verificacao: statusVerificacao,
+      relatorio_verificacao: relatorioVerificacao,
+      data_verificacao_antecedentes: new Date().toISOString(),
+      antecedentes_status: conseguiuEmitirNegativa ? "nada_consta" : "registros_encontrados",
+      antecedentes_certidao_numero: certidaoNumero,
+      antendentes_certidao_validade: certidaoValidade,
     });
-
-    console.log(`[verificarAntecedentes] Concluído: ${prestador.full_name} → ${status_verificacao}`);
 
     return Response.json({
-      status: status_verificacao,
-      relatorio: relatorio_verificacao,
+      success: true,
       provider_id: service_provider_id,
-      bases_consultadas: resultados.map(r => r.fonte),
+      antecedentes_status: conseguiuEmitirNegativa ? "nada_consta" : "registros_encontrados",
+      status_verificacao: statusVerificacao,
+      certidao_numero: certidaoNumero,
+      certidao_validade: certidaoValidade,
+      mensagem: conseguiuEmitirNegativa
+        ? "Antecedentes criminais verificados — Nada Consta"
+        : "Registros encontrados — encaminhado para análise manual",
     });
 
   } catch (error) {
-    console.error('[verificarAntecedentes] Erro geral:', (error as Error).message);
+    console.error("[verificarAntecedentes] Error:", (error as Error).message);
     return Response.json({ error: (error as Error).message }, { status: 500 });
   }
 });

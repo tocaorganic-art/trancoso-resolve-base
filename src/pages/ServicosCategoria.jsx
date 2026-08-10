@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import usePullToRefresh from "@/hooks/usePullToRefresh";
@@ -22,6 +22,17 @@ const slugMap = {
   'Garçom': 'garcom-trancoso',
 };
 
+// Sinônimos para melhorar buscas (movido para fora do componente — não muda entre renders)
+const categoryAliases = {
+  'faxina': 'Limpeza', 'faxineira': 'Limpeza', 'diarista': 'Limpeza', 'limpeza-domestica': 'Limpeza', 'limpar': 'Limpeza',
+  'eletricista': 'Eletricista', 'eletrico': 'Eletricista', 'luz': 'Eletricista',
+  'encanador': 'Encanador', 'encanamento': 'Encanador', 'vazamento': 'Encanador', 'tubulacao': 'Encanador',
+  'jardim': 'Jardinagem', 'jardinagem': 'Jardinagem', 'grama': 'Jardinagem', 'poda': 'Jardinagem',
+  'cozinha': 'Cozinheiro', 'cozinheiro': 'Cozinheiro', 'chef': 'Cozinheiro', 'comida': 'Cozinheiro',
+};
+
+const resolveSearchCategory = (query) => categoryAliases[query.toLowerCase().trim()] || null;
+
 export default function ServicosCategoriaPage() {
   const urlParams = useMemo(() => new URLSearchParams(window.location.search), []);
   const [selectedCategory, setSelectedCategory] = useState(urlParams.get('cat') || 'Todos');
@@ -36,7 +47,10 @@ export default function ServicosCategoriaPage() {
   const [viewMode, setViewMode] = useState('list');
   const queryClient = useQueryClient();
 
-  // ⭐ STEP 1: Fetch providers FIRST
+  // Cache de resultados de busca LLM (ref — não causa re-render)
+  const llmSearchCache = useRef(new Map());
+
+  // ⭐ STEP 1: Fetch providers
   const { data: providers = [], isLoading: isLoadingProviders, isError: isErrorProviders } = useQuery({
     queryKey: ['serviceProviders'],
     queryFn: async () => {
@@ -59,21 +73,76 @@ export default function ServicosCategoriaPage() {
   // Helper: Detectar prestador de teste
   const isTestProvider = useCallback((provider) => {
     if (!provider) return false;
-    // Excluir por nome (contém "teste")
     if (provider.full_name?.toLowerCase().includes('teste')) return true;
-    // Excluir por email (domains de teste)
     if (provider.email?.match(/@(teste|email|test|demo|example|sample)\.com/i)) return true;
-    // Excluir por bio com caracteres aleatórios (padrão: sequências repetidas ou muito caóticas)
     if (provider.bio && /[ytdgfutyfyuftyuftuyfytufytukfjtyufjyt]{20,}/.test(provider.bio.replace(/\s/g, ''))) return true;
     return false;
   }, []);
 
-  // ⭐ STEP 2: Compute filtered providers AFTER providers is available
+  // ⭐ LOCAL SEARCH: Filtragem client-side antes de chamar LLM
+  const localSearch = useCallback((query, providerList) => {
+    const q = query.toLowerCase().trim();
+    if (!q) return null;
+    
+    // 1. Match por categoria/alias
+    const resolvedCategory = resolveSearchCategory(q);
+    if (resolvedCategory) {
+      return providerList.filter(p => p.occupation === resolvedCategory).map(p => p.id);
+    }
+    
+    // 2. Match por occupation direta
+    const byOccupation = providerList.filter(p => 
+      p.occupation?.toLowerCase().includes(q)
+    );
+    if (byOccupation.length > 0) return byOccupation.map(p => p.id);
+    
+    // 3. Match por full_name
+    const byName = providerList.filter(p => 
+      p.full_name?.toLowerCase().includes(q)
+    );
+    if (byName.length > 0) return byName.map(p => p.id);
+    
+    // 4. Match por bio ou specialties
+    const byBioOrSpec = providerList.filter(p => {
+      const bio = p.bio?.toLowerCase() || '';
+      const specs = Array.isArray(p.specialties) ? p.specialties.join(' ').toLowerCase() : '';
+      return bio.includes(q) || specs.includes(q);
+    });
+    if (byBioOrSpec.length > 0) return byBioOrSpec.map(p => p.id);
+    
+    // 5. Match por bairro/localização
+    const byLocation = providerList.filter(p => {
+      const neighborhood = p.location?.neighborhood?.toLowerCase() || '';
+      const city = p.location?.city?.toLowerCase() || '';
+      return neighborhood.includes(q) || city.includes(q);
+    });
+    if (byLocation.length > 0) return byLocation.map(p => p.id);
+    
+    // 6. Match por palavras individuais (split da query)
+    const words = q.split(/\s+/).filter(w => w.length >= 3);
+    if (words.length > 1) {
+      const byWords = providerList.filter(p => {
+        const text = [
+          p.full_name || '',
+          p.occupation || '',
+          p.bio || '',
+          Array.isArray(p.specialties) ? p.specialties.join(' ') : '',
+          p.location?.neighborhood || '',
+        ].join(' ').toLowerCase();
+        return words.some(w => text.includes(w));
+      });
+      if (byWords.length > 0) return byWords.map(p => p.id);
+    }
+    
+    // Nenhum resultado local — retorna null para indicar que precisa de LLM
+    return null;
+  }, []);
+
+  // ⭐ STEP 2: Compute filtered providers
   const filteredProviders = useMemo(() => {
     if (!providers || providers.length === 0) return [];
 
     return providers.filter(provider => {
-      // Ocultar reprovados e dados de teste
       if (provider.status_verificacao === 'reprovado') return false;
       if (isTestProvider(provider)) return false;
 
@@ -93,12 +162,11 @@ export default function ServicosCategoriaPage() {
     });
   }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds, priceFilter, ratingFilter, availabilityFilter, neighborhoodFilter]);
 
-  // ⭐ STEP 3: Compute filter counts AFTER providers is available
+  // ⭐ STEP 3: Compute filter counts
   const filterCounts = useMemo(() => {
     if (!providers || providers.length === 0) return { price: {}, rating: {}, availability: {}, neighborhoods: [] };
 
     const baseFiltered = providers.filter(p => {
-      // Ocultar reprovados e dados de teste
       if (p.status_verificacao === 'reprovado') return false;
       if (isTestProvider(p)) return false;
 
@@ -134,7 +202,7 @@ export default function ServicosCategoriaPage() {
     };
   }, [providers, selectedCategory, searchQuery, aiFilteredProviderIds]);
 
-  // ⭐ STEP 4: SEO and metadata (depends on filteredProviders)
+  // ⭐ STEP 4: SEO and metadata
   useEffect(() => {
     const cat = selectedCategory !== 'Todos' ? selectedCategory : null;
     const title = cat
@@ -189,23 +257,17 @@ export default function ServicosCategoriaPage() {
           "numberOfItems": filteredProviders?.length || 0,
           "itemListElement": (filteredProviders || []).slice(0, 10).map((p, i) => {
             const item = {
-              "@type": "Person",
-              "name": p.full_name,
-              "jobTitle": p.occupation,
-              "description": p.bio || `${p.occupation} verificado em Trancoso, Bahia`,
-              "url": `${window.location.origin}/PrestadorPerfil?id=${p.id}`
+              "@type": "ListItem",
+              "position": i + 1,
+              "item": {
+                "@type": "Service",
+                "name": p.full_name || p.occupation,
+                "description": p.bio || `Profissional de ${p.occupation} em Trancoso`,
+                "provider": { "@type": "Person", "name": p.full_name },
+                "areaServed": "Trancoso, BA"
+              }
             };
-            if (p.photo_url) item.image = p.photo_url;
-            if (p.rating && p.total_reviews > 0) {
-              item.aggregateRating = {
-                "@type": "AggregateRating",
-                "ratingValue": p.rating,
-                "reviewCount": p.total_reviews,
-                "bestRating": 5,
-                "worstRating": 1
-              };
-            }
-            return { "@type": "ListItem", "position": i + 1, "item": item };
+            return item;
           })
         },
         {
@@ -221,17 +283,7 @@ export default function ServicosCategoriaPage() {
     return () => { const s = document.getElementById(schemaId); if (s) s.remove(); };
   }, [selectedCategory, filteredProviders]);
 
-  // Sinônimos para melhorar buscas
-  const categoryAliases = {
-    'faxina': 'Limpeza', 'faxineira': 'Limpeza', 'diarista': 'Limpeza', 'limpeza-domestica': 'Limpeza', 'limpar': 'Limpeza',
-    'eletricista': 'Eletricista', 'eletrico': 'Eletricista', 'luz': 'Eletricista',
-    'encanador': 'Encanador', 'encanamento': 'Encanador', 'vazamento': 'Encanador', 'tubulacao': 'Encanador',
-    'jardim': 'Jardinagem', 'jardinagem': 'Jardinagem', 'grama': 'Jardinagem', 'poda': 'Jardinagem',
-    'cozinha': 'Cozinheiro', 'cozinheiro': 'Cozinheiro', 'chef': 'Cozinheiro', 'comida': 'Cozinheiro',
-  };
-
-  const resolveSearchCategory = (query) => categoryAliases[query.toLowerCase().trim()] || null;
-
+  // ⭐ STEP 5: Busca otimizada — local primeiro, LLM só quando necessário
   useEffect(() => {
     const handler = setTimeout(() => {
       const normalizedQuery = searchQuery.trim();
@@ -249,15 +301,25 @@ export default function ServicosCategoriaPage() {
       const performSearch = async () => {
         setIsSearching(true);
         try {
-          const resolvedCategory = resolveSearchCategory(normalizedQuery);
+          // 1. Tentar busca local primeiro (instantâneo, sem rede)
+          const localResultIds = localSearch(normalizedQuery, providers);
           
-          if (resolvedCategory) {
-            const matchingIds = providers.filter(p => p.occupation === resolvedCategory).map(p => p.id);
-            setAiFilteredProviderIds(matchingIds);
+          if (localResultIds !== null) {
+            // Busca local encontrou resultados — usar sem chamar LLM
+            setAiFilteredProviderIds(localResultIds);
             setIsSearching(false);
             return;
           }
 
+          // 2. Verificar cache de LLM
+          const cacheKey = normalizedQuery.toLowerCase();
+          if (llmSearchCache.current.has(cacheKey)) {
+            setAiFilteredProviderIds(llmSearchCache.current.get(cacheKey));
+            setIsSearching(false);
+            return;
+          }
+
+          // 3. Só chamar LLM se a busca local não encontrou nada
           const providerContext = providers.map(p => ({
             id: p.id, name: p.full_name, occupation: p.occupation,
             bio: p.bio || '', specialties: p.specialties || [],
@@ -273,7 +335,12 @@ export default function ServicosCategoriaPage() {
           });
           
           const ids = result?.relevant_provider_ids;
-          setAiFilteredProviderIds(Array.isArray(ids) ? ids : []);
+          const resultIds = Array.isArray(ids) ? ids : [];
+          
+          // Salvar no cache
+          llmSearchCache.current.set(cacheKey, resultIds);
+          
+          setAiFilteredProviderIds(resultIds);
         } catch (error) {
           console.error("Search error:", error);
           setAiFilteredProviderIds([]);
@@ -282,10 +349,10 @@ export default function ServicosCategoriaPage() {
         }
       };
       performSearch();
-    }, 500);
+    }, 800); // Debounce aumentado de 500ms para 800ms
 
     return () => clearTimeout(handler);
-  }, [searchQuery, providers]);
+  }, [searchQuery, providers, localSearch]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -324,7 +391,7 @@ export default function ServicosCategoriaPage() {
             transition={{ duration: 0.4, delay: 0.15 }}
             className="text-muted-foreground text-sm md:text-base"
           >
-            {isLoadingProviders ? "Carregando..." : (isSearching ? "Buscando com IA..." : `${filteredProviders.length} profissional${filteredProviders.length !== 1 ? 'is' : 'l'} encontrado${filteredProviders.length !== 1 ? 's' : ''}`)}
+            {isLoadingProviders ? 'Carregando...' : (isSearching ? 'Buscando...' : `${filteredProviders.length} profissional${filteredProviders.length !== 1 ? 'is' : 'l'} encontrado${filteredProviders.length !== 1 ? 's' : ''}`)}
           </motion.p>
           <AnimatePresence>
             {selectedCategory !== 'Todos' && slugMap[selectedCategory] && (

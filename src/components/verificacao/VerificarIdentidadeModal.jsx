@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -21,7 +22,10 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
   const [hasPhysicalLocation] = useState(user?.tem_ponto_fisico_em_trancoso || false);
 
   // Buscar ServiceProvider do usuário para obter o provider_id correto
-  const { data: provider } = useQuery({
+  const navigate = useNavigate();
+
+  // Buscar ServiceProvider do usuário para obter o provider_id correto
+  const { data: provider, isLoading: isLoadingProvider, isFetched: isProviderFetched } = useQuery({
     queryKey: ['myServiceProvider', user?.email],
     queryFn: async () => {
       if (!user?.email) return null;
@@ -30,6 +34,8 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
     },
     enabled: !!user && isOpen,
   });
+
+  const profileNotSaved = isProviderFetched && !isLoadingProvider && !provider?.id;
 
   const handleFileChange = (e) => {
     const f = e.target.files[0];
@@ -171,7 +177,20 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
            </DialogDescription>
          </DialogHeader>
 
-        {step === "done" ? (
+        {profileNotSaved && step === "form" ? (
+          <div className="flex flex-col items-center gap-3 py-6 text-center">
+            <div className="w-14 h-14 rounded-full bg-amber-900/30 flex items-center justify-center">
+              <ShieldCheck className="w-7 h-7 text-amber-500" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-slate-100">Complete seu perfil primeiro</h3>
+              <p className="text-sm text-slate-300 mt-1">
+                Antes de verificar sua identidade, você precisa salvar o seu perfil de prestador (localização, biografia, telefone) em "Meu Perfil".
+              </p>
+            </div>
+            <Button onClick={() => { handleClose(); navigate("/MeuPerfilPrestador"); }} className="w-full">Ir para Meu Perfil</Button>
+          </div>
+        ) : step === "done" ? (
           <div className="flex flex-col items-center gap-4 py-6">
             <div className="w-16 h-16 rounded-full bg-amber-100 flex items-center justify-center">
             <CheckCircle2 className="w-8 h-8 text-amber-600" />

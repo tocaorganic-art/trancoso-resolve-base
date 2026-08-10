@@ -18,7 +18,6 @@ Deno.serve(async (req: Request) => {
       return Response.json({ error: "service_provider_id é obrigatório" }, { status: 400 });
     }
 
-    // Buscar dados do prestador
     const provider = await base44.entities.ServiceProvider.get(service_provider_id);
 
     if (!provider) {
@@ -30,48 +29,55 @@ Deno.serve(async (req: Request) => {
     const birthdate = (provider as any).data_nascimento || (provider as any).birthdate;
     const nome_mae = (provider as any).nome_mae || (provider as any).mother_name;
     const nome_pai = (provider as any).nome_pai || (provider as any).father_name;
-    const uf_nascimento = (provider as any).uf_nascimento || (provider as any).birth_state;
+    const uf_nascimento = (provider as any).uf_nascimento || (provider as any).birth_state || "BA";
 
     if (!cpf) {
       return Response.json({ error: "CPF do prestador não encontrado no cadastro" }, { status: 400 });
     }
+    if (!nome) {
+      return Response.json({ error: "Nome completo do prestador é obrigatório para a consulta" }, { status: 400 });
+    }
+    if (!birthdate) {
+      return Response.json({ error: "Data de nascimento do prestador é obrigatória para a consulta (formato YYYY-MM-DD)" }, { status: 400 });
+    }
 
-    // Chamar API da Infosimples
     const token = Deno.env.get("INFOSIMPLES_API_KEY");
     if (!token) {
       return Response.json({ error: "INFOSIMPLES_API_KEY não configurada" }, { status: 500 });
     }
 
-    const apiUrl = "https://data.infosimples.com/api/v2/consultas/antecedentes-criminais/pf/emit";
+    // ENDPOINT CORRETO: api.infosimples.com (não data.infosimples.com)
+    const apiUrl = "https://api.infosimples.com/api/v2/consultas/antecedentes-criminais/pf/emit";
 
-    const params: Record<string, string> = {
-      token: token,
-      cpf: cpf,
-    };
-    if (nome) params.nome = nome;
-    if (birthdate) params.birthdate = birthdate;
-    if (nome_mae) params.nome_mae = nome_mae;
-    if (nome_pai) params.nome_pai = nome_pai;
-    if (uf_nascimento) params.uf_nascimento = uf_nascimento;
+    const formParams = new URLSearchParams();
+    formParams.append("token", token);
+    formParams.append("nome", nome);
+    formParams.append("birthdate", birthdate);
+    formParams.append("cpf", cpf);
+    formParams.append("timeout", "120");
+    if (nome_mae) formParams.append("nome_mae", nome_mae);
+    if (nome_pai) formParams.append("nome_pai", nome_pai);
+    if (uf_nascimento) formParams.append("uf_nascimento", uf_nascimento);
 
+    // BODY DEVE SER application/x-www-form-urlencoded (não JSON!)
     const apiResponse = await fetch(apiUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: formParams.toString(),
     });
 
     const apiData = await apiResponse.json() as any;
 
-    // Verificar resposta da Infosimples
-    // Code 200 = single result (certidão emitida com sucesso)
-    // Code 201 = multiple results
-    // Code 603 = sem autorização (precisa ativar serviço na conta)
-    // Code 602 = serviço inválido
-    if (apiData.code === 603) {
+    // code 601 = token inválido, 603 = sem autorização/sem saldo, 602 = serviço inválido
+    if (apiData.code === 603 || apiData.code === 601 || apiData.code === 602) {
+      const saldoInsuficiente = (apiData.errors || []).some((e: string) => e.toLowerCase().includes("saldo"));
       return Response.json({
         success: false,
-        error: "Serviço de antecedentes criminais não ativado na conta Infosimples. Acesse infosimples.com → Área do Cliente para ativar.",
+        error: saldoInsuficiente
+          ? "Conta Infosimples sem saldo. Adicione créditos em infosimples.com → Área do Cliente."
+          : (apiData.code_message || "Erro de autenticação com a Infosimples"),
         api_code: apiData.code,
+        api_errors: apiData.errors,
         provider_id: service_provider_id,
       }, { status: 402 });
     }
@@ -81,11 +87,11 @@ Deno.serve(async (req: Request) => {
         success: false,
         error: apiData.code_message || "Erro ao consultar antecedentes criminais",
         api_code: apiData.code,
+        api_errors: apiData.errors,
         provider_id: service_provider_id,
       }, { status: 502 });
     }
 
-    // Processar resultado
     const dataResult = Array.isArray(apiData.data) ? apiData.data[0] : apiData.data;
 
     const conseguiuEmitirNegativa = dataResult?.conseguiu_emitir_certidao_negativa === true;
@@ -99,16 +105,13 @@ Deno.serve(async (req: Request) => {
     let relatorioVerificacao = "";
 
     if (conseguiuEmitirNegativa) {
-      // Nada consta — certidão negativa emitida com sucesso
       statusVerificacao = "aprovado";
       relatorioVerificacao = `✅ ANTECEDENTES CRIMINAIS — NADA CONSTA\nCertidão nº: ${certidaoNumero}\nCódigo: ${certidaoCodigo}\nEmissão: ${certidaoEmissao}\nValidade: ${certidaoValidade}`;
     } else {
-      // Há registros criminais — encaminhar para análise manual
       statusVerificacao = "em_analise_manual";
       relatorioVerificacao = `⚠️ ANTECEDENTES CRIMINAIS — REGISTROS ENCONTRADOS\nMensagem: ${mensagemApi}\nCertidão nº: ${certidaoNumero}\nEmissão: ${certidaoEmissao}\n\nEncaminhado para análise manual do administrador.`;
     }
 
-    // Atualizar o registro do prestador
     await base44.entities.ServiceProvider.update(service_provider_id, {
       status_verificacao: statusVerificacao,
       relatorio_verificacao: relatorioVerificacao,

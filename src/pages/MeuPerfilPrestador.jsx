@@ -164,6 +164,8 @@ function MeuPerfilPrestadorContent() {
         full_body_photo_url: '',
         tipo_pessoa: 'pf',
         cpf: '',
+        data_nascimento: '',
+        nome_mae: '',
         cnpj: '',
         tem_ponto_fisico_em_trancoso: false,
         razao_social: '',
@@ -457,7 +459,30 @@ function MeuPerfilPrestadorContent() {
                     />
                   </div>
                 )}
-              </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label htmlFor="data_nascimento">Data de Nascimento <span className="text-red-500">*</span></Label>
+                  <Input
+                    id="data_nascimento"
+                    type="date"
+                    required
+                    value={formData.data_nascimento || ''}
+                    onChange={(e) => handleInputChange('data_nascimento', e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Necessário para verificação de antecedentes criminais.</p>
+                </div>
+                <div>
+                  <Label htmlFor="nome_mae">Nome completo da mãe</Label>
+                  <Input
+                    id="nome_mae"
+                    placeholder="Nome completo da sua mãe"
+                    value={formData.nome_mae || ''}
+                    onChange={(e) => handleInputChange('nome_mae', e.target.value)}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">Recomendado para a consulta de antecedentes criminais.</p>
+                </div>
+                </div>
               {(formData.tipo_pessoa === 'mei' || formData.tipo_pessoa === 'pj') && (
                 <>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

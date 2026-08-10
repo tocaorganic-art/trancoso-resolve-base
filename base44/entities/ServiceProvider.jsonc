@@ -57,6 +57,15 @@
       "type": "string",
       "description": "CPF do prestador ou respons\u00e1vel (obrigat\u00f3rio para todos, inclusive MEI e PJ)"
     },
+    "data_nascimento": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de nascimento do prestador (obrigat\u00f3rio para consulta de antecedentes criminais \u2014 formato YYYY-MM-DD)"
+    },
+    "nome_mae": {
+      "type": "string",
+      "description": "Nome completo da m\u00e3e do prestador (recomendado para consulta de antecedentes criminais)"
+    },
     "cnpj": {
       "type": "string",
       "description": "CNPJ da empresa ou MEI (obrigat\u00f3rio para mei e pj)"
@@ -230,7 +239,8 @@
   },
   "required": [
     "full_name",
-    "occupation"
+    "occupation",
+    "data_nascimento"
   ],
   "rls": {
     "read": true,

@@ -36,6 +36,9 @@ export default function CadastroTipoPage() {
   const [cpf, setCpf] = useState('');
   const [cnpj, setCnpj] = useState('');
   const [temPontoFisico, setTemPontoFisico] = useState(false);
+  const [nomeCompleto, setNomeCompleto] = useState('');
+  const [dataNascimento, setDataNascimento] = useState('');
+  const [nomeMae, setNomeMae] = useState('');
   const [razaoSocial, setRazaoSocial] = useState('');
   const [nomFantasia, setNomeFantasia] = useState('');
 
@@ -59,6 +62,9 @@ export default function CadastroTipoPage() {
         const providerData = {
           tipo_pessoa: tipoPessoa,
           cpf: cpfLimpo,
+          full_name: nomeCompleto.trim(),
+          data_nascimento: dataNascimento,
+          ...(nomeMae && { nome_mae: nomeMae.trim() }),
           ...(cnpj && { cnpj: cnpj.replace(/\D/g, '') }),
           tem_ponto_fisico_em_trancoso: temPontoFisico,
           ...(razaoSocial && { razao_social: razaoSocial }),
@@ -122,6 +128,14 @@ export default function CadastroTipoPage() {
     }
     if (!cpf || cpf.replace(/\D/g,'').length < 11) {
       alert('Informe um CPF válido.');
+      return;
+    }
+    if (!nomeCompleto || nomeCompleto.trim().length < 5) {
+      alert('Informe seu nome completo.');
+      return;
+    }
+    if (!dataNascimento) {
+      alert('Informe sua data de nascimento. É obrigatória para a verificação de antecedentes.');
       return;
     }
     if ((tipoPessoa === 'mei' || tipoPessoa === 'pj') && cnpj.replace(/\D/g,'').length < 14) {
@@ -253,6 +267,22 @@ export default function CadastroTipoPage() {
             <div>
               <Label htmlFor="cpf_cad" className="text-foreground">CPF do responsável <span className="text-red-400">*</span></Label>
               <Input id="cpf_cad" placeholder="000.000.000-00" value={cpf} onChange={(e) => setCpf(formatCpf(e.target.value))} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+            </div>
+
+            <div>
+              <Label htmlFor="nome_completo_cad" className="text-foreground">Nome completo <span className="text-red-400">*</span></Label>
+              <Input id="nome_completo_cad" placeholder="Seu nome completo" value={nomeCompleto} onChange={(e) => setNomeCompleto(e.target.value)} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div>
+                <Label htmlFor="data_nasc_cad" className="text-foreground">Data de nascimento <span className="text-red-400">*</span></Label>
+                <Input id="data_nasc_cad" type="date" value={dataNascimento} onChange={(e) => setDataNascimento(e.target.value)} className="bg-background border-border text-foreground" />
+              </div>
+              <div>
+                <Label htmlFor="nome_mae_cad" className="text-foreground">Nome da mãe</Label>
+                <Input id="nome_mae_cad" placeholder="Opcional" value={nomeMae} onChange={(e) => setNomeMae(e.target.value)} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+              </div>
             </div>
 
             {(tipoPessoa === 'mei' || tipoPessoa === 'pj') && (

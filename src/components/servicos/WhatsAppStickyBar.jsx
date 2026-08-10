@@ -1,12 +1,33 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { trackContatoWhatsApp } from '@/utils/analytics';
 
 const WHATSAPP_NUMBER = '5573998283579';
 
+// Telas de conta/gestão (prestador ou admin), autenticação e checkout NUNCA devem
+// mostrar o CTA de "Solicitar via WhatsApp" — ele é só para quem está buscando
+// um serviço, não faz sentido num prestador editando o próprio perfil, por exemplo.
+const HIDDEN_PATH_PREFIXES = [
+  '/MeuPerfilPrestador', '/Dashboard', '/DashboardLojista', '/MinhaAgenda',
+  '/MeusServicos', '/MeusPedidos', '/Financeiro', '/Admin', '/FilaVerificacao',
+  '/Login', '/Register', '/ForgotPassword', '/ResetPassword', '/CadastroTipo',
+  '/VerificacaoAntecedentes', '/VerificacaoDocumento', '/Chat', '/OAuthConsent',
+  '/AssinaturaConfirmada', '/SolicitacaoConfirmada', '/DeployDashboard',
+  '/MonitoringDashboard', '/DiagnosticosCompletos', '/ManutencaoSistema',
+  '/RelatorioDiario', '/Base44', '/Investidores', '/GeradorDeImagem', '/Seguranca',
+  '/Manual', '/Planos',
+];
+
 export default function WhatsAppStickyBar({ serviceLabel }) {
   const [visible, setVisible] = useState(false);
+  const location = useLocation();
+  const isHiddenRoute = HIDDEN_PATH_PREFIXES.some(prefix => location.pathname.toLowerCase().startsWith(prefix.toLowerCase()));
 
   useEffect(() => {
+    if (isHiddenRoute) {
+      setVisible(false);
+      return;
+    }
     const handleScroll = () => {
       const scrolled = window.scrollY;
       const total = document.body.scrollHeight - window.innerHeight;
@@ -14,13 +35,13 @@ export default function WhatsAppStickyBar({ serviceLabel }) {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHiddenRoute]);
 
   const message = encodeURIComponent(
     `Olá! Preciso de ${serviceLabel || 'um profissional'} em Trancoso. Podem me ajudar?`
   );
 
-  if (!visible) return null;
+  if (!visible || isHiddenRoute) return null;
 
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 p-3 safe-area-pb"

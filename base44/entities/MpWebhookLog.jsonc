@@ -1,0 +1,53 @@
+{
+  "name": "MpWebhookLog",
+  "type": "object",
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "description": "ID \u00fanico do evento Mercado Pago (para deduplica\u00e7\u00e3o)"
+    },
+    "event_type": {
+      "type": "string",
+      "description": "Tipo do evento (ex: payment, subscription_preapproval)"
+    },
+    "resource_id": {
+      "type": "string",
+      "description": "ID do recurso relacionado (pagamento, assinatura)"
+    },
+    "payload": {
+      "type": "string",
+      "description": "Payload completo do webhook (JSON stringificado)"
+    },
+    "processed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Se o evento j\u00e1 foi processado"
+    },
+    "error": {
+      "type": "string",
+      "description": "Mensagem de erro se o processamento falhou"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": true,
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -21,16 +21,22 @@
       "enum": [
         "pending",
         "in_progress",
+        "Verificado",
+        "Rejeitado",
         "approved",
         "rejected",
         "expired"
       ],
       "default": "pending",
-      "description": "Status da verifica\u00e7\u00e3o"
+      "description": "Status da verifica\u00e7\u00e3o (Verificado/Rejeitado = padr\u00e3o ativo; approved/rejected = legado)"
     },
     "result": {
       "type": "string",
       "description": "Resultado da verifica\u00e7\u00e3o"
+    },
+    "admin_notes": {
+      "type": "string",
+      "description": "Notas do admin (aprova\u00e7\u00e3o/rejei\u00e7\u00e3o)"
     },
     "verified_at": {
       "type": "string",
@@ -45,7 +51,7 @@
     "description": {
       "type": "string",
       "maxLength": 1000,
-      "description": "Descri\u00e7\u00e3o detalhada ou notas da verifica\u00e7\u00e3o"
+      "description": "Metadados da verifica\u00e7\u00e3o: user_email, user_name, tipo, etc."
     }
   },
   "required": [

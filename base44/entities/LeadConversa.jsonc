@@ -1,0 +1,19 @@
+{
+  "name": "LeadConversa",
+  "type": "object",
+  "properties": {
+    "lead_id": { "type": "string", "description": "ID do Lead quando identificado" },
+    "canal": { "type": "string", "enum": ["whatsapp", "messenger", "email"] },
+    "direcao": { "type": "string", "enum": ["entrada", "saida"] },
+    "conteudo": { "type": "string", "description": "Conteúdo da mensagem" },
+    "status_entrega": { "type": "string", "enum": ["enviado", "entregue", "lido", "falhou"] },
+    "enviado_em": { "type": "string", "format": "date-time" },
+    "message_id": { "type": "string", "description": "ID retornado pelo canal" },
+    "destinatario": { "type": "string", "description": "Identificador do destinatário" }
+  },
+  "required": ["canal", "direcao", "conteudo", "status_entrega", "enviado_em"],
+  "rls": {
+    "read": { "user_condition": { "role": "admin" } },
+    "write": { "user_condition": { "role": "admin" } }
+  }
+}

@@ -3,6 +3,7 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Mail, MessageSquare, MapPin, CheckCircle, Loader2, ArrowRight, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
+import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
 
 const ASSUNTOS = ['Sou cliente', 'Sou prestador', 'Parceria', 'Imprensa', 'Outro'];
 
@@ -96,8 +97,9 @@ function ChannelCard({ href, icon, label, sub, delay = 0, iconColor = 'text-oran
 }
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '', consent: false, website: '' });
   const [status, setStatus] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const formRef = useRef(null);
   const formInView = useInView(formRef, { once: true, margin: '-40px' });
 
@@ -113,20 +115,27 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isValidBrazilianPhone(form.phone)) { setStatus('error'); setErrorMessage('Informe um telefone válido com DDD.'); return; }
+    if (!form.consent) { setStatus('error'); setErrorMessage('Confirme o consentimento para receber uma resposta.'); return; }
     setStatus('loading');
+    setErrorMessage('');
     try {
-      await base44.entities.LeadPreLancamento.create({
-        name: form.name, email: form.email,
-        phone: form.phone || undefined,
+      const payload = buildPublicLeadPayload({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
         message: `[${form.subject}] ${form.message}`,
-        service_interest: form.subject,
+        serviceInterest: form.subject,
         source: 'pagina-contato',
         type: form.subject === 'Sou prestador' ? 'prestador' : 'cliente',
+        consent: form.consent,
+        website: form.website,
       });
-      base44.functions.invoke('notifyNewLead', { message: `Novo contato via /Contact\nNome: ${form.name}\nEmail: ${form.email}\nAssunto: ${form.subject}\nMensagem: ${form.message}` }).catch(() => {});
+      await base44.functions.invoke('createPublicLead', payload);
       setStatus('success');
     } catch {
       setStatus('error');
+      setErrorMessage('Não foi possível enviar agora. Tente novamente em instantes.');
     }
   };
 
@@ -287,13 +296,41 @@ export default function ContactPage() {
                     onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                   />
 
+                  <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                    <label htmlFor="contact_website">Não preencha este campo</label>
+                    <input
+                      id="contact_website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={form.website}
+                      onChange={e => setForm(f => ({ ...f, website: e.target.value }))}
+                    />
+                  </div>
+
+                  <label htmlFor="contact_consent" className="flex items-start gap-2 text-xs text-muted-foreground">
+                    <input
+                      id="contact_consent"
+                      name="consent"
+                      type="checkbox"
+                      required
+                      checked={form.consent}
+                      onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))}
+                      className="mt-0.5 h-4 w-4 rounded border-border accent-orange-500"
+                    />
+                    <span>
+                      Autorizo o contato e o armazenamento seguro dos meus dados, conforme a{' '}
+                      <a href="/politica-privacidade" className="text-orange-600 hover:underline">Política de Privacidade</a>.
+                    </span>
+                  </label>
+
                   {status === 'error' && (
                     <motion.p
                       initial={{ opacity: 0, y: -8 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="text-red-500 text-sm"
                     >
-                      Erro ao enviar. Tente novamente ou use o WhatsApp.
+                      {errorMessage || 'Erro ao enviar. Tente novamente ou use o WhatsApp.'}
                     </motion.p>
                   )}
 

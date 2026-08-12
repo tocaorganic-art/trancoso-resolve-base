@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Crown, CreditCard, ArrowRight, Clock, Sparkles } from "lucide-react";
+import { trackPurchase } from '@/lib/facebook-pixel';
 
 const PLAN_INFO = {
   lancamento:         { nome: "Plano Prestador - Lançamento", valor: "R$ 29,90/mês", trial: 60 },
@@ -23,6 +24,7 @@ const Particle = ({ delay, x, size }) => (
 
 export default function AssinaturaConfirmada() {
   const [params, setParams] = useState({ avulso: false, plan: null });
+  const purchaseTracked = useRef(false);
 
   useEffect(() => {
     document.title = "Assinatura Confirmada - Trancoso Resolve";
@@ -30,6 +32,10 @@ export default function AssinaturaConfirmada() {
     const avulso = urlParams.get('avulso') === 'true';
     const plan = urlParams.get('plan') || null;
     setParams({ avulso, plan });
+    if (!purchaseTracked.current && (avulso || plan)) {
+      trackPurchase({ content_name: plan || 'Uso avulso', plan: plan || 'avulso' });
+      purchaseTracked.current = true;
+    }
   }, []);
 
   const isAvulso = params.avulso;

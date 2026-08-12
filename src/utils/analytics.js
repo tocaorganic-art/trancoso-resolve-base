@@ -1,8 +1,8 @@
 /**
- * Utilitário centralizado de rastreamento — GA4 + Meta Pixel (browser-side)
+ * Utilitário centralizado de rastreamento — GA4 + Meta Pixel.
  *
- * Meta CAPI (server-side) foi movido para chamadas autenticadas no backend.
- * Este módulo NÃO invoca mais metaCAPI diretamente do navegador.
+ * Meta CAPI deve ser disparada somente por funções server-side confiáveis.
+ * O navegador nunca recebe o segredo de ingestão.
  */
 
 // ──────────────────────────────────────────
@@ -51,7 +51,6 @@ function fbPixel(eventName, data = {}, eventId = null) {
  * trackLead — submissão do mini-formulário de lead
  */
 export function trackLead(data = {}) {
-  const eventId = uuid();
   const city = detectCity();
 
   ga4('generate_lead', {
@@ -62,67 +61,63 @@ export function trackLead(data = {}) {
     city,
   });
 
-  fbPixel('Lead', {
+  trackFacebookLead({
     content_name: data.service_interest || '',
-    content_category: 'servico_local',
     city,
-  }, eventId);
+    source: data.source || '',
+  });
+
 }
 
 /**
  * trackPrestadorCadastro — prestador completou pré-cadastro
  */
 export function trackPrestadorCadastro(data = {}) {
-  const eventId = uuid();
-
   ga4('sign_up', {
     method: 'email',
     user_type: 'prestador',
     occupation: data.occupation || '',
   });
 
-  fbPixel('CompleteRegistration', {
+  trackFacebookRegistration({
     content_name: 'Cadastro Prestador',
-    status: true,
     occupation: data.occupation || '',
-  }, eventId);
+  });
+
 }
 
 /**
  * trackClienteCadastro — cliente completou cadastro
  */
 export function trackClienteCadastro() {
-  const eventId = uuid();
-
   ga4('sign_up', {
     method: 'email',
     user_type: 'cliente',
   });
 
-  fbPixel('CompleteRegistration', {
+  trackFacebookRegistration({
     content_name: 'Cadastro Cliente',
-  }, eventId);
+  });
+
 }
+
+import {
+  trackLead as trackFacebookLead,
+  trackRegistration as trackFacebookRegistration,
+} from '@/lib/facebook-pixel';
 
 /**
  * trackSolicitacaoServico — ServiceRequest criada com sucesso
  */
 export function trackSolicitacaoServico(data = {}) {
   const eventId = uuid();
-  const value = data.price || 0;
 
-  ga4('purchase', {
-    currency: 'BRL',
-    value,
-    items: [{
-      item_name: data.service_title || '',
-      item_category: data.category || '',
-    }],
+  ga4('service_request_submitted', {
+    service_name: data.service_title || '',
+    service_category: data.category || '',
   });
 
-  fbPixel('Purchase', {
-    currency: 'BRL',
-    value,
+  fbPixel('SubmitApplication', {
     content_name: data.service_title || '',
     content_category: data.category || '',
   }, eventId);
@@ -145,6 +140,7 @@ export function trackContatoWhatsApp(service = '') {
     content_name: service,
     city,
   }, eventId);
+
 }
 
 /**
@@ -167,4 +163,5 @@ export function trackViewServico(data = {}) {
     content_category: data.category || '',
     city,
   }, eventId);
+
 }

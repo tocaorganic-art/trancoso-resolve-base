@@ -1,23 +1,29 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
+import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
 import { CheckCircle, Loader2, X, Bell } from 'lucide-react';
 
 export default function LeadAssistenteModal({ onClose }) {
-  const [form, setForm] = useState({ name: '', phone: '' });
+  const [form, setForm] = useState({ name: '', phone: '', consent: false, website: '' });
   const [status, setStatus] = useState('idle');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isValidBrazilianPhone(form.phone) || !form.consent) {
+      setStatus('error');
+      return;
+    }
     setStatus('loading');
     try {
-      await base44.entities.LeadPreLancamento.create({
+      await base44.functions.invoke('createPublicLead', buildPublicLeadPayload({
         name: form.name,
         phone: form.phone,
-        whatsapp: form.phone,
         source: 'assistente-virtual',
         type: 'cliente',
-      });
+        consent: form.consent,
+        website: form.website,
+      }));
       setStatus('success');
       setTimeout(() => onClose(), 2500);
     } catch {
@@ -66,6 +72,14 @@ export default function LeadAssistenteModal({ onClose }) {
                 placeholder="Seu nome"
                 className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
               />
+              <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                <label htmlFor="assistente_website">Não preencha este campo</label>
+                <input id="assistente_website" tabIndex={-1} autoComplete="off" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} />
+              </div>
+              <label htmlFor="assistente_consent" className="flex items-start gap-2 text-xs text-slate-500">
+                <input id="assistente_consent" type="checkbox" required checked={form.consent} onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))} className="mt-0.5 h-4 w-4 accent-blue-600" />
+                <span>Autorizo o contato conforme a <a href="/politica-privacidade" className="text-blue-600 hover:underline">Política de Privacidade</a>.</span>
+              </label>
               <input
                 type="tel"
                 required

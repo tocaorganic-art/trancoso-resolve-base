@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { trackPrestadorCadastro } from '@/utils/analytics.js';
+import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Loader2, MessageCircle } from 'lucide-react';
 
@@ -10,21 +11,26 @@ const OCUPACOES = [
 ];
 
 export default function LeadPrestadorForm() {
-  const [form, setForm] = useState({ name: '', phone: '', occupation: '' });
+  const [form, setForm] = useState({ name: '', phone: '', occupation: '', consent: false, website: '' });
   const [status, setStatus] = useState('idle');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!isValidBrazilianPhone(form.phone) || !form.consent) {
+      setStatus('error');
+      return;
+    }
     setStatus('loading');
     try {
-      await base44.entities.LeadPreLancamento.create({
+      await base44.functions.invoke('createPublicLead', buildPublicLeadPayload({
         name: form.name,
         phone: form.phone,
-        whatsapp: form.phone,
-        service_interest: form.occupation,
+        serviceInterest: form.occupation,
         source: 'seja-prestador',
         type: 'prestador',
-      });
+        consent: form.consent,
+        website: form.website,
+      }));
       trackPrestadorCadastro({ occupation: form.occupation });
       setStatus('success');
     } catch {
@@ -89,6 +95,14 @@ export default function LeadPrestadorForm() {
             {OCUPACOES.map(o => <option key={o} value={o}>{o}</option>)}
           </select>
         </div>
+        <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+          <label htmlFor="prestador_website">Não preencha este campo</label>
+          <input id="prestador_website" tabIndex={-1} autoComplete="off" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} />
+        </div>
+        <label htmlFor="prestador_consent" className="flex items-start gap-2 text-xs text-slate-600">
+          <input id="prestador_consent" type="checkbox" required checked={form.consent} onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))} className="mt-0.5 h-4 w-4 accent-amber-600" />
+          <span>Autorizo o contato e o armazenamento dos meus dados conforme a <a href="/politica-privacidade" className="text-amber-700 hover:underline">Política de Privacidade</a>.</span>
+        </label>
         {status === 'error' && (
           <p className="text-red-600 text-sm">Erro ao enviar. Tente novamente.</p>
         )}

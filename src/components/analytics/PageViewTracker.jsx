@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { pixelTrack, pixelLandingPageView } from '@/lib/pixel';
+import { trackPageView } from '@/lib/facebook-pixel';
 
 // Rotas que disparam ViewContent específico no Pixel
 const PAGE_VIEW_CONTENT = {
@@ -33,9 +34,7 @@ export default function PageViewTracker() {
     }
 
     // Meta Pixel — PageView em todas as rotas
-    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-      window.fbq('track', 'PageView');
-    }
+    trackPageView({ page_path: path + location.search });
 
     // Eventos específicos por rota
     const pageEvent = PAGE_VIEW_CONTENT[path];

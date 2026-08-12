@@ -1,5 +1,5 @@
 import './App.css'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Toaster } from "@/components/ui/toaster"
 import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/react'
@@ -23,6 +23,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import { CONSENT_CHANGED_EVENT, activateOptionalTracking, readConsent } from '@/utils/consent.js';
 // Páginas carregadas sob demanda (code-splitting) para reduzir o bundle inicial.
 const FilaVerificacaoPage = lazy(() => import('@/pages/FilaVerificacao'));
 const AdminPagamentosPage = lazy(() => import('@/pages/AdminPagamentos'));
@@ -561,10 +562,19 @@ const AuthenticatedApp = () => {
 };
 
 function App() {
+  const [consent, setConsent] = useState(() => readConsent());
+
   useEffect(() => {
     reportWebVitals();
     measurePageLoad();
   }, []);
+
+  useEffect(() => {
+    if (consent) activateOptionalTracking(consent);
+    const handleConsentChange = (event) => setConsent(event.detail);
+    window.addEventListener(CONSENT_CHANGED_EVENT, handleConsentChange);
+    return () => window.removeEventListener(CONSENT_CHANGED_EVENT, handleConsentChange);
+  }, [consent]);
 
   return (
     <AppProvider>
@@ -577,8 +587,8 @@ function App() {
               <AndroidBottomTabsPreserver />
               <AuthenticatedApp />
               <WhatsAppStickyBar serviceLabel="um profissional" />
-              <Analytics />
-              <SpeedInsights />
+              {consent?.analytics && <Analytics />}
+              {consent?.analytics && <SpeedInsights />}
             </Router>
             <Toaster />
             {import.meta.env.DEV && <VisualEditAgent />}

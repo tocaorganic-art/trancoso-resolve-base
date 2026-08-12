@@ -55,6 +55,10 @@
         "role": "admin"
       }
     },
-    "write": true
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
   }
 }

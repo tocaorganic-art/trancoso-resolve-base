@@ -1,42 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
+import {
+  CONSENT_CHANGED_EVENT,
+  readConsent,
+  saveConsent,
+} from '@/utils/consent.js';
 
 export default function CookieConsent() {
   const [showConsent, setShowConsent] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('cookie-consent');
+    const consent = readConsent();
     if (!consent) {
       setShowConsent(true);
     }
   }, []);
 
   const handleAccept = () => {
-    localStorage.setItem('cookie-consent', JSON.stringify({
-      analytics: true,
-      marketing: true,
-      necessary: true,
-      timestamp: new Date().toISOString()
-    }));
+    const consent = saveConsent({ analytics: true, marketing: true });
+    window.dispatchEvent(new CustomEvent(CONSENT_CHANGED_EVENT, { detail: consent }));
     setShowConsent(false);
-    
-    // Enable Google Analytics
-    if (window.gtag) {
-      window.gtag('consent', 'update', {
-        'analytics_storage': 'granted',
-        'ad_storage': 'granted'
-      });
-    }
   };
 
   const handleReject = () => {
-    localStorage.setItem('cookie-consent', JSON.stringify({
-      analytics: false,
-      marketing: false,
-      necessary: true,
-      timestamp: new Date().toISOString()
-    }));
+    const consent = saveConsent({ analytics: false, marketing: false });
+    window.dispatchEvent(new CustomEvent(CONSENT_CHANGED_EVENT, { detail: consent }));
     setShowConsent(false);
   };
 

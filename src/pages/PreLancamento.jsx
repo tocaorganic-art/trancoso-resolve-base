@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { LogoMark } from "@/components/brand/Logo";
+import { buildPublicLeadPayload, isValidBrazilianPhone } from "@/utils/leadValidation.js";
 import { motion, AnimatePresence, useInView, useMotionValue, animate } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
@@ -173,7 +174,7 @@ function FAQItem({ q, a, index = 0 }) {
 
 export default function PreLancamento() {
    const [vagasRestantes, setVagasRestantes] = useState(null);
-   const [form, setForm] = useState({ name: "", whatsapp: "", categoria: "", pagamento: "" });
+   const [form, setForm] = useState({ name: "", whatsapp: "", categoria: "", pagamento: "", consent: false, website: "" });
    const [submitted, setSubmitted] = useState(false);
    const [loading, setLoading] = useState(false);
    const [error, setError] = useState("");
@@ -205,24 +206,15 @@ export default function PreLancamento() {
    }, []);
 
   const atualizarVagas = () => {
-    base44.entities.LeadPreLancamento.list("-created_date", 200)
-      .then((leads) => {
-        const prestadores = leads.filter(l => l.type === "prestador").length;
-        setVagasRestantes(Math.max(0, TOTAL_VAGAS - prestadores));
-      })
+    base44.functions.invoke("getFounderStats")
+      .then((stats) => setVagasRestantes(typeof stats?.remaining === "number" ? stats.remaining : null))
       .catch(() => setVagasRestantes(46));
   };
 
   useEffect(() => {
     atualizarVagas();
 
-    const unsubscribe = base44.entities.LeadPreLancamento.subscribe((event) => {
-      if (event.type === "create" && event.data?.type === "prestador") {
-        setVagasRestantes(prev => Math.max(0, (prev ?? TOTAL_VAGAS) - 1));
-      }
-    });
-
-    return () => unsubscribe();
+    return undefined;
   }, []);
 
   const scrollToForm = () => {
@@ -239,22 +231,23 @@ export default function PreLancamento() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.whatsapp.trim()) {
+    if (!form.name.trim() || !isValidBrazilianPhone(form.whatsapp) || !form.consent) {
       setError("Preencha nome e WhatsApp para continuar.");
       return;
     }
     setLoading(true);
     setError("");
     try {
-      await base44.entities.LeadPreLancamento.create({
+      await base44.functions.invoke("createPublicLead", buildPublicLeadPayload({
         name: form.name,
-        whatsapp: form.whatsapp,
         phone: form.whatsapp,
-        service_interest: form.categoria,
+        serviceInterest: form.categoria,
         type: "prestador",
-        source: "prelancamento-50vagas",
-        description: `data_cadastro: ${new Date().toISOString()} | status: pendente | categoria: ${form.categoria} | pagamento: ${form.pagamento || "não informado"}`,
-      });
+        source: "site",
+        message: `pré-lançamento | categoria: ${form.categoria || "não informada"} | pagamento: ${form.pagamento || "não informado"}`,
+        consent: form.consent,
+        website: form.website,
+      }));
 
       // Meta Pixel — evento de Lead
       if (window.fbq) window.fbq("track", "Lead", { currency: "BRL", value: 29.90 });
@@ -710,6 +703,15 @@ export default function PreLancamento() {
                     ))}
                   </div>
                 </div>
+
+                <div aria-hidden="true" style={{ position: "absolute", left: "-9999px", width: 1, height: 1, overflow: "hidden" }}>
+                  <label htmlFor="prelancamento_website">Não preencha este campo</label>
+                  <input id="prelancamento_website" tabIndex={-1} autoComplete="off" value={form.website} onChange={(e) => setForm(f => ({ ...f, website: e.target.value }))} />
+                </div>
+                <label htmlFor="prelancamento_consent" style={{ display: "flex", alignItems: "flex-start", gap: 8, color: "rgba(255,255,255,0.65)", fontSize: "0.75rem", lineHeight: 1.4 }}>
+                  <input id="prelancamento_consent" type="checkbox" required checked={form.consent} onChange={(e) => setForm(f => ({ ...f, consent: e.target.checked }))} style={{ marginTop: 2, accentColor: "#10b981" }} />
+                  <span>Autorizo o contato e o armazenamento dos meus dados conforme a <a href="/politica-privacidade" style={{ color: "#6ee7b7", textDecoration: "underline" }}>Política de Privacidade</a>.</span>
+                </label>
 
                 {error && <p style={{ color: "#f87171", fontSize: "0.82rem", textAlign: "center" }}>{error}</p>}
                 <motion.button type="submit" className="btn-cta" disabled={loading} whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.97 }} style={{ padding: "16px", fontSize: "1rem", width: "100%", marginTop: 4 }}>

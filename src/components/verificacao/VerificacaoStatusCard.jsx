@@ -13,7 +13,7 @@ const statusConfig = {
     bg: "bg-amber-50 border-amber-200",
     badge: "bg-amber-100 text-amber-700 border-amber-300",
     label: "Documento em análise",
-    description: "Seu documento está sendo processado pela IA. Aguarde.",
+    description: "Seu documento foi recebido e está sendo analisado pela equipe. Aguarde.",
     showResubmit: false,
     showBadge: true,
   },
@@ -144,6 +144,12 @@ export default function VerificacaoStatusCard({ user }) {
               transition={{ duration: 0.2 }}
               className="rounded-xl border border-slate-200 bg-slate-50 p-4"
             >
+              <div className="mb-3 rounded-lg border border-amber-300 bg-amber-50 p-3" role="note">
+                <p className="text-xs font-extrabold uppercase tracking-wide text-amber-800">Atenção antes de enviar</p>
+                <p className="mt-1 text-xs leading-relaxed text-amber-900">
+                  A imagem será comparada com os dados do seu cadastro. Envie um documento completo, nítido, sem reflexos e com todos os dados legíveis. Documento ilegível ou divergente pode ter a verificação recusada.
+                </p>
+              </div>
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-sm font-medium text-slate-700">Verificar minha identidade</p>

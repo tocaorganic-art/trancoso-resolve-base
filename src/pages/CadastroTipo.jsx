@@ -317,6 +317,15 @@ export default function CadastroTipoPage() {
               </>
             )}
 
+            <div className="rounded-xl border border-amber-400/60 bg-amber-500/10 p-4 text-left" role="note">
+              <p className="mb-1 text-sm font-extrabold uppercase tracking-wide text-amber-500">
+                Atenção: a aprovação depende da conferência dos seus dados
+              </p>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                O documento enviado deverá estar completo, nítido e pertencer ao titular do cadastro. Nossa equipe irá comparar o nome, CPF{(tipoPessoa === 'mei' || tipoPessoa === 'pj') ? '/CNPJ' : ''} e data de nascimento informados aqui com o documento enviado. Se a imagem estiver ilegível, cortada ou houver divergência, a verificação será recusada e o perfil não receberá o selo de verificado.
+              </p>
+            </div>
+
             {/* Aviso de redirecionamento para empresa */}
             {isEmpresaComPonto && (
               <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-xl flex items-start gap-3">
@@ -336,7 +345,7 @@ export default function CadastroTipoPage() {
                   <span className="font-semibold text-foreground flex items-center gap-1 mb-1">
                     <Shield className="w-3 h-3 text-orange-400" /> Autorização de Verificação (obrigatória)
                   </span>
-                  Autorizo a Trancoso Resolve a realizar consultas de antecedentes criminais e, quando aplicável, verificação de CNPJ na Receita Federal, usando meus dados exclusivamente para fins de validação cadastral, em conformidade com a LGPD.
+                  Autorizo a Trancoso Resolve a conferir meu documento, comparar os dados com as informações cadastradas e realizar consultas de antecedentes criminais e, quando aplicável, de CNPJ na Receita Federal, usando meus dados exclusivamente para validação cadastral, em conformidade com a LGPD.
                 </span>
               </label>
             </div>

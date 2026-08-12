@@ -18,8 +18,10 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
   const [previewFrente, setPreviewFrente] = useState(null);
   const [fileVerso, setFileVerso] = useState(null);
   const [previewVerso, setPreviewVerso] = useState(null);
+  const [confirmouQualidade, setConfirmouQualidade] = useState(false);
   const [userType] = useState(user?.tipo_pessoa || 'pf');
   const [hasPhysicalLocation] = useState(user?.tem_ponto_fisico_em_trancoso || false);
+  const isBusinessDocument = (userType === 'mei' || userType === 'pj') && hasPhysicalLocation;
 
   // Buscar ServiceProvider do usuário para obter o provider_id correto
   const navigate = useNavigate();
@@ -60,15 +62,15 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
 
   const isFormValid = () => {
     if (!documentType) return false;
-    if (uploadMode === "inteiro") return !!file;
-    return !!fileFrente && !!fileVerso;
+    if (uploadMode === "inteiro") return !!file && confirmouQualidade;
+    return !!fileFrente && !!fileVerso && confirmouQualidade;
   };
 
   const isSubmitting = step === "uploading";
 
   const handleSubmit = async () => {
     if (!isFormValid()) {
-      toast.error("Selecione o tipo de documento e faça o upload das imagens.");
+      toast.error("Confira o tipo, as imagens e a confirmação de legibilidade antes de enviar.");
       return;
     }
 
@@ -159,6 +161,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
     setPreviewFrente(null);
     setFileVerso(null);
     setPreviewVerso(null);
+    setConfirmouQualidade(false);
     onClose();
   };
 
@@ -168,14 +171,24 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
          <DialogHeader>
            <DialogTitle className="flex items-center gap-2 text-slate-100">
              <ShieldCheck className="w-5 h-5 text-amber-500" />
-             {(userType === 'mei' || userType === 'pj') && hasPhysicalLocation ? 'Verificar Identidade da Empresa' : 'Verificar Identidade'}
+             {isBusinessDocument ? 'Verificar Identidade da Empresa' : 'Verificar Identidade'}
            </DialogTitle>
-           <DialogDescription className="text-slate-300">
-             {(userType === 'mei' || userType === 'pj') && hasPhysicalLocation
-               ? 'Envie uma foto do seu CNPJ ou documento MEI para receber o selo de empresa verificada.'
-               : 'Envie uma foto do seu documento (CNH ou RG) para receber o selo de identidade verificada.'}
+           <DialogDescription className="text-slate-600">
+             {isBusinessDocument
+               ? 'Envie uma foto nítida do CNPJ ou certificado MEI. Os dados serão comparados com o cadastro da empresa e do responsável.'
+               : 'Envie uma foto nítida da CNH ou do RG. Os dados serão comparados com o nome, CPF e data de nascimento do seu cadastro.'}
            </DialogDescription>
          </DialogHeader>
+
+        <div className="rounded-xl border border-amber-300 bg-amber-50 p-3" role="alert">
+          <p className="text-xs font-extrabold uppercase tracking-wide text-amber-900">Atenção: confira antes de enviar</p>
+          <p className="mt-1 text-xs leading-relaxed text-amber-900">
+            {isBusinessDocument
+              ? 'O CNPJ ou certificado MEI deve estar completo, legível e corresponder aos dados cadastrados da empresa e do responsável.'
+              : 'O documento deve estar completo, nítido, sem reflexos ou sombras, e corresponder ao nome, CPF e data de nascimento cadastrados.'}
+            {' '}Se houver divergência ou a foto não permitir a leitura, a verificação poderá ser recusada e o perfil não receberá o selo.
+          </p>
+        </div>
 
         {profileNotSaved && step === "form" ? (
           <div className="flex flex-col items-center gap-3 py-6 text-center">
@@ -211,13 +224,13 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
               <Select value={documentType} onValueChange={setDocumentType} disabled={step !== "form"}>
                 <SelectTrigger>
                   <SelectValue placeholder={
-                    (userType === 'mei' || userType === 'pj') && hasPhysicalLocation
+                    isBusinessDocument
                       ? 'Selecione CNPJ ou MEI'
                       : 'Selecione CNH ou RG'
                   } />
                 </SelectTrigger>
                 <SelectContent>
-                  {(userType === 'mei' || userType === 'pj') && hasPhysicalLocation ? (
+                  {isBusinessDocument ? (
                     <>
                       <SelectItem value="CNPJ">CNPJ – Registro da Empresa</SelectItem>
                       <SelectItem value="MEI">MEI – Certificado de Registro</SelectItem>
@@ -264,7 +277,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
             {/* Upload */}
             {uploadMode === "inteiro" ? (
               <div className="space-y-1.5">
-                <Label className="text-slate-200">Foto do Documento</Label>
+                <Label className="text-slate-200">Envie uma foto nítida do documento</Label>
                 {preview ? (
                   <div className="relative rounded-xl overflow-hidden border border-slate-200 bg-slate-50">
                     <img src={preview} alt="Documento" className="w-full h-48 object-contain" />
@@ -335,14 +348,25 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
             )}
 
             {/* Dicas */}
-            <div className="bg-amber-900/30 border border-amber-700 rounded-lg p-3">
-              <p className="text-xs text-amber-200 font-medium mb-1">Dicas para uma boa foto:</p>
-              <ul className="text-xs text-amber-300 space-y-0.5 list-disc list-inside">
+            <div className="bg-amber-50 border border-amber-300 rounded-lg p-3">
+              <p className="text-xs text-amber-900 font-semibold mb-1">Como enviar uma foto válida:</p>
+              <ul className="text-xs text-amber-800 space-y-0.5 list-disc list-inside">
                 <li>Certifique-se de que o documento está completamente visível</li>
                 <li>Boa iluminação, sem reflexos ou sombras</li>
                 <li>Foco nítido — todas as informações devem ser legíveis</li>
               </ul>
             </div>
+
+            <label htmlFor="confirm-document-quality" className="flex items-start gap-2 rounded-lg border border-slate-200 bg-slate-50 p-3 text-xs leading-relaxed text-slate-700">
+              <input
+                id="confirm-document-quality"
+                type="checkbox"
+                checked={confirmouQualidade}
+                onChange={(e) => setConfirmouQualidade(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 accent-amber-600"
+              />
+              <span>Confirmo que a imagem está completa, legível e corresponde aos dados do meu cadastro.</span>
+            </label>
 
             {/* Estado de progresso */}
             {step === "uploading" && (

@@ -322,7 +322,7 @@ export default function CadastroTipoPage() {
                 Atenção: a aprovação depende da conferência dos seus dados
               </p>
               <p className="text-xs leading-relaxed text-muted-foreground">
-                O documento enviado deverá estar completo, nítido e pertencer ao titular do cadastro. Nossa equipe irá comparar o nome, CPF{(tipoPessoa === 'mei' || tipoPessoa === 'pj') ? '/CNPJ' : ''} e data de nascimento informados aqui com o documento enviado. Se a imagem estiver ilegível, cortada ou houver divergência, a verificação será recusada e o perfil não receberá o selo de verificado.
+                O documento enviado (CNH, RG ou passaporte{(tipoPessoa === 'mei' || tipoPessoa === 'pj') ? ', ou CNPJ/certificado MEI' : ''}) deverá estar completo, nítido e pertencer ao titular do cadastro. Nossa equipe irá comparar o nome, CPF{(tipoPessoa === 'mei' || tipoPessoa === 'pj') ? '/CNPJ' : ''} e data de nascimento informados aqui com o documento enviado. Se a imagem estiver ilegível, cortada ou houver divergência, a verificação será recusada e o perfil não receberá o selo de verificado.
               </p>
             </div>
 

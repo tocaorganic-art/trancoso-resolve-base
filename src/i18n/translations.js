@@ -51,6 +51,44 @@ const translations = {
         Pintor: 'Pintor',
       },
     },
+    stats: {
+      aria: 'Estatísticas da plataforma',
+      professionals: 'profissionais',
+      registered: 'cadastrados na plataforma',
+      verified: 'Prestadores verificados',
+      backgroundChecked: 'com antecedentes checados',
+      destinations: '4 destinos',
+      destinationList: "Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva",
+      securePayment: 'Pagamento seguro',
+      allServices: 'para todos os serviços',
+    },
+    service: { new: 'Novo', request: 'Solicitar', per: 'por', service: 'serviço' },
+    providerCta: { spotsAvailable: 'vagas disponíveis', title: 'Faça parte da nossa rede em Trancoso, Porto Seguro e Caraíva.', description: 'Cadastre-se como prestador de serviços de qualidade na Costa do Descobrimento. Perfil verificado, agenda integrada e clientes reais. Comece com 2 meses grátis.', cta: 'Quero ser prestador', included: 'O que está incluso', benefit1: 'Perfil verificado com checagem de antecedentes', benefit2: 'Visibilidade na busca de clientes locais', benefit3: 'Agenda de atendimentos integrada', benefit4: 'Chat direto com clientes', benefit5: 'Suporte da plataforma Trancoso Resolve', benefit6: '2 meses grátis no plano de lançamento' },
+    home: {
+      recommendations: 'Para você', viewAll: 'Ver todos',
+      featuredTitle: 'Profissionais verificados em Trancoso, na hora que você precisa.',
+      noFeaturedTitle: 'Serviços em destaque em breve!',
+      noFeaturedDescription: 'Estamos selecionando os melhores serviços para você. Enquanto isso, explore nossos profissionais.',
+      exploreProviders: 'Explorar profissionais',
+      popularTitle: 'Serviços mais buscados em Trancoso',
+      popularSubtitle: 'Acesse guias completos com profissionais verificados em cada categoria',
+      inDestination: 'em Trancoso',
+      howTitle: 'Como funciona a Trancoso Resolve',
+      step1Title: 'Você conta o que precisa', step1Desc: 'Explique o tipo de serviço, bairro em Trancoso e melhor horário para contato.',
+      step2Title: 'Nós conectamos aos prestadores certos', step2Desc: 'Nosso sistema distribui seu pedido para prestadores qualificados na região.',
+      step3Title: 'Você recebe contatos e escolhe', step3Desc: 'Compare respostas, avalie e decida com quem quer fechar.',
+      whyTitle: 'Por que usar a Trancoso Resolve em Trancoso',
+      why1: 'Prestadores locais e confiáveis, focados em atender Trancoso e região.',
+      why2: 'Resposta rápida: seu pedido chega direto nos prestadores certos.',
+      why3: 'Mais segurança: perfis dos prestadores, histórico e verificação quando disponível.',
+      why4: 'Sem custo para quem pede serviço: você pede, recebe retorno e escolhe.',
+      findNow: 'Encontrar profissional agora',
+      destinationsTitle: 'Atendemos toda a Costa do Descobrimento',
+      destinationsSubtitle: "Profissionais verificados para Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva — a mesma qualidade e segurança em toda a Costa do Descobrimento.",
+      viewDestination: 'Ver página de',
+      pullRefreshing: 'Atualizando...', pullRelease: 'Solte para atualizar', pullHint: 'Puxe para atualizar',
+    },
+    testimonials: { title: 'O que nossos usuários dizem', subtitle: 'Histórias reais de quem usa e aprova a nossa plataforma.', roles: ['Cliente de São Paulo', 'Chef de Cozinha', 'Arquiteta e Cliente'], comments: ['Contratei um serviço de limpeza de última hora e foi impecável. O prestador era verificado e super profissional. O Trancoso Resolve salvou minhas férias!', 'Desde que me cadastrei, minha agenda está sempre cheia. A plataforma me deu a visibilidade que eu precisava para conseguir clientes de alto padrão em Trancoso.', 'Usei para contratar um eletricista e um jardineiro para uma casa que estou reformando. Ambos foram excelentes. A facilidade de encontrar profissionais qualificados é o grande diferencial.'] },
   },
   es: {
     nav: {
@@ -97,6 +135,15 @@ const translations = {
         Pintor: 'Pintor',
       },
     },
+    stats: {
+      aria: 'Estadísticas de la plataforma', professionals: 'profesionales', registered: 'registrados en la plataforma', verified: 'Proveedores verificados', backgroundChecked: 'con antecedentes comprobados', destinations: '4 destinos', destinationList: "Trancoso, Arraial d'Ajuda, Porto Seguro y Caraíva", securePayment: 'Pago seguro', allServices: 'para todos los servicios',
+    },
+    service: { new: 'Nuevo', request: 'Solicitar', per: 'por', service: 'servicio' },
+    providerCta: { spotsAvailable: 'plazas disponibles', title: 'Forma parte de nuestra red en Trancoso, Porto Seguro y Caraíva.', description: 'Regístrate como proveedor de servicios de calidad en la Costa do Descobrimento. Perfil verificado, agenda integrada y clientes reales. Empieza con 2 meses gratis.', cta: 'Quiero ser proveedor', included: 'Qué incluye', benefit1: 'Perfil verificado con comprobación de antecedentes', benefit2: 'Visibilidad en las búsquedas de clientes locales', benefit3: 'Agenda de servicios integrada', benefit4: 'Chat directo con clientes', benefit5: 'Soporte de la plataforma Trancoso Resolve', benefit6: '2 meses gratis en el plan de lanzamiento' },
+    home: {
+      recommendations: 'Para ti', viewAll: 'Ver todos', featuredTitle: 'Profesionales verificados en Trancoso, justo cuando los necesitas.', noFeaturedTitle: '¡Servicios destacados próximamente!', noFeaturedDescription: 'Estamos seleccionando los mejores servicios para ti. Mientras tanto, explora nuestros profesionales.', exploreProviders: 'Explorar profesionales', popularTitle: 'Servicios más buscados en Trancoso', popularSubtitle: 'Accede a guías completas con profesionales verificados en cada categoría', inDestination: 'en Trancoso', howTitle: 'Cómo funciona Trancoso Resolve', step1Title: 'Cuéntanos lo que necesitas', step1Desc: 'Explica el tipo de servicio, el barrio en Trancoso y el mejor horario para contactarte.', step2Title: 'Te conectamos con los proveedores adecuados', step2Desc: 'Nuestro sistema distribuye tu solicitud entre proveedores cualificados de la región.', step3Title: 'Recibes contactos y eliges', step3Desc: 'Compara respuestas, evalúa y decide con quién contratar.', whyTitle: 'Por qué usar Trancoso Resolve en Trancoso', why1: 'Proveedores locales y confiables, enfocados en atender Trancoso y la región.', why2: 'Respuesta rápida: tu solicitud llega directamente a los proveedores adecuados.', why3: 'Más seguridad: perfiles, historial y verificación de proveedores cuando está disponible.', why4: 'Sin costo para quien solicita: pide, recibe respuestas y elige.', findNow: 'Encontrar profesional ahora', destinationsTitle: 'Atendemos toda la Costa do Descobrimento', destinationsSubtitle: "Profesionales verificados para Trancoso, Arraial d'Ajuda, Porto Seguro y Caraíva — la misma calidad y seguridad en toda la Costa do Descobrimento.", viewDestination: 'Ver página de', pullRefreshing: 'Actualizando...', pullRelease: 'Suelta para actualizar', pullHint: 'Desliza para actualizar',
+    },
+    testimonials: { title: 'Lo que dicen nuestros usuarios', subtitle: 'Historias reales de quienes usan y aprueban nuestra plataforma.', roles: ['Cliente de São Paulo', 'Chef de cocina', 'Arquitecta y clienta'], comments: ['Contraté un servicio de limpieza de última hora y fue impecable. El proveedor estaba verificado y fue muy profesional. ¡Trancoso Resolve salvó mis vacaciones!', 'Desde que me registré, mi agenda está siempre llena. La plataforma me dio la visibilidad que necesitaba para conseguir clientes de alto nivel en Trancoso.', 'La usé para contratar un electricista y un jardinero para una casa que estoy reformando. Ambos fueron excelentes. Encontrar profesionales cualificados es el gran diferencial.'] },
   },
   en: {
     nav: {
@@ -143,6 +190,15 @@ const translations = {
         Pintor: 'Painter',
       },
     },
+    stats: {
+      aria: 'Platform statistics', professionals: 'professionals', registered: 'registered on the platform', verified: 'Verified providers', backgroundChecked: 'with background checks', destinations: '4 destinations', destinationList: "Trancoso, Arraial d'Ajuda, Porto Seguro and Caraíva", securePayment: 'Secure payment', allServices: 'for every service',
+    },
+    service: { new: 'New', request: 'Request', per: 'per', service: 'service' },
+    providerCta: { spotsAvailable: 'spots available', title: 'Join our network in Trancoso, Porto Seguro and Caraíva.', description: 'Register as a quality service provider in the Costa do Descobrimento. Verified profile, integrated schedule and real customers. Start with 2 free months.', cta: 'I want to be a provider', included: "What's included", benefit1: 'Verified profile with background checks', benefit2: 'Visibility in local customer searches', benefit3: 'Integrated service calendar', benefit4: 'Direct chat with customers', benefit5: 'Trancoso Resolve platform support', benefit6: '2 free months on the launch plan' },
+    home: {
+      recommendations: 'For you', viewAll: 'View all', featuredTitle: 'Verified professionals in Trancoso, right when you need them.', noFeaturedTitle: 'Featured services coming soon!', noFeaturedDescription: 'We are selecting the best services for you. In the meantime, explore our professionals.', exploreProviders: 'Explore professionals', popularTitle: 'Most searched services in Trancoso', popularSubtitle: 'Access complete guides with verified professionals in every category', inDestination: 'in Trancoso', howTitle: 'How Trancoso Resolve works', step1Title: 'Tell us what you need', step1Desc: 'Explain the service, neighborhood in Trancoso and the best time to contact you.', step2Title: 'We connect you to the right providers', step2Desc: 'Our system sends your request to qualified providers in the region.', step3Title: 'Receive contacts and choose', step3Desc: 'Compare replies, review them and decide who to hire.', whyTitle: 'Why use Trancoso Resolve in Trancoso', why1: 'Local, reliable providers focused on serving Trancoso and the region.', why2: 'Fast response: your request goes directly to the right providers.', why3: 'More safety: provider profiles, history and verification when available.', why4: 'Free for service seekers: ask, receive replies and choose.', findNow: 'Find a professional now', destinationsTitle: 'We serve the entire Costa do Descobrimento', destinationsSubtitle: "Verified professionals for Trancoso, Arraial d'Ajuda, Porto Seguro and Caraíva — the same quality and safety across the Costa do Descobrimento.", viewDestination: 'View', pullRefreshing: 'Refreshing...', pullRelease: 'Release to refresh', pullHint: 'Pull to refresh',
+    },
+    testimonials: { title: 'What our users say', subtitle: 'Real stories from people who use and trust our platform.', roles: ['Client from São Paulo', 'Chef', 'Architect and client'], comments: ['I hired a last-minute cleaning service and it was flawless. The provider was verified and highly professional. Trancoso Resolve saved my vacation!', 'Since I registered, my calendar has been full. The platform gave me the visibility I needed to find high-end customers in Trancoso.', 'I used it to hire an electrician and a gardener for a house I am renovating. Both were excellent. Finding qualified professionals is the key difference.'] },
   },
   fr: {
     nav: {
@@ -189,6 +245,15 @@ const translations = {
         Pintor: 'Peintre',
       },
     },
+    stats: {
+      aria: 'Statistiques de la plateforme', professionals: 'professionnels', registered: 'inscrits sur la plateforme', verified: 'Prestataires vérifiés', backgroundChecked: 'avec antécédents vérifiés', destinations: '4 destinations', destinationList: "Trancoso, Arraial d'Ajuda, Porto Seguro et Caraíva", securePayment: 'Paiement sécurisé', allServices: 'pour tous les services',
+    },
+    service: { new: 'Nouveau', request: 'Demander', per: 'par', service: 'service' },
+    providerCta: { spotsAvailable: 'places disponibles', title: 'Rejoignez notre réseau à Trancoso, Porto Seguro et Caraíva.', description: 'Inscrivez-vous comme prestataire de qualité dans la Costa do Descobrimento. Profil vérifié, agenda intégré et vrais clients. Commencez avec 2 mois gratuits.', cta: 'Je veux devenir prestataire', included: 'Ce qui est inclus', benefit1: 'Profil vérifié avec vérification des antécédents', benefit2: 'Visibilité dans les recherches des clients locaux', benefit3: 'Agenda des services intégré', benefit4: 'Chat direct avec les clients', benefit5: 'Support de la plateforme Trancoso Resolve', benefit6: '2 mois gratuits avec le plan de lancement' },
+    home: {
+      recommendations: 'Pour vous', viewAll: 'Voir tout', featuredTitle: 'Des professionnels vérifiés à Trancoso, au moment où vous en avez besoin.', noFeaturedTitle: 'Services en vedette bientôt disponibles !', noFeaturedDescription: 'Nous sélectionnons les meilleurs services pour vous. En attendant, découvrez nos professionnels.', exploreProviders: 'Découvrir les professionnels', popularTitle: 'Services les plus recherchés à Trancoso', popularSubtitle: 'Accédez à des guides complets avec des professionnels vérifiés dans chaque catégorie', inDestination: 'à Trancoso', howTitle: 'Comment fonctionne Trancoso Resolve', step1Title: 'Dites-nous ce dont vous avez besoin', step1Desc: 'Indiquez le type de service, le quartier de Trancoso et le meilleur moment pour vous contacter.', step2Title: 'Nous vous mettons en relation avec les bons prestataires', step2Desc: 'Notre système distribue votre demande aux prestataires qualifiés de la région.', step3Title: 'Recevez des contacts et choisissez', step3Desc: 'Comparez les réponses, évaluez-les et choisissez avec qui travailler.', whyTitle: 'Pourquoi utiliser Trancoso Resolve à Trancoso', why1: 'Des prestataires locaux et fiables, dédiés à Trancoso et à la région.', why2: 'Réponse rapide : votre demande arrive directement aux bons prestataires.', why3: 'Plus de sécurité : profils, historique et vérification des prestataires lorsque disponible.', why4: 'Gratuit pour les demandeurs : demandez, recevez des réponses et choisissez.', findNow: 'Trouver un professionnel maintenant', destinationsTitle: 'Nous couvrons toute la Costa do Descobrimento', destinationsSubtitle: "Des professionnels vérifiés à Trancoso, Arraial d'Ajuda, Porto Seguro et Caraíva — la même qualité et sécurité dans toute la Costa do Descobrimento.", viewDestination: 'Voir la page de', pullRefreshing: 'Actualisation...', pullRelease: 'Relâchez pour actualiser', pullHint: 'Tirez pour actualiser',
+    },
+    testimonials: { title: 'Ce que disent nos utilisateurs', subtitle: 'Les histoires de personnes qui utilisent et recommandent notre plateforme.', roles: ['Cliente de São Paulo', 'Chef cuisinier', 'Architecte et cliente'], comments: ['J’ai engagé un service de ménage de dernière minute et le résultat était impeccable. Le prestataire était vérifié et très professionnel. Trancoso Resolve a sauvé mes vacances !', 'Depuis mon inscription, mon agenda est toujours rempli. La plateforme m’a donné la visibilité nécessaire pour trouver des clients haut de gamme à Trancoso.', 'Je l’ai utilisée pour trouver un électricien et un jardinier pour une maison que je rénove. Tous deux étaient excellents. Trouver des professionnels qualifiés est le grand avantage.'] },
   },
 };
 

@@ -1,17 +1,19 @@
 import { ShieldCheck, CreditCard, Users, MapPin } from "lucide-react";
+import { useApp } from "@/contexts/AppContext";
 
 export default function SocialProofBar({ totalVerificados = 0 }) {
+  const { t } = useApp();
   const prestadoresDisplay = totalVerificados > 0 ? totalVerificados : 19;
 
   const metrics = [
-    { icon: Users, value: `${prestadoresDisplay} profissionais`, label: "cadastrados na plataforma" },
-    { icon: ShieldCheck, value: "Prestadores verificados", label: "com antecedentes checados" },
-    { icon: MapPin, value: "4 destinos", label: "Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva" },
-    { icon: CreditCard, value: "Pagamento seguro", label: "para todos os serviços" },
+    { icon: Users, value: `${prestadoresDisplay} ${t('stats.professionals')}`, label: t('stats.registered') },
+    { icon: ShieldCheck, value: t('stats.verified'), label: t('stats.backgroundChecked') },
+    { icon: MapPin, value: t('stats.destinations'), label: t('stats.destinationList') },
+    { icon: CreditCard, value: t('stats.securePayment'), label: t('stats.allServices') },
   ];
 
   return (
-    <div className="bg-card border-b border-border py-5 px-4" aria-label="Estatísticas da plataforma">
+    <div className="bg-card border-b border-border py-5 px-4" aria-label={t('stats.aria')}>
       <div className="container mx-auto max-w-5xl">
         <div className="flex items-center justify-center gap-4 md:gap-10 flex-wrap">
           {metrics.map((m, i) => {

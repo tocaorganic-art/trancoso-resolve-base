@@ -176,7 +176,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
            <DialogDescription className="text-slate-600">
              {isBusinessDocument
                ? 'Envie uma foto nítida do CNPJ ou certificado MEI. Os dados serão comparados com o cadastro da empresa e do responsável.'
-               : 'Envie uma foto nítida da CNH ou do RG. Os dados serão comparados com o nome, CPF e data de nascimento do seu cadastro.'}
+               : 'Envie uma foto nítida da CNH, RG ou passaporte. Os dados serão comparados com o nome, CPF e data de nascimento do seu cadastro.'}
            </DialogDescription>
          </DialogHeader>
 
@@ -226,7 +226,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
                   <SelectValue placeholder={
                     isBusinessDocument
                       ? 'Selecione CNPJ ou MEI'
-                      : 'Selecione CNH ou RG'
+                      : 'Selecione CNH, RG ou Passaporte'
                   } />
                 </SelectTrigger>
                 <SelectContent>
@@ -239,6 +239,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
                     <>
                       <SelectItem value="CNH">CNH – Carteira de Habilitação</SelectItem>
                       <SelectItem value="RG">RG – Carteira de Identidade</SelectItem>
+                      <SelectItem value="PASSAPORTE">Passaporte – Documento de viagem</SelectItem>
                     </>
                   )}
                 </SelectContent>

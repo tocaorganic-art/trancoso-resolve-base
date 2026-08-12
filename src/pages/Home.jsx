@@ -20,6 +20,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";
 import FounderBanner from "@/components/banners/FounderBanner";
+import { useApp } from "@/contexts/AppContext";
 
 const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
 
@@ -265,6 +266,7 @@ function getCategoryFallback(service) {
 }
 
 const ServiceCard = ({ service, provider }) => {
+    const { t } = useApp();
     const imageSrc = getServiceImage(service);
     const Icon = categoryIconMap[service.category] || categoryIconMap.default;
     const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade em Trancoso.';
@@ -302,7 +304,7 @@ const ServiceCard = ({ service, provider }) => {
                 {isNew && (
                     <div className="absolute top-3 left-3">
                         <Badge className="bg-sand text-orange-700 text-xs font-bold px-2 py-0.5 shadow-md rounded-pill">
-                            Novo
+                            {t('service.new')}
                         </Badge>
                     </div>
                 )}
@@ -329,7 +331,7 @@ const ServiceCard = ({ service, provider }) => {
                     <div className="flex items-center gap-1">
                         <Star className="w-4 h-4 text-amber-400 fill-current" />
                         <span className="text-sm font-bold text-foreground">
-                            {provider?.rating ? provider.rating.toFixed(1) : 'Novo'}
+                            {provider?.rating ? provider.rating.toFixed(1) : t('service.new')}
                         </span>
                         {provider?.total_reviews > 0 && (
                             <span className="text-xs text-muted-foreground ml-0.5">({provider.total_reviews})</span>
@@ -339,14 +341,14 @@ const ServiceCard = ({ service, provider }) => {
                         <p className="text-lg font-extrabold text-brand-primary leading-tight">
                             R$ {formatPrice(service.price)}
                         </p>
-                        <p className="text-xs text-muted-foreground">por {service.price_unit || 'serviço'}</p>
+                        <p className="text-xs text-muted-foreground">{t('service.per')} {service.price_unit || t('service.service')}</p>
                     </div>
                 </div>
 
                 {/* Botão Ver Detalhes */}
                 <Link to={createPageUrl("ServicoDetalhes", `?id=${service.id}`)} data-testid={`service-card-link-${service.id}`} aria-label={`Ver detalhes do serviço ${service.title}`}>
                     <Button className="w-full bg-brand-primary hover:bg-orange-600 text-white font-semibold rounded-pill">
-                        Solicitar
+                        {t('service.request')}
                     </Button>
                 </Link>
             </CardContent>
@@ -355,6 +357,7 @@ const ServiceCard = ({ service, provider }) => {
 };
 
 export default function HomePage() {
+  const { t } = useApp();
   const [_searchQuery, _setSearchQuery] = useState("");
   const queryClient = useQueryClient();
   const navigate = useNavigate();
@@ -554,7 +557,7 @@ export default function HomePage() {
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
             </svg>
-            {isPulling ? 'Atualizando...' : pullDistance >= threshold ? 'Solte para atualizar' : 'Puxe para atualizar'}
+            {isPulling ? t('home.pullRefreshing') : pullDistance >= threshold ? t('home.pullRelease') : t('home.pullHint')}
           </div>
         </div>
       )}
@@ -574,9 +577,9 @@ export default function HomePage() {
         {user && (isLoadingRecommendations || (recommendedServices?.data && recommendedServices.data.length > 0)) && (
             <section className="mb-20">
                 <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-2xl font-bold text-foreground flex items-center gap-2"><BrainCircuit className="w-6 h-6 text-brand-primary" /> Para Você</h2>
+                    <h2 className="text-2xl font-bold text-foreground flex items-center gap-2"><BrainCircuit className="w-6 h-6 text-brand-primary" /> {t('home.recommendations')}</h2>
                     <Link to={createPageUrl("ServicosCategoria")}>
-                        <Button variant="ghost" className="text-orange-600 hover:text-orange-700">Ver todos</Button>
+                        <Button variant="ghost" className="text-orange-600 hover:text-orange-700">{t('home.viewAll')}</Button>
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -595,10 +598,10 @@ export default function HomePage() {
         {/* Featured Services */}
         <section className="mb-10 md:mb-20">
           <div className="flex items-center justify-between mb-4 md:mb-6">
-            <h2 className="text-lg md:text-2xl font-bold text-foreground leading-tight">Profissionais verificados em Trancoso, na hora que você precisa.</h2>
+            <h2 className="text-lg md:text-2xl font-bold text-foreground leading-tight">{t('home.featuredTitle')}</h2>
             <Link to={createPageUrl("ServicosCategoria")} data-testid="home-ver-todos-servicos-link">
               <Button variant="ghost" className="text-orange-600 hover:text-orange-700" aria-label="Ver todos os serviços">
-                Ver todos
+                {t('home.viewAll')}
               </Button>
             </Link>
           </div>
@@ -614,13 +617,13 @@ export default function HomePage() {
                 ) : (
                   <div className="col-span-full text-center py-12 bg-gradient-to-br from-orange-50 to-sand rounded-xl border border-orange-100">
                     <Sparkles className="w-12 h-12 mx-auto text-amber-400 mb-3" />
-                    <h3 className="text-lg font-semibold text-foreground mb-2">Serviços em Destaque em Breve!</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">{t('home.noFeaturedTitle')}</h3>
                     <p className="text-muted-foreground mb-4 max-w-md mx-auto">
-                      Estamos selecionando os melhores serviços para você. Enquanto isso, explore nossos profissionais.
+                      {t('home.noFeaturedDescription')}
                     </p>
                     <Link to={createPageUrl("ServicosCategoria")}>
                       <Button className="bg-orange-500 hover:bg-orange-600">
-                        Explorar Profissionais
+                        {t('home.exploreProviders')}
                       </Button>
                     </Link>
                   </div>
@@ -631,8 +634,8 @@ export default function HomePage() {
         {/* Landing Pages por Serviço - SEO Local */}
          <section className="mb-10 md:mb-20 pt-8 md:pt-16">
            <div className="text-center mb-8">
-             <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-2">Serviços Mais Buscados em Trancoso</h2>
-             <p className="text-base md:text-lg text-muted-foreground font-medium max-w-2xl mx-auto">Acesse guias completos com profissionais verificados em cada categoria</p>
+             <h2 className="text-2xl md:text-4xl font-bold text-foreground mb-2">{t('home.popularTitle')}</h2>
+             <p className="text-base md:text-lg text-muted-foreground font-medium max-w-2xl mx-auto">{t('home.popularSubtitle')}</p>
            </div>
            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-4 md:overflow-visible">
              {[
@@ -666,7 +669,7 @@ export default function HomePage() {
                        <Icon className="w-5 h-5 text-orange-500" aria-hidden="true" />
                      </motion.div>
                      <span className="text-sm md:text-base font-bold text-foreground group-hover:text-orange-500 transition-colors">{item.label}</span>
-                     <span className="block text-xs font-medium text-muted-foreground mt-1">em Trancoso</span>
+                     <span className="block text-xs font-medium text-muted-foreground mt-1">{t('home.inDestination')}</span>
                    </div>
                  </Link>
                </motion.div>
@@ -688,14 +691,14 @@ export default function HomePage() {
               transition={{ duration: 0.55 }}
               className="text-2xl md:text-3xl font-bold text-foreground"
             >
-              Como funciona a Trancoso Resolve
+              {t('home.howTitle')}
             </motion.h2>
           </div>
           <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
             {[
-              { step: '1', title: 'Você conta o que precisa', desc: 'Explique o tipo de serviço, bairro em Trancoso e melhor horário para contato.' },
-              { step: '2', title: 'Nós conectamos aos prestadores certos', desc: 'Nosso sistema distribui seu pedido para prestadores qualificados na região.' },
-              { step: '3', title: 'Você recebe contatos e escolhe', desc: 'Compare respostas, avalie e decida com quem quer fechar.' },
+              { step: '1', title: t('home.step1Title'), desc: t('home.step1Desc') },
+              { step: '2', title: t('home.step2Title'), desc: t('home.step2Desc') },
+              { step: '3', title: t('home.step3Title'), desc: t('home.step3Desc') },
             ].map((item, i) => (
               <motion.div
                 key={item.step}
@@ -734,14 +737,11 @@ export default function HomePage() {
             transition={{ duration: 0.55 }}
             className="text-2xl md:text-3xl font-bold text-foreground mb-6 relative"
           >
-            Por que usar a Trancoso Resolve em Trancoso
+            {t('home.whyTitle')}
           </motion.h2>
           <ul className="space-y-3 relative">
             {[
-              'Prestadores locais e confiáveis, focados em atender Trancoso e região.',
-              'Resposta rápida: seu pedido chega direto nos prestadores certos.',
-              'Mais segurança: perfis dos prestadores, histórico e verificação quando disponível.',
-              'Sem custo para quem pede serviço: você pede, recebe retorno e escolhe.',
+              t('home.why1'), t('home.why2'), t('home.why3'), t('home.why4'),
             ].map((item, i) => (
               <motion.li
                 key={i}
@@ -773,7 +773,7 @@ export default function HomePage() {
           >
             <Link to={createPageUrl("ServicosCategoria")} className="block sm:inline-block">
               <Button className="w-full sm:w-auto bg-brand-primary hover:bg-orange-600 text-white font-bold text-base px-8 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95 rounded-pill shadow-brand">
-                Encontrar profissional agora
+                {t('home.findNow')}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
@@ -788,8 +788,8 @@ export default function HomePage() {
             viewport={{ once: true }}
             transition={{ duration: 0.55 }}
           >
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">Atendemos toda a Costa do Descobrimento</h2>
-            <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">Profissionais verificados para Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva — a mesma qualidade e segurança em toda a Costa do Descobrimento.</p>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3 text-center">{t('home.destinationsTitle')}</h2>
+            <p className="text-muted-foreground text-center mb-8 text-base max-w-xl mx-auto">{t('home.destinationsSubtitle')}</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
@@ -860,7 +860,7 @@ export default function HomePage() {
                 </ul>
                 <Link to={dest.destinoHref} className="text-xs font-semibold text-orange-500 hover:text-orange-700 flex items-center gap-1 border-t border-orange-100 dark:border-border pt-3 transition-colors group">
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  Ver página de {dest.cidade}
+                  {t('home.viewDestination')} {dest.cidade}
                 </Link>
               </motion.div>
             ))}

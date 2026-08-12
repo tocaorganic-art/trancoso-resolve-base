@@ -1,6 +1,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Star } from 'lucide-react';
 import LazyImage from '@/components/ui/LazyImage';
+import { useApp } from '@/contexts/AppContext';
 
 const testimonials = [
   {
@@ -38,15 +39,21 @@ const StarRating = ({ rating }) => (
 );
 
 export default function Testimonials() {
+  const { t } = useApp();
+  const localizedTestimonials = testimonials.map((testimonial, index) => ({
+    ...testimonial,
+    role: t(`testimonials.roles.${index}`),
+    comment: t(`testimonials.comments.${index}`),
+  }));
   return (
     <section className="bg-slate-100 py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-slate-900 drop-shadow-sm">O que nossos usuários dizem</h2>
-          <p className="text-slate-700 mt-2 font-medium text-lg">Histórias reais de quem usa e aprova a nossa plataforma.</p>
+          <h2 className="text-3xl font-bold text-slate-900 drop-shadow-sm">{t('testimonials.title')}</h2>
+          <p className="text-slate-700 mt-2 font-medium text-lg">{t('testimonials.subtitle')}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-           {testimonials.map((testimonial, index) => (
+           {localizedTestimonials.map((testimonial, index) => (
              <Card key={index} className="border-none shadow-lg bg-white">
                <CardContent className="p-8 flex flex-col h-full">
                  <div className="flex-grow mb-4">

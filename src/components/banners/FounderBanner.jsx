@@ -30,22 +30,26 @@ export default function FounderBanner() {
   const { data: founderStats } = useQuery({
     queryKey: ["founderProgress"],
     queryFn: async () => {
-      const subs = await base44.entities.Subscription.list("-created_date", 200);
-      const taken =
-        subs?.filter(
-          s =>
-            (s.status === "active" || s.status === "trial") &&
-            (s.plan === "profissional" ||
-              s.plan === "lancamento" ||
-              s.plan === "prestador_profissional")
-        ).length || 0;
-      return { taken, remaining: Math.max(0, FOUNDER_LIMIT - taken) };
+      try {
+        const res = await base44.functions.invoke("getFounderStats", {});
+        const stats = res?.data;
+        if (stats && !stats.unavailable && typeof stats.taken === "number" && typeof stats.remaining === "number") {
+          return stats;
+        }
+      } catch {
+        // Falha fechada: não inventar disponibilidade enquanto o contador real está indisponível.
+      }
+      return null;
     },
-    staleTime: 60000,
+    staleTime: 0,
+    refetchInterval: 15000,
+    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: "always",
+    refetchOnReconnect: true,
   });
 
   if (dismissed || mySubscription) return null;
-  if (founderStats && founderStats.remaining === 0) return null;
+  if (!founderStats || founderStats.remaining === 0) return null;
 
   const taken = founderStats?.taken ?? 0;
   const remaining = founderStats?.remaining ?? FOUNDER_LIMIT;
@@ -108,8 +112,11 @@ export default function FounderBanner() {
 
           <div className="mt-3 max-w-sm">
             <div className="flex justify-between text-xs text-muted-foreground mb-1">
-              <span>{taken} de {FOUNDER_LIMIT} vagas preenchidas</span>
-              <span>{remaining} restantes</span>
+              <span className="inline-flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true" />
+                {taken} de {FOUNDER_LIMIT} vagas preenchidas
+              </span>
+              <span aria-live="polite">{remaining} restantes</span>
             </div>
             <div className="h-2 bg-muted rounded-full overflow-hidden">
               <div

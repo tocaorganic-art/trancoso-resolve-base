@@ -9,7 +9,7 @@
     "location": { "type": "string", "description": "Localidade informada pelo lead" },
     "source": {
       "type": "string",
-      "enum": ["whatsapp", "facebook", "site", "indicacao", "google"],
+      "enum": ["whatsapp", "facebook", "site", "indicacao", "google", "legado"],
       "description": "Origem do lead"
     },
     "status": { "type": "string", "description": "Status do lead", "default": "novo" },
@@ -42,7 +42,9 @@
   },
   "required": ["name", "phone", "source", "consent"],
   "rls": {
+    "create": null,
     "read": { "user_condition": { "role": "admin" } },
-    "write": { "user_condition": { "role": "admin" } }
+    "update": { "user_condition": { "role": "admin" } },
+    "delete": { "user_condition": { "role": "admin" } }
   }
 }

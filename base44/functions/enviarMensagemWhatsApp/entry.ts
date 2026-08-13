@@ -72,14 +72,24 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    // Aceita chamadas de service role (webhooks internos) ou admin autenticado
-    let caller: string | null = null;
+    // Somente administradores autenticados podem disparar mensagens WhatsApp.
+    // Rejeita requisições não autenticadas (401) ou sem privilégio admin (403),
+    // impedindo abuso da WABA por terceiros.
+    const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
+    let user: { email?: string; role?: string } | null = null;
     try {
-      const user = await base44.auth.me();
-      caller = user?.email || null;
+      user = await base44.auth.me();
     } catch {
-      // chamada interna (service role) — sem user
+      user = null;
     }
+    if (!user) {
+      return Response.json({ error: 'Não autorizado: autenticação obrigatória' }, { status: 401 });
+    }
+    const isAdmin = user.role === 'admin' || ADMIN_WHITELIST.includes(user.email || '');
+    if (!isAdmin) {
+      return Response.json({ error: 'Proibido: requer perfil administrador' }, { status: 403 });
+    }
+    const caller = user.email || null;
 
     const {
       prestador_id,

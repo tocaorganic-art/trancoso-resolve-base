@@ -1,0 +1,82 @@
+{
+  "name": "ServiceProviderPrivate",
+  "type": "object",
+  "properties": {
+    "service_provider_id": {
+      "type": "string",
+      "description": "Refer\u00eancia ao ServiceProvider p\u00fablico (1:1)"
+    },
+    "cpf": {
+      "type": "string",
+      "description": "CPF do prestador ou respons\u00e1vel (obrigat\u00f3rio para todos, inclusive MEI e PJ)"
+    },
+    "cnpj": {
+      "type": "string",
+      "description": "CNPJ da empresa ou MEI (obrigat\u00f3rio para mei e pj)"
+    },
+    "data_nascimento": {
+      "type": "string",
+      "format": "date",
+      "description": "Data de nascimento do prestador (obrigat\u00f3rio para consulta de antecedentes criminais \u2014 formato YYYY-MM-DD)"
+    },
+    "nome_mae": {
+      "type": "string",
+      "description": "Nome completo da m\u00e3e do prestador (recomendado para consulta de antecedentes criminais)"
+    },
+    "nome_pai": {
+      "type": "string",
+      "description": "Nome completo do pai do prestador (recomendado para consulta de antecedentes criminais)"
+    },
+    "rg": {
+      "type": "string",
+      "description": "RG do prestador (documento de identidade)"
+    },
+    "pis": {
+      "type": "string",
+      "description": "PIS/NIS do prestador"
+    },
+    "uf_nascimento": {
+      "type": "string",
+      "description": "UF de nascimento do prestador (ex: BA, SP, MG)"
+    }
+  },
+  "required": [
+    "service_provider_id",
+    "cpf",
+    "data_nascimento"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

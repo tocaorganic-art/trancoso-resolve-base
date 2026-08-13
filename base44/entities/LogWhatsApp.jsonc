@@ -4,7 +4,7 @@
   "properties": {
     "prestador_id": {
       "type": "string",
-      "description": "ID do ServiceProvider destinatário"
+      "description": "ID do ServiceProvider destinat\u00e1rio"
     },
     "tipo": {
       "type": "string",
@@ -20,7 +20,7 @@
     },
     "telefone": {
       "type": "string",
-      "description": "Número de destino no formato E.164 (ex: +5573999999999)"
+      "description": "N\u00famero de destino no formato E.164 (ex: +5573999999999)"
     },
     "mensagem": {
       "type": "string",
@@ -64,11 +64,21 @@
     "telefone"
   ],
   "rls": {
+    "create": null,
     "read": {
-      "created_by": "admin"
+      "user_condition": {
+        "role": "admin"
+      }
     },
-    "write": {
-      "created_by": "admin"
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
     }
   }
 }

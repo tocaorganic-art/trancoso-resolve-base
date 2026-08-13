@@ -17,7 +17,7 @@
     },
     "organization": {
       "type": "string",
-      "description": "Fundo, family office ou organização (opcional)"
+      "description": "Fundo, family office ou organiza\u00e7\u00e3o (opcional)"
     },
     "investor_type": {
       "type": "string",
@@ -32,7 +32,7 @@
     },
     "ticket_range": {
       "type": "string",
-      "description": "Faixa de ticket de interesse, informada pelo próprio investidor (opcional)"
+      "description": "Faixa de ticket de interesse, informada pelo pr\u00f3prio investidor (opcional)"
     },
     "message": {
       "type": "string",
@@ -46,7 +46,7 @@
         "es",
         "en"
       ],
-      "description": "Idioma em que o investidor navegava a página"
+      "description": "Idioma em que o investidor navegava a p\u00e1gina"
     },
     "source": {
       "type": "string",
@@ -63,11 +63,21 @@
     "consent"
   ],
   "rls": {
+    "create": null,
     "read": {
       "user_condition": {
         "role": "admin"
       }
     },
-    "write": true
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
   }
 }

@@ -5,6 +5,52 @@ interface AnalisarDocumentoRequest {
   document_url: string;
 }
 
+// Domínios confiáveis para URLs de documento (uploads via plataforma + buckets de OCR).
+const ALLOWED_DOC_HOSTS = [
+  "media.base44.com",
+  "files.base44.com",
+  "upload.wikimedia.org",
+];
+
+/**
+ * Valida uma URL de documento externa para prevenir SSRF:
+ * - Aceita apenas http/https
+ * - Bloqueia hosts não listados em ALLOWED_DOC_HOSTS
+ * - Bloqueia IPs privados, loopback, link-local e reservados
+ */
+function validateDocUrl(rawUrl: string): { ok: true; url: URL } | { ok: false; reason: string } {
+  let parsed: URL;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    return { ok: false, reason: "URL inválida" };
+  }
+  if (parsed.protocol !== "http:" && parsed.protocol !== "https:") {
+    return { ok: false, reason: "Protocolo não permitido" };
+  }
+  const hostname = parsed.hostname.toLowerCase();
+  if (!ALLOWED_DOC_HOSTS.includes(hostname)) {
+    return { ok: false, reason: `Host não confiável: ${hostname}` };
+  }
+  // Mesmo com whitelist de domínio, bloqueia IPs literais por segurança adicional.
+  const ipMatch = hostname.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (ipMatch) {
+    const [a, b] = [parseInt(ipMatch[1], 10), parseInt(ipMatch[2], 10)];
+    if (
+      a === 10 ||
+      a === 127 ||
+      a === 0 ||
+      a === 169 && b === 254 ||
+      a === 172 && b >= 16 && b <= 31 ||
+      a === 192 && b === 168 ||
+      a >= 224 // multicast/reservado
+    ) {
+      return { ok: false, reason: "Endereço IP privado/reservado bloqueado" };
+    }
+  }
+  return { ok: true, url: parsed };
+}
+
 Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -19,6 +65,13 @@ Deno.serve(async (req: Request) => {
       return Response.json({ error: "verificacao_id e document_url são obrigatórios" }, { status: 400 });
     }
 
+    // Validação SSRF: bloqueia hosts não confiáveis e IPs privados/loopback/link-local.
+    const docValidation = validateDocUrl(document_url);
+    if (!docValidation.ok) {
+      return Response.json({ error: `URL de documento rejeitada: ${docValidation.reason}` }, { status: 400 });
+    }
+    const safeDocUrl = docValidation.url.toString();
+
     // Buscar a verificação
     const verificacao = await base44.entities.Verificacao.get(verificacao_id);
     if (!verificacao) {
@@ -30,8 +83,8 @@ Deno.serve(async (req: Request) => {
       return Response.json({ error: "service_provider_id não encontrado na verificação" }, { status: 400 });
     }
 
-    // 1. Baixar a imagem do documento
-    const imageResponse = await fetch(document_url);
+    // 1. Baixar a imagem do documento (URL validada contra SSRF)
+    const imageResponse = await fetch(safeDocUrl);
     if (!imageResponse.ok) {
       return Response.json({ error: "Não foi possível baixar a imagem do documento" }, { status: 400 });
     }

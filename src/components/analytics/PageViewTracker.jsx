@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { pixelTrack, pixelLandingPageView } from '@/lib/pixel';
 import { trackPageView } from '@/lib/facebook-pixel';
+import { captureAdsAttribution } from '@/lib/adsAttribution.js';
 import {
   CONSENT_CHANGED_EVENT,
   hasAnalyticsConsent,
@@ -35,6 +36,12 @@ export default function PageViewTracker() {
     const pageKey = location.pathname + location.search;
     const trackCurrentPage = () => {
       const path = location.pathname;
+
+      // [OpenAI Ads] Captura UTM/oppref antes de qualquer disparo de analytics.
+      // Puramente local (URL + storage) — não faz chamada de rede nem depende
+      // de consentimento (a decisão de consentimento é sobre TRACKING, não
+      // sobre capturar/persistir o parâmetro de atribuição em si).
+      captureAdsAttribution();
 
       if (hasAnalyticsConsent() && analyticsPageRef.current !== pageKey) {
         if (trackAnalyticsPageView({

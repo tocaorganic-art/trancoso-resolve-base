@@ -2,60 +2,45 @@
   "name": "ServiceProviderPrivate",
   "type": "object",
   "properties": {
-    "service_provider_id": {
+    "provider_id": {
       "type": "string",
-      "description": "Refer\u00eancia ao ServiceProvider p\u00fablico (1:1)"
+      "description": "ID do registro ServiceProvider correspondente"
     },
     "cpf": {
       "type": "string",
-      "description": "CPF do prestador ou respons\u00e1vel (obrigat\u00f3rio para todos, inclusive MEI e PJ)"
+      "description": "CPF do prestador ou responsável (PII — nunca expor publicamente)"
     },
     "cnpj": {
       "type": "string",
-      "description": "CNPJ da empresa ou MEI (obrigat\u00f3rio para mei e pj)"
+      "description": "CNPJ da empresa ou MEI (PII — nunca expor publicamente)"
     },
-    "data_nascimento": {
+    "verification_document_url": {
       "type": "string",
-      "format": "date",
-      "description": "Data de nascimento do prestador (obrigat\u00f3rio para consulta de antecedentes criminais \u2014 formato YYYY-MM-DD)"
+      "description": "URL do documento de identidade enviado para verificação (PII)"
     },
-    "nome_mae": {
+    "full_body_photo_url": {
       "type": "string",
-      "description": "Nome completo da m\u00e3e do prestador (recomendado para consulta de antecedentes criminais)"
+      "description": "URL da foto de corpo inteiro enviada para verificação de identidade (PII)"
     },
-    "nome_pai": {
-      "type": "string",
-      "description": "Nome completo do pai do prestador (recomendado para consulta de antecedentes criminais)"
+    "autorizou_verificacao": {
+      "type": "boolean",
+      "default": false,
+      "description": "Prestador autorizou a consulta de antecedentes criminais (consentimento LGPD)"
     },
-    "rg": {
+    "data_consentimento": {
       "type": "string",
-      "description": "RG do prestador (documento de identidade)"
-    },
-    "pis": {
-      "type": "string",
-      "description": "PIS/NIS do prestador"
-    },
-    "uf_nascimento": {
-      "type": "string",
-      "description": "UF de nascimento do prestador (ex: BA, SP, MG)"
+      "format": "date-time",
+      "description": "Data/hora em que o consentimento foi registrado"
     }
   },
   "required": [
-    "service_provider_id",
-    "cpf",
-    "data_nascimento"
+    "provider_id"
   ],
   "rls": {
     "read": {
       "$or": [
-        {
-          "created_by": "{{user.email}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
+        { "created_by": "{{user.email}}" },
+        { "user_condition": { "role": "admin" } }
       ]
     },
     "create": {
@@ -63,20 +48,12 @@
     },
     "update": {
       "$or": [
-        {
-          "created_by": "{{user.email}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
+        { "created_by": "{{user.email}}" },
+        { "user_condition": { "role": "admin" } }
       ]
     },
     "delete": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "user_condition": { "role": "admin" }
     }
   }
 }

@@ -31,6 +31,7 @@ function InvestidoresContent() {
     title: t.meta.title,
     description: t.meta.description,
     canonical: '/investidores',
+    noIndex: true,
     ogImage: undefined,
   });
 

@@ -2,7 +2,7 @@
  * ScenarioChartSection — gráfico de cenário de sensibilidade com ChartFrame.
  * Lógica de fórmula preservada integralmente. Só a apresentação foi melhorada.
  */
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Section from './Section';
 import ChartFrame from './ChartFrame';
 import AnimatedCounter from './AnimatedCounter';

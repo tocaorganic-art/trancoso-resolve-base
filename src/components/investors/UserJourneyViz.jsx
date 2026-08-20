@@ -12,7 +12,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { useInvestorLang } from './InvestorLangContext';
 
 // Dados fixos em PT (completados via content.js quando disponível)
 const DEFAULT_STEPS = [

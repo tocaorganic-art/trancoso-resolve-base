@@ -3,11 +3,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Upload, Loader2, FileSpreadsheet } from "lucide-react";
 import { toast } from "sonner";
-import { format, startOfWeek } from "date-fns";
 
 /**
  * Importa CSV exportado do Google Search Console (Desempenho → Exportar → CSV).

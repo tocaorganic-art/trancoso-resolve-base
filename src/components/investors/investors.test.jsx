@@ -13,7 +13,7 @@
  *  6. easeOutCubic (animação de contador)
  *  7. prefers-reduced-motion — matchMedia correto
  */
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 /* ─── Helper: mock matchMedia ─────────────────────────────────────────────── */
 function mockMatchMedia(reducedMotion) {

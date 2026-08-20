@@ -5,7 +5,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Section from './Section';
 import ChartFrame from './ChartFrame';
-import AnimatedCounter from './AnimatedCounter';
 import { useInvestorLang } from './InvestorLangContext';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 

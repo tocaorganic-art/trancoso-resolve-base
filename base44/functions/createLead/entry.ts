@@ -1,8 +1,19 @@
+/**
+ * DESTINO NO REPO: base44/functions/createLead/entry.ts (ARQUIVO EXISTENTE — substituir por completo)
+ *
+ * Mesmas mudanças aplicadas a createPublicLead/entry.ts (ver arquivo 05),
+ * adaptadas ao formato desta variante (telefone já em +55XXXXXXXXXXX,
+ * SOURCE_VALUES sem 'legado'). Ver comentários "[OpenAI Ads]".
+ */
+
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { sendOpenAiCapiEventInternal } from '../sendOpenAiCapiEvent/entry.ts';
 
 const SOURCE_VALUES = new Set(['whatsapp', 'facebook', 'site', 'indicacao', 'google']);
 const PHONE_PATTERN = /^\+55\d{10,11}$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const UTM_MAX_LENGTH = 200;
+const OPPREF_MAX_LENGTH = 500;
 
 function clean(value: unknown, maxLength: number): string {
   return typeof value === 'string' ? value.trim().replace(/\s+/g, ' ').slice(0, maxLength) : '';
@@ -29,6 +40,14 @@ Deno.serve(async (req: Request) => {
     const serviceInterest = clean(body.service_interest, 120);
     const location = clean(body.location, 120);
 
+    // [OpenAI Ads] Atribuição de campanha — todos os campos são opcionais e sem PII.
+    const utmSource = clean(body.utm_source, UTM_MAX_LENGTH);
+    const utmMedium = clean(body.utm_medium, UTM_MAX_LENGTH);
+    const utmCampaign = clean(body.utm_campaign, UTM_MAX_LENGTH);
+    const utmContent = clean(body.utm_content, UTM_MAX_LENGTH);
+    const utmTerm = clean(body.utm_term, UTM_MAX_LENGTH);
+    const oppref = clean(body.oppref, OPPREF_MAX_LENGTH);
+
     if (name.length < 2 || !PHONE_PATTERN.test(phone)) {
       return Response.json({ error: 'Invalid name or phone' }, { status: 400 });
     }
@@ -54,9 +73,50 @@ Deno.serve(async (req: Request) => {
       consent: true,
       consent_at: new Date().toISOString(),
       notes: clean(body.message, 1000) || undefined,
+      // [OpenAI Ads] utm_source/utm_medium/utm_campaign já existem no schema atual;
+      // utm_content/utm_term/oppref requerem a atualização de Lead.jsonc.
+      ...(utmSource ? { utm_source: utmSource } : {}),
+      ...(utmMedium ? { utm_medium: utmMedium } : {}),
+      ...(utmCampaign ? { utm_campaign: utmCampaign } : {}),
+      ...(utmContent ? { utm_content: utmContent } : {}),
+      ...(utmTerm ? { utm_term: utmTerm } : {}),
+      ...(oppref ? { oppref } : {}),
     });
 
-    return Response.json({ success: true, lead_id: lead.id }, { status: 201 });
+    // [OpenAI Ads] event_id estável, gerado uma única vez na criação real do lead.
+    const eventId = crypto.randomUUID();
+
+    // [OpenAI Ads] Persiste o event_id no próprio Lead, para auditoria/reprocessamento.
+    // REQUER que Lead.jsonc tenha o campo "event_id" (ver arquivo 08).
+    try {
+      await base44.asServiceRole.entities.Lead.update(lead.id, { event_id: eventId });
+    } catch (updateError) {
+      console.warn(
+        '[createLead] falha ao persistir event_id no lead (não crítico):',
+        updateError instanceof Error ? updateError.message : 'unknown_error',
+      );
+    }
+
+    try {
+      await sendOpenAiCapiEventInternal(
+        'lead_created',
+        {
+          service_interest: serviceInterest || undefined,
+          utm_source: utmSource || undefined,
+          utm_medium: utmMedium || undefined,
+          utm_campaign: utmCampaign || undefined,
+        },
+        eventId,
+        oppref || undefined,
+      );
+    } catch (capiError) {
+      console.warn(
+        '[createLead] falha ao disparar lead_created (OpenAI CAPI):',
+        capiError instanceof Error ? capiError.message : 'unknown_error',
+      );
+    }
+
+    return Response.json({ success: true, lead_id: lead.id, event_id: eventId }, { status: 201 });
   } catch (error) {
     console.error('[createLead]', error instanceof Error ? error.message : 'unknown_error');
     return Response.json({ error: 'Unable to create lead' }, { status: 500 });

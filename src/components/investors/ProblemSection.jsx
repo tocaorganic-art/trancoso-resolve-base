@@ -10,7 +10,6 @@
  * Dados: integralmente do content.js. Nenhum número inventado.
  */
 import Section from './Section';
-import AnimatedNarrativeSection from './AnimatedNarrativeSection';
 import FragmentationViz from './FragmentationViz';
 import EcosystemViz from './EcosystemViz';
 import UserJourneyViz from './UserJourneyViz';

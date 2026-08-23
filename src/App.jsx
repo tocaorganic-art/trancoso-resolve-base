@@ -91,6 +91,7 @@ const PrestadorFundadorPage = lazy(() => import('@/pages/PrestadorFundador'));
 const CostaDoDescobrimentoPage = lazy(() => import('@/pages/CostaDoDescobrimento'));
 const ParticiparPage = lazy(() => import('@/pages/Participar'));
 const CampanhaRegionalPage = lazy(() => import('@/pages/admin/CampanhaRegional'));
+const OAuthConsentPage = lazy(() => import('@/pages/OAuthConsent'));
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];

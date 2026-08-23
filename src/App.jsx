@@ -436,6 +436,10 @@ const AuthenticatedApp = () => {
             </LayoutWrapper>
           } />
 
+          <Route path="/oauth-consent" element={
+            <AnimatedPage><OAuthConsentPage /></AnimatedPage>
+          } />
+
           {/* Recomendador de prestadores por IA */}
           <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
             <Route path="/Recomendador" element={

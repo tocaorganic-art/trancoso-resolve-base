@@ -407,6 +407,27 @@ Nenhuma configurada explicitamente no `.env`. Verificar Vercel dashboard para se
 
 ## 🐛 Problemas conhecidos e backlog
 
+### ⚠️ REGRA ATIVA — Base44 sem créditos (25/08/2026 → renovação 01/09/2026)
+
+Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, renova em
+01/09/2026). Enquanto isso durar:
+
+- **O `main` deste repositório GitHub é a fonte da verdade.** Todo PR aprovado por Tony deve
+  ser mergeado em `main` normalmente — isso não depende de crédito do Base44.
+- **Vercel** (frontend, deploy automático de `main`) funciona **independente** do Base44—
+  sem crédito não impede o deploy do site em si.
+- **Rotas `/api/*`** são redirecionadas para `https://base44.app/api/$1` (ver `vercel.json`) —
+  o comportamento do backend (funções em `base44/functions/`) só reflete o que está em
+  `main` **depois** que Tony fizer o *pull* do GitHub → Base44 dentro do editor Base44
+  (ver regra "Sync GitHub ↔ Base44" abaixo). Esse pull/preview no editor é o que está
+  bloqueado sem crédito — não confirmado ainda se a app já publicada continua rodando
+  normalmente ou se o próprio runtime é afetado.
+- **Enquanto o crédito não renova:** manter todos os PRs prontos/aprovados mergeados em
+  `main`, para que, assim que os créditos voltarem em 01/09/2026, um único pull/publish no
+  Base44 já traga tudo de uma vez. Não é necessário (nem recomendado) mergear PRs com
+  pendências de decisão em aberto só por causa disso — ver PRs #1 e #3 abertos, cada um com
+  ressalvas explícitas que dependem de decisão do Tony.
+
 ### Prioridade alta
 
 1. ~~Sync GitHub ↔ Base44~~ **RESOLVIDO (23/07/2026)** — publish falhava com "Failed to

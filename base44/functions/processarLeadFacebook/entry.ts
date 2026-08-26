@@ -145,13 +145,18 @@ Deno.serve(async (req: Request) => {
       enviado_em: new Date().toISOString(),
     });
 
-    await base44.asServiceRole.functions.invoke('calcularLeadScore', { lead_id: lead.id }).catch((error: unknown) => {
+    const internalSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+    await base44.asServiceRole.functions.invoke('calcularLeadScore', {
+      lead_id: lead.id,
+      ...(internalSecret ? { internal_secret: internalSecret } : {}),
+    }).catch((error: unknown) => {
       console.error('[processarLeadFacebook] score não calculado', error instanceof Error ? error.message : 'unknown_error');
     });
     await base44.asServiceRole.functions.invoke('enviarWhatsApp', {
       destinatario: phone,
       template_name: 'trc_bem_vindo_lead',
       parametros: [name],
+      ...(internalSecret ? { internal_secret: internalSecret } : {}),
     }).catch((error: unknown) => {
       console.error('[processarLeadFacebook] WhatsApp não enviado', error instanceof Error ? error.message : 'unknown_error');
     });

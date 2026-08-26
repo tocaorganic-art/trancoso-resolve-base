@@ -62,7 +62,17 @@ async function sendTemplate(to: string, templateName: string, parameters: string
 Deno.serve(async (req: Request) => {
   if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
   try {
-    const { destinatario, template_name: templateName, parametros = [] } = await req.json();
+    const body = await req.json();
+    const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
+    const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
+    const base44 = isInternal ? null : createClientFromRequest(req);
+    const user = base44 ? await base44.auth.me().catch(() => null) : null;
+    if (!isInternal && user?.role !== 'admin') {
+      return Response.json({ error: user ? 'Forbidden' : 'Unauthorized' }, { status: user ? 403 : 401 });
+    }
+
+    const { destinatario, template_name: templateName, parametros = [] } = body;
     const phone = normalizePhone(destinatario);
     if (!PHONE_PATTERN.test(phone)) return Response.json({ success: false, error: 'Telefone inválido; use +55...' }, { status: 400 });
     if (typeof templateName !== 'string' || !TEMPLATE_PATTERN.test(templateName)) {

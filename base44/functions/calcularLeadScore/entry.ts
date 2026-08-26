@@ -19,9 +19,18 @@ function responseUnderOneHour(lead: Record<string, unknown>): boolean {
 Deno.serve(async (req: Request) => {
   if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
   try {
-    const { lead_id: leadId } = await req.json();
-    if (typeof leadId !== 'string' || !leadId.trim()) return Response.json({ error: 'lead_id required' }, { status: 400 });
+    const body = await req.json();
+    const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
+    const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
     const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me().catch(() => null);
+    if (!isInternal && user?.role !== 'admin') {
+      return Response.json({ error: user ? 'Forbidden' : 'Unauthorized' }, { status: user ? 403 : 401 });
+    }
+
+    const { lead_id: leadId } = body;
+    if (typeof leadId !== 'string' || !leadId.trim()) return Response.json({ error: 'lead_id required' }, { status: 400 });
     const lead = await base44.asServiceRole.entities.Lead.get(leadId) as Record<string, unknown>;
     if (!lead) return Response.json({ error: 'Lead not found' }, { status: 404 });
 

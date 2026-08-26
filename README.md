@@ -31,32 +31,25 @@ npm run sitemap    # regenera public/sitemap.xml
 
 ## Deploy
 
-### Opção 1 — Script automático (recomendado)
+### Opção 1 — Validar o build local
 
 ```bash
-# Primeira vez: autenticar nos CLIs
-npx vercel login
-npx base44 login
-
-# Deploy completo (detecta Windows ou Unix automaticamente)
+# Apenas instala dependências e valida o build; não publica
 npm run deploy
 
-# Ou escolha a plataforma:
-npm run deploy:windows   # PowerShell
-npm run deploy:unix      # bash
+# Equivalentes por sistema operacional
+npm run deploy:windows   # PowerShell, somente build
+npm run deploy:unix      # bash, somente build
 
-# Deploy por partes
+# Publicações separadas — executar manualmente, após revisão
 npm run deploy:vercel              # apenas frontend → Vercel
 npm run deploy:base44              # entities + functions → Base44
 npm run deploy:base44:fn           # apenas functions
 npm run deploy:base44:entities     # apenas entities
 ```
 
-O script faz:
-1. `npm install` + `npm run build`
-2. Tenta `npx vercel deploy --prod --yes`
-3. Tenta `npx base44 deploy --yes`
-4. Se algum CLI não estiver logado ou o projeto não estiver linkado → exibe fallback com instruções exatas
+O script padrão faz somente `npm ci` + `npm run build`. Vercel e Base44
+possuem alvos separados para impedir publicação acidental.
 
 ### Opção 2 — Deploy manual
 
@@ -79,6 +72,7 @@ Variáveis de ambiente necessárias no painel Vercel (Settings → Environment V
 | `ZAPI_TOKEN` | Token Z-API |
 | `WABA_TOKEN` | Token WhatsApp Business Cloud (se usar WABA) |
 | `WABA_PHONE_ID` | Phone Number ID (se usar WABA) |
+| `VITE_GOOGLE_MAPS_API_KEY` | Chave pública do Google Maps com restrição por domínio, APIs e quota |
 
 #### Backend (Base44)
 
@@ -86,9 +80,11 @@ Variáveis de ambiente necessárias no painel Vercel (Settings → Environment V
 2. **Entities → New Entity** → colar `base44/entities/LogWhatsApp.jsonc`
 3. **Functions → enviarMensagemWhatsApp** → colar `base44/functions/enviarMensagemWhatsApp/entry.ts`
 4. **Functions → stripeWebhook** → colar `base44/functions/stripeWebhook/entry.ts`
-5. Configurar as variáveis de ambiente em cada function
+5. Configurar as variáveis de ambiente em cada function, incluindo
+   `AUTOMATION_WEBHOOK_SECRET` para as chamadas internas protegidas
 
-> ⚠️ NUNCA usar "Push to GitHub" no Base44 — sobrescreve a migração de marca.
+> ⚠️ A publicação do Base44 deve ser manual. Não usar "Push to GitHub" no
+> Base44 sem revisar a direção do sincronismo.
 
 #### Webhook Stripe
 

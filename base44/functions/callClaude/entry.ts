@@ -3,12 +3,12 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 Deno.serve(async (req) => {
     try {
         const base44 = createClientFromRequest(req);
-        
-        // Valida autenticação do usuário
-        const user = await base44.auth.me();
-        if (!user) {
-            return Response.json({ error: 'Usuário não autenticado' }, { status: 401 });
-        }
+        const body = await req.json();
+        const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+        const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
+        const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
+        const user = isInternal ? null : await base44.auth.me();
+        if (!isInternal && !user) return Response.json({ error: 'Usuário não autenticado' }, { status: 401 });
 
         // Valida configuração da API Key
         const claudeKey = Deno.env.get("claude-full") || Deno.env.get("claude-trancosoresolve");
@@ -20,7 +20,6 @@ Deno.serve(async (req) => {
             }, { status: 500 });
         }
 
-        const body = await req.json();
         const { messages, response_json_schema, systemPrompt } = body;
 
         // Valida payload

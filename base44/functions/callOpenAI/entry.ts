@@ -8,14 +8,15 @@ const openai = new OpenAI({
 Deno.serve(async (req) => {
     try {
         const base44 = createClientFromRequest(req);
-        const user = await base44.auth.me();
-        if (!user) {
-            return Response.json({ error: 'Usuário não autenticado' }, { status: 401 });
-        }
+        const body = await req.json();
+        const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+        const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
+        const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
+        const user = isInternal ? null : await base44.auth.me();
+        if (!isInternal && !user) return Response.json({ error: 'Usuário não autenticado' }, { status: 401 });
         if (!Deno.env.get("OPENAI_API_KEY")) {
             return Response.json({ error: 'Configuração de IA não encontrada', details: 'A chave da OpenAI não está configurada no servidor.' }, { status: 500 });
         }
-        const body = await req.json();
         const { messages, response_json_schema, systemPrompt } = body;
         if (!messages || !Array.isArray(messages) || messages.length === 0) {
             return Response.json({ error: 'Mensagens inválidas', details: 'O campo messages é obrigatório e deve ser um array não vazio.' }, { status: 400 });

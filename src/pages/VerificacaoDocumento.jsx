@@ -48,7 +48,7 @@ export default function VerificacaoDocumentoPage() {
     }
   }, [user, isLoadingUser, navigate]);
 
-  const handleVerificationComplete = async (result) => {
+  const handleVerificationComplete = () => {
     // Aguardar atualização do estado e redirecionar
     setTimeout(() => {
       navigate('/Dashboard');
@@ -110,6 +110,18 @@ export default function VerificacaoDocumentoPage() {
                   </div>
                 </CardContent>
               </Card>
+            ) : ['approved', 'Verificado'].includes(verificacao?.status) ? (
+              <Card className="bg-orange-50 border-orange-200">
+                <CardContent className="p-6 flex items-center gap-4">
+                  <CheckCircle className="w-12 h-12 text-orange-500 shrink-0" />
+                  <div>
+                    <h3 className="font-bold text-orange-900 text-lg">Etapa de identidade concluída</h3>
+                    <p className="text-orange-700 text-sm mt-1">
+                      Seu cadastro seguirá para a conclusão das demais etapas de verificação.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
             ) : verificacao?.status === 'pending_review' ? (
               <Card className="bg-orange-50 border-orange-200">
                 <CardContent className="p-6 flex items-center gap-4">
@@ -137,7 +149,7 @@ export default function VerificacaoDocumentoPage() {
         )}
 
         {/* Fluxo de Verificação */}
-        {!provider?.verified && verificacao?.status !== 'pending_review' && (
+        {!provider?.verified && !['approved', 'Verificado', 'pending_review'].includes(verificacao?.status) && (
           <DocumentVerificationFlow
             prestadorId={provider?.id}
             onVerificationComplete={handleVerificationComplete}

@@ -1,101 +1,152 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-Deno.serve(async (req) => {
+const APPROVED_STATUSES = new Set(['Verificado', 'approved']);
+const PHONE_PATTERN = /^\+55\d{10,11}$/;
+
+function normalizePhone(value: unknown): string {
+  if (typeof value !== 'string') return '';
+  const digits = value.replace(/\D/g, '');
+  return digits ? `+${digits.startsWith('55') ? digits : `55${digits}`}` : '';
+}
+
+function safeName(value: unknown): string {
+  return typeof value === 'string' && value.trim() ? value.trim() : 'prestador';
+}
+
+Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
-
     if (!user || user.role !== 'admin') {
       return Response.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
     }
 
-    const { verificacao_id, action, motivo } = await req.json();
-
-    if (!verificacao_id || !action) {
+    const { verificacao_id: verificationId, action, motivo } = await req.json();
+    if (typeof verificationId !== 'string' || !verificationId.trim() || !action) {
       return Response.json({ error: 'verificacao_id e action são obrigatórios' }, { status: 400 });
     }
-
     if (!['aprovar', 'rejeitar'].includes(action)) {
       return Response.json({ error: 'action deve ser "aprovar" ou "rejeitar"' }, { status: 400 });
     }
 
-    const newStatus = action === 'aprovar' ? 'Verificado' : 'Rejeitado';
-    const adminNotes = action === 'rejeitar' && motivo
-      ? `❌ Rejeitado pelo admin: ${motivo}`
-      : (action === 'aprovar' ? `✅ Aprovado pelo admin ${user.full_name || user.email}` : '');
-
-    const updateData: Record<string, unknown> = { status: newStatus };
-    if (adminNotes) updateData.admin_notes = adminNotes;
-
-    await base44.asServiceRole.entities.Verificacao.update(verificacao_id, updateData);
-
-    // Se aprovado, marca o ServiceProvider como verificado e notifica por email
-    if (action === 'aprovar') {
-      const verificacao = await base44.asServiceRole.entities.Verificacao.get(verificacao_id);
-      if (verificacao?.user_email) {
-        const providers = await base44.asServiceRole.entities.ServiceProvider.filter({});
-        const provider = providers.find(p => p.email === verificacao.user_email || p.created_by === verificacao.user_email);
-        if (provider) {
-          await base44.asServiceRole.entities.ServiceProvider.update(provider.id, { verified: true });
-          console.log(`[adminVerificacao] Marked provider ${provider.id} as verified`);
-
-          // Email de confirmação para o prestador
-          await base44.asServiceRole.integrations.Core.SendEmail({
-            to: verificacao.user_email,
-            from_name: 'Trancoso Resolve',
-            subject: `✅ Identidade verificada! Seu perfil está aprovado`,
-            body: `Olá, ${verificacao.user_name || provider.full_name}!
-
-Ótima notícia! Sua identidade foi verificada com sucesso pela equipe da Trancoso Resolve.
-
-🏅 Você agora possui o Selo Verificado em seu perfil — isso aumenta sua visibilidade e gera mais confiança nos clientes.
-
-O que muda agora:
-• Seu perfil aparece com destaque nos resultados de busca
-• Clientes verão o badge "✅ Verificado" no seu card
-• Você tem acesso a mais solicitações de serviço
-
-Acesse seu dashboard: https://trancosoresolve.com.br/Dashboard
-
-Bons negócios!
-Equipe Trancoso Resolve`,
-          });
-        }
-      }
+    const verification = await base44.asServiceRole.entities.Verificacao.get(verificationId);
+    if (!verification?.provider_id) {
+      return Response.json({ error: 'Verificação ou prestador não encontrado' }, { status: 404 });
     }
 
-    // Se rejeitado, notifica o prestador com o motivo
+    const now = new Date().toISOString();
+    const newStatus = action === 'aprovar' ? 'Verificado' : 'Rejeitado';
+    const verificationUpdate: Record<string, unknown> = {
+      status: newStatus,
+      verified_at: now,
+    };
+    if (action === 'aprovar') {
+      verificationUpdate.admin_notes = `Aprovado pelo administrador em ${now}`;
+    } else if (typeof motivo === 'string' && motivo.trim()) {
+      // Motivo fica restrito ao painel administrativo; nunca vai para o usuário.
+      verificationUpdate.admin_notes = `Rejeitado pelo administrador: ${motivo.trim()}`;
+    }
+    await base44.asServiceRole.entities.Verificacao.update(verificationId, verificationUpdate);
+
+    const provider = await base44.asServiceRole.entities.ServiceProvider.get(verification.provider_id);
+    if (!provider) return Response.json({ error: 'Prestador não encontrado' }, { status: 404 });
+
     if (action === 'rejeitar') {
-      const verificacao = await base44.asServiceRole.entities.Verificacao.get(verificacao_id);
-      if (verificacao?.user_email) {
-        const motivoTexto = motivo && motivo.trim() ? motivo : 'O documento enviado não pôde ser validado.';
+      await base44.asServiceRole.entities.ServiceProvider.update(provider.id, {
+        status_verificacao: 'reprovado',
+        verified: false,
+      });
+
+      if (provider.email) {
         await base44.asServiceRole.integrations.Core.SendEmail({
-          to: verificacao.user_email,
+          to: provider.email,
           from_name: 'Trancoso Resolve',
-          subject: `⚠️ Verificação de identidade — ação necessária`,
-          body: `Olá, ${verificacao.user_name}!
-
-Infelizmente não conseguimos verificar sua identidade com o documento enviado.
-
-Motivo: ${motivoTexto}
-
-O que fazer agora:
-1. Acesse seu perfil em: https://trancosoresolve.com.br/VerificacaoDocumento
-2. Envie um novo documento legível (RG, CNH ou Passaporte)
-3. A foto deve estar nítida, sem reflexos ou partes cortadas
-
-Se tiver dúvidas, responda este email ou entre em contato via WhatsApp: https://wa.me/5573998283579
-
-Equipe Trancoso Resolve`,
+          subject: 'Verificação do cadastro — ação necessária',
+          body: `Olá, ${safeName(provider.full_name)}!\n\nSeu cadastro não foi autorizado com os dados enviados. Acesse o site para refazer a etapa de verificação com imagens legíveis e atualizadas.\n\nSe precisar de revisão, responda este e-mail ou use o suporte disponível no site.\n\nEquipe Trancoso Resolve`,
         });
       }
+      console.log(`[adminVerificacao] ${action} verification ${verificationId} by ${user.email}`);
+      return Response.json({ ok: true, status: newStatus, ready_for_release: false });
     }
 
-    console.log(`[adminVerificacao] ${action} verificacao ${verificacao_id} by ${user.email}`);
-    return Response.json({ ok: true, status: newStatus });
+    const providerVerifications = await base44.asServiceRole.entities.Verificacao.filter({
+      provider_id: provider.id,
+    });
+    const latestVerification = (type: string) => providerVerifications
+      .filter((item) => item.verification_type === type)
+      .sort((a, b) => Date.parse(b.created_date || b.verified_at || '') - Date.parse(a.created_date || a.verified_at || ''))[0];
+    const identityApproved = APPROVED_STATUSES.has(latestVerification('identity')?.status);
+    const backgroundApproved = APPROVED_STATUSES.has(latestVerification('background_check')?.status);
 
+    if (!identityApproved || !backgroundApproved) {
+      await base44.asServiceRole.entities.ServiceProvider.update(provider.id, {
+        status_verificacao: 'em_analise_manual',
+        verified: false,
+      });
+      console.log(`[adminVerificacao] etapa aprovada, aguardando outra etapa para ${provider.id}`);
+      return Response.json({ ok: true, status: newStatus, ready_for_release: false });
+    }
+
+    await base44.asServiceRole.entities.ServiceProvider.update(provider.id, {
+      status_verificacao: 'aprovado',
+      verified: true,
+      verification_approved_date: now,
+    });
+
+    const emailAlreadySent = providerVerifications.some((item) => item.welcome_email_sent_at);
+    const whatsappAlreadySent = providerVerifications.some((item) => item.welcome_whatsapp_sent_at);
+    const notificationErrors: string[] = [];
+    let emailSent = false;
+    let whatsappSent = false;
+
+    if (provider.email && !emailAlreadySent) {
+      try {
+        await base44.asServiceRole.integrations.Core.SendEmail({
+          to: provider.email,
+          from_name: 'Trancoso Resolve',
+          subject: 'Bem-vindo à Trancoso Resolve — cadastro aprovado',
+          body: `Olá, ${safeName(provider.full_name)}!\n\nSeu cadastro foi validado e está liberado na Trancoso Resolve.\n\nSeu perfil já pode participar da plataforma conforme as regras vigentes.\n\nAcesse seu dashboard: https://trancosoresolve.com.br/Dashboard\n\nBem-vindo!\nEquipe Trancoso Resolve`,
+        });
+        await base44.asServiceRole.entities.Verificacao.update(verificationId, { welcome_email_sent_at: now });
+        emailSent = true;
+      } catch (error) {
+        notificationErrors.push('email');
+        console.error('[adminVerificacao] boas-vindas por email não enviadas', error instanceof Error ? error.message : 'unknown_error');
+      }
+    }
+
+    const phone = normalizePhone(provider.phone);
+    if (PHONE_PATTERN.test(phone) && !whatsappAlreadySent) {
+      try {
+        const internalSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+        const result = await base44.asServiceRole.functions.invoke('enviarWhatsApp', {
+          destinatario: phone,
+          template_name: 'trc_bem_vindo_lead',
+          // O template atual da Meta foi criado sem variáveis.
+          parametros: [],
+          ...(internalSecret ? { internal_secret: internalSecret } : {}),
+        });
+        const data = result?.data || result;
+        if (data?.success !== true) throw new Error('WhatsApp não confirmou o envio');
+        await base44.asServiceRole.entities.Verificacao.update(verificationId, { welcome_whatsapp_sent_at: now });
+        whatsappSent = true;
+      } catch (error) {
+        notificationErrors.push('whatsapp');
+        console.error('[adminVerificacao] boas-vindas por WhatsApp não enviadas', error instanceof Error ? error.message : 'unknown_error');
+      }
+    }
+
+    console.log(`[adminVerificacao] cadastro liberado ${provider.id}; email=${emailSent}; whatsapp=${whatsappSent}`);
+    return Response.json({
+      ok: true,
+      status: newStatus,
+      ready_for_release: true,
+      email_sent: emailSent,
+      whatsapp_sent: whatsappSent,
+      notification_errors: notificationErrors,
+    });
   } catch (error) {
-    console.error('[adminVerificacao] Error:', (error as Error).message);
-    return Response.json({ error: (error as Error).message }, { status: 500 });
+    console.error('[adminVerificacao] Error:', error instanceof Error ? error.message : 'unknown_error');
+    return Response.json({ error: 'Não foi possível processar a verificação' }, { status: 500 });
   }
 });

@@ -1,75 +1,120 @@
-import { createClientFromRequest } from "npm:@base44/sdk@0.8.31";
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+
+function redact(value: unknown, maxLength: number): string {
+  return String(value || '')
+    .replace(/Bearer\s+[^\s]+/gi, 'Bearer [redacted]')
+    .replace(/([?&](?:token|key|secret|password|code|access_token)=)[^&\s]+/gi, '$1[redacted]')
+    .replace(/(api[_-]?key|secret|authorization|password)\s*[:=]\s*[^\s,;]+/gi, '$1=[redacted]')
+    .slice(0, maxLength);
+}
+
+function safePageUrl(value: unknown): string {
+  try {
+    const url = new URL(String(value || ''));
+    return `${url.origin}${url.pathname}`.slice(0, 500);
+  } catch {
+    return redact(value, 500);
+  }
+}
+
+function aiText(result: any): string {
+  return String(result?.data?.message || result?.message || result?.data?.content || '').slice(0, 6000);
+}
+
+const TRIAGE_PROMPT = `Analise este erro técnico da plataforma Trancoso Resolve.
+Retorne uma triagem curta e prática com: causa provável, gravidade (baixa/média/alta), próximo diagnóstico e correção sugerida.
+Não invente fatos, não inclua segredos e não faça alterações, deploy ou envio de mensagens. A análise será revisada por um administrador.
+
+Erro: {{error}}
+Página: {{page}}
+Stack: {{stack}}
+Componente: {{component}}`;
 
 Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
     const body = await req.json();
+    const errorMessage = redact(body.error_message || 'Erro não identificado', 2000);
+    const errorStack = redact(body.error_stack, 5000);
+    const componentStack = redact(body.component_stack, 5000);
+    const pageUrl = safePageUrl(body.page_url);
+    const userAgent = redact(body.user_agent, 500);
 
-    const errorMessage = String(body.error_message || "").slice(0, 2000);
-    const errorStack = String(body.error_stack || "").slice(0, 5000);
-    const componentStack = String(body.component_stack || "").slice(0, 5000);
-    const pageUrl = String(body.page_url || "").slice(0, 500);
-    const userAgent = String(body.user_agent || "").slice(0, 500);
-
-    // Captura o email do usuário se autenticado (best-effort, não obrigatório)
-    let userEmail = String(body.user_email || "").slice(0, 200);
+    let userEmail = redact(body.user_email, 200);
     if (!userEmail) {
       try {
         const user = await base44.auth.me();
-        if (user?.email) userEmail = String(user.email).slice(0, 200);
-      } catch (_) { /* ignora — usuário pode não estar logado */ }
+        if (user?.email) userEmail = redact(user.email, 200);
+      } catch (_) { /* usuário pode não estar logado */ }
     }
 
-    // 1) Salva no banco
-    await base44.asServiceRole.entities.ClientErrorLog.create({
+    const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString();
+    const recent = await base44.asServiceRole.entities.ClientErrorLog.filter(
+      { error_message: errorMessage, page_url: pageUrl, created_date: { $gte: thirtyMinAgo } },
+      '-created_date',
+      1,
+    );
+    if (recent?.length) return Response.json({ ok: true, duplicate: true, triage: 'skipped' });
+
+    const tenMinAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+    const pageBurst = await base44.asServiceRole.entities.ClientErrorLog.filter(
+      { page_url: pageUrl, created_date: { $gte: tenMinAgo } },
+      '-created_date',
+      21,
+    );
+    if ((pageBurst || []).length >= 20) {
+      return Response.json({ ok: true, throttled: true, triage: 'skipped' });
+    }
+
+    const record = await base44.asServiceRole.entities.ClientErrorLog.create({
       error_message: errorMessage,
       error_stack: errorStack,
       component_stack: componentStack,
       page_url: pageUrl,
       user_agent: userAgent,
       user_email: userEmail,
+      triage_status: 'pending',
     });
 
-    // 2) Notifica a equipe por email — com throttle de 30min por (erro + página)
-    //    para não inundar a caixa em caso de crash em loop.
-    try {
-      const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000).toISOString();
-      const recent = await base44.asServiceRole.entities.ClientErrorLog.filter(
-        { error_message: errorMessage, page_url: pageUrl, created_date: { $gte: thirtyMinAgo } },
-        "-created_date", 1
-      );
-      if (!recent || recent.length === 0) {
-        const now = new Date().toLocaleString("pt-BR", { timeZone: "America/Bahia", dateStyle: "short", timeStyle: "short" });
-        const subject = `🚨 Trancoso Resolve — Erro capturado em ${pageUrl}`;
-        const emailBody = `Um erro foi capturado automaticamente pelo ErrorBoundary do app.
+    const internalSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+    const prompt = TRIAGE_PROMPT
+      .replace('{{error}}', errorMessage)
+      .replace('{{page}}', pageUrl)
+      .replace('{{stack}}', errorStack)
+      .replace('{{component}}', componentStack);
+    const request = {
+      messages: [{ role: 'user', content: prompt }],
+      systemPrompt: 'Você é o agente interno de triagem de bugs da Trancoso Resolve. Seja objetivo e seguro.',
+      ...(internalSecret ? { internal_secret: internalSecret } : {}),
+    };
 
-PÁGINA: ${pageUrl}
-USUÁRIO: ${userEmail || "(não logado)"}
-NAVEGADOR: ${userAgent}
-DATA: ${now}
+    const [claudeResult, openaiResult] = await Promise.allSettled([
+      base44.asServiceRole.functions.invoke('callClaude', request),
+      base44.asServiceRole.functions.invoke('callOpenAI', request),
+    ]);
+    const claudeText = claudeResult.status === 'fulfilled' ? aiText(claudeResult.value) : '';
+    const openaiText = openaiResult.status === 'fulfilled' ? aiText(openaiResult.value) : '';
+    const completed = Boolean(claudeText || openaiText);
+    const completedAt = new Date().toISOString();
 
-MENSAGEM:
-${errorMessage}
+    await base44.asServiceRole.entities.ClientErrorLog.update(record.id, {
+      triage_status: completed ? 'completed' : 'failed',
+      triage_claude: claudeText || 'Triagem não disponível.',
+      triage_openai: openaiText || 'Triagem não disponível.',
+      triage_completed_at: completedAt,
+    });
 
-STACK:
-${errorStack}
+    const now = new Date().toLocaleString('pt-BR', { timeZone: 'America/Bahia', dateStyle: 'short', timeStyle: 'short' });
+    await base44.asServiceRole.integrations.Core.SendEmail({
+      to: 'contato@trancosoresolve.com.br',
+      from_name: 'Trancoso Resolve — Agente de Erros',
+      subject: `🚨 Erro capturado — ${pageUrl}`,
+      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${pageUrl}\nDATA: ${now}\nUSUÁRIO: ${userEmail || '(não logado)'}\n\nMENSAGEM:\n${errorMessage}\n\nTRIAGEM CLAUDE:\n${claudeText || '(indisponível)'}\n\nTRIAGEM CHATGPT:\n${openaiText || '(indisponível)'}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
+    });
 
-COMPONENT STACK:
-${componentStack}
-
-— Trancoso Resolve · Monitor de Erros`;
-        await base44.asServiceRole.integrations.Core.SendEmail({
-          to: "contato@trancosoresolve.com.br",
-          from_name: "Trancoso Resolve — Monitor",
-          subject,
-          body: emailBody,
-        });
-      }
-    } catch (_) { /* notificação é best-effort, nunca derrubar o fluxo */ }
-
-    return Response.json({ ok: true });
+    return Response.json({ ok: true, triage: completed ? 'completed' : 'failed' });
   } catch (error) {
-    // Nunca falhar — é fire-and-forget para não quebrar a UI
+    console.error('[logClientError] erro de triagem', error instanceof Error ? error.message : 'unknown_error');
     return Response.json({ ok: false }, { status: 200 });
   }
 });

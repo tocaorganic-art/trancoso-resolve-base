@@ -11,8 +11,11 @@ Deno.serve(async (req) => {
 
     const { prestadorId, documentUrl, selfieUrl } = await req.json();
 
-    // Validar que o usuário está verificando a si mesmo
-    if (user.id !== prestadorId) {
+    const provider = await base44.entities.ServiceProvider.get(prestadorId);
+    const canVerify = user.role === 'admin'
+      || provider?.created_by === user.email
+      || provider?.email === user.email;
+    if (!provider || !canVerify) {
       return Response.json({ error: 'Forbidden - Can only verify own profile' }, { status: 403 });
     }
 
@@ -60,7 +63,6 @@ Retorne um JSON com:
     // Determinar status baseado na análise
     let verificationStatus = 'rejected';
     let message = 'Documento não passou nas verificações de segurança.';
-    let shouldApprove = false;
 
     if (
       analysis.recommendation === 'approve' &&
@@ -70,82 +72,42 @@ Retorne um JSON com:
       analysis.confidence_score >= 85
     ) {
       verificationStatus = 'approved';
-      message = 'Identidade verificada com sucesso!';
-      shouldApprove = true;
+      message = 'A etapa de identidade foi concluída e seguirá para a fila de verificação.';
     } else if (analysis.recommendation === 'manual_review') {
       verificationStatus = 'pending_review';
-      message = 'Documento requer análise manual. Você receberá um email em breve.';
+      message = 'Sua solicitação está em análise pela equipe.';
     } else {
       verificationStatus = 'rejected';
-      message = analysis.issues?.length > 0
-        ? `Verificação falhou: ${analysis.issues.join(', ')}`
-        : 'Documento não passou na verificação de identidade.';
+      message = 'Seu cadastro não foi autorizado.';
     }
 
-    // Se aprovado, atualizar perfil do prestador
-    if (shouldApprove) {
-      try {
-        // Atualizar ServiceProvider com status de verificado
-        const providers = await base44.entities.ServiceProvider.filter({
-          email: user.email,
-        });
-
-        if (providers && providers.length > 0) {
-          const provider = providers[0];
-          await base44.entities.ServiceProvider.update(provider.id, {
-            verified: true,
-            verification_date: new Date().toISOString(),
-          });
-
-          // Criar registro de verificação bem-sucedida
-          await base44.entities.Verificacao.create({
-            provider_id: provider.id,
-            verification_type: 'identity',
-            status: 'approved',
-            result: `Documento: ${analysis.document_type}, Confiança: ${analysis.confidence_score}%`,
-            verified_at: new Date().toISOString(),
-            expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 ano
-          });
-
-          console.log(`Provider ${provider.id} verified successfully`);
-        }
-      } catch (updateError) {
-        console.error('Erro ao atualizar perfil:', updateError);
-        // Não falhar a verificação se houver erro na atualização
-      }
-    } else if (verificationStatus === 'rejected') {
-      // Criar registro de verificação rejeitada
-      try {
-        const providers = await base44.entities.ServiceProvider.filter({
-          email: user.email,
-        });
-
-        if (providers && providers.length > 0) {
-          const provider = providers[0];
-          await base44.entities.Verificacao.create({
-            provider_id: provider.id,
-            verification_type: 'identity',
-            status: 'rejected',
-            result: `Razão: ${message}. Problemas: ${analysis.issues?.join(', ') || 'Análise de rosto falhou'}`,
-            verified_at: new Date().toISOString(),
-          });
-        }
-      } catch (errorLogError) {
-        console.error('Erro ao registrar rejeição:', errorLogError);
-      }
+    const existing = await base44.entities.Verificacao.filter({
+      provider_id: provider.id,
+      verification_type: 'identity',
+    });
+    const pending = existing.find((item) => ['pending', 'in_progress', 'pending_review'].includes(item.status));
+    const verificationData = {
+      status: verificationStatus,
+      result: `Documento: ${analysis.document_type || 'não identificado'}, confiança: ${analysis.confidence_score ?? 'n/a'}%`,
+      verified_at: new Date().toISOString(),
+      description: JSON.stringify({ document_url: documentUrl, selfie_url: selfieUrl }),
+    };
+    if (pending?.id) {
+      await base44.entities.Verificacao.update(pending.id, verificationData);
+    } else {
+      await base44.entities.Verificacao.create({
+        provider_id: provider.id,
+        verification_type: 'identity',
+        ...verificationData,
+      });
     }
+
+    // A liberação final ocorre somente no fluxo administrativo, após as duas etapas.
+    await base44.entities.ServiceProvider.update(provider.id, { verified: false });
 
     return Response.json({
-      status: shouldApprove ? 'approved' : verificationStatus,
+      status: verificationStatus,
       message,
-      details: {
-        document_type: analysis.document_type,
-        confidence_score: analysis.confidence_score,
-        face_match: analysis.face_match,
-        document_valid: analysis.document_valid,
-      },
-      issues: analysis.issues || [],
-      recommendation: analysis.recommendation,
     });
   } catch (error) {
     console.error('Error in verificarDocumento:', error);

@@ -6,13 +6,13 @@
  *   META_CAPI_TOKEN = <seu Access Token gerado no Meta Business Suite>
  *
  * Como gerar o token:
- * Meta Business Suite → Events Manager → seu Pixel (1469130194903035)
+ * Meta Business Suite → Events Manager → seu Pixel (908361385639766)
  *   → Configurações → API de Conversões → Gerar Token de Acesso
  */
 
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-const PIXEL_ID = '1469130194903035';
+const PIXEL_ID = '908361385639766';
 const CAPI_URL = `https://graph.facebook.com/v19.0/${PIXEL_ID}/events`;
 
 Deno.serve(async (req) => {

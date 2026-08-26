@@ -1,11 +1,11 @@
 # Automação de comunicação e captura de leads
 
-Documento de implementação local para a Trancoso Resolve. O frontend está no checkout React/Vite; as funções e entidades em `base44/` devem ser sincronizadas no sandbox remoto Base44 quando houver créditos. Nenhuma publicação, campanha ou chamada real às APIs externas foi executada.
+Documento de implementação para a Trancoso Resolve. O frontend está no checkout React/Vite; as funções e entidades em `base44/` serão sincronizadas no sandbox remoto Base44 por função. A ligação final dos webhooks Meta e o teste real de mensagens permanecem pendentes.
 
 ## 1. Arquitetura
 
 ```text
-Visitante / Lead Ads / WhatsApp / Messenger
+Visitante / Lead Ads / WhatsApp / Messenger / Instagram
               │
               ▼
       Webhooks Base44 (Deno)
@@ -13,9 +13,9 @@ Visitante / Lead Ads / WhatsApp / Messenger
       ├─ normalização e consentimento LGPD
       ├─ Lead + LeadConversa
       ├─ calcularLeadScore
-      └─ respostas WhatsApp/Messenger
+      └─ respostas WhatsApp/Messenger/Instagram
               │
-              ├─ Meta Cloud API (WhatsApp / Messenger)
+              ├─ Meta Cloud API (WhatsApp / Messenger / Instagram)
               └─ Base44 SDK (entidades e funções)
 
 React/Vite ── LeadCaptureForm ── createLead ── Lead
@@ -32,7 +32,10 @@ React/Vite ── LeadCaptureForm ── createLead ── Lead
 | Lead Ads Facebook | HMAC, `leadgen_id`, consulta Graph `field_data` e consentimento | Cria `Lead` com `source=facebook`, registra conversa, calcula score e tenta boas-vindas |
 | Mensagem WhatsApp | HMAC e telefone E.164 | Salva entrada; cadastro/prestador usa template oficial; preço/plano e demais mensagens usam resposta de texto |
 | Mensagem Messenger | HMAC e token de verificação | Salva entrada e responde por palavra-chave via Send API |
+| Mensagem Instagram Direct | HMAC e token de verificação | Usa o webhook compartilhado com Messenger, salva entrada e responde via Instagram Send API |
+| Erro no site | `ErrorBoundary` → `logClientError` | Salva no Base44, faz uma triagem única com Claude e ChatGPT e avisa a equipe por email |
 | Score >= 70 | Serviço interno + critérios documentados | Atualiza `qualificado` e notifica `LEAD_TEAM_PHONE` uma vez |
+| Cadastro validado | Identidade e antecedentes aprovados na fila administrativa | Libera o prestador e envia boas-vindas por email e WhatsApp uma vez |
 | Cadastro concluído | Consentimento de marketing já concedido | `CompleteRegistration` via módulo do Pixel |
 | Assinatura confirmada | URL de confirmação com plano | `Purchase` sem enviar valor inventado; valor deve ser obtido de fonte comercial aprovada |
 
@@ -42,21 +45,21 @@ O módulo `src/lib/whatsapp-templates.ts` usa chaves internas e nomes cadastrado
 
 | Chave | Nome Meta | Variáveis |
 |---|---|---|
-| `boas_vindas_lead` | `trc_bem_vindo_lead` | `nome` |
+| `boas_vindas_lead` | `trc_bem_vindo_lead` | sem variáveis no template atual da Meta |
 | `prestador_aprovado` | `trc_prestador_aprovado` | `nome` |
 | `prestador_rejeitado` | `trc_prestador_rejeitado` | `nome`, `motivo` |
 | `nova_solicitacao` | `trc_nova_solicitacao` | `cliente`, `servico`, `localidade` |
 | `lembrete_resposta` | `trc_lembrete_resposta` | `cliente` |
 | `follow_up_lead` | `trc_lead_confirmado` | `nome`, `servico` |
 
-Todos os templates usam `pt_BR`, header textual, corpo com variáveis posicionais e footer da marca. O envio de template sempre usa `WHATSAPP_TOKEN` somente no header Bearer e nunca grava o token em logs.
+Todos os templates usam `pt_BR`. O envio de template sempre usa `WHATSAPP_TOKEN` somente no header Bearer e nunca grava o token em logs. A mensagem de boas-vindas do cadastro usa o template existente `trc_bem_vindo_lead` sem parâmetros; se o template for alterado no Meta, o contrato deve ser atualizado antes do deploy.
 
 ## 4. Variáveis de ambiente
 
 ### Frontend/Vercel
 
 ```text
-VITE_FB_PIXEL_ID=1469130194903035
+VITE_FB_PIXEL_ID=908361385639766
 VITE_BASE44_APP_ID=<app-id-publico-do-frontend>
 VITE_BASE44_BACKEND_URL=<url-do-backend-base44>
 ```
@@ -68,14 +71,17 @@ VITE_BASE44_BACKEND_URL=<url-do-backend-base44>
 ```text
 WHATSAPP_TOKEN=<token-da-meta-no-painel-base44>
 WHATSAPP_PHONE_NUMBER_ID=<phone-number-id-da-meta>
-FB_PIXEL_ID=1469130194903035
+FB_PIXEL_ID=908361385639766
 FB_PAGE_ACCESS_TOKEN=<token-da-pagina-no-painel-base44>
+INSTAGRAM_ACCESS_TOKEN=<token-do-usuario-profissional-do-instagram-no-painel-base44>
 FB_VERIFY_TOKEN=<valor-aleatorio-gerado-e-guardado-no-painel>
 FB_APP_SECRET=<app-secret-da-meta-no-painel-base44>
 LEAD_TEAM_PHONE=<telefone-internacional-da-equipe>
 ```
 
 Os valores acima são nomes de configuração, não valores para commit. O token da Meta nunca deve ser colocado em Notion, Git, documentação pública ou memória.
+
+Estado verificado em 26/08/2026: o app Base44 ainda possui o webhook legado `whatsappWebhook` e o novo `processarWebhookWhatsApp`; somente um deles deve ser conectado ao mesmo número no Meta para evitar respostas duplicadas. O segredo `INSTAGRAM_ACCESS_TOKEN` ainda não está cadastrado.
 
 ## 5. Webhooks no Meta Business Manager
 
@@ -86,8 +92,9 @@ Registrar no painel o endpoint publicado pelo Base44 para cada função abaixo. 
 | WhatsApp Cloud API | `processarWebhookWhatsApp` | `FB_VERIFY_TOKEN` + `x-hub-signature-256` |
 | Facebook Lead Ads | `processarLeadFacebook` | `FB_VERIFY_TOKEN` + `x-hub-signature-256` |
 | Messenger | `processarWebhookMessenger` | `FB_VERIFY_TOKEN` + `x-hub-signature-256` |
+| Instagram Direct | `processarWebhookMessenger` (objeto `instagram`) | `FB_VERIFY_TOKEN` + `x-hub-signature-256` |
 
-No painel, assinar apenas os campos necessários: mensagens/status do WhatsApp, `leadgen` para Lead Ads e mensagens do Messenger. Fazer o GET de verificação e um POST assinado de teste antes de ativar qualquer automação.
+No painel, assinar apenas os campos necessários: mensagens/status do WhatsApp, `leadgen` para Lead Ads, mensagens do Messenger e `messages` do Instagram. Fazer o GET de verificação e um POST assinado de teste antes de ativar qualquer automação.
 
 ## 6. Configuração passo a passo
 

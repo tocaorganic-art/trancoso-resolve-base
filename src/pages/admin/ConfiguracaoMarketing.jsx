@@ -11,7 +11,7 @@ export default function ConfiguracaoMarketing() {
     {
       num: '1',
       title: 'Acesse o Meta Business Suite',
-      desc: 'Vá em Events Manager → selecione o Pixel 1469130194903035',
+      desc: 'Vá em Events Manager → selecione o Pixel 908361385639766',
     },
     {
       num: '2',
@@ -58,7 +58,7 @@ export default function ConfiguracaoMarketing() {
           <div className="bg-[#3E8E5A]/10 border border-[#3E8E5A]/30 rounded-xl p-4">
             <CheckCircle className="w-5 h-5 text-[#3E8E5A] mb-2" />
             <p className="text-sm font-semibold text-[#3E8E5A]">Meta Pixel</p>
-            <p className="text-xs text-[#3E8E5A]/80 mt-1">1469130194903035 — Ativo</p>
+            <p className="text-xs text-[#3E8E5A]/80 mt-1">908361385639766 — Ativo</p>
           </div>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
             <AlertTriangle className="w-5 h-5 text-amber-500 mb-2" />

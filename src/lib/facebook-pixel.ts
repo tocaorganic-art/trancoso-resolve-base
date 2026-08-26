@@ -1,4 +1,4 @@
-const OFFICIAL_PIXEL_ID = '1469130194903035';
+const OFFICIAL_PIXEL_ID = '908361385639766';
 const PIXEL_SCRIPT_ID = 'trancoso-meta-pixel';
 
 type PixelData = Record<string, unknown>;

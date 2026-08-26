@@ -40,6 +40,20 @@ const formatCnpj = (value) => {
   return digits;
 };
 
+const isCoverAspectRatioValid = (file) => new Promise((resolve) => {
+  const image = new Image();
+  const objectUrl = URL.createObjectURL(file);
+  image.onload = () => {
+    URL.revokeObjectURL(objectUrl);
+    resolve(Math.abs(image.width / image.height - 16 / 9) <= 0.02);
+  };
+  image.onerror = () => {
+    URL.revokeObjectURL(objectUrl);
+    resolve(false);
+  };
+  image.src = objectUrl;
+});
+
 const ProfileCompleteness = ({ formData }) => {
     // Define checks and their weights for profile completeness
     const completenessChecks = {
@@ -79,8 +93,6 @@ const ProfileCompleteness = ({ formData }) => {
         }
     }
     
-    const progressColor = score > 80 ? 'bg-[#3E8E5A]' : score > 50 ? 'bg-amber-500' : 'bg-red-600';
-
     return (
         <Card className="mb-8 bg-muted border-border">
             <CardHeader>
@@ -253,6 +265,10 @@ function MeuPerfilPrestadorContent() {
 
   const handleFileUpload = async (file, type) => {
     if (!file) return;
+    if (type === 'cover' && !(await isCoverAspectRatioValid(file))) {
+      toast.error('A foto de capa precisa estar no formato 16:9.');
+      return;
+    }
     setUploading(prev => ({...prev, [type]: true}));
     try {
       const { file_url } = await base44.integrations.Core.UploadFile({ file });
@@ -399,9 +415,9 @@ function MeuPerfilPrestadorContent() {
             <div className="space-y-2">
               <Label>
                 Foto de Capa <span className="text-red-500">*</span>
-                <span className="ml-2 text-xs font-normal text-muted-foreground">JPG/PNG/WebP · máx. 5MB · proporção 16:9 recomendada</span>
+                <span className="ml-2 text-xs font-normal text-muted-foreground">JPG/PNG/WebP · máx. 5MB · proporção 16:9</span>
               </Label>
-              <div className={`relative w-full h-40 rounded-xl overflow-hidden border-2 border-dashed flex items-center justify-center bg-muted ${errors.cover_photo_url ? 'border-red-400' : 'border-border'}`}>
+              <div className={`relative w-full aspect-video rounded-xl overflow-hidden border-2 border-dashed flex items-center justify-center bg-muted ${errors.cover_photo_url ? 'border-red-400' : 'border-border'}`}>
                 {formData.cover_photo_url ? (
                   <>
                     <img src={formData.cover_photo_url} alt="Foto de capa" className="w-full h-full object-cover" />

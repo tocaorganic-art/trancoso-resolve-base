@@ -113,13 +113,14 @@ export default function ServiceLocationMap({ initialPosition, onLocationSelect }
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng(),
         };
+        const address = place.formatted_address || place.name || '';
         flyTo(pos);
-        setSelectedAddress(place.formatted_address || place.name || '');
-        if (onLocationSelect) onLocationSelect([pos.lat, pos.lng], place.formatted_address || place.name || '');
+        setSearchQuery(address);
+        setSelectedAddress(address);
+        if (onLocationSelect) onLocationSelect([pos.lat, pos.lng], address);
       });
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loaded]);
 
   const flyTo = (pos) => {
@@ -142,18 +143,22 @@ export default function ServiceLocationMap({ initialPosition, onLocationSelect }
           if (status === 'OK' && results[0]) {
             const loc = results[0].geometry.location;
             const pos = { lat: loc.lat(), lng: loc.lng() };
+            const address = results[0].formatted_address || searchQuery;
             flyTo(pos);
-            setSelectedAddress(results[0].formatted_address || searchQuery);
-            if (onLocationSelect) onLocationSelect([pos.lat, pos.lng], results[0].formatted_address || searchQuery);
+            setSearchQuery(address);
+            setSelectedAddress(address);
+            if (onLocationSelect) onLocationSelect([pos.lat, pos.lng], address);
           } else {
             geocoder.geocode({ address: searchQuery }, (results2, status2) => {
               setSearching(false);
               if (status2 === 'OK' && results2[0]) {
                 const loc = results2[0].geometry.location;
                 const pos = { lat: loc.lat(), lng: loc.lng() };
+                const address = results2[0].formatted_address || searchQuery;
                 flyTo(pos);
-                setSelectedAddress(results2[0].formatted_address || searchQuery);
-                if (onLocationSelect) onLocationSelect([pos.lat, pos.lng], results2[0].formatted_address || searchQuery);
+                setSearchQuery(address);
+                setSelectedAddress(address);
+                if (onLocationSelect) onLocationSelect([pos.lat, pos.lng], address);
               } else {
                 setSelectedAddress('');
                 alert('Endereço não encontrado. Tente digitar "Rua, número, bairro, Trancoso".');
@@ -162,7 +167,7 @@ export default function ServiceLocationMap({ initialPosition, onLocationSelect }
           }
         }
       );
-    } catch (err) {
+    } catch {
       setSearching(false);
       alert('Erro ao buscar endereço. Tente novamente.');
     }
@@ -172,9 +177,26 @@ export default function ServiceLocationMap({ initialPosition, onLocationSelect }
     if (!navigator.geolocation) { alert("Geolocalização não suportada."); return; }
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        flyTo({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        setSelectedAddress('');
-        if (onLocationSelect) onLocationSelect([pos.coords.latitude, pos.coords.longitude], '');
+        const currentPosition = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        flyTo(currentPosition);
+
+        // Converte as coordenadas em endereço para não deixar o campo vazio.
+        if (!window.google?.maps) {
+          const fallback = `Localização atual (${currentPosition.lat.toFixed(5)}, ${currentPosition.lng.toFixed(5)})`;
+          setSearchQuery(fallback);
+          setSelectedAddress(fallback);
+          if (onLocationSelect) onLocationSelect([currentPosition.lat, currentPosition.lng], fallback);
+          return;
+        }
+
+        new window.google.maps.Geocoder().geocode({ location: currentPosition }, (results, status) => {
+          const address = status === 'OK' && results?.[0]?.formatted_address
+            ? results[0].formatted_address
+            : `Localização atual (${currentPosition.lat.toFixed(5)}, ${currentPosition.lng.toFixed(5)})`;
+          setSearchQuery(address);
+          setSelectedAddress(address);
+          if (onLocationSelect) onLocationSelect([currentPosition.lat, currentPosition.lng], address);
+        });
       },
       () => alert("Não foi possível obter sua localização. Verifique as permissões.")
     );

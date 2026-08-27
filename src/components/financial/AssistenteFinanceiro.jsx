@@ -76,7 +76,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
     `;
 
     try {
-       const response = await base44.functions.invoke('callClaude', {
+       const response = await base44.functions.invoke('callMicrosoftAI', {
          messages: [{ role: 'user', content: prompt }],
          response_json_schema: jsonSchema,
          systemPrompt: 'Você é um assistente financeiro especializado em análise de dados. Retorne insights acionáveis em português do Brasil.'

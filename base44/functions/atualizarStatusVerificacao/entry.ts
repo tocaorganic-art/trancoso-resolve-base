@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
 
         const corpo = isAprovado
           ? `Olá${providerName ? ` ${providerName}` : ''}!\n\nSua verificação foi aprovada. Seu perfil agora está marcado como verificado na plataforma Trancoso Resolve.\n\nAcesse seu perfil em: https://www.trancosoresolve.com.br/meu-perfil\n\nObrigado por fazer parte da nossa comunidade!\n\nEquipe Trancoso Resolve`
-          : `Olá${providerName ? ` ${providerName}` : ''}!\n\nInfelizmente sua verificação não pôde ser aprovada.${motivo ? `\n\nMotivo: ${motivo}` : ''}\n\nSe tiver dúvidas ou quiser tentar novamente, entre em contato conosco pelo WhatsApp ou acesse seu painel.\n\nEquipe Trancoso Resolve`;
+          : `Olá${providerName ? ` ${providerName}` : ''}!\n\nInfelizmente sua verificação não pôde ser aprovada.\n\nPara tentar novamente, acesse seu painel e envie novos documentos legíveis.\n\nSe precisar de revisão, responda este e-mail ou use o suporte disponível no site.\n\nEquipe Trancoso Resolve`;
 
         await base44.integrations.Email.sendEmail({
           to: providerEmail,

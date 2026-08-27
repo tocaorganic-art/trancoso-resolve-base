@@ -1,64 +1,42 @@
-# deploy.ps1 — deploy do Trancoso Resolve (Windows PowerShell)
+# deploy.ps1 — build ou deploy isolado do Trancoso Resolve (Windows PowerShell)
 #Requires -Version 5.1
+param(
+    [ValidateSet('build', 'vercel', 'base44')]
+    [string]$Target = 'build'
+)
+
 $ErrorActionPreference = "Stop"
 
 Write-Host ""
 Write-Host "========================================"
-Write-Host "  Trancoso Resolve — Deploy"
+Write-Host "  Trancoso Resolve — $Target"
 Write-Host "========================================"
 Write-Host ""
 
-# 1. Instalar dependências e build
-Write-Host "[1/4] npm install..."
-npm install
-if ($LASTEXITCODE -ne 0) { throw "npm install falhou" }
+# Instalação determinística e build comum a todos os alvos
+Write-Host "[1/2] npm ci..."
+npm ci
+if ($LASTEXITCODE -ne 0) { throw "npm ci falhou" }
 
-Write-Host "[2/4] npm run build..."
+Write-Host "[2/2] npm run build..."
 npm run build
 if ($LASTEXITCODE -ne 0) { throw "npm run build falhou" }
 Write-Host "  OK dist/ gerado"
 
-# 3. Deploy Vercel
-Write-Host ""
-Write-Host "[3/4] Deploy Vercel (frontend)..."
-$vercelOk = $false
-try {
-    $null = npx vercel --version 2>&1
-    $deployResult = npx vercel deploy --prod --yes 2>&1
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "  OK Vercel deploy concluido"
-        $vercelOk = $true
+switch ($Target) {
+    'build' {
+        Write-Host "Build concluido; nenhum deploy foi executado."
     }
-} catch {}
-
-if (-not $vercelOk) {
-    Write-Host "  AVISO Vercel deploy falhou. Passos manuais:"
-    Write-Host "    1. npx vercel login"
-    Write-Host "    2. npx vercel link   (primeira vez)"
-    Write-Host "    3. npx vercel deploy --prod --yes"
-    Write-Host "    (ou: push para 'main' dispara deploy automatico)"
-}
-
-# 4. Deploy Base44
-Write-Host ""
-Write-Host "[4/4] Deploy Base44 (functions + entities)..."
-$base44Ok = $false
-try {
-    $null = npx base44 --version 2>&1
-    $b44Result = npx base44 deploy --yes 2>&1
-    if ($LASTEXITCODE -eq 0) {
-        Write-Host "  OK Base44 deploy concluido"
-        $base44Ok = $true
+    'vercel' {
+        npx vercel deploy --prod --yes
+        if ($LASTEXITCODE -ne 0) { throw "Deploy Vercel falhou" }
+        Write-Host "Deploy Vercel concluido."
     }
-} catch {}
-
-if (-not $base44Ok) {
-    Write-Host "  AVISO Base44 CLI nao disponivel. Deploy manual necessario:"
-    Write-Host ""
-    Write-Host "  Acesse app 68eb21726a9614db4a82ba99 no painel Base44:"
-    Write-Host "  - Entities > New Entity > colar base44/entities/LogWhatsApp.jsonc"
-    Write-Host "  - Functions > enviarMensagemWhatsApp > colar entry.ts"
-    Write-Host "  - Functions > stripeWebhook > colar entry.ts atualizado"
+    'base44' {
+        npx base44 deploy --yes
+        if ($LASTEXITCODE -ne 0) { throw "Deploy Base44 falhou" }
+        Write-Host "Deploy Base44 concluido."
+    }
 }
 
 # Resumo final

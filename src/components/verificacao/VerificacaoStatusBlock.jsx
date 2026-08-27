@@ -1,8 +1,7 @@
-import { CheckCircle, Clock, AlertTriangle, XCircle, ArrowRight, MessageCircle } from "lucide-react";
+import { CheckCircle, Clock, AlertTriangle, XCircle, ArrowRight, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-const SUPORTE_WHATSAPP = "https://wa.me/5573999999999?text=Olá%2C+preciso+de+ajuda+com+a+aprovação+do+meu+perfil+na+Trancoso+Resolve.";
 const SUPORTE_EMAIL = "mailto:contato@tocaexperience.com.br?subject=Aprovação+de+perfil+—+Trancoso+Resolve";
 
 const statusConfig = {
@@ -11,10 +10,10 @@ const statusConfig = {
     color: "bg-amber-50 border-amber-200",
     iconColor: "text-amber-500",
     title: "Verificação em andamento",
-    message: "Estamos realizando sua verificação de segurança em bases oficiais. Assim que concluída, seu perfil poderá aparecer para os clientes.",
+    message: "Estamos realizando sua verificação de segurança. Assim que concluída, seu perfil poderá aparecer para os clientes.",
     ctas: [
       { label: "Completar meu perfil", to: "/MeuPerfilPrestador", variant: "outline" },
-      { label: "Falar com suporte", href: SUPORTE_WHATSAPP, variant: "ghost", icon: MessageCircle },
+      { label: "Falar com suporte", href: SUPORTE_EMAIL, variant: "ghost", icon: Mail },
     ],
   },
   aprovado: {
@@ -33,7 +32,7 @@ const statusConfig = {
     message: "Sua verificação está em análise pela nossa equipe. Entraremos em contato pelo e-mail cadastrado em breve.",
     ctas: [
       { label: "Completar meu perfil", to: "/MeuPerfilPrestador", variant: "outline" },
-      { label: "Falar com suporte", href: SUPORTE_EMAIL, variant: "ghost", icon: MessageCircle },
+      { label: "Falar com suporte", href: SUPORTE_EMAIL, variant: "ghost", icon: Mail },
     ],
   },
   reprovado: {
@@ -44,7 +43,7 @@ const statusConfig = {
     message: "Não foi possível ativar seu perfil neste momento. Complete as informações abaixo ou entre em contato com o suporte.",
     ctas: [
       { label: "Completar meu perfil", to: "/MeuPerfilPrestador", variant: "default" },
-      { label: "Falar com suporte", href: SUPORTE_WHATSAPP, variant: "outline", icon: MessageCircle },
+      { label: "Falar com suporte", href: SUPORTE_EMAIL, variant: "outline", icon: Mail },
     ],
   },
 };

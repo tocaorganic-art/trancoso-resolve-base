@@ -9,7 +9,7 @@
  *   o mesmo evento via CAPI sem duplicar no relatório do Facebook.
  */
 
-const PIXEL_ID = '1469130194903035';
+const PIXEL_ID = '908361385639766';
 
 /**
  * Gera um UUID v4 simples para event_id.

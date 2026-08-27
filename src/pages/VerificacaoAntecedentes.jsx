@@ -89,21 +89,21 @@ export default function VerificacaoAntecedentesPage() {
             Verificação de Antecedentes
           </h1>
           <p className="text-muted-foreground text-lg">
-            Comprovamos que você não tem antecedentes criminais
+            Etapa de verificação de segurança do cadastro
           </p>
         </div>
 
         {/* Status Atual */}
         {provider && (
           <div className="mb-8">
-            {verificacao?.status === 'approved' ? (
+            {['approved', 'Verificado'].includes(verificacao?.status) ? (
               <Card className="bg-[#3E8E5A]/10 border-[#3E8E5A]/30">
                 <CardContent className="p-6 flex items-center gap-4">
                   <CheckCircle className="w-12 h-12 text-[#3E8E5A] shrink-0" />
                   <div>
                     <h3 className="font-bold text-foreground text-lg">Verificação Aprovada!</h3>
                     <p className="text-muted-foreground text-sm mt-1">
-                      Seus antecedentes foram validados. Você tem maior confiabilidade.
+                      Esta etapa foi concluída. Seu cadastro seguirá o fluxo de verificação da plataforma.
                     </p>
                   </div>
                 </CardContent>
@@ -135,7 +135,7 @@ export default function VerificacaoAntecedentesPage() {
         )}
 
         {/* Fluxo de Verificação */}
-        {verificacao?.status !== 'approved' && verificacao?.status !== 'pending_review' && (
+        {!['approved', 'Verificado', 'pending_review'].includes(verificacao?.status) && (
           <BackgroundCheckFlow
             prestadorId={provider?.id}
             onVerificationComplete={handleVerificationComplete}
@@ -146,9 +146,9 @@ export default function VerificacaoAntecedentesPage() {
         <div className="mt-8 bg-orange-50 border border-orange-200 rounded-lg p-6">
           <h4 className="font-bold text-foreground mb-3 text-sm">Como Funciona</h4>
           <ul className="text-sm text-muted-foreground space-y-2">
-            <li>• Seus dados são consultados contra bases de dados oficiais</li>
+            <li>• Seus dados são tratados somente para a finalidade de verificação autorizada</li>
             <li>• Análise totalmente criptografada e segura</li>
-            <li>• Resultado imediato ou análise manual em casos específicos</li>
+            <li>• O resultado pode exigir análise manual em casos específicos</li>
             <li>• Você pode solicitar exclusão dos dados a qualquer momento</li>
           </ul>
         </div>

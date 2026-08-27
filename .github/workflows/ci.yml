@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   build:
-    name: Lint & Build
+    name: Lint, Test & Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,6 +30,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Test
+        run: npm run test
 
       # Build é o gate obrigatório: precisa passar para o PR ser mergeável.
       - name: Build

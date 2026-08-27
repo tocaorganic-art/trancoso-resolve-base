@@ -38,7 +38,6 @@ export default function CadastroTipoPage() {
   const [temPontoFisico, setTemPontoFisico] = useState(false);
   const [nomeCompleto, setNomeCompleto] = useState('');
   const [dataNascimento, setDataNascimento] = useState('');
-  const [nomeMae, setNomeMae] = useState('');
   const [razaoSocial, setRazaoSocial] = useState('');
   const [nomFantasia, setNomeFantasia] = useState('');
 
@@ -48,56 +47,33 @@ export default function CadastroTipoPage() {
   });
 
   const redirectPrestador = async (email, name) => {
-    // Fire-and-forget: cria trial em paralelo
+    // Cria o trial em paralelo sem bloquear o cadastro do perfil.
     base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name }).catch(() => {
       localStorage.setItem('trial_pendente', 'true');
     });
 
-    // Fire-and-forget: upsert ServiceProvider e dispara verificação de antecedentes
-    const cpfLimpo = cpf.replace(/\D/g, '');
+    // O cadastro completo acontece em MeuPerfilPrestador. Aqui criamos apenas
+    // o registro mínimo necessário para evitar pedir os mesmos dados duas vezes.
     const providerData = {
-      tipo_pessoa: tipoPessoa,
-      cpf: cpfLimpo,
-      full_name: nomeCompleto.trim(),
-      data_nascimento: dataNascimento,
-      ...(nomeMae && { nome_mae: nomeMae.trim() }),
-      ...(cnpj && { cnpj: cnpj.replace(/\D/g, '') }),
-      tem_ponto_fisico_em_trancoso: temPontoFisico,
-      ...(razaoSocial && { razao_social: razaoSocial }),
-      ...(nomFantasia && { nome_fantasia: nomFantasia }),
-      email: email,
+      tipo_pessoa: 'pf',
+      full_name: name?.trim() || '',
+      email: email || '',
     };
-    base44.entities.ServiceProvider.filter({ created_by: email })
-      .then(async (providers) => {
-        let providerId;
-        if (!providers || providers.length === 0) {
-          const created = await base44.entities.ServiceProvider.create(providerData);
-          providerId = created.id;
-        } else {
-          providerId = providers[0].id;
-          await base44.entities.ServiceProvider.update(providerId, providerData);
-        }
-        base44.functions.invoke('verificarAntecedentes', { service_provider_id: providerId }).catch(() => {});
-      })
-      .catch(() => {});
-
-    // Aguarda o banco propagar o user_type antes de redirecionar (polling com timeout)
-    localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
-    const maxWait = Date.now() + 15000; // máximo 15s
-    while (Date.now() < maxWait) {
-      await new Promise(r => setTimeout(r, 1000));
-      try {
-        const freshUser = await base44.auth.me();
-        if (freshUser?.user_type === 'prestador') {
-          console.log('[CadastroTipo] user_type propagado, redirecionando...');
-          break;
-        }
-        console.log('[CadastroTipo] Aguardando propagação...', freshUser?.user_type);
-      } catch (e) {
-        console.warn('[CadastroTipo] Erro ao verificar user_type:', e);
+    try {
+      const providers = await base44.entities.ServiceProvider.filter({ created_by: email });
+      if (!providers || providers.length === 0) {
+        await base44.entities.ServiceProvider.create(providerData);
+      } else {
+        await base44.entities.ServiceProvider.update(providers[0].id, providerData);
       }
+    } catch (error) {
+      // O próprio perfil também consegue criar o registro; não deixe uma
+      // falha transitória do upsert bloquear o único formulário do usuário.
+      console.warn('[CadastroTipo] Não foi possível preparar o perfil:', error);
     }
-    window.location.replace('/Dashboard');
+
+    localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
+    window.location.replace('/MeuPerfilPrestador');
   };
 
   const updateUserMutation = useMutation({
@@ -126,6 +102,11 @@ export default function CadastroTipoPage() {
   });
 
   const handleClienteClick = () => updateUserMutation.mutate('cliente');
+
+  const handlePrestadorClick = () => {
+    setStep('processando');
+    updateUserMutation.mutate('prestador');
+  };
 
   const handlePrestadorSubmit = () => {
     if (!autorizouVerificacao) {
@@ -194,7 +175,7 @@ export default function CadastroTipoPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {[
                     { icon: User, title: 'Sou Cliente', desc: 'Quero encontrar e contratar os melhores serviços em Trancoso.', action: handleClienteClick, cta: null },
-                    { icon: Briefcase, title: 'Sou Prestador / Empresa', desc: 'Quero oferecer serviços ou cadastrar meu negócio em Trancoso.', action: () => setStep('tipo_pessoa'), cta: 'Continuar' },
+                    { icon: Briefcase, title: 'Sou Prestador / Empresa', desc: 'Quero oferecer serviços ou cadastrar meu negócio em Trancoso.', action: handlePrestadorClick, cta: 'Continuar' },
                   ].map((opt, i) => (
                     <motion.div
                       key={opt.title}
@@ -280,15 +261,9 @@ export default function CadastroTipoPage() {
               <Input id="nome_completo_cad" placeholder="Seu nome completo" value={nomeCompleto} onChange={(e) => setNomeCompleto(e.target.value)} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              <div>
-                <Label htmlFor="data_nasc_cad" className="text-foreground">Data de nascimento <span className="text-red-400">*</span></Label>
-                <Input id="data_nasc_cad" type="date" value={dataNascimento} onChange={(e) => setDataNascimento(e.target.value)} className="bg-background border-border text-foreground" />
-              </div>
-              <div>
-                <Label htmlFor="nome_mae_cad" className="text-foreground">Nome da mãe</Label>
-                <Input id="nome_mae_cad" placeholder="Opcional" value={nomeMae} onChange={(e) => setNomeMae(e.target.value)} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
-              </div>
+            <div>
+              <Label htmlFor="data_nasc_cad" className="text-foreground">Data de nascimento <span className="text-red-400">*</span></Label>
+              <Input id="data_nasc_cad" type="date" value={dataNascimento} onChange={(e) => setDataNascimento(e.target.value)} className="bg-background border-border text-foreground" />
             </div>
 
             {(tipoPessoa === 'mei' || tipoPessoa === 'pj') && (

@@ -24,6 +24,13 @@ Deno.serve(async (req: Request) => {
       return Response.json({ error: "Prestador não encontrado" }, { status: 404 });
     }
 
+    const canVerify = user.role === 'admin'
+      || (provider as any).created_by === user.email
+      || (provider as any).email === user.email;
+    if (!canVerify) {
+      return Response.json({ error: "Você só pode verificar o próprio cadastro" }, { status: 403 });
+    }
+
     const cpf = (provider as any).cpf || (provider as any).document_number;
     const nome = (provider as any).full_name || (provider as any).name;
     const birthdate = (provider as any).data_nascimento || (provider as any).birthdate;
@@ -95,21 +102,15 @@ Deno.serve(async (req: Request) => {
     const dataResult = Array.isArray(apiData.data) ? apiData.data[0] : apiData.data;
 
     const conseguiuEmitirNegativa = dataResult?.conseguiu_emitir_certidao_negativa === true;
-    const certidaoCodigo = dataResult?.certidao_codigo || "";
-    const certidaoNumero = dataResult?.numero || "";
-    const certidaoValidade = dataResult?.validade_data || "";
-    const certidaoEmissao = dataResult?.emissao_data || "";
-    const mensagemApi = dataResult?.mensagem || "";
-
     let statusVerificacao = "aprovado";
     let relatorioVerificacao = "";
 
     if (conseguiuEmitirNegativa) {
       statusVerificacao = "aprovado";
-      relatorioVerificacao = `✅ ANTECEDENTES CRIMINAIS — NADA CONSTA\nCertidão nº: ${certidaoNumero}\nCódigo: ${certidaoCodigo}\nEmissão: ${certidaoEmissao}\nValidade: ${certidaoValidade}`;
+      relatorioVerificacao = "Antecedentes verificados — etapa aprovada.";
     } else {
-      statusVerificacao = "em_analise_manual";
-      relatorioVerificacao = `⚠️ ANTECEDENTES CRIMINAIS — REGISTROS ENCONTRADOS\nMensagem: ${mensagemApi}\nCertidão nº: ${certidaoNumero}\nEmissão: ${certidaoEmissao}\n\nEncaminhado para análise manual do administrador.`;
+      statusVerificacao = "reprovado";
+      relatorioVerificacao = "Cadastro não autorizado após a consulta de antecedentes.";
     }
 
     await base44.entities.ServiceProvider.update(service_provider_id, {
@@ -117,20 +118,39 @@ Deno.serve(async (req: Request) => {
       relatorio_verificacao: relatorioVerificacao,
       data_verificacao_antecedentes: new Date().toISOString(),
       antecedentes_status: conseguiuEmitirNegativa ? "nada_consta" : "registros_encontrados",
-      antecedentes_certidao_numero: certidaoNumero,
-      antendentes_certidao_validade: certidaoValidade,
     });
+
+    const verificationStatus = conseguiuEmitirNegativa ? 'approved' : 'rejected';
+    const verificationRows = await base44.entities.Verificacao.filter({
+      provider_id: service_provider_id,
+      verification_type: 'background_check',
+    });
+    const pendingVerification = verificationRows.find((item) =>
+      ['pending', 'in_progress', 'pending_review'].includes(item.status)
+    );
+    const verificationData = {
+      status: verificationStatus,
+      result: conseguiuEmitirNegativa ? 'Etapa concluída.' : 'Cadastro não autorizado.',
+      verified_at: new Date().toISOString(),
+    };
+    if (pendingVerification?.id) {
+      await base44.entities.Verificacao.update(pendingVerification.id, verificationData);
+    } else {
+      await base44.entities.Verificacao.create({
+        provider_id: service_provider_id,
+        verification_type: 'background_check',
+        ...verificationData,
+      });
+    }
 
     return Response.json({
       success: true,
       provider_id: service_provider_id,
       antecedentes_status: conseguiuEmitirNegativa ? "nada_consta" : "registros_encontrados",
       status_verificacao: statusVerificacao,
-      certidao_numero: certidaoNumero,
-      certidao_validade: certidaoValidade,
       mensagem: conseguiuEmitirNegativa
         ? "Antecedentes criminais verificados — Nada Consta"
-        : "Registros encontrados — encaminhado para análise manual",
+        : "Seu cadastro não foi autorizado.",
     });
 
   } catch (error) {

@@ -57,13 +57,12 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const { data: provider } = useQuery({
-    queryKey: ['providerForVerificacao', verificacao?.user_email],
+    queryKey: ['providerForVerificacao', verificacao?.provider_id],
     queryFn: async () => {
-      if (!verificacao?.user_email) return null;
-      const results = await base44.entities.ServiceProvider.filter({ email: verificacao.user_email });
-      return results[0] || null;
+      if (!verificacao?.provider_id) return null;
+      return base44.entities.ServiceProvider.get(verificacao.provider_id);
     },
-    enabled: !!verificacao?.user_email && isOpen,
+    enabled: !!verificacao?.provider_id && isOpen,
   });
 
   const normalizeStatus = (status) => {
@@ -300,30 +299,21 @@ export default function FilaVerificacaoPage() {
       const verificacao = verificacoes.find(v => v.id === id);
       if (!verificacao) throw new Error('Verificação não encontrada');
 
-      // Atualizar status da verificação (sempre salvar em português para consistência)
-      const newStatus = action === "aprovar" ? "Verificado" : "Rejeitado";
-      await base44.entities.Verificacao.update(id, {
-        status: newStatus,
-        ...(action === "rejeitar" && { rejection_reason: motivo }),
-        admin_action_date: new Date().toISOString(),
+      const result = await base44.functions.invoke("adminVerificacao", {
+        verificacao_id: id,
+        action,
+        motivo,
       });
-
-      // Se aprovado, atualizar ServiceProvider para aprovado
-      if (action === "aprovar" && verificacao.provider_id) {
-        await base44.entities.ServiceProvider.update(verificacao.provider_id, {
-          status_verificacao: "aprovado",
-          verified: true,
-          verification_approved_date: new Date().toISOString(),
-        });
-      } else if (action === "rejeitar" && verificacao.provider_id) {
-        await base44.entities.ServiceProvider.update(verificacao.provider_id, {
-          status_verificacao: "reprovado",
-          verified: false,
-          rejection_reason: motivo,
-        });
+      const data = result?.data || result || {};
+      if (action === "aprovar" && data.ready_for_release && data.notification_errors?.length) {
+        toast.warning(`Cadastro liberado, mas houve falha no envio: ${data.notification_errors.join(' e ')}.`);
+      } else {
+        toast.success(action === "aprovar"
+          ? (data.ready_for_release
+            ? "✅ Cadastro liberado e notificações processadas."
+            : "✅ Etapa aprovada; aguardando a outra verificação.")
+          : "❌ Verificação rejeitada.");
       }
-
-      toast.success(action === "aprovar" ? "✅ Identidade aprovada!" : "❌ Verificação rejeitada.");
       queryClient.invalidateQueries({ queryKey: ["todasVerificacoes"] });
     } catch (error) {
       toast.error("Erro ao processar.", { description: error.message });

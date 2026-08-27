@@ -11,7 +11,7 @@ async function sha256Hash(str: string) {
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const pixelId = '1469130194903035';
+    const pixelId = '908361385639766';
     const accessToken = Deno.env.get('META_CONVERSIONS_API_TOKEN');
     const testEventCode = 'TEST67488';
 

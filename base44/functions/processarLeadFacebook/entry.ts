@@ -85,7 +85,10 @@ async function validSignature(rawBody: Uint8Array, signature: string | null): Pr
 Deno.serve(async (req: Request) => {
   if (req.method === 'GET') {
     const url = new URL(req.url);
-    if (url.searchParams.get('hub.verify_token') !== Deno.env.get('FB_VERIFY_TOKEN')) return new Response('Forbidden', { status: 403 });
+    const verifyToken = Deno.env.get('FB_VERIFY_TOKEN');
+    if (url.searchParams.get('hub.mode') !== 'subscribe' || !verifyToken || url.searchParams.get('hub.verify_token') !== verifyToken) {
+      return new Response('Forbidden', { status: 403 });
+    }
     return new Response(url.searchParams.get('hub.challenge') || '', { status: 200 });
   }
   if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -145,13 +148,18 @@ Deno.serve(async (req: Request) => {
       enviado_em: new Date().toISOString(),
     });
 
-    await base44.asServiceRole.functions.invoke('calcularLeadScore', { lead_id: lead.id }).catch((error: unknown) => {
+    const internalSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+    await base44.asServiceRole.functions.invoke('calcularLeadScore', {
+      lead_id: lead.id,
+      ...(internalSecret ? { internal_secret: internalSecret } : {}),
+    }).catch((error: unknown) => {
       console.error('[processarLeadFacebook] score não calculado', error instanceof Error ? error.message : 'unknown_error');
     });
     await base44.asServiceRole.functions.invoke('enviarWhatsApp', {
       destinatario: phone,
       template_name: 'trc_bem_vindo_lead',
-      parametros: [name],
+      parametros: [],
+      ...(internalSecret ? { internal_secret: internalSecret } : {}),
     }).catch((error: unknown) => {
       console.error('[processarLeadFacebook] WhatsApp não enviado', error instanceof Error ? error.message : 'unknown_error');
     });

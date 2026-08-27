@@ -1,13 +1,8 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { getAutomationReply } from '../_shared/automationResponses.js';
 
-const GRAPH_VERSION = 'v18.0';
+const GRAPH_VERSION = 'v20.0';
 const PHONE_PATTERN = /^\+55\d{10,11}$/;
-
-function normalizeText(value: unknown): string {
-  return typeof value === 'string'
-    ? value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim()
-    : '';
-}
 
 function normalizePhone(value: unknown): string {
   const digits = typeof value === 'string' ? value.replace(/\D/g, '') : '';
@@ -41,25 +36,6 @@ async function sendWhatsApp(to: string, type: 'template' | 'text', payload: Reco
   return response.ok ? { id: data?.messages?.[0]?.id } : { error: data?.error?.message || `Meta HTTP ${response.status}` };
 }
 
-function chooseReply(text: string, leadName = ''): { type: 'template' | 'text'; name?: string; body?: string; parameters: string[] } {
-  const normalized = normalizeText(text);
-  if (normalized.includes('prestador') || normalized.includes('cadastro')) {
-    return { type: 'template', name: 'trc_bem_vindo_lead', parameters: [leadName || 'amigo(a)'] };
-  }
-  if (normalized.includes('preco') || normalized.includes('plano') || normalized.includes('valor')) {
-    return {
-      type: 'text',
-      body: 'Planos Trancoso Resolve\n• Para clientes: encontre serviços locais e solicite atendimento.\n• Para prestadores: confira a apresentação e as condições vigentes no painel oficial.\n\nConsulte informações atualizadas em https://trancosoresolve.com.br/Planos ou fale com nossa equipe.',
-      parameters: [],
-    };
-  }
-  return {
-    type: 'text',
-    body: 'Olá! Recebemos sua mensagem. A equipe Trancoso Resolve vai retornar assim que possível.\n\nQuem resolve, pertinho de você.',
-    parameters: [],
-  };
-}
-
 async function saveConversation(base44: ReturnType<typeof createClientFromRequest>, data: Record<string, unknown>): Promise<void> {
   await base44.asServiceRole.entities.LeadConversa.create(data).catch((error: unknown) => {
     console.error('[processarWebhookWhatsApp] LeadConversa não salva', error instanceof Error ? error.message : 'unknown_error');
@@ -81,7 +57,10 @@ async function processStatuses(base44: ReturnType<typeof createClientFromRequest
 Deno.serve(async (req: Request) => {
   if (req.method === 'GET') {
     const url = new URL(req.url);
-    if (url.searchParams.get('hub.verify_token') !== Deno.env.get('FB_VERIFY_TOKEN')) return new Response('Forbidden', { status: 403 });
+    const verifyToken = Deno.env.get('FB_VERIFY_TOKEN');
+    if (url.searchParams.get('hub.mode') !== 'subscribe' || !verifyToken || url.searchParams.get('hub.verify_token') !== verifyToken) {
+      return new Response('Forbidden', { status: 403 });
+    }
     return new Response(url.searchParams.get('hub.challenge') || '', { status: 200 });
   }
   if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -119,22 +98,13 @@ Deno.serve(async (req: Request) => {
             destinatario: phone,
           });
 
-          const reply = chooseReply(text, typeof lead?.name === 'string' ? lead.name : '');
-          const templatePayload = reply.type === 'template'
-            ? {
-                name: reply.name,
-                language: { code: 'pt_BR' },
-                components: [{ type: 'body', parameters: reply.parameters.map((parameter) => ({ type: 'text', text: parameter })) }],
-              }
-            : undefined;
-          const result = reply.type === 'template'
-            ? await sendWhatsApp(phone, 'template', templatePayload || {})
-            : await sendWhatsApp(phone, 'text', { preview_url: false, body: reply.body });
+          const reply = getAutomationReply(text);
+          const result = await sendWhatsApp(phone, 'text', { preview_url: false, body: reply.text });
           await saveConversation(base44, {
             lead_id: lead?.id || undefined,
             canal: 'whatsapp',
             direcao: 'saida',
-            conteudo: reply.type === 'template' ? `template:${reply.name}` : reply.body,
+            conteudo: reply.text,
             status_entrega: result.id ? 'enviado' : 'falhou',
             enviado_em: new Date().toISOString(),
             message_id: result.id,

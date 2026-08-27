@@ -65,7 +65,7 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
       setStep('result');
 
       // Se passou, chamar callback
-      if (result.status === 'approved') {
+      if (result.status === 'approved' || result.status === 'pending_review') {
         onVerificationComplete?.(result);
       }
     } catch (error) {
@@ -221,14 +221,25 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
                     </div>
                   </div>
                   <h3 className="text-xl font-bold text-green-900">Verificação Aprovada!</h3>
-                  <p className="text-green-800">
-                    Seu perfil foi marcado como verificado. Você agora apareça no topo das buscas.
-                  </p>
-                  <Badge className="bg-green-600 text-white">✓ Verificado</Badge>
+                  <p className="text-green-800">{verificationResult.message}</p>
+                  <Badge className="bg-green-600 text-white">✓ Etapa concluída</Badge>
                 </div>
                 <p className="text-sm text-slate-600 text-center">
-                  <strong>Documentos validados:</strong> Identidade autêntica e rosto correspondente
+                  A liberação do cadastro depende da conclusão das demais etapas de verificação.
                 </p>
+              </>
+            ) : verificationResult.status === 'pending_review' ? (
+              <>
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 text-center space-y-3">
+                  <div className="flex justify-center">
+                    <div className="bg-yellow-100 rounded-full p-3">
+                      <AlertCircle className="w-8 h-8 text-yellow-600" />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-yellow-900">Análise Manual Necessária</h3>
+                  <p className="text-yellow-800">{verificationResult.message}</p>
+                  <Badge className="bg-yellow-600 text-white">⏳ Em análise</Badge>
+                </div>
               </>
             ) : (
               <>
@@ -240,15 +251,6 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
                   </div>
                   <h3 className="text-xl font-bold text-red-900">Verificação Não Aprovada</h3>
                   <p className="text-red-800">{verificationResult.message}</p>
-                  {verificationResult.details && (
-                    <div className="bg-white rounded p-3 text-left text-sm text-slate-600 space-y-1">
-                      {Object.entries(verificationResult.details).map(([key, value]) => (
-                        <p key={key}>
-                          <strong>{key}:</strong> {value}
-                        </p>
-                      ))}
-                    </div>
-                  )}
                 </div>
                 <p className="text-sm text-slate-600 text-center">
                   Dicas: Certifique-se de que a foto do documento é clara, bem iluminada e legível.

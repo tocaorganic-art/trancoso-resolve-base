@@ -178,7 +178,6 @@ function MeuPerfilPrestadorContent() {
         tipo_pessoa: 'pf',
         cpf: '',
         data_nascimento: '',
-        nome_mae: '',
         cnpj: '',
         tem_ponto_fisico_em_trancoso: false,
         razao_social: '',
@@ -489,16 +488,6 @@ function MeuPerfilPrestadorContent() {
                     onChange={(e) => handleInputChange('data_nascimento', e.target.value)}
                   />
                   <p className="text-xs text-muted-foreground mt-1">Necessário para verificação de antecedentes criminais.</p>
-                </div>
-                <div>
-                  <Label htmlFor="nome_mae">Nome completo da mãe</Label>
-                  <Input
-                    id="nome_mae"
-                    placeholder="Nome completo da sua mãe"
-                    value={formData.nome_mae || ''}
-                    onChange={(e) => handleInputChange('nome_mae', e.target.value)}
-                  />
-                  <p className="text-xs text-muted-foreground mt-1">Recomendado para a consulta de antecedentes criminais.</p>
                 </div>
                 </div>
               {(formData.tipo_pessoa === 'mei' || formData.tipo_pessoa === 'pj') && (

@@ -12,7 +12,6 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
     cpf: '',
     fullName: '',
     dateOfBirth: '',
-    motherName: '',
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [verificationResult, setVerificationResult] = useState(null);
@@ -90,7 +89,6 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
       cpf: '',
       fullName: '',
       dateOfBirth: '',
-      motherName: '',
     });
     setVerificationResult(null);
     setStep('form');
@@ -160,17 +158,6 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
                 type="date"
                 value={formData.dateOfBirth}
                 onChange={(e) => handleInputChange('dateOfBirth', e.target.value)}
-                className="h-11"
-              />
-            </div>
-
-            <div className="space-y-3">
-              <label className="text-sm font-semibold text-slate-900">Nome da Mãe</label>
-              <Input
-                type="text"
-                placeholder="Digite o nome da mãe (opcional)"
-                value={formData.motherName}
-                onChange={(e) => handleInputChange('motherName', e.target.value.toUpperCase())}
                 className="h-11"
               />
             </div>

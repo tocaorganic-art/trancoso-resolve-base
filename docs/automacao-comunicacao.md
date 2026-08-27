@@ -33,7 +33,7 @@ React/Vite ── LeadCaptureForm ── createLead ── Lead
 | Mensagem WhatsApp | HMAC e telefone E.164 | Salva entrada; cadastro/prestador usa template oficial; preço/plano e demais mensagens usam resposta de texto |
 | Mensagem Messenger | HMAC e token de verificação | Salva entrada e responde por palavra-chave via Send API |
 | Mensagem Instagram Direct | HMAC e token de verificação | Usa o webhook compartilhado com Messenger, salva entrada e responde via Instagram Send API |
-| Erro no site | `ErrorBoundary` → `logClientError` | Salva no Base44, faz uma triagem única com Claude e ChatGPT e avisa a equipe por email |
+| Erro no site | `ErrorBoundary` → `logClientError` | Salva no Base44, faz uma triagem única com Microsoft Foundry e ChatGPT e avisa a equipe por email |
 | Score >= 70 | Serviço interno + critérios documentados | Atualiza `qualificado` e notifica `LEAD_TEAM_PHONE` uma vez |
 | Cadastro validado | Identidade e antecedentes aprovados na fila administrativa | Libera o prestador e envia boas-vindas por email e WhatsApp uma vez |
 | Cadastro concluído | Consentimento de marketing já concedido | `CompleteRegistration` via módulo do Pixel |

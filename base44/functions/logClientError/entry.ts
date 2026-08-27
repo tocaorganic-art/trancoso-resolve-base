@@ -88,18 +88,18 @@ Deno.serve(async (req: Request) => {
       ...(internalSecret ? { internal_secret: internalSecret } : {}),
     };
 
-    const [claudeResult, openaiResult] = await Promise.allSettled([
-      base44.asServiceRole.functions.invoke('callClaude', request),
+    const [microsoftResult, openaiResult] = await Promise.allSettled([
+      base44.asServiceRole.functions.invoke('callMicrosoftAI', request),
       base44.asServiceRole.functions.invoke('callOpenAI', request),
     ]);
-    const claudeText = claudeResult.status === 'fulfilled' ? aiText(claudeResult.value) : '';
+    const microsoftText = microsoftResult.status === 'fulfilled' ? aiText(microsoftResult.value) : '';
     const openaiText = openaiResult.status === 'fulfilled' ? aiText(openaiResult.value) : '';
-    const completed = Boolean(claudeText || openaiText);
+    const completed = Boolean(microsoftText || openaiText);
     const completedAt = new Date().toISOString();
 
     await base44.asServiceRole.entities.ClientErrorLog.update(record.id, {
       triage_status: completed ? 'completed' : 'failed',
-      triage_claude: claudeText || 'Triagem não disponível.',
+      triage_microsoft: microsoftText || 'Triagem não disponível.',
       triage_openai: openaiText || 'Triagem não disponível.',
       triage_completed_at: completedAt,
     });
@@ -109,7 +109,7 @@ Deno.serve(async (req: Request) => {
       to: 'contato@trancosoresolve.com.br',
       from_name: 'Trancoso Resolve — Agente de Erros',
       subject: `🚨 Erro capturado — ${pageUrl}`,
-      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${pageUrl}\nDATA: ${now}\nUSUÁRIO: ${userEmail || '(não logado)'}\n\nMENSAGEM:\n${errorMessage}\n\nTRIAGEM CLAUDE:\n${claudeText || '(indisponível)'}\n\nTRIAGEM CHATGPT:\n${openaiText || '(indisponível)'}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
+      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${pageUrl}\nDATA: ${now}\nUSUÁRIO: ${userEmail || '(não logado)'}\n\nMENSAGEM:\n${errorMessage}\n\nTRIAGEM MICROSOFT AI:\n${microsoftText || '(indisponível)'}\n\nTRIAGEM CHATGPT:\n${openaiText || '(indisponível)'}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
     });
 
     return Response.json({ ok: true, triage: completed ? 'completed' : 'failed' });

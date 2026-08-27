@@ -38,9 +38,9 @@
       "default": "pending",
       "description": "Estado da triagem autom\u00e1tica do erro"
     },
-    "triage_claude": {
+    "triage_microsoft": {
       "type": "string",
-      "description": "An\u00e1lise do erro pelo agente Claude"
+      "description": "An\u00e1lise do erro pelo agente Microsoft Foundry"
     },
     "triage_openai": {
       "type": "string",

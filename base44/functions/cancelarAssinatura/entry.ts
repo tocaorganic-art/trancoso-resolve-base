@@ -4,7 +4,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 async function sendCapiEvent(eventName: string, customData: Record<string, unknown> = {}): Promise<void> {
   const accessToken = Deno.env.get('META_CONVERSIONS_API_TOKEN');
   if (!accessToken) return;
-  const pixelId = '908361385639766';
+  const pixelId = '1469130194903035';
   try {
     await fetch(`https://graph.facebook.com/v19.0/${pixelId}/events?access_token=${accessToken}`, {
       method: 'POST',

@@ -85,14 +85,18 @@ export default function CadastroTipoPage() {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       const email = updated?.email || user?.email || '';
       const name = updated?.full_name || user?.full_name || '';
+      // Esta tela também é usada por quem já tem conta e está trocando de tipo
+      // ("Alterar tipo de conta"). CompleteRegistration só deve disparar no
+      // primeiro cadastro — nunca de novo numa troca de tipo já registrado.
+      const isFirstRegistration = !user?.user_type || user.user_type === 'indefinido';
 
       if (userType === 'prestador') {
         // Grava flag para PermissionChecker fazer bypass enquanto banco propaga
         localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
-        trackPrestadorCadastro();
+        if (isFirstRegistration) trackPrestadorCadastro();
         redirectPrestador(email, name);
       } else {
-        trackClienteCadastro();
+        if (isFirstRegistration) trackClienteCadastro();
         window.location.replace('/');
       }
     },

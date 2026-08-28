@@ -215,7 +215,7 @@ Exports principais:
 - `pixelFounderBadgeGranted(position)` — evento de concessão do selo
 - `pixelCancelSubscription()` — CancelSubscription
 
-Pixel ID: `2222634538513651`
+Pixel ID: `1469130194903035`
 
 #### `src/components/analytics/PageViewTracker.jsx`
 Dispara `PageView` em toda mudança de rota + eventos específicos por página:
@@ -369,7 +369,7 @@ Execute estes checks manualmente após cada deploy em produção:
 [ ] 7. /Planos → aba "Lojistas" visível, Essencial R$89 / Pro R$197 / Elite R$497
 [ ] 8. Perfil de prestador verificado: FounderBadge visível se is_founder
 [ ] 9. Card de prestador em busca: FounderBadge visível se is_founder
-[ ] 10. Meta Pixel: network tab mostra /tr?id=2222634538513651 na landing
+[ ] 10. Meta Pixel: network tab mostra /tr?id=1469130194903035 na landing
 [ ] 11. GA4: network tab mostra /collect?... com G-3KF75243B4
 [ ] 12. Webhook test via Mercado Pago sandbox → getFounderStats retorna vagas corretas
 [ ] 13. Função getFounderStats retorna JSON com "open", "remaining", "limit"
@@ -423,7 +423,7 @@ A Meta Conversions API é **opcional** — o fluxo principal nunca é bloqueado 
 
 1. Configurar `FB_ACCESS_TOKEN` em Base44 Secrets
 2. Para testes: configurar `FB_TEST_EVENT_CODE` (obtido no Events Manager)
-3. Pixel ID já está hardcoded como `2222634538513651`
+3. Pixel ID já está hardcoded como `1469130194903035`
 
 ### Eventos Enviados
 

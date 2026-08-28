@@ -74,7 +74,9 @@ export function initFacebookPixel({
   appendPixelScript(documentRef);
   if (documentRef.documentElement.dataset.trancosoPixelInitialized !== pixelId) {
     windowRef.fbq?.('init', pixelId);
-    windowRef.fbq?.('track', 'PageView');
+    // PageView não é disparado aqui — o PageViewTracker é a fonte única de PageView
+    // (mount inicial + toda troca de rota + reativação por consentimento), evitando
+    // duplicidade entre o init do Pixel e o primeiro PageView da rota atual.
     documentRef.documentElement.dataset.trancosoPixelInitialized = pixelId;
   }
   return true;

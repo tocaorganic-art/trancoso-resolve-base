@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { trackClienteCadastro, trackPrestadorCadastro } from '@/utils/analytics.js';
+import { trackFirstRegistration } from '@/utils/analytics.js';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from '@/components/ui/card';
@@ -30,6 +30,7 @@ const formatCnpj = (v) => {
 // step: 'tipo_conta' | 'tipo_pessoa' | 'processando'
 export default function CadastroTipoPage() {
   const queryClient = useQueryClient();
+  const registrationTrackedRef = useRef(false);
   const [step, setStep] = useState('tipo_conta');
   const [autorizouVerificacao, setAutorizouVerificacao] = useState(false);
   const [tipoPessoa, setTipoPessoa] = useState('pf');
@@ -85,18 +86,17 @@ export default function CadastroTipoPage() {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       const email = updated?.email || user?.email || '';
       const name = updated?.full_name || user?.full_name || '';
-      // Esta tela também é usada por quem já tem conta e está trocando de tipo
-      // ("Alterar tipo de conta"). CompleteRegistration só deve disparar no
-      // primeiro cadastro — nunca de novo numa troca de tipo já registrado.
-      const isFirstRegistration = !user?.user_type || user.user_type === 'indefinido';
+      registrationTrackedRef.current = trackFirstRegistration(
+        user,
+        userType,
+        registrationTrackedRef.current,
+      );
 
       if (userType === 'prestador') {
         // Grava flag para PermissionChecker fazer bypass enquanto banco propaga
         localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
-        if (isFirstRegistration) trackPrestadorCadastro();
         redirectPrestador(email, name);
       } else {
-        if (isFirstRegistration) trackClienteCadastro();
         window.location.replace('/');
       }
     },

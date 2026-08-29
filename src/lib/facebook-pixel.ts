@@ -10,32 +10,21 @@ type PixelFunction = ((command: string, eventName: string, data?: PixelData, opt
 };
 
 declare global {
-  interface ImportMetaEnv {
-    readonly VITE_FB_PIXEL_ID?: string;
-  }
-  interface ImportMeta {
-    readonly env: ImportMetaEnv;
-  }
-  interface Window {
-    fbq?: PixelFunction;
-    _fbq?: Window['fbq'];
-  }
+  interface ImportMetaEnv { readonly VITE_FB_PIXEL_ID?: string; }
+  interface ImportMeta { readonly env: ImportMetaEnv; }
+  interface Window { fbq?: PixelFunction; _fbq?: Window['fbq']; }
 }
 
 function getPixelId(): string {
   const configured = import.meta.env.VITE_FB_PIXEL_ID;
-  return typeof configured === 'string' && /^\d{8,20}$/.test(configured)
-    ? configured
-    : OFFICIAL_PIXEL_ID;
+  return typeof configured === 'string' && /^\d{8,20}$/.test(configured) ? configured : OFFICIAL_PIXEL_ID;
 }
 
 function hasMarketingConsent(windowRef: Window): boolean {
   try {
     const raw = windowRef.localStorage.getItem('cookie-consent');
     return raw ? JSON.parse(raw).marketing === true : false;
-  } catch {
-    return false;
-  }
+  } catch { return false; }
 }
 
 function appendPixelScript(documentRef: Document): void {
@@ -47,17 +36,10 @@ function appendPixelScript(documentRef: Document): void {
   documentRef.head.appendChild(script);
 }
 
-export function initFacebookPixel({
-  documentRef = document,
-  windowRef = window,
-  pixelId = getPixelId(),
-}: {
-  documentRef?: Document;
-  windowRef?: Window;
-  pixelId?: string;
+export function initFacebookPixel({ documentRef = document, windowRef = window, pixelId = getPixelId() }: {
+  documentRef?: Document; windowRef?: Window; pixelId?: string;
 } = {}): boolean {
   if (!hasMarketingConsent(windowRef)) return false;
-
   if (!windowRef.fbq) {
     const fbq = function queuedPixel(command: string, eventName: string, data?: PixelData, options?: Record<string, unknown>) {
       const api = queuedPixel as PixelFunction;
@@ -70,22 +52,19 @@ export function initFacebookPixel({
     windowRef.fbq = fbq;
     windowRef._fbq = fbq;
   }
-
   appendPixelScript(documentRef);
   if (documentRef.documentElement.dataset.trancosoPixelInitialized !== pixelId) {
     windowRef.fbq?.('init', pixelId);
-    // PageView não é disparado aqui — o PageViewTracker é a fonte única de PageView
-    // (mount inicial + toda troca de rota + reativação por consentimento), evitando
-    // duplicidade entre o init do Pixel e o primeiro PageView da rota atual.
     documentRef.documentElement.dataset.trancosoPixelInitialized = pixelId;
   }
   return true;
 }
 
 function track(eventName: string, data: PixelData = {}, eventId?: string): void {
-  if (typeof window === 'undefined' || !hasMarketingConsent(window) || typeof window.fbq !== 'function') return;
+  if (typeof window === 'undefined' || !hasMarketingConsent(window)) return;
+  if (typeof window.fbq !== 'function' && !initFacebookPixel()) return;
   const options = eventId ? { eventID: eventId } : undefined;
-  window.fbq('track', eventName, data, options);
+  window.fbq?.('track', eventName, data, options);
 }
 
 function eventId(): string {
@@ -93,20 +72,8 @@ function eventId(): string {
   return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 }
 
-export function trackLead(data: PixelData = {}): void {
-  track('Lead', { content_category: 'servico_local', ...data }, eventId());
-}
-
-export function trackRegistration(data: PixelData = {}): void {
-  track('CompleteRegistration', { status: true, ...data }, eventId());
-}
-
-export function trackPurchase(data: PixelData = {}): void {
-  track('Purchase', { currency: 'BRL', ...data }, eventId());
-}
-
-export function trackPageView(data: PixelData = {}): void {
-  track('PageView', data);
-}
-
+export function trackLead(data: PixelData = {}): void { track('Lead', { content_category: 'servico_local', ...data }, eventId()); }
+export function trackRegistration(data: PixelData = {}): void { track('CompleteRegistration', { status: true, ...data }, eventId()); }
+export function trackPurchase(data: PixelData = {}): void { track('Purchase', { currency: 'BRL', ...data }, eventId()); }
+export function trackPageView(data: PixelData = {}): void { track('PageView', data); }
 export { OFFICIAL_PIXEL_ID };

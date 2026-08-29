@@ -101,6 +101,21 @@ export function trackClienteCadastro() {
 
 }
 
+/**
+ * Dispara CompleteRegistration uma única vez no primeiro tipo de conta.
+ * O ref do chamador cobre rerenders/retries; user_type cobre retornos e logins.
+ */
+export function trackFirstRegistration(user, userType, alreadyTracked = false) {
+  const isFirstRegistration = !user?.user_type || user.user_type === 'indefinido';
+  if (alreadyTracked || !isFirstRegistration) return alreadyTracked;
+
+  if (userType === 'prestador') trackPrestadorCadastro();
+  else if (userType === 'cliente') trackClienteCadastro();
+  else return alreadyTracked;
+
+  return true;
+}
+
 import {
   trackLead as trackFacebookLead,
   trackRegistration as trackFacebookRegistration,

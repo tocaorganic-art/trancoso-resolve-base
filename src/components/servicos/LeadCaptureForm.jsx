@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { trackLead } from '@/utils/analytics.js';
 import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
@@ -22,6 +22,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
   const [errorMessage, setErrorMessage] = useState('');
   const [whatsappUrl, setWhatsappUrl] = useState('');
   const [whatsappBlocked, setWhatsappBlocked] = useState(false);
+  const submittingRef = useRef(false);
 
   const handlePhoneChange = (e) => {
     setForm(f => ({ ...f, phone: formatPhone(e.target.value) }));
@@ -44,6 +45,8 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
       setErrorMessage('Selecione o serviço e a localização para continuarmos.');
       return;
     }
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     setStatus('loading');
     setErrorMessage('');
 
@@ -80,6 +83,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
       }
       setStatus('success');
     } catch {
+      submittingRef.current = false;
       whatsappWindow?.close();
       setStatus('error');
       setErrorMessage('Não foi possível enviar agora. Tente novamente em instantes.');

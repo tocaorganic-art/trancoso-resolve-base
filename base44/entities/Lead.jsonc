@@ -34,6 +34,14 @@
     "utm_source": { "type": "string" },
     "utm_medium": { "type": "string" },
     "utm_campaign": { "type": "string" },
+
+    // [OpenAI Ads] Campos novos — adicionados para mensuração de campanhas OpenAI Ads.
+    // utm_source/utm_medium/utm_campaign já existiam acima; estes três são novos:
+    "utm_content": { "type": "string", "description": "UTM content (ex.: variante de anúncio)" },
+    "utm_term": { "type": "string", "description": "UTM term (ex.: termo de busca/segmentação)" },
+    "oppref": { "type": "string", "description": "Parâmetro oficial de atribuição de clique da OpenAI Ads (help.openai.com/en/articles/20001409-conversion-measurement)" },
+    "event_id": { "type": "string", "description": "UUID gerado no momento da criação do lead, usado para deduplicação Pixel + Conversions API" },
+
     "lead_status": {
       "type": "string",
       "enum": ["new", "in_review", "qualified", "contacted", "converted", "not_qualified", "archived"],

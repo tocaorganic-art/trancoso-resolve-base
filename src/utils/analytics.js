@@ -5,6 +5,9 @@
  * O navegador nunca recebe o segredo de ingestão.
  */
 
+import { trackPixelEvent, trackLead as trackFacebookLead, trackRegistration as trackFacebookRegistration } from '@/lib/facebook-pixel';
+import { trackAnalyticsEvent } from '@/utils/consent.js';
+
 // ──────────────────────────────────────────
 // Helpers
 // ──────────────────────────────────────────
@@ -27,20 +30,12 @@ function detectCity() {
 
 /** Dispara evento no GA4 (window.gtag) */
 function ga4(eventName, params = {}) {
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', eventName, params);
-  }
+  trackAnalyticsEvent(eventName, params);
 }
 
 /** Dispara evento no Meta Pixel com eventID para deduplicação */
 function fbPixel(eventName, data = {}, eventId = null) {
-  if (typeof window.fbq === 'function') {
-    if (eventId) {
-      window.fbq('track', eventName, data, { eventID: eventId });
-    } else {
-      window.fbq('track', eventName, data);
-    }
-  }
+  trackPixelEvent(eventName, data, { eventId: eventId || undefined });
 }
 
 // ──────────────────────────────────────────
@@ -55,7 +50,7 @@ export function trackLead(data = {}) {
 
   ga4('generate_lead', {
     currency: 'BRL',
-    value: 0,
+    value: typeof data.value === 'number' ? data.value : 0,
     service_interest: data.service_interest || '',
     source: data.source || '',
     city,
@@ -115,11 +110,6 @@ export function trackFirstRegistration(user, userType, alreadyTracked = false) {
 
   return true;
 }
-
-import {
-  trackLead as trackFacebookLead,
-  trackRegistration as trackFacebookRegistration,
-} from '@/lib/facebook-pixel';
 
 /**
  * trackSolicitacaoServico — ServiceRequest criada com sucesso

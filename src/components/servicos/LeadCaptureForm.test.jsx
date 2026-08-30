@@ -16,7 +16,7 @@ import LeadCaptureForm from '@/components/servicos/LeadCaptureForm';
 
 function fillForm() {
   fireEvent.change(screen.getByLabelText(/Nome/), { target: { value: 'Pessoa Teste' } });
-  fireEvent.change(screen.getByLabelText(/WhatsApp/), { target: { value: '73999990000' } });
+  fireEvent.change(screen.getByRole('textbox', { name: /WhatsApp/ }), { target: { value: '73999990000' } });
   fireEvent.change(screen.getByLabelText(/Localização/), { target: { value: 'Trancoso' } });
   fireEvent.click(screen.getByRole('checkbox'));
 }

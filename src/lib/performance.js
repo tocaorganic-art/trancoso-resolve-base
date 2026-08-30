@@ -1,16 +1,16 @@
+import { trackAnalyticsEvent } from '@/utils/consent.js';
+
 export function reportWebVitals() {
   if ('web-vital' in window) {
     return;
   }
 
   const reportMetric = (metric) => {
-    if (window.gtag) {
-      window.gtag('event', 'web_vitals', {
-        metric_category: metric.name,
-        metric_value: Math.round(metric.value),
-        metric_id: metric.id,
-      });
-    }
+    trackAnalyticsEvent('web_vitals', {
+      metric_category: metric.name,
+      metric_value: Math.round(metric.value),
+      metric_id: metric.id,
+    });
   };
 
   try {
@@ -58,13 +58,11 @@ export function measurePageLoad() {
       const connectTime = perfData.responseEnd - perfData.requestStart;
       const renderTime = perfData.domComplete - perfData.domLoading;
 
-      if (window.gtag) {
-        window.gtag('event', 'page_load_performance', {
-          page_load_time: pageLoadTime,
-          connect_time: connectTime,
-          render_time: renderTime,
-        });
-      }
+      trackAnalyticsEvent('page_load_performance', {
+        page_load_time: pageLoadTime,
+        connect_time: connectTime,
+        render_time: renderTime,
+      });
     }, 0);
   });
 }

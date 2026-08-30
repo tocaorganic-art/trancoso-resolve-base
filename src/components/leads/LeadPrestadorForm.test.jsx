@@ -29,7 +29,7 @@ describe('lead público de prestador', () => {
 
     fireEvent.change(screen.getByPlaceholderText('Seu nome'), { target: { value: 'Pessoa Teste' } });
     fireEvent.change(screen.getByPlaceholderText('(73) 9 0000-0000'), { target: { value: '(73) 99999-0000' } });
-    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'Elétrica' } });
+    fireEvent.change(screen.getByRole('combobox'), { target: { value: 'Eletricista' } });
     fireEvent.click(screen.getByRole('checkbox'));
     fireEvent.click(screen.getByRole('button', { name: 'Receber informações no WhatsApp' }));
 

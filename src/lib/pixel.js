@@ -9,7 +9,7 @@
  *   o mesmo evento via CAPI sem duplicar no relatório do Facebook.
  */
 
-const PIXEL_ID = '1469130194903035';
+import { trackPixelEvent } from './facebook-pixel.ts';
 
 /**
  * Gera um UUID v4 simples para event_id.
@@ -33,15 +33,7 @@ function generateEventId() {
  */
 export function pixelTrack(eventName, params = {}, isCustom = false) {
   const eventId = generateEventId();
-  try {
-    if (typeof window !== 'undefined' && typeof window.fbq === 'function') {
-      const fn = isCustom ? 'trackCustom' : 'track';
-      window.fbq(fn, eventName, params, { eventID: eventId });
-    }
-  } catch (err) {
-    // Nunca deixar analytics quebrar a UX
-    console.warn('[pixel] erro ao disparar evento:', eventName, err?.message);
-  }
+  trackPixelEvent(eventName, params, { custom: isCustom, eventId });
   return eventId;
 }
 

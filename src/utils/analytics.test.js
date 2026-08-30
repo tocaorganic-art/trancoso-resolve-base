@@ -4,7 +4,7 @@ import { trackFirstRegistration } from '@/utils/analytics.js';
 
 describe('CompleteRegistration', () => {
   beforeEach(() => {
-    localStorage.setItem('cookie-consent', JSON.stringify({ marketing: true }));
+    localStorage.setItem('cookie-consent', JSON.stringify({ analytics: true, marketing: true }));
     window.fbq = vi.fn();
     window.gtag = vi.fn();
   });

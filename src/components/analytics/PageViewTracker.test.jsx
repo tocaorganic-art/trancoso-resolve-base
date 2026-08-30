@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import CookieConsent from '@/components/CookieConsent';
 import PageViewTracker from '@/components/analytics/PageViewTracker';
 import { initFacebookPixel, OFFICIAL_PIXEL_ID } from '@/lib/facebook-pixel';
+import { pixelTrack } from '@/lib/pixel';
 
 function pixelCalls(eventName) {
   return (window.fbq?.queue || []).filter(([, name]) => name === eventName);
@@ -19,7 +20,6 @@ describe('consentimento e Meta Pixel', () => {
     delete window._fbq;
     delete window.gtag;
     delete window.dataLayer;
-    vi.stubEnv('VITE_FB_PIXEL_ID', OFFICIAL_PIXEL_ID);
   });
 
   afterEach(() => {
@@ -74,6 +74,26 @@ describe('consentimento e Meta Pixel', () => {
     );
 
     expect(window.fbq).toBeUndefined();
+    expect(document.getElementById('trancoso-meta-pixel')).toBeNull();
+  });
+
+  it('usa somente o Pixel oficial, ignorando ambiente e parâmetros externos', () => {
+    localStorage.setItem('cookie-consent', JSON.stringify({ marketing: true }));
+    vi.stubEnv('VITE_FB_PIXEL_ID', '908361385639766');
+
+    expect(initFacebookPixel({ pixelId: '2222634538513651' })).toBe(true);
+    expect(pixelCalls(OFFICIAL_PIXEL_ID)).toHaveLength(1);
+    expect(pixelCalls('908361385639766')).toHaveLength(0);
+    expect(pixelCalls('2222634538513651')).toHaveLength(0);
+  });
+
+  it('não envia evento por fbq preexistente sem consentimento de marketing', () => {
+    const fbq = vi.fn();
+    window.fbq = fbq;
+
+    pixelTrack('Lead');
+
+    expect(fbq).not.toHaveBeenCalled();
     expect(document.getElementById('trancoso-meta-pixel')).toBeNull();
   });
 });

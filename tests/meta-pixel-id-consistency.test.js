@@ -28,6 +28,8 @@ async function collectFiles(dir, files = []) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       await collectFiles(fullPath, files);
+    } else if (/\.(test|spec)\.[^.]+$/.test(entry.name)) {
+      continue;
     } else if (SCAN_EXTENSIONS.has(path.extname(entry.name))) {
       files.push(fullPath);
     }

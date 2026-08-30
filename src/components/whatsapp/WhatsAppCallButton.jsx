@@ -113,6 +113,7 @@ export default function WhatsAppCallButton({ provider, className = "", size = "d
   const [contactData, setContactData] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const callingRef = useRef(false);
   const queryClient = useQueryClient();
 
   const { data: user, isSuccess: userLoaded } = useQuery({
@@ -164,6 +165,8 @@ export default function WhatsAppCallButton({ provider, className = "", size = "d
       return;
     }
 
+    if (callingRef.current) return;
+    callingRef.current = true;
     setLoading(true);
     try {
       const res = await base44.functions.invoke('chamarPrestador', { id_prestador: provider.id });
@@ -180,6 +183,7 @@ export default function WhatsAppCallButton({ provider, className = "", size = "d
       const msg = err?.response?.data?.error || 'Ocorreu um problema. Tente novamente em alguns instantes.';
       toast.error(msg);
     } finally {
+      callingRef.current = false;
       setLoading(false);
     }
   }, [user, contactData, provider]);

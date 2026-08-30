@@ -551,6 +551,9 @@ export default function Layout({ children, currentPageName }) {
               <p className="text-muted-foreground text-base font-medium">
                 {t('footer.copyright')}
               </p>
+              <p className="text-muted-foreground/70 text-xs mt-1">
+                Toca Experience Inova Simples (I.S.) · CNPJ 68.662.845/0001-86
+              </p>
             </div>
           </footer>
           <Toaster />

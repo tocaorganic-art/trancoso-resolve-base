@@ -24,6 +24,9 @@ export default function PoliticaPrivacidade() {
           <p>
             A Trancoso Resolve ("Plataforma") respeita sua privacidade e está comprometida com a proteção de seus dados pessoais de acordo com a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018).
           </p>
+          <p>
+            A Plataforma é operada por <strong>Toca Experience Inova Simples (I.S.)</strong>, CNPJ <strong>68.662.845/0001-86</strong>, com sede em R. Alameda Bom Jesus, 7, Trancoso, Porto Seguro/BA, CEP 46.098-000, controladora dos dados pessoais tratados nos termos desta Política, nos termos do art. 9º da LGPD.
+          </p>
         </motion.section>
 
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
@@ -86,7 +89,7 @@ export default function PoliticaPrivacidade() {
           <p>
             Podemos atualizar esta política periodicamente. A data da última atualização é mostrada abaixo.
           </p>
-          <p className="text-sm text-muted-foreground">Última atualização: 12 de maio de 2026</p>
+          <p className="text-sm text-muted-foreground">Última atualização: 30 de agosto de 2026</p>
         </motion.section>
 
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">

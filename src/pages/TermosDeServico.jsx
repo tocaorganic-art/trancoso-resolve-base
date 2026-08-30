@@ -20,6 +20,13 @@ export default function TermosDeServico() {
         >Termos de Serviço</motion.h1>
 
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
+          <h2 className="text-2xl font-bold text-orange-400">Identificação do Fornecedor</h2>
+          <p>
+            A plataforma Trancoso Resolve é operada por <strong>Toca Experience Inova Simples (I.S.)</strong>, inscrita no CNPJ sob o nº <strong>68.662.845/0001-86</strong>, com sede em R. Alameda Bom Jesus, 7, Trancoso, Porto Seguro/BA, CEP 46.098-000, nos termos do art. 6º e 31 do Código de Defesa do Consumidor (Lei nº 8.078/1990).
+          </p>
+        </motion.section>
+
+        <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
           <h2 className="text-2xl font-bold text-orange-400">1. Aceitação dos Termos</h2>
           <p>
             Ao acessar e usar a Plataforma Trancoso Resolve, você concorda em estar vinculado por estes Termos de Serviço. Se não concordar com qualquer parte destes termos, você não está autorizado a usar a plataforma.
@@ -154,7 +161,7 @@ export default function TermosDeServico() {
           <p>
             Para dúvidas sobre estes termos: <strong>suporte@trancosoresolve.com.br</strong>
           </p>
-          <p className="text-sm text-muted-foreground mt-4">Última atualização: 16 de maio de 2026</p>
+          <p className="text-sm text-muted-foreground mt-4">Última atualização: 30 de agosto de 2026</p>
         </motion.section>
       </div>
     </div>

@@ -43,6 +43,11 @@ async function sendCapiEvent(
 // 5. Posições revogadas permanecem consumidas — nunca voltam ao pool
 // 6. Falha na concessão → pending_reconciliation persistido (não engolido)
 // 7. Nenhum dado sensível (email, CPF, stack trace) retornado na resposta
+//
+// Tópicos tratados:
+// - subscription_preapproval: assinaturas de plano (Selo Fundador)
+// - payment: pagamentos avulsos de serviço (ver handlePaymentEvent) — confirma status real
+//   no MP e atualiza a entidade Payment, que antes ficava presa em "pending" para sempre.
 
 const FOUNDER_LIMIT = 100;
 const RESERVATION_TIMEOUT_MS = 10 * 60 * 1000; // 10 minutos
@@ -184,6 +189,116 @@ async function allocateFounderSlot(
   return { slot: verifyByKey[0], isExisting: false };
 }
 
+// ─── Tópico `payment` — pagamentos avulsos de serviço ────────────────────────
+// Mapeamento de status MP → status da entidade Payment (enum em base44/entities/Payment.jsonc).
+// `approved` mapeia para `requires_capture`: o MP aprovou e reteve o valor (escrow via
+// `capture: false` em criarPagamentoServico), mas a captura/liberação automática para o
+// prestador ainda não tem job que a execute — ver nota [FORA DE ESCOPO] abaixo.
+const PAYMENT_STATUS_MAP: Record<string, string> = {
+  approved: 'requires_capture',
+  in_process: 'processing',
+  rejected: 'canceled',
+  cancelled: 'canceled',
+  refunded: 'refunded',
+  charged_back: 'disputed',
+};
+
+async function handlePaymentEvent(
+  base44: any,
+  mpToken: string,
+  dataId: string,
+  type: string,
+  receivedAt: string,
+): Promise<Response> {
+  // ─── Busca o pagamento real na API do MP — nunca confia no payload do webhook ─
+  const mpRes = await fetch(`https://api.mercadopago.com/v1/payments/${dataId}`, {
+    headers: { 'Authorization': `Bearer ${mpToken}` },
+  });
+  if (!mpRes.ok) {
+    const status = mpRes.status;
+    console.error(`[mercadoPagoWebhook] Payment ${dataId} não encontrado no MP (${status})`);
+    if (status === 404) return Response.json({ ok: true, note: 'payment não encontrado no MP' });
+    return Response.json({ ok: true, note: `erro MP ${status} — retry pendente` });
+  }
+  const mpPayment = await mpRes.json();
+
+  const newStatus = PAYMENT_STATUS_MAP[mpPayment.status];
+  if (!newStatus) {
+    return Response.json({ ok: true, ignored: `status MP '${mpPayment.status}' não mapeado` });
+  }
+
+  // ─── Idempotência via WebhookEvent (mesmo padrão do tópico subscription_preapproval) ─
+  const payloadHash = await hashEvent(dataId, type, newStatus);
+  const existingEvents = await base44.asServiceRole.entities.WebhookEvent.filter({
+    provider: 'mercadopago',
+    external_event_id: dataId,
+    event_type: type,
+  });
+  const alreadyProcessed = (existingEvents || []).find(
+    (e: any) => e.status === 'processed' && e.payload_hash === payloadHash
+  );
+  if (alreadyProcessed) {
+    console.log(`[mercadoPagoWebhook] Evento payment duplicado ignorado: mp:${dataId}:${newStatus}`);
+    return Response.json({ ok: true, note: 'duplicate event — already processed' });
+  }
+
+  let webhookEventId: string | null = null;
+  try {
+    const newEvent = await base44.asServiceRole.entities.WebhookEvent.create({
+      provider: 'mercadopago',
+      external_event_id: dataId,
+      external_resource_id: String(mpPayment.id),
+      event_type: type,
+      payload_hash: payloadHash,
+      status: 'processing',
+      attempts: 1,
+      received_at: receivedAt,
+    });
+    webhookEventId = newEvent?.id || null;
+  } catch (we) {
+    console.warn('[mercadoPagoWebhook] WebhookEvent (payment) não criado:', (we as Error).message);
+  }
+
+  try {
+    const payments = await base44.asServiceRole.entities.Payment.filter({
+      mp_payment_id: String(mpPayment.id),
+    });
+    const payment = payments?.[0];
+    if (!payment) {
+      console.warn(`[mercadoPagoWebhook] Payment local não encontrado para mp_payment_id=${mpPayment.id}`);
+      await markWebhookEvent(base44, webhookEventId, 'failed', 'Payment local não encontrado');
+      return Response.json({ ok: true, note: 'payment local não encontrado' });
+    }
+
+    const oldStatus = payment.status;
+    if (oldStatus === newStatus) {
+      await markWebhookEvent(base44, webhookEventId, 'processed');
+      console.log(`[mercadoPagoWebhook] payment ${mpPayment.id}: status já era '${oldStatus}' @ ${receivedAt} — nenhuma mudança`);
+      return Response.json({ ok: true, note: 'status inalterado' });
+    }
+
+    await base44.asServiceRole.entities.Payment.update(payment.id, { status: newStatus });
+
+    // [FORA DE ESCOPO]: quando newStatus === 'requires_capture', o pagamento foi aprovado
+    // pelo MP e o valor está retido em escrow, mas não existe (ainda) um job que execute a
+    // captura/liberação automática em `auto_capture_after`. Esta correção só garante que o
+    // status reflita a realidade do MP — a automação da captura fica para decisão futura.
+
+    console.log(
+      `[mercadoPagoWebhook] payment ${mpPayment.id} (request ${payment.request_id}): ${oldStatus} → ${newStatus} @ ${receivedAt}`
+    );
+
+    await markWebhookEvent(base44, webhookEventId, 'processed');
+    return Response.json({ ok: true });
+  } catch (err) {
+    const msg = (err as Error).message;
+    console.error(`[mercadoPagoWebhook] erro ao processar payment ${dataId}:`, msg);
+    await markWebhookEvent(base44, webhookEventId, 'failed', msg);
+    // Retorna 200 para o MP não reenviar indefinidamente — erro já logado para auditoria manual
+    return Response.json({ ok: true, note: 'internal error logged' });
+  }
+}
+
 // ─── Webhook principal ────────────────────────────────────────────────────────
 Deno.serve(async (req) => {
   const receivedAt = new Date().toISOString();
@@ -215,7 +330,20 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Assinatura inválida' }, { status: 401 });
     }
 
-    // Só processa preapproval
+    // ─── Roteamento por tópico ────────────────────────────────────────────────
+    // Tópico `payment`: pagamento avulso de serviço — tratado isoladamente (try/catch
+    // próprio) para que uma falha aqui nunca derrube o endpoint nem afete o fluxo de
+    // subscription_preapproval abaixo.
+    if (type === 'payment') {
+      try {
+        return await handlePaymentEvent(base44, mpToken, dataId, type, receivedAt);
+      } catch (err) {
+        console.error(`[mercadoPagoWebhook] erro não tratado no tópico payment (${dataId}):`, (err as Error).message);
+        return Response.json({ ok: true, note: 'internal error logged' });
+      }
+    }
+
+    // Só processa preapproval (demais tópicos são ignorados)
     if (type !== 'subscription_preapproval') {
       return Response.json({ ok: true, ignored: type });
     }

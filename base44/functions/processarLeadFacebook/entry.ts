@@ -158,7 +158,7 @@ Deno.serve(async (req: Request) => {
     await base44.asServiceRole.functions.invoke('enviarWhatsApp', {
       destinatario: phone,
       template_name: 'trc_bem_vindo_lead',
-      parametros: [],
+      parametros: [name],
       ...(internalSecret ? { internal_secret: internalSecret } : {}),
     }).catch((error: unknown) => {
       console.error('[processarLeadFacebook] WhatsApp não enviado', error instanceof Error ? error.message : 'unknown_error');

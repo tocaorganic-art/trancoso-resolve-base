@@ -21,6 +21,7 @@
       "enum": [
         "pending",
         "in_progress",
+        "pending_review",
         "Verificado",
         "Rejeitado",
         "approved",
@@ -52,6 +53,16 @@
       "type": "string",
       "maxLength": 1000,
       "description": "Metadados da verifica\u00e7\u00e3o: user_email, user_name, tipo, etc."
+    },
+    "welcome_email_sent_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data e hora do envio da boas-vindas por email"
+    },
+    "welcome_whatsapp_sent_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data e hora do envio da boas-vindas por WhatsApp"
     }
   },
   "required": [

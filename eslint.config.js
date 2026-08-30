@@ -6,6 +6,9 @@ import pluginUnusedImports from "eslint-plugin-unused-imports";
 
 export default [
   {
+    ignores: [".agents/**", ".claude/**", ".claude-flow/**", ".npm-cache-codex/**", ".swarm/**"],
+  },
+  {
     files: [
       "src/components/**/*.{js,mjs,cjs,jsx}",
       "src/hooks/**/*.{js,mjs,cjs,jsx}",

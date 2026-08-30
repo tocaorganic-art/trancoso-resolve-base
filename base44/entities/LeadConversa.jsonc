@@ -3,7 +3,7 @@
   "type": "object",
   "properties": {
     "lead_id": { "type": "string", "description": "ID do Lead quando identificado" },
-    "canal": { "type": "string", "enum": ["whatsapp", "messenger", "email"] },
+    "canal": { "type": "string", "enum": ["whatsapp", "messenger", "instagram", "email"] },
     "direcao": { "type": "string", "enum": ["entrada", "saida"] },
     "conteudo": { "type": "string", "description": "Conteúdo da mensagem" },
     "status_entrega": { "type": "string", "enum": ["enviado", "entregue", "lido", "falhou"] },

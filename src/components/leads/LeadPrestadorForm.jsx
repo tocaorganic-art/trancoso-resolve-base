@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { trackPrestadorCadastro } from '@/utils/analytics.js';
+import { trackLead } from '@/utils/analytics.js';
 import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Loader2, MessageCircle } from 'lucide-react';
@@ -31,7 +31,7 @@ export default function LeadPrestadorForm() {
         consent: form.consent,
         website: form.website,
       }));
-      trackPrestadorCadastro({ occupation: form.occupation });
+      trackLead({ service_interest: form.occupation, source: 'seja-prestador' });
       setStatus('success');
     } catch {
       setStatus('error');

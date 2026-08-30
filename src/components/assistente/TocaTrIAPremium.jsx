@@ -177,7 +177,7 @@ export default function TocaTrIAPremium() {
         }
       }
 
-      // Montar histórico para o Claude (máx 20 mensagens para economizar tokens)
+      // Montar histórico para o Microsoft Foundry (máx 20 mensagens para economizar tokens)
       const historyMsgs = nextMessages.slice(-20).map(m => ({
         role: m.role === 'user' ? 'user' : 'assistant',
         content: m.content
@@ -187,7 +187,7 @@ export default function TocaTrIAPremium() {
         historyMsgs[historyMsgs.length - 1] = { role: 'user', content: textToSend };
       }
 
-      const result = await base44.functions.invoke('callClaude', {
+      const result = await base44.functions.invoke('callMicrosoftAI', {
         messages: historyMsgs,
         systemPrompt: SYSTEM_PROMPT
       });

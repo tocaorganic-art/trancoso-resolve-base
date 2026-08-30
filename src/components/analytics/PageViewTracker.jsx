@@ -1,7 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { pixelTrack, pixelLandingPageView } from '@/lib/pixel';
 import { trackPageView } from '@/lib/facebook-pixel';
+import {
+  CONSENT_CHANGED_EVENT,
+  hasAnalyticsConsent,
+  hasMarketingConsent,
+  trackAnalyticsPageView,
+} from '@/utils/consent.js';
 
 // Rotas que disparam ViewContent específico no Pixel
 const PAGE_VIEW_CONTENT = {
@@ -22,26 +28,39 @@ const PAGE_VIEW_CONTENT = {
 
 export default function PageViewTracker() {
   const location = useLocation();
+  const analyticsPageRef = useRef(null);
+  const marketingPageRef = useRef(null);
 
   useEffect(() => {
-    const path = location.pathname;
+    const pageKey = location.pathname + location.search;
+    const trackCurrentPage = () => {
+      const path = location.pathname;
 
-    // Google Analytics 4
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', 'G-3KF75243B4', {
-        page_path: path + location.search,
-      });
-    }
+      if (hasAnalyticsConsent() && analyticsPageRef.current !== pageKey) {
+        if (trackAnalyticsPageView({
+          page_path: path + location.search,
+        })) analyticsPageRef.current = pageKey;
+      }
 
-    // Meta Pixel — PageView em todas as rotas
-    trackPageView({ page_path: path + location.search });
+      // Meta Pixel — no máximo um PageView por rota e carregamento.
+      if (!hasMarketingConsent() || marketingPageRef.current === pageKey) return;
 
-    // Eventos específicos por rota
-    const pageEvent = PAGE_VIEW_CONTENT[path];
-    if (pageEvent) {
-      pageEvent();
-    }
-  }, [location.pathname]);
+      if (!trackPageView({ page_path: pageKey })) return;
+
+      // Eventos específicos por rota
+      const pageEvent = PAGE_VIEW_CONTENT[path];
+      if (pageEvent) {
+        pageEvent();
+      }
+      marketingPageRef.current = pageKey;
+    };
+
+    trackCurrentPage();
+
+    // Se o consentimento chegar depois do mount, rastreia a rota atual uma vez.
+    window.addEventListener(CONSENT_CHANGED_EVENT, trackCurrentPage);
+    return () => window.removeEventListener(CONSENT_CHANGED_EVENT, trackCurrentPage);
+  }, [location.pathname, location.search]);
 
   return null;
 }

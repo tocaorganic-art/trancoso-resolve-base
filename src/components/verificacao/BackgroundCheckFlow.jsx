@@ -12,7 +12,6 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
     cpf: '',
     fullName: '',
     dateOfBirth: '',
-    motherName: '',
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [verificationResult, setVerificationResult] = useState(null);
@@ -56,10 +55,14 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
         em_analise_manual: 'pending_review',
         reprovado: 'rejected',
       };
+      const status = statusMap[data.status || data.status_verificacao] || 'rejected';
       const result = {
-        status: statusMap[data.status] || 'rejected',
-        message: data.relatorio || data.message || data.error || 'Não foi possível concluir a verificação.',
-        details: data.relatorio,
+        status,
+        message: status === 'approved'
+          ? 'A etapa de verificação foi concluída.'
+          : status === 'pending_review'
+            ? 'Sua solicitação está em análise pela equipe.'
+            : 'Seu cadastro não foi autorizado.',
       };
 
       setVerificationResult(result);
@@ -86,7 +89,6 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
       cpf: '',
       fullName: '',
       dateOfBirth: '',
-      motherName: '',
     });
     setVerificationResult(null);
     setStep('form');
@@ -112,7 +114,7 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
           Verificação de Antecedentes
         </CardTitle>
         <p className="text-sm text-slate-600 mt-2">
-          Sua segurança é prioridade. Realizamos uma análise automática de antecedentes criminais.
+          Sua segurança é prioridade. A verificação pode exigir análise automática e revisão da equipe.
         </p>
       </CardHeader>
 
@@ -121,36 +123,11 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
         {step === 'form' && (
           <div className="space-y-6">
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-sm text-blue-800">
-              ℹ️ Seus dados são criptografados e validados contra bases oficiais. Você pode solicitar exclusão a qualquer momento.
+              ℹ️ Seus dados são tratados somente para a finalidade autorizada de verificação. Você pode solicitar exclusão a qualquer momento.
             </div>
 
-            {/* O que pode e não pode */}
-            <div className="grid md:grid-cols-2 gap-4">
-              <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                <h4 className="font-bold text-green-900 mb-3 flex items-center gap-2">
-                  ✅ Será Aprovado
-                </h4>
-                <ul className="text-sm text-green-800 space-y-2">
-                  <li>• Sem registros de condenações criminais</li>
-                  <li>• Sem mandados de prisão ativos</li>
-                  <li>• Infrações de trânsito (não afetam)</li>
-                  <li>• Multas administrativas (não afetam)</li>
-                  <li>• Registros de violência doméstica anulados</li>
-                </ul>
-              </div>
-
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <h4 className="font-bold text-red-900 mb-3 flex items-center gap-2">
-                  ❌ Será Rejeitado
-                </h4>
-                <ul className="text-sm text-red-800 space-y-2">
-                  <li>• Condenações por crimes violentos</li>
-                  <li>• Crimes sexuais ou contra menores</li>
-                  <li>• Roubo, furto ou fraude</li>
-                  <li>• Tráfico de drogas</li>
-                  <li>• Mandados de prisão em aberto</li>
-                </ul>
-              </div>
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-700">
+              O resultado será informado apenas como concluído, em análise ou não autorizado. Detalhes da análise não são exibidos nesta tela.
             </div>
 
             <div className="space-y-3">
@@ -185,17 +162,6 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
               />
             </div>
 
-            <div className="space-y-3">
-              <label className="text-sm font-semibold text-slate-900">Nome da Mãe</label>
-              <Input
-                type="text"
-                placeholder="Digite o nome da mãe (opcional)"
-                value={formData.motherName}
-                onChange={(e) => handleInputChange('motherName', e.target.value.toUpperCase())}
-                className="h-11"
-              />
-            </div>
-
             <Button
               onClick={processVerification}
               disabled={isProcessing}
@@ -219,7 +185,7 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
             <Loader2 className="w-12 h-12 text-cyan-500 animate-spin" />
             <p className="text-lg font-semibold text-slate-900">Validando antecedentes...</p>
             <p className="text-sm text-slate-600 text-center">
-              Consultando bases de dados oficiais. Isso pode levar alguns segundos.
+              Processando sua solicitação de verificação. Isso pode levar alguns segundos.
             </p>
           </div>
         )}
@@ -242,7 +208,7 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
                   <Badge className="bg-green-600 text-white">✓ Verificado</Badge>
                 </div>
                 <p className="text-sm text-slate-600 text-center">
-                  <strong>Status:</strong> Sem antecedentes criminais registrados
+                  A etapa de verificação foi concluída.
                 </p>
               </>
             ) : verificationResult.status === 'pending_review' ? (
@@ -270,13 +236,6 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
                   </div>
                   <h3 className="text-xl font-bold text-red-900">Verificação Não Aprovada</h3>
                   <p className="text-red-800">{verificationResult.message}</p>
-                  {verificationResult.details && (
-                    <div className="bg-white rounded p-3 text-left text-sm text-slate-600">
-                      <p>
-                        <strong>Motivo:</strong> {verificationResult.details}
-                      </p>
-                    </div>
-                  )}
                 </div>
                 <p className="text-sm text-slate-600 text-center">
                   Se acredita que há um erro, entre em contato com nosso suporte.

@@ -44,7 +44,7 @@ async function sendTemplate(to: string, templateName: string, parameters: string
   const components = parameters.length > 0
     ? [{ type: 'body', parameters: parameters.map((text) => ({ type: 'text', text })) }]
     : undefined;
-  const response = await fetch(`https://graph.facebook.com/v18.0/${phoneNumberId}/messages`, {
+  const response = await fetch(`https://graph.facebook.com/v20.0/${phoneNumberId}/messages`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({

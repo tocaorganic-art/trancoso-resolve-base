@@ -43,37 +43,57 @@ export default function AdminAntecedentesPage() {
     staleTime: 0,
   });
 
+  const { data: verifications } = useQuery({
+    queryKey: ["allBackgroundVerifications"],
+    queryFn: () => base44.entities.Verificacao.filter({ verification_type: "background_check" }, "-created_date", 500),
+    enabled: !!user && user.role === "admin",
+    staleTime: 0,
+  });
+
   const aprovaMutation = useMutation({
-    mutationFn: (id) =>
-      base44.entities.ServiceProvider.update(id, {
-        status_verificacao: "aprovado",
-        relatorio_verificacao: "Aprovado manualmente pelo administrador.",
-        data_verificacao: new Date().toISOString(),
-      }),
-    onSuccess: () => {
-      toast.success("✅ Prestador aprovado manualmente.");
-      queryClient.invalidateQueries({ queryKey: ["allProviders"] });
+    mutationFn: (providerId) => {
+      const verification = verifications?.find((item) => item.provider_id === providerId);
+      if (!verification?.id) throw new Error("Nenhuma verificação de antecedentes encontrada na fila.");
+      return base44.functions.invoke("adminVerificacao", {
+        verificacao_id: verification.id,
+        action: "aprovar",
+      });
     },
+    onSuccess: (result) => {
+      const data = result?.data || result || {};
+      toast.success(data.ready_for_release
+        ? "✅ Cadastro liberado; notificações processadas."
+        : "✅ Antecedentes aprovados; aguardando a identidade.");
+      queryClient.invalidateQueries({ queryKey: ["allProviders"] });
+      queryClient.invalidateQueries({ queryKey: ["allBackgroundVerifications"] });
+    },
+    onError: (err) => toast.error("Não foi possível aprovar: " + err.message),
   });
 
   const reprovaMutation = useMutation({
-    mutationFn: (id) =>
-      base44.entities.ServiceProvider.update(id, {
-        status_verificacao: "reprovado",
-        relatorio_verificacao: "Reprovado manualmente pelo administrador.",
-        data_verificacao: new Date().toISOString(),
-      }),
-    onSuccess: () => {
-      toast.success("❌ Prestador reprovado.");
-      queryClient.invalidateQueries({ queryKey: ["allProviders"] });
+    mutationFn: (providerId) => {
+      const verification = verifications?.find((item) => item.provider_id === providerId);
+      if (!verification?.id) throw new Error("Nenhuma verificação de antecedentes encontrada na fila.");
+      return base44.functions.invoke("adminVerificacao", {
+        verificacao_id: verification.id,
+        action: "rejeitar",
+        motivo: "Revisão administrativa",
+      });
     },
+    onSuccess: () => {
+      toast.success("❌ Cadastro não autorizado.");
+      queryClient.invalidateQueries({ queryKey: ["allProviders"] });
+      queryClient.invalidateQueries({ queryKey: ["allBackgroundVerifications"] });
+    },
+    onError: (err) => toast.error("Não foi possível reprovar: " + err.message),
   });
 
   const reverificaMutation = useMutation({
     mutationFn: (id) => base44.functions.invoke('verificarAntecedentes', { service_provider_id: id }),
-    onSuccess: (_, id) => {
+    onSuccess: () => {
       toast.success("🔄 Verificação reenviada para Infosimples.");
       queryClient.invalidateQueries({ queryKey: ["allProviders"] });
+      queryClient.invalidateQueries({ queryKey: ["allBackgroundVerifications"] });
     },
     onError: (err) => toast.error("Erro ao reverificar: " + err.message),
   });

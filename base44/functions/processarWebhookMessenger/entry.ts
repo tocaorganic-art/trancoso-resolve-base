@@ -1,10 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-
-function normalizeText(value: unknown): string {
-  return typeof value === 'string'
-    ? value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim()
-    : '';
-}
+import { getAutomationReply } from '../_shared/automationResponses.js';
 
 function hex(bytes: ArrayBuffer): string {
   return [...new Uint8Array(bytes)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
@@ -19,24 +14,14 @@ async function validSignature(rawBody: Uint8Array, signature: string | null): Pr
   return expected.length === received.length && [...expected].every((char, index) => char === received[index]);
 }
 
-function replyFor(message: string): string {
-  const normalized = normalizeText(message);
-  if (normalized.includes('cadastro') || normalized.includes('prestador')) {
-    return 'Quer se cadastrar como prestador? Acesse https://trancosoresolve.com.br/SejaPrestador e siga as instruções. Se precisar, envie sua dúvida por aqui.';
-  }
-  if (normalized.includes('preco') || normalized.includes('plano') || normalized.includes('valor')) {
-    return 'Tabela de informações Trancoso Resolve\n• Clientes: solicitação de serviços locais.\n• Prestadores: presença e oportunidades na plataforma.\n\nCondições e valores atualizados estão no painel oficial: https://trancosoresolve.com.br/Planos';
-  }
-  if (normalized.includes('como funciona')) {
-    return 'Como funciona:\n1. Você conta o que precisa.\n2. Encontramos opções na região.\n3. Você combina os detalhes diretamente com o prestador.';
-  }
-  return 'Olá! Recebemos sua mensagem. A equipe Trancoso Resolve vai retornar em breve. Quem resolve, pertinho de você.';
-}
+type Canal = 'messenger' | 'instagram';
 
-async function sendMessenger(recipientId: string, message: string): Promise<{ message_id?: string; error?: string }> {
-  const token = Deno.env.get('FB_PAGE_ACCESS_TOKEN');
-  if (!token) return { error: 'FB_PAGE_ACCESS_TOKEN não configurado' };
-  const url = new URL('https://graph.facebook.com/v18.0/me/messages');
+async function sendMessage(recipientId: string, message: string, canal: Canal): Promise<{ message_id?: string; error?: string }> {
+  const token = canal === 'instagram' ? Deno.env.get('INSTAGRAM_ACCESS_TOKEN') : Deno.env.get('FB_PAGE_ACCESS_TOKEN');
+  if (!token) return { error: canal === 'instagram' ? 'INSTAGRAM_ACCESS_TOKEN não configurado' : 'FB_PAGE_ACCESS_TOKEN não configurado' };
+  const url = new URL(canal === 'instagram'
+    ? 'https://graph.instagram.com/v25.0/me/messages'
+    : 'https://graph.facebook.com/v18.0/me/messages');
   url.searchParams.set('access_token', token);
   const response = await fetch(url, {
     method: 'POST',
@@ -50,7 +35,10 @@ async function sendMessenger(recipientId: string, message: string): Promise<{ me
 Deno.serve(async (req: Request) => {
   if (req.method === 'GET') {
     const url = new URL(req.url);
-    if (url.searchParams.get('hub.verify_token') !== Deno.env.get('FB_VERIFY_TOKEN')) return new Response('Forbidden', { status: 403 });
+    const verifyToken = Deno.env.get('FB_VERIFY_TOKEN');
+    if (url.searchParams.get('hub.mode') !== 'subscribe' || !verifyToken || url.searchParams.get('hub.verify_token') !== verifyToken) {
+      return new Response('Forbidden', { status: 403 });
+    }
     return new Response(url.searchParams.get('hub.challenge') || '', { status: 200 });
   }
   if (req.method !== 'POST') return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -61,20 +49,21 @@ Deno.serve(async (req: Request) => {
 
   try {
     const payload = JSON.parse(new TextDecoder().decode(rawBody));
+    const canal: Canal = payload.object === 'instagram' ? 'instagram' : 'messenger';
     const base44 = createClientFromRequest(req);
     for (const entry of payload.entry || []) {
       for (const event of entry.messaging || []) {
         const senderId = typeof event.sender?.id === 'string' ? event.sender.id : '';
         const text = typeof event.message?.text === 'string' ? event.message.text.slice(0, 4000) : '';
-        if (!senderId || !text) continue;
+        if (!senderId || !text || event.message?.is_echo || senderId === entry.id) continue;
         const messageId = typeof event.message?.mid === 'string' ? event.message.mid : '';
         if (messageId) {
           const seen = await base44.asServiceRole.entities.LeadConversa.filter({ message_id: messageId });
           if (seen?.[0]) continue;
         }
-        const responseText = replyFor(text);
+        const responseText = getAutomationReply(text).text;
         await base44.asServiceRole.entities.LeadConversa.create({
-          canal: 'messenger',
+          canal,
           direcao: 'entrada',
           conteudo: text,
           status_entrega: 'entregue',
@@ -82,9 +71,9 @@ Deno.serve(async (req: Request) => {
           message_id: messageId || undefined,
           destinatario: senderId,
         });
-        const result = await sendMessenger(senderId, responseText);
+        const result = await sendMessage(senderId, responseText, canal);
         await base44.asServiceRole.entities.LeadConversa.create({
-          canal: 'messenger',
+          canal,
           direcao: 'saida',
           conteudo: responseText,
           status_entrega: result.message_id ? 'enviado' : 'falhou',

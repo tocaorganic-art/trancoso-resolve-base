@@ -136,7 +136,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
       setStep("done");
       onSuccess?.();
     } catch (error) {
-      let msg = 'Não foi possível enviar o documento. Tente novamente ou entre em contato pelo WhatsApp.';
+      let msg = 'Não foi possível enviar o documento. Tente novamente ou use o suporte disponível no site.';
       
       if (error.message?.includes('unsupported image')) {
         msg = 'Formato de imagem não suportado. Use JPG ou PNG.';

@@ -7,7 +7,7 @@
  * apenas quando presentes. Nenhum outro comportamento foi alterado.
  */
 
-import { getAdsAttribution } from '@/lib/adsAttribution.js';
+import { getAdsAttribution } from '../lib/adsAttribution.js';
 
 export function normalizeLeadName(value = '') {
   return value.trim().replace(/\s+/g, ' ').slice(0, 120);

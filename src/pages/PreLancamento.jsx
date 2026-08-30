@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { LogoMark } from "@/components/brand/Logo";
 import { buildPublicLeadPayload, isValidBrazilianPhone } from "@/utils/leadValidation.js";
+import { trackLead } from "@/utils/analytics.js";
 import { motion, AnimatePresence, useInView, useMotionValue, animate } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
@@ -249,11 +250,11 @@ export default function PreLancamento() {
         website: form.website,
       }));
 
-      // Meta Pixel — evento de Lead
-      if (window.fbq) window.fbq("track", "Lead", { currency: "BRL", value: 29.90 });
-
-      // Google Analytics — evento de Lead
-      if (window.gtag) window.gtag("event", "generate_lead", { currency: "BRL", value: 29.90, event_category: "engagement" });
+      trackLead({
+        service_interest: form.categoria,
+        source: "pre_lancamento",
+        value: 29.90,
+      });
 
       setSubmitted(true);
     } catch (err) {

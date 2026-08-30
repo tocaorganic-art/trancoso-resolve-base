@@ -59,7 +59,7 @@ Todos os templates usam `pt_BR`. O envio de template sempre usa `WHATSAPP_TOKEN`
 ### Frontend/Vercel
 
 ```text
-VITE_FB_PIXEL_ID=908361385639766
+VITE_FB_PIXEL_ID=1469130194903035
 VITE_BASE44_APP_ID=<app-id-publico-do-frontend>
 VITE_BASE44_BACKEND_URL=<url-do-backend-base44>
 ```
@@ -71,7 +71,7 @@ VITE_BASE44_BACKEND_URL=<url-do-backend-base44>
 ```text
 WHATSAPP_TOKEN=<token-da-meta-no-painel-base44>
 WHATSAPP_PHONE_NUMBER_ID=<phone-number-id-da-meta>
-FB_PIXEL_ID=908361385639766
+FB_PIXEL_ID=1469130194903035
 FB_PAGE_ACCESS_TOKEN=<token-da-pagina-no-painel-base44>
 INSTAGRAM_ACCESS_TOKEN=<token-do-usuario-profissional-do-instagram-no-painel-base44>
 FB_VERIFY_TOKEN=<valor-aleatorio-gerado-e-guardado-no-painel>

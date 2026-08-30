@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { trackClienteCadastro, trackPrestadorCadastro } from '@/utils/analytics.js';
+import { trackFirstRegistration } from '@/utils/analytics.js';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent } from '@/components/ui/card';
@@ -30,6 +30,7 @@ const formatCnpj = (v) => {
 // step: 'tipo_conta' | 'tipo_pessoa' | 'processando'
 export default function CadastroTipoPage() {
   const queryClient = useQueryClient();
+  const registrationTrackedRef = useRef(false);
   const [step, setStep] = useState('tipo_conta');
   const [autorizouVerificacao, setAutorizouVerificacao] = useState(false);
   const [tipoPessoa, setTipoPessoa] = useState('pf');
@@ -85,14 +86,17 @@ export default function CadastroTipoPage() {
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       const email = updated?.email || user?.email || '';
       const name = updated?.full_name || user?.full_name || '';
+      registrationTrackedRef.current = trackFirstRegistration(
+        user,
+        userType,
+        registrationTrackedRef.current,
+      );
 
       if (userType === 'prestador') {
         // Grava flag para PermissionChecker fazer bypass enquanto banco propaga
         localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
-        trackPrestadorCadastro();
         redirectPrestador(email, name);
       } else {
-        trackClienteCadastro();
         window.location.replace('/');
       }
     },

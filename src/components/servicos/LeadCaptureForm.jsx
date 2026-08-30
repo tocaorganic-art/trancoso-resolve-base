@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { trackLead } from '@/utils/analytics.js';
 import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
@@ -20,6 +20,9 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
   const [form, setForm] = useState({ name: '', phone: '', email: '', service: initialService, location: '', message: '', consent: false, website: '' });
   const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [whatsappUrl, setWhatsappUrl] = useState('');
+  const [whatsappBlocked, setWhatsappBlocked] = useState(false);
+  const submittingRef = useRef(false);
 
   const handlePhoneChange = (e) => {
     setForm(f => ({ ...f, phone: formatPhone(e.target.value) }));
@@ -42,8 +45,17 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
       setErrorMessage('Selecione o serviço e a localização para continuarmos.');
       return;
     }
+    if (submittingRef.current) return;
+    submittingRef.current = true;
     setStatus('loading');
     setErrorMessage('');
+
+    // Abre a aba do WhatsApp de forma síncrona, ainda dentro do gesto de clique.
+    // Se essa chamada acontecesse depois do `await` abaixo, navegadores como
+    // Safari/iOS deixam de reconhecer um gesto direto do usuário e bloqueiam
+    // o popup silenciosamente — o lead seria enviado, mas o WhatsApp nunca abriria.
+    const whatsappWindow = window.open('', '_blank', 'noopener,noreferrer');
+
     try {
       const payload = buildPublicLeadPayload({
         name: form.name,
@@ -60,9 +72,19 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
       await base44.functions.invoke('createPublicLead', payload);
       trackLead({ service_interest: form.service || serviceInterest, source: source, city: form.location });
       const fallbackMessage = `Olá! Meu nome é ${form.name}. Preciso de ${form.service} em ${form.location}.`;
-      window.open(`https://wa.me/5573998283579?text=${encodeURIComponent(fallbackMessage)}`, '_blank', 'noopener,noreferrer');
+      const url = `https://wa.me/5573998283579?text=${encodeURIComponent(fallbackMessage)}`;
+      setWhatsappUrl(url);
+      if (whatsappWindow) {
+        whatsappWindow.location.href = url;
+        setWhatsappBlocked(false);
+      } else {
+        // Popup bloqueado pelo navegador — fallback seguro: link visível na tela de sucesso.
+        setWhatsappBlocked(true);
+      }
       setStatus('success');
     } catch {
+      submittingRef.current = false;
+      whatsappWindow?.close();
       setStatus('error');
       setErrorMessage('Não foi possível enviar agora. Tente novamente em instantes.');
     }
@@ -79,6 +101,18 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
         <p style={{ color: '#6B4F3A' }} className="leading-relaxed">
           Obrigado! Entraremos em contato pelo WhatsApp em até 5 minutos.
         </p>
+        {whatsappUrl && (
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 mt-4 font-bold underline"
+            style={{ color: '#8B6914' }}
+          >
+            {whatsappBlocked ? 'Seu navegador bloqueou o popup — abrir WhatsApp agora' : 'Não abriu? Continuar no WhatsApp'}
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        )}
       </div>
     );
   }

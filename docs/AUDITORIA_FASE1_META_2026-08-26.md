@@ -1,5 +1,17 @@
 # Auditoria da Fase 1 e bloqueio Meta — 26/08/2026
 
+> **Errata (28/08/2026):** este documento registrou `908361385639766` como o Pixel ID
+> correto e `1469130194903035` como "antigo". Essa conclusão foi **revertida** pelos PRs
+> #7, #8 e #9 (mergeados em 26–28/08/2026), que fixaram `1469130194903035` como o Pixel
+> oficial e passaram a tratar `908361385639766` como ID legado a remover — confirmado
+> pela auditoria final de 28/08/2026 (ver `docs/AUDITORIA_FINAL_2026-08-28.md`, se
+> presente, ou o Pull Request desta auditoria). Não use `908361385639766` como referência;
+> o texto abaixo é mantido apenas como registro histórico da investigação daquele dia.
+> Como o histórico do Gerenciador de Eventos mostrava **0 eventos** para ambos os IDs,
+> recomenda-se que Tony confirme manualmente e ao vivo, no Events Manager
+> (`business_id=2061349114595345`), qual Pixel ID está de fato recebendo tráfego antes
+> de considerar o rastreamento validado em produção.
+
 ## Resultado
 
 O documento `FASE1_UX_UI_EXECUTADO.md` trata de UX/UI e não de login ou criação de aplicativo Meta. A captura enviada comprova acesso ao Meta Business Manager, ao portfólio empresarial **Toca Experience** e a uma conta de anúncios. Ela não comprova que existe um app em Meta Developers nem que o Instagram profissional está vinculado.

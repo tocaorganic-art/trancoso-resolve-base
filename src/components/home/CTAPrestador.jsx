@@ -8,7 +8,7 @@ export default function CTAPrestador({ vagasRestantes = 0 }) {
   const { t } = useApp();
   const beneficios = [1, 2, 3, 4, 5, 6].map(i => t(`providerCta.benefit${i}`));
   return (
-    <section className="bg-gradient-to-br from-orange-600 to-terracotta rounded-3xl py-10 md:py-14 px-6 md:px-12 my-12 mx-0 border border-orange-700/30 shadow-brand">
+    <section className="bg-gradient-to-br from-orange-600 to-terracotta rounded-3xl py-10 md:py-14 px-6 md:px-12 mt-12 mx-0 border border-orange-700/30 shadow-brand">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-5xl mx-auto">
         {/* Bloco esquerdo */}
         <div>

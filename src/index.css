@@ -282,13 +282,35 @@ button:focus-visible {
   }
 }
 
-/* Mobile: minimum touch target sizes for Android */
+/* Mobile: minimum touch target sizes for Android / Lighthouse SEO (48px) */
 @media (max-width: 768px) {
   button,
   input,
   [data-radix-select-trigger],
   [role="combobox"] {
     min-height: 44px;
+  }
+
+  /* Footer links must meet 48px tap-target minimum */
+  footer a,
+  footer button {
+    min-height: 48px;
+  }
+
+  /* Social media icon links: also need min-width since icons are 24px */
+  footer a[href*="instagram.com"],
+  footer a[href*="facebook.com"],
+  footer a[href*="wa.me"],
+  footer a[aria-label] {
+    min-width: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Nav links: ensure 48px tap targets */
+  nav a:not(.skip-link) {
+    min-height: 48px;
   }
 }
 

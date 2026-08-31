@@ -65,6 +65,16 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
     enabled: !!verificacao?.provider_id && isOpen,
   });
 
+  const { data: providerPrivate } = useQuery({
+    queryKey: ['providerPrivateForVerificacao', provider?.id],
+    queryFn: async () => {
+      if (!provider?.id) return null;
+      const results = await base44.entities.ServiceProviderPrivate.filter({ service_provider_id: provider.id });
+      return results[0] || null;
+    },
+    enabled: !!provider?.id && isOpen,
+  });
+
   const normalizeStatus = (status) => {
     const STATUS_MAP = {
       'in_progress': 'Em Análise',
@@ -175,10 +185,10 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
                     <a href={`https://wa.me/55${provider.phone.replace(/\D/g, '')}`} target="_blank" rel="noreferrer" className="text-[#3E8E5A] hover:underline font-medium">{provider.phone}</a>
                   </div>
                 )}
-                {provider.cpf && (
+                {providerPrivate?.cpf && (
                   <div className="flex items-center gap-2 text-sm text-foreground">
                     <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
-                    <span>CPF: {provider.cpf}</span>
+                    <span>CPF: {providerPrivate.cpf}</span>
                   </div>
                 )}
                 {provider.cnpj && (

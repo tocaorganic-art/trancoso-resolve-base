@@ -15,11 +15,18 @@ export const AuthProvider = ({ children }) => {
 
   const checkAppState = async () => {
     try {
-      const currentUser = await base44.auth.me();
+      // Timeout de segurança: sem isso, uma rede lenta/instável (comum em
+      // celular) deixa o app inteiro preso no spinner para sempre, porque
+      // base44.auth.me() nunca resolve nem rejeita e o finally nunca roda.
+      const currentUser = await Promise.race([
+        base44.auth.me(),
+        new Promise((_, reject) => setTimeout(() => reject(new Error('auth_timeout')), 10000)),
+      ]);
       setUser(currentUser);
       setIsAuthenticated(true);
     } catch (err) {
-      // Usuário não logado ou token inválido - normal para app público
+      // Usuário não logado, token inválido ou timeout de rede - trata como
+      // não autenticado para não travar o app público (cadastro/login).
       if (err?.status === 403 && err?.data?.extra_data?.reason === 'user_not_registered') {
         setAuthError({ type: 'user_not_registered', message: 'User not registered' });
       }

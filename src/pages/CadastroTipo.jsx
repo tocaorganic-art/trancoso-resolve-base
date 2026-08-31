@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { trackFirstRegistration } from '@/utils/analytics.js';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
+import { withTimeout } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -79,7 +80,7 @@ export default function CadastroTipoPage() {
 
   const updateUserMutation = useMutation({
     mutationFn: async (userType) => {
-      const updated = await base44.auth.updateMe({ user_type: userType });
+      const updated = await withTimeout(base44.auth.updateMe({ user_type: userType }));
       return { updated, userType };
     },
     onSuccess: ({ updated, userType }) => {

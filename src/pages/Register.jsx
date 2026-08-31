@@ -8,6 +8,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import AuthLayout from "@/components/AuthLayout";
 import GoogleIcon from "@/components/GoogleIcon";
 import { toast } from "@/components/ui/use-toast";
+import { withTimeout } from "@/lib/utils";
 
 function FloatingInput({ id, label, type = 'text', value, onChange, ...props }) {
   const [focused, setFocused] = useState(false);
@@ -64,7 +65,7 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      await base44.auth.register({ email, password });
+      await withTimeout(base44.auth.register({ email, password }));
       setShowOtp(true);
     } catch (err) {
       setError(err.message || "Registration failed");
@@ -77,7 +78,7 @@ export default function Register() {
     setError("");
     setLoading(true);
     try {
-      const result = await base44.auth.verifyOtp({ email, otpCode });
+      const result = await withTimeout(base44.auth.verifyOtp({ email, otpCode }));
       if (result?.access_token) {
         base44.auth.setToken(result.access_token);
       }

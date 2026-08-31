@@ -138,6 +138,16 @@ function MeuPerfilPrestadorContent() {
     enabled: !!user,
   });
 
+  const { data: providerPrivate } = useQuery({
+    queryKey: ['myServiceProviderPrivate', provider?.id],
+    queryFn: async () => {
+      if (!provider?.id) return null;
+      const results = await base44.entities.ServiceProviderPrivate.filter({ service_provider_id: provider.id });
+      return results[0] || null;
+    },
+    enabled: !!provider?.id,
+  });
+
   const [formData, setFormData] = useState(null);
   const [uploading, setUploading] = useState({ profile: false, document: false, cover: false });
   const [errors, setErrors] = useState({});
@@ -156,6 +166,10 @@ function MeuPerfilPrestadorContent() {
           lng: provider.location?.lng || -39.0931, // Default Trancoso lng
           address: provider.location?.address || '',
         },
+        // Campos sensíveis lidos de ServiceProviderPrivate (LGPD)
+        cpf: providerPrivate?.cpf || '',
+        data_nascimento: providerPrivate?.data_nascimento || '',
+        nome_mae: providerPrivate?.nome_mae || '',
       });
     } else if (!isLoadingProvider) {
       setFormData({
@@ -178,23 +192,48 @@ function MeuPerfilPrestadorContent() {
         tipo_pessoa: 'pf',
         cpf: '',
         data_nascimento: '',
+        nome_mae: '',
         cnpj: '',
         tem_ponto_fisico_em_trancoso: false,
         razao_social: '',
         nome_fantasia: '',
       });
     }
-  }, [provider, isLoadingProvider, user]);
+  }, [provider, providerPrivate, isLoadingProvider, user]);
 
 
 
   const mutation = useMutation({
-    mutationFn: (data) => {
+    mutationFn: async (data) => {
+      const PRIVATE_FIELDS = ['cpf', 'data_nascimento', 'nome_mae'];
       const { id, ...rest } = data;
+      const privateData = {};
+      const publicData = {};
+      for (const [k, v] of Object.entries(rest)) {
+        if (PRIVATE_FIELDS.includes(k)) {
+          privateData[k] = v;
+        } else {
+          publicData[k] = v;
+        }
+      }
+      // Salva campos públicos no ServiceProvider
+      let providerId = id;
       if (id) {
-        return base44.entities.ServiceProvider.update(id, rest);
+        await base44.entities.ServiceProvider.update(id, publicData);
       } else {
-        return base44.entities.ServiceProvider.create(rest);
+        const created = await base44.entities.ServiceProvider.create(publicData);
+        providerId = created.id;
+      }
+      // Salva campos sensíveis no ServiceProviderPrivate (LGPD)
+      if (Object.values(privateData).some(v => v)) {
+        if (providerPrivate?.id) {
+          await base44.entities.ServiceProviderPrivate.update(providerPrivate.id, privateData);
+        } else {
+          await base44.entities.ServiceProviderPrivate.create({
+            service_provider_id: providerId,
+            ...privateData,
+          });
+        }
       }
     },
     onMutate: async (newData) => {

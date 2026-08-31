@@ -63,7 +63,7 @@ export default function HeroSearch() {
             <Link
               key={d.path}
               to={d.path}
-              className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 border border-white/25 text-white text-xs font-semibold px-3 py-2 rounded-pill transition-all"
+              className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 border border-white/25 text-white text-xs font-semibold px-3 py-3 rounded-pill transition-all min-h-[48px]"
             >
               <MapPin className="w-3 h-3" />
               {d.label}
@@ -93,7 +93,7 @@ export default function HeroSearch() {
             <button
               key={cat}
               onClick={() => handleCategory(cat)}
-              className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 border border-white/25 text-white text-xs font-semibold px-3 py-2 rounded-pill transition-all"
+              className="flex items-center gap-1.5 bg-white/15 hover:bg-white/25 border border-white/25 text-white text-xs font-semibold px-3 py-3 rounded-pill transition-all min-h-[48px]"
             >
               <Icon className="w-3.5 h-3.5" />
               {t(`hero.categories.${key}`)}

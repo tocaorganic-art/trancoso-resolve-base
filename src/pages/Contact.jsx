@@ -200,14 +200,6 @@ export default function ContactPage() {
               delay={0.1}
             />
             <ChannelCard
-              href="https://wa.me/5573998283579"
-              icon={<MessageSquare className="w-5 h-5" />}
-              iconColor="text-green-500"
-              label="WhatsApp"
-              sub="Atendimento em horário comercial"
-              delay={0.18}
-            />
-            <ChannelCard
               icon={<MapPin className="w-5 h-5" />}
               iconColor="text-orange-400"
               label="Trancoso, Bahia, Brasil"

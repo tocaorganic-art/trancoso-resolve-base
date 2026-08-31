@@ -20,8 +20,6 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
   const [form, setForm] = useState({ name: '', phone: '', email: '', service: initialService, location: '', message: '', consent: false, website: '' });
   const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
-  const [whatsappUrl, setWhatsappUrl] = useState('');
-  const [whatsappBlocked, setWhatsappBlocked] = useState(false);
   const submittingRef = useRef(false);
 
   const handlePhoneChange = (e) => {
@@ -32,7 +30,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
     e.preventDefault();
     if (!isValidBrazilianPhone(form.phone)) {
       setStatus('error');
-      setErrorMessage('Informe um WhatsApp válido com DDD.');
+      setErrorMessage('Informe um telefone válido com DDD.');
       return;
     }
     if (!form.consent) {
@@ -50,11 +48,6 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
     setStatus('loading');
     setErrorMessage('');
 
-    // Abre a aba do WhatsApp de forma síncrona, ainda dentro do gesto de clique.
-    // Se essa chamada acontecesse depois do `await` abaixo, navegadores como
-    // Safari/iOS deixam de reconhecer um gesto direto do usuário e bloqueiam
-    // o popup silenciosamente — o lead seria enviado, mas o WhatsApp nunca abriria.
-    const whatsappWindow = window.open('', '_blank', 'noopener,noreferrer');
 
     try {
       const payload = buildPublicLeadPayload({
@@ -71,20 +64,9 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
       });
       await base44.functions.invoke('createPublicLead', payload);
       trackLead({ service_interest: form.service || serviceInterest, source: source, city: form.location });
-      const fallbackMessage = `Olá! Meu nome é ${form.name}. Preciso de ${form.service} em ${form.location}.`;
-      const url = `https://wa.me/5573998283579?text=${encodeURIComponent(fallbackMessage)}`;
-      setWhatsappUrl(url);
-      if (whatsappWindow) {
-        whatsappWindow.location.href = url;
-        setWhatsappBlocked(false);
-      } else {
-        // Popup bloqueado pelo navegador — fallback seguro: link visível na tela de sucesso.
-        setWhatsappBlocked(true);
-      }
       setStatus('success');
     } catch {
       submittingRef.current = false;
-      whatsappWindow?.close();
       setStatus('error');
       setErrorMessage('Não foi possível enviar agora. Tente novamente em instantes.');
     }
@@ -99,20 +81,8 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
         <CheckCircle className="w-12 h-12 mx-auto mb-3" style={{ color: '#4A6741' }} />
         <h3 className="text-xl font-bold mb-2" style={{ color: '#2C1A0E' }}>Recebemos seu contato! ✅</h3>
         <p style={{ color: '#6B4F3A' }} className="leading-relaxed">
-          Obrigado! Entraremos em contato pelo WhatsApp em até 5 minutos.
+          Obrigado! Em breve um profissional da plataforma entrará em contato com você.
         </p>
-        {whatsappUrl && (
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 mt-4 font-bold underline"
-            style={{ color: '#8B6914' }}
-          >
-            {whatsappBlocked ? 'Seu navegador bloqueou o popup — abrir WhatsApp agora' : 'Não abriu? Continuar no WhatsApp'}
-            <ArrowRight className="w-4 h-4" />
-          </a>
-        )}
       </div>
     );
   }
@@ -128,7 +98,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
         Precisa de {displayLabel} agora?
       </h2>
       <p className="text-sm mb-6" style={{ color: '#6B4F3A' }}>
-        Deixe seu WhatsApp para que a equipe avalie sua solicitação e entre em contato.
+        Deixe seus dados e um profissional da Costa do Descobrimento entrará em contato pelo site.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -151,7 +121,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
           </div>
           <div>
             <label htmlFor="lead-phone" className="block text-sm font-semibold mb-1" style={{ color: '#2C1A0E' }}>
-              WhatsApp <span className="text-red-500">*</span>
+              Telefone <span className="text-red-500">*</span>
             </label>
             <input
               id="lead-phone"
@@ -265,7 +235,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
             className="mt-0.5 h-4 w-4"
           />
           <span>
-            Concordo com a Política de Privacidade e autorizo contato via WhatsApp.{' '}
+            Concordo com a Política de Privacidade e autorizo contato via plataforma.{' '}
             <a href="/PoliticaPrivacidade" className="underline font-semibold">Política de Privacidade</a>.
           </span>
         </label>

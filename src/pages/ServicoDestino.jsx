@@ -5,16 +5,14 @@ import { Button } from '@/components/ui/button';
 import { DESTINO_MAP, CATEGORIA_MAP, BASE_URL } from '@/data/seoLocal';
 import LeadCaptureForm from '@/components/servicos/LeadCaptureForm';
 import WhatsAppStickyBar from '@/components/servicos/WhatsAppStickyBar';
-import { trackContatoWhatsApp } from '@/utils/analytics';
 import CategoryIcon from '@/lib/categoryIcons';
 
-const WHATSAPP_NUMBER = '5573998283579';
 
 const FAQS = {
   eletricista: [
     { q: 'O eletricista atende emergências?', r: 'Sim! Nossos eletricistas verificados atendem emergências como curtos-circuitos e quedas de energia.' },
     { q: 'Os profissionais têm certificação?', r: 'Todos passam por verificação de identidade e antecedentes. Muitos possuem certificações NR10 e registro no CREA.' },
-    { q: 'Como solicitar orçamento?', r: 'Preencha o formulário abaixo ou clique em WhatsApp. Retornamos em até 2 horas.' },
+    { q: 'Como solicitar orçamento?', r: 'Preencha o formulário abaixo e receba o retorno em até 2 horas pela plataforma.' },
   ],
   diarista: [
     { q: 'As diaristas são verificadas?', r: 'Sim. Todas têm identidade verificada e análise de antecedentes criminais.' },
@@ -45,8 +43,6 @@ export default function ServicoDestino() {
   const destinoLabel = dest?.label || '';
   const categoriaLabel = cat?.label || '';
   const faqs = FAQS[categoria] || [];
-  const waMsg = encodeURIComponent(`Olá! Preciso de ${categoriaLabel.toLowerCase()} em ${destinoLabel}. Podem me ajudar?`);
-  const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}`;
 
   useEffect(() => {
     if (!dest || !cat) return;
@@ -102,9 +98,9 @@ export default function ServicoDestino() {
           <p className="text-lg text-orange-100 max-w-2xl mx-auto mb-8">
             Profissionais verificados disponíveis em {destinoLabel}. Solicite orçamento e receba contato em até 2 horas.
           </p>
-          <a href={waLink} target="_blank" rel="noopener noreferrer" onClick={() => trackContatoWhatsApp(`${categoriaLabel} ${destinoLabel}`)}>
-            <Button className="bg-green-600 hover:bg-green-700 text-white font-bold px-8 py-3 text-base gap-2">
-              <MessageCircle className="w-5 h-5" /> Falar pelo WhatsApp
+          <a href="#formulario">
+            <Button className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-3 text-base gap-2">
+              Solicitar Orçamento
             </Button>
           </a>
         </div>
@@ -130,12 +126,12 @@ export default function ServicoDestino() {
       </section>
 
       {/* Formulário */}
-      <section className="py-16 bg-sand/30">
+      <section id="formulario" className="py-16 bg-sand/30">
         <div className="container mx-auto max-w-2xl px-4">
           <h2 className="text-2xl font-bold text-center mb-2">
             Contratar {categoriaLabel} em {destinoLabel}
           </h2>
-          <p className="text-center text-muted-foreground mb-8">Deixe seu contato — respondemos em até 2 horas pelo WhatsApp.</p>
+          <p className="text-center text-muted-foreground mb-8">Deixe seu contato — respondemos em até 2 horas pela plataforma.</p>
           <LeadCaptureForm serviceInterest={categoriaLabel} serviceLabel={categoriaLabel} source={`${destino}-${categoria}`} />
         </div>
       </section>
@@ -158,18 +154,6 @@ export default function ServicoDestino() {
         </section>
       )}
 
-      {/* Botão flutuante WhatsApp */}
-      <a
-        href={waLink}
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => trackContatoWhatsApp(`${categoriaLabel} ${destinoLabel}`)}
-        className="fixed bottom-24 right-6 z-50 hidden md:flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold px-5 py-3 rounded-full shadow-lg transition-all hover:scale-105"
-        aria-label={`Falar pelo WhatsApp sobre ${categoriaLabel} em ${destinoLabel}`}
-      >
-        <MessageCircle className="w-5 h-5" />
-        <span className="text-sm">WhatsApp</span>
-      </a>
 
       <WhatsAppStickyBar serviceLabel={`${categoriaLabel} em ${destinoLabel}`} />
     </div>

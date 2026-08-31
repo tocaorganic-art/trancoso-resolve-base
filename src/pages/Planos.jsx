@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { withTimeout } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -493,11 +494,11 @@ export default function PlanosPage() {
     }
     setLoadingPlan(planKey);
     try {
-      const res = await base44.functions.invoke("createSubscriptionCheckout", {
+      const res = await withTimeout(base44.functions.invoke("createSubscriptionCheckout", {
         plan: planKey,
         billing: isAnual ? "annual" : "monthly",
         user_email: user.email,
-      });
+      }));
       if (res.data?.error === "vagas_esgotadas") {
         toast.error(res.data.message);
         return;

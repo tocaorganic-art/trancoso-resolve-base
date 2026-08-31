@@ -16,6 +16,7 @@ Object.defineProperty(window, 'matchMedia', {
 });
 
 // Mock IntersectionObserver (não existe no jsdom)
+// eslint-disable-next-line no-undef
 global.IntersectionObserver = class {
   observe() {}
   unobserve() {}

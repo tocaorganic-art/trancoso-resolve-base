@@ -16,7 +16,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
-import { fadeUp, fadeLeft, fadeRight, scaleIn, staticVariant, staggerContainer, staggerItem, v } from '@/lib/animationVariants';
+import { fadeUp, fadeLeft, fadeRight, scaleIn, fadeIn, staticVariant, staggerContainer, staggerItem, v } from '@/lib/animationVariants';
 
 const VARIANTS_MAP = { fadeUp, fadeLeft, fadeRight, scaleIn };
 

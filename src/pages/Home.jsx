@@ -544,8 +544,7 @@ export default function HomePage() {
 
   return (
     <div className="bg-background overflow-x-hidden">
-      {/* H1 semântico oculto para crawlers — SPA não renderiza H1 no HTML estático */}
-      <h1 className="sr-only">Trancoso Resolve — Profissionais Verificados em Trancoso</h1>
+      {/* H1 único é renderizado pelo HeroSearch (hero.headline) — evita múltiplas tags H1 */}
       {/* Pull-to-refresh indicator */}
       {pullDistance > 10 && (
         <div
@@ -768,7 +767,7 @@ export default function HomePage() {
             className="mt-8"
           >
             <Link to={createPageUrl("ServicosCategoria")} className="block sm:inline-block">
-              <Button className="w-full sm:w-auto bg-brand-primary hover:bg-orange-600 text-white font-bold text-base px-8 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95 rounded-pill shadow-brand">
+              <Button className="w-full sm:w-auto bg-brand-primary hover:bg-orange-600 text-white font-bold text-base px-8 min-h-[48px] transition-all duration-200 hover:scale-105 active:scale-95 rounded-pill shadow-brand">
                 {t('home.findNow')}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
@@ -847,14 +846,14 @@ export default function HomePage() {
                 <ul className="space-y-2 mb-4">
                   {dest.links.map((link) => (
                     <li key={link.href}>
-                      <Link to={link.href} className="text-orange-600 hover:text-orange-800 text-sm font-medium flex items-center gap-1 group">
+                      <Link to={link.href} className="text-orange-600 hover:text-orange-800 text-sm font-medium flex items-center gap-1 group min-h-[48px] py-1">
                         <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                         {link.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
-                <Link to={dest.destinoHref} className="text-xs font-semibold text-orange-500 hover:text-orange-700 flex items-center gap-1 border-t border-orange-100 dark:border-border pt-3 transition-colors group">
+                <Link to={dest.destinoHref} className="text-xs font-semibold text-orange-500 hover:text-orange-700 flex items-center gap-1 border-t border-orange-100 dark:border-border pt-3 min-h-[48px] transition-colors group">
                   <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   {t('home.viewDestination')} {dest.cidade}
                 </Link>

@@ -287,17 +287,19 @@ button:focus-visible {
   button,
   input,
   [data-radix-select-trigger],
-  [role="combobox"] {
-    min-height: 44px;
-  }
-
-  /* Footer links must meet 48px tap-target minimum */
-  footer a,
-  footer button {
+  [role="combobox"],
+  a[role="button"],
+  a[href]:not(p a):not(.inline-link) {
     min-height: 48px;
   }
 
-  /* Social media icon links: also need min-width since icons are 24px */
+  /* Icon-only buttons need min-width too */
+  button[aria-label],
+  a[aria-label] {
+    min-width: 48px;
+  }
+
+  /* Social media icon links: centered with proper sizing */
   footer a[href*="instagram.com"],
   footer a[href*="facebook.com"],
   footer a[href*="wa.me"],
@@ -306,11 +308,6 @@ button:focus-visible {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-  }
-
-  /* Nav links: ensure 48px tap targets */
-  nav a:not(.skip-link) {
-    min-height: 48px;
   }
 }
 

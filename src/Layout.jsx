@@ -430,7 +430,7 @@ export default function Layout({ children, currentPageName }) {
           {/* Mobile-only top bar: logo on root, back button on sub-pages */}
           {isRoot &&
           <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-card border-b border-border flex items-center px-3 h-12" style={{ paddingTop: "env(safe-area-inset-top, 0px)", top: "env(safe-area-inset-top, 0px)" }}>
-            <Link to="/" className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2 min-h-[48px]">
               <Logo markClassName="h-8 w-8" textClassName="text-xs" />
             </Link>
           </div>

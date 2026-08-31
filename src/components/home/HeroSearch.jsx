@@ -53,6 +53,7 @@ export default function HeroSearch() {
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-white leading-tight mb-4 drop-shadow-lg tracking-tight">
           {t('hero.headline')}
         </h1>
+        {/* sr-only heading removed from Home.jsx — this is the single canonical H1 */}
         <p className="text-base md:text-lg text-white/90 mb-8 max-w-xl mx-auto leading-relaxed">
           {t('hero.subtitle')}
         </p>

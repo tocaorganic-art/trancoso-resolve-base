@@ -199,6 +199,7 @@ export default function ContactPage() {
               sub="Resposta em até 24 horas"
               delay={0.1}
             />
+
             <ChannelCard
               icon={<MapPin className="w-5 h-5" />}
               iconColor="text-orange-400"

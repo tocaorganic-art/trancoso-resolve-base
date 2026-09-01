@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useParams, Navigate } from 'react-router-dom';
-import { MapPin, CheckCircle, Clock, Shield, MessageCircle } from 'lucide-react';
+import { MapPin, CheckCircle, Clock, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DESTINO_MAP, CATEGORIA_MAP, BASE_URL } from '@/data/seoLocal';
 import LeadCaptureForm from '@/components/servicos/LeadCaptureForm';

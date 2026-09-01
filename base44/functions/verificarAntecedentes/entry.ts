@@ -18,7 +18,7 @@ Deno.serve(async (req: Request) => {
       return Response.json({ error: "service_provider_id é obrigatório" }, { status: 400 });
     }
 
-    const provider = await base44.entities.ServiceProvider.get(service_provider_id);
+    const provider = await base44.asServiceRole.entities.ServiceProvider.get(service_provider_id);
 
     if (!provider) {
       return Response.json({ error: "Prestador não encontrado" }, { status: 404 });
@@ -113,7 +113,7 @@ Deno.serve(async (req: Request) => {
       relatorioVerificacao = "Cadastro não autorizado após a consulta de antecedentes.";
     }
 
-    await base44.entities.ServiceProvider.update(service_provider_id, {
+    await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
       status_verificacao: statusVerificacao,
       relatorio_verificacao: relatorioVerificacao,
       data_verificacao_antecedentes: new Date().toISOString(),
@@ -121,7 +121,7 @@ Deno.serve(async (req: Request) => {
     });
 
     const verificationStatus = conseguiuEmitirNegativa ? 'approved' : 'rejected';
-    const verificationRows = await base44.entities.Verificacao.filter({
+    const verificationRows = await base44.asServiceRole.entities.Verificacao.filter({
       provider_id: service_provider_id,
       verification_type: 'background_check',
     });
@@ -134,9 +134,9 @@ Deno.serve(async (req: Request) => {
       verified_at: new Date().toISOString(),
     };
     if (pendingVerification?.id) {
-      await base44.entities.Verificacao.update(pendingVerification.id, verificationData);
+      await base44.asServiceRole.entities.Verificacao.update(pendingVerification.id, verificationData);
     } else {
-      await base44.entities.Verificacao.create({
+      await base44.asServiceRole.entities.Verificacao.create({
         provider_id: service_provider_id,
         verification_type: 'background_check',
         ...verificationData,

@@ -73,7 +73,7 @@ Deno.serve(async (req: Request) => {
     const safeDocUrl = docValidation.url.toString();
 
     // Buscar a verificação
-    const verificacao = await base44.entities.Verificacao.get(verificacao_id);
+    const verificacao = await base44.asServiceRole.entities.Verificacao.get(verificacao_id);
     if (!verificacao) {
       return Response.json({ error: "Verificação não encontrada" }, { status: 404 });
     }
@@ -170,10 +170,10 @@ Deno.serve(async (req: Request) => {
       documento_verificado_em: new Date().toISOString(),
     };
 
-    await base44.entities.ServiceProvider.update(serviceProviderId, providerUpdate);
+    await base44.asServiceRole.entities.ServiceProvider.update(serviceProviderId, providerUpdate);
 
     // 5. Atualizar a verificação com resultado do OCR
-    await base44.entities.Verificacao.update(verificacao_id, {
+    await base44.asServiceRole.entities.Verificacao.update(verificacao_id, {
       ocr_status: "concluido",
       ocr_resultado: JSON.stringify({
         nome: nomeExtraido,
@@ -223,7 +223,7 @@ Deno.serve(async (req: Request) => {
       }
 
       // Atualizar prestador com resultado
-      await base44.entities.ServiceProvider.update(serviceProviderId, {
+      await base44.asServiceRole.entities.ServiceProvider.update(serviceProviderId, {
         status_verificacao: statusVerificacao,
         relatorio_verificacao: relatorioVerificacao,
         data_verificacao_antecedentes: new Date().toISOString(),
@@ -233,7 +233,7 @@ Deno.serve(async (req: Request) => {
       });
 
       // Atualizar verificação com resultado final
-      await base44.entities.Verificacao.update(verificacao_id, {
+      await base44.asServiceRole.entities.Verificacao.update(verificacao_id, {
         antecedentes_status: nadaConsta ? "nada_consta" : "registros_encontrados",
         antecedentes_certidao_numero: certidaoNumero,
         status: statusVerificacao,
@@ -245,14 +245,14 @@ Deno.serve(async (req: Request) => {
       const saldoErro = (antecedentesData.errors || []).some((e: string) => e.toLowerCase().includes("saldo"));
       relatorioVerificacao = `📄 CNH: Validada via OCR ✅\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\nNascimento: ${nascimentoExtraido}\n\n🔍 ANTECEDENTES: Erro na consulta (code ${antecedentesData.code})\n${antecedentesData.code_message}\n${saldoErro ? "⚠️ Conta Infosimples sem saldo." : ""}`;
 
-      await base44.entities.ServiceProvider.update(serviceProviderId, {
+      await base44.asServiceRole.entities.ServiceProvider.update(serviceProviderId, {
         status_verificacao: "em_analise_manual",
         relatorio_verificacao: relatorioVerificacao,
         cnh_verificada: true,
         antecedentes_erro: antecedentesData.code_message,
       });
 
-      await base44.entities.Verificacao.update(verificacao_id, {
+      await base44.asServiceRole.entities.Verificacao.update(verificacao_id, {
         status: "em_analise_manual",
         antecedentes_erro: antecedentesData.code_message,
         relatorio_completo: relatorioVerificacao,

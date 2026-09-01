@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
-import { Mail, MessageSquare, MapPin, CheckCircle, Loader2, ArrowRight, Clock } from 'lucide-react';
+import { Mail, MapPin, CheckCircle, Loader2, ArrowRight, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';

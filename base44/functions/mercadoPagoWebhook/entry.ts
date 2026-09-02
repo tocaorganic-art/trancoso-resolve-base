@@ -92,6 +92,30 @@ async function hashEvent(dataId: string, eventType: string, mpStatus: string): P
   return Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
 }
 
+// ─── LogPagamento: ledger de eventos de pagamento (aditivo, sem PII) ──────────
+async function registrarLogPagamento(
+  base44: any,
+  payload: {
+    evento: string;
+    status?: string;
+    valor?: number;
+    mercadopago_id?: string;
+    prestador_id?: string;
+    prestador_email?: string;
+    plano?: string;
+    payload_raw?: string;
+  },
+): Promise<void> {
+  try {
+    await base44.asServiceRole.entities.LogPagamento.create({
+      ...payload,
+      timestamp: new Date().toISOString(),
+    });
+  } catch (e) {
+    console.warn('[mercadoPagoWebhook] LogPagamento não registrado:', (e as Error).message);
+  }
+}
+
 // ─── Alocação atômica de FounderSlot ─────────────────────────────────────────
 // Encontra o slot de menor posição disponível e reserva com idempotency_key.
 // Retorna o slot reservado ou null se sem vagas.
@@ -279,6 +303,16 @@ async function handlePaymentEvent(
 
     await base44.asServiceRole.entities.Payment.update(payment.id, { status: newStatus });
 
+    // LogPagamento — ledger de eventos de pagamento
+    await registrarLogPagamento(base44, {
+      evento: 'payment',
+      status: newStatus,
+      valor: mpPayment.transaction_amount,
+      mercadopago_id: String(mpPayment.id),
+      prestador_id: payment.provider_id,
+      payload_raw: JSON.stringify({ id: mpPayment.id, status: mpPayment.status, amount: mpPayment.transaction_amount }),
+    });
+
     // [FORA DE ESCOPO]: quando newStatus === 'requires_capture', o pagamento foi aprovado
     // pelo MP e o valor está retido em escrow, mas não existe (ainda) um job que execute a
     // captura/liberação automática em `auto_capture_after`. Esta correção só garante que o
@@ -454,6 +488,17 @@ Deno.serve(async (req) => {
         subscription_id: subscriptionId,
       }).catch(() => {});
     }
+
+    // LogPagamento — ledger de eventos de assinatura
+    await registrarLogPagamento(base44, {
+      evento: 'subscription_preapproval',
+      status: newStatus,
+      valor: amount,
+      mercadopago_id: pre.id,
+      prestador_email: email,
+      plano: plan,
+      payload_raw: JSON.stringify({ id: pre.id, status: pre.status, external_reference: pre.external_reference, next_payment_date: pre.next_payment_date }),
+    });
 
     // ─── 6. Concessão do Selo Fundador via FounderSlot ───────────────────────
     // Somente quando plano 'profissional' é autorizado (active).

@@ -86,7 +86,7 @@ const categoryImageMap = {
   ],
   garcom: [
     'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
-    'https://images.unsplash.com/photo-1555939594-58d7cb561549?w=800&q=80',
+    'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
     'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=800&q=80',
   ],
   piscineiro: [

@@ -44,8 +44,8 @@ export const mockProviderImages = {
     description: 'Cuidadora com criança em ambiente confortável'
   },
   'Garçom': {
-    photo: 'https://images.unsplash.com/photo-1555939594-58d7cb561549?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
-    cover: 'https://images.unsplash.com/photo-1555939594-58d7cb561549?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    photo: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',
+    cover: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
     description: 'Garçom servindo em ambiente de trabalho real'
   },
   'default': {

@@ -29,28 +29,21 @@ function AdminControleFinanceiroContent() {
     search: '',
   });
 
-  const { data: transactions, isLoading } = useQuery({
-    queryKey: ['allTransactions', filters],
-    queryFn: async () => {
-      let query = {};
-      
-      if (filters.type !== 'all') query.type = filters.type;
-      if (filters.status !== 'all') query.status = filters.status;
-      
-      const results = await base44.entities.Transaction.filter(query, '-date');
-      
-      return results.filter(t => {
-        const matchesSearch = !filters.search || 
-          t.description?.toLowerCase().includes(filters.search.toLowerCase()) ||
-          t.reference_id?.toLowerCase().includes(filters.search.toLowerCase());
-          
-        const matchesDateFrom = !filters.dateFrom || new Date(t.date) >= new Date(filters.dateFrom);
-        const matchesDateTo = !filters.dateTo || new Date(t.date) <= new Date(filters.dateTo);
-        
-        return matchesSearch && matchesDateFrom && matchesDateTo;
-      });
-    },
-    initialData: [],
+  const { data: dashboardData, isLoading } = useQuery({
+    queryKey: ['adminDashboardData'],
+    queryFn: () => base44.functions.invoke('adminDashboardData', {}),
+    initialData: { users: [], transactions: [] },
+  });
+
+  const transactions = (dashboardData?.transactions || []).filter(t => {
+    const matchesType = filters.type === 'all' || t.type === filters.type;
+    const matchesStatus = filters.status === 'all' || t.status === filters.status;
+    const matchesSearch = !filters.search ||
+      t.description?.toLowerCase().includes(filters.search.toLowerCase()) ||
+      t.reference_id?.toLowerCase().includes(filters.search.toLowerCase());
+    const matchesDateFrom = !filters.dateFrom || new Date(t.date) >= new Date(filters.dateFrom);
+    const matchesDateTo = !filters.dateTo || new Date(t.date) <= new Date(filters.dateTo);
+    return matchesType && matchesStatus && matchesSearch && matchesDateFrom && matchesDateTo;
   });
 
   const handleBatchStatusUpdate = async (newStatus) => {

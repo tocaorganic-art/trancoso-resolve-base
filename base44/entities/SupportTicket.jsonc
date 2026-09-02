@@ -1,0 +1,80 @@
+{
+  "name": "SupportTicket",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "ID da ChatConversation relacionada"
+    },
+    "client_name": {
+      "type": "string",
+      "description": "Nome do cliente"
+    },
+    "client_email": {
+      "type": "string",
+      "description": "E-mail do cliente"
+    },
+    "message": {
+      "type": "string",
+      "description": "Mensagem do cliente que n\u00e3o p\u00f4de ser resolvida"
+    },
+    "history": {
+      "type": "string",
+      "description": "Hist\u00f3rico da conversa no momento do escalonamento"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "aberto",
+        "em_resolucao",
+        "resolvido"
+      ],
+      "default": "aberto",
+      "description": "Status do ticket"
+    },
+    "resolution": {
+      "type": "string",
+      "description": "Resposta gerada pelo Claude para o cliente"
+    },
+    "escalation_reason": {
+      "type": "string",
+      "description": "Motivo pelo qual o TrIA n\u00e3o conseguiu resolver"
+    },
+    "provider_id": {
+      "type": "string",
+      "description": "ID do prestador relacionado, se houver"
+    },
+    "service_title": {
+      "type": "string",
+      "description": "Servi\u00e7o relacionado, se houver"
+    },
+    "resolved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data e hora da resolu\u00e7\u00e3o"
+    }
+  },
+  "required": [
+    "conversation_id",
+    "message",
+    "status"
+  ],
+  "rls": {
+    "create": null,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

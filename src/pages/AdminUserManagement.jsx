@@ -27,11 +27,12 @@ function AdminUserManagementContent() {
   const [filterRole, setFilterRole] = useState('all');
   const [filterUserType, setFilterUserType] = useState('all');
 
-  const { data: users, isLoading } = useQuery({
-    queryKey: ['allUsers'],
-    queryFn: () => base44.entities.User.list('-created_date'),
-    initialData: [],
+  const { data: dashboardData, isLoading } = useQuery({
+    queryKey: ['adminDashboardData'],
+    queryFn: () => base44.functions.invoke('adminDashboardData', {}),
+    initialData: { users: [], transactions: [] },
   });
+  const users = dashboardData?.users || [];
 
   const updateUserMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.User.update(id, data),

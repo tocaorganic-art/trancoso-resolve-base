@@ -1,7 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
 
 const DEFAULT_VERIFY_TOKEN = 'trancoso_resolve_2026';
-const CODE_VERSION = 'v5.3.1-live';
+const CODE_VERSION = 'v5.4.0-tria';
 
 const IGNORED_NUMBERS = ['5573998283579', '55739998283579', '13368103670', '3368103670'];
 
@@ -97,15 +97,32 @@ Deno.serve(async (req) => {
       }
       console.log(`[whatsappWebhook] mensagem recebida de +${fromPhone}: "${messageText.substring(0, 80)}"`);
 
+      // Salvar mensagem recebida no log
       try {
         await base44.asServiceRole.entities.LogWhatsApp.create({ tipo: 'recebido', telefone: `+${fromPhone}`, mensagem: messageText, status: 'recebido', message_id: messageId, timestamp: new Date().toISOString() });
       } catch (e) { console.warn('[whatsappWebhook] erro log:', (e as Error).message); }
 
       const intencao = classificarIntencao(messageText);
+
+      // --- TRIAGEM: delegar ao TrIA quando intenção não é clara ---
+      const triaFunctionUrl = Deno.env.get('ATENDIMENTO_IA_FUNCTION_URL');
+      const automationSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
+      if (intencao === 'outro' && triaFunctionUrl && automationSecret) {
+        // Fire-and-forget: TrIA processa em background e responde via WABA
+        fetch(triaFunctionUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-automation-secret': automationSecret },
+          body: JSON.stringify({ telefone: fromPhone, mensagem: messageText }),
+        }).catch((e: Error) => console.error('[whatsappWebhook] erro ao delegar ao TrIA:', e.message));
+        console.log(`[whatsappWebhook] intenção '${intencao}' delegada ao TrIA para +${fromPhone}`);
+        return Response.json({ status: 'delegated_to_tria', intencao, code_version: CODE_VERSION }, { status: 200 });
+      }
+
+      // --- INTENTS SIMPLES: resposta imediata por keyword ---
       let leadId: string | null = null;
       if (intencao === 'servico' || intencao === 'prestador') {
         try {
-          const lead = await base44.asServiceRole.entities.LeadPreLancamento.create({ name: contactName || `WhatsApp +${fromPhone}`, phone: `+${fromPhone}`, message: messageText, source: 'whatsapp-webhook-v5.2', type: intencao === 'prestador' ? 'prestador' : 'cliente' });
+          const lead = await base44.asServiceRole.entities.LeadPreLancamento.create({ name: contactName || `WhatsApp +${fromPhone}`, phone: `+${fromPhone}`, message: messageText, source: 'whatsapp-webhook-v5.4', type: intencao === 'prestador' ? 'prestador' : 'cliente' });
           leadId = lead?.id || null;
         } catch (e) { console.warn('[whatsappWebhook] erro lead:', (e as Error).message); }
       }

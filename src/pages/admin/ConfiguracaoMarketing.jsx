@@ -26,7 +26,7 @@ export default function ConfiguracaoMarketing() {
     {
       num: '4',
       title: 'Adicione no Base44',
-      desc: 'Base44 Dashboard → Settings → Environment Variables → adicione META_CAPI_TOKEN = <seu token>',
+      desc: 'Base44 Dashboard → Segurança → Segredos do aplicativo → variável META_CONVERSIONS_API_TOKEN (já configurada — não substituir)',
     },
   ];
 
@@ -63,7 +63,7 @@ export default function ConfiguracaoMarketing() {
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
             <AlertTriangle className="w-5 h-5 text-amber-500 mb-2" />
             <p className="text-sm font-semibold text-amber-700">Meta CAPI</p>
-            <p className="text-xs text-amber-600 mt-1">Requer META_CAPI_TOKEN</p>
+            <p className="text-xs text-amber-600 mt-1">Requer META_CONVERSIONS_API_TOKEN (server-side)</p>
           </div>
         </div>
 

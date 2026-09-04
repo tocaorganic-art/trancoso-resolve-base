@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { 
-  Download, FileText, TrendingUp, DollarSign, Search, CheckSquare, Loader2 
+  Download, FileText, TrendingUp, DollarSign, Search, CheckSquare, Loader2, Banknote 
 } from 'lucide-react';
 import { 
   Select,
@@ -20,6 +20,7 @@ import { toast } from 'sonner';
 import PermissionChecker from '../components/auth/PermissionChecker';
 
 function AdminControleFinanceiroContent() {
+  const queryClient = useQueryClient();
   const [selectedTransactions, setSelectedTransactions] = useState([]);
   const [filters, setFilters] = useState({
     type: 'all',
@@ -31,9 +32,15 @@ function AdminControleFinanceiroContent() {
 
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['adminDashboardData'],
-    queryFn: () => base44.functions.invoke('adminDashboardData', {}),
+    queryFn: async () => {
+      // O invoke retorna um envelope { data, status, ... } — o payload real está em .data
+      const res = await base44.functions.invoke('adminDashboardData', {});
+      return res?.data ?? res;
+    },
     initialData: { users: [], transactions: [] },
   });
+
+  const payments = dashboardData?.payments || [];
 
   const transactions = (dashboardData?.transactions || []).filter(t => {
     const matchesType = filters.type === 'all' || t.type === filters.type;
@@ -59,6 +66,7 @@ function AdminControleFinanceiroContent() {
         )
       );
       
+      queryClient.invalidateQueries({ queryKey: ['adminDashboardData'] });
       toast.success(`${selectedTransactions.length} transações atualizadas para "${newStatus}"!`);
       setSelectedTransactions([]);
     } catch (error) {
@@ -97,6 +105,11 @@ function AdminControleFinanceiroContent() {
   const totalDespesa = transactions.filter(t => t.type === 'Despesa').reduce((sum, t) => sum + t.amount, 0);
   const saldo = totalReceita - totalDespesa;
 
+  const pagamentosConfirmados = payments.filter(
+    p => p.status === 'captured' || p.status === 'requires_capture' || p.status === 'approved'
+  );
+  const volumeMp = pagamentosConfirmados.reduce((sum, p) => sum + (p.amount_total || 0), 0) / 100;
+
   const toggleTransaction = (id) => {
     setSelectedTransactions(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id]
@@ -123,7 +136,7 @@ function AdminControleFinanceiroContent() {
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
         <Card className="border-none shadow-lg bg-gradient-to-br from-green-50 to-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
@@ -153,6 +166,28 @@ function AdminControleFinanceiroContent() {
             <p className={`text-3xl font-bold ${saldo >= 0 ? 'text-orange-700' : 'text-red-700'}`}>
               R$ {saldo.toFixed(2)}
             </p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-lg bg-gradient-to-br from-emerald-50 to-white">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <Banknote className="w-5 h-5 text-emerald-600" />
+              <Badge className="bg-emerald-500">Confirmados</Badge>
+            </div>
+            <p className="text-3xl font-bold text-emerald-700">{pagamentosConfirmados.length}</p>
+            <p className="text-xs text-muted-foreground mt-1">Pagamentos MP confirmados</p>
+          </CardContent>
+        </Card>
+
+        <Card className="border-none shadow-lg bg-gradient-to-br from-teal-50 to-white">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <TrendingUp className="w-5 h-5 text-teal-600" />
+              <Badge className="bg-teal-500">Volume MP</Badge>
+            </div>
+            <p className="text-3xl font-bold text-teal-700">R$ {volumeMp.toFixed(2)}</p>
+            <p className="text-xs text-muted-foreground mt-1">Total confirmado via Mercado Pago</p>
           </CardContent>
         </Card>
       </div>

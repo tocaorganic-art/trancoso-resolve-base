@@ -12,6 +12,7 @@
     },
     "client_email": {
       "type": "string",
+      "format": "email",
       "description": "Email do cliente"
     },
     "provider_stripe_account_id": {
@@ -43,9 +44,14 @@
       "type": "string",
       "description": "ID do Charge ap\u00f3s captura"
     },
+    "mp_payment_id": {
+      "type": "string",
+      "description": "ID do pagamento no Mercado Pago (gravado por criarPagamentoServico e usado pelo webhook para localizar o pagamento local)"
+    },
     "status": {
       "type": "string",
       "enum": [
+        "pending",
         "requires_payment_method",
         "requires_confirmation",
         "requires_capture",
@@ -56,7 +62,7 @@
         "refunded"
       ],
       "default": "requires_payment_method",
-      "description": "Status do pagamento"
+      "description": "Status do pagamento ('pending' = aguardando pagamento no Mercado Pago)"
     },
     "captured_at": {
       "type": "string",

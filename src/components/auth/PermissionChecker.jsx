@@ -33,6 +33,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       // Só mostra timeout se ainda não foi autorizado
       if (permissionStatus === 'checking') {
         localStorage.removeItem('user_type_prestador_pendente');
+        localStorage.removeItem('user_type_lojista_pendente');
         setPermissionStatus('timeout');
       }
     }, TIMEOUT_MS);
@@ -83,12 +84,14 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       if (user.user_type === requiredUserType) {
         // Correto! Limpa flags e autoriza
         localStorage.removeItem('user_type_prestador_pendente');
+        localStorage.removeItem('user_type_lojista_pendente');
         setPermissionStatus('authorized');
         return;
       }
 
       const userTypeUndefined = !user.user_type || user.user_type === 'indefinido';
-      const cadastroTs = localStorage.getItem('user_type_prestador_pendente');
+      const cadastroTs = localStorage.getItem('user_type_prestador_pendente')
+        || localStorage.getItem('user_type_lojista_pendente');
       const cadastroRecente = cadastroTs && (Date.now() - parseInt(cadastroTs)) < 30000;
 
       // Se cadastro recente OU user_type indefinido: tenta até MAX_RETRIES
@@ -104,6 +107,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       // Esgotou tentativas com cadastro recente → deixa passar (benefício da dúvida)
       if (cadastroRecente) {
         localStorage.removeItem('user_type_prestador_pendente');
+        localStorage.removeItem('user_type_lojista_pendente');
         setPermissionStatus('authorized');
         return;
       }

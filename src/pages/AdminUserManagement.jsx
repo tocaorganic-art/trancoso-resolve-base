@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { 
   Users, Search, UserCheck, Shield, 
-  Mail, Calendar, Loader2, CheckSquare 
+  Mail, Calendar, Loader2, CheckSquare, CreditCard, Hourglass, Megaphone, Banknote
 } from 'lucide-react';
 import {
   Select,
@@ -29,15 +29,23 @@ function AdminUserManagementContent() {
 
   const { data: dashboardData, isLoading } = useQuery({
     queryKey: ['adminDashboardData'],
-    queryFn: () => base44.functions.invoke('adminDashboardData', {}),
+    queryFn: async () => {
+      // O invoke retorna um envelope { data, status, ... } — o payload real está em .data
+      const res = await base44.functions.invoke('adminDashboardData', {});
+      return res?.data ?? res;
+    },
     initialData: { users: [], transactions: [] },
   });
   const users = dashboardData?.users || [];
+  const providers = dashboardData?.providers || [];
+  const subscriptions = dashboardData?.subscriptions || [];
+  const leads = dashboardData?.leads || [];
+  const payments = dashboardData?.payments || [];
 
   const updateUserMutation = useMutation({
     mutationFn: ({ id, data }) => base44.entities.User.update(id, data),
     onSuccess: () => {
-      queryClient.invalidateQueries(['allUsers']);
+      queryClient.invalidateQueries({ queryKey: ['adminDashboardData'] });
       toast.success('Usuário atualizado!');
     },
   });
@@ -66,7 +74,7 @@ function AdminUserManagementContent() {
         )
       );
       
-      queryClient.invalidateQueries(['allUsers']);
+      queryClient.invalidateQueries({ queryKey: ['adminDashboardData'] });
       toast.success(`${selectedUsers.length} usuários atualizados para "${newRole}"!`);
       setSelectedUsers([]);
     } catch (error) {
@@ -87,7 +95,7 @@ function AdminUserManagementContent() {
         )
       );
       
-      queryClient.invalidateQueries(['allUsers']);
+      queryClient.invalidateQueries({ queryKey: ['adminDashboardData'] });
       toast.success(`${selectedUsers.length} usuários atualizados para "${newUserType}"!`);
       setSelectedUsers([]);
     } catch (error) {
@@ -115,8 +123,12 @@ function AdminUserManagementContent() {
 
   const totalUsers = users.length;
   const totalAdmins = users.filter(u => u.role === 'admin').length;
-  const totalPrestadores = users.filter(u => u.user_type === 'prestador').length;
+  const totalPrestadores = providers.length;
   const totalClientes = users.filter(u => u.user_type === 'cliente').length;
+  const totalSubsAtivas = subscriptions.filter(s => s.status === 'active').length;
+  const totalSubsTrial = subscriptions.filter(s => s.status === 'trial').length;
+  const totalLeads = leads.length;
+  const totalPagamentos = payments.length;
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -168,6 +180,50 @@ function AdminUserManagementContent() {
             </div>
             <p className="text-3xl font-bold text-foreground">{totalClientes}</p>
             <p className="text-sm text-muted-foreground mt-1">Clientes ativos</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <CreditCard className="w-5 h-5 text-brand-primary" />
+              <Badge className="bg-brand-primary">Ativas</Badge>
+            </div>
+            <p className="text-3xl font-bold text-foreground">{totalSubsAtivas}</p>
+            <p className="text-sm text-muted-foreground mt-1">Assinaturas ativas</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <Hourglass className="w-5 h-5 text-amber-500" />
+              <Badge className="bg-muted text-muted-foreground border border-border">Trial</Badge>
+            </div>
+            <p className="text-3xl font-bold text-foreground">{totalSubsTrial}</p>
+            <p className="text-sm text-muted-foreground mt-1">Assinaturas em trial</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <Megaphone className="w-5 h-5 text-brand-primary" />
+              <Badge className="bg-brand-primary">Leads</Badge>
+            </div>
+            <p className="text-3xl font-bold text-foreground">{totalLeads}</p>
+            <p className="text-sm text-muted-foreground mt-1">Leads capturados</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <Banknote className="w-5 h-5 text-[#3E8E5A]" />
+              <Badge style={{ backgroundColor: '#3E8E5A' }}>Pagamentos</Badge>
+            </div>
+            <p className="text-3xl font-bold text-foreground">{totalPagamentos}</p>
+            <p className="text-sm text-muted-foreground mt-1">Pagamentos registrados</p>
           </CardContent>
         </Card>
       </div>

@@ -8,14 +8,29 @@ Deno.serve(async (req) => {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
     if (user.role !== 'admin') return Response.json({ error: 'Forbidden' }, { status: 403 });
 
-    const [users, transactions] = await Promise.all([
+    const [
+      users,
+      transactions,
+      providers,
+      subscriptions,
+      leads,
+      payments,
+    ] = await Promise.all([
       base44.asServiceRole.entities.User.list('-created_date'),
       base44.asServiceRole.entities.Transaction.list('-date'),
+      base44.asServiceRole.entities.ServiceProvider.list('-created_date'),
+      base44.asServiceRole.entities.Subscription.list('-created_date'),
+      base44.asServiceRole.entities.Lead.list('-created_date'),
+      base44.asServiceRole.entities.Payment.list('-created_date'),
     ]);
 
     return Response.json({
       users: users || [],
       transactions: transactions || [],
+      providers: providers || [],
+      subscriptions: subscriptions || [],
+      leads: leads || [],
+      payments: payments || [],
     });
   } catch (error) {
     console.error('[adminDashboardData] erro:', error instanceof Error ? error.message : 'unknown_error');

@@ -49,10 +49,13 @@ export default function CadastroTipoPage() {
   });
 
   const redirectPrestador = async (email, name) => {
-    // Cria o trial em paralelo sem bloquear o cadastro do perfil.
-    base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name }).catch(() => {
+    // Cria o trial ANTES do redirect. O fire-and-forget anterior era abortado pela
+    // navegação (window.location.replace) e o trial se perdia silenciosamente.
+    try {
+      await base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name });
+    } catch {
       localStorage.setItem('trial_pendente', 'true');
-    });
+    }
 
     // O cadastro completo acontece em MeuPerfilPrestador. Aqui criamos apenas
     // o registro mínimo necessário para evitar pedir os mesmos dados duas vezes.
@@ -97,6 +100,10 @@ export default function CadastroTipoPage() {
         // Grava flag para PermissionChecker fazer bypass enquanto banco propaga
         localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
         redirectPrestador(email, name);
+      } else if (userType === 'lojista') {
+        // Lojista: cadastro direto → painel de anúncios
+        localStorage.setItem('user_type_lojista_pendente', Date.now().toString());
+        window.location.replace('/DashboardLojista');
       } else {
         window.location.replace('/');
       }
@@ -107,6 +114,8 @@ export default function CadastroTipoPage() {
   });
 
   const handleClienteClick = () => updateUserMutation.mutate('cliente');
+
+  const handleLojistaClick = () => updateUserMutation.mutate('lojista');
 
   const handlePrestadorClick = () => {
     setStep('processando');
@@ -177,10 +186,11 @@ export default function CadastroTipoPage() {
                   <p className="text-muted-foreground mb-10 text-lg">Para começar, nos diga como você gostaria de usar a plataforma.</p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[
                     { icon: User, title: 'Sou Cliente', desc: 'Quero encontrar e contratar os melhores serviços em Trancoso.', action: handleClienteClick, cta: null },
-                    { icon: Briefcase, title: 'Sou Prestador / Empresa', desc: 'Quero oferecer serviços ou cadastrar meu negócio em Trancoso.', action: handlePrestadorClick, cta: 'Continuar' },
+                    { icon: Briefcase, title: 'Sou Prestador', desc: 'Quero oferecer meus serviços na plataforma.', action: handlePrestadorClick, cta: 'Continuar' },
+                    { icon: Building2, title: 'Sou Lojista', desc: 'Quero divulgar minha loja, restaurante ou negócio local com anúncios.', action: handleLojistaClick, cta: null },
                   ].map((opt, i) => (
                     <motion.div
                       key={opt.title}

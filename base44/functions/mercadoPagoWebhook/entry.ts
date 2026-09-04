@@ -313,6 +313,69 @@ async function handlePaymentEvent(
       payload_raw: JSON.stringify({ id: mpPayment.id, status: mpPayment.status, amount: mpPayment.transaction_amount }),
     });
 
+    // ─── Pagamento confirmado (MP approved → requires_capture) ────────────────
+    if (newStatus === 'requires_capture') {
+      // (a) Confirma o FounderSlot do plano Fundador (reserved/pending_reconciliation → granted).
+      // O preapproval pode ser autorizado antes da confirmação do pagamento real; quando o
+      // pagamento é confirmado, o slot reservado passa a granted definitivamente.
+      try {
+        const payerEmail = mpPayment.payer?.email || payment.client_email;
+        if (payerEmail) {
+          const payerSubs = await base44.asServiceRole.entities.Subscription.filter({ user_email: payerEmail });
+          const founderSub = (payerSubs || [])
+            .filter((s: any) => s.plan === 'profissional')
+            .sort((a: any, b: any) => String(b.updated_date || '').localeCompare(String(a.updated_date || '')))[0];
+          if (founderSub) {
+            const slots = await base44.asServiceRole.entities.FounderSlot.filter({ subscription_id: founderSub.id });
+            const slot = slots?.[0];
+            if (slot && (slot.status === 'reserved' || slot.status === 'pending_reconciliation')) {
+              await base44.asServiceRole.entities.FounderSlot.update(slot.id, {
+                status: 'granted',
+                granted_at: new Date().toISOString(),
+              });
+              console.log(`[mercadoPagoWebhook] FounderSlot posição ${slot.position} confirmado pelo pagamento ${mpPayment.id}`);
+            }
+          }
+        }
+      } catch (slotErr) {
+        console.warn('[mercadoPagoWebhook] Falha ao confirmar FounderSlot:', (slotErr as Error).message);
+      }
+
+      // (b) Evento Purchase via Meta CAPI (pixel 1469130194903035) usando a função
+      // metaCAPI deployada — autenticada server-side via x-capi-secret. Fire-and-forget.
+      const capiSecret = Deno.env.get('META_CAPI_INGEST_SECRET');
+      if (!capiSecret) {
+        console.warn('[mercadoPagoWebhook] META_CAPI_INGEST_SECRET ausente — Purchase não enviado');
+      } else {
+        fetch('https://trancoso-resolve-app.base44.app/functions/metaCAPI', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-capi-secret': capiSecret,
+          },
+          body: JSON.stringify({
+            event_name: 'Purchase',
+            event_id: `mp-payment-${mpPayment.id}`,
+            event_source_url: 'https://trancosoresolve.com.br',
+            custom_data: {
+              value: mpPayment.transaction_amount || 0,
+              currency: 'BRL',
+              content_type: 'product',
+              content_ids: [String(mpPayment.id)],
+            },
+          }),
+        })
+          .then(async (capiRes) => {
+            if (!capiRes.ok) {
+              console.warn(`[mercadoPagoWebhook] metaCAPI respondeu ${capiRes.status} para Purchase do pagamento ${mpPayment.id}`);
+            }
+          })
+          .catch((capiErr: Error) => {
+            console.warn('[mercadoPagoWebhook] Purchase CAPI não enviado:', capiErr.message);
+          });
+      }
+    }
+
     // [FORA DE ESCOPO]: quando newStatus === 'requires_capture', o pagamento foi aprovado
     // pelo MP e o valor está retido em escrow, mas não existe (ainda) um job que execute a
     // captura/liberação automática em `auto_capture_after`. Esta correção só garante que o

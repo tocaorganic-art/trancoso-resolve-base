@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { trackLead } from '@/utils/analytics.js';
 import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
@@ -21,6 +22,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
   const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const submittingRef = useRef(false);
+  const navigate = useNavigate();
 
   const handlePhoneChange = (e) => {
     setForm(f => ({ ...f, phone: formatPhone(e.target.value) }));
@@ -65,6 +67,8 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
       await base44.functions.invoke('createPublicLead', payload);
       trackLead({ service_interest: form.service || serviceInterest, source: source, city: form.location });
       setStatus('success');
+      // Redireciona para a página de confirmação — URL rastreável como conversão (Google Ads/Meta)
+      navigate('/SolicitacaoConfirmada', { replace: true });
     } catch {
       submittingRef.current = false;
       setStatus('error');

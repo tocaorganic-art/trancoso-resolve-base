@@ -39,11 +39,15 @@ Deno.serve(async (req: Request) => {
 
     // Sempre asServiceRole: a consulta opera sobre dados administrativos e a
     // checagem de permissão é feita abaixo (não pelo escopo do usuário).
+    // WORKAROUND CRÍTICO (06/09/2026): o .get(id) via asServiceRole falha em
+    // runtime para registros existentes (retorna "Entity ... not found"), enquanto
+    // o .filter() localiza normalmente. get substituído por filter por id.
     let provider: any = null;
     try {
-      provider = await base44.asServiceRole.entities.ServiceProvider.get(service_provider_id);
+      const providerRows = await base44.asServiceRole.entities.ServiceProvider.filter({ id: service_provider_id });
+      provider = (providerRows && providerRows.length > 0) ? providerRows[0] : null;
     } catch {
-      provider = null; // get lança exceção quando o registro não existe
+      provider = null;
     }
 
     if (!provider) {
@@ -154,6 +158,38 @@ Deno.serve(async (req: Request) => {
         api_errors: apiData.errors,
         provider_id: service_provider_id,
       }, { status: 402 });
+    }
+
+    // code 608 = dados (nome, nome da mãe ou data de nascimento) não conferem
+    // com o CPF informado na Receita Federal (validado em teste real 06/09/2026).
+    if (apiData.code === 608) {
+      await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
+        status_verificacao: "em_analise_manual",
+        relatorio_verificacao: "Dados (nome, nome da mãe ou data de nascimento) não conferem com o CPF informado — revisar cadastro.",
+        data_verificacao: new Date().toISOString(),
+      });
+      const pendentes608 = await base44.asServiceRole.entities.Verificacao.filter({
+        provider_id: service_provider_id,
+        verification_type: 'background_check',
+      });
+      const jaPendente608 = (pendentes608 || []).find((item) =>
+        ['pending', 'in_progress', 'pending_review'].includes(item.status)
+      );
+      if (!jaPendente608?.id) {
+        await base44.asServiceRole.entities.Verificacao.create({
+          provider_id: service_provider_id,
+          verification_type: 'background_check',
+          status: 'pending',
+          result: 'Dados não conferem com o CPF na Receita Federal (Infosimples code 608) — aguardando revisão manual do admin.',
+        });
+      }
+      return Response.json({
+        success: false,
+        error: "Dados (nome, nome da mãe ou data de nascimento) não conferem com o CPF informado na Receita Federal. Revise o cadastro.",
+        api_code: 608,
+        api_errors: apiData.errors,
+        provider_id: service_provider_id,
+      }, { status: 422 });
     }
 
     if (apiData.code !== 200 && apiData.code !== 201) {

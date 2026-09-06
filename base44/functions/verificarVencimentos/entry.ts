@@ -1,34 +1,34 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // ─── Verificar Vencimentos ───────────────────────────────────────────────────
-// Automação agendada (diária): busca assinaturas ativas cuja next_billing_date já
-// passou, marca como 'expired' e gera um lembrete de renovação no LogWhatsApp.
-// Também registra o evento de vencimento na entidade LogPagamento.
+// Automação agendada (diária):
+// 1. Assinaturas 'active' com next_billing_date vencido → 'expired' + lembrete.
+// 2. Trials vencidos: status 'trial', ou 'active' SEM preapproval (nunca
+//    converteram em pagamento), com trial_end no passado → 'expired'.
+// Também registra cada vencimento na entidade LogPagamento.
 //
-// Segurança: opera apenas sobre assinaturas já vencidas (data < hoje) — nenhuma
-// ação destrutiva. Usa asServiceRole para acesso total às entidades.
+// Segurança: opera apenas sobre assinaturas/trials já vencidos (data < hoje) —
+// nenhuma ação destrutiva. Usa asServiceRole para acesso total às entidades.
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
     const today = new Date().toISOString().split('T')[0];
-
-    // Buscar todas as assinaturas ativas
-    const subs = await base44.asServiceRole.entities.Subscription.filter({ status: 'active' });
-    if (!subs || subs.length === 0) {
-      return Response.json({ success: true, checked: 0, expired: 0, reminders: 0 });
-    }
-
-    const expired: Array<{ subscription_id: string; email: string; due_date: string }> = [];
+    const expired: Array<{ subscription_id: string; email: string; due_date: string; origem: string }> = [];
+    const processed = new Set<string>();
     let reminders = 0;
 
-    for (const sub of subs) {
+    // ── 1. Assinaturas ativas com cobrança vencida ──
+    const subs = await base44.asServiceRole.entities.Subscription.filter({ status: 'active' });
+
+    for (const sub of subs || []) {
       const due = sub.next_billing_date;
       if (!due || due >= today) continue;
 
       // 1. Marcar assinatura como expirada
       await base44.asServiceRole.entities.Subscription.update(sub.id, { status: 'expired' });
+      processed.add(sub.id);
 
       // 2. Buscar prestador pelo email para obter telefone
       let phone: string | null = null;
@@ -78,13 +78,46 @@ Deno.serve(async (req) => {
         console.warn(`[verificarVencimentos] LogPagamento não registrado:`, (e as Error).message);
       }
 
-      expired.push({ subscription_id: sub.id, email: sub.user_email, due_date: String(due) });
+      expired.push({ subscription_id: sub.id, email: sub.user_email, due_date: String(due), origem: 'assinatura' });
     }
 
-    console.log(`[verificarVencimentos] ${expired.length} assinatura(s) expirada(s), ${reminders} lembrete(s) gerados.`);
+    // ── 2. Trials vencidos ──
+    // 'trial' com trial_end passado, ou 'active' SEM preapproval (nunca
+    // converteu em assinatura paga) com trial_end passado → 'expired'.
+    const trialCandidates = [
+      ...(await base44.asServiceRole.entities.Subscription.filter({ status: 'trial' })),
+      ...(await base44.asServiceRole.entities.Subscription.filter({ status: 'active' })),
+    ];
+
+    for (const sub of trialCandidates) {
+      if (processed.has(sub.id)) continue;
+      if (!sub.trial_end || sub.trial_end >= today) continue;
+      if (sub.status === 'active' && sub.mp_preapproval_id) continue; // assinatura paga: tratada acima
+
+      await base44.asServiceRole.entities.Subscription.update(sub.id, { status: 'expired' });
+      processed.add(sub.id);
+
+      try {
+        await base44.asServiceRole.entities.LogPagamento.create({
+          evento: 'vencimento_trial',
+          status: 'expired',
+          prestador_email: sub.user_email,
+          plano: sub.plan,
+          valor: sub.amount,
+          mercadopago_id: sub.mp_preapproval_id || undefined,
+          timestamp: new Date().toISOString(),
+        });
+      } catch (e) {
+        console.warn(`[verificarVencimentos] LogPagamento (trial) não registrado:`, (e as Error).message);
+      }
+
+      expired.push({ subscription_id: sub.id, email: sub.user_email, due_date: String(sub.trial_end), origem: 'trial' });
+    }
+
+    console.log(`[verificarVencimentos] ${expired.length} assinatura(s)/trial(is) expirado(s), ${reminders} lembrete(s) gerados.`);
     return Response.json({
       success: true,
-      checked: subs.length,
+      checked: processed.size,
       expired: expired.length,
       reminders,
       details: expired,

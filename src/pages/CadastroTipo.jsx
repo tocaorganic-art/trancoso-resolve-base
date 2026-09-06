@@ -57,19 +57,39 @@ export default function CadastroTipoPage() {
       localStorage.setItem('trial_pendente', 'true');
     }
 
-    // O cadastro completo acontece em MeuPerfilPrestador. Aqui criamos apenas
-    // o registro mínimo necessário para evitar pedir os mesmos dados duas vezes.
+    // O cadastro completo acontece em MeuPerfilPrestador. Aqui criamos o registro
+    // mínimo — já persistindo CPF/data de nascimento e a autorização LGPD
+    // (necessários para a verificação automática de antecedentes).
     const providerData = {
-      tipo_pessoa: 'pf',
-      full_name: name?.trim() || '',
+      tipo_pessoa: tipoPessoa,
+      full_name: nomeCompleto?.trim() || name?.trim() || '',
       email: email || '',
+      cpf: cpf.replace(/\D/g, ''),
+      data_nascimento: dataNascimento,
+      autorizou_verificacao: autorizouVerificacao,
     };
     try {
       const providers = await base44.entities.ServiceProvider.filter({ created_by: email });
+      let providerId;
       if (!providers || providers.length === 0) {
-        await base44.entities.ServiceProvider.create(providerData);
+        const created = await base44.entities.ServiceProvider.create(providerData);
+        providerId = created.id;
       } else {
-        await base44.entities.ServiceProvider.update(providers[0].id, providerData);
+        providerId = providers[0].id;
+        await base44.entities.ServiceProvider.update(providerId, providerData);
+      }
+      // PII em local seguro (LGPD): espelha CPF e data de nascimento no
+      // ServiceProviderPrivate (nome_mae é coletado depois, no perfil).
+      try {
+        const privateRows = await base44.entities.ServiceProviderPrivate.filter({ service_provider_id: providerId });
+        const privateData = { cpf: providerData.cpf, data_nascimento: dataNascimento };
+        if (privateRows?.length) {
+          await base44.entities.ServiceProviderPrivate.update(privateRows[0].id, privateData);
+        } else {
+          await base44.entities.ServiceProviderPrivate.create({ service_provider_id: providerId, ...privateData });
+        }
+      } catch (privateError) {
+        console.warn('[CadastroTipo] ServiceProviderPrivate não persistido:', privateError);
       }
     } catch (error) {
       // O próprio perfil também consegue criar o registro; não deixe uma

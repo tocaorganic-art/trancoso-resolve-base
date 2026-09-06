@@ -39,7 +39,12 @@ Deno.serve(async (req: Request) => {
 
     // Sempre asServiceRole: a consulta opera sobre dados administrativos e a
     // checagem de permissão é feita abaixo (não pelo escopo do usuário).
-    const provider = await base44.asServiceRole.entities.ServiceProvider.get(service_provider_id);
+    let provider: any = null;
+    try {
+      provider = await base44.asServiceRole.entities.ServiceProvider.get(service_provider_id);
+    } catch {
+      provider = null; // get lança exceção quando o registro não existe
+    }
 
     if (!provider) {
       return Response.json({ error: "Prestador não encontrado" }, { status: 404 });

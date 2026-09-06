@@ -21,7 +21,10 @@ Deno.serve(async (req) => {
     }
 
     // Buscar a verificação existente
-    const verificacao = await base44.asServiceRole.entities.Verificacao.get(verificacao_id);
+    // WORKAROUND CRÍTICO (06/09/2026): .get(id) via asServiceRole falha para
+    // registros existentes; usar .filter({ id }) que funciona em produção.
+    const verificacaoRows = await base44.asServiceRole.entities.Verificacao.filter({ id: verificacao_id });
+    const verificacao = (verificacaoRows && verificacaoRows.length > 0) ? verificacaoRows[0] : null;
     if (!verificacao) {
       return Response.json({ error: 'Verificação não encontrada' }, { status: 404 });
     }
@@ -68,7 +71,8 @@ Deno.serve(async (req) => {
 
         // Fallback: buscar direto no ServiceProvider
         if (!providerEmail) {
-          const provider = await base44.asServiceRole.entities.ServiceProvider.get(providerId);
+          const providerRows = await base44.asServiceRole.entities.ServiceProvider.filter({ id: providerId });
+          const provider = (providerRows && providerRows.length > 0) ? providerRows[0] : null;
           if (provider) {
             providerEmail = (provider as any).email || (provider as any).contact_email || null;
             providerName = (provider as any).full_name || (provider as any).name || null;

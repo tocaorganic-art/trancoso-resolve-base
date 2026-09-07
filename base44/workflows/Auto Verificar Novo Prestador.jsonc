@@ -1,0 +1,37 @@
+{
+  "name": "Auto Verificar Novo Prestador",
+  "description": "Quando um ServiceProvider \u00e9 criado com autorizou_verificacao=true, chama verificarAntecedentes para consulta autom\u00e1tica na Infosimples (ou encaminha para an\u00e1lise manual se faltarem dados obrigat\u00f3rios).",
+  "trigger": {
+    "condition": "${ ((.trigger.data.autorizou_verificacao == true) and (.trigger.data.tipo_pessoa == \"pf\")) }",
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create"
+      ],
+      "entity_name": "ServiceProvider"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "auto_verificar_novo_prestador",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "verificarAntecedentes",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "verificarAntecedentes"
+  }
+}

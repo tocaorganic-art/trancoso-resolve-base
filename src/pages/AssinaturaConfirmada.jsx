@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Crown, CreditCard, ArrowRight, Clock, Sparkles } from "lucide-react";
 import { trackPurchase } from '@/lib/facebook-pixel';
+import { trackAnalyticsEvent } from '@/utils/consent.js';
 
 const PLAN_INFO = {
   lancamento:         { nome: "Plano Prestador - Lançamento", valor: "R$ 29,90/mês", trial: 60 },
@@ -25,6 +26,18 @@ const Particle = ({ delay, x, size }) => (
 export default function AssinaturaConfirmada() {
   const [params, setParams] = useState({ avulso: false, plan: null });
   const purchaseTracked = useRef(false);
+
+  // Conversão "Assinatura" no Google Ads (AW-18431007500).
+  // Dispara uma vez por sessão, apenas com consentimento de analytics.
+  useEffect(() => {
+    if (sessionStorage.getItem('gads-assinatura-conversion-sent') === '1') return;
+    sessionStorage.setItem('gads-assinatura-conversion-sent', '1');
+    trackAnalyticsEvent('conversion', {
+      send_to: 'AW-18431007500/bYDPCPzcwPECEIy2y9RE',
+      value: 1.0,
+      currency: 'BRL',
+    });
+  }, []);
 
   useEffect(() => {
     document.title = "Assinatura Confirmada - Trancoso Resolve";

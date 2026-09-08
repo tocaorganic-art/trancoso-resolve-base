@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { CheckCircle, Clock, Star, ArrowRight, Home } from 'lucide-react';
+import { trackAnalyticsEvent } from '@/utils/consent.js';
 
 const Particle = ({ delay, x, size }) => (
   <motion.div
@@ -22,6 +23,16 @@ const TIMELINE = [
 export default function SolicitacaoConfirmadaPage() {
   useEffect(() => {
     document.title = "Solicitação Enviada! — Trancoso Resolve";
+  }, []);
+
+  // Conversão "Enviar formulário de lead" no Google Ads (AW-18431007500).
+  // Dispara uma vez por sessão, apenas com consentimento de analytics.
+  useEffect(() => {
+    if (sessionStorage.getItem('gads-lead-conversion-sent') === '1') return;
+    sessionStorage.setItem('gads-lead-conversion-sent', '1');
+    trackAnalyticsEvent('conversion', {
+      send_to: 'AW-18431007500/_7iUCJ3Vo_EcEIy2y9RE',
+    });
   }, []);
 
   return (

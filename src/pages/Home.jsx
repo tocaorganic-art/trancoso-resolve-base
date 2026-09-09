@@ -563,7 +563,7 @@ export default function HomePage() {
       <OnboardingTour />
 
       {/* Carrossel de destaques — prestadores / empresas / clientes */}
-      <div className="container mx-auto max-w-6xl px-4 pt-4 md:pt-6 overflow-hidden">
+      <div className="w-full overflow-hidden">
         <BannerRotativo />
       </div>
 

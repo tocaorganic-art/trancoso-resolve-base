@@ -89,7 +89,7 @@ export default function BannerRotativo() {
       onMouseLeave={() => setPausado(false)}
     >
       {/* DESKTOP / TABLET */}
-      <div className="relative hidden sm:block w-full max-w-full overflow-hidden rounded-2xl shadow-lg"
+      <div className="relative hidden sm:block w-full max-w-full overflow-hidden"
            style={{ aspectRatio: "3 / 1" }}>
         {SLIDES.map((s, idx) => (
           <div key={s.id}
@@ -124,7 +124,7 @@ export default function BannerRotativo() {
       </div>
 
       {/* MOBILE */}
-      <div className="sm:hidden w-full max-w-full overflow-hidden rounded-xl shadow-md">
+      <div className="sm:hidden w-full max-w-full overflow-hidden">
         <div className="relative">
           <Link to={atual.to} aria-label={atual.cta} className="block">
             <img src={atual.img} alt={atual.alt}

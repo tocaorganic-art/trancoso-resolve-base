@@ -7,30 +7,30 @@ const BASE = "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/publ
 const SLIDES = [
   {
     id: "prestadores",
-    img: `${BASE}/c486b7431_banner_rot1_prestadores_1920x640.png`,
+    img: `${BASE}/c1fae1b83_banner_v2_1_prestadores.png`,
     alt: "Os 100 primeiros entram grátis — divulgue seus serviços em Trancoso",
     titulo: "OS 100 PRIMEIROS ENTRAM GRÁTIS",
-    sub: "Divulgue seus serviços em Trancoso e receba pedidos no WhatsApp. 30 dias sem pagar nada.",
+    sub: "Divulgue seus serviços e receba pedidos no WhatsApp. 30 dias sem pagar nada.",
     cta: "QUERO MINHA VAGA GRÁTIS",
     to: "/SejaPrestador",
     btn: "bg-[#25D366] hover:bg-[#1fb85a] text-[#072E1A]",
   },
   {
     id: "empresas",
-    img: `${BASE}/7e26b6a0d_banner_rot2_empresas_1920x640.png`,
+    img: `${BASE}/b67631c63_banner_v2_2_empresas.png`,
     alt: "Parceiros oficiais para sua pousada — vitrine digital oficial de Trancoso",
-    titulo: "PARCEIROS OFICIAIS PARA SUA POUSADA",
-    sub: "Pousada, loja ou restaurante na vitrine digital oficial de Trancoso. Os 100 primeiros não pagam nada por 30 dias.",
+    titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
+    sub: "Pousadas, lojas e restaurantes na vitrine oficial de Trancoso. 30 dias grátis.",
     cta: "CADASTRAR MINHA EMPRESA",
     to: "/SejaPrestador",
     btn: "bg-[#FFA81C] hover:bg-[#e8940f] text-[#241400]",
   },
   {
     id: "clientes",
-    img: `${BASE}/8b7d4d9fc_banner_rot3_clientes_1920x640.png`,
+    img: `${BASE}/c146d236e_banner_v2_3_clientes.png`,
     alt: "Precisa de um profissional em Trancoso? Dentista, eletricista, diarista, encanador e muito mais",
-    titulo: "PRECISA DE UM PROFISSIONAL EM TRANCOSO?",
-    sub: "Dentista, eletricista, diarista, encanador e muito mais. Profissionais verificados na Costa do Descobrimento.",
+    titulo: "PRECISA DE UM PROFISSIONAL AGORA?",
+    sub: "Dentista, eletricista, diarista, encanador e muito mais. Profissionais verificados.",
     cta: "SOLICITAR SERVIÇO AGORA",
     to: "/ServicosCategoria",
     btn: "bg-white hover:bg-slate-100 text-[#0E1210]",
@@ -60,7 +60,7 @@ function Seta({ dir, onClick }) {
 }
 
 // zona reservada do CTA nas artes (calculada na geração das imagens) — IGUAL nos 3 slides
-const ZONA = { left: "50.26%", top: "70%", width: "31.25%", height: "16.25%" };
+const ZONA = { left: "57.81%", top: "68.12%", width: "29.17%", height: "16.25%" };
 
 export default function BannerRotativo() {
   const [i, setI] = useState(0);
@@ -104,7 +104,7 @@ export default function BannerRotativo() {
                   className={`absolute flex items-center justify-center rounded-full font-extrabold
                               transition-all active:scale-[0.98] shadow-lg focus:outline-none
                               focus:ring-4 focus:ring-white/50 ${s.btn}`}
-                  style={{ ...ZONA, fontSize: "clamp(12px, 1.15vw, 21px)", letterSpacing: "0.02em" }}>
+                  style={{ ...ZONA, fontFamily: "Nunito, sans-serif", fontSize: "clamp(12px, 1.05vw, 20px)", letterSpacing: "0.02em" }}>
               {s.cta}
             </Link>
           </div>
@@ -133,12 +133,13 @@ export default function BannerRotativo() {
           <Seta dir="prev" onClick={prev} />
           <Seta dir="next" onClick={next} />
         </div>
-        <div className="bg-[#0E1210] px-4 pt-4 pb-5 text-center">
+        <div className="bg-[#0E1210] px-4 pt-4 pb-5 text-center" style={{ fontFamily: "Nunito, sans-serif" }}>
           <p className="text-white font-extrabold text-lg leading-tight">{atual.titulo}</p>
           <p className="text-[#FFD600] font-semibold text-sm mt-1.5 leading-snug">{atual.sub}</p>
           <Link to={atual.to}
                 className={`mt-4 flex w-full items-center justify-center rounded-full py-4
-                            text-base font-extrabold active:scale-[0.98] transition-transform ${atual.btn}`}>
+                            text-base font-extrabold active:scale-[0.98] transition-transform ${atual.btn}`}
+                style={{ fontFamily: "Nunito, sans-serif" }}>
             {atual.cta}
           </Link>
           <div className="mt-4 flex justify-center gap-2">

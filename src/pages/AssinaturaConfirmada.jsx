@@ -33,7 +33,7 @@ export default function AssinaturaConfirmada() {
     if (sessionStorage.getItem('gads-assinatura-conversion-sent') === '1') return;
     sessionStorage.setItem('gads-assinatura-conversion-sent', '1');
     trackAnalyticsEvent('conversion', {
-      send_to: 'AW-18431007500/bYDPCPzcwPECEIy2y9RE',
+      send_to: 'AW-18431007500/bYDPCPzcwPEcEIy2y9RE',
       value: 1.0,
       currency: 'BRL',
     });

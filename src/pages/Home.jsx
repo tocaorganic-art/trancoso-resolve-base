@@ -13,6 +13,7 @@ import Testimonials from "@/components/home/Testimonials";
 import HeroSearch from "@/components/home/HeroSearch";
 import SocialProofBar from "@/components/home/SocialProofBar";
 import CTAPrestador from "@/components/home/CTAPrestador";
+import BannerLancamento from "@/components/BannerLancamento";
 import {
   Sparkles, UtensilsCrossed, Hammer, Leaf,
   Baby, Zap, Star, Shirt, Car, Compass, PartyPopper, BookOpen, Home, Wrench, BrainCircuit, ArrowRight, MapPin, Paintbrush
@@ -560,6 +561,11 @@ export default function HomePage() {
         </div>
       )}
       <OnboardingTour />
+
+      {/* Banner de lançamento — 100 vagas grátis */}
+      <div className="container mx-auto max-w-6xl px-4 pt-4 md:pt-6">
+        <BannerLancamento />
+      </div>
 
       {/* Hero com busca */}
       <HeroSearch />

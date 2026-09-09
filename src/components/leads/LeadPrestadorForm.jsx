@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { trackLead } from '@/utils/analytics.js';
+import { trackAnalyticsEvent } from '@/utils/consent.js';
 import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Loader2, MessageCircle } from 'lucide-react';
@@ -32,6 +33,15 @@ export default function LeadPrestadorForm() {
         website: form.website,
       }));
       trackLead({ service_interest: form.occupation, source: 'seja-prestador' });
+      // Conversão "Enviar formulário de lead" no Google Ads (cadastro prestador / 100 vagas).
+      if (sessionStorage.getItem('gads-prestador-conversion-sent') !== '1') {
+        sessionStorage.setItem('gads-prestador-conversion-sent', '1');
+        trackAnalyticsEvent('conversion', {
+          send_to: 'AW-18431007500/hWPACJHx0u4cEIy2y9RE',
+          value: 1.0,
+          currency: 'BRL',
+        });
+      }
       setStatus('success');
     } catch {
       setStatus('error');

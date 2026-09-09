@@ -6,7 +6,7 @@
 |---|---|
 | Google Ads Account CID | 714-209-2343 |
 | Google Tag (gtag.js) | AW-18431007500 |
-| Conversão "Assinatura" | AW-18431007500/bYDPCPzcwPECEIy2y9RE |
+| Conversão "Assinatura" | AW-18431007500/bYDPCPzcwPEcEIy2y9RE |
 | GTM Trancoso Resolve | GTM-5CQLT5JM |
 | GTM Toca Experience | GTM-5F9RSWTB |
 | Meta Pixel | 1469130194903035 |

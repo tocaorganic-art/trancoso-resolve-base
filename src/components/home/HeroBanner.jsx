@@ -10,7 +10,7 @@ const SLIDES = [
     badge: "🔥 ÚLTIMAS VAGAS — Selo de Fundador gratuito",
     headline: ["Pare de perder clientes", "para quem tem app.", "Baixe agora e dominate Trancoso."],
     highlightIndex: 1,
-    subtitle: "Sua agenda cheia começa hoje. 2 meses GRÁTIS + verificação de antecedentes inclusa + selo de fundador LIMITADO. Depois R$29,90/mês — ou cancele quando quiser.",
+    subtitle: "Sua agenda cheia começa hoje. 30 dias GRÁTIS para os 100 primeiros + verificação de antecedentes inclusa + selo de fundador LIMITADO. Depois R$29,90/mês — ou cancele quando quiser.",
     cta: { label: "Baixar app e garantir vaga", to: "/Planos", icon: true, iconType: "download" },
     cta2: { label: "Ver planos de prestador", to: "/Planos" },
     bg: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format%3Dwebp&fit=crop&w=1600&q=80",

@@ -59,7 +59,7 @@ Equipe Trancoso Resolve`,
 
     // 2. Notificação interna para a equipe (mais rica)
     await base44.asServiceRole.integrations.Core.SendEmail({
-      to: 'contato@trancosoresolve.com.br',
+      to: 'suporte@trancosoresolve.com.br',
       from_name: 'Trancoso Resolve — Sistema',
       subject: `🔔 Novo Lead: ${lead.name} — ${serviceLabel} (${lead.type || 'cliente'})`,
       body: `Novo lead capturado na plataforma!

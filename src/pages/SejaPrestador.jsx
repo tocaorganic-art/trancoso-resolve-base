@@ -8,6 +8,7 @@ import { createPageUrl } from '@/utils';
 import Testimonials from '@/components/home/Testimonials';
 import HeroSection from '@/components/sejaprestador/HeroSection';
 import SelosQualidade from '@/components/sejaprestador/SelosQualidade';
+import CategoriasProfissoes from '@/components/sejaprestador/CategoriasProfissoes';
 import TabelaComparativa from '@/components/sejaprestador/TabelaComparativa';
 import CalculadoraGanhos from '@/components/sejaprestador/CalculadoraGanhos';
 
@@ -97,9 +98,9 @@ export default function SejaPrestadorPage() {
       "@graph": [
         {
           "@type": "WebPage",
-          "name": "Seja um Parceiro Trancoso Resolve",
+          "name": "A Vitrine Oficial de Serviços e Profissionais da Costa do Descobrimento",
           "url": `${window.location.origin}/SejaPrestador`,
-          "description": "Cadastre-se como prestador de serviços verificado em Trancoso e comece a receber novos clientes pela plataforma."
+          "description": "Do técnico de campo ao consultor autônomo: cadastre-se na vitrine oficial de serviços da Costa do Descobrimento e conecte sua expertise a pousadas, moradores e turistas."
         },
         {
           "@type": "BreadcrumbList",
@@ -118,6 +119,9 @@ export default function SejaPrestadorPage() {
     <div className="bg-background">
       {/* Hero */}
       <HeroSection />
+
+      {/* Categorias — Sua Profissão Tem Lugar Aqui */}
+      <CategoriasProfissoes />
 
       {/* Benefícios - Dark Cards com Alto Contraste */}
       <section className="bg-card py-10 md:py-20">

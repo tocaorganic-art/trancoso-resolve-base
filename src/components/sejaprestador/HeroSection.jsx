@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Star, Shield, Users } from 'lucide-react';
+import { LogoMark } from '@/components/brand/Logo';
 
 export default function HeroSection() {
   return (
@@ -16,6 +17,22 @@ export default function HeroSection() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-orange-950/95 via-orange-900/75 to-transparent" />
         <div className="absolute inset-0 bg-neutral-900/20" />
+
+        {/* Logo oficial — canto superior esquerdo */}
+        <div
+          className="absolute top-4 left-4 md:top-6 md:left-6 z-20 flex items-center gap-2.5 pointer-events-none"
+          style={{ fontFamily: 'Nunito, sans-serif' }}
+        >
+          <LogoMark className="h-10 w-10 md:h-12 md:w-12 drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]" />
+          <span className="flex flex-col leading-none">
+            <span className="font-bold tracking-wide text-white text-base md:text-lg drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]">
+              Trancoso
+            </span>
+            <span className="font-black uppercase tracking-tight text-[#FFD600] text-lg md:text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]">
+              RESOLVE
+            </span>
+          </span>
+        </div>
       </div>
 
       <div className="relative container mx-auto px-4 py-10 md:py-24">

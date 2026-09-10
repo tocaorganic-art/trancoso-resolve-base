@@ -1,6 +1,9 @@
 // Carrossel da Home — Trancoso Resolve (3 slides: prestadores / empresas / clientes)
+// Identidade oficial: logo no canto superior esquerdo, Nunito em todos os textos,
+// dots e setas dentro dos limites do container, sem corte ou sobreposição incorreta.
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { LogoMark } from "@/components/brand/Logo";
 
 const BASE = "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408";
 
@@ -39,6 +42,26 @@ const SLIDES = [
 
 const INTERVALO = 6000; // 5-6s: tempo para ler titulo + proposta de valor + achar o CTA
 
+// Logo oficial — canto superior esquerdo de TODOS os slides (não captura cliques)
+function LogoOverlay({ compact = false }) {
+  return (
+    <div
+      className={`absolute z-30 flex items-center pointer-events-none ${compact ? "top-3 left-3 gap-2" : "top-4 left-6 gap-2.5"}`}
+      style={{ fontFamily: "Nunito, sans-serif" }}
+    >
+      <LogoMark className={`${compact ? "h-9 w-9" : "h-11 w-11"} drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]`} />
+      <span className="flex flex-col leading-none">
+        <span className={`font-bold tracking-wide text-white ${compact ? "text-sm" : "text-lg"} drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]`}>
+          Trancoso
+        </span>
+        <span className={`font-black uppercase tracking-tight text-[#FFD600] ${compact ? "text-base" : "text-xl"} drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]`}>
+          RESOLVE
+        </span>
+      </span>
+    </div>
+  );
+}
+
 function Seta({ dir, onClick }) {
   const esq = dir === "prev";
   return (
@@ -46,16 +69,36 @@ function Seta({ dir, onClick }) {
       type="button"
       onClick={onClick}
       aria-label={esq ? "Slide anterior" : "Próximo slide"}
-      className={`absolute top-1/2 -translate-y-1/2 z-20 grid place-items-center
+      className={`absolute top-1/2 -translate-y-1/2 z-30 grid place-items-center
                   h-11 w-11 rounded-full bg-black/45 hover:bg-black/70 text-white
                   backdrop-blur-sm transition-colors focus:outline-none
-                  focus:ring-2 focus:ring-white/70 ${esq ? "left-3" : "right-3"}`}
+                  focus:ring-2 focus:ring-white/70 ${esq ? "left-4" : "right-4"}`}
     >
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
            strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <polyline points={esq ? "15 18 9 12 15 6" : "9 18 15 12 9 6"} />
       </svg>
     </button>
+  );
+}
+
+// Dots — centralizados no rodapé do container, em pílula elevada (z-30):
+// sempre dentro dos limites, legíveis sobre qualquer arte, sem corte.
+function Dots({ i, total, irPara, compact = false }) {
+  return (
+    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-sm px-3 py-2">
+      {Array.from({ length: total }).map((_, idx) => (
+        <button
+          key={idx}
+          onClick={() => irPara(idx)}
+          aria-label={`Ir para o slide ${idx + 1}`}
+          aria-current={idx === i}
+          className={`rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white/70 ${
+            compact ? "h-2" : "h-2.5"
+          } ${idx === i ? (compact ? "w-6" : "w-8") + " bg-white" : (compact ? "w-2" : "w-2.5") + " bg-white/50 hover:bg-white/80"}`}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -83,6 +126,7 @@ export default function BannerRotativo() {
   return (
     <section
       className="w-full"
+      style={{ fontFamily: "Nunito, sans-serif" }}
       aria-roledescription="carrossel"
       aria-label="Destaques Trancoso Resolve"
       onMouseEnter={() => setPausado(true)}
@@ -110,17 +154,10 @@ export default function BannerRotativo() {
           </div>
         ))}
 
+        <LogoOverlay />
         <Seta dir="prev" onClick={prev} />
         <Seta dir="next" onClick={next} />
-
-        <div className="absolute bottom-4 left-6 flex gap-2 z-10">
-          {SLIDES.map((s, idx) => (
-            <button key={s.id} onClick={() => setI(idx)}
-                    aria-label={`Ir para o slide ${idx + 1}`}
-                    aria-current={idx === i}
-                    className={`h-2.5 rounded-full transition-all ${idx === i ? "w-8 bg-white" : "w-2.5 bg-white/50 hover:bg-white/80"}`} />
-          ))}
-        </div>
+        <Dots i={i} total={SLIDES.length} irPara={irPara} />
       </div>
 
       {/* MOBILE */}
@@ -130,6 +167,7 @@ export default function BannerRotativo() {
             <img src={atual.img} alt={atual.alt}
                  className="w-full h-auto max-w-full object-cover block" loading="eager" />
           </Link>
+          <LogoOverlay compact />
           <Seta dir="prev" onClick={prev} />
           <Seta dir="next" onClick={next} />
         </div>

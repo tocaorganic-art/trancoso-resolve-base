@@ -3,37 +3,36 @@
 // dots e setas dentro dos limites do container, sem corte ou sobreposição incorreta.
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { LogoMark } from "@/components/brand/Logo";
 
 const BASE = "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408";
 
 const SLIDES = [
   {
     id: "prestadores",
-    img: `${BASE}/c1fae1b83_banner_v2_1_prestadores.png`,
-    alt: "Os 100 primeiros entram grátis — divulgue seus serviços em Trancoso",
-    titulo: "OS 100 PRIMEIROS ENTRAM GRÁTIS",
-    sub: "Divulgue seus serviços e receba pedidos no WhatsApp. 30 dias sem pagar nada.",
+    img: `${BASE}/f9e569ea7_banner_v4_1_prestadores.png`,
+    alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
+    titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
+    sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 30 dias.",
     cta: "QUERO MINHA VAGA GRÁTIS",
     to: "/SejaPrestador",
     btn: "bg-[#25D366] hover:bg-[#1fb85a] text-[#072E1A]",
   },
   {
     id: "empresas",
-    img: `${BASE}/b67631c63_banner_v2_2_empresas.png`,
-    alt: "Parceiros oficiais para sua pousada — vitrine digital oficial de Trancoso",
+    img: `${BASE}/698d1a077_banner_v4_2_empresas.png`,
+    alt: "Parceiros oficiais para sua pousada — manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
-    sub: "Pousadas, lojas e restaurantes na vitrine oficial de Trancoso. 30 dias grátis.",
+    sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",
     cta: "CADASTRAR MINHA EMPRESA",
     to: "/SejaPrestador",
     btn: "bg-[#FFA81C] hover:bg-[#e8940f] text-[#241400]",
   },
   {
     id: "clientes",
-    img: `${BASE}/c146d236e_banner_v2_3_clientes.png`,
-    alt: "Precisa de um profissional em Trancoso? Dentista, eletricista, diarista, encanador e muito mais",
-    titulo: "PRECISA DE UM PROFISSIONAL AGORA?",
-    sub: "Dentista, eletricista, diarista, encanador e muito mais. Profissionais verificados.",
+    img: `${BASE}/ef084e6d0_banner_v4_3_clientes.png`,
+    alt: "Precisa de um especialista em Trancoso? Dentistas, chefs particulares, eletricistas e limpeza premium",
+    titulo: "PRECISA DE UM ESPECIALISTA EM TRANCOSO?",
+    sub: "Dentistas, chefs particulares, eletricistas, limpeza premium e muito mais. Profissionais verificados.",
     cta: "SOLICITAR SERVIÇO AGORA",
     to: "/ServicosCategoria",
     btn: "bg-white hover:bg-slate-100 text-[#0E1210]",
@@ -42,25 +41,8 @@ const SLIDES = [
 
 const INTERVALO = 6000; // 5-6s: tempo para ler titulo + proposta de valor + achar o CTA
 
-// Logo oficial — canto superior esquerdo de TODOS os slides (não captura cliques)
-function LogoOverlay({ compact = false }) {
-  return (
-    <div
-      className={`absolute z-30 flex items-center pointer-events-none ${compact ? "top-3 left-3 gap-2" : "top-4 left-6 gap-2.5"}`}
-      style={{ fontFamily: "Nunito, sans-serif" }}
-    >
-      <LogoMark className={`${compact ? "h-9 w-9" : "h-11 w-11"} drop-shadow-[0_2px_6px_rgba(0,0,0,0.45)]`} />
-      <span className="flex flex-col leading-none">
-        <span className={`font-bold tracking-wide text-white ${compact ? "text-sm" : "text-lg"} drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]`}>
-          Trancoso
-        </span>
-        <span className={`font-black uppercase tracking-tight text-[#FFD600] ${compact ? "text-base" : "text-xl"} drop-shadow-[0_2px_4px_rgba(0,0,0,0.55)]`}>
-          RESOLVE
-        </span>
-      </span>
-    </div>
-  );
-}
+// A logo oficial da marca vem QUEIMADA nas artes v4 (canto superior esquerdo),
+// conforme o kit oficial — por isso nao ha overlay de logo em React aqui.
 
 function Seta({ dir, onClick }) {
   const esq = dir === "prev";
@@ -154,7 +136,6 @@ export default function BannerRotativo() {
           </div>
         ))}
 
-        <LogoOverlay />
         <Seta dir="prev" onClick={prev} />
         <Seta dir="next" onClick={next} />
         <Dots i={i} total={SLIDES.length} irPara={irPara} />
@@ -167,7 +148,6 @@ export default function BannerRotativo() {
             <img src={atual.img} alt={atual.alt}
                  className="w-full h-auto max-w-full object-cover block" loading="eager" />
           </Link>
-          <LogoOverlay compact />
           <Seta dir="prev" onClick={prev} />
           <Seta dir="next" onClick={next} />
         </div>

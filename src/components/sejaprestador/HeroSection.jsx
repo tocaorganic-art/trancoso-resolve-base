@@ -6,35 +6,35 @@ import { ArrowRight, Star, Shield, Users } from 'lucide-react';
 export default function HeroSection() {
   return (
     <div className="relative min-h-[50vh] md:min-h-[70vh] flex items-center overflow-hidden">
-      {/* Background Image */}
+      {/* Background Image — 3 profissionais da Costa do Descobrimento */}
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-          alt="Praia paradisíaca de Trancoso"
-          className="w-full h-full object-cover [filter:sepia(0.45)_saturate(1.3)_hue-rotate(-15deg)_brightness(0.9)]"
+          src="https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/0d15d2c04_hero_sejaprestador_3prof.png"
+          alt="Eletricista, chef e arquiteto — profissionais que atuam na Costa do Descobrimento"
+          className="w-full h-full object-cover"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-900/90 via-terracotta/70 to-transparent" />
-        <div className="absolute inset-0 bg-neutral-900/30" />
+        <div className="absolute inset-0 bg-gradient-to-r from-orange-950/95 via-orange-900/75 to-transparent" />
+        <div className="absolute inset-0 bg-neutral-900/20" />
       </div>
 
       <div className="relative container mx-auto px-4 py-10 md:py-24">
         <div className="max-w-2xl">
           <div className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 rounded-full px-4 py-1.5 mb-4">
             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-            <span className="text-amber-200 text-sm font-medium">Programa de Parceiros Trancoso Resolve</span>
+            <span className="text-amber-200 text-sm font-medium">Marketplace Profissional da Costa do Descobrimento</span>
           </div>
 
-          <h1 className="text-2xl md:text-5xl lg:text-6xl font-extrabold text-white leading-tight mb-4">
-            Seja um Parceiro{' '}
+          <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
+            A Vitrine Oficial de Serviços e Profissionais{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
-              Trancoso Resolve
+              da Costa do Descobrimento
             </span>
           </h1>
 
-          <p className="text-base md:text-xl text-slate-300 mb-6 leading-relaxed max-w-xl">
-            Conecte-se com clientes que buscam profissionais qualificados em Trancoso. 
-            Cadastre seus serviços e comece a receber solicitações hoje.
+          <p className="text-base md:text-xl text-slate-200 mb-6 leading-relaxed max-w-xl">
+            De técnicos e especialistas em hospitalidade a consultores e serviços autônomos. 
+            Conecte sua expertise a pousadas, moradores e turistas.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-8">

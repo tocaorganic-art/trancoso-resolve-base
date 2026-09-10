@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Star, Shield, Users } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import { LogoMark } from '@/components/brand/Logo';
 
 export default function HeroSection() {
@@ -68,24 +68,6 @@ export default function HeroSection() {
             </a>
           </div>
 
-          {/* Mini stats */}
-          <div className="flex flex-wrap gap-4 md:gap-10">
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-orange-300" />
-              <span className="text-white font-semibold text-sm">500+</span>
-              <span className="text-slate-400 text-xs">Clientes ativos</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Shield className="w-4 h-4 text-green-400" />
-              <span className="text-white font-semibold text-sm">100%</span>
-              <span className="text-slate-400 text-xs">Pagamento seguro</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Star className="w-4 h-4 text-amber-400" />
-              <span className="text-white font-semibold text-sm">4.9</span>
-              <span className="text-slate-400 text-xs">Avaliação média</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

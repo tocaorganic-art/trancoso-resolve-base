@@ -33,6 +33,7 @@ const Base44Templates = lazy(() => import('./pages/Base44Templates'));
 const DeployDashboard = lazy(() => import('./pages/DeployDashboard'));
 const Chat = lazy(() => import('./pages/Chat'));
 const DashboardLojista = lazy(() => import('./pages/DashboardLojista'));
+const ConciergePage = lazy(() => import('./pages/ConciergePage'));
 
 
 export const PAGES = {
@@ -66,6 +67,7 @@ export const PAGES = {
     "DeployDashboard": DeployDashboard,
     "Chat": Chat,
     "DashboardLojista": DashboardLojista,
+    "Concierge": ConciergePage,
 }
 
 export const pagesConfig = {

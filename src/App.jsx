@@ -33,6 +33,7 @@ const AdminAntecedentesPage = lazy(() => import('@/pages/AdminAntecedentes'));
 const ServicoLandingPage = lazy(() => import('@/pages/ServicoLanding'));
 const SolicitacaoConfirmadaPage = lazy(() => import('@/pages/SolicitacaoConfirmada'));
 const AboutPage = lazy(() => import('@/pages/About'));
+const ConciergePage = lazy(() => import('@/pages/ConciergePage'));
 const ContactPage = lazy(() => import('@/pages/Contact'));
 const VerificacaoDocumentoPage = lazy(() => import('@/pages/VerificacaoDocumento'));
 const VerificacaoAntecedentesPage = lazy(() => import('@/pages/VerificacaoAntecedentes'));
@@ -200,6 +201,12 @@ const AuthenticatedApp = () => {
               <AnimatedPage><AboutPage /></AnimatedPage>
             </LayoutWrapper>
           } />
+          <Route path="/Concierge" element={
+            <LayoutWrapper currentPageName="Concierge">
+              <AnimatedPage><ConciergePage /></AnimatedPage>
+            </LayoutWrapper>
+          } />
+          <Route path="/TocaConcierge" element={<Navigate to="/Concierge" replace />} />
           <Route path="/Contact" element={
             <LayoutWrapper currentPageName="Contact">
               <AnimatedPage><ContactPage /></AnimatedPage>

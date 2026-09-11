@@ -13,10 +13,21 @@
 
 export const PENDENTE_FOTO_REAL = null;
 
+/**
+ * Caminhos oficiais das fotos reais do Tony. Basta colocar os arquivos em
+ * `public/images/` com estes nomes exatos e eles aparecem automaticamente
+ * na página. Enquanto o arquivo não existir, o componente mostra o
+ * placeholder visual (nunca imagem genérica ou de IA).
+ */
+export const FOTOS_REAIS_TONY = {
+  concierge: '/images/tony_concierge.jpg',
+  dj: '/images/tony_dj.jpg',
+};
+
 export const CONCIERGE_MEDIA = {
-  // Retrato do Tony (fundador) — usar foto real
-  retratoFundador: PENDENTE_FOTO_REAL,
-  // Hero: foto real de operação (recepção, casa, equipe em serviço)
+  // Retrato do Tony (fundador) — foto real
+  retratoFundador: FOTOS_REAIS_TONY.concierge,
+  // Hero: foto real de operação (recepção, casa, equipe em serviço) — caminho reservado
   heroPrincipal: PENDENTE_FOTO_REAL,
   // Galeria de trabalhos reais já entregues (casas, jantares, eventos, equipe)
   galeriaTrabalhos: [
@@ -24,7 +35,7 @@ export const CONCIERGE_MEDIA = {
   ],
   // Registros da trajetória como DJ / Toca Experience
   galeriaDj: [
-    // { src: '...', alt: 'Set em evento privado', local: 'Trancoso · BA' },
+    { src: FOTOS_REAIS_TONY.dj, alt: 'Tony — trajetória como DJ, Toca Experience', local: 'Toca Experience' },
   ],
 };
 

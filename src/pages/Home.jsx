@@ -619,6 +619,33 @@ export default function HomePage() {
       {/* Hero com busca */}
       <HeroSearch />
 
+      {/* Destaque: Concierge de Alto Padrão (matriz Trancoso, atuação nacional) */}
+      <div className="container mx-auto max-w-6xl px-4 mt-8 md:mt-10">
+        <Link
+          to="/Concierge"
+          className="group block rounded-brand-lg overflow-hidden border border-slate-200 bg-slate-900 hover:border-orange-400 transition-colors"
+        >
+          <div className="flex flex-col sm:flex-row items-stretch">
+            <div className="flex-1 p-6 md:p-8">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-500/15 border border-orange-400/40 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-orange-300">
+                Concierge de Alto Padrão
+              </span>
+              <h2 className="mt-3 text-xl md:text-2xl font-black text-white leading-tight">
+                Concierge presencial em todo o Brasil — matriz Trancoso
+              </h2>
+              <p className="mt-2 text-sm text-slate-300 leading-relaxed">
+                Mansões e vilas exclusivas, aviação executiva, chef privado, equipe de casa e eventos privados. Atendimento em português, espanhol e inglês.
+              </p>
+            </div>
+            <div className="flex sm:w-auto items-center justify-center p-4 sm:p-8 bg-orange-600 hover:bg-orange-700 transition-colors">
+              <span className="text-sm font-bold text-white whitespace-nowrap">
+                Solicitar concierge →
+              </span>
+            </div>
+          </div>
+        </Link>
+      </div>
+
       {/* Barra prova social */}
       <SocialProofBar totalVerificados={totalVerificados} />
 

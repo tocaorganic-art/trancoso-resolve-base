@@ -113,8 +113,12 @@ export default function ConciergePage() {
     }
   };
 
+  const [fotoFundadorOk, setFotoFundadorOk] = useState(true);
+  const [fotosDjOk, setFotosDjOk] = useState({});
   const temGaleria = CONCIERGE_MEDIA.galeriaTrabalhos.length > 0;
-  const temGaleriaDj = CONCIERGE_MEDIA.galeriaDj.length > 0;
+  const temGaleriaDj =
+    CONCIERGE_MEDIA.galeriaDj.length > 0 &&
+    Object.keys(fotosDjOk).some((k) => fotosDjOk[k]);
 
   return (
     <div className="bg-white">
@@ -248,12 +252,13 @@ export default function ConciergePage() {
         <div className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
             <div>
-              {CONCIERGE_MEDIA.retratoFundador ? (
+              {CONCIERGE_MEDIA.retratoFundador && fotoFundadorOk ? (
                 <img
                   src={CONCIERGE_MEDIA.retratoFundador}
                   alt="Antonio Monteiro Pereira Junior — Toca Experience"
                   className="aspect-[4/5] w-full rounded-brand-xl object-cover shadow-brand"
                   loading="lazy"
+                  onError={() => setFotoFundadorOk(false)}
                 />
               ) : (
                 <div className="flex aspect-[4/5] w-full items-center justify-center rounded-brand-xl border-2 border-dashed border-slate-300 bg-white p-6 text-center">
@@ -366,14 +371,22 @@ export default function ConciergePage() {
             <h3 className="text-xl font-black text-slate-900">{t.djTitulo}</h3>
             <p className="mt-2 text-sm text-slate-600">{t.djSub}</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {CONCIERGE_MEDIA.galeriaDj.map((foto) => (
-                <figure key={foto.src} className="overflow-hidden rounded-brand-lg border border-slate-200">
-                  <img src={foto.src} alt={foto.alt} className="aspect-[4/3] w-full object-cover" loading="lazy" />
-                  {foto.local && (
-                    <figcaption className="px-4 py-3 text-xs font-semibold text-slate-500">{foto.local}</figcaption>
-                  )}
-                </figure>
-              ))}
+              {CONCIERGE_MEDIA.galeriaDj.map((foto) =>
+                fotosDjOk[foto.src] === false ? null : (
+                  <figure key={foto.src} className="overflow-hidden rounded-brand-lg border border-slate-200">
+                    <img
+                      src={foto.src}
+                      alt={foto.alt}
+                      className="aspect-[4/3] w-full object-cover"
+                      loading="lazy"
+                      onError={() => setFotosDjOk((m) => ({ ...m, [foto.src]: false }))}
+                    />
+                    {foto.local && (
+                      <figcaption className="px-4 py-3 text-xs font-semibold text-slate-500">{foto.local}</figcaption>
+                    )}
+                  </figure>
+                )
+              )}
             </div>
           </div>
         )}

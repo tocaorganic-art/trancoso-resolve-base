@@ -3,6 +3,8 @@ import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
 import {
   CONSENT_CHANGED_EVENT,
+  CONSENT_REOPEN_EVENT,
+  clearConsent,
   readConsent,
   saveConsent,
 } from '@/utils/consent.js';
@@ -15,6 +17,17 @@ export default function CookieConsent() {
     if (!consent) {
       setShowConsent(true);
     }
+  }, []);
+
+  // LGPD: link do rodapé (gerenciar cookies) reabre o banner,
+  // limpando a escolha anterior para o usuário decidir de novo.
+  useEffect(() => {
+    const handleReopen = () => {
+      clearConsent();
+      setShowConsent(true);
+    };
+    window.addEventListener(CONSENT_REOPEN_EVENT, handleReopen);
+    return () => window.removeEventListener(CONSENT_REOPEN_EVENT, handleReopen);
   }, []);
 
   const handleAccept = () => {

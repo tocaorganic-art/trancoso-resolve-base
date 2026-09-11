@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { cn } from "@/lib/utils";
 import { BASE_URL } from "@/data/seoLocal";
+import { CONSENT_REOPEN_EVENT } from "@/utils/consent.js";
 import { useApp } from "@/contexts/AppContext";
 import {
   Home, Calendar, Briefcase, UserCog,
@@ -461,6 +462,14 @@ export default function Layout({ children, currentPageName }) {
                 <Link to={createPageUrl("PoliticaPrivacidade")} className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors min-h-[44px] flex items-center px-2" data-testid="footer-privacy-link">
                   {t('footer.privacy')}
                 </Link>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent(CONSENT_REOPEN_EVENT))}
+                  className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors min-h-[44px] flex items-center px-2 cursor-pointer"
+                  data-testid="footer-cookie-preferences"
+                >
+                  {t('footer.cookies')}
+                </button>
               </div>
 
               {/* Redes Sociais */}

@@ -37,6 +37,18 @@ function normalizePhone(value: unknown): string {
   return cleanString(value, 32).replace(/\D/g, '').slice(0, 11);
 }
 
+/**
+ * [Concierge VIP] Telefone internacional (ex.: +54 9 11 ...) deve ser
+ * preservado como E.164 (10-15 dígitos) em vez de forçar o prefixo +55.
+ */
+function isInternationalPhone(value: unknown): boolean {
+  return typeof value === 'string' && value.trim().startsWith('+');
+}
+
+function normalizeInternationalPhone(value: unknown): string {
+  return cleanString(value, 32).replace(/\D/g, '').slice(0, 15);
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -72,18 +84,29 @@ Deno.serve(async (req: Request) => {
     const utmContent = cleanString(body.utm_content, UTM_MAX_LENGTH);
     const utmTerm = cleanString(body.utm_term, UTM_MAX_LENGTH);
     const oppref = cleanString(body.oppref, OPPREF_MAX_LENGTH);
+    // [Concierge VIP] Campos opcionais, retrocompatíveis: nenhum chamador
+    // existente envia category_interest/notes_extra — comportamento inalterado.
+    const categoryInterest = cleanString(body.category_interest, 120);
+    const notesExtra = cleanString(body.notes_extra, 500);
 
     if (body.consent !== true) {
       return Response.json({ error: 'Consent is required' }, { status: 400 });
     }
-    if (name.length < 2 || !PHONE_PATTERN.test(phone)) {
+    const international = isInternationalPhone(body.phone);
+    const internationalDigits = normalizeInternationalPhone(body.phone);
+    const phoneValid = international
+      ? /^\d{10,15}$/.test(internationalDigits)
+      : PHONE_PATTERN.test(phone);
+    if (name.length < 2 || !phoneValid) {
       return Response.json({ error: 'Invalid name or phone' }, { status: 400 });
     }
     if (email && !EMAIL_PATTERN.test(email)) {
       return Response.json({ error: 'Invalid email' }, { status: 400 });
     }
 
-    const internationalPhone = `+55${phone}`;
+    const internationalPhone = international
+      ? `+${internationalDigits}`
+      : `+55${phone}`;
     const base44 = createClientFromRequest(req);
     const duplicates = await base44.asServiceRole.entities.Lead.filter(
       { phone: internationalPhone, source: leadSource },
@@ -103,7 +126,13 @@ Deno.serve(async (req: Request) => {
       name,
       phone: internationalPhone,
       email: email || undefined,
-      notes: [message, `tipo:${type}`, source !== leadSource ? `origem:${source}` : ''].filter(Boolean).join(' | ') || undefined,
+      notes: [
+        message,
+        `tipo:${type}`,
+        source !== leadSource ? `origem:${source}` : '',
+        notesExtra,
+      ].filter(Boolean).join(' | ') || undefined,
+      ...(categoryInterest ? { category_interest: categoryInterest } : {}),
       service_interest: serviceInterest || undefined,
       location: location || undefined,
       source: leadSource,

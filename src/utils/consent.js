@@ -1,5 +1,7 @@
 export const COOKIE_CONSENT_KEY = 'cookie-consent';
 export const CONSENT_CHANGED_EVENT = 'trancoso:consent-changed';
+// Evento disparado pelo link de gerenciar cookies do rodapé para reabrir o banner (LGPD).
+export const CONSENT_REOPEN_EVENT = 'trancoso:consent-reopen';
 
 function getStorage(storage) {
   if (storage) return storage;
@@ -108,4 +110,19 @@ export function activateOptionalTracking(
   if (!consent) return;
   if (consent.analytics) enableGoogleTagManager(documentRef, windowRef, consent);
   if (consent.marketing) enableMetaPixel(documentRef, windowRef);
+}
+
+
+/**
+ * clearConsent — apaga a escolha salva e devolve o usuário ao estado sem decisão.
+ * Usado pelo link do rodapé para reabrir o banner de consentimento (LGPD).
+ */
+export function clearConsent(storage) {
+  const targetStorage = getStorage(storage);
+  try {
+    targetStorage && targetStorage.removeItem(COOKIE_CONSENT_KEY);
+  } catch (err) {
+    // localStorage indisponível (modo privado etc.) — apenas ignora.
+  }
+  return null;
 }

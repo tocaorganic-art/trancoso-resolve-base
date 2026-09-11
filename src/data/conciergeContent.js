@@ -206,6 +206,8 @@ export const TEXTOS = {
       grupo: 'Nº de pessoas', servico: 'O que você precisa', mensagem: 'Detalhes do grupo (opcional)',
       consent: 'Autorizo o contato sobre esta solicitação.',
       enviar: 'Enviar solicitação', enviando: 'Enviando...',
+      cookies: 'Gestionar Preferencias de Cookies',
+      cookies: 'Gerenciar Preferências de Cookies',
     },
     origens: ['Argentina', 'Brasil — São Paulo', 'Brasil — Rio de Janeiro', 'Brasil — outra cidade', 'Outro país'],
     necessidadesLabel: 'Você também precisa de:',

@@ -17,7 +17,7 @@
  */
 
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { sendOpenAiCapiEventInternal } from '../sendOpenAiCapiEvent/entry.ts';
+import { sendOpenAiCapiEventInternal } from './sendOpenAiCapiEventInternal.ts';
 
 const ALLOWED_TYPES = new Set(['cliente', 'prestador']);
 const PHONE_PATTERN = /^\d{10,11}$/;

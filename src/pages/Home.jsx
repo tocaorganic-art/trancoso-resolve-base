@@ -24,6 +24,25 @@ import { useApp } from "@/contexts/AppContext";
 
 const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
 
+
+// Mapeamento MANUAL E FIXO de foto por serviço (por ID) — sem sorteio, sem hash, sem pool.
+// Usado para corrigir casos em que categoria genérica ("Outro") ou falta de imagem
+// cadastrada causava fotos repetidas/erradas entre serviços diferentes (ex: Engenheiro,
+// DJ e Empresa de som/dj/iluminação todos puxando a mesma foto de casa com piscina).
+// Cada entrada aqui é definitiva e não deve competir com pool/round-robin.
+const SERVICE_IMAGE_OVERRIDES = {
+  '6a7a38e2806f70b3227cb723': 'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/0aa8f88e2_generated_image.png', // Engenheiro
+  '69cf020ceade48f7c17f6615': 'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/227e24cf6_generated_image.png', // DJ
+  '6a0358d1b0332aabd678d7d4': 'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/72cbd34a7_generated_image.png', // Empresa de so, dj e iluminação
+  '6a619596a8a1cd2de489d8b2': 'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/942db12b0_generated_image.png', // Som e Iluminação para Eventos
+  '6a619596a8a1cd2de489d8a9': 'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/40440a1c8_generated_image.png', // limpeza
+  '69d3eb10afd154767e915316': 'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/9c39c733b_generated_image.png', // Limpeza Residencial
+  '6a619596a8a1cd2de489d88c': 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800&q=80', // Vistoria Elétrica Completa
+  '6a619596a8a1cd2de489d87b': 'https://images.unsplash.com/photo-1558618047-3c8c76ca1e28?w=800&q=80', // Instalação e Reparo Elétrico Residencial
+  '6a619596a8a1cd2de489d873': 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=800&q=80', // Instalação de Ar Condicionado
+  '68f1a94a9b3ed873736ddc04': 'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/7c744324f_generated_image.png', // Serviço de Garçom Profissional (foto antiga no banco era de resort/piscina)
+};
+
 const categoryImageMap = {
   limpeza: [
     'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80',
@@ -161,12 +180,8 @@ const categoryImageMap = {
     'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
   ],
   outro: [
-    'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80',
-    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
-    'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80',
-    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
-    'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=800&q=80',
-    'https://images.unsplash.com/photo-1557597774-9d475d0c0e43?w=800&q=80',
+    'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/e17785722_generated_image.png',
+    'https://media.base44.com/images/public/6a0754c82a7c1aae19211408/1adeb5999_generated_image.png',
   ],
   default: [
     'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80',
@@ -240,6 +255,7 @@ const isValidImageUrl = (url) => {
 };
 
 function getServiceImage(service) {
+  if (SERVICE_IMAGE_OVERRIDES[service.id]) return SERVICE_IMAGE_OVERRIDES[service.id];
   if (isValidImageUrl(service.images?.[0])) return service.images[0];
 
   const raw = (service.category || service.serviceType || service.name || '')
@@ -256,6 +272,7 @@ function getServiceImage(service) {
 }
 
 function getCategoryFallback(service) {
+  if (SERVICE_IMAGE_OVERRIDES[service.id]) return SERVICE_IMAGE_OVERRIDES[service.id];
   const raw = (service.category || service.serviceType || service.name || '')
     .toLowerCase()
     .normalize('NFD')
@@ -276,6 +293,10 @@ function buildImageAssignments(list) {
   const counters = {};
   const map = {};
   for (const service of list) {
+    if (SERVICE_IMAGE_OVERRIDES[service.id]) {
+      map[service.id] = SERVICE_IMAGE_OVERRIDES[service.id];
+      continue;
+    }
     if (isValidImageUrl(service.images?.[0])) {
       map[service.id] = service.images[0];
       continue;
@@ -615,10 +636,14 @@ export default function HomePage() {
                     {isLoadingRecommendations ? (
                         Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
                     ) : (
-                        [...new Map(recommendedServices.data.map(s => [s.id, s])).values()].map((service) => {
-                            const provider = providers?.find(p => p.id === service.provider_id);
-                            return <ServiceCard key={service.id} service={service} provider={provider} />;
-                        })
+                        (() => {
+                          const dedupedRecommended = [...new Map(recommendedServices.data.map(s => [s.id, s])).values()];
+                          const recommendedImageAssignments = buildImageAssignments(dedupedRecommended);
+                          return dedupedRecommended.map((service) => {
+                              const provider = providers?.find(p => p.id === service.provider_id);
+                              return <ServiceCard key={service.id} service={service} provider={provider} image={recommendedImageAssignments[service.id]} />;
+                          });
+                        })()
                     )}
                 </div>
             </section>

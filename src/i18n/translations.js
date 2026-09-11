@@ -32,6 +32,7 @@ const translations = {
       about: 'Sobre',
       contact: 'Contato',
       privacy: 'Política de Privacidade',
+      cookies: 'Gerenciar Preferências de Cookies',
       copyright: '© 2026 Trancoso Resolve · Todos os direitos reservados',
     },
     hero: {
@@ -116,6 +117,7 @@ const translations = {
       about: 'Acerca de',
       contact: 'Contacto',
       privacy: 'Política de Privacidad',
+      cookies: 'Gestionar Preferencias de Cookies',
       copyright: '© 2026 Trancoso Resolve · Todos los derechos reservados',
     },
     hero: {
@@ -171,6 +173,7 @@ const translations = {
       about: 'About',
       contact: 'Contact',
       privacy: 'Privacy Policy',
+      cookies: 'Manage Cookie Preferences',
       copyright: '© 2026 Trancoso Resolve · All rights reserved',
     },
     hero: {
@@ -226,6 +229,7 @@ const translations = {
       about: 'À propos',
       contact: 'Contact',
       privacy: 'Politique de Confidentialité',
+      cookies: 'Gérer les préférences de cookies',
       copyright: '© 2026 Trancoso Resolve · Tous droits réservés',
     },
     hero: {

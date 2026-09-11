@@ -6,6 +6,8 @@ import {
   PlaneTakeoff, KeyRound,
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import { trackLead } from '@/utils/analytics.js';
+import { CONSENT_REOPEN_EVENT, trackAnalyticsEvent } from '@/utils/consent.js';
 import MetaTags from '@/components/seo/MetaTags';
 import {
   CONCIERGE_CONTATO, CONCIERGE_MEDIA, ETAPAS, PILARES, PRACAS, TEXTOS,
@@ -81,30 +83,41 @@ export default function ConciergePage() {
     setAviso('');
     setStatus('loading');
     try {
-      await base44.entities.Lead.create({
+      // IMPORTANTE (hotfix 11/09/2026): o `entities.Lead.create` direto do
+      // navegador retorna 403 para visitantes anônimos (RLS). Todas as portas
+      // públicas usam o backend createPublicLead (service role + dedup + CAPI).
+      await base44.functions.invoke('createPublicLead', {
         name: form.nome,
         phone: form.whatsapp,
         email: form.email || undefined,
-        source: 'site',
-        consent: true,
-        consent_at: new Date().toISOString(),
+        message: form.mensagem || undefined,
         service_interest: form.servico || 'Concierge de alto padrão',
         location: form.destino || undefined,
-        profile_type: 'cliente',
+        source: 'site',
+        type: 'cliente',
+        consent: true,
         // Tag oficial de segmentação do lead VIP.
         category_interest: 'concierge_vip_lead',
-        origem: 'pagina-concierge',
-        message: form.mensagem || undefined,
-        notas: [
+        notes_extra: [
           `Origem do cliente: ${form.origem || 'não informado'}`,
           `Período: ${form.periodo || 'não informado'}`,
           `Pessoas: ${form.grupo || 'não informado'}`,
           `Idioma da página: ${lang}`,
           form.necessidades.length ? `Necessidades VIP: ${form.necessidades.join(', ')}` : null,
         ].filter(Boolean).join(' · '),
-        lead_status: 'new',
         ...utms,
       });
+      // Evento GA4 generate_lead + Meta Lead (mesmo padrão das outras portas de entrada).
+      trackLead({ service_interest: form.servico || 'Concierge de alto padrão', source: 'pagina-concierge' });
+      // Conversão "Lead form - Submit" no Google Ads (lead cliente, mesma tag da /SolicitacaoConfirmada).
+      if (sessionStorage.getItem('gads-concierge-conversion-sent') !== '1') {
+        sessionStorage.setItem('gads-concierge-conversion-sent', '1');
+        trackAnalyticsEvent('conversion', {
+          send_to: 'AW-18431007500/_7iUCJ3Vo_EcEIy2y9RE',
+          value: 1.0,
+          currency: 'BRL',
+        });
+      }
       setStatus('success');
       setForm(FORM_INICIAL);
     } catch {
@@ -518,6 +531,18 @@ export default function ConciergePage() {
               Trancoso Resolve
             </Link>{' '}
             · Vitrine Oficial de Serviços e Profissionais da Costa do Descobrimento
+          </p>
+          {/* LGPD: esta landing usa layout dedicado (sem o rodapé global do Layout),
+              então o link de preferências de cookies vive aqui. */}
+          <p className="mt-3 text-center text-xs text-slate-500">
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent(CONSENT_REOPEN_EVENT))}
+              className="font-semibold text-slate-500 underline underline-offset-2 hover:text-orange-600 cursor-pointer"
+              data-testid="concierge-cookie-preferences"
+            >
+              {t.labels.cookies}
+            </button>
           </p>
         </div>
       </section>

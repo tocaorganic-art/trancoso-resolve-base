@@ -161,9 +161,12 @@ const categoryImageMap = {
     'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
   ],
   outro: [
-    'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&q=80',
-    'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80',
-    'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80',
+    'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80',
+    'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
+    'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80',
+    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80',
+    'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=800&q=80',
+    'https://images.unsplash.com/photo-1557597774-9d475d0c0e43?w=800&q=80',
   ],
   default: [
     'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?w=800&q=80',
@@ -265,9 +268,34 @@ function getCategoryFallback(service) {
   return imgs[(hash + 1) % imgs.length];
 }
 
-const ServiceCard = ({ service, provider }) => {
+// Monta um mapa serviceId -> imagem para uma lista de serviços renderizada junta,
+// distribuindo as fotos do pool de cada categoria em round-robin (sem repetir
+// dentro do mesmo lote enquanto o pool não esgotar). Evita o bug de cards
+// diferentes mostrando exatamente a mesma foto na tela ao mesmo tempo.
+function buildImageAssignments(list) {
+  const counters = {};
+  const map = {};
+  for (const service of list) {
+    if (isValidImageUrl(service.images?.[0])) {
+      map[service.id] = service.images[0];
+      continue;
+    }
+    const raw = (service.category || service.serviceType || service.name || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '');
+    const categoryKey = Object.keys(categoryImageMap).find(key => raw.includes(key)) || 'default';
+    const imgs = categoryImageMap[categoryKey];
+    const idx = counters[categoryKey] || 0;
+    counters[categoryKey] = idx + 1;
+    map[service.id] = imgs[idx % imgs.length];
+  }
+  return map;
+}
+
+const ServiceCard = ({ service, provider, image }) => {
     const { t } = useApp();
-    const imageSrc = getServiceImage(service);
+    const imageSrc = image || getServiceImage(service);
     const Icon = categoryIconMap[service.category] || categoryIconMap.default;
     const description = service.description || categoryDescriptionMap[service.category] || 'Serviço profissional de qualidade em Trancoso.';
 
@@ -607,29 +635,41 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {isLoadingServices ? (
-                  Array.from({ length: 3 }).map((_, i) => <ServiceSkeletonCard key={i} />)
-                ) : services && services.length > 0 ? (
-                  [...new Map(services.map(s => [s.id, s])).values()].map((service) => {
+          {isLoadingServices ? (
+            <div className="grid grid-rows-2 grid-flow-col auto-cols-[260px] sm:auto-cols-[290px] gap-4 md:gap-6 overflow-x-auto pb-3 -mx-4 px-4 snap-x snap-mandatory scroll-smooth hscroll-cards">
+              {Array.from({ length: 6 }).map((_, i) => <div key={i} className="snap-start"><ServiceSkeletonCard /></div>)}
+            </div>
+          ) : services && services.length > 0 ? (
+            (() => {
+              const dedupedServices = [...new Map(services.map(s => [s.id, s])).values()];
+              const imageAssignments = buildImageAssignments(dedupedServices);
+              return (
+                <div className="grid grid-rows-2 grid-flow-col auto-cols-[260px] sm:auto-cols-[290px] gap-4 md:gap-6 overflow-x-auto pb-3 -mx-4 px-4 snap-x snap-mandatory scroll-smooth hscroll-cards">
+                  {dedupedServices.map((service) => {
                     const provider = providers?.find(p => p.id === service.provider_id);
-                    return <ServiceCard key={service.id} service={service} provider={provider} />;
-                  })
-                ) : (
-                  <div className="col-span-full text-center py-12 bg-gradient-to-br from-orange-50 to-sand rounded-xl border border-orange-100">
-                    <Sparkles className="w-12 h-12 mx-auto text-amber-400 mb-3" />
-                    <h3 className="text-lg font-semibold text-foreground mb-2">{t('home.noFeaturedTitle')}</h3>
-                    <p className="text-muted-foreground mb-4 max-w-md mx-auto">
-                      {t('home.noFeaturedDescription')}
-                    </p>
-                    <Link to={createPageUrl("ServicosCategoria")}>
-                      <Button className="bg-orange-500 hover:bg-orange-600">
-                        {t('home.exploreProviders')}
-                      </Button>
-                    </Link>
-                  </div>
-                )}
-          </div>
+                    return (
+                      <div key={service.id} className="snap-start">
+                        <ServiceCard service={service} provider={provider} image={imageAssignments[service.id]} />
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()
+          ) : (
+            <div className="text-center py-12 bg-gradient-to-br from-orange-50 to-sand rounded-xl border border-orange-100">
+              <Sparkles className="w-12 h-12 mx-auto text-amber-400 mb-3" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">{t('home.noFeaturedTitle')}</h3>
+              <p className="text-muted-foreground mb-4 max-w-md mx-auto">
+                {t('home.noFeaturedDescription')}
+              </p>
+              <Link to={createPageUrl("ServicosCategoria")}>
+                <Button className="bg-orange-500 hover:bg-orange-600">
+                  {t('home.exploreProviders')}
+                </Button>
+              </Link>
+            </div>
+          )}
         </section>
 
         {/* Landing Pages por Serviço - SEO Local */}

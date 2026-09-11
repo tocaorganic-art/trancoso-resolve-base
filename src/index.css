@@ -335,3 +335,19 @@ p, span, h1, h2, h3, h4, h5, h6, li, td, th, label, input, textarea {
 .dark img, .dark video, .dark canvas, .dark svg {
   background-color: transparent !important;
 }
+/* Carrossel horizontal de 2 fileiras (cards de prestadores em destaque na Home) */
+.hscroll-cards {
+  scrollbar-width: thin;
+  scrollbar-color: var(--brand-primary, #ea580c) transparent;
+}
+.hscroll-cards::-webkit-scrollbar {
+  height: 6px;
+}
+.hscroll-cards::-webkit-scrollbar-track {
+  background: transparent;
+}
+.hscroll-cards::-webkit-scrollbar-thumb {
+  background-color: var(--brand-primary, #ea580c);
+  border-radius: 999px;
+  opacity: 0.5;
+}

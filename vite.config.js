@@ -14,6 +14,24 @@ export default defineConfig({
   },
   build: {
     // 'es2022' oferece melhor compatibilidade com navegadores do que 'esnext'
-    target: 'es2022', 
+    target: 'es2022',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-query': ['@tanstack/react-query'],
+          'vendor-motion': ['framer-motion'],
+          'vendor-radix': [
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-tooltip',
+          ],
+          'vendor-date': ['date-fns'],
+        },
+      },
+    },
   },
 });

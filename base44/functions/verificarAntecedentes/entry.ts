@@ -44,8 +44,10 @@ Deno.serve(async (req: Request) => {
     // o .filter() localiza normalmente. get substituído por filter por id.
     let provider: any = null;
     try {
-      const providerRows = await base44.asServiceRole.entities.ServiceProvider.filter({ id: service_provider_id });
-      provider = (providerRows && providerRows.length > 0) ? providerRows[0] : null;
+      // WORKAROUND CRÍTICO (12/09/2026): .get(id) e .filter({id}) falham em runtime no servidor Base44 com asServiceRole.
+      // O único padrão que funciona de forma confiável é .list() + .find(). Não reverter sem testar em produção.
+      const allProviders = await base44.asServiceRole.entities.ServiceProvider.list();
+      provider = allProviders?.find((p: any) => p.id === service_provider_id) ?? null;
     } catch {
       provider = null;
     }

@@ -1,16 +1,58 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
+// ─── MIGRAÇÃO ASAAS (12/09/2026) ──────────────────────────────────────────────
+// Pagamento avulso de serviço (Pix) — substitui a integração Mercado Pago.
+// Asaas não possui capture:false (escrow do MP); o dinheiro cai na conta da
+// plataforma e a liberação ao prestador continua sendo processo interno.
+// Os IDs do Asaas são gravados nos mesmos campos mp_payment_id / mp_init_point
+// para evitar migração de schema (verificado em 12/09/2026).
+//
+// Secrets: ASAAS_API_KEY (obrigatória), ASAAS_ENV ('sandbox' para testes).
+
 function logStructured(action: string, data: Record<string, unknown>, level = 'info') {
   console.log(JSON.stringify({ timestamp: new Date().toISOString(), action, level, data, environment: Deno.env.get('ENVIRONMENT') || 'production' }));
+}
+
+function asaasBaseUrl(): string {
+  return Deno.env.get('ASAAS_ENV') === 'sandbox'
+    ? 'https://api-sandbox.asaas.com'
+    : 'https://api.asaas.com';
+}
+
+async function asaasFetch(apiKey: string, path: string, init?: RequestInit): Promise<{ ok: boolean; status: number; data: any }> {
+  const res = await fetch(`${asaasBaseUrl()}${path}`, {
+    ...init,
+    headers: {
+      'access_token': apiKey,
+      'Content-Type': 'application/json',
+      ...(init?.headers || {}),
+    },
+  });
+  const data = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, data };
+}
+
+async function getOrCreateCustomer(apiKey: string, email: string, name: string): Promise<string> {
+  const search = await asaasFetch(apiKey, `/v3/customers?email=${encodeURIComponent(email)}`);
+  const existing = search.data?.data?.[0];
+  if (existing) return existing.id;
+  const created = await asaasFetch(apiKey, '/v3/customers', {
+    method: 'POST',
+    body: JSON.stringify({ name: name || email, email }),
+  });
+  if (!created.ok) {
+    throw new Error(created.data?.errors?.[0]?.description || 'Erro ao criar cliente no Asaas');
+  }
+  return created.data.id;
 }
 
 Deno.serve(async (req) => {
   let user: { email?: string; id?: string; role?: string } | null = null;
 
   try {
-    const mpToken = Deno.env.get('MP_ACCESS_TOKEN');
-    if (!mpToken) {
-      return Response.json({ error: 'Mercado Pago não configurado: MP_ACCESS_TOKEN ausente.' }, { status: 503 });
+    const apiKey = Deno.env.get('ASAAS_API_KEY');
+    if (!apiKey) {
+      return Response.json({ error: 'Asaas não configurado: ASAAS_API_KEY ausente.' }, { status: 503 });
     }
 
     const base44 = createClientFromRequest(req);
@@ -85,36 +127,36 @@ Deno.serve(async (req) => {
     const platformFee = 0; // COMISSÃO ZERO
     const providerAmount = amountCents - platformFee;
 
-    // CRIAR PAGAMENTO NO MERCADO PAGO
-    const mpResponse = await fetch('https://api.mercadopago.com/v1/payments', {
+    // ─── Customer + cobrança PIX no Asaas ─────────────────────────────────────
+    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name);
+
+    const today = new Date().toISOString().split('T')[0];
+    const payRes = await asaasFetch(apiKey, '/v3/payments', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${mpToken}`,
-      },
       body: JSON.stringify({
-        transaction_amount: amountBrl,
+        customer: customerId,
+        billingType: 'PIX',
+        value: amountBrl,
+        dueDate: today,
         description: `Trancoso Resolve - Serviço #${request_id}`,
-        payment_method_id: 'pix',
-        payer: { email: user.email },
-        metadata: {
-          request_id,
-          provider_id: providerId,
-          client_email: user.email,
-          platform_fee_cents: platformFee.toString(),
-          provider_amount_cents: providerAmount.toString(),
-        },
-        capture: false, // captura manual (escrow)
+        externalReference: request_id,
       }),
     });
 
-    if (!mpResponse.ok) {
-      const mpError = await mpResponse.json().catch(() => ({}));
-      console.error('[criarPagamento] Erro MP:', JSON.stringify(mpError));
-      return Response.json({ error: 'Erro ao criar pagamento no Mercado Pago.', details: mpError.message || 'Erro desconhecido' }, { status: 502 });
+    if (!payRes.ok) {
+      console.error('[criarPagamento] Erro Asaas:', JSON.stringify(payRes.data));
+      const desc = payRes.data?.errors?.[0]?.description || 'Erro ao criar pagamento no Asaas.';
+      return Response.json({ error: desc }, { status: 502 });
     }
 
-    const mpPayment = await mpResponse.json();
+    const asaasPayment = payRes.data;
+
+    // QR Code Pix (copia e cola) — opcional, a fatura também exibe
+    let pixCopiaECola: string | null = null;
+    try {
+      const qr = await asaasFetch(apiKey, `/v3/payments/${asaasPayment.id}/pixQrCode`);
+      pixCopiaECola = qr.data?.payload || null;
+    } catch { /* não crítico */ }
 
     const serviceDate = serviceRequest.date || null;
     const autoCaptureAfter = serviceDate
@@ -129,18 +171,21 @@ Deno.serve(async (req) => {
       amount_provider: providerAmount,
       amount_platform: platformFee,
       currency: 'brl',
-      mp_payment_id: String(mpPayment.id),
+      mp_payment_id: String(asaasPayment.id),
+      mp_init_point: asaasPayment.invoiceUrl || null,
       status: 'pending',
       service_date: serviceDate,
       auto_capture_after: autoCaptureAfter,
     });
 
-    logStructured('criarPagamento_success', { request_id, payment_id: payment.id, mp_payment_id: mpPayment.id });
+    logStructured('criarPagamento_success', { request_id, payment_id: payment.id, asaas_payment_id: asaasPayment.id });
 
     return Response.json({
       ok: true,
       payment_id: payment.id,
-      mp_payment_id: mpPayment.id,
+      mp_payment_id: asaasPayment.id,
+      init_point: asaasPayment.invoiceUrl,
+      pix_copia_e_cola: pixCopiaECola,
       amount_total: amountCents,
       amount_provider: providerAmount,
       amount_platform: platformFee,

@@ -108,10 +108,13 @@ const pageVariants = {
   exit: { opacity: 0, x: -16, transition: { duration: 0.18, ease: 'easeIn' } },
 };
 
+// Cada rota tem seu próprio ErrorBoundary — uma rota quebrada não derruba toda a app.
 const AnimatedPage = ({ children }) => (
-  <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
-    {children}
-  </motion.div>
+  <ErrorBoundary>
+    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
+      {children}
+    </motion.div>
+  </ErrorBoundary>
 );
 
 // Fallback exibido enquanto um chunk de rota (lazy) é carregado.

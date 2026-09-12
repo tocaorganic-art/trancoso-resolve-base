@@ -29,10 +29,10 @@ Deno.serve(async (req: Request) => {
       return Response.json({ error: 'action deve ser "aprovar" ou "rejeitar"' }, { status: 400 });
     }
 
-    // WORKAROUND CRÍTICO (06/09/2026): .get(id) via asServiceRole falha para
-    // registros existentes; usar .filter({ id }) que funciona em produção.
-    const verificationRows = await base44.asServiceRole.entities.Verificacao.filter({ id: verificationId });
-    const verification = (verificationRows && verificationRows.length > 0) ? verificationRows[0] : null;
+    // WORKAROUND CRÍTICO (12/09/2026): .get(id) e .filter({id}) falham em runtime
+    // no servidor Base44 com asServiceRole. Único padrão confiável: .list() + .find().
+    const allVerifications = await base44.asServiceRole.entities.Verificacao.list();
+    const verification = allVerifications?.find((v: any) => v.id === verificationId) ?? null;
     if (!verification?.provider_id) {
       return Response.json({ error: 'Verificação ou prestador não encontrado' }, { status: 404 });
     }
@@ -51,8 +51,9 @@ Deno.serve(async (req: Request) => {
     }
     await base44.asServiceRole.entities.Verificacao.update(verificationId, verificationUpdate);
 
-    const providerRows = await base44.asServiceRole.entities.ServiceProvider.filter({ id: verification.provider_id });
-    const provider = (providerRows && providerRows.length > 0) ? providerRows[0] : null;
+    // WORKAROUND CRÍTICO (12/09/2026): .list() + .find() — mesmo padrão acima.
+    const allProviders = await base44.asServiceRole.entities.ServiceProvider.list();
+    const provider = allProviders?.find((p: any) => p.id === verification.provider_id) ?? null;
     if (!provider) return Response.json({ error: 'Prestador não encontrado' }, { status: 404 });
 
     if (action === 'rejeitar') {

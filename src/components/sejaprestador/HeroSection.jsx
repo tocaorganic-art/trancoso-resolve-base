@@ -14,6 +14,9 @@ export default function HeroSection() {
           alt="Eletricista, chef e arquiteto — profissionais que atuam na Costa do Descobrimento"
           className="w-full h-full object-cover"
           loading="eager"
+          fetchPriority="high"
+          width="1920"
+          height="1080"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-orange-950/95 via-orange-900/75 to-transparent" />
         <div className="absolute inset-0 bg-neutral-900/20" />

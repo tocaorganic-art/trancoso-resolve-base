@@ -79,7 +79,7 @@ export default function ServicoDetalhesPage() {
 
     let ogImage = document.querySelector('meta[property="og:image"]');
     if (!ogImage) { ogImage = document.createElement('meta'); ogImage.setAttribute('property', 'og:image'); document.head.appendChild(ogImage); }
-    ogImage.content = service.images?.[0] || 'https://trancosoresolve.com.br/brand/logo-mark-512.png';
+    ogImage.content = service.images?.[0] || 'https://trancosoresolve.com.br/brand/tr-perfil-app-icon-512x512.png';
 
     // Schema markup
     const schemaId = `schema-servico-${serviceId}`;

@@ -50,14 +50,24 @@ async function getOrCreateCustomer(
   apiKey: string,
   email: string,
   name: string,
+  cpfCnpj?: string | null,
 ): Promise<string> {
   const search = await asaasFetch(apiKey, `/v3/customers?email=${encodeURIComponent(email)}`);
   const existing = search.data?.data?.[0];
-  if (existing) return existing.id;
+  if (existing) {
+    // Asaas exige CPF/CNPJ no cliente para criar cobranças — completa se faltar
+    if (cpfCnpj && !existing.cpfCnpj) {
+      await asaasFetch(apiKey, `/v3/customers/${existing.id}`, {
+        method: 'POST',
+        body: JSON.stringify({ cpfCnpj }),
+      });
+    }
+    return existing.id;
+  }
 
   const created = await asaasFetch(apiKey, '/v3/customers', {
     method: 'POST',
-    body: JSON.stringify({ name: name || email, email }),
+    body: JSON.stringify({ name: name || email, email, ...(cpfCnpj ? { cpfCnpj } : {}) }),
   });
   if (!created.ok) {
     throw new Error(created.data?.errors?.[0]?.description || 'Erro ao criar cliente no Asaas');
@@ -79,7 +89,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { plan, billing, method } = await req.json() as { plan?: string; billing?: string; method?: string };
+    const { plan, billing, method, cpf_cnpj } = await req.json() as { plan?: string; billing?: string; method?: string; cpf_cnpj?: string };
     const planDef = plan ? PLANS[plan] : undefined;
     if (!planDef) {
       return Response.json({ error: 'Plano inválido' }, { status: 400 });
@@ -114,8 +124,27 @@ Deno.serve(async (req) => {
     const isAnnual = billing === 'annual' && planDef.annual !== null;
     const amount = isAnnual ? planDef.annual! : planDef.monthly;
 
+    // ─── Documento do prestador (Asaas exige CPF/CNPJ p/ cobrança) ────────────
+    let customerDoc: string | null = (cpf_cnpj || '').replace(/\D/g, '') || null;
+    if (!customerDoc) {
+      try {
+        const providers = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
+        const provider = providers?.[0] as { cnpj?: string; cpf?: string } | undefined;
+        const doc = ((provider?.cnpj || '') as string).replace(/\D/g, '') || ((provider?.cpf || '') as string).replace(/\D/g, '');
+        if (doc) customerDoc = doc;
+      } catch (lookupErr) {
+        console.warn('[createSubscriptionCheckout] Lookup ServiceProvider falhou:', (lookupErr as Error).message);
+      }
+    }
+    if (!customerDoc) {
+      return Response.json(
+        { error: 'CPF/CNPJ não encontrado. Complete seu cadastro de prestador antes de assinar.' },
+        { status: 400 },
+      );
+    }
+
     // ─── Customer no Asaas ────────────────────────────────────────────────────
-    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name);
+    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name, customerDoc);
 
     // ─── Trial via nextDueDate (primeira cobrança em X dias) ─────────────────
     const today = new Date();
@@ -123,7 +152,8 @@ Deno.serve(async (req) => {
     const nextDueDate = firstDue.toISOString().split('T')[0];
 
     // billingType: PIX | BOLETO | CREDIT_CARD | DINAMICO (cliente escolhe na fatura)
-    let billingType = (method || 'DINAMICO').toUpperCase();
+    // DINAMICO é convertido silenciosamente para BOLETO pela conta — default PIX
+    let billingType = (method || 'PIX').toUpperCase();
 
     const subscriptionBody: Record<string, unknown> = {
       customer: customerId,

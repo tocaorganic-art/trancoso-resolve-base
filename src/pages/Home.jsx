@@ -442,8 +442,8 @@ export default function HomePage() {
           "name": "Trancoso Resolve",
           "description": "Marketplace de serviços locais em Trancoso, Porto Seguro e Caraíva. Profissionais verificados para limpeza, elétrica, jardinagem, cozinha, encanamento e muito mais na Costa do Descobrimento.",
           "url": `${window.location.origin}`,
-          "logo": "https://trancosoresolve.com.br/brand/logo-mark-512.png",
-          "image": "https://trancosoresolve.com.br/brand/logo-mark-512.png",
+          "logo": "https://trancosoresolve.com.br/brand/tr-perfil-app-icon-512x512.png",
+          "image": "https://trancosoresolve.com.br/brand/tr-perfil-app-icon-512x512.png",
           "address": {
             "@type": "PostalAddress",
             "addressLocality": "Trancoso",

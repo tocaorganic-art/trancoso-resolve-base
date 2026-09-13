@@ -61,7 +61,7 @@ export default function ServicoLocalPagePS({
         '@type': 'LocalBusiness',
         name: 'Trancoso Resolve',
         url: 'https://trancosoresolve.com.br',
-        logo: 'https://trancosoresolve.com.br/brand/logo-mark-512.png',
+        logo: 'https://trancosoresolve.com.br/brand/tr-perfil-app-icon-512x512.png',
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Porto Seguro',

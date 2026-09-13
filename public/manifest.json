@@ -10,13 +10,13 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/brand/logo-mark-192.png",
+      "src": "/brand/tr-perfil-app-icon-192x192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/brand/logo-mark-512.png",
+      "src": "/brand/tr-perfil-app-icon-512x512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
@@ -43,7 +43,7 @@
       "url": "/ServicosCategoria",
       "icons": [
         {
-          "src": "/brand/logo-mark-192.png",
+          "src": "/brand/tr-perfil-app-icon-192x192.png",
           "sizes": "192x192"
         }
       ]

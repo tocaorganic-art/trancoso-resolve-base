@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export function LogoMark({ className = "h-12 w-12", title = "Trancoso Resolve", ...props }) {
   return (
     <svg
-      viewBox="0 0 1000 1000"
+      viewBox="0 0 100 100"
       className={cn("shrink-0", className)}
       role="img"
       aria-label={title}
@@ -17,16 +17,25 @@ export function LogoMark({ className = "h-12 w-12", title = "Trancoso Resolve", 
     </svg>);
 }
 
-// Lockup completo: símbolo + "Trancoso" (Nunito 700) + "RESOLVE" (Nunito 900, caixa-alta).
-export default function Logo({ className, markClassName = "h-12 w-12", textClassName = "", showText = true }) {
+// Lockup COMPLETO (ícone da casa + texto) direto dos arquivos oficiais do kit:
+//   positivo → fundos claros | negativo → fundos escuros (texto branco).
+// variant "auto" (padrão): troca sozinho no dark mode do site.
+// className recebe apenas ALTURA (h-8, h-10, md:h-12...); largura é automática.
+// Props legados (markClassName, textClassName, showText) são aceitos e ignorados.
+export default function Logo({ className = "h-10", variant = "auto", ..._legacyProps }) {
+  const POSITIVO = "/brand/tr-lockup-horizontal-positivo.svg";
+  const NEGATIVO = "/brand/tr-lockup-horizontal-negativo.svg";
+
+  if (variant === "positivo")
+    return <img src={POSITIVO} alt="Trancoso Resolve" className={cn("w-auto shrink-0", className)} />;
+
+  if (variant === "negativo")
+    return <img src={NEGATIVO} alt="Trancoso Resolve" className={cn("w-auto shrink-0", className)} />;
+
   return (
-    <span className={cn("flex items-center gap-2", className)}>
-      <LogoMark className={markClassName} />
-      {showText &&
-        <span className={cn("font-nunito leading-none flex flex-col", textClassName)}>
-          <span className="font-bold tracking-wide text-[#241D16] dark:text-white text-[0.95em]">Trancoso</span>
-          <span className="font-black uppercase tracking-tight text-[#E8571A] text-[1.15em]">RESOLVE</span>
-        </span>
-      }
-    </span>);
+    <span className="inline-flex shrink-0 items-center">
+      <img src={POSITIVO} alt="Trancoso Resolve" className={cn("w-auto dark:hidden", className)} />
+      <img src={NEGATIVO} alt="" aria-hidden="true" className={cn("w-auto hidden dark:block", className)} />
+    </span>
+  );
 }

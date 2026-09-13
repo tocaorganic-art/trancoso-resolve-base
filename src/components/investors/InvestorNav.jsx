@@ -16,7 +16,7 @@ export default function InvestorNav() {
     <header className="sticky top-0 z-40 bg-background/90 backdrop-blur border-b border-border">
       <div className="container mx-auto px-4 max-w-6xl h-16 flex items-center justify-between gap-4">
         <a href="/investidores" className="shrink-0">
-          <Logo className="" markClassName="h-9 w-9" textClassName="text-xs" />
+          <Logo className="h-9" />
         </a>
 
         <nav className="hidden lg:flex items-center gap-1 overflow-x-auto">

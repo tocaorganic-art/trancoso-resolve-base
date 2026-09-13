@@ -11,7 +11,7 @@ export default function InvestorFooter() {
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-10 mb-10">
           <div>
-            <Logo className="" markClassName="h-10 w-10" textClassName="text-white text-sm" />
+            <Logo variant="negativo" className="h-10" />
             <p className="mt-4 text-sm font-bold text-white/90">{f.contactTitle}</p>
             <p className="text-sm">{f.contactName}</p>
             <a href={`mailto:${f.email}`} className="flex items-center gap-2 text-sm mt-2 hover:text-orange-400 transition-colors">

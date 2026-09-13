@@ -449,6 +449,7 @@ export default function PlanosPage() {
   const [aba, setAba] = useState("prestador");
   const [anual, setAnual] = useState(false);
   const [loadingPlan, setLoadingPlan] = useState(null);
+  const [paymentMethod, setPaymentMethod] = useState("PIX");
 
   const { data: user } = useQuery({
     queryKey: ["currentUser"],
@@ -498,6 +499,7 @@ export default function PlanosPage() {
         plan: planKey,
         billing: isAnual ? "annual" : "monthly",
         user_email: user.email,
+        method: paymentMethod,
       }));
       if (res.data?.error === "vagas_esgotadas") {
         toast.error(res.data.message);
@@ -586,6 +588,26 @@ export default function PlanosPage() {
 
         {/* Switch Mensal / Anual */}
         <AnnualStrip anual={anual} onToggle={() => setAnual(v => !v)} />
+
+        {/* Forma de pagamento */}
+        <div className="flex flex-wrap items-center justify-center gap-2 mb-5">
+          <span className="text-sm font-semibold text-muted-foreground">Forma de pagamento:</span>
+          <div className="inline-flex bg-muted p-1 rounded-full gap-1">
+            {[["PIX", "Pix"], ["CREDIT_CARD", "Cartão"], ["BOLETO", "Boleto"]].map(([val, label]) => (
+              <button
+                key={val}
+                onClick={() => setPaymentMethod(val)}
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  paymentMethod === val
+                    ? "bg-orange-500 text-white shadow"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Cards de plano */}
         <AnimatePresence mode="wait">

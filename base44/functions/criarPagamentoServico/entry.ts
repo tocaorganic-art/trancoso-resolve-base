@@ -33,13 +33,21 @@ async function asaasFetch(apiKey: string, path: string, init?: RequestInit): Pro
   return { ok: res.ok, status: res.status, data };
 }
 
-async function getOrCreateCustomer(apiKey: string, email: string, name: string): Promise<string> {
+async function getOrCreateCustomer(apiKey: string, email: string, name: string, cpfCnpj?: string | null): Promise<string> {
   const search = await asaasFetch(apiKey, `/v3/customers?email=${encodeURIComponent(email)}`);
   const existing = search.data?.data?.[0];
-  if (existing) return existing.id;
+  if (existing) {
+    if (cpfCnpj && !existing.cpfCnpj) {
+      await asaasFetch(apiKey, `/v3/customers/${existing.id}`, {
+        method: 'POST',
+        body: JSON.stringify({ cpfCnpj }),
+      });
+    }
+    return existing.id;
+  }
   const created = await asaasFetch(apiKey, '/v3/customers', {
     method: 'POST',
-    body: JSON.stringify({ name: name || email, email }),
+    body: JSON.stringify({ name: name || email, email, ...(cpfCnpj ? { cpfCnpj } : {}) }),
   });
   if (!created.ok) {
     throw new Error(created.data?.errors?.[0]?.description || 'Erro ao criar cliente no Asaas');
@@ -63,7 +71,7 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json();
-    const { request_id } = body as { request_id?: string };
+    const { request_id, cpf_cnpj } = body as { request_id?: string; cpf_cnpj?: string };
     if (!request_id) {
       return Response.json({ error: 'request_id é obrigatório.' }, { status: 400 });
     }
@@ -128,8 +136,25 @@ Deno.serve(async (req) => {
     const platformFee = 0; // COMISSÃO ZERO
     const providerAmount = amountCents - platformFee;
 
+    // ─── Documento do pagante (Asaas exige CPF/CNPJ p/ cobrança) ──────────────
+    let customerDoc: string | null = (cpf_cnpj || '').replace(/\D/g, '') || null;
+    if (!customerDoc) {
+      try {
+        const providers = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
+        const provider = providers?.[0] as { cnpj?: string; cpf?: string } | undefined;
+        const doc = ((provider?.cnpj || '') as string).replace(/\D/g, '') || ((provider?.cpf || '') as string).replace(/\D/g, '');
+        if (doc) customerDoc = doc;
+      } catch { /* lookup opcional */ }
+    }
+    if (!customerDoc) {
+      return Response.json(
+        { error: 'CPF/CNPJ do pagante não informado e não encontrado no cadastro. Informe o CPF/CNPJ para gerar o pagamento.' },
+        { status: 400 },
+      );
+    }
+
     // ─── Customer + cobrança PIX no Asaas ─────────────────────────────────────
-    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name);
+    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name, customerDoc);
 
     const today = new Date().toISOString().split('T')[0];
     const payRes = await asaasFetch(apiKey, '/v3/payments', {

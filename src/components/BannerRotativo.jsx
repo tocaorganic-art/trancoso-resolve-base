@@ -9,7 +9,7 @@ const BASE = "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/publ
 const SLIDES = [
   {
     id: "prestadores",
-    img: `${BASE}/4fcbad681_v4_1_prestadores_final.png`,
+    img: `${BASE}/02992d3a2_banner_v5_1_prestadores_wm.png`,
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
     sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 30 dias.",
@@ -19,7 +19,7 @@ const SLIDES = [
   },
   {
     id: "empresas",
-    img: `${BASE}/ed3fe1537_v4_2_empresas_final.png`,
+    img: `${BASE}/022c13bf8_banner_v5_2_empresas_wm.png`,
     alt: "Parceiros oficiais para sua pousada — manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
     sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",
@@ -29,7 +29,7 @@ const SLIDES = [
   },
   {
     id: "clientes",
-    img: `${BASE}/2cca86e71_v4_3_clientes_final.png`,
+    img: `${BASE}/485fbe3ac_banner_v5_3_clientes_wm.png`,
     alt: "Precisa de um especialista em Trancoso? Dentistas, chefs particulares, eletricistas e limpeza premium",
     titulo: "PRECISA DE UM ESPECIALISTA EM TRANCOSO?",
     sub: "Dentistas, chefs particulares, eletricistas, limpeza premium e muito mais. Profissionais verificados.",
@@ -41,9 +41,9 @@ const SLIDES = [
 
 const INTERVALO = 6000; // 5-6s: tempo para ler titulo + proposta de valor + achar o CTA
 
-// As artes v5 trazem o lockup MONO do Brand Kit Casa queimado na pílula branca
-// (canto superior esquerdo) — intencionalmente DIFERENTE do lockup colorido do header.
-// Logo antiga da igreja removida por inpainting (bloqueio de anúncios Meta/Google).
+// Artes v5 regeneradas das bases originais SEM pílula/fundo: lockup MONO do Brand
+// Kit Casa aplicado como MARCA D'ÁGUA TRANSPARENTE direto na foto (canto sup. esquerdo),
+// intencionalmente diferente do lockup colorido do header (pedido do Tony, 13/09).
 
 function Seta({ dir, onClick }) {
   const esq = dir === "prev";

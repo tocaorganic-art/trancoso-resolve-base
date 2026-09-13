@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { withTimeout } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
+import MetaTags from "@/components/seo/MetaTags";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -519,6 +520,10 @@ export default function PlanosPage() {
 
   return (
     <div className="bg-background min-h-screen py-12">
+      <MetaTags
+        title="Planos para Profissionais"
+        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito 30 dias, Profissional R$19,90/mês e Premium Elite. Sem comissão sobre serviços — você negocia direto com o cliente e fica com 100% do valor."
+      />
       <div className="container mx-auto max-w-5xl px-4">
 
         {/* Cabeçalho */}

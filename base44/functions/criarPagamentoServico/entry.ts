@@ -140,10 +140,20 @@ Deno.serve(async (req) => {
     let customerDoc: string | null = (cpf_cnpj || '').replace(/\D/g, '') || null;
     if (!customerDoc) {
       try {
-        const providers = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
-        const provider = providers?.[0] as { cnpj?: string; cpf?: string } | undefined;
-        const doc = ((provider?.cnpj || '') as string).replace(/\D/g, '') || ((provider?.cpf || '') as string).replace(/\D/g, '');
-        if (doc) customerDoc = doc;
+        let providers = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
+        if (!providers?.length) {
+          providers = await base44.asServiceRole.entities.ServiceProvider.filter({ created_by: user.email });
+        }
+        const provider = providers?.[0] as { id?: string; cnpj?: string } | undefined;
+        const cnpjPublico = ((provider?.cnpj || '') as string).replace(/\D/g, '');
+        if (cnpjPublico) {
+          customerDoc = cnpjPublico;
+        } else if (provider?.id) {
+          const privs = await base44.asServiceRole.entities.ServiceProviderPrivate.filter({ service_provider_id: provider.id });
+          const priv = privs?.[0] as { cpf?: string; cnpj?: string } | undefined;
+          const doc = ((priv?.cnpj || '') as string).replace(/\D/g, '') || ((priv?.cpf || '') as string).replace(/\D/g, '');
+          if (doc) customerDoc = doc;
+        }
       } catch { /* lookup opcional */ }
     }
     if (!customerDoc) {

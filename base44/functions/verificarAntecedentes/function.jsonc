@@ -1,0 +1,17 @@
+{
+  "name": "verificarAntecedentes",
+  "entry": "main.ts",
+  "automations": [
+    {
+      "name": "Auto Verificar Novo Prestador",
+      "description": "Quando um ServiceProvider é criado com autorizou_verificacao=true, chama verificarAntecedentes para consulta automática na Infosimples (ou encaminha para análise manual se faltarem dados obrigatórios).",
+      "function_args": null,
+      "is_active": false,
+      "type": "entity",
+      "entity_name": "ServiceProvider",
+      "event_types": [
+        "create"
+      ]
+    }
+  ]
+}

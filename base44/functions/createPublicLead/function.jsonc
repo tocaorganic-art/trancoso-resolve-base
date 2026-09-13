@@ -1,0 +1,4 @@
+{
+  "name": "createPublicLead",
+  "entry": "base44/functions/createPublicLead/entry.ts"
+}

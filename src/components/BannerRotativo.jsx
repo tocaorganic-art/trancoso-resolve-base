@@ -13,7 +13,7 @@ const SLIDES = [
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
     sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 30 dias.",
-    cta: "QUERO MINHA VAGA GRÁTIS",
+    cta: "CADASTRE-SE GRÁTIS",
     to: "/SejaPrestador",
     btn: "bg-[#25D366] hover:bg-[#1fb85a] text-[#072E1A]",
   },

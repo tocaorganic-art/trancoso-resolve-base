@@ -71,7 +71,7 @@ export default function ProviderGrid({
                             ? `Não encontramos profissionais para "${searchQuery}". Tente uma busca diferente ou explore as categorias.`
                             : hasActiveFilters 
                             ? "Nenhum prestador corresponde aos filtros selecionados. Ajuste sua busca e tente novamente."
-                            : "Nenhum prestador encontrado para essa categoria ainda. Em breve novos profissionais estarão disponíveis."}
+                            : "Seja o primeiro a dominar essa categoria! Cadastre-se grátis e apareça na nossa vitrine agora mesmo."}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 justify-center">
                         {hasActiveFilters && (

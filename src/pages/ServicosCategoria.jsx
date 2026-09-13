@@ -391,7 +391,7 @@ export default function ServicosCategoriaPage() {
             transition={{ duration: 0.4, delay: 0.15 }}
             className="text-muted-foreground text-sm md:text-base"
           >
-            {isLoadingProviders ? 'Carregando...' : (isSearching ? 'Buscando...' : `${filteredProviders.length} profissional${filteredProviders.length !== 1 ? 'is' : 'l'} encontrado${filteredProviders.length !== 1 ? 's' : ''}`)}
+            {isLoadingProviders ? 'Carregando...' : (isSearching ? 'Buscando...' : `${filteredProviders.length} ${filteredProviders.length !== 1 ? 'profissionais encontrados' : 'profissional encontrado'}`)}
           </motion.p>
           <AnimatePresence>
             {selectedCategory !== 'Todos' && slugMap[selectedCategory] && (

@@ -46,21 +46,20 @@ export default function HeroSection() {
           </div>
 
           <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
-            A Vitrine Oficial de Serviços e Profissionais{' '}
+            Apareça hoje mesmo para toda Trancoso e Região.{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
-              da Costa do Descobrimento
+              100 vagas gratuitas por 30 dias.
             </span>
           </h1>
 
           <p className="text-base md:text-xl text-slate-200 mb-6 leading-relaxed max-w-xl">
-            De técnicos e especialistas em hospitalidade a consultores e serviços autônomos. 
-            Conecte sua expertise a pousadas, moradores e turistas.
+            Seu perfil ativo e visível na vitrine do site assim que você finalizar o cadastro — de técnicos e especialistas em hospitalidade a consultores e serviços autônomos.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-8">
             <Link to={createPageUrl('CadastroTipo')}>
               <Button size="lg" className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-base md:text-lg px-6 md:px-8 min-h-[48px] shadow-xl w-full sm:w-auto">
-                Quero ser Parceiro
+                Cadastrar Grátis e Entrar na Vitrine
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>

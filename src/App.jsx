@@ -220,6 +220,7 @@ const AuthenticatedApp = () => {
               <AnimatedPage><TocaTrIAPage /></AnimatedPage>
             } />
           </Route>
+          <Route path="/AssistenteIA" element={<Navigate to="/Assistentevirtual" replace />} />
           <Route path="/VerificacaoDocumento" element={
             <LayoutWrapper currentPageName="VerificacaoDocumento">
               <AnimatedPage><VerificacaoDocumentoPage /></AnimatedPage>

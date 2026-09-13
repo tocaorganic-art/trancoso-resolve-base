@@ -25,6 +25,7 @@ async function asaasFetch(apiKey: string, path: string, init?: RequestInit): Pro
     headers: {
       'access_token': apiKey,
       'Content-Type': 'application/json',
+      'User-Agent': 'TrancosoResolve/1.0',
       ...(init?.headers || {}),
     },
   });

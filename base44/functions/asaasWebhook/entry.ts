@@ -60,7 +60,7 @@ function asaasBaseUrl(): string {
 
 async function asaasFetch(apiKey: string, path: string): Promise<{ ok: boolean; status: number; data: any }> {
   const res = await fetch(`${asaasBaseUrl()}${path}`, {
-    headers: { 'access_token': apiKey, 'Content-Type': 'application/json' },
+    headers: { 'access_token': apiKey, 'Content-Type': 'application/json', 'User-Agent': 'TrancosoResolve/1.0' },
   });
   const data = await res.json().catch(() => ({}));
   return { ok: res.ok, status: res.status, data };

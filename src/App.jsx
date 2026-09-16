@@ -516,6 +516,8 @@ const AuthenticatedApp = () => {
           <Route path="/ArraialdAjuda" element={<Navigate to="/arraial-dajuda" replace />} />
           <Route path="/ArraialDAjuda" element={<Navigate to="/arraial-dajuda" replace />} />
           <Route path="/ArraialDajuda" element={<Navigate to="/arraial-dajuda" replace />} />
+          {/* Redirect permanente da URL legada do Réveillon (era indexada) para a URL limpa */}
+          <Route path="/RevelionTrancoso" element={<Navigate to="/destinos/reveillon-trancoso" replace />} />
 
           {/* Aliases sem barra para garantir acesso em hosting estático */}
           <Route path="/servicos-diarista-trancoso" element={<LayoutWrapper currentPageName="DiaristaTrancoso"><AnimatedPage><DiaristaTrancoso /></AnimatedPage></LayoutWrapper>} />

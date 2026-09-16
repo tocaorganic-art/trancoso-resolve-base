@@ -10,7 +10,7 @@ import { trackLead } from '@/utils/analytics.js';
 import { CONSENT_REOPEN_EVENT, trackAnalyticsEvent } from '@/utils/consent.js';
 import MetaTags from '@/components/seo/MetaTags';
 import {
-  CONCIERGE_CONTATO, CONCIERGE_MEDIA, ETAPAS, PILARES, PRACAS, TEXTOS,
+  TOCA_SOCIAIS, TOCA_DEPOIMENTOS, CONCIERGE_CONTATO, CONCIERGE_MEDIA, ETAPAS, PILARES, PRACAS, TEXTOS,
 } from '@/data/conciergeContent';
 
 const ICONES = {
@@ -287,6 +287,28 @@ export default function ConciergePage() {
               <p className="mt-5 text-sm leading-relaxed text-slate-600 sm:text-base">
                 {t.fundadorTexto}
               </p>
+              {/* Trajetória real na música — texto oficial da Toca Experience (tocaexperience.com.br) */}
+              <div className="mt-7 rounded-brand-lg border border-slate-200 bg-white p-5">
+                <h3 className="text-sm font-black text-slate-900">{t.trajetoriaTitulo}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{t.trajetoriaTexto}</p>
+                <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-400">
+                  {t.redesLabel}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {TOCA_SOCIAIS.map((rede) => (
+                    <a
+                      key={rede.nome}
+                      href={rede.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700 transition hover:border-orange-300 hover:bg-orange-50 hover:text-orange-700"
+                    >
+                      {rede.nome}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
               <a
                 href={CONCIERGE_CONTATO.siteToca}
                 target="_blank"
@@ -298,6 +320,22 @@ export default function ConciergePage() {
               </a>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ===== DEPOIMENTOS REAIS DA TOCA EXPERIENCE ===== */}
+      <section className="mx-auto max-w-6xl px-5 pb-4">
+        <h2 className="text-xl font-black text-slate-900 sm:text-2xl">{t.depoimentosTitulo}</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-3">
+          {TOCA_DEPOIMENTOS.map((dep) => (
+            <figure key={dep.autor} className="rounded-brand-lg border border-slate-200 bg-white p-5">
+              <blockquote className="text-sm leading-relaxed text-slate-700">&ldquo;{dep.texto}&rdquo;</blockquote>
+              <figcaption className="mt-4 border-t border-slate-100 pt-3">
+                <p className="text-sm font-bold text-slate-900">{dep.autor}</p>
+                <p className="text-xs font-semibold text-slate-500">{dep.evento}</p>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </section>
 

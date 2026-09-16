@@ -1,5 +1,5 @@
 // Carrossel da Home — Trancoso Resolve (3 slides: prestadores / empresas / clientes)
-// Artes v6 sem marca d'água. Nunito em todos os textos,
+// Artes v7 sem marca d'água. Nunito em todos os textos,
 // dots e setas dentro dos limites do container, sem corte ou sobreposição incorreta.
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ const BASE = "https://base44.app/api/apps/68eb21726a9614db4a82ba99/files/mp/publ
 const SLIDES = [
   {
     id: "prestadores",
-    img: `${BASE}/95c6cd76c_banner_v6_1_prestadores.png`,
+    img: `${BASE}/ce4a274d5_banner_v7_1_prestadores.png`,
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
     sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 30 dias.",
@@ -19,7 +19,7 @@ const SLIDES = [
   },
   {
     id: "empresas",
-    img: `${BASE}/e5a19c64d_banner_v6_2_empresas.png`,
+    img: `${BASE}/adb781eb1_banner_v7_2_empresas.png`,
     alt: "Parceiros oficiais para sua pousada — manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
     sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",
@@ -29,7 +29,7 @@ const SLIDES = [
   },
   {
     id: "clientes",
-    img: `${BASE}/959719708_banner_v6_3_clientes.png`,
+    img: `${BASE}/fc2210a20_banner_v7_3_clientes.png`,
     alt: "Precisa de um especialista em Trancoso? Dentistas, chefs particulares, eletricistas e limpeza premium",
     titulo: "PRECISA DE UM ESPECIALISTA EM TRANCOSO?",
     sub: "Dentistas, chefs particulares, eletricistas, limpeza premium e muito mais. Profissionais verificados.",
@@ -41,8 +41,8 @@ const SLIDES = [
 
 const INTERVALO = 6000; // 5-6s: tempo para ler titulo + proposta de valor + achar o CTA
 
-// Artes v6 = v5 com a marca d'água do canto superior esquerdo REMOVIDA
-// (limpeza de pixels direto na imagem, sem tocar nos textos da arte).
+// Artes v7 = marca d'água do canto superior esquerdo removida por completo
+// (detecta até o halo tênue das letras e refaz o fundo, preservando o resto da arte).
 
 function Seta({ dir, onClick }) {
   const esq = dir === "prev";

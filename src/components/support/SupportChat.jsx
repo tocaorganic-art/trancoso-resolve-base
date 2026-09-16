@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Card } from '@/components/ui/card';
-import { MessageCircle, Send, X, Minimize2, Maximize2, Bot, Paperclip, User, ShieldCheck } from 'lucide-react';
+import { Send, X, Minimize2, Maximize2, Bot, Paperclip, User, ShieldCheck } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
+import StickyChatWidget from './StickyChatWidget';
 
 // â”€â”€ Base de conhecimento RAG inline (evita alucinaÃ§Ãµes, reduz latÃªncia) â”€â”€â”€â”€â”€â”€â”€â”€
 const KNOWLEDGE_BASE = `
@@ -302,20 +303,13 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
   };
 
   if (!isOpen) {
+    // StickyChatWidget: position fixed no viewport, portal em document.body,
+    // z-index 99999 — nunca é engolido por wrappers com overflow/transform.
     return (
-      <button
+      <StickyChatWidget
         onClick={() => { setIsOpen(true); setUnreadCount(0); }}
-        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 w-14 h-14 rounded-full shadow-2xl bg-gradient-to-r from-amber-700 to-amber-600 hover:from-amber-800 hover:to-amber-700 z-50 flex items-center justify-center transition-all hover:scale-105 relative"
-        style={{ touchAction: 'manipulation' }}
-        aria-label="Abrir chat de suporte"
-      >
-        <MessageCircle className="w-6 h-6 text-white" />
-        {unreadCount > 0 && (
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-            {unreadCount}
-          </span>
-        )}
-      </button>
+        unreadCount={unreadCount}
+      />
     );
   }
 
@@ -327,7 +321,7 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
         onClick={() => setIsOpen(false)}
         aria-label="Fechar chat"
       />
-      <div className={`fixed bottom-20 md:bottom-6 right-4 md:right-6 z-50 transition-all duration-300 ${isMinimized ? 'w-80' : 'w-96'} max-w-[calc(100vw-2rem)]`}>
+      <div className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 transition-all duration-300 ${isMinimized ? 'w-80' : 'w-96'} max-w-[calc(100vw-2rem)]`}>
       <Card className="shadow-2xl border border-slate-200 overflow-hidden">
         {/* Header */}
         <div className="bg-gradient-to-r from-[#E8571A] to-[#C1440E] text-white p-4 flex items-center justify-between">

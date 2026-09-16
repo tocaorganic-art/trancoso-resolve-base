@@ -235,7 +235,7 @@ export default function Layout({ children, currentPageName }) {
   ];
 
 
-  const publicPages = ['/', '/Home', '/ServicosCategoria', '/PrestadorPerfil', '/ServicoDetalhes', '/MeusPedidos', '/PoliticaPrivacidade', '/Manual', '/SejaPrestador', '/ComoFunciona', '/Seguranca', '/Assistentevirtual', '/GeradorDeImagem', '/Chat', '/About', '/Contact', '/ServicoLanding', '/SolicitacaoConfirmada', '/Planos', '/PrestadorFundador', '/AssinaturaConfirmada', '/costa-do-descobrimento', '/participar'];
+  const publicPages = ['/', '/Home', '/ServicosCategoria', '/PrestadorPerfil', '/ServicoDetalhes', '/MeusPedidos', '/PoliticaPrivacidade', '/Manual', '/SejaPrestador', '/ComoFunciona', '/Seguranca', '/Assistentevirtual', '/GeradorDeImagem', '/Chat', '/About', '/Contact', '/ServicoLanding', '/SolicitacaoConfirmada', '/Planos', '/PrestadorFundador', '/AssinaturaConfirmada', '/costa-do-descobrimento', '/participar', '/ajuda', '/termos-de-uso', '/configuracoes'];
   const isPublicPage = publicPages.some((page) => {
     const pagePath = page === '/Home' ? '/' : page;
     const currentLocationPath = location.pathname === '/Home' ? '/' : location.pathname;

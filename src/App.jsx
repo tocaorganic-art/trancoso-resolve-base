@@ -93,6 +93,9 @@ const CostaDoDescobrimentoPage = lazy(() => import('@/pages/CostaDoDescobrimento
 const ParticiparPage = lazy(() => import('@/pages/Participar'));
 const CampanhaRegionalPage = lazy(() => import('@/pages/admin/CampanhaRegional'));
 const OAuthConsentPage = lazy(() => import('@/pages/OAuthConsent'));
+const ConfiguracoesContaPage = lazy(() => import('@/pages/ConfiguracoesConta'));
+const AjudaFaqPage = lazy(() => import('@/pages/AjudaFaq'));
+const TermosDeUsoPage = lazy(() => import('@/pages/TermosDeUso'));
 
 const { Pages, Layout, mainPage } = pagesConfig;
 const mainPageKey = mainPage ?? Object.keys(Pages)[0];
@@ -450,6 +453,27 @@ const AuthenticatedApp = () => {
           <Route path="/oauth-consent" element={
             <AnimatedPage><OAuthConsentPage /></AnimatedPage>
           } />
+
+          {/* FAQ e Ajuda */}
+          <Route path="/ajuda" element={
+            <LayoutWrapper currentPageName="AjudaFaq">
+              <AnimatedPage><AjudaFaqPage /></AnimatedPage>
+            </LayoutWrapper>
+          } />
+          {/* Termos de Uso */}
+          <Route path="/termos-de-uso" element={
+            <LayoutWrapper currentPageName="TermosDeUso">
+              <AnimatedPage><TermosDeUsoPage /></AnimatedPage>
+            </LayoutWrapper>
+          } />
+          {/* Configurações da Conta (requer login) */}
+          <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+            <Route path="/configuracoes" element={
+              <LayoutWrapper currentPageName="ConfiguracoesConta">
+                <AnimatedPage><ConfiguracoesContaPage /></AnimatedPage>
+              </LayoutWrapper>
+            } />
+          </Route>
 
           {/* Recomendador de prestadores por IA */}
           <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>

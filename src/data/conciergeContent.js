@@ -39,6 +39,12 @@ export const CONCIERGE_MEDIA = {
   ],
 };
 
+/** Vídeo REAL — set de DJ da Toca Experience (arquivo enviado pelo Tony, 16/09/2026). */
+export const VIDEO_TONY = {
+  src: '/videos/tony_set.mp4',
+  poster: '/images/tony_video_poster.jpg',
+};
+
 /** Redes oficiais e música do Tony — extraídas do site oficial tocaexperience.com.br (16/09/2026). */
 export const TOCA_SOCIAIS = [
   { nome: 'Instagram', url: 'https://www.instagram.com/tonyismusic' },
@@ -224,6 +230,7 @@ export const TEXTOS = {
     trajetoriaTitulo: 'O Refinamento Global — Tony Monteiro, DJ Afro House',
     trajetoriaTexto: 'O refinamento global é a marca registrada das produções de Tony Monteiro, que transita com maestria entre Afro House, Organic House e House. Com residências em clubes de elite pelo Brasil e turnês pela Polinésia Francesa, Europa e América do Sul, Tony leva sua assinatura sonora a diferentes culturas e pistas ao redor do mundo. Seu projeto MPB Rock Club traduz a alma brasileira em batidas sofisticadas — e, com mais de 500 mil streams nas plataformas oficiais, ele se consolida como presença constante e relevante na cena eletrônica atual.',
     redesLabel: 'Siga a música do Tony:',
+    videoLegenda: 'Tony ao vivo no set — Toca Experience',
     depoimentosTitulo: 'O que dizem os clientes da Toca Experience',
     galeriaTitulo: 'Trabalhos reais',
     galeriaSub: 'Registros de operações já entregues.',
@@ -277,6 +284,7 @@ export const TEXTOS = {
     trajetoriaTitulo: 'El Refinamiento Global — Tony Monteiro, DJ Afro House',
     trajetoriaTexto: 'El refinamiento global es la marca registrada de las producciones de Tony Monteiro, que transita con maestría entre Afro House, Organic House y House. Con residencias en clubes de élite por Brasil y giras por la Polinesia Francesa, Europa y América del Sur, Tony lleva su firma sonora a diferentes culturas y pistas alrededor del mundo. Su proyecto MPB Rock Club traduce el alma brasileña en ritmos sofisticados — y, con más de 500 mil streams en las plataformas oficiales, se consolida como presencia constante y relevante en la escena electrónica actual.',
     redesLabel: 'Sigue la música de Tony:',
+    videoLegenda: 'Tony en vivo en el set — Toca Experience',
     depoimentosTitulo: 'Lo que dicen los clientes de Toca Experience',
     galeriaTitulo: 'Trabajos reales',
     galeriaSub: 'Registros de operaciones ya entregadas.',

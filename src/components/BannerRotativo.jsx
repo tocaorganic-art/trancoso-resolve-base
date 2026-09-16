@@ -76,7 +76,7 @@ function Dots({ i, total, irPara, compact = false }) {
           onClick={() => irPara(idx)}
           aria-label={`Ir para o slide ${idx + 1}`}
           aria-current={idx === i}
-          className={`rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white/70 ${
+          className={`no-touch-target rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white/70 ${
             compact ? "h-2" : "h-2.5"
           } ${idx === i ? (compact ? "w-6" : "w-8") + " bg-white" : (compact ? "w-2" : "w-2.5") + " bg-white/50 hover:bg-white/80"}`}
         />
@@ -152,9 +152,10 @@ export default function BannerRotativo() {
           <Seta dir="prev" onClick={prev} />
           <Seta dir="next" onClick={next} />
         </div>
-        <div className="bg-[#0E1210] px-4 pt-4 pb-5 text-center" style={{ fontFamily: "Nunito, sans-serif" }}>
-          <p className="text-white font-extrabold text-lg leading-tight">{atual.titulo}</p>
-          <p className="text-[#FFD600] font-semibold text-sm mt-1.5 leading-snug">{atual.sub}</p>
+        {/* Mobile: a arte v5 ja traz titulo/sub/CTA queimados na propria imagem —
+            este card exibia o MESMO texto de novo embaixo (duplicacao reportada).
+            Mantem apenas o botao de acao (alvo de toque grande) + dots. */}
+        <div className="bg-[#0E1210] px-4 pt-3 pb-5 text-center" style={{ fontFamily: "Nunito, sans-serif" }}>
           <Link to={atual.to}
                 className={`mt-4 flex w-full items-center justify-center rounded-full py-4
                             text-base font-extrabold active:scale-[0.98] transition-transform ${atual.btn}`}
@@ -165,7 +166,7 @@ export default function BannerRotativo() {
             {SLIDES.map((s, idx) => (
               <button key={s.id} onClick={() => setI(idx)}
                       aria-label={`Ir para o slide ${idx + 1}`}
-                      className={`h-2 rounded-full transition-all ${idx === i ? "w-6 bg-white" : "w-2 bg-white/40"}`} />
+                      className={`no-touch-target h-2 rounded-full transition-all ${idx === i ? "w-6 bg-white" : "w-2 bg-white/40"}`} />
             ))}
           </div>
         </div>

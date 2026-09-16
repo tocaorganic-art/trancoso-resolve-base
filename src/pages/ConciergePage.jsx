@@ -128,6 +128,7 @@ export default function ConciergePage() {
 
   const [fotoFundadorOk, setFotoFundadorOk] = useState(true);
   const [fotosDjOk, setFotosDjOk] = useState({});
+  const temRetrato = Boolean(CONCIERGE_MEDIA.retratoFundador) && fotoFundadorOk;
   const temGaleria = CONCIERGE_MEDIA.galeriaTrabalhos.length > 0;
   const temGaleriaDj =
     CONCIERGE_MEDIA.galeriaDj.length > 0 &&
@@ -263,9 +264,9 @@ export default function ConciergePage() {
       {/* ===== QUEM COMANDA A EXPERIÊNCIA ===== */}
       <section className="border-y border-slate-200 bg-slate-50">
         <div className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-            <div>
-              {CONCIERGE_MEDIA.retratoFundador && fotoFundadorOk ? (
+          <div className={`grid items-center gap-10 ${temRetrato ? 'lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]' : ''}`}>
+            {temRetrato && (
+              <div>
                 <img
                   src={CONCIERGE_MEDIA.retratoFundador}
                   alt="Antonio Monteiro Pereira Junior — Toca Experience"
@@ -273,14 +274,8 @@ export default function ConciergePage() {
                   loading="lazy"
                   onError={() => setFotoFundadorOk(false)}
                 />
-              ) : (
-                <div className="flex aspect-[4/5] w-full items-center justify-center rounded-brand-xl border-2 border-dashed border-slate-300 bg-white p-6 text-center">
-                  <p className="text-xs font-semibold leading-relaxed text-slate-400">
-                    Espaço reservado para a foto real do fundador
-                  </p>
-                </div>
-              )}
-            </div>
+              </div>
+            )}
 
             <div>
               <span className="text-[11px] font-bold uppercase tracking-[0.14em] text-orange-600">
@@ -358,6 +353,9 @@ export default function ConciergePage() {
       </section>
 
       {/* ===== GALERIAS DE TRABALHOS REAIS ===== */}
+      {/* Só renderiza quando há fotos reais — sem fotos, a seção inteira fica oculta
+          (antes: caixa tracejada vazia "galeriaVazia" deixava a página quebrada). */}
+      {(temGaleria || temGaleriaDj) && (
       <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
         <h2 className="text-2xl font-black text-slate-900 sm:text-3xl">{t.galeriaTitulo}</h2>
         <p className="mt-3 text-sm text-slate-600">{t.galeriaSub}</p>
@@ -373,11 +371,7 @@ export default function ConciergePage() {
               </figure>
             ))}
           </div>
-        ) : (
-          <div className="mt-8 rounded-brand-lg border-2 border-dashed border-slate-300 p-10 text-center">
-            <p className="text-sm font-semibold text-slate-400">{t.galeriaVazia}</p>
-          </div>
-        )}
+        ) : null}
 
         {temGaleriaDj && (
           <div className="mt-14">
@@ -404,6 +398,7 @@ export default function ConciergePage() {
           </div>
         )}
       </section>
+      )}
 
       {/* ===== FORMULÁRIO VIP ===== */}
       <section id="solicitar" className="border-t border-slate-200 bg-slate-50">

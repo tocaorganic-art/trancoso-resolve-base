@@ -1,15 +1,15 @@
 // Carrossel da Home — Trancoso Resolve (3 slides: prestadores / empresas / clientes)
-// Identidade oficial: logo no canto superior esquerdo, Nunito em todos os textos,
+// Artes v6 sem marca d'água. Nunito em todos os textos,
 // dots e setas dentro dos limites do container, sem corte ou sobreposição incorreta.
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
-const BASE = "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408";
+const BASE = "https://base44.app/api/apps/68eb21726a9614db4a82ba99/files/mp/public/68eb21726a9614db4a82ba99";
 
 const SLIDES = [
   {
     id: "prestadores",
-    img: `${BASE}/02992d3a2_banner_v5_1_prestadores_wm.png`,
+    img: `${BASE}/95c6cd76c_banner_v6_1_prestadores.png`,
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
     sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 30 dias.",
@@ -19,7 +19,7 @@ const SLIDES = [
   },
   {
     id: "empresas",
-    img: `${BASE}/022c13bf8_banner_v5_2_empresas_wm.png`,
+    img: `${BASE}/e5a19c64d_banner_v6_2_empresas.png`,
     alt: "Parceiros oficiais para sua pousada — manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
     sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",
@@ -29,7 +29,7 @@ const SLIDES = [
   },
   {
     id: "clientes",
-    img: `${BASE}/485fbe3ac_banner_v5_3_clientes_wm.png`,
+    img: `${BASE}/959719708_banner_v6_3_clientes.png`,
     alt: "Precisa de um especialista em Trancoso? Dentistas, chefs particulares, eletricistas e limpeza premium",
     titulo: "PRECISA DE UM ESPECIALISTA EM TRANCOSO?",
     sub: "Dentistas, chefs particulares, eletricistas, limpeza premium e muito mais. Profissionais verificados.",
@@ -41,9 +41,8 @@ const SLIDES = [
 
 const INTERVALO = 6000; // 5-6s: tempo para ler titulo + proposta de valor + achar o CTA
 
-// Artes v5 regeneradas das bases originais SEM pílula/fundo: lockup MONO do Brand
-// Kit Casa aplicado como MARCA D'ÁGUA TRANSPARENTE direto na foto (canto sup. esquerdo),
-// intencionalmente diferente do lockup colorido do header (pedido do Tony, 13/09).
+// Artes v6 = v5 com a marca d'água do canto superior esquerdo REMOVIDA
+// (limpeza de pixels direto na imagem, sem tocar nos textos da arte).
 
 function Seta({ dir, onClick }) {
   const esq = dir === "prev";

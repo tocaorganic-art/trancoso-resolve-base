@@ -44,6 +44,19 @@ const staticPages = [
   { path: '/servicos/cozinheiro-caraiva', priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/jardineiro-caraiva', priority: '0.9', changefreq: 'weekly' },
   { path: '/servicos/pedreiro-caraiva', priority: '0.9', changefreq: 'weekly' },
+  { path: '/destinos/arraial-dajuda', priority: '0.95', changefreq: 'weekly' },
+  { path: '/servicos/diarista-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/eletricista-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/piscineiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/cozinheiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/jardineiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/pedreiro-arraial-dajuda', priority: '0.9', changefreq: 'weekly' },
+  { path: '/servicos/dj-trancoso', priority: '0.85', changefreq: 'weekly' },
+  { path: '/destinos/casamento-trancoso', priority: '0.85', changefreq: 'monthly' },
+  { path: '/destinos/reveillon-trancoso', priority: '0.85', changefreq: 'monthly' },
+  { path: '/guides/morar-em-trancoso', priority: '0.7', changefreq: 'monthly' },
+  { path: '/prestador-fundador', priority: '0.7', changefreq: 'monthly' },
+  { path: '/investidores', priority: '0.6', changefreq: 'monthly' },
 ];
 
 // Landing pages SEO por categoria de serviço

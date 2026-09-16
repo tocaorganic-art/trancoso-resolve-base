@@ -335,6 +335,14 @@ p, span, h1, h2, h3, h4, h5, h6, li, td, th, label, input, textarea {
 .dark img, .dark video, .dark canvas, .dark svg {
   background-color: transparent !important;
 }
+/* Rodapé mobile: respiro extra para o texto não ficar sob os botões flutuantes
+   (chat e "Virar PRO", fixos a ~90px da base, acima da barra de navegação inferior). */
+@media (max-width: 767px) {
+  .footer-float-spacing {
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 140px) !important;
+  }
+}
+
 /* Carrossel horizontal de 2 fileiras (cards de prestadores em destaque na Home) */
 .hscroll-cards {
   scrollbar-width: thin;

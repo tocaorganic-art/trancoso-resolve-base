@@ -258,7 +258,7 @@ export default function Layout({ children, currentPageName }) {
 
         <div className="min-h-screen bg-background overflow-x-hidden flex flex-col">
           <header role="banner">
-          <nav className={`bg-card/95 backdrop-blur-md border-b border-border sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-warm-md' : 'shadow-warm-sm'}`} style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
+          <nav className={`bg-card border-b border-border sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-warm-md' : 'shadow-warm-sm'}`} style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
             <div className={`container mx-auto px-3 md:px-4 flex items-center justify-between gap-2 transition-all duration-300 ${scrolled ? 'py-1.5' : 'py-3'}`}>
               <Link to={createPageUrl("Home")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="nav-logo-link">
                 <Logo className="h-10 md:h-12" />
@@ -450,7 +450,7 @@ export default function Layout({ children, currentPageName }) {
 
           <main id="main-content" className="flex-1 pb-24 md:pb-0 pt-12 md:pt-0">{children}</main>
 
-          <footer className="text-white py-8 mt-8 pb-safe bg-[hsl(var(--card))]" style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 2rem)" }}>
+          <footer className="text-white py-8 mt-8 pb-safe footer-float-spacing bg-[hsl(var(--card))]" style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 2rem)" }}>
             <div className="container mx-auto px-4 text-center">
               <div className="flex justify-center gap-2 mb-4 flex-wrap">
                 <Link to={createPageUrl("About")} className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors min-h-[44px] flex items-center px-2">

@@ -51,7 +51,7 @@ export default function ProFloatingButton() {
   return (
     <div
       className="md:hidden fixed z-40 flex items-center gap-2"
-      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 64px)", right: "16px" }}
+      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 90px)", right: "16px" }}
     >
       <Link
         to="/Planos"

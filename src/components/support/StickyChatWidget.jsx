@@ -58,7 +58,7 @@ export default function StickyChatWidget({ onClick, unreadCount = 0 }) {
       onFocus={handleFocus}
       onBlur={handleBlur}
       aria-label="Abrir chat de atendimento — Fale com a Toca"
-      className="fixed bottom-6 right-6 md:bottom-8 md:right-8 h-14 pl-4 pr-4 relative flex items-center bg-[#E8571A] hover:bg-[#C1440E] active:bg-[#C1440E] text-white cursor-pointer select-none"
+      className="fixed left-4 md:left-auto md:right-8 bottom-[calc(env(safe-area-inset-bottom,0px)+90px)] md:bottom-8 h-14 pl-4 pr-4 relative flex items-center bg-[#E8571A] hover:bg-[#C1440E] active:bg-[#C1440E] text-white cursor-pointer select-none"
       style={{
         zIndex: 99999,
         borderRadius: 9999,

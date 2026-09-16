@@ -10,7 +10,7 @@ import { trackLead } from '@/utils/analytics.js';
 import { CONSENT_REOPEN_EVENT, trackAnalyticsEvent } from '@/utils/consent.js';
 import MetaTags from '@/components/seo/MetaTags';
 import {
-  TOCA_SOCIAIS, TOCA_DEPOIMENTOS, CONCIERGE_CONTATO, CONCIERGE_MEDIA, ETAPAS, PILARES, PRACAS, TEXTOS,
+  TOCA_SOCIAIS, TOCA_DEPOIMENTOS, CONCIERGE_CONTATO, CONCIERGE_MEDIA, VIDEO_TONY, ETAPAS, PILARES, PRACAS, TEXTOS,
 } from '@/data/conciergeContent';
 
 const ICONES = {
@@ -307,6 +307,23 @@ export default function ConciergePage() {
                     </a>
                   ))}
                 </div>
+
+                {/* Vídeo real — set de DJ (Toca Experience) */}
+                <figure className="mt-5">
+                  <video
+                    src={VIDEO_TONY.src}
+                    poster={VIDEO_TONY.poster}
+                    controls
+                    playsInline
+                    preload="none"
+                    className="mx-auto aspect-[9/16] w-48 rounded-brand-md border border-slate-200 object-cover sm:w-56"
+                  >
+                    <track kind="captions" />
+                  </video>
+                  <figcaption className="mt-2 text-center text-xs font-semibold text-slate-500">
+                    {t.videoLegenda}
+                  </figcaption>
+                </figure>
               </div>
 
               <a

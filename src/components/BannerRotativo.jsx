@@ -10,6 +10,8 @@ const SLIDES = [
   {
     id: "prestadores",
     img: `${BASE}/ce4a274d5_banner_v7_1_prestadores.png`,
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/0ed9f1c46_ce4a274d5_banner_v7_1_prestadores_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/b7b31595c_ce4a274d5_banner_v7_1_prestadores_mob.webp",
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
     sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 30 dias.",
@@ -20,6 +22,8 @@ const SLIDES = [
   {
     id: "empresas",
     img: `${BASE}/adb781eb1_banner_v7_2_empresas.png`,
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d868136e4_adb781eb1_banner_v7_2_empresas_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d8b00a713_adb781eb1_banner_v7_2_empresas_mob.webp",
     alt: "Parceiros oficiais para sua pousada — manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
     sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",
@@ -30,6 +34,8 @@ const SLIDES = [
   {
     id: "clientes",
     img: `${BASE}/fc2210a20_banner_v7_3_clientes.png`,
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/203e81c5f_fc2210a20_banner_v7_3_clientes_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d6a81ad4a_fc2210a20_banner_v7_3_clientes_mob.webp",
     alt: "Precisa de um especialista em Trancoso? Dentistas, chefs particulares, eletricistas e limpeza premium",
     titulo: "PRECISA DE UM ESPECIALISTA EM TRANCOSO?",
     sub: "Dentistas, chefs particulares, eletricistas, limpeza premium e muito mais. Profissionais verificados.",
@@ -122,9 +128,14 @@ export default function BannerRotativo() {
                className={`absolute inset-0 transition-opacity duration-700 ${idx === i ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                aria-hidden={idx !== i}>
             <Link to={s.to} aria-label={s.cta} className="block w-full h-full">
-              <img src={s.img} alt={s.alt} width={1920} height={640}
+              <picture>
+                <source srcSet={s.webpDesk} type="image/webp" />
+                <img src={s.img} alt={s.alt} width={1920} height={640}
                    loading={idx === 0 ? "eager" : "lazy"}
+                   fetchPriority={idx === 0 ? "high" : "low"}
+                   decoding="async"
                    className="w-full h-full object-cover block" />
+              </picture>
             </Link>
             <Link to={s.to}
                   className={`absolute flex items-center justify-center rounded-full font-extrabold
@@ -145,8 +156,13 @@ export default function BannerRotativo() {
       <div className="sm:hidden w-full max-w-full overflow-hidden">
         <div className="relative">
           <Link to={atual.to} aria-label={atual.cta} className="block">
-            <img src={atual.img} alt={atual.alt}
-                 className="w-full h-auto max-w-full object-cover block" loading="eager" />
+            <picture>
+              <source srcSet={atual.webpMob} media="(max-width: 640px)" type="image/webp" />
+              <source srcSet={atual.webpDesk} type="image/webp" />
+              <img src={atual.img} alt={atual.alt}
+                 className="w-full h-auto max-w-full object-cover block" loading="eager"
+                 fetchPriority={i === 0 ? "high" : "low"} decoding="async" />
+            </picture>
           </Link>
           <Seta dir="prev" onClick={prev} />
           <Seta dir="next" onClick={next} />

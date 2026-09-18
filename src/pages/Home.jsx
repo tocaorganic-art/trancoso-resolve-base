@@ -562,13 +562,6 @@ export default function HomePage() {
     staleTime: 5 * 60 * 1000,
   });
 
-  const { data: allReviews } = useQuery({
-    queryKey: ['allReviewsCount'],
-    queryFn: () => base44.entities.ServiceReview.list('-created_date', 500),
-    initialData: [],
-    staleTime: 10 * 60 * 1000,
-  });
-
   const totalPrestadoresVagas = allProviders?.filter(p =>
     p.tipo_pessoa === 'pf' ||
     (p.tipo_pessoa === 'mei' && !p.tem_ponto_fisico_em_trancoso) ||
@@ -577,7 +570,6 @@ export default function HomePage() {
   const vagasRestantes = Math.max(0, 50 - totalPrestadoresVagas);
   const totalVerificados = allProviders?.filter(p => p.verificado === true || p.status === 'ativo').length || 0;
   const _totalCategorias = 9;
-  const _totalAvaliacoes = allReviews?.length || 0;
   
   const { data: services, isLoading: isLoadingServices } = useQuery({
     queryKey: ['serviceListings'],

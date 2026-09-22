@@ -22,6 +22,8 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import Login from '@/pages/Login';
 import Register from '@/pages/Register';
+import ForgotPassword from '@/pages/ForgotPassword';
+import ResetPassword from '@/pages/ResetPassword';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { CONSENT_CHANGED_EVENT, activateOptionalTracking, readConsent } from '@/utils/consent.js';
 // Páginas carregadas sob demanda (code-splitting) para reduzir o bundle inicial.
@@ -149,6 +151,8 @@ const AuthenticatedApp = () => {
         <Routes location={location} key={location.pathname}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           <Route path="/Home" element={<Navigate to="/" replace />} />
           <Route path="/" element={

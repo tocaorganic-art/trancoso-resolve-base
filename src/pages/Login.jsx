@@ -29,6 +29,11 @@ function FacebookIcon({ className }) {
 
 export default function Login() {
   const [twoFAState, setTwoFAState] = useState(null); // null | { maskedEmail }
+  const [showEmailForm, setShowEmailForm] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
   const fromPath = location.state?.from?.pathname || null;
 
@@ -85,6 +90,26 @@ export default function Login() {
     }
   };
 
+  const handleEmailLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    try {
+      await base44.auth.loginViaEmailPassword(email.trim(), password);
+      const user = await base44.auth.me();
+      if (user?.user_type === "prestador" && user.two_fa_enabled && sessionStorage.getItem("2fa_verified") !== "true") {
+        const res = await base44.functions.invoke("twoFactor", { action: "send" });
+        setTwoFAState({ maskedEmail: res?.data?.maskedEmail || user.email });
+        return;
+      }
+      redirectAfterLogin(user);
+    } catch (err) {
+      setError(err?.message || "E-mail ou senha incorretos. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGoogle = () => base44.auth.loginWithProvider("google", "/login");
   const handleMicrosoft = () => base44.auth.loginWithProvider("microsoft", "/login");
   const handleFacebook = () => base44.auth.loginWithProvider("facebook", "/login");
@@ -119,21 +144,71 @@ export default function Login() {
       }
     >
       <div className="space-y-3">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.45 }}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.97 }}
-        >
-          <Button
-            className="w-full h-12 text-sm font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
-            onClick={() => base44.auth.redirectToLogin('/login')}
+        {showEmailForm ? (
+          <form onSubmit={handleEmailLogin} className="space-y-3" noValidate>
+            <div>
+              <label htmlFor="login-email" className="block text-sm text-white/70 mb-1.5">E-mail</label>
+              <input
+                id="login-email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="seu@email.com"
+                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
+            <div>
+              <label htmlFor="login-password" className="block text-sm text-white/70 mb-1.5">Senha</label>
+              <input
+                id="login-password"
+                type="password"
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Sua senha"
+                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-orange-500"
+              />
+            </div>
+            {error && <p className="text-sm text-red-400" role="alert">{error}</p>}
+            <Button
+              type="submit"
+              disabled={loading}
+              className="w-full h-12 text-sm font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
+            >
+              <LogIn className="w-5 h-5 mr-2" />
+              {loading ? "Entrando..." : "Entrar"}
+            </Button>
+            <a href="/forgot-password" className="block text-center text-sm text-orange-400 font-medium hover:underline">
+              Esqueceu a senha?
+            </a>
+            <button
+              type="button"
+              onClick={() => { setShowEmailForm(false); setError(""); }}
+              className="w-full text-sm text-white/60 hover:text-white/90 underline"
+            >
+              Voltar para outras opções
+            </button>
+          </form>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.45 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <LogIn className="w-5 h-5 mr-2" />
-            Entrar com Email
-          </Button>
-        </motion.div>
+            <Button
+              className="w-full h-12 text-sm font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
+              onClick={() => setShowEmailForm(true)}
+            >
+              <LogIn className="w-5 h-5 mr-2" />
+              Entrar com Email
+            </Button>
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0 }}

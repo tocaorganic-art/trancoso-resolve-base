@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { getAsaasConfig, getOrCreateAsaasCustomer, asaasFetch } from '../_shared/asaasClient.ts';
 
 // ─── Planos e preços (BRL) ───────────────────────────────────────────────────
 interface PlanDef { nome: string; monthly: number; annual: number | null; trialDays: number; }
@@ -12,15 +13,22 @@ const PLANS: Record<string, PlanDef> = {
   boost_lojista:     { nome: 'Boost Alta Temporada (Lojista)',   monthly: 197,   annual: null, trialDays: 0 },
 };
 
-const BASE_URL = 'https://trancosoresolve.com.br';
+function addDays(date: Date, days: number): Date {
+  const d = new Date(date);
+  d.setUTCDate(d.getUTCDate() + days);
+  return d;
+}
+function toIsoDate(d: Date): string {
+  return d.toISOString().split('T')[0];
+}
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    const mpToken = Deno.env.get('MP_ACCESS_TOKEN');
-    if (!mpToken) {
-      return Response.json({ error: 'Mercado Pago não configurado: MP_ACCESS_TOKEN ausente.' }, { status: 503 });
+    const config = getAsaasConfig();
+    if (!config) {
+      return Response.json({ error: 'Asaas não configurado: ASAAS_API_KEY ausente.' }, { status: 503 });
     }
 
     const user = await base44.auth.me();
@@ -28,19 +36,16 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { plan, billing } = await req.json() as { plan?: string; billing?: string };
+    const { plan, billing, cpf_cnpj } = await req.json() as { plan?: string; billing?: string; cpf_cnpj?: string };
     const planDef = plan ? PLANS[plan] : undefined;
     if (!planDef) {
       return Response.json({ error: 'Plano inválido' }, { status: 400 });
     }
 
     // ─── Verificação de trial já consumido ───────────────────────────────────
-    // REGRA COMERCIAL IMUTÁVEL: Teste Gratuito (30d) e trial do Profissional (7d)
-    // são mutuamente exclusivos. Quem já usou qualquer trial não recebe outro.
-    // Isso evita acúmulo de 30 + 7 = 37 dias gratuitos.
-    //
-    // Se a assinatura existente tiver trial_consumed_at preenchido, zeramos
-    // trialDays para que o Mercado Pago não inclua free_trial no preapproval.
+    // REGRA COMERCIAL IMUTÁVEL (mantida do fluxo Mercado Pago): Teste Gratuito
+    // (30d) e trial do Profissional (7d) são mutuamente exclusivos. Quem já
+    // usou qualquer trial não recebe outro.
     let effectiveTrialDays = planDef.trialDays;
 
     if (effectiveTrialDays > 0) {
@@ -51,11 +56,10 @@ Deno.serve(async (req) => {
           effectiveTrialDays = 0;
           console.log(
             `[createSubscriptionCheckout] Trial anterior consumido em ${existingSub.trial_consumed_at}. ` +
-            `Removendo free_trial do checkout para ${user.email}.`
+            `Removendo trial do checkout Asaas para ${user.email}.`
           );
         }
       } catch (checkErr) {
-        // Fail-closed: se não conseguiu verificar, não concede trial extra por segurança
         effectiveTrialDays = 0;
         console.warn(
           `[createSubscriptionCheckout] Erro ao verificar trial anterior para ${user.email}: ` +
@@ -64,68 +68,122 @@ Deno.serve(async (req) => {
       }
     }
 
-    // ─── Montagem do preapproval ──────────────────────────────────────────────
-    const isAnnual = billing === 'annual' && planDef.annual !== null;
-    const amount = isAnnual ? planDef.annual! : planDef.monthly;
-
-    const preapprovalBody = {
-      reason: `Trancoso Resolve — ${planDef.nome}${isAnnual ? ' (Anual)' : ''}`,
-      external_reference: `${plan}|${isAnnual ? 'annual' : 'monthly'}|${user.email}`,
-      payer_email: user.email,
-      auto_recurring: {
-        frequency: isAnnual ? 12 : 1,
-        frequency_type: 'months',
-        transaction_amount: amount,
-        currency_id: 'BRL',
-        ...(effectiveTrialDays > 0
-          ? { free_trial: { frequency: effectiveTrialDays, frequency_type: 'days' } }
-          : {}),
-      },
-      back_url: `${BASE_URL}/AssinaturaConfirmada`,
-      status: 'pending',
-    };
-
-    const mpRes = await fetch('https://api.mercadopago.com/preapproval', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${mpToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(preapprovalBody),
-    });
-
-    const mpData = await mpRes.json();
-    if (!mpRes.ok) {
-      console.error('[createSubscriptionCheckout] Erro MP:', JSON.stringify(mpData));
-      return Response.json({ error: mpData.message || 'Erro ao criar assinatura no Mercado Pago.' }, { status: 502 });
-    }
-
-    // ─── Registra consumo do trial no banco (caso trial Profissional de 7d) ──
-    // Somente quando effectiveTrialDays > 0 e o checkout inclui free_trial.
-    // Isso garante que o trial de 7d do Profissional também marca trial_consumed_at.
-    if (effectiveTrialDays > 0) {
+    // ─── CPF/CNPJ obrigatório para o Asaas ────────────────────────────────────
+    // O Mercado Pago não exigia documento para criar o preapproval. O Asaas
+    // exige cpfCnpj para criar o "customer". Tentamos reaproveitar o CPF já
+    // verificado do prestador (ServiceProvider.cpf); se não existir (lojista,
+    // cliente, ou prestador ainda não verificado), exigimos que o front envie
+    // cpf_cnpj no corpo da requisição (campo de checkout).
+    let cpfCnpj = cpf_cnpj || '';
+    if (!cpfCnpj) {
       try {
-        const subs = await base44.asServiceRole.entities.Subscription.filter({ user_email: user.email });
-        if (subs && subs.length > 0) {
-          const sub = subs[0] as { id: string; trial_consumed_at?: string };
-          if (!sub.trial_consumed_at) {
-            await base44.asServiceRole.entities.Subscription.update(sub.id, {
-              trial_consumed_at: new Date().toISOString(),
-              trial_type: 'profissional_7d',
-              trial_version: 1,
-              notes: `Trial Profissional 7d iniciado no checkout — preapproval: ${mpData.id}`,
-            });
-          }
-        }
-      } catch (markErr) {
-        // Não crítico — bloquear o checkout seria pior que não marcar agora.
-        // O mercadoPagoWebhook também pode marcar trial_consumed_at quando a assinatura for autorizada.
-        console.warn('[createSubscriptionCheckout] Erro ao registrar trial_consumed_at:', (markErr as Error).message);
+        const providers = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
+        cpfCnpj = providers?.[0]?.cpf || '';
+      } catch {
+        // não crítico — segue sem, e o getOrCreateAsaasCustomer vai recusar com erro claro
       }
     }
+    if (!cpfCnpj) {
+      return Response.json({
+        error: 'CPF ou CNPJ é obrigatório para gerar a cobrança. Informe cpf_cnpj no checkout.',
+      }, { status: 400 });
+    }
 
-    console.log(`Checkout MP criado: ${mpData.id} para plano ${plan} (user: ${user.email}, trialDays: ${effectiveTrialDays})`);
-    return Response.json({ url: mpData.init_point, preapproval_id: mpData.id, trial_days: effectiveTrialDays });
+    const customerResult = await getOrCreateAsaasCustomer(config, {
+      name: user.full_name || user.email,
+      email: user.email,
+      cpfCnpj,
+      externalReference: user.email,
+    });
+    if ('error' in customerResult) {
+      console.error('[createSubscriptionCheckout] Erro ao criar cliente Asaas:', customerResult.error);
+      return Response.json({ error: customerResult.error }, { status: 502 });
+    }
+
+    // ─── Montagem da assinatura ───────────────────────────────────────────────
+    const isAnnual = billing === 'annual' && planDef.annual !== null;
+    const amount = isAnnual ? planDef.annual! : planDef.monthly;
+    const cycle = isAnnual ? 'YEARLY' : 'MONTHLY';
+
+    // Asaas não tem um campo nativo de "free trial" como o preapproval do MP.
+    // O padrão recomendado é adiar a primeira cobrança: nextDueDate = hoje +
+    // trialDays. O cliente só é cobrado de fato após o período de trial.
+    const nextDueDate = toIsoDate(addDays(new Date(), effectiveTrialDays > 0 ? effectiveTrialDays : 1));
+
+    const subscriptionBody = {
+      customer: customerResult.id,
+      billingType: 'UNDEFINED', // deixa o pagador escolher PIX / boleto / cartão na fatura
+      cycle,
+      value: amount,
+      nextDueDate,
+      description: `Trancoso Resolve — ${planDef.nome}${isAnnual ? ' (Anual)' : ''}`,
+      externalReference: `${plan}|${isAnnual ? 'annual' : 'monthly'}|${user.email}`,
+    };
+
+    const subRes = await asaasFetch<any>(config, '/subscriptions', {
+      method: 'POST',
+      body: JSON.stringify(subscriptionBody),
+    });
+
+    if (!subRes.ok || !subRes.data?.id) {
+      console.error('[createSubscriptionCheckout] Erro Asaas:', JSON.stringify(subRes.data));
+      return Response.json({ error: subRes.data?.errors?.[0]?.description || 'Erro ao criar assinatura no Asaas.' }, { status: 502 });
+    }
+
+    const asaasSubscription = subRes.data;
+
+    // Busca a primeira cobrança gerada pela assinatura para obter o link de
+    // pagamento (invoiceUrl) — equivalente ao init_point do preapproval MP.
+    let invoiceUrl: string | null = null;
+    try {
+      const paymentsRes = await asaasFetch<{ data?: Array<{ invoiceUrl?: string }> }>(
+        config,
+        `/payments?subscription=${asaasSubscription.id}&limit=1`,
+      );
+      invoiceUrl = paymentsRes.data?.data?.[0]?.invoiceUrl || null;
+    } catch (fetchPayErr) {
+      console.warn('[createSubscriptionCheckout] Não foi possível obter invoiceUrl:', (fetchPayErr as Error).message);
+    }
+
+    // ─── Registra/atualiza a Subscription local (estado inicial: pending) ────
+    // O status definitivo (active) é confirmado pelo asaasWebhook quando o
+    // primeiro pagamento for compensado — igual ao padrão usado com o MP.
+    try {
+      const existingSubs = await base44.asServiceRole.entities.Subscription.filter({ user_email: user.email });
+      const patch = {
+        user_email: user.email,
+        plan,
+        billing: isAnnual ? 'annual' : 'monthly',
+        status: 'pending',
+        payment_method: 'asaas',
+        asaas_customer_id: customerResult.id,
+        asaas_subscription_id: asaasSubscription.id,
+        amount,
+      };
+      if (existingSubs && existingSubs.length > 0) {
+        await base44.asServiceRole.entities.Subscription.update(existingSubs[0].id, patch);
+        if (effectiveTrialDays > 0 && !existingSubs[0].trial_consumed_at) {
+          await base44.asServiceRole.entities.Subscription.update(existingSubs[0].id, {
+            trial_consumed_at: new Date().toISOString(),
+            trial_type: 'profissional_7d',
+            trial_version: 1,
+            notes: `Trial Profissional 7d iniciado no checkout Asaas — subscription: ${asaasSubscription.id}`,
+          });
+        }
+      } else {
+        await base44.asServiceRole.entities.Subscription.create(patch);
+      }
+    } catch (persistErr) {
+      // Não crítico — o webhook também reconcilia o estado a partir do Asaas.
+      console.warn('[createSubscriptionCheckout] Erro ao persistir Subscription local:', (persistErr as Error).message);
+    }
+
+    console.log(`Checkout Asaas criado: ${asaasSubscription.id} para plano ${plan} (user: ${user.email}, trialDays: ${effectiveTrialDays})`);
+    return Response.json({
+      url: invoiceUrl,
+      asaas_subscription_id: asaasSubscription.id,
+      trial_days: effectiveTrialDays,
+    });
 
   } catch (error) {
     console.error('Erro ao criar checkout:', (error as Error).message);

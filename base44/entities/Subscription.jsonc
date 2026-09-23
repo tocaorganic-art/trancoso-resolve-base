@@ -29,7 +29,8 @@
         "trial",
         "active",
         "expired",
-        "cancelled"
+        "cancelled",
+        "pending"
       ],
       "default": "trial",
       "description": "Status da assinatura"
@@ -98,7 +99,8 @@
       "type": "string",
       "enum": [
         "mercadopago",
-        "manual"
+        "manual",
+        "asaas"
       ],
       "default": "mercadopago",
       "description": "M\u00e9todo de pagamento"
@@ -106,6 +108,18 @@
     "notes": {
       "type": "string",
       "description": "Observa\u00e7\u00f5es administrativas"
+    },
+    "asaas_customer_id": {
+      "type": "string",
+      "description": "ID do cliente (customer) no Asaas"
+    },
+    "asaas_subscription_id": {
+      "type": "string",
+      "description": "ID da assinatura (subscription) no Asaas"
+    },
+    "asaas_payment_id": {
+      "type": "string",
+      "description": "ID do \u00faltimo pagamento (payment) confirmado no Asaas para esta assinatura"
     }
   },
   "required": [

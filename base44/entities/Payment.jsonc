@@ -59,7 +59,10 @@
         "captured",
         "canceled",
         "disputed",
-        "refunded"
+        "refunded",
+        "pending",
+        "paid",
+        "overdue"
       ],
       "default": "requires_payment_method",
       "description": "Status do pagamento ('pending' = aguardando pagamento no Mercado Pago)"
@@ -86,6 +89,18 @@
     "notes": {
       "type": "string",
       "description": "Observa\u00e7\u00f5es"
+    },
+    "asaas_payment_id": {
+      "type": "string",
+      "description": "ID do pagamento (payment) no Asaas"
+    },
+    "asaas_customer_id": {
+      "type": "string",
+      "description": "ID do cliente (customer) no Asaas"
+    },
+    "asaas_invoice_url": {
+      "type": "string",
+      "description": "Link da fatura/cobran\u00e7a (invoiceUrl) retornado pelo Asaas"
     }
   },
   "required": [

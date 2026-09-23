@@ -7,6 +7,13 @@ import { AlertCircle, RefreshCw, LogOut } from 'lucide-react';
 
 const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
 
+const USER_TYPE_LABELS = {
+  prestador: 'prestadores de serviço',
+  lojista: 'lojistas',
+  cliente: 'clientes',
+  admin: 'administradores',
+};
+
 const MAX_RETRIES = 10;
 const RETRY_INTERVAL_MS = 1000;
 const TIMEOUT_MS = 30000; // 30s total máximo
@@ -118,7 +125,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       setPermissionStatus('forbidden');
       setErrorDetails({
         code: 'INSUFFICIENT_USER_TYPE',
-        details: `Esta página é exclusiva para prestadores de serviço.`,
+        details: `Esta página é exclusiva para ${USER_TYPE_LABELS[requiredUserType] || 'este perfil'}.`,
       });
       return;
     }

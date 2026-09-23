@@ -13,6 +13,12 @@ import {
 import { toast } from "sonner";
 import CancelSubscriptionButton from "@/components/dashboard/CancelSubscriptionButton";
 import PositionamentoEstrategico from "@/components/plans/PositionamentoEstrategico";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { isValidCpfCnpj, formatCpfCnpj } from "@/components/utils/validators";
 
 // ─── Dados dos planos ────────────────────────────────────────────────────────
 
@@ -482,7 +488,43 @@ export default function PlanosPage() {
     staleTime: 60000,
   });
 
-  const handleCheckout = async (planKey, isAnual = false) => {
+  // ─── Coleta de CPF/CNPJ antes do checkout ────────────────────────────────
+  // O Asaas exige cpfCnpj para criar o cliente de cobranca (o Mercado Pago nao
+  // exigia). Enquanto nao existe um campo de cadastro dedicado, pedimos aqui,
+  // uma unica vez por tentativa de checkout, num modal simples.
+  const [cpfDialogOpen, setCpfDialogOpen] = useState(false);
+  const [cpfCnpjValue, setCpfCnpjValue] = useState("");
+  const [cpfCnpjTouched, setCpfCnpjTouched] = useState(false);
+  const [pendingPlan, setPendingPlan] = useState(null); // { planKey, isAnual }
+
+  const cpfCnpjInvalido = cpfCnpjTouched && !isValidCpfCnpj(cpfCnpjValue);
+
+  const handleCheckout = async (planKey, isAnual = false, cpfCnpj) => {
+    setLoadingPlan(planKey);
+    try {
+      const res = await base44.functions.invoke("createSubscriptionCheckout", {
+        plan: planKey,
+        billing: isAnual ? "annual" : "monthly",
+        user_email: user.email,
+        cpf_cnpj: cpfCnpj,
+      });
+      if (res.data?.error === "vagas_esgotadas") {
+        toast.error(res.data.message);
+        return;
+      }
+      if (res.data?.url) {
+        window.location.href = res.data.url;
+      } else if (res.data?.error) {
+        toast.error(res.data.error);
+      }
+    } catch {
+      toast.error("Erro ao iniciar pagamento. Tente novamente.");
+    } finally {
+      setLoadingPlan(null);
+    }
+  };
+
+  const startCheckout = (planKey, isAnual = false) => {
     if (window.self !== window.top) {
       toast.error("O checkout só funciona no app publicado. Acesse trancosoresolve.com.br");
       return;
@@ -491,23 +533,19 @@ export default function PlanosPage() {
       base44.auth.redirectToLogin(window.location.pathname);
       return;
     }
-    setLoadingPlan(planKey);
-    try {
-      const res = await base44.functions.invoke("createSubscriptionCheckout", {
-        plan: planKey,
-        billing: isAnual ? "annual" : "monthly",
-        user_email: user.email,
-      });
-      if (res.data?.error === "vagas_esgotadas") {
-        toast.error(res.data.message);
-        return;
-      }
-      if (res.data?.url) window.location.href = res.data.url;
-    } catch {
-      toast.error("Erro ao iniciar pagamento. Tente novamente.");
-    } finally {
-      setLoadingPlan(null);
-    }
+    setPendingPlan({ planKey, isAnual });
+    setCpfCnpjValue("");
+    setCpfCnpjTouched(false);
+    setCpfDialogOpen(true);
+  };
+
+  const confirmCpfCnpjAndCheckout = async () => {
+    if (!pendingPlan) return;
+    setCpfCnpjTouched(true);
+    if (!isValidCpfCnpj(cpfCnpjValue)) return;
+    setCpfDialogOpen(false);
+    await handleCheckout(pendingPlan.planKey, pendingPlan.isAnual, cpfCnpjValue.replace(/\D/g, ""));
+    setPendingPlan(null);
   };
 
   const planos = aba === "prestador" ? PLANOS_PRESTADOR : PLANOS_LOJISTA;
@@ -601,7 +639,7 @@ export default function PlanosPage() {
                 key={plano.id}
                 plano={plano}
                 anual={anual && plano.precoAnual !== null}
-                onCta={handleCheckout}
+                onCta={startCheckout}
                 loading={loadingPlan === plano.ctaKey}
                 index={i}
               />
@@ -609,9 +647,9 @@ export default function PlanosPage() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Nota Mercado Pago */}
+        {/* Nota gateway de pagamento */}
         <p className="text-center text-muted-foreground text-xs mb-4">
-          Pagamento seguro via Mercado Pago — cancele quando quiser, sem multa.
+          Pagamento seguro via Asaas (PIX, boleto ou cartão) — cancele quando quiser, sem multa.
         </p>
 
         {/* Transparência */}
@@ -628,7 +666,7 @@ export default function PlanosPage() {
         >
         <BoostSection
           tipo={aba}
-          onCta={handleCheckout}
+          onCta={startCheckout}
           loading={loadingPlan === (aba === "prestador" ? "boost_prestador" : "boost_lojista")}
         />
         </motion.div>
@@ -681,6 +719,43 @@ export default function PlanosPage() {
           </a>
         </p>
       </div>
+
+      {/* Modal de CPF/CNPJ — obrigatório para o Asaas criar o cliente de cobrança */}
+      <Dialog open={cpfDialogOpen} onOpenChange={(open) => { if (!open) setPendingPlan(null); setCpfDialogOpen(open); }}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Confirme seu CPF ou CNPJ</DialogTitle>
+            <DialogDescription>
+              Precisamos do seu CPF (pessoa física) ou CNPJ (empresa) para emitir a cobrança com segurança. Usado apenas para o pagamento.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="cpf-cnpj-input">CPF ou CNPJ</Label>
+            <Input
+              id="cpf-cnpj-input"
+              inputMode="numeric"
+              placeholder="000.000.000-00"
+              value={cpfCnpjValue}
+              onChange={(e) => setCpfCnpjValue(formatCpfCnpj(e.target.value))}
+              onBlur={() => setCpfCnpjTouched(true)}
+              maxLength={18}
+              aria-invalid={cpfCnpjInvalido}
+            />
+            {cpfCnpjInvalido && (
+              <p className="text-sm text-destructive">CPF ou CNPJ inválido. Confira os números digitados.</p>
+            )}
+          </div>
+          <DialogFooter>
+            <Button
+              onClick={confirmCpfCnpjAndCheckout}
+              disabled={loadingPlan !== null}
+              className="w-full"
+            >
+              {loadingPlan !== null ? <Loader2 className="w-4 h-4 animate-spin" /> : "Continuar para pagamento"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

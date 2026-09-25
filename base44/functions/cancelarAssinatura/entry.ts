@@ -16,6 +16,21 @@ async function sendCapiEvent(eventName: string, customData: Record<string, unkno
   } catch { /* analytics não pode quebrar o fluxo */ }
 }
 
+function asaasBaseUrl(): string {
+  return Deno.env.get('ASAAS_ENV') === 'sandbox'
+    ? 'https://api-sandbox.asaas.com'
+    : 'https://api.asaas.com';
+}
+
+async function asaasFetch(apiKey: string, path: string, init: RequestInit = {}): Promise<{ ok: boolean; status: number; data: any }> {
+  const res = await fetch(`${asaasBaseUrl()}${path}`, {
+    ...init,
+    headers: { 'access_token': apiKey, 'Content-Type': 'application/json', 'User-Agent': 'TrancosoResolve/1.0', ...(init.headers || {}) },
+  });
+  const data = await res.json().catch(() => ({}));
+  return { ok: res.ok, status: res.status, data };
+}
+
 // ─── cancelarAssinatura ───────────────────────────────────────────────────────
 // Cancela a assinatura do prestador autenticado.
 //
@@ -55,8 +70,8 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, already_cancelled: true });
     }
 
-    // ─── 4. Trial sem MP: cancela diretamente ────────────────────────────────
-    if ((sub.plan === 'trial' || sub.status === 'trial') && !sub.mp_preapproval_id) {
+    // ─── 4. Trial sem gateway: cancela diretamente ───────────────────────────
+    if ((sub.plan === 'trial' || sub.status === 'trial') && !sub.mp_preapproval_id && !sub.asaas_subscription_id) {
       await base44.asServiceRole.entities.Subscription.update(sub.id, {
         status: 'cancelled',
         notes: `Trial cancelado em ${new Date().toISOString()}.`,
@@ -65,7 +80,36 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, access_until: null });
     }
 
-    // ─── 5. Cancela no Mercado Pago ───────────────────────────────────────────
+    // ─── 5a. Cancela no Asaas ─────────────────────────────────────────────────
+    // Assinaturas criadas via Asaas não têm mp_preapproval_id — têm
+    // asaas_subscription_id. Sem este bloco, uma assinatura Asaas "cancelada"
+    // pelo app continuava ativa no Asaas e seguia gerando cobrança ao cliente
+    // (achado da auditoria de 25/09/2026).
+    if (sub.asaas_subscription_id) {
+      const asaasApiKey = Deno.env.get('ASAAS_API_KEY');
+      if (!asaasApiKey) {
+        return Response.json({ error: 'ASAAS_API_KEY ausente.' }, { status: 503 });
+      }
+
+      const asaasCheckRes = await asaasFetch(asaasApiKey, `/v3/subscriptions/${sub.asaas_subscription_id}`);
+      if (asaasCheckRes.ok && asaasCheckRes.data?.status !== 'INACTIVE' && asaasCheckRes.data?.deleted !== true) {
+        const asaasDelRes = await asaasFetch(asaasApiKey, `/v3/subscriptions/${sub.asaas_subscription_id}`, {
+          method: 'DELETE',
+        });
+        if (!asaasDelRes.ok) {
+          console.error('[cancelarAssinatura] Erro ao cancelar no Asaas:', asaasDelRes.status, JSON.stringify(asaasDelRes.data));
+          return Response.json({
+            error: `Erro ao cancelar no Asaas: ${asaasDelRes.data?.errors?.[0]?.description || `HTTP ${asaasDelRes.status}`}`,
+          }, { status: 502 });
+        }
+        console.log(`[cancelarAssinatura] Assinatura Asaas ${sub.asaas_subscription_id} cancelada`);
+      } else if (!asaasCheckRes.ok && asaasCheckRes.status !== 404) {
+        console.error('[cancelarAssinatura] Não foi possível verificar assinatura no Asaas:', asaasCheckRes.status);
+        return Response.json({ error: 'Não foi possível confirmar o cancelamento no Asaas. Tente novamente em instantes.' }, { status: 502 });
+      }
+    }
+
+    // ─── 5b. Cancela no Mercado Pago (assinaturas legadas) ────────────────────
     if (sub.mp_preapproval_id) {
       const mpToken = Deno.env.get('MP_ACCESS_TOKEN');
       if (!mpToken) {

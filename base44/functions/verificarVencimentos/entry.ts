@@ -71,7 +71,7 @@ Deno.serve(async (req) => {
           prestador_email: sub.user_email,
           plano: sub.plan,
           valor: sub.amount,
-          mercadopago_id: sub.mp_preapproval_id || undefined,
+          mercadopago_id: sub.asaas_subscription_id || sub.mp_preapproval_id || undefined,
           timestamp: new Date().toISOString(),
         });
       } catch (e) {
@@ -104,7 +104,7 @@ Deno.serve(async (req) => {
           prestador_email: sub.user_email,
           plano: sub.plan,
           valor: sub.amount,
-          mercadopago_id: sub.mp_preapproval_id || undefined,
+          mercadopago_id: sub.asaas_subscription_id || sub.mp_preapproval_id || undefined,
           timestamp: new Date().toISOString(),
         });
       } catch (e) {

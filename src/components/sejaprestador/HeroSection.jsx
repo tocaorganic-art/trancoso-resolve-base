@@ -48,7 +48,7 @@ export default function HeroSection() {
           <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
             Apareça hoje mesmo para toda Trancoso e Região.{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
-              100 vagas gratuitas por 30 dias.
+              100 primeiras vagas: 2 meses grátis.
             </span>
           </h1>
 

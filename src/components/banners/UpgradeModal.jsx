@@ -15,7 +15,7 @@ const FEATURE_CONFIGS = {
     description: "O plano Gratuito permite 1 serviço ativo. Assine o Profissional e publique até 10 serviços.",
     plan: "Profissional",
     price: "R$19,90/mês",
-    trial: "30 dias grátis",
+    trial: "2 meses grátis",
     planKey: "profissional",
     features: [
       "Até 10 serviços ativos simultâneos",
@@ -29,7 +29,7 @@ const FEATURE_CONFIGS = {
     description: "Gerencie seus atendimentos com agenda inteligente. Disponível a partir do Profissional.",
     plan: "Profissional",
     price: "R$19,90/mês",
-    trial: "30 dias grátis",
+    trial: "2 meses grátis",
     planKey: "profissional",
     features: [
       "Agenda de atendimentos integrada",
@@ -71,7 +71,7 @@ const FEATURE_CONFIGS = {
     description: "Faça upgrade para desbloquear este recurso e muito mais.",
     plan: "Profissional",
     price: "R$19,90/mês",
-    trial: "30 dias grátis",
+    trial: "2 meses grátis",
     planKey: "profissional",
     features: [
       "Tudo do Gratuito, sem limite de tempo",

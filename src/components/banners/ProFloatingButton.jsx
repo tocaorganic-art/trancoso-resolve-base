@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { base44 } from "@/api/base44Client";
 import { Zap, X } from "lucide-react";
 
-const TRIAL_DAYS = 30;
+const TRIAL_DAYS = 60;
 const HIDDEN_PATHS = ["/Planos", "/planos", "/Login", "/Register", "/CadastroTipo"];
 
 export default function ProFloatingButton() {

@@ -62,6 +62,13 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'user_email obrigatório' }, { status: 400 });
     }
 
+    // ─── REGRA (Tony, 13/10/2026): 60 dias para cadastros realizados em 2026 ─────────
+    // A partir de 2027 volta ao padrão de 30 dias (revisar com Tony antes de 2027).
+    const today = new Date();
+    const trialDays = today.getFullYear() === 2026 ? 60 : 30;
+    const trialType = trialDays === 60 ? 'free_60d' : 'free_30d';
+    const trialLabel = trialDays === 60 ? '2 meses (60 dias)' : '30 dias';
+
     // ─── Verifica trial já consumido ──────────────────────────────────────────
     // REGRA: qualquer registro de Subscription com trial_consumed_at preenchido
     // significa que o benefício de trial foi esgotado — não conceder novo trial.
@@ -107,12 +114,6 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, note: 'já existe assinatura' });
     }
 
-    // ─── REGRA (Tony, 13/10/2026): 60 dias para cadastros realizados em 2026 ─────────
-    // A partir de 2027 volta ao padrão de 30 dias (revisar com Tony antes de 2027).
-    const today = new Date();
-    const trialDays = today.getFullYear() === 2026 ? 60 : 30;
-    const trialType = trialDays === 60 ? 'free_60d' : 'free_30d';
-    const trialLabel = trialDays === 60 ? '2 meses (60 dias)' : '30 dias';
     const trialEnd = new Date(today);
     trialEnd.setDate(trialEnd.getDate() + trialDays);
 

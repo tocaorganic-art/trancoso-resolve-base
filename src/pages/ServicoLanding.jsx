@@ -74,13 +74,13 @@ const servicoConfig = {
     description: "Contrate diaristas e faxineiras verificadas em Trancoso, Bahia. Serviço de limpeza residencial e de pousadas com profissionais avaliados pela comunidade.",
     occupation: "Limpeza",
     keywords: "diarista Trancoso, faxineira Trancoso, limpeza doméstica Trancoso, serviço limpeza Trancoso BA, diarista Arraial d'Ajuda, faxineira Porto Seguro, limpeza doméstica Caraíva",
-    ogImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/inigQzgVMUPeKrkL.png",
+    ogImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/e267f2bad_servico_landing.webp",
     faq: [
       { q: "Quanto custa uma diarista em Trancoso?", a: "O valor de uma diarista em Trancoso varia entre R$ 120 e R$ 300 por diária, dependendo do tamanho do imóvel e dos serviços inclusos. Consulte os perfis para ver os preços de cada profissional." },
       { q: "Os profissionais são verificados?", a: "Sim, todos os prestadores passam por verificação de identidade e consulta de antecedentes antes de aparecerem na plataforma." },
       { q: "Posso contratar para limpeza de pousada ou villa?", a: "Sim. Muitos profissionais têm experiência em pousadas, villas e imóveis de temporada em Trancoso." },
     ],
-    heroImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/inigQzgVMUPeKrkL.png",
+    heroImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/e267f2bad_servico_landing.webp",
     color: "from-sand-deep to-terracotta",
   },
   "eletricista-trancoso": {
@@ -89,12 +89,12 @@ const servicoConfig = {
     description: "Eletricistas qualificados em Trancoso para instalações, manutenção e emergências. Profissionais verificados com avaliações de clientes reais.",
     occupation: "Eletricista",
     keywords: "eletricista Trancoso, serviço elétrico Trancoso, instalação elétrica Trancoso BA, eletricista Arraial d'Ajuda, eletricista Porto Seguro, eletricista Caraíva",
-    ogImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/loNdoqfPbYrpiZUY.png",
+    ogImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/4a27966ba_sl_loNdoqfPbYrpiZUY.webp",
     faq: [
       { q: "Tem eletricista disponível para emergências em Trancoso?", a: "Sim, vários eletricistas em nosso cadastro atendem com urgência. Verifique a disponibilidade no perfil de cada profissional." },
       { q: "Qual o custo médio de um serviço elétrico em Trancoso?", a: "O valor varia conforme a complexidade. Instalações simples costumam partir de R$ 150, enquanto serviços mais complexos podem custar mais. Solicite orçamento diretamente com o profissional." },
     ],
-    heroImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/loNdoqfPbYrpiZUY.png",
+    heroImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/4a27966ba_sl_loNdoqfPbYrpiZUY.webp",
     color: "from-orange-400 to-orange-700",
   },
   "encanador-trancoso": {
@@ -103,12 +103,12 @@ const servicoConfig = {
     description: "Encanadores especializados em Trancoso para reparos, entupimentos e instalações hidráulicas. Atendimento rápido com profissionais verificados.",
     occupation: "Encanador",
     keywords: "encanador Trancoso, hidráulico Trancoso, conserto vazamento Trancoso BA, encanador Arraial d'Ajuda, encanador Porto Seguro, encanador Caraíva",
-    ogImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/SzIYzgzmeNbfcRvv.png",
+    ogImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/ccc9e52a3_sl_SzIYzgzmeNbfcRvv.webp",
     faq: [
       { q: "Como contratar um encanador urgente em Trancoso?", a: "Acesse a lista de encanadores disponíveis, verifique o status 'Disponível' no perfil e entre em contato diretamente pelo WhatsApp." },
       { q: "Encanadores atendem em vilarejos próximos a Trancoso?", a: "Muitos profissionais informam o raio de atendimento no perfil. Consulte a localização e cobertura de cada um." },
     ],
-    heroImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/SzIYzgzmeNbfcRvv.png",
+    heroImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/ccc9e52a3_sl_SzIYzgzmeNbfcRvv.webp",
     color: "from-terracotta to-terracotta-deep",
   },
   "jardinagem-trancoso": {
@@ -117,12 +117,12 @@ const servicoConfig = {
     description: "Jardineiros especializados em plantas tropicais em Trancoso. Manutenção de jardins, poda, paisagismo para residências, pousadas e villas na Bahia.",
     occupation: "Jardinagem",
     keywords: "jardineiro Trancoso, jardinagem Trancoso, paisagismo Trancoso BA, manutenção jardim Trancoso, jardineiro Arraial d'Ajuda, paisagismo Porto Seguro, jardinagem Caraíva",
-    ogImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/MmnYpPgxNHhyniba.png",
+    ogImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/03be0a904_sl_MmnYpPgxNHhyniba.webp",
     faq: [
       { q: "Tem jardineiro especializado em plantas nativas da Bahia em Trancoso?", a: "Sim, nossos profissionais têm experiência com plantas tropicais e nativas do litoral sul da Bahia, ideais para o clima de Trancoso." },
       { q: "Com que frequência devo contratar um jardineiro em Trancoso?", a: "No clima tropical de Trancoso, recomenda-se manutenção quinzenal ou mensal. Verifique os planos disponíveis com cada profissional." },
     ],
-    heroImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/MmnYpPgxNHhyniba.png",
+    heroImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/03be0a904_sl_MmnYpPgxNHhyniba.webp",
     color: "from-olive-500 to-olive-800",
   },
   "cozinheiro-trancoso": {
@@ -131,12 +131,12 @@ const servicoConfig = {
     description: "Chefs e cozinheiros particulares em Trancoso para jantares, eventos e diárias. Gastronomia baiana autêntica com frutos do mar para sua villa ou pousada.",
     occupation: "Cozinheiro",
     keywords: "cozinheiro Trancoso, chef particular Trancoso, jantar villa Trancoso, gastronomia Trancoso BA, chef particular Arraial d'Ajuda, cozinheiro Porto Seguro, gastronomia Caraíva",
-    ogImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/XKIqXQfxYpLpcnsh.png",
+    ogImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/85036753d_sl_XKIqXQfxYpLpcnsh.webp",
     faq: [
       { q: "Posso contratar um chef para um jantar privativo na minha villa em Trancoso?", a: "Sim! Temos chefs especializados em jantares privativos, com menus personalizados de frutos do mar e culinária baiana." },
       { q: "Os cozinheiros atendem a eventos e festas em Trancoso?", a: "Sim, muitos profissionais atendem eventos, casamentos e celebrações. Consulte disponibilidade com antecedência." },
     ],
-    heroImage: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663209925483/XKIqXQfxYpLpcnsh.png",
+    heroImage: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/85036753d_sl_XKIqXQfxYpLpcnsh.webp",
     color: "from-orange-500 to-red-500",
   },
   "pedreiro-trancoso": {

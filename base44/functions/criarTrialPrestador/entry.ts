@@ -74,7 +74,7 @@ Deno.serve(async (req) => {
             (existing[0] as { id: string }).id,
             {
               trial_consumed_at: new Date().toISOString(),
-              trial_type: 'free_60d',
+              trial_type: trialType,
               trial_version: 1,
               notes: 'trial_consumed_at adicionado retroativamente na migração v2',
             }
@@ -90,10 +90,14 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, note: 'já existe assinatura' });
     }
 
-    // ─── Cria o Teste Gratuito de 2 meses (60 dias) ────────────────────────────────────
+    // ─── REGRA (Tony, 13/10/2026): 60 dias para cadastros realizados em 2026 ─────────
+    // A partir de 2027 volta ao padrão de 30 dias (revisar com Tony antes de 2027).
     const today = new Date();
+    const trialDays = today.getFullYear() === 2026 ? 60 : 30;
+    const trialType = trialDays === 60 ? 'free_60d' : 'free_30d';
+    const trialLabel = trialDays === 60 ? '2 meses (60 dias)' : '30 dias';
     const trialEnd = new Date(today);
-    trialEnd.setDate(trialEnd.getDate() + 60);
+    trialEnd.setDate(trialEnd.getDate() + trialDays);
 
     const trialStart = today.toISOString().split('T')[0];
     const trialEndDate = trialEnd.toISOString().split('T')[0];
@@ -107,14 +111,14 @@ Deno.serve(async (req) => {
       trial_end: trialEndDate,
       // Marca o consumo do benefício de trial — NUNCA sobrescrever
       trial_consumed_at: trialConsumedAt,
-      trial_type: 'free_60d',
+      trial_type: trialType,
       trial_version: 1,
       amount: 0,
       payment_method: 'manual',
-      notes: 'Teste Gratuito de 2 meses (60 dias) — criado no cadastro como prestador',
+      notes: `Teste Gratuito de ${trialLabel} — criado no cadastro como prestador`,
     });
 
-    console.log(`[criarTrialPrestador] Teste Gratuito criado para ${userEmail}: ${trialStart} → ${trialEndDate}`);
+    console.log(`[criarTrialPrestador] Teste Gratuito de ${trialLabel} criado para ${userEmail}: ${trialStart} → ${trialEndDate}`);
 
     // ─── Email de boas-vindas (fire-and-forget) ───────────────────────────────
     const firstName = userName.split(' ')[0] || 'Prestador';
@@ -122,7 +126,7 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: userEmail,
         subject: '🌴 Bem-vindo(a) ao Trancoso Resolve!',
-        body: `Olá, ${firstName}!\n\nSeja muito bem-vindo(a) ao Trancoso Resolve, a plataforma que conecta os melhores profissionais aos turistas e moradores de Trancoso.\n\nSeu Teste Gratuito de 2 meses (60 dias) começa agora (até ${trialEnd.toLocaleDateString('pt-BR')}).\n\nDurante o teste você pode:\n• Criar e publicar seus serviços\n• Receber solicitações de agendamento de clientes\n• Ser encontrado pelos clientes na plataforma\n• Gerenciar sua agenda e financeiro\n\nPara aproveitar ao máximo:\n1. Complete seu perfil com foto e bio: https://trancosoresolve.com.br/MeuPerfilPrestador\n2. Cadastre seus serviços: https://trancosoresolve.com.br/MeusServicos\n3. Acesse seu painel: https://trancosoresolve.com.br/Dashboard\n\nApós o teste, continue com o Plano Profissional por apenas R$ 19,90/mês — preço de lançamento para os primeiros prestadores verificados.\n\nDúvidas? contato@tocaexperience.com.br\n\nUm abraço,\nEquipe Trancoso Resolve 🌊`,
+        body: `Olá, ${firstName}!\n\nSeja muito bem-vindo(a) ao Trancoso Resolve, a plataforma que conecta os melhores profissionais aos turistas e moradores de Trancoso.\n\nSeu Teste Gratuito de ${trialLabel} começa agora (até ${trialEnd.toLocaleDateString('pt-BR')}).\n\nDurante o teste você pode:\n• Criar e publicar seus serviços\n• Receber solicitações de agendamento de clientes\n• Ser encontrado pelos clientes na plataforma\n• Gerenciar sua agenda e financeiro\n\nPara aproveitar ao máximo:\n1. Complete seu perfil com foto e bio: https://trancosoresolve.com.br/MeuPerfilPrestador\n2. Cadastre seus serviços: https://trancosoresolve.com.br/MeusServicos\n3. Acesse seu painel: https://trancosoresolve.com.br/Dashboard\n\nApós o teste, continue com o Plano Profissional por apenas R$ 19,90/mês — preço de lançamento para os primeiros prestadores verificados.\n\nDúvidas? contato@tocaexperience.com.br\n\nUm abraço,\nEquipe Trancoso Resolve 🌊`,
         from_name: 'Trancoso Resolve',
       });
     } catch (emailErr) {

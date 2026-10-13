@@ -14,7 +14,7 @@ const SLIDES = [
     webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/b7b31595c_ce4a274d5_banner_v7_1_prestadores_mob.webp",
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
-    sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 30 dias.",
+    sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 2 meses.",
     cta: "CADASTRE-SE GRÁTIS",
     to: "/SejaPrestador",
     btn: "bg-[#25D366] hover:bg-[#1fb85a] text-[#072E1A]",

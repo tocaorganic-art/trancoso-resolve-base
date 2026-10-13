@@ -25,14 +25,14 @@ const PLANOS_PRESTADOR = [
     preco: 0,
     precoAnual: null,
     trial: null,
-    trialLabel: "30 dias grátis · sem cartão",
+    trialLabel: "2 meses grátis · sem cartão",
     destaque: false,
     cor: "from-neutral-700 to-neutral-600",
     borda: "border-border",
     icone: Shield,
     badge: null,
     features: [
-      "Perfil na plataforma por 30 dias",
+      "Perfil na plataforma por 2 meses",
       "Recebimento de pedidos de clientes",
       "Chat direto com clientes",
       "1 serviço ativo",
@@ -175,7 +175,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Como funciona o período gratuito?",
-    r: "Seu cartão é salvo no cadastro, mas nenhuma cobrança é feita durante o período grátis. Você pode cancelar antes do fim sem pagar nada.",
+    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Nenhuma cobrança é feita durante os 2 meses grátis. O pagamento só começa quando o período grátis acaba, se você quiser continuar — e pode cancelar antes sem pagar nada.",
   },
   {
     q: "Por que o Profissional tem 7 dias grátis?",
@@ -284,7 +284,7 @@ function PlanCard({ plano, anual, onCta, loading, index = 0 }) {
           {plano.preco === 0 ? (
             <>
               <p className="text-3xl font-extrabold mt-1">Grátis</p>
-              <p className="text-xs mt-1 text-white/90">por 30 dias · sem cartão de crédito</p>
+              <p className="text-xs mt-1 text-white/90">por 2 meses · sem cartão de crédito</p>
             </>
           ) : (
             <>
@@ -522,7 +522,7 @@ export default function PlanosPage() {
     <div className="bg-background min-h-screen py-12">
       <MetaTags
         title="Planos para Profissionais"
-        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito 30 dias, Profissional R$19,90/mês e Premium Elite. Sem comissão sobre serviços — você negocia direto com o cliente e fica com 100% do valor."
+        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito de 2 meses (sem cartão), Profissional R$19,90/mês e Premium Elite. Sem comissão sobre serviços — você negocia direto com o cliente e fica com 100% do valor."
       />
       <div className="container mx-auto max-w-5xl px-4">
 

@@ -88,7 +88,7 @@ const FAQ_CATEGORIES = [
     items: [
       {
         question: 'Como funciona o Teste Gratuito?',
-        answer: 'Ao se cadastrar como prestador, você tem 30 dias grátis para experimentar todos os recursos, sem precisar de cartão de crédito. Ao final, pode assinar um plano para continuar com os benefícios.'
+        answer: 'Ao se cadastrar como prestador, você tem 2 meses (60 dias) grátis para experimentar todos os recursos, sem precisar de cartão de crédito. Ao final, pode assinar um plano para continuar com os benefícios.'
       },
       {
         question: 'Como cancelar minha assinatura?',

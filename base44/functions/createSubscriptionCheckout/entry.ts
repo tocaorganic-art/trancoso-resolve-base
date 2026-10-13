@@ -89,6 +89,29 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // ─── REGRA (Tony, 13/10/2026): ordem do pagamento sem cartão no cadastro ──
+    // Enquanto o Teste Gratuito estiver em andamento, nenhuma assinatura paga
+    // pode ser iniciada (sem cobranças no período). Ordem correta: teste grátis
+    // termina → prestador escolhe assinar (método escolhido no checkout).
+    // Fail-closed: se não conseguir verificar, recusa o checkout.
+    try {
+      const todayISO = new Date().toISOString().split('T')[0];
+      const subs = await base44.asServiceRole.entities.Subscription.filter({ user_email: user.email });
+      const activeTrial = (subs || []).find((sub: { status?: string; trial_end?: string }) =>
+        sub.status === 'trial' && sub.trial_end && todayISO <= sub.trial_end
+      );
+      if (activeTrial) {
+        const endBR = (activeTrial.trial_end as string).split('-').reverse().join('/');
+        return Response.json({
+          error: 'trial_ativo',
+          message: `Seu Teste Gratuito está ativo até ${endBR}. Nenhuma cobrança é feita nesse período — você poderá assinar um plano quando ele terminar.`,
+        });
+      }
+    } catch (trialCheckErr) {
+      console.warn(`[createSubscriptionCheckout] Erro ao verificar trial ativo para ${user.email}: ${(trialCheckErr as Error).message}`);
+      return Response.json({ error: 'trial_ativo', message: 'Não foi possível verificar seu período de teste. Tente novamente em instantes.' });
+    }
+
     const { plan, billing, method, cpf_cnpj } = await req.json() as { plan?: string; billing?: string; method?: string; cpf_cnpj?: string };
     const planDef = plan ? PLANS[plan] : undefined;
     if (!planDef) {

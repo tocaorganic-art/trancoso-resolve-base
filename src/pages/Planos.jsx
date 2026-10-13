@@ -502,7 +502,7 @@ export default function PlanosPage() {
         user_email: user.email,
         method: paymentMethod,
       }));
-      if (res.data?.error === "vagas_esgotadas") {
+      if (res.data?.error === "vagas_esgotadas" || res.data?.error === "trial_ativo") {
         toast.error(res.data.message);
         return;
       }

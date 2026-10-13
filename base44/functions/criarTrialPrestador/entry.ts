@@ -9,6 +9,14 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 //   NÃO podem ser acumulados. Se o prestador já consumiu qualquer trial, não recebe novo.
 // - trial_consumed_at, trial_type e trial_version ficam registrados para sempre.
 
+// Comparacao timing-safe de segredos
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -19,7 +27,16 @@ Deno.serve(async (req) => {
     let userName = '';
 
     if (payload.data) {
-      // Chamada de automação de entity — confiável porque é interna
+      // Chamada de automação de entity — protegida por segredo compartilhado.
+      // REGRA DE SEGURANÇA (Tony, 13/10/2026): POST externo sem autenticação NÃO pode
+      // criar/marcar trial. A automação precisa enviar o header x-automation-secret
+      // igual a AUTOMATION_WEBHOOK_SECRET. Segredo ausente no ambiente => fail-closed.
+      const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET') ?? '';
+      const receivedSecret = req.headers.get('x-automation-secret') ?? '';
+      if (!(expectedSecret.length > 0 && timingSafeEqual(expectedSecret, receivedSecret))) {
+        console.warn('[criarTrialPrestador] Automacao sem segredo valido — rejeitada.');
+        return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      }
       const userData = payload.data;
       if (userData.user_type !== 'prestador') {
         return Response.json({ ok: true, note: 'user_type != prestador, ignorado' });

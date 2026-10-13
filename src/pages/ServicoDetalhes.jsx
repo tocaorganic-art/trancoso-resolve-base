@@ -294,7 +294,14 @@ export default function ServicoDetalhesPage() {
                   transition={{ duration: 0.3 }}
                   className="flex flex-col sm:flex-row gap-3 mt-6"
                 >
-                  {user && provider ? (
+                  {!user ? (
+                    // Usuário não autenticado: única situação em que o CTA deve pedir login.
+                    <motion.div className="w-full" whileHover={{ scale: 1.02 }}>
+                      <Button size="lg" className="w-full" onClick={() => base44.auth.redirectToLogin()}>
+                        Faça login para agendar
+                      </Button>
+                    </motion.div>
+                  ) : provider ? (
                     <>
                       <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                         <Button
@@ -311,9 +318,13 @@ export default function ServicoDetalhesPage() {
                       </motion.div>
                     </>
                   ) : (
-                    <motion.div className="w-full" whileHover={{ scale: 1.02 }}>
-                      <Button size="lg" className="w-full" onClick={() => base44.auth.redirectToLogin()}>
-                        Faça login para agendar
+                    // Usuário autenticado, mas este anúncio não tem prestador ativo vinculado.
+                    // NÃO usar redirectToLogin aqui: para quem já está logado isso só reabre a
+                    // sessão e leva à página padrão pós-login (ex.: /MeusPedidos vazio), criando
+                    // a falsa impressão de que o login falhou (achado AUD-CLIENTE-01 da auditoria de 22/09).
+                    <motion.div className="w-full">
+                      <Button size="lg" className="w-full" disabled variant="outline">
+                        Nenhum prestador disponível para este serviço no momento
                       </Button>
                     </motion.div>
                   )}

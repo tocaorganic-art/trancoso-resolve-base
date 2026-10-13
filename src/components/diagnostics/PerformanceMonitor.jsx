@@ -51,7 +51,7 @@ export default function PerformanceMonitor() {
       });
 
       // Log to console for debugging
-      console.log('📊 Performance Metrics:', {
+      if (import.meta.env.DEV) console.log('📊 Performance Metrics:', {
         FCP: `${Math.round(fcp)}ms`,
         LCP: `${Math.round(lcp)}ms`,
         FID: `${fid}ms`,

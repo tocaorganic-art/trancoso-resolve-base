@@ -22,7 +22,7 @@ export default function AccessLogger() {
         screen_resolution: `${window.screen.width}x${window.screen.height}`,
       };
 
-      console.log('📊 Access Log:', accessLog);
+      if (import.meta.env.DEV) console.log('📊 Access Log:', accessLog);
 
       // Em produção, enviaria para um serviço de analytics
       // fetch('/api/analytics/log', { method: 'POST', body: JSON.stringify(accessLog) });

@@ -19,7 +19,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: 'Quanto custa para usar a plataforma?',
-        answer: 'Para clientes, é totalmente gratuito buscar, solicitar e contratar serviços. Prestadores têm planos a partir do Teste Gratuito de 30 dias — confira a página de Planos para detalhes.'
+        answer: 'Para clientes, é totalmente gratuito buscar, solicitar e contratar serviços. Prestadores têm planos a partir do Teste Gratuito de 2 meses (60 dias) — confira a página de Planos para detalhes.'
       },
       {
         question: 'Em quais cidades a plataforma atende?',
@@ -73,7 +73,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: 'Quanto pago para usar a plataforma?',
-        answer: 'Você começa com o Teste Gratuito de 30 dias, sem cartão. Depois, escolha entre os planos mensais disponíveis na página de Planos, com benefícios como destaque nas buscas.'
+        answer: 'Você começa com o Teste Gratuito de 2 meses (60 dias), sem cartão. Depois, escolha entre os planos mensais disponíveis na página de Planos, com benefícios como destaque nas buscas.'
       },
       {
         question: 'Como recebo pelos serviços?',

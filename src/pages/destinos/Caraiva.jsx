@@ -8,7 +8,7 @@ import CategoryIcon from "@/lib/categoryIcons";
 import { useDestinationSeo } from "@/hooks/useDestinationSeo";
 
 const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
-const HERO_IMAGE = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=80";
+const HERO_IMAGE = "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1080&q=60";
 
 const servicos = [
   { slug: 'diarista-caraiva', label: 'Diarista', path: '/servicos/diarista-caraiva' },

@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
 
-const HERO_IMAGE = "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1600&q=80";
+const HERO_IMAGE = "https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1080&q=60";
 
 const servicos = [
   { slug: 'diarista-trancoso', label: 'Diarista', path: '/servicos/diarista-trancoso' },

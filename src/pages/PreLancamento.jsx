@@ -198,7 +198,7 @@ export default function PreLancamento() {
      updateMeta("description", "name", "Pré-lançamento Trancoso Resolve: Oferta exclusiva para os 50 primeiros prestadores. R$ 29,90/mês + 60 dias grátis. Vagas limitadas!");
      updateMeta("og:title", "property", "Oferta de Lançamento | Trancoso Resolve");
      updateMeta("og:description", "property", "Seja um dos 50 primeiros prestadores de Trancoso Resolve. R$ 29,90/mês + 60 dias grátis. Vagas limitadas — garantir a sua agora!");
-     updateMeta("og:image", "property", "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/dfe6ee67e_generated_image.png");
+     updateMeta("og:image", "property", "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/5d597cf94_prelancamento.webp");
      updateMeta("og:type", "property", "website");
      updateMeta("og:url", "property", window.location.href);
      updateMeta("twitter:card", "name", "summary_large_image");
@@ -273,7 +273,7 @@ export default function PreLancamento() {
     <div style={{
       fontFamily: "'Inter', system-ui, -apple-system, sans-serif",
       color: "#fff",
-      background: `linear-gradient(170deg, rgba(7,28,55,0.85) 0%, rgba(4,18,40,0.90) 60%, rgba(10,30,50,0.95) 100%), url('https://media.base44.com/images/public/68eb21726a9614db4a82ba99/dfe6ee67e_generated_image.png') center/cover no-repeat fixed`,
+      background: `linear-gradient(170deg, rgba(7,28,55,0.85) 0%, rgba(4,18,40,0.90) 60%, rgba(10,30,50,0.95) 100%), url('https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/5d597cf94_prelancamento.webp') center/cover no-repeat fixed`,
       overflowX: "hidden",
     }}>
       <style>{`

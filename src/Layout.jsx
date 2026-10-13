@@ -12,7 +12,6 @@ import {
 
 import Logo from "./components/brand/Logo";
 import RoutePreloader from "./components/optimization/RoutePreloader";
-import ImagePreloader from "./components/optimization/ImagePreloader";
 import PerformanceMonitor from "./components/optimization/PerformanceMonitor";
 import { Button } from "@/components/ui/button";
 import { useQuery } from '@tanstack/react-query';
@@ -250,7 +249,6 @@ export default function Layout({ children, currentPageName }) {
       <ErrorBoundary>
         <SkipToContent />
         <RoutePreloader />
-        <ImagePreloader />
         <PerformanceMonitor />
         <PageViewTracker />
         <WebVitalsCollector />
@@ -574,7 +572,6 @@ export default function Layout({ children, currentPageName }) {
     <ErrorBoundary>
       <SkipToContent />
       <RoutePreloader />
-      <ImagePreloader />
       <PerformanceMonitor />
       <PageViewTracker />
       <AccessLogger />

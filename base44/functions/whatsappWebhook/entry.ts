@@ -1,6 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
 
-const DEFAULT_VERIFY_TOKEN = Deno.env.get('WHATSAPP_VERIFY_TOKEN') ?? 'trancoso_resolve_2026';
 const CODE_VERSION = 'v5.4.0-tria';
 
 const IGNORED_NUMBERS = ['5573998283579', '55739998283579', '13368103670', '3368103670'];
@@ -67,8 +66,12 @@ async function enviarRespostaWABA(fromPhone: string, mensagem: string): Promise<
 Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
-    const verifyToken = Deno.env.get('WHATSAPP_WEBHOOK_VERIFY_TOKEN') || DEFAULT_VERIFY_TOKEN;
+    const verifyToken = Deno.env.get('WHATSAPP_VERIFY_TOKEN');
     if (req.method === 'GET') {
+      if (!verifyToken) {
+        console.error('[whatsappWebhook] WHATSAPP_VERIFY_TOKEN não configurado — verificação recusada (fail-closed)');
+        return new Response('Forbidden', { status: 403 });
+      }
       const mode = url.searchParams.get('hub.mode');
       const token = url.searchParams.get('hub.verify_token');
       const challenge = url.searchParams.get('hub.challenge');

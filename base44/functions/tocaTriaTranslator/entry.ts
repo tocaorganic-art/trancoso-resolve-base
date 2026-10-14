@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { quotaCheckAndBump } from './security.ts';
 
 // Cache em memória para traduções (máx 500 entradas)
 const translationCache = new Map();
@@ -44,12 +45,21 @@ async function getTranslation(base44: any, text: string, sourceLanguage: string,
 }
 
 Deno.serve(async (req) => {
+  // Tradução via LLM: cotada por usuário autenticado (200/dia); anônimo tem cota
+  // global diária curta para conter abuso sem quebrar o assistente.
+  const base44 = createClientFromRequest(req);
+  const user = await base44.auth.me().catch(() => null);
+  const quotaKey = user?.email ? `toca-translator|${user.email}` : 'toca-translator|anon';
+  const limit = user?.email ? 200 : 30;
+  const quota = await quotaCheckAndBump(base44, quotaKey, limit).catch(() => ({ allowed: true }));
+  if (!quota.allowed) {
+    return Response.json({ error: 'Limite diário de traduções atingido.' }, { status: 429 });
+  }
   if (req.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
   }
 
   try {
-    const base44 = createClientFromRequest(req);
     const { text, sourceLanguage, targetLanguage } = await req.json();
 
     if (!text || !sourceLanguage || !targetLanguage) {

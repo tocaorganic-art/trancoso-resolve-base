@@ -486,7 +486,13 @@ Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, r
 
 ### Regras críticas de SEO
 
-- **URL canônica:** sempre usar `https://www.trancosoresolve.com.br` (com `www`)
+- **URL canônica:** sempre usar `https://trancosoresolve.com.br` (**sem** `www`) — ⚠️ **correção de
+  14/10/2026**: a entrada anterior deste arquivo (24/06/2026) dizia "sempre com www", mas isso
+  ficou desatualizado. Confirmado ao vivo via `curl -I`: `https://www.trancosoresolve.com.br`
+  responde **301** redirecionando para `https://trancosoresolve.com.br` (sem www) — o domínio sem
+  `www` é o primário real em produção. O `index.html` do repo e todo o código-fonte (hooks, páginas
+  de destino, páginas de serviço x cidade) já usam consistentemente a versão sem `www` — não é
+  necessário nem correto adicionar `www` em canonical/og:url/JSON-LD.
 - **Canonical das páginas de destino:** `/trancoso`, `/arraial-dajuda`, `/porto-seguro`, `/caraiva` (sem prefixo `/destinos/`)
 - **Sitemap:** regenerar com `npm run sitemap` após adicionar novas páginas
 - **Novos hooks disponíveis:** `useSEO` (genérico), `useDestinationSeo` (destinos), `SchemaMarkup` (JSON-LD por componente)

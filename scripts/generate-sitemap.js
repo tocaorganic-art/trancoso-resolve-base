@@ -55,7 +55,7 @@ const routes = [
   { path: '/destinos/reveillon-trancoso', priority: '0.7', changefreq: 'monthly' },
   { path: '/guides/morar-em-trancoso',    priority: '0.7', changefreq: 'monthly' },
   { path: '/prestador-fundador', priority: '0.7', changefreq: 'monthly' },
-  { path: '/investidores',       priority: '0.3', changefreq: 'monthly' },
+  // /investidores não entra no sitemap: a página é noIndex: true (src/pages/Investidores.jsx:34)
   { path: '/participar',          priority: '0.8', changefreq: 'weekly' },
   { path: '/costa-do-descobrimento', priority: '0.8', changefreq: 'monthly' },
 ];

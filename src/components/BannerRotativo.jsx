@@ -9,9 +9,9 @@ const BASE = "https://base44.app/api/apps/68eb21726a9614db4a82ba99/files/mp/publ
 const SLIDES = [
   {
     id: "prestadores",
-    img: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/501480410_banner_v8_1_desk.png",
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/143638e7a_banner_v8_1_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/754f59466_banner_v8_1_mob.webp",
+    img: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/501480410_banner_v8_1_desk.png",
+    webpDesk: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/143638e7a_banner_v8_1_desk.webp",
+    webpMob: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/754f59466_banner_v8_1_mob.webp",
     alt: "A vitrine oficial de profissionais e serviços, técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
     sub: "Técnicos, especialistas em hospitalidade e consultores autônomos da Costa do Descobrimento. Os 100 primeiros entram grátis por 2 meses.",
@@ -21,9 +21,9 @@ const SLIDES = [
   },
   {
     id: "empresas",
-    img: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/18b1c0145_banner_v8_2_desk.png",
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/84751126b_banner_v8_2_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/e652c8db6_banner_v8_2_mob.webp",
+    img: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/18b1c0145_banner_v8_2_desk.png",
+    webpDesk: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/84751126b_banner_v8_2_desk.webp",
+    webpMob: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/e652c8db6_banner_v8_2_mob.webp",
     alt: "Parceiros oficiais para sua pousada, manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
     sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",
@@ -33,9 +33,9 @@ const SLIDES = [
   },
   {
     id: "clientes",
-    img: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/11af5df4d_banner_v8_3_desk.png",
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/edca8f68d_banner_v8_3_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/78cd35e70_banner_v8_3_mob.webp",
+    img: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/11af5df4d_banner_v8_3_desk.png",
+    webpDesk: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/edca8f68d_banner_v8_3_desk.webp",
+    webpMob: "https://media.base44.com/images/public/6a0754c82a7c1aae19211408/78cd35e70_banner_v8_3_mob.webp",
     alt: "Precisa de um especialista na Costa do Descobrimento? Dentistas, chefs particulares, eletricistas e limpeza premium",
     titulo: "PRECISA DE UM ESPECIALISTA NA COSTA DO DESCOBRIMENTO?",
     sub: "Dentistas, chefs particulares, eletricistas, limpeza premium e muito mais. Profissionais verificados.",

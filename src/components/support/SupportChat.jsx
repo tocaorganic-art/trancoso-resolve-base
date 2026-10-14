@@ -16,7 +16,7 @@ Clientes encontram prestadores verificados → agendam serviços → pagam com s
 CATEGORIAS DE SERVIÃ‡O: Limpeza, GarÃ§om, Pedreiro, Jardinagem, BabÃ¡, Eletricista, Encanador, Pintor, Cozinheiro.
 
 PAGAMENTOS:
-- Método: Mercado Pago (cartão, Pix)
+- Método: Asaas (cartão, Pix)
 - Custódia: valor fica retido por 48h após o serviço
 - Divisão: 100% para o prestador (sem comissão da plataforma)
 - Liberação: automática após 48h ou quando cliente confirmar conclusão
@@ -50,7 +50,7 @@ TRANCOSO LOCAL:
 const FAQ_CACHE = {
   'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviço na data e hora desejada\n3. **Pague** com cartão — o valor fica em custódia segura por 48h\n4. **Confirme** a conclusão para liberar o pagamento ao prestador\n\nPrecisa de mais alguma informação?`,
   'como agendar': `Para agendar um serviço:\n\n1. Acesse o perfil do prestador desejado\n2. Clique em **Agendar Serviço**\n3. Preencha data, horário e localização\n4. O prestador receberá a solicitação e confirmará\n\nGostaria de buscar um prestador agora?`,
-  'como funciona o pagamento': `O pagamento é **100% seguro**:\n\n- Aceito via **Mercado Pago** (cartão, Pix)\n- Valor fica em **custódia por 48h** após o serviço\n- O prestador recebe **100%** do valor (sem comissão)\n- Cancelamento **gratuito** antes da confirmação\n\nAlguma dúvida sobre pagamentos?`,
+  'como funciona o pagamento': `O pagamento é **100% seguro**:\n\n- Aceito via **Asaas** (cartão, Pix)\n- Valor fica em **custódia por 48h** após o serviço\n- O prestador recebe **100%** do valor (sem comissão)\n- Cancelamento **gratuito** antes da confirmação\n\nAlguma dúvida sobre pagamentos?`,
   'quero ser um prestador': `Para se cadastrar como prestador:\n\n1. Clique em **"Seja um Prestador"** no menu superior\n2. Preencha seus dados e especialidade\n3. Envie um documento (CNH ou RG) para verificação\n4. Configure sua conta bancária no painel Financeiro\n\nQuer saber mais sobre como funciona para prestadores?`,
 };
 

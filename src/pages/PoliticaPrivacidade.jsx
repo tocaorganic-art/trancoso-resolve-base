@@ -34,7 +34,7 @@ export default function PoliticaPrivacidade() {
           <ul className="list-disc pl-6 space-y-2">
             <li>Informações de cadastro: nome, e-mail, telefone, endereço</li>
             <li>Documentos de identificação (CPF, RG) para verificação</li>
-            <li>Dados de pagamento (via Mercado Pago - nunca armazenados diretamente)</li>
+            <li>Dados de pagamento (via Asaas - nunca armazenados diretamente)</li>
             <li>Dados de navegação e uso da plataforma (via Google Analytics)</li>
             <li>Comunicações e mensagens entre usuários</li>
           </ul>
@@ -54,7 +54,7 @@ export default function PoliticaPrivacidade() {
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
           <h2 className="text-2xl font-bold text-orange-400">4. Armazenamento e Segurança</h2>
           <p>
-            Seus dados são armazenados em servidores seguros com criptografia HTTPS em trânsito. Documentos de identificação são armazenados em buckets privados com acesso restrito. Mensagens de pagamento são processadas via Mercado Pago e nunca armazenadas em nossos servidores.
+            Seus dados são armazenados em servidores seguros com criptografia HTTPS em trânsito. Documentos de identificação são armazenados em buckets privados com acesso restrito. Mensagens de pagamento são processadas via Asaas e nunca armazenadas em nossos servidores.
           </p>
         </motion.section>
 

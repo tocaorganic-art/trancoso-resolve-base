@@ -1,16 +1,27 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller, escapeHtml } from '../_shared/security.js';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     const payload = await req.json();
 
-    const alert = payload.data;
-    const alertId = payload.event?.entity_id;
+    // Segurança: sem segredo de automação/admin, o alerta é resolvido pelo ID no banco.
+    const isInternal = await isTrustedCaller(req, base44, payload);
+    const alertId = payload.data?.id || payload.event?.entity_id;
+    let alert: any = payload.data;
+    if (alertId) {
+      const rows = await base44.asServiceRole.entities.MaintenanceAlert.filter({ id: alertId });
+      if (rows?.[0]) alert = rows[0];
+    }
 
     if (!alert) {
       return Response.json({ error: 'No alert data in payload' }, { status: 400 });
     }
+    if (!isInternal && alert === payload.data) {
+      return Response.json({ error: 'Registro não encontrado' }, { status: 401 });
+    }
+    const esc = escapeHtml;
 
     const priorityEmoji = ({
       'Crítica': '🔴',

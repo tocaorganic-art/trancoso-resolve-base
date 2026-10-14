@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller } from '../_shared/security.js';
 
 Deno.serve(async (req) => {
   try {
@@ -12,7 +13,18 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'No data in payload' }, { status: 400 });
     }
 
-    const request = data;
+    // Segurança: sem segredo de automação/admin, a solicitação é resolvida pelo
+    // ID no banco — destinatário e conteúdo vêm do registro real.
+    const isInternal = await isTrustedCaller(req, base44, payload);
+    const recordId = data?.id || payload?.event?.entity_id;
+    let request: any = data;
+    if (recordId) {
+      const rows = await base44.asServiceRole.entities.ServiceRequest.filter({ id: recordId });
+      if (rows?.[0]) request = rows[0];
+    }
+    if (!isInternal && request === data) {
+      return Response.json({ error: 'Registro não encontrado' }, { status: 401 });
+    }
 
     // Find provider to get their email
     const providers = await base44.asServiceRole.entities.ServiceProvider.filter({ id: request.provider_id });

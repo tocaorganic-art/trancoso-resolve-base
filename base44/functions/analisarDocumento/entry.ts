@@ -9,7 +9,6 @@ interface AnalisarDocumentoRequest {
 const ALLOWED_DOC_HOSTS = [
   "media.base44.com",
   "files.base44.com",
-  "upload.wikimedia.org",
 ];
 
 /**
@@ -81,6 +80,20 @@ Deno.serve(async (req: Request) => {
     const serviceProviderId = (verificacao as any).service_provider_id;
     if (!serviceProviderId) {
       return Response.json({ error: "service_provider_id não encontrado na verificação" }, { status: 400 });
+    }
+
+    // Gate de IDOR: só o dono do cadastro (ou admin) pode analisar documento e
+    // sobrescrever dados de identidade (CWE-639).
+    const providerRows = await base44.asServiceRole.entities.ServiceProvider.filter({ id: serviceProviderId });
+    const providerRecord = providerRows?.[0];
+    if (!providerRecord) {
+      return Response.json({ error: "Prestador não encontrado" }, { status: 404 });
+    }
+    const canAnalyze = (user as any).role === 'admin'
+      || (providerRecord as any).created_by === user.email
+      || (providerRecord as any).email === user.email;
+    if (!canAnalyze) {
+      return Response.json({ error: "Você só pode analisar documentos do próprio cadastro" }, { status: 403 });
     }
 
     // 1. Baixar a imagem do documento (URL validada contra SSRF)

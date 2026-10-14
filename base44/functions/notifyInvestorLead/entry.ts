@@ -1,21 +1,27 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller } from '../_shared/security.js';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     const body = await req.json();
 
-    let lead = body.data || null;
-    if (!lead) {
-      const leadId = body.leadId || body.event?.entity_id;
-      if (!leadId) {
-        return Response.json({ error: 'leadId is required' }, { status: 400 });
-      }
-      const leads = await base44.asServiceRole.entities.InvestorLead.filter({ id: leadId });
-      lead = leads?.[0];
+    // Segurança: payload `data` só é confiável com segredo de automação ou admin.
+    // Caso contrário, o lead é resolvido SEMPRE pelo ID no banco — destinatário e
+    // conteúdo vêm do registro real, nunca do chamador.
+    const isInternal = await isTrustedCaller(req, base44, body);
+    const leadId = body.leadId || body.event?.entity_id || body.data?.id;
+    let lead: any = null;
+    if (leadId) {
+      const rows = await base44.asServiceRole.entities.InvestorLead.filter({ id: leadId });
+      lead = rows?.[0] || null;
     }
+    if (!lead && isInternal && body.data) lead = body.data;
 
     if (!lead) {
+      if (!isInternal) {
+        return Response.json({ error: 'Não autorizado' }, { status: 401 });
+      }
       return Response.json({ error: 'Lead not found' }, { status: 404 });
     }
 

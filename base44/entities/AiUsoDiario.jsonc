@@ -1,0 +1,31 @@
+{
+  "name": "AiUsoDiario",
+  "type": "object",
+  "properties": {
+    "chave": {
+      "type": "string",
+      "description": "Chave de cota: user_email|YYYY-MM-DD ou marcador interno (ex: perf-alerts-email|2026-10-14)"
+    },
+    "usos": {
+      "type": "integer",
+      "default": 1,
+      "description": "Contagem de usos no dia para esta chave"
+    }
+  },
+  "required": [
+    "chave",
+    "usos"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

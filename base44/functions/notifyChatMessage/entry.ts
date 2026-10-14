@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller } from '../_shared/security.js';
 
 /**
  * Notificação por e-mail de nova mensagem no chat.
@@ -16,7 +17,19 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, note: 'no data' });
     }
 
-    const message = data;
+    // Segurança: sem segredo de automação/admin, a mensagem é resolvida pelo ID
+    // no banco — destinatário e conteúdo vêm do registro real.
+    const isInternal = await isTrustedCaller(req, base44, payload);
+    const messageId = data?.id || payload?.event?.entity_id;
+    let message: any = data;
+    if (messageId) {
+      const rows = await base44.asServiceRole.entities.ChatMessage.filter({ id: messageId });
+      if (rows?.[0]) message = rows[0];
+    }
+    if (!isInternal && message === data) {
+      return Response.json({ error: 'Registro não encontrado' }, { status: 401 });
+    }
+
     const { conversation_id, sender_name, sender_role, content } = message;
 
     if (!conversation_id || !content) {

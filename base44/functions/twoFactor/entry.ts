@@ -9,7 +9,10 @@ const LOCKOUT_MINUTES = 15;
 // We'll store code data in a temporary entity via base44 service role.
 
 function generateCode() {
-  return Math.floor(100000 + Math.random() * 900000).toString();
+  // PRNG criptográfico (CWE-338): crypto.getRandomValues, não Math.random.
+  const buf = new Uint32Array(1);
+  crypto.getRandomValues(buf);
+  return String(100000 + (buf[0] % 900000));
 }
 
 function maskEmail(email: string) {
@@ -44,12 +47,13 @@ Deno.serve(async (req) => {
       const code = generateCode();
       const expiresAt = now + VALID_MINUTES * 60 * 1000;
 
-      // Store code on user profile
+      // Store code on user profile; novo código invalida janela de verificação anterior
       await base44.auth.updateMe({
         two_fa_code: code,
         two_fa_expires_at: expiresAt,
         two_fa_attempts: 0,
         two_fa_lockout_until: null,
+        two_fa_verified_until: null,
       });
 
       // Send email
@@ -99,8 +103,14 @@ Deno.serve(async (req) => {
         return Response.json({ error: `Código incorreto. ${MAX_ATTEMPTS - attempts} tentativa(s) restante(s).`, attemptsLeft: MAX_ATTEMPTS - attempts }, { status: 400 });
       }
 
-      // Success — clear 2FA fields
-      await base44.auth.updateMe({ two_fa_code: null, two_fa_expires_at: null, two_fa_attempts: 0, two_fa_lockout_until: null });
+      // Success — clear 2FA fields and register a server-side verified window (10 min)
+      await base44.auth.updateMe({
+        two_fa_code: null,
+        two_fa_expires_at: null,
+        two_fa_attempts: 0,
+        two_fa_lockout_until: null,
+        two_fa_verified_until: now + 10 * 60 * 1000,
+      });
 
       return Response.json({ success: true });
     }

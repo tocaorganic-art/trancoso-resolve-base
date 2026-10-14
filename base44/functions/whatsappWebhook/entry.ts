@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
 
-const DEFAULT_VERIFY_TOKEN = Deno.env.get('WHATSAPP_VERIFY_TOKEN') ?? 'trancoso_resolve_2026';
+// Verify token agora vem exclusivamente do ambiente (fail-closed) — sem default embutido.
 const CODE_VERSION = 'v5.4.0-tria';
 
 const IGNORED_NUMBERS = ['5573998283579', '55739998283579', '13368103670', '3368103670'];
@@ -53,6 +53,20 @@ function getReplyByIntencao(intencao: Intencao, messageText: string): string {
   }
 }
 
+function hex(bytes: ArrayBuffer): string {
+  return [...new Uint8Array(bytes)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Valida a assinatura HMAC SHA-256 do webhook (X-Hub-Signature-256) — igual a processarWebhookWhatsApp.
+async function validateSignature(rawBody: Uint8Array, signature: string | null): Promise<boolean> {
+  const secret = Deno.env.get('FB_APP_SECRET');
+  if (!secret || !signature?.startsWith('sha256=')) return false;
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const expected = hex(await crypto.subtle.sign('HMAC', key, rawBody));
+  const received = signature.slice('sha256='.length);
+  return expected.length === received.length && [...expected].every((c, i) => c === received[i]);
+}
+
 async function enviarRespostaWABA(fromPhone: string, mensagem: string): Promise<void> {
   const token = Deno.env.get('token-id-whatsapp') || '';
   const phoneId = Deno.env.get('phone-number-id-whatsapp') || '';
@@ -67,16 +81,24 @@ async function enviarRespostaWABA(fromPhone: string, mensagem: string): Promise<
 Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
-    const verifyToken = Deno.env.get('WHATSAPP_WEBHOOK_VERIFY_TOKEN') || DEFAULT_VERIFY_TOKEN;
+    // Fail-closed: sem token de verificação configurado, o handshake do Meta é recusado.
+    const verifyToken = Deno.env.get('WHATSAPP_WEBHOOK_VERIFY_TOKEN') || Deno.env.get('FB_VERIFY_TOKEN') || '';
     if (req.method === 'GET') {
       const mode = url.searchParams.get('hub.mode');
       const token = url.searchParams.get('hub.verify_token');
       const challenge = url.searchParams.get('hub.challenge');
-      if (mode === 'subscribe' && token === verifyToken) return new Response(challenge || '', { status: 200 });
+      if (verifyToken && mode === 'subscribe' && token === verifyToken) return new Response(challenge || '', { status: 200 });
       return new Response('Forbidden', { status: 403 });
     }
     if (req.method === 'POST') {
-      const body = await req.json();
+      // Segurança: valida a assinatura do Meta antes de processar qualquer payload.
+      const rawBody = new Uint8Array(await req.arrayBuffer());
+      const signatureValid = await validateSignature(rawBody, req.headers.get('x-hub-signature-256'));
+      if (!signatureValid) {
+        console.warn('[whatsappWebhook] assinatura inválida ou ausente — payload rejeitado');
+        return Response.json({ error: 'Invalid signature' }, { status: 401 });
+      }
+      const body = JSON.parse(new TextDecoder().decode(rawBody));
       const base44 = createClientFromRequest(req);
       const entry = body?.entry?.[0];
       const change = entry?.changes?.[0];

@@ -21,6 +21,13 @@ const CAMPAIGN_ID = "24222579748";
 export default async function (req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
+
+    // Segurança: conta Google Ads só pode ser lida/mutada por admin autenticado.
+    const user = await base44.auth.me();
+    if (!(user as any)?.role || (user as any).role !== 'admin') {
+      return Response.json({ ok: false, error: { message: 'Acesso restrito a administradores.' } }, { status: 403 });
+    }
+
     const body = await req.json().catch(() => ({}) as { action?: string; params?: Record<string, any> });
     const action = body.action;
     const params = body.params || {};

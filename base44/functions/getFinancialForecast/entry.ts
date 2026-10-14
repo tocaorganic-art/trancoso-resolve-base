@@ -47,8 +47,12 @@ const generateForecast = (transactions: any[]) => {
 };
 
 Deno.serve(async (req) => {
+    // CORS restrito ao próprio app (sem '*')
+    const ALLOWED_ORIGINS = ['https://trancosoresolve.com.br', 'https://www.trancosoresolve.com.br', 'https://trancoso-resolve-app.base44.app'];
+    const requestOrigin = req.headers.get('origin') || '';
+    const corsOrigin = ALLOWED_ORIGINS.includes(requestOrigin) ? requestOrigin : 'https://trancosoresolve.com.br';
     const corsHeaders = {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': corsOrigin,
         'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
     };
     if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders });

@@ -5,7 +5,8 @@ const DEFAULT_ENDPOINT = 'https://trancosoresolve-2533-resource.services.ai.azur
 const DEFAULT_MODEL = 'trancoso-phi4-mini';
 const DEFAULT_SYSTEM_PROMPT = `Você é o Toca, assistente virtual especializado em serviços em Trancoso, Bahia.
 Ajude usuários a encontrar prestadores de serviço, entender a plataforma e tirar dúvidas sobre serviços locais.
-Seja cordial, objetivo e responda sempre em português brasileiro.`;
+Seja cordial, objetivo e responda sempre em português brasileiro.
+Nunca use travessão (—), meia risca (–) nem hífen como separador de frase nas respostas. Use vírgula, ponto, dois pontos ou parênteses.`;
 
 function chatEndpoint(projectEndpoint: string): string {
   const endpoint = projectEndpoint.replace(/\/+$/, '');

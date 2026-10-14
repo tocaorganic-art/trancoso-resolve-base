@@ -9,6 +9,7 @@ import LazyImage from "@/components/ui/LazyImage";
 import { ArrowLeft, Star, Clock, AlertCircle, Loader2, CalendarIcon } from "lucide-react";
 import BookingForm from "@/components/booking/BookingForm";
 import StartChatButton from "@/components/chat/StartChatButton";
+import { fetchPublicProviderById } from "@/lib/publicProviders";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -33,10 +34,7 @@ export default function ServicoDetalhesPage() {
 
   const { data: provider } = useQuery({
     queryKey: ['serviceProvider', service?.provider_id],
-    queryFn: async () => {
-      const providers = await base44.entities.ServiceProvider.filter({ id: service.provider_id });
-      return providers?.[0];
-    },
+    queryFn: () => fetchPublicProviderById(service.provider_id),
     enabled: !!service?.provider_id,
   });
 

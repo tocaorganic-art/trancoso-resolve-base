@@ -21,6 +21,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import OnboardingTour from "@/components/onboarding/OnboardingTour";
 import { useApp } from "@/contexts/AppContext";
+import { fetchAllPublicProviders } from "@/lib/publicProviders";
 
 const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
 
@@ -552,12 +553,12 @@ export default function HomePage() {
 
   const { data: providers } = useQuery({
     queryKey: ['serviceProviders'],
-    queryFn: () => base44.entities.ServiceProvider.list('-rating', 50),
+    queryFn: () => fetchAllPublicProviders(),
   });
 
   const { data: allProviders } = useQuery({
     queryKey: ['allProviders'],
-    queryFn: () => base44.entities.ServiceProvider.list('-created_date', 200),
+    queryFn: () => fetchAllPublicProviders(),
     initialData: [],
     staleTime: 5 * 60 * 1000,
   });

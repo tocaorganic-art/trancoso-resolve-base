@@ -1,6 +1,11 @@
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller } from './security.ts';
 import { createClientFromRequest } from "npm:@base44/sdk@0.8.40";
 
 export default async function fixLoop(req: Request): Promise<Response> {
+  if (!(await isTrustedCaller(req, createClientFromRequest(req), null))) {
+    return Response.json({ error: "Nao autorizado" }, { status: 401 });
+  }
   const token = process.env["token-id-whatsapp"];
   const wabaId = process.env["waba-id-whatsapp"];
   const appId = process.env["meta-app-id-whatsapp"];

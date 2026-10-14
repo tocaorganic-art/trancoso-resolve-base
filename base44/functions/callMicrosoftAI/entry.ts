@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { quotaCheckAndBump } from './security.ts';
 
 const DEFAULT_ENDPOINT = 'https://trancosoresolve-2533-resource.services.ai.azure.com/api/projects/trancosoresolve-2533';
 const DEFAULT_MODEL = 'trancoso-phi4-mini';
@@ -28,6 +29,10 @@ Deno.serve(async (req) => {
     const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
     const user = isInternal ? null : await base44.auth.me();
     if (!isInternal && !user) return Response.json({ error: 'Usuário não autenticado' }, { status: 401 });
+    if (!isInternal) {
+      const q = await quotaCheckAndBump(base44, `azure-ai|${user!.email}`, 40);
+      if (!q.allowed) return Response.json({ error: 'Limite diário de uso da IA atingido. Tente novamente amanhã.' }, { status: 429 });
+    }
 
     const apiKey = Deno.env.get('AZURE_FOUNDRY_API_KEY') || Deno.env.get('AZURE_AI_API_KEY');
     if (!apiKey) {

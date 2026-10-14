@@ -32,7 +32,7 @@ Deno.serve(async (req) => {
 
     const typeEmoji = alert.alert_type === 'Urgente' ? '🚨' : '🔧';
 
-    const subject = `${typeEmoji} ${priorityEmoji} Alerta de Manutenção ${alert.alert_type?.toUpperCase()} — ${alert.property_name}`;
+    const subject = `${typeEmoji} ${priorityEmoji} Alerta de Manutenção ${esc(alert.alert_type?.toUpperCase())} — ${esc(alert.property_name)}`;
 
     const body = `
 <h2>${typeEmoji} Novo Alerta de Manutenção Criado</h2>
@@ -40,15 +40,15 @@ Deno.serve(async (req) => {
 <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
   <tr style="background: #f1f5f9;">
     <td style="padding: 8px 12px; font-weight: bold; width: 40%;">🏠 Propriedade</td>
-    <td style="padding: 8px 12px;">${alert.property_name || '—'}</td>
+    <td style="padding: 8px 12px;">${esc(alert.property_name) || '—'}</td>
   </tr>
   <tr>
     <td style="padding: 8px 12px; font-weight: bold; background: #f8fafc;">🔧 Equipamento / Área</td>
-    <td style="padding: 8px 12px;">${alert.equipment || '—'}</td>
+    <td style="padding: 8px 12px;">${esc(alert.equipment) || '—'}</td>
   </tr>
   <tr style="background: #f1f5f9;">
     <td style="padding: 8px 12px; font-weight: bold;">📋 Tipo de Alerta</td>
-    <td style="padding: 8px 12px;">${alert.alert_type || '—'}</td>
+    <td style="padding: 8px 12px;">${esc(alert.alert_type) || '—'}</td>
   </tr>
   <tr>
     <td style="padding: 8px 12px; font-weight: bold; background: #f8fafc;">⚡ Prioridade</td>
@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
   ${alert.description ? `
   <tr style="background: #f1f5f9;">
     <td style="padding: 8px 12px; font-weight: bold;">📝 Descrição</td>
-    <td style="padding: 8px 12px;">${alert.description}</td>
+    <td style="padding: 8px 12px;">${esc(alert.description)}</td>
   </tr>` : ''}
   ${alert.predicted_failure_date ? `
   <tr>
@@ -72,13 +72,13 @@ Deno.serve(async (req) => {
   ${alert.ai_confidence ? `
   <tr>
     <td style="padding: 8px 12px; font-weight: bold; background: #f8fafc;">🤖 Confiança IA</td>
-    <td style="padding: 8px 12px;">${alert.ai_confidence}%</td>
+    <td style="padding: 8px 12px;">${esc(alert.ai_confidence)}%</td>
   </tr>` : ''}
 </table>
 
 <br/>
 <p style="color: #64748b; font-size: 13px;">
-  Alerta ID: ${alertId || '—'} • Trancoso Resolve Manutenção
+  Alerta ID: ${esc(alertId) || '—'} • Trancoso Resolve Manutenção
 </p>
     `.trim();
 

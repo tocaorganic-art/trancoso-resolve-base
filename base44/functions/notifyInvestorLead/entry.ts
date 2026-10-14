@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { isTrustedCaller } from './security.ts';
+import { maskName } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -75,7 +76,7 @@ Consentimento LGPD: ${lead.consent ? 'Sim' : 'Não'}
 `,
     });
 
-    console.log(`[notifyInvestorLead] Lead ${lead.id} notificado: ${lead.name}`);
+    console.log(`[notifyInvestorLead] Lead ${lead.id} notificado: ${maskName(lead.name)}`);
     return Response.json({ success: true, message: 'Notifications sent' });
   } catch (error) {
     console.error('[notifyInvestorLead] Error:', error);

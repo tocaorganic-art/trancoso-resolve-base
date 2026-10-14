@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from './piiMask.ts';
 
 // ─── MIGRAÇÃO ASAAS (12/09/2026) ──────────────────────────────────────────────
 // Substitui a integração Mercado Pago (problema na conta jurídica do MP).
@@ -108,7 +109,7 @@ Deno.serve(async (req) => {
         });
       }
     } catch (trialCheckErr) {
-      console.warn(`[createSubscriptionCheckout] Erro ao verificar trial ativo para ${user.email}: ${(trialCheckErr as Error).message}`);
+      console.warn(`[createSubscriptionCheckout] Erro ao verificar trial ativo para ${maskEmail(user.email)}: ${(trialCheckErr as Error).message}`);
       return Response.json({ error: 'trial_ativo', message: 'Não foi possível verificar seu período de teste. Tente novamente em instantes.' });
     }
 
@@ -131,14 +132,14 @@ Deno.serve(async (req) => {
           effectiveTrialDays = 0;
           console.log(
             `[createSubscriptionCheckout] Trial anterior consumido em ${existingSub.trial_consumed_at}. ` +
-            `Removendo trial do checkout para ${user.email}.`
+            `Removendo trial do checkout para ${maskEmail(user.email)}.`
           );
         }
       } catch (checkErr) {
         // Fail-closed: se não conseguiu verificar, não concede trial extra
         effectiveTrialDays = 0;
         console.warn(
-          `[createSubscriptionCheckout] Erro ao verificar trial anterior para ${user.email}: ` +
+          `[createSubscriptionCheckout] Erro ao verificar trial anterior para ${maskEmail(user.email)}: ` +
           `${(checkErr as Error).message}. Prosseguindo sem trial.`
         );
       }
@@ -221,7 +222,7 @@ Deno.serve(async (req) => {
     }
 
     const subscription = subRes.data;
-    console.log(`Checkout Asaas criado: ${subscription.id} para plano ${plan} (user: ${user.email}, trialDays: ${effectiveTrialDays})`);
+    console.log(`Checkout Asaas criado: ${subscription.id} para plano ${plan} (user: ${maskEmail(user.email)}, trialDays: ${effectiveTrialDays})`);
 
     // ─── Registra consumo do trial no banco ──────────────────────────────────
     if (effectiveTrialDays > 0) {

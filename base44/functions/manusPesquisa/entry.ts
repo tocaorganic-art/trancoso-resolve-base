@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { quotaCheckAndBump } from './security.ts';
+import { maskEmail } from './piiMask.ts';
 
 const MANUS_BASE_URL = "https://api.manus.im";
 const MANUS_API_KEY = Deno.env.get("APY_KEY_MANUS");
@@ -30,7 +31,7 @@ Deno.serve(async (req) => {
       const q = await quotaCheckAndBump(base44, `manus|${user.email}`, 5);
       if (!q.allowed) return Response.json({ error: 'Limite diário de pesquisas atingido.' }, { status: 429 });
 
-      console.log(`[Manus] Criando tarefa para usuário ${user.email}: ${prompt}`);
+      console.log(`[Manus] Criando tarefa para usuário ${maskEmail(user.email)} (prompt com ${prompt.length} caracteres)`);
 
       const res = await fetch(`${MANUS_BASE_URL}/v1/tasks`, {
         method: "POST",
@@ -42,10 +43,10 @@ Deno.serve(async (req) => {
       });
 
       const data = await res.json();
-      console.log(`[Manus] Tarefa criada:`, JSON.stringify(data));
+      console.log(`[Manus] Tarefa criada: id=${data.id} status=${data.status}`);
 
       if (!res.ok) {
-        console.error(`[Manus] Erro ao criar tarefa:`, data);
+        console.error(`[Manus] Erro ao criar tarefa:`, data.message || `HTTP ${res.status}`);
         return Response.json({ error: data.message || 'Erro ao criar tarefa' }, { status: res.status });
       }
 
@@ -62,7 +63,7 @@ Deno.serve(async (req) => {
       const data = await res.json();
 
       if (!res.ok) {
-        console.error(`[Manus] Erro ao buscar tarefa ${task_id}:`, data);
+        console.error(`[Manus] Erro ao buscar tarefa ${task_id}:`, data.message || `HTTP ${res.status}`);
         return Response.json({ error: data.message || 'Erro ao buscar status' }, { status: res.status });
       }
 

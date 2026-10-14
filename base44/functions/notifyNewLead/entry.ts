@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { isTrustedCaller } from './security.ts';
+import { maskName } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -86,7 +87,7 @@ ${lead.type === 'prestador'
 `,
     });
 
-    console.log(`[notifyNewLead] v4-gate-local Lead ${lead.id} notificado: ${lead.name} (${lead.type || 'cliente'})`);
+    console.log(`[notifyNewLead] v4-gate-local Lead ${lead.id} notificado: ${maskName(lead.name)} (${lead.type || 'cliente'})`);
     return Response.json({ success: true, message: 'Notifications sent' });
   } catch (error) {
     console.error('[notifyNewLead] Error:', error);

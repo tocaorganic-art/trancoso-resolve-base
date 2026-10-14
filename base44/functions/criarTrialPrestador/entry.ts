@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from './piiMask.ts';
 
 // Chamada pela automação de entity (User update com user_type='prestador')
 // ou diretamente do CadastroTipo após set do user_type.
@@ -92,7 +93,7 @@ Deno.serve(async (req) => {
       // Assinatura existe mas sem trial_consumed_at (criada antes desta feature)
       // → migrar: marcar trial_consumed_at agora para evitar acúmulo futuro
       if (sub.plan === 'trial' || sub.status === 'trial') {
-        console.log(`[criarTrialPrestador] Assinatura trial existente sem trial_consumed_at. Migrando ${userEmail}.`);
+        console.log(`[criarTrialPrestador] Assinatura trial existente sem trial_consumed_at. Migrando ${maskEmail(userEmail)}.`);
         try {
           await base44.asServiceRole.entities.Subscription.update(
             (existing[0] as { id: string }).id,
@@ -110,7 +111,7 @@ Deno.serve(async (req) => {
       }
 
       // Assinatura existe com plano pago → não cria trial
-      console.log(`[criarTrialPrestador] Já existe assinatura (${sub.plan}/${sub.status}) para ${userEmail}. Ignorado.`);
+      console.log(`[criarTrialPrestador] Já existe assinatura (${sub.plan}/${sub.status}) para ${maskEmail(userEmail)}. Ignorado.`);
       return Response.json({ ok: true, note: 'já existe assinatura' });
     }
 
@@ -136,7 +137,7 @@ Deno.serve(async (req) => {
       notes: `Teste Gratuito de ${trialLabel} — criado no cadastro como prestador`,
     });
 
-    console.log(`[criarTrialPrestador] Teste Gratuito de ${trialLabel} criado para ${userEmail}: ${trialStart} → ${trialEndDate}`);
+    console.log(`[criarTrialPrestador] Teste Gratuito de ${trialLabel} criado para ${maskEmail(userEmail)}: ${trialStart} → ${trialEndDate}`);
 
     // ─── Email de boas-vindas (fire-and-forget) ───────────────────────────────
     const firstName = userName.split(' ')[0] || 'Prestador';

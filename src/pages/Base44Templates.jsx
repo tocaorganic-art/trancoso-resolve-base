@@ -45,7 +45,7 @@ const COMMAND_TEMPLATE = `{
   "status_after_completion": "✅ Descreva aqui o estado final esperado (ex.: Todos os critérios validados, sistema pronto para produção)."
 }`;
 
-const REPORT_TEMPLATE = `# 📊 RELATÓRIO EXECUTIVO – {{command_id}}
+const REPORT_TEMPLATE = `# 📊 RELATÓRIO EXECUTIVO | {{command_id}}
 
 **Projeto:** {{project}}  
 **Ambiente:** {{environment}}  
@@ -137,13 +137,13 @@ const REPORT_TEMPLATE = `# 📊 RELATÓRIO EXECUTIVO – {{command_id}}
 
 ---
 
-*Gerado automaticamente pelo sistema Base 44 AI Codificado – Política de Comando Único Versão 1.0 (Responsável: Tony).*`;
+*Gerado automaticamente pelo sistema Base 44 AI Codificado, Política de Comando Único Versão 1.0 (Responsável: Tony).*`;
 
-const DOCUMENTATION = `# 📚 Templates Base44 - Guia de Uso
+const DOCUMENTATION = `# 📚 Templates Base44 | Guia de Uso
 
 ## Visão Geral
 
-Sistema **Base44 Comando Único Codificado** - Templates padronizados para criar comandos e relatórios.
+Sistema **Base44 Comando Único Codificado**, Templates padronizados para criar comandos e relatórios.
 
 ## Workflow Completo
 
@@ -255,7 +255,7 @@ function Base44TemplatesContent() {
             Templates Base44
           </h1>
           <p className="text-muted-foreground">
-            Sistema de Comando Único Codificado - Templates e Documentação
+            Sistema de Comando Único Codificado, Templates e Documentação
           </p>
         </div>
 
@@ -334,7 +334,7 @@ function Base44TemplatesContent() {
                   <h4 className="font-semibold text-foreground mb-2">Sobre este template:</h4>
                   <p className="text-sm text-muted-foreground">
                     Este é o template Markdown usado pela IA para gerar relatórios de execução.
-                    Você não precisa preenchê-lo manualmente - ele é gerado automaticamente após
+                    Você não precisa preenchê-lo manualmente, ele é gerado automaticamente após
                     a execução de um comando Base44.
                   </p>
                 </div>

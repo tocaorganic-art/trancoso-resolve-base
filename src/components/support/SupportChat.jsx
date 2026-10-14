@@ -6,14 +6,14 @@ import { useQuery } from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
 import StickyChatWidget from './StickyChatWidget';
 
-// â”€â”€ Base de conhecimento RAG inline (evita alucinaÃ§Ãµes, reduz latÃªncia) â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Base de conhecimento RAG inline (evita alucinações, reduz latência) ────────
 const KNOWLEDGE_BASE = `
-PLATAFORMA TRANCOSO RESOLVE â€” BASE DE CONHECIMENTO OFICIAL
+PLATAFORMA TRANCOSO RESOLVE | BASE DE CONHECIMENTO OFICIAL
 
 COMO FUNCIONA:
 Clientes encontram prestadores verificados → agendam serviços → pagam com segurança (custódia 48h) → confirmam conclusão → pagamento liberado ao prestador.
 
-CATEGORIAS DE SERVIÃ‡O: Limpeza, GarÃ§om, Pedreiro, Jardinagem, BabÃ¡, Eletricista, Encanador, Pintor, Cozinheiro.
+CATEGORIAS DE SERVIÇO: Limpeza, Garçom, Pedreiro, Jardinagem, Babá, Eletricista, Encanador, Pintor, Cozinheiro.
 
 PAGAMENTOS:
 - Método: Asaas (cartão, Pix)
@@ -21,17 +21,17 @@ PAGAMENTOS:
 - Divisão: 100% para o prestador (sem comissão da plataforma)
 - Liberação: automática após 48h ou quando cliente confirmar conclusão
 
-CANCELAMENTO: Gratuito antes do prestador confirmar a solicitaÃ§Ã£o.
+CANCELAMENTO: Gratuito antes do prestador confirmar a solicitação.
 
 PRESTADORES:
-- Cadastro: menu superior â†’ "Seja um Prestador"
-- VerificaÃ§Ã£o: envio de documento (CNH/RG) obrigatÃ³rio
-- Recebimento: apÃ³s configurar conta bancÃ¡ria no painel Financeiro
+- Cadastro: menu superior → "Seja um Prestador"
+- Verificação: envio de documento (CNH/RG) obrigatório
+- Recebimento: após configurar conta bancária no painel Financeiro
 
 CLIENTES:
-- Pedidos: seÃ§Ã£o "Meus Pedidos" no menu
-- AvaliaÃ§Ãµes: disponÃ­veis apÃ³s conclusÃ£o de cada serviÃ§o
-- ComunicaÃ§Ã£o: chat interno com o prestador
+- Pedidos: seção "Meus Pedidos" no menu
+- Avaliações: disponíveis após conclusão de cada serviço
+- Comunicação: chat interno com o prestador
 
 SEGURANÇA:
 - Todos os prestadores passam por verificação de identidade
@@ -41,12 +41,12 @@ SEGURANÇA:
 SUPORTE HUMANO: suporte@trancosoresolve.com.br
 
 TRANCOSO LOCAL:
-- Praias: Coqueiros, Nativos, Rio da Barra, TaÃ­pe, Itapororoca, Patimirim, Itaquena, Espelho
-- Gastronomia: El Gordo, Capim Santo, Silvana & Cia, Maritaca, JacarÃ© do Brasil
-- Ponto cultural: Quadrado HistÃ³rico de Trancoso
+- Praias: Coqueiros, Nativos, Rio da Barra, Taípe, Itapororoca, Patimirim, Itaquena, Espelho
+- Gastronomia: El Gordo, Capim Santo, Silvana & Cia, Maritaca, Jacaré do Brasil
+- Ponto cultural: Quadrado Histórico de Trancoso
 `;
 
-// â”€â”€ Cache de respostas para FAQs frequentes (reduz custos de API) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Cache de respostas para FAQs frequentes (reduz custos de API) ──────────────
 const FAQ_CACHE = {
   'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviço na data e hora desejada\n3. **Pague** com cartão, o valor fica em custódia segura por 48h\n4. **Confirme** a conclusão para liberar o pagamento ao prestador\n\nPrecisa de mais alguma informação?`,
   'como agendar': `Para agendar um serviço:\n\n1. Acesse o perfil do prestador desejado\n2. Clique em **Agendar Serviço**\n3. Preencha data, horário e localização\n4. O prestador receberá a solicitação e confirmará\n\nGostaria de buscar um prestador agora?`,
@@ -62,23 +62,23 @@ const findCachedAnswer = (text) => {
   return null;
 };
 
-// â”€â”€ Filtro de conteÃºdo (LGPD + seguranÃ§a) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Filtro de conteúdo (LGPD + segurança) ─────────────────────────────────────
 const BLOCKED_PATTERNS = [
-  /cpf|rg|cnpj|senha|password|credit.?card|cartÃ£o/i,
-  /nÃºmero.?do.?cartÃ£o|cvv|validade.?cartÃ£o/i,
+  /cpf|rg|cnpj|senha|password|credit.?card|cartão/i,
+  /número.?do.?cartão|cvv|validade.?cartão/i,
 ];
 
 const containsSensitiveData = (text) =>
   BLOCKED_PATTERNS.some(p => p.test(text));
 
-const SYSTEM_PROMPT = `VocÃª Ã© a **Toca**, Assistente IA da **Trancoso Resolve**. Responda APENAS com base na base de conhecimento fornecida. Se nÃ£o souber, diga honestamente e indique suporte@trancosoresolve.com.br.
+const SYSTEM_PROMPT = `Você é a **Toca**, Assistente IA da **Trancoso Resolve**. Responda APENAS com base na base de conhecimento fornecida. Se não souber, diga honestamente e indique suporte@trancosoresolve.com.br.
 
-TOM: Profissional, amigÃ¡vel, empÃ¡tico, baiano-chic. Respostas concisas (mÃ¡x 3 parÃ¡grafos).
-LIMITES: Nunca forneÃ§a conselhos legais, mÃ©dicos ou financeiros pessoais. Nunca solicite dados sensÃ­veis (CPF, senha, dados de cartÃ£o).
-LGPD: Se o usuÃ¡rio compartilhar dados pessoais desnecessÃ¡rios, oriente gentilmente a nÃ£o fazÃª-lo.
-ENCERRAMENTO: Sempre pergunte se hÃ¡ mais alguma dÃºvida.`;
+TOM: Profissional, amigável, empático, baiano-chic. Respostas concisas (máx 3 parágrafos).
+LIMITES: Nunca forneça conselhos legais, médicos ou financeiros pessoais. Nunca solicite dados sensíveis (CPF, senha, dados de cartão).
+LGPD: Se o usuário compartilhar dados pessoais desnecessários, oriente gentilmente a não fazê-lo.
+ENCERRAMENTO: Sempre pergunte se há mais alguma dúvida.`;
 
-// â”€â”€ Componentes de UI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Componentes de UI ──────────────────────────────────────────────────────────
 function TypingIndicator() {
   return (
     <div className="flex justify-start items-end gap-2">
@@ -136,12 +136,12 @@ function MessageBubble({ msg }) {
 
 const quickActions = [
   'Como funciona a plataforma?',
-  'Como agendar um serviÃ§o?',
+  'Como agendar um serviço?',
   'Como funciona o pagamento?',
   'Quero ser um prestador',
 ];
 
-// â”€â”€ Componente principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Componente principal ───────────────────────────────────────────────────────
 export default function SupportChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
@@ -154,7 +154,7 @@ export default function SupportChat() {
     {
       id: '1',
       role: 'assistant',
-      content: 'OlÃ¡! ðŸ‘‹ Sou a **Toca**, assistente inteligente da Trancoso Resolve. Como posso ajudar vocÃª hoje?\n\nPosso tirar dÃºvidas sobre a plataforma, agendamentos, pagamentos, prestadores e muito mais.',
+      content: 'Olá! 👋 Sou a **Toca**, assistente inteligente da Trancoso Resolve. Como posso ajudar você hoje?\n\nPosso tirar dúvidas sobre a plataforma, agendamentos, pagamentos, prestadores e muito mais.',
       timestamp: new Date().toISOString(),
     }
   ]);
@@ -168,7 +168,7 @@ export default function SupportChat() {
     queryFn: () => base44.auth.me(),
   });
 
-  // Busca pedidos do usuÃ¡rio para contexto transacional
+  // Busca pedidos do usuário para contexto transacional
   const { data: userRequests } = useQuery({
     queryKey: ['userRequests', user?.id],
     queryFn: () => base44.entities.ServiceRequest.filter({ client_email: user?.email }, '-created_date', 3),
@@ -188,38 +188,38 @@ export default function SupportChat() {
   }, [isOpen]);
 
   const buildContextualPrompt = useCallback((userText, historyText, imageUrl) => {
-    // Contexto transacional: Ãºltimos pedidos do usuÃ¡rio logado
+    // Contexto transacional: últimos pedidos do usuário logado
     const requestsContext = userRequests?.length > 0
-      ? `\nPEDIDOS RECENTES DO USUÃRIO:\n${userRequests.map(r =>
-          `- ServiÃ§o #${r.id?.slice(-6)}: Status "${r.status}", Data ${r.date || 'nÃ£o definida'}`
+      ? `\nPEDIDOS RECENTES DO USUÁRIO:\n${userRequests.map(r =>
+          `- Serviço #${r.id?.slice(-6)}: Status "${r.status}", Data ${r.date || 'não definida'}`
         ).join('\n')}`
       : '';
 
     const userContext = user
-      ? `\nUSUÃRIO LOGADO: ${user.full_name} (${user.email})`
-      : '\nUSUÃRIO: nÃ£o autenticado';
+      ? `\nUSUÁRIO LOGADO: ${user.full_name} (${user.email})`
+      : '\nUSUÁRIO: não autenticado';
 
     return `${SYSTEM_PROMPT}
 
 --- BASE DE CONHECIMENTO ---
 ${KNOWLEDGE_BASE}${userContext}${requestsContext}
 
---- HISTÃ“RICO DA CONVERSA ---
+--- HISTÓRICO DA CONVERSA ---
 ${historyText}
 
-${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` : ''}Responda Ã  Ãºltima mensagem de forma concisa e Ãºtil.`;
+${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}Responda à última mensagem de forma concisa e útil.`;
   }, [user, userRequests]);
 
   const sendMessage = useCallback(async (text, imageUrl = null) => {
     const content = text || inputMessage;
     if (!content.trim() || isTyping) return;
 
-    // Filtro de conteÃºdo â€” LGPD
+    // Filtro de conteúdo — LGPD
     if (containsSensitiveData(content)) {
       const warnMsg = {
         id: Date.now().toString(),
         role: 'assistant',
-        content: 'âš ï¸ Por seguranÃ§a, **nÃ£o compartilhe dados sensÃ­veis** como CPF, nÃºmero de cartÃ£o ou senhas no chat. Para questÃµes que envolvam dados pessoais, entre em contato por suporte@trancosoresolve.com.br.',
+        content: '⚠️ Por segurança, **não compartilhe dados sensíveis** como CPF, número de cartão ou senhas no chat. Para questões que envolvam dados pessoais, entre em contato por suporte@trancosoresolve.com.br.',
         timestamp: new Date().toISOString(),
       };
       setMessages(prev => [...prev, warnMsg]);
@@ -241,10 +241,10 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
     setIsTyping(true);
     setConversationHistory(newHistory);
 
-    // Cache de FAQ â€” evita chamada de API desnecessÃ¡ria
+    // Cache de FAQ — evita chamada de API desnecessária
     const cached = findCachedAnswer(content);
     if (cached && !imageUrl) {
-      await new Promise(r => setTimeout(r, 600)); // simula latÃªncia natural
+      await new Promise(r => setTimeout(r, 600)); // simula latência natural
       const assistantMsg = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -258,7 +258,7 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
     }
 
     const historyText = newHistory.slice(-10).map(m =>
-      `${m.role === 'user' ? 'UsuÃ¡rio' : 'Toca'}: ${m.content}`
+      `${m.role === 'user' ? 'Usuário' : 'Toca'}: ${m.content}`
     ).join('\n');
 
     const prompt = buildContextualPrompt(content, historyText, imageUrl);
@@ -268,7 +268,7 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
       ...(imageUrl ? { file_urls: [imageUrl] } : {}),
     });
 
-    const responseText = typeof result === 'string' ? result : (result?.response || 'Desculpe, nÃ£o consegui processar sua mensagem. Tente novamente ou contate suporte@trancosoresolve.com.br.');
+    const responseText = typeof result === 'string' ? result : (result?.response || 'Desculpe, não consegui processar sua mensagem. Tente novamente ou contate suporte@trancosoresolve.com.br.');
 
     const assistantMsg = {
       id: (Date.now() + 1).toString(),
@@ -284,7 +284,7 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
     if (!isOpen) setUnreadCount(prev => prev + 1);
   }, [inputMessage, isTyping, conversationHistory, isOpen, buildContextualPrompt]);
 
-  // Multimodalidade â€” upload de imagem
+  // Multimodalidade — upload de imagem
   const handleImageUpload = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -315,7 +315,7 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
 
   return (
     <>
-      {/* Backdrop opcional - apenas visual, nÃ£o bloqueador */}
+      {/* Backdrop opcional - apenas visual, não bloqueador */}
       <div
         className="fixed inset-0 z-40 bg-black/0 transition-opacity duration-300"
         onClick={() => setIsOpen(false)}
@@ -330,10 +330,10 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
               <Bot className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-sm">Toca â€” Assistente IA</p>
+              <p className="font-semibold text-sm">Toca | Assistente IA</p>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs text-white/80">Online â€¢ IA avanÃ§ada</span>
+                <span className="text-xs text-white/80">Online • IA avançada</span>
               </div>
             </div>
           </div>
@@ -387,7 +387,7 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
             {/* Input */}
             <div className="p-3 bg-white border-t border-slate-100">
               <div className="flex gap-2 items-center">
-                {/* Upload de imagem â€” multimodalidade */}
+                {/* Upload de imagem — multimodalidade */}
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -426,7 +426,7 @@ ${imageUrl ? `[O usuÃ¡rio enviou uma imagem para anÃ¡lise: ${imageUrl}]\n` :
               </div>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <ShieldCheck className="w-3 h-3 text-slate-400" />
-                <p className="text-xs text-slate-400">Protegido por LGPD Â· Trancoso Resolve</p>
+                <p className="text-xs text-slate-400">Protegido por LGPD · Trancoso Resolve</p>
               </div>
             </div>
           </>

@@ -200,7 +200,7 @@ export default function GeradorDeImagemPage() {
 
             {/* Templates */}
             <div>
-              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Prompts prontos — clique para usar</p>
+              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2">Prompts prontos, clique para usar</p>
               <div className="grid grid-cols-2 gap-2">
                 {TEMPLATE_PROMPTS.map(t => (
                   <button

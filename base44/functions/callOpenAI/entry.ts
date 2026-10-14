@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
         if (!messages || !Array.isArray(messages) || messages.length === 0) {
             return Response.json({ error: 'Mensagens inválidas', details: 'O campo messages é obrigatório e deve ser um array não vazio.' }, { status: 400 });
         }
-        const openAIMessages = [{ role: "system", content: systemPrompt || "Você é o Toca, assistente virtual especializado em serviços em Trancoso, Bahia." }, ...messages];
+        const openAIMessages = [{ role: "system", content: systemPrompt || "Você é o Toca, assistente virtual especializado em serviços em Trancoso, Bahia. Nunca use travessão (—), meia risca (–) nem hífen como separador de frase nas respostas. Use vírgula, ponto, dois pontos ou parênteses." }, ...messages];
         const completionConfig: Record<string, unknown> = { model: "gpt-4o-mini", messages: openAIMessages, temperature: 0.7, max_tokens: 1000 };
         if (response_json_schema) {
             completionConfig.response_format = { type: "json_schema", json_schema: { name: "response", strict: true, schema: response_json_schema } };

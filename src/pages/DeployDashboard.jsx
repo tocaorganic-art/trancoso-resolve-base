@@ -84,7 +84,7 @@ function DeployDashboardContent() {
   };
 
   const generateMarkdownReport = () => {
-    return `# 📊 Relatório de Deploy - Trancoso Experience
+    return `# 📊 Relatório de Deploy | Trancoso Experience
 
 **Data:** ${new Date().toLocaleString('pt-BR')}  
 **Ambiente:** Production  

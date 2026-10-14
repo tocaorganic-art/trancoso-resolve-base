@@ -36,6 +36,10 @@ const routes = [
   // revisado por grep no código-fonte (src/pages/Admin*, FilaVerificacao, RelatorioDiario).
   '/FilaVerificacao', '/RelatorioDiario', '/AdminAntecedentes', '/AdminPagamentos',
   '/admin/campanha-regional', '/admin/marketing', '/admin/metricas', '/admin/seo',
+  // Páginas registradas em src/pages.config.js (rota gerada pelo Base44 a partir
+  // do nome do arquivo) que faltavam nesta lista.
+  '/Base44Templates', '/DeployDashboard', '/DiagnosticosCompletos', '/GeradorDeImagem',
+  '/Manual',
 ];
 
 const viewports = [

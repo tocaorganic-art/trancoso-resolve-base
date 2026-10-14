@@ -79,7 +79,7 @@ const ManualContent = ({ title, items }) => (
 
 function ManualSEO() {
   useEffect(() => {
-    document.title = "Manual e FAQ — Trancoso Resolve | Guia Completo da Plataforma";
+    document.title = "Manual e FAQ | Trancoso Resolve | Guia Completo da Plataforma";
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
     meta.content = "Manual completo do Trancoso Resolve. Tire dúvidas sobre como contratar, cadastrar serviços, verificação de prestadores e muito mais.";
@@ -94,7 +94,7 @@ function ManualSEO() {
 
     let ogTitle = document.querySelector('meta[property="og:title"]');
     if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
-    ogTitle.content = 'Manual e FAQ — Trancoso Resolve | Guia Completo da Plataforma';
+    ogTitle.content = 'Manual e FAQ | Trancoso Resolve | Guia Completo da Plataforma';
 
     const schemaId = 'schema-manual';
     const existing = document.getElementById(schemaId);

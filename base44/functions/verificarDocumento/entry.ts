@@ -11,7 +11,9 @@ Deno.serve(async (req) => {
 
     const { prestadorId, documentUrl, selfieUrl } = await req.json();
 
-    const provider = await base44.entities.ServiceProvider.get(prestadorId);
+    // asServiceRole: a autorização é feita explicitamente abaixo (canVerify), não pela RLS
+    // de leitura de ServiceProvider (restrita a created_by/admin — ver PR fix/auditoria-p0-2).
+    const provider = await base44.asServiceRole.entities.ServiceProvider.get(prestadorId);
     const canVerify = user.role === 'admin'
       || provider?.created_by === user.email
       || provider?.email === user.email;

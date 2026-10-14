@@ -122,29 +122,10 @@ export default function WhatsAppCallButton({ provider, className = "", size = "d
     retry: false,
   });
 
-  // Verifica assinatura do prestador na renderização
-  const { data: subscription, isLoading: checkingSubscription } = useQuery({
-    queryKey: ['providerSubscription', provider?.id, provider?.created_by],
-    queryFn: async () => {
-      if (!provider?.created_by) return null;
-      const today = new Date().toISOString().split('T')[0];
-      const subs = await base44.entities.Subscription.filter({ user_email: provider.created_by });
-      return subs?.find(sub => {
-        if (sub.status === 'active') {
-          if (sub.next_billing_date && today > sub.next_billing_date) return false;
-          return true;
-        }
-        if (sub.status === 'trial') {
-          return sub.trial_end && today <= sub.trial_end;
-        }
-        return false;
-      }) || null;
-    },
-    enabled: !!provider?.created_by && userLoaded && !!user,
-    staleTime: 60000,
-  });
-
-  const isProviderActive = !!subscription && (provider?.status_verificacao === 'aprovado' || !provider?.status_verificacao);
+  // Assinatura ativa: calculada no backend (listPublicProviders), já que o cliente não tem
+  // mais acesso de leitura a ServiceProvider.created_by (RLS restrita a dono/admin).
+  const checkingSubscription = false;
+  const isProviderActive = !!provider?.has_active_subscription && (provider?.status_verificacao === 'aprovado' || !provider?.status_verificacao);
 
   const handleCall = useCallback(async () => {
     if (!user) {

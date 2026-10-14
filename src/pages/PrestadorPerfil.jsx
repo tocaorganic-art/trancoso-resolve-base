@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import StarRating from "@/components/reviews/StarRating";
 import StartChatButton from "@/components/chat/StartChatButton";
+import { fetchPublicProviderById } from "@/lib/publicProviders";
 
 const ServiceLocationMap = lazy(() => import("@/components/map/ServiceLocationMap"));
 import WhatsAppCallButton from "@/components/whatsapp/WhatsAppCallButton";
@@ -58,10 +59,7 @@ export default function PrestadorPerfilPage() {
 
   const { data: provider, isLoading } = useQuery({
     queryKey: ['serviceProvider', providerId],
-    queryFn: async () => {
-      const providers = await base44.entities.ServiceProvider.list();
-      return providers.find(p => p.id === providerId);
-    },
+    queryFn: () => fetchPublicProviderById(providerId),
     enabled: !!providerId,
   });
 

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
 import { createPageUrl } from "@/utils";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,7 @@ import { motion, AnimatePresence, useInView, useMotionValue, animate } from "fra
 import {
   Star, MapPin, CheckCircle, ArrowRight, Shield, Clock, Loader2, ChevronDown
 } from "lucide-react";
+import { fetchAllPublicProviders } from "@/lib/publicProviders";
 
 /* ─── Counter animado ────────────────────────────────────────────── */
 function Counter({ target, suffix = '' }) {
@@ -348,11 +348,10 @@ export default function ServicoLandingPage() {
 
   const { data: providers, isLoading } = useQuery({
     queryKey: ['providers-by-occupation', config.occupation],
-    queryFn: () => base44.entities.ServiceProvider.filter({}, '-rating', 20),
-    select: (data) => data?.filter(p =>
-      p.occupation === config.occupation &&
-      p.status_verificacao !== 'reprovado'
-    ).slice(0, 9),
+    queryFn: async () => {
+      const result = await fetchAllPublicProviders({ occupation: config.occupation });
+      return result.filter(p => p.status_verificacao !== 'reprovado').slice(0, 9);
+    },
   });
 
   const availableCount = providers?.filter(p => p.availability === 'Disponível').length || 0;

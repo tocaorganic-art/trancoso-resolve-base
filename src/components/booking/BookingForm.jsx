@@ -86,29 +86,17 @@ export default function BookingForm({ provider, services, user, onCancel }) {
     if (!data.location.lat || !data.location.lng) return toast.error("Selecione uma localização no mapa.");
     if (!data.location.address.trim()) return toast.error("Preencha a rua/avenida.");
     if (!user?.id || !user?.email) return toast.error("Erro: usuário não autenticado. Faça login novamente.");
-    
-    // Buscar email do prestador antes de criar a solicitação
-    const createRequest = async () => {
-      try {
-        // Buscar ServiceProvider pelo ID para pegar o email
-        const providers = await base44.entities.ServiceProvider.filter({ id: provider.id });
-        const providerEmail = providers[0]?.email || providers[0]?.created_by || provider.email;
-        
-        mutation.mutate({
-          ...data,
-          client_id: user.id,
-          client_email: user.email,
-          provider_id: provider.id,
-          provider_email: providerEmail,
-          date: data.date ? format(data.date, "yyyy-MM-dd") : null,
-          time: data.time || null,
-        });
-      } catch (error) {
-        toast.error("Erro ao buscar dados do prestador.");
-      }
-    };
-    
-    createRequest();
+
+    // provider_email é preenchido server-side (notifyProviderBooking) logo após a criação —
+    // o cliente não tem mais acesso de leitura ao ServiceProvider (RLS restrita a dono/admin).
+    mutation.mutate({
+      ...data,
+      client_id: user.id,
+      client_email: user.email,
+      provider_id: provider.id,
+      date: data.date ? format(data.date, "yyyy-MM-dd") : null,
+      time: data.time || null,
+    });
   };
 
   if (success) {

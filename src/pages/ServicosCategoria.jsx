@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import ProviderGrid from "@/components/providers/ProviderGrid";
 import FilterBar from "@/components/providers/FilterBar";
+import { fetchAllPublicProviders } from "@/lib/publicProviders";
 
 const slugMap = {
   'Limpeza': 'limpeza-trancoso',
@@ -55,8 +56,8 @@ export default function ServicosCategoriaPage() {
     queryKey: ['serviceProviders'],
     queryFn: async () => {
       try {
-        const result = await base44.entities.ServiceProvider.filter({ availability: { '$ne': 'Indisponível' } }, '-rating');
-        return Array.isArray(result) ? result : [];
+        const result = await fetchAllPublicProviders();
+        return Array.isArray(result) ? result.filter(p => p.availability !== 'Indisponível') : [];
       } catch (err) {
         console.error('ServiceProvider query error:', err);
         return [];

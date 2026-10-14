@@ -3,7 +3,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
-  filter: vi.fn(),
   invoke: vi.fn(),
   me: vi.fn(),
 }));
@@ -11,7 +10,6 @@ const mocks = vi.hoisted(() => ({
 vi.mock('@/api/base44Client', () => ({
   base44: {
     auth: { me: mocks.me, redirectToLogin: vi.fn() },
-    entities: { Subscription: { filter: mocks.filter } },
     functions: { invoke: mocks.invoke },
   },
 }));
@@ -25,7 +23,6 @@ describe('WhatsAppCallButton', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.me.mockResolvedValue({ id: 'cliente-1', phone: '73999990000' });
-    mocks.filter.mockResolvedValue([{ status: 'active', next_billing_date: '2099-01-01' }]);
   });
 
   afterEach(cleanup);
@@ -42,7 +39,7 @@ describe('WhatsAppCallButton', () => {
         <WhatsAppCallButton
           provider={{
             id: 'prestador-1',
-            created_by: 'prestador@example.com',
+            has_active_subscription: true,
             full_name: 'Pessoa Prestadora',
             status_verificacao: 'aprovado',
           }}

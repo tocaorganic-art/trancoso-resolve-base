@@ -43,6 +43,18 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, note: 'no provider email' });
     }
 
+    // Backfill: o cliente não tem mais acesso de leitura ao ServiceProvider (RLS restrita a
+    // dono/admin — ver PR fix/auditoria-p0-2), então provider_email não vem mais preenchido
+    // na criação da solicitação. Preenchemos aqui, server-side, para o prestador conseguir ver
+    // o pedido em Minha Agenda (RLS de ServiceRequest depende de data.provider_email).
+    if (request.provider_email !== providerEmail) {
+      await base44.asServiceRole.entities.ServiceRequest.update(request.id, {
+        provider_email: providerEmail,
+      }).catch((e: Error) => {
+        console.warn('Falha ao backfillar provider_email:', e.message);
+      });
+    }
+
     // Find service details
     const services = await base44.asServiceRole.entities.ServiceListing.filter({ id: request.service_id });
     const service = services?.[0];

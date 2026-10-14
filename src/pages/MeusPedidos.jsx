@@ -12,6 +12,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReviewModal from '@/components/reviews/ReviewModal';
 import StatusPagamentoBadge from '@/components/pagamento/StatusPagamentoBadge';
+import { fetchAllPublicProviders } from '@/lib/publicProviders';
 
 const statusConfig = {
   Pendente: { color: "bg-amber-100 text-amber-800 border-amber-200", text: "Pendente" },
@@ -118,7 +119,7 @@ export default function MeusPedidosPage() {
 
   const { data: providers } = useQuery({
     queryKey: ['allProviders'],
-    queryFn: () => base44.entities.ServiceProvider.list(),
+    queryFn: () => fetchAllPublicProviders(),
     initialData: [],
   });
 

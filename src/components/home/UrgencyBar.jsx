@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { X, ArrowRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { base44 } from "@/api/base44Client";
+import { fetchAllPublicProviders } from "@/lib/publicProviders";
 
 export default function UrgencyBar({ user }) {
   const [dismissed, setDismissed] = useState(false);
@@ -13,7 +13,7 @@ export default function UrgencyBar({ user }) {
 
   const { data: allProviders } = useQuery({
     queryKey: ['allProvidersUrgency'],
-    queryFn: () => base44.entities.ServiceProvider.list('-created_date', 200),
+    queryFn: () => fetchAllPublicProviders(),
     initialData: [],
     staleTime: 5 * 60 * 1000,
   });

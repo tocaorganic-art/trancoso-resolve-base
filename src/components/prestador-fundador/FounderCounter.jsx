@@ -70,7 +70,7 @@ export default function FounderCounter({ variant = "hero" }) {
             ? "Disponibilidade temporariamente indisponível"
             : stats.open
               ? `${stats.remaining} vagas restantes de ${stats.limit}`
-              : "Vagas encerradas — 100 fundadores selecionados"}
+              : "Vagas encerradas: 100 fundadores selecionados"}
       </div>
     );
   }
@@ -124,7 +124,7 @@ export default function FounderCounter({ variant = "hero" }) {
         {loading
           ? "Consultando disponibilidade..."
           : stats.open
-            ? "Contagem real e auditável — apenas prestadores verificados e aprovados."
+            ? "Contagem real e auditável, apenas prestadores verificados e aprovados."
             : "As 100 vagas foram preenchidas. A promoção está encerrada."}
       </p>
     </motion.div>

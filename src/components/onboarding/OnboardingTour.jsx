@@ -54,7 +54,7 @@ export default function OnboardingTour() {
                   Baixe o App<br />Trancoso Resolve
                 </h2>
                 <p className="text-amber-100 text-sm leading-relaxed">
-                  Acesso direto a profissionais verificados, atualizações em tempo real e notificações do seu pedido — tudo na palma da mão.
+                  Acesso direto a profissionais verificados, atualizações em tempo real e notificações do seu pedido, tudo na palma da mão.
                 </p>
               </div>
 

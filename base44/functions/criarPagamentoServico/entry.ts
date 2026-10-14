@@ -174,7 +174,7 @@ Deno.serve(async (req) => {
         billingType: 'PIX',
         value: amountBrl,
         dueDate: today,
-        description: `Trancoso Resolve - Serviço #${request_id}`,
+        description: `Trancoso Resolve: Serviço #${request_id}`,
         externalReference: request_id,
       }),
     });

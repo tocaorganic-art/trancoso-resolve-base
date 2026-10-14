@@ -12,15 +12,15 @@ const PRICE_UNITS = ["hora", "dia", "serviço", "projeto", "sob consulta"];
 
 // Sugestões de preço médio de mercado por categoria (R$)
 const PRICE_SUGGESTIONS = {
-  "Limpeza":     { hourly: 35, label: "R$ 30–40/hora" },
-  "Garçom":      { hourly: 50, label: "R$ 45–55/hora" },
-  "Pedreiro":    { hourly: 60, label: "R$ 55–70/hora" },
-  "Jardinagem":  { hourly: 40, label: "R$ 35–45/hora" },
-  "Babá":        { hourly: 30, label: "R$ 25–35/hora" },
-  "Eletricista": { hourly: 80, label: "R$ 70–100/hora" },
-  "Encanador":   { hourly: 80, label: "R$ 70–100/hora" },
-  "Pintor":      { hourly: 55, label: "R$ 50–65/hora" },
-  "Cozinheiro":  { hourly: 70, label: "R$ 60–80/hora" },
+  "Limpeza":     { hourly: 35, label: "R$ 30 a 40/hora" },
+  "Garçom":      { hourly: 50, label: "R$ 45 a 55/hora" },
+  "Pedreiro":    { hourly: 60, label: "R$ 55 a 70/hora" },
+  "Jardinagem":  { hourly: 40, label: "R$ 35 a 45/hora" },
+  "Babá":        { hourly: 30, label: "R$ 25 a 35/hora" },
+  "Eletricista": { hourly: 80, label: "R$ 70 a 100/hora" },
+  "Encanador":   { hourly: 80, label: "R$ 70 a 100/hora" },
+  "Pintor":      { hourly: 55, label: "R$ 50 a 65/hora" },
+  "Cozinheiro":  { hourly: 70, label: "R$ 60 a 80/hora" },
 };
 
 // Templates de descrição por categoria

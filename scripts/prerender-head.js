@@ -28,39 +28,39 @@ const ROUTES = [
   // ── Destinos principais ────────────────────────────────────────────────
   {
     path: '/trancoso',
-    title: 'Serviços em Trancoso, BA — Profissionais Verificados | Trancoso Resolve',
+    title: 'Serviços em Trancoso, BA | Profissionais Verificados | Trancoso Resolve',
     description: 'Encontre diaristas, eletricistas, piscineiros, jardineiros e mais em Trancoso, Bahia. Profissionais verificados para villas, pousadas e residências. Atendimento rápido.',
   },
   {
     path: '/arraial-dajuda',
-    title: "Serviços em Arraial d'Ajuda — Profissionais Verificados | Trancoso Resolve",
+    title: "Serviços em Arraial d'Ajuda | Profissionais Verificados | Trancoso Resolve",
     description: "Diaristas, eletricistas, piscineiros e profissionais verificados em Arraial d'Ajuda, Bahia. Contrate com segurança, resposta em até 2 horas.",
   },
   {
     path: '/porto-seguro',
-    title: 'Serviços em Porto Seguro — Profissionais Verificados | Trancoso Resolve',
+    title: 'Serviços em Porto Seguro | Profissionais Verificados | Trancoso Resolve',
     description: 'Profissionais verificados em Porto Seguro, Bahia: diaristas, eletricistas, jardineiros, piscineiros. Atendimento para residências, pousadas e empresas.',
   },
   {
     path: '/caraiva',
-    title: 'Serviços em Caraíva, BA — Diaristas, Piscineiros e Mais | Trancoso Resolve',
+    title: 'Serviços em Caraíva, BA | Diaristas, Piscineiros e Mais | Trancoso Resolve',
     description: 'Precisa de um serviço em Caraíva? Encontre diaristas, piscineiros, jardineiros e pedreiros verificados na vila de Caraíva, Bahia. Plataforma com avaliações reais.',
   },
 
   // ── Páginas institucionais ─────────────────────────────────────────────
   {
     path: '/SejaPrestador',
-    title: 'Seja Prestador | Trancoso Resolve — Ofereça Seus Serviços em Trancoso',
+    title: 'Seja Prestador | Trancoso Resolve | Ofereça Seus Serviços em Trancoso',
     description: 'Cadastre-se como prestador de serviços em Trancoso Resolve e conecte-se a clientes na Costa do Descobrimento. Crie seu perfil e comece a receber pedidos.',
   },
   {
     path: '/Planos',
-    title: 'Planos para Prestadores — Comece a Receber Clientes Hoje | Trancoso Resolve',
+    title: 'Planos para Prestadores | Comece a Receber Clientes Hoje | Trancoso Resolve',
     description: 'Escolha o plano ideal para seu negócio na Costa do Descobrimento. Cadastre-se gratuitamente ou assine um plano premium para receber mais clientes e ganhar visibilidade.',
   },
   {
     path: '/About',
-    title: 'Sobre a Trancoso Resolve — Plataforma de Serviços Verificados na Costa do Descobrimento',
+    title: 'Sobre a Trancoso Resolve | Plataforma de Serviços Verificados na Costa do Descobrimento',
     description: 'Conheça a Trancoso Resolve: a vitrine digital oficial que conecta moradores, turistas e prestadores verificados em Trancoso, Arraial d\'Ajuda, Porto Seguro e Caraíva.',
   },
   {
@@ -77,37 +77,37 @@ const ROUTES = [
   // ── Serviços Trancoso ──────────────────────────────────────────────────
   {
     path: '/servicos/diarista-trancoso',
-    title: 'Diarista em Trancoso, BA — Limpeza de Villas e Pousadas | Trancoso Resolve',
+    title: 'Diarista em Trancoso, BA | Limpeza de Villas e Pousadas | Trancoso Resolve',
     description: 'Contrate diaristas verificadas em Trancoso, Bahia para limpeza de villas, pousadas e casas de temporada. Avaliações reais, resposta em até 2 horas.',
   },
   {
     path: '/servicos/eletricista-trancoso',
-    title: 'Eletricista em Trancoso, BA — Emergência e Instalações | Trancoso Resolve',
+    title: 'Eletricista em Trancoso, BA | Emergência e Instalações | Trancoso Resolve',
     description: 'Eletricistas verificados em Trancoso para emergências, instalações e manutenção elétrica em residências, pousadas e villas. Atendimento rápido na Bahia.',
   },
   {
     path: '/servicos/piscineiro-trancoso',
-    title: 'Piscineiro em Trancoso, BA — Limpeza e Manutenção | Trancoso Resolve',
+    title: 'Piscineiro em Trancoso, BA | Limpeza e Manutenção | Trancoso Resolve',
     description: 'Serviço de limpeza e manutenção de piscinas em Trancoso, Bahia. Piscineiros verificados para villas, pousadas e residências.',
   },
   {
     path: '/servicos/pedreiro-trancoso',
-    title: 'Pedreiro em Trancoso, BA — Reformas e Construção | Trancoso Resolve',
+    title: 'Pedreiro em Trancoso, BA | Reformas e Construção | Trancoso Resolve',
     description: 'Pedreiros verificados em Trancoso para reformas, construção e serviços gerais. Profissionais experientes na Costa do Descobrimento, Bahia.',
   },
   {
     path: '/servicos/pintor-trancoso',
-    title: 'Pintor em Trancoso, BA — Pintura Interna e Externa | Trancoso Resolve',
+    title: 'Pintor em Trancoso, BA | Pintura Interna e Externa | Trancoso Resolve',
     description: 'Pintores verificados em Trancoso, Bahia para pintura interna e externa de residências, villas e pousadas.',
   },
   {
     path: '/servicos/jardineiro-trancoso',
-    title: 'Jardineiro em Trancoso, BA — Paisagismo e Manutenção | Trancoso Resolve',
+    title: 'Jardineiro em Trancoso, BA | Paisagismo e Manutenção | Trancoso Resolve',
     description: 'Jardineiros especializados em Trancoso para paisagismo, poda e manutenção de jardins em villas, pousadas e residências.',
   },
   {
     path: '/servicos/encanador-trancoso',
-    title: 'Encanador em Trancoso, BA — Emergências e Instalações | Trancoso Resolve',
+    title: 'Encanador em Trancoso, BA | Emergências e Instalações | Trancoso Resolve',
     description: 'Encanadores verificados em Trancoso para emergências hidráulicas, instalações e manutenção. Atendimento rápido para villas, pousadas e residências.',
   },
   {
@@ -117,7 +117,7 @@ const ROUTES = [
   },
   {
     path: '/servicos/seguranca-trancoso',
-    title: 'Segurança Particular em Trancoso, BA — Eventos e Residências | Trancoso Resolve',
+    title: 'Segurança Particular em Trancoso, BA | Eventos e Residências | Trancoso Resolve',
     description: 'Profissionais de segurança verificados em Trancoso para eventos, residências e estabelecimentos. Costa do Descobrimento, Bahia.',
   },
   {
@@ -127,22 +127,22 @@ const ROUTES = [
   },
   {
     path: '/servicos/dj-trancoso',
-    title: 'DJ em Trancoso, BA — Eventos e Festas | Trancoso Resolve',
+    title: 'DJ em Trancoso, BA | Eventos e Festas | Trancoso Resolve',
     description: 'Contrate DJs para festas, casamentos e eventos em Trancoso, Bahia. Profissionais com equipamentos completos e experiência no Quadrado de Trancoso.',
   },
   {
     path: '/servicos/quadrado-trancoso',
-    title: 'Serviços no Quadrado de Trancoso — Profissionais Locais | Trancoso Resolve',
+    title: 'Serviços no Quadrado de Trancoso | Profissionais Locais | Trancoso Resolve',
     description: 'Serviços especializados na área do Quadrado de Trancoso. Diaristas, eletricistas e profissionais que conhecem o centro histórico de Trancoso.',
   },
   {
     path: '/servicos/rio-verde-trancoso',
-    title: 'Serviços em Rio Verde, Trancoso — Profissionais Verificados | Trancoso Resolve',
+    title: 'Serviços em Rio Verde, Trancoso | Profissionais Verificados | Trancoso Resolve',
     description: 'Profissionais verificados para casas e villas no bairro Rio Verde, Trancoso, Bahia. Diaristas, eletricistas e mais.',
   },
   {
     path: '/servicos/pitinga-trancoso',
-    title: 'Serviços na Pitinga, Trancoso — Profissionais Verificados | Trancoso Resolve',
+    title: 'Serviços na Pitinga, Trancoso | Profissionais Verificados | Trancoso Resolve',
     description: 'Profissionais verificados para a Praia da Pitinga, Trancoso. Diaristas, jardineiros e manutenção de residências de praia.',
   },
 
@@ -245,28 +245,28 @@ const ROUTES = [
   // ── Destinos especiais ─────────────────────────────────────────────────
   {
     path: '/destinos/casamento-trancoso',
-    title: 'Casamento em Trancoso, BA — Serviços e Fornecedores | Trancoso Resolve',
+    title: 'Casamento em Trancoso, BA | Serviços e Fornecedores | Trancoso Resolve',
     description: 'Organize seu casamento em Trancoso com profissionais verificados: DJs, cozinheiros, seguranças e serviços de limpeza. Casamentos inesquecíveis no Quadrado.',
   },
   {
     path: '/destinos/reveillon-trancoso',
-    title: 'Réveillon em Trancoso, BA — Serviços e Profissionais | Trancoso Resolve',
+    title: 'Réveillon em Trancoso, BA | Serviços e Profissionais | Trancoso Resolve',
     description: 'Profissionais para seu Réveillon em Trancoso: cozinheiros, DJs, seguranças e limpeza de villa. Festas inesquecíveis na Costa do Descobrimento.',
   },
 
   // ── Guias ─────────────────────────────────────────────────────────────
   {
     path: '/guides/morar-em-trancoso',
-    title: 'Morar em Trancoso, BA — Guia Completo | Trancoso Resolve',
+    title: 'Morar em Trancoso, BA | Guia Completo | Trancoso Resolve',
     description: 'Guia completo para quem quer morar em Trancoso, Bahia: serviços essenciais, infraestrutura, profissionais locais e dicas de quem vive no Quadrado.',
   },
 
   // ── Página de investidores (PRIVADA: noindex, mas com preview social bonito) ──
   {
     path: '/investidores',
-    title: 'Trancoso Resolve — Tese de Investimento | Marketplace da Costa do Descobrimento',
+    title: 'Trancoso Resolve | Tese de Investimento | Marketplace da Costa do Descobrimento',
     description: 'Marketplace de serviços locais em Trancoso, Porto Seguro, Arraial d\'Ajuda e Caraíva. Tese, plano de 18 meses, modelo financeiro e uso de recursos. Contato via formulário na página.',
-    ogTitle: 'Trancoso Resolve — Tese de Investimento',
+    ogTitle: 'Trancoso Resolve | Tese de Investimento',
     ogDescription: 'Marketplace de serviços verificados da Costa do Descobrimento (BA). Tese, plano 18 meses, calculadora financeira e roteiro de Q&A no link.',
     noIndex: true,
   },
@@ -279,7 +279,7 @@ const ROUTES = [
   },
   {
     path: '/costa-do-descobrimento',
-    title: 'Costa do Descobrimento — Trancoso Resolve',
+    title: 'Costa do Descobrimento | Trancoso Resolve',
     description: "Conheça a Costa do Descobrimento com a Trancoso Resolve. Serviços verificados em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva.",
   },
 ];

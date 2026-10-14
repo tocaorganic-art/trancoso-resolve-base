@@ -126,7 +126,7 @@ export default function MaintenanceAlertCard({ alert, priorityColors, statusColo
               <SelectContent>
                 {employees.map((employee) => (
                   <SelectItem key={employee.id} value={employee.id}>
-                    {employee.full_name} - {employee.role}
+                    {employee.full_name}: {employee.role}
                   </SelectItem>
                 ))}
               </SelectContent>

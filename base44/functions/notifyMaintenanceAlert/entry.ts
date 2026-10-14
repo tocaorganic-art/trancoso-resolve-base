@@ -32,7 +32,7 @@ Deno.serve(async (req) => {
 
     const typeEmoji = alert.alert_type === 'Urgente' ? '🚨' : '🔧';
 
-    const subject = `${typeEmoji} ${priorityEmoji} Alerta de Manutenção ${esc(alert.alert_type?.toUpperCase())} — ${esc(alert.property_name)}`;
+    const subject = `${typeEmoji} ${priorityEmoji} Alerta de Manutenção ${esc(alert.alert_type?.toUpperCase())}: ${esc(alert.property_name)}`;
 
     const body = `
 <h2>${typeEmoji} Novo Alerta de Manutenção Criado</h2>
@@ -40,19 +40,19 @@ Deno.serve(async (req) => {
 <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif;">
   <tr style="background: #f1f5f9;">
     <td style="padding: 8px 12px; font-weight: bold; width: 40%;">🏠 Propriedade</td>
-    <td style="padding: 8px 12px;">${esc(alert.property_name) || '—'}</td>
+    <td style="padding: 8px 12px;">${esc(alert.property_name) || 'N/D'}</td>
   </tr>
   <tr>
     <td style="padding: 8px 12px; font-weight: bold; background: #f8fafc;">🔧 Equipamento / Área</td>
-    <td style="padding: 8px 12px;">${esc(alert.equipment) || '—'}</td>
+    <td style="padding: 8px 12px;">${esc(alert.equipment) || 'N/D'}</td>
   </tr>
   <tr style="background: #f1f5f9;">
     <td style="padding: 8px 12px; font-weight: bold;">📋 Tipo de Alerta</td>
-    <td style="padding: 8px 12px;">${esc(alert.alert_type) || '—'}</td>
+    <td style="padding: 8px 12px;">${esc(alert.alert_type) || 'N/D'}</td>
   </tr>
   <tr>
     <td style="padding: 8px 12px; font-weight: bold; background: #f8fafc;">⚡ Prioridade</td>
-    <td style="padding: 8px 12px; font-weight: bold; color: ${alert.priority === 'Crítica' ? '#dc2626' : alert.priority === 'Alta' ? '#ea580c' : '#ca8a04'};">${priorityEmoji} ${alert.priority || '—'}</td>
+    <td style="padding: 8px 12px; font-weight: bold; color: ${alert.priority === 'Crítica' ? '#dc2626' : alert.priority === 'Alta' ? '#ea580c' : '#ca8a04'};">${priorityEmoji} ${alert.priority || 'N/D'}</td>
   </tr>
   ${alert.description ? `
   <tr style="background: #f1f5f9;">
@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
 
 <br/>
 <p style="color: #64748b; font-size: 13px;">
-  Alerta ID: ${esc(alertId) || '—'} • Trancoso Resolve Manutenção
+  Alerta ID: ${esc(alertId) || 'N/D'} • Trancoso Resolve Manutenção
 </p>
     `.trim();
 
@@ -90,7 +90,7 @@ Deno.serve(async (req) => {
         to: admin.email,
         subject,
         body,
-        from_name: 'Trancoso Resolve — Manutenção',
+        from_name: 'Trancoso Resolve | Manutenção',
       })
     );
 

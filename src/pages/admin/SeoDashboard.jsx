@@ -28,12 +28,12 @@ function getStartDate(period) {
 }
 
 function formatCtr(val) {
-  if (val == null) return '–';
+  if (val == null) return 'N/D';
   return `${(val * 100).toFixed(1)}%`;
 }
 
 function formatPos(val) {
-  if (val == null) return '–';
+  if (val == null) return 'N/D';
   return val.toFixed(1);
 }
 
@@ -176,7 +176,7 @@ export default function SeoDashboard() {
             <BarChart2 className="w-7 h-7 text-brand-primary" />
             Painel SEO
           </h1>
-          <p className="text-muted-foreground text-sm mt-1">Métricas de busca orgânica — Trancoso Resolve</p>
+          <p className="text-muted-foreground text-sm mt-1">Métricas de busca orgânica | Trancoso Resolve</p>
         </div>
         <div className="flex gap-2">
           {PERIOD_OPTIONS.map(opt => (
@@ -330,7 +330,7 @@ export default function SeoDashboard() {
                       <div>
                         <p className="text-foreground font-medium text-sm">{alert.page}</p>
                         <p className="text-red-600 text-xs mt-0.5">
-                          Queda de <strong>{alert.drop}%</strong> em cliques —&nbsp;
+                          Queda de <strong>{alert.drop}%</strong> em cliques,&nbsp;
                           de {alert.prevClicks} para {alert.currClicks} esta semana
                         </p>
                       </div>

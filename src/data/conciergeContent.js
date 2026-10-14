@@ -35,7 +35,7 @@ export const CONCIERGE_MEDIA = {
   ],
   // Registros da trajetória como DJ / Toca Experience
   galeriaDj: [
-    { src: FOTOS_REAIS_TONY.dj, alt: 'Tony — trajetória como DJ, Toca Experience', local: 'Toca Experience' },
+    { src: FOTOS_REAIS_TONY.dj, alt: 'Tony, trajetória como DJ, Toca Experience', local: 'Toca Experience' },
   ],
 };
 
@@ -70,7 +70,7 @@ export const TOCA_DEPOIMENTOS = [
   {
     texto: 'A fusão entre elementos eletrônicos e brasilidades autênticas criou uma atmosfera única no nosso evento. Inovação sonora e conexão global!',
     autor: 'Amanda L.',
-    evento: "Festival AWÊ — Arraial d'Ajuda",
+    evento: "Festival AWÊ, Arraial d'Ajuda",
   },
 ];
 
@@ -83,7 +83,7 @@ export const CONCIERGE_CONTATO = {
 
 /** Praças onde a operação é presencial, com equipe local. */
 export const PRACAS = [
-  { cidade: 'Todo o Brasil', uf: 'BR', nota: 'Operamos em qualquer destino do país — equipe montada na praça da estadia', destaque: true },
+  { cidade: 'Todo o Brasil', uf: 'BR', nota: 'Operamos em qualquer destino do país, equipe montada na praça da estadia', destaque: true },
   { cidade: 'São Paulo', uf: 'SP', nota: 'Equipe presencial' },
   { cidade: 'Rio de Janeiro', uf: 'RJ', nota: 'Equipe presencial' },
   { cidade: 'Trancoso', uf: 'BA', nota: 'Matriz da operação · Costa do Descobrimento', matriz: true },
@@ -119,8 +119,8 @@ export const PILARES = [
     id: 'gastronomia',
     titulo: { pt: 'Chef privado e curadoria gastronômica', es: 'Chef privado y curaduría gastronómica' },
     resumo: {
-      pt: 'Chef executivo em casa e mesas nos lugares certos — reserva feita por quem é daqui.',
-      es: 'Chef ejecutivo en casa y mesas en los lugares correctos — reservas hechas por quien vive acá.',
+      pt: 'Chef executivo em casa e mesas nos lugares certos, reserva feita por quem é daqui.',
+      es: 'Chef ejecutivo en casa y mesas en los lugares correctos, reservas hechas por quien vive acá.',
     },
     itens: {
       pt: ['Chef executivo na casa', 'Jantares autorais e harmonizados', 'Reservas em restaurantes de alto padrão', 'Equipe de cozinha e serviço de mesa'],
@@ -156,8 +156,8 @@ export const PILARES = [
     id: 'imoveis',
     titulo: { pt: 'Mansões e vilas de alto padrão', es: 'Mansiones y villas de alto nivel' },
     resumo: {
-      pt: 'Seleção, negociação e contrato de mansões e vilas para uso exclusivo — com vistoria antes da chegada.',
-      es: 'Selección, negociación y contrato de mansiones y villas para uso exclusivo — con inspección antes de la llegada.',
+      pt: 'Seleção, negociação e contrato de mansões e vilas para uso exclusivo, com vistoria antes da chegada.',
+      es: 'Selección, negociación y contrato de mansiones y villas para uso exclusivo, con inspección antes de la llegada.',
     },
     itens: {
       pt: ['Mansões pé na areia e propriedades fora das plataformas convencionais', 'Negociação e contrato de locação por temporada', 'Vistoria e inventário do imóvel antes do check-in', 'Representação legal e intermediação local'],
@@ -180,8 +180,8 @@ export const ETAPAS = [
     n: '02',
     titulo: { pt: 'Proposta sob medida', es: 'Propuesta a medida' },
     texto: {
-      pt: 'Recebe uma proposta fechada, com escopo, equipe e valores abertos — sem soft costs.',
-      es: 'Recibís una propuesta cerrada, con alcance, equipo y valores abiertos — sin costos ocultos.',
+      pt: 'Recebe uma proposta fechada, com escopo, equipe e valores abertos, sem soft costs.',
+      es: 'Recibís una propuesta cerrada, con alcance, equipo y valores abiertos, sin costos ocultos.',
     },
   },
   {
@@ -205,17 +205,17 @@ export const ETAPAS = [
 export const TEXTOS = {
   pt: {
     eyebrow: 'Concierge de alto padrão · presencial · Brasil',
-    h1: 'Concierge de Alto Padrão em Todo o Brasil — Matriz Trancoso',
-    sub: 'Mais de dez anos organizando estadias, casas e eventos privados para clientes brasileiros e estrangeiros. Mansões e vilas exclusivas, aviação executiva, equipe de casa e eventos privados — onde você estiver no Brasil. Matriz em Trancoso, equipes presenciais em São Paulo, Rio de Janeiro e montadas sob demanda em qualquer praça. Atendimento em português, espanhol e inglês.',
+    h1: 'Concierge de Alto Padrão em Todo o Brasil | Matriz Trancoso',
+    sub: 'Mais de dez anos organizando estadias, casas e eventos privados para clientes brasileiros e estrangeiros. Mansões e vilas exclusivas, aviação executiva, equipe de casa e eventos privados, onde você estiver no Brasil. Matriz em Trancoso, equipes presenciais em São Paulo, Rio de Janeiro e montadas sob demanda em qualquer praça. Atendimento em português, espanhol e inglês.',
     ctaPrimario: 'Solicitar concierge',
     ctaSecundario: 'Falar no WhatsApp',
     pracasTitulo: 'Cobertura nacional, presença física',
-    pracasSub: 'O concierge não é restrito a Trancoso — Trancoso é a nossa matriz. Atendemos qualquer destino do Brasil e a equipe vai até lá: não é indicação digital, é gente no local acompanhando check-in, governança e toda a operação.',
+    pracasSub: 'O concierge não é restrito a Trancoso, Trancoso é a nossa matriz. Atendemos qualquer destino do Brasil e a equipe vai até lá: não é indicação digital, é gente no local acompanhando check-in, governança e toda a operação.',
     perfilTitulo: 'Para quem trabalhamos',
     perfilItens: [
       'Proprietários de vilas, casas de alto padrão e pousadas de luxo',
       'Famílias e grupos brasileiros em estadias privadas',
-      'Clientes estrangeiros — atendimento em português, espanhol e inglês',
+      'Clientes estrangeiros, atendimento em português, espanhol e inglês',
       'Grupos da Argentina, São Paulo e Rio de Janeiro',
     ],
     idiomas: 'Atendimento em português, espanhol e inglês.',
@@ -224,17 +224,17 @@ export const TEXTOS = {
     etapasEyebrow: 'Como funciona',
     etapasTitulo: 'Do primeiro contato ao check-out',
     fundadorEyebrow: 'Quem comanda a experiência',
-    fundadorTitulo: 'Mais de 10 anos em concierge de alto padrão — e uma trajetória que começou na música',
+    fundadorTitulo: 'Mais de 10 anos em concierge de alto padrão, e uma trajetória que começou na música',
     fundadorTexto: 'O concierge é conduzido por Antonio Monteiro Pereira Junior, à frente da Toca Experience. A trajetória começou na música, como DJ e produtor de eventos, e é dela que vem o jeito de operar: leitura de ambiente, tempo de resposta e discrição. Hoje isso se traduz em casas de alto padrão, equipes presenciais e estadias organizadas nos detalhes.',
     fundadorCta: 'Conhecer a Toca Experience',
-    trajetoriaTitulo: 'O Refinamento Global — Tony Monteiro, DJ Afro House',
-    trajetoriaTexto: 'O refinamento global é a marca registrada das produções de Tony Monteiro, que transita com maestria entre Afro House, Organic House e House. Com residências em clubes de elite pelo Brasil e turnês pela Polinésia Francesa, Europa e América do Sul, Tony leva sua assinatura sonora a diferentes culturas e pistas ao redor do mundo. Seu projeto MPB Rock Club traduz a alma brasileira em batidas sofisticadas — e, com mais de 500 mil streams nas plataformas oficiais, ele se consolida como presença constante e relevante na cena eletrônica atual.',
+    trajetoriaTitulo: 'O Refinamento Global | Tony Monteiro, DJ Afro House',
+    trajetoriaTexto: 'O refinamento global é a marca registrada das produções de Tony Monteiro, que transita com maestria entre Afro House, Organic House e House. Com residências em clubes de elite pelo Brasil e turnês pela Polinésia Francesa, Europa e América do Sul, Tony leva sua assinatura sonora a diferentes culturas e pistas ao redor do mundo. Seu projeto MPB Rock Club traduz a alma brasileira em batidas sofisticadas, e, com mais de 500 mil streams nas plataformas oficiais, ele se consolida como presença constante e relevante na cena eletrônica atual.',
     redesLabel: 'Siga a música do Tony:',
-    videoLegenda: 'Tony ao vivo no set — Toca Experience',
+    videoLegenda: 'Tony ao vivo no set, Toca Experience',
     depoimentosTitulo: 'O que dizem os clientes da Toca Experience',
     galeriaTitulo: 'Trabalhos reais',
     galeriaSub: 'Registros de operações já entregues.',
-    galeriaVazia: 'Galeria em atualização — fotos reais das operações entram aqui.',
+    galeriaVazia: 'Galeria em atualização, fotos reais das operações entram aqui.',
     djTitulo: 'A trajetória na música',
     djSub: 'A origem da operação: DJ, produção e curadoria musical.',
     formEyebrow: 'Solicitação',
@@ -249,7 +249,7 @@ export const TEXTOS = {
       cookies: 'Gestionar Preferencias de Cookies',
       cookies: 'Gerenciar Preferências de Cookies',
     },
-    origens: ['Argentina', 'Brasil — São Paulo', 'Brasil — Rio de Janeiro', 'Brasil — outra cidade', 'Outro país'],
+    origens: ['Argentina', 'Brasil, São Paulo', 'Brasil, Rio de Janeiro', 'Brasil, outra cidade', 'Outro país'],
     necessidadesLabel: 'Você também precisa de:',
     necessidades: ['Fretamento aéreo / helicóptero', 'Mansão / vila de luxo', 'Receptivo de aeroporto (fast-track / sala VIP)'],
     servicos: ['Estadia completa com casa e equipe', 'Mansão / vila para uso exclusivo', 'Aviação executiva ou helicóptero', 'Recepção e assistência no aeroporto', 'Gestão de casa / vila', 'Logística e transporte', 'Chef privado e gastronomia', 'Evento privado / celebração', 'Outro'],
@@ -259,17 +259,17 @@ export const TEXTOS = {
   },
   es: {
     eyebrow: 'Concierge de alto nivel · presencial · Brasil',
-    h1: 'Concierge de Alto Nivel en Todo Brasil — Casa Matriz Trancoso',
-    sub: 'Más de diez años organizando estadías, casas y eventos privados para clientes brasileños y extranjeros. Mansiones y villas exclusivas, aviación ejecutiva, equipo de casa y eventos privados — donde estés en Brasil. Casa matriz en Trancoso, equipos presenciales en São Paulo, Río de Janeiro y armados a demanda en cualquier destino. Atención en portugués, español e inglés.',
+    h1: 'Concierge de Alto Nivel en Todo Brasil, Casa Matriz Trancoso',
+    sub: 'Más de diez años organizando estadías, casas y eventos privados para clientes brasileños y extranjeros. Mansiones y villas exclusivas, aviación ejecutiva, equipo de casa y eventos privados, donde estés en Brasil. Casa matriz en Trancoso, equipos presenciales en São Paulo, Río de Janeiro y armados a demanda en cualquier destino. Atención en portugués, español e inglés.',
     ctaPrimario: 'Solicitar concierge',
     ctaSecundario: 'Hablar por WhatsApp',
     pracasTitulo: 'Cobertura nacional, presencia física',
-    pracasSub: 'El concierge no está limitado a Trancoso — Trancoso es nuestra casa matriz. Atendemos cualquier destino de Brasil y el equipo viaja: no es una recomendación digital, es gente en el lugar acompañando el check-in, la gobernanza y toda la operación.',
+    pracasSub: 'El concierge no está limitado a Trancoso, Trancoso es nuestra casa matriz. Atendemos cualquier destino de Brasil y el equipo viaja: no es una recomendación digital, es gente en el lugar acompañando el check-in, la gobernanza y toda la operación.',
     perfilTitulo: 'Para quiénes trabajamos',
     perfilItens: [
       'Propietarios de villas, casas de alto nivel y posadas de lujo',
       'Familias y grupos en estadías privadas',
-      'Clientes extranjeros — atención en portugués, español e inglés',
+      'Clientes extranjeros, atención en portugués, español e inglés',
       'Grupos de Argentina, São Paulo y Río de Janeiro',
     ],
     idiomas: 'Atención en portugués, español e inglés.',
@@ -278,17 +278,17 @@ export const TEXTOS = {
     etapasEyebrow: 'Cómo funciona',
     etapasTitulo: 'Del primer contacto al check-out',
     fundadorEyebrow: 'Quién comanda la experiencia',
-    fundadorTitulo: 'Más de 10 años en concierge de alto nivel — y una trayectoria que empezó en la música',
+    fundadorTitulo: 'Más de 10 años en concierge de alto nivel, y una trayectoria que empezó en la música',
     fundadorTexto: 'El concierge está conducido por Antonio Monteiro Pereira Junior, al frente de Toca Experience. La trayectoria empezó en la música, como DJ y productor de eventos, y de ahí viene la forma de operar: lectura del ambiente, tiempo de respuesta y discreción. Hoy eso se traduce en casas de alto nivel, equipos presenciales y estadías cuidadas en el detalle.',
     fundadorCta: 'Conocer Toca Experience',
-    trajetoriaTitulo: 'El Refinamiento Global — Tony Monteiro, DJ Afro House',
-    trajetoriaTexto: 'El refinamiento global es la marca registrada de las producciones de Tony Monteiro, que transita con maestría entre Afro House, Organic House y House. Con residencias en clubes de élite por Brasil y giras por la Polinesia Francesa, Europa y América del Sur, Tony lleva su firma sonora a diferentes culturas y pistas alrededor del mundo. Su proyecto MPB Rock Club traduce el alma brasileña en ritmos sofisticados — y, con más de 500 mil streams en las plataformas oficiales, se consolida como presencia constante y relevante en la escena electrónica actual.',
+    trajetoriaTitulo: 'El Refinamiento Global | Tony Monteiro, DJ Afro House',
+    trajetoriaTexto: 'El refinamiento global es la marca registrada de las producciones de Tony Monteiro, que transita con maestría entre Afro House, Organic House y House. Con residencias en clubes de élite por Brasil y giras por la Polinesia Francesa, Europa y América del Sur, Tony lleva su firma sonora a diferentes culturas y pistas alrededor del mundo. Su proyecto MPB Rock Club traduce el alma brasileña en ritmos sofisticados, y, con más de 500 mil streams en las plataformas oficiales, se consolida como presencia constante y relevante en la escena electrónica actual.',
     redesLabel: 'Sigue la música de Tony:',
-    videoLegenda: 'Tony en vivo en el set — Toca Experience',
+    videoLegenda: 'Tony en vivo en el set, Toca Experience',
     depoimentosTitulo: 'Lo que dicen los clientes de Toca Experience',
     galeriaTitulo: 'Trabajos reales',
     galeriaSub: 'Registros de operaciones ya entregadas.',
-    galeriaVazia: 'Galería en actualización — las fotos reales entran acá.',
+    galeriaVazia: 'Galería en actualización, las fotos reales entran acá.',
     djTitulo: 'La trayectoria en la música',
     djSub: 'El origen de la operación: DJ, producción y curaduría musical.',
     formEyebrow: 'Solicitud',
@@ -301,7 +301,7 @@ export const TEXTOS = {
       consent: 'Autorizo el contacto sobre esta solicitud.',
       enviar: 'Enviar solicitud', enviando: 'Enviando...',
     },
-    origens: ['Argentina', 'Brasil — São Paulo', 'Brasil — Río de Janeiro', 'Brasil — otra ciudad', 'Otro país'],
+    origens: ['Argentina', 'Brasil, São Paulo', 'Brasil, Río de Janeiro', 'Brasil, otra ciudad', 'Otro país'],
     necessidadesLabel: 'También necesitás:',
     necessidades: ['Fletamento aéreo / helicóptero', 'Mansión / villa de lujo', 'Receptivo de aeropuerto (fast-track / sala VIP)'],
     servicos: ['Estadía completa con casa y equipo', 'Mansión / villa de uso exclusivo', 'Aviación ejecutiva o helicóptero', 'Recepción y asistencia en el aeropuerto', 'Gestión de casa / villa', 'Logística y transporte', 'Chef privado y gastronomía', 'Evento privado / celebración', 'Otro'],

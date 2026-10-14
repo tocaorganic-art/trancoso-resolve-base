@@ -118,7 +118,7 @@ export default function TabSEO({ pages, keywords }) {
 
       {/* Páginas — formulário manual + tabela */}
       <div className="flex justify-between items-center">
-        <h2 className="text-foreground font-semibold">Páginas — Semana Atual vs Anterior</h2>
+        <h2 className="text-foreground font-semibold">Páginas | Semana Atual vs Anterior</h2>
         <Button size="sm" onClick={() => setShowPageForm(!showPageForm)} className="gap-2">
           <Plus className="w-4 h-4" /> Adicionar Manualmente
         </Button>
@@ -191,11 +191,11 @@ export default function TabSEO({ pages, keywords }) {
                           <span className={delta >= 0 ? "text-green-600" : "text-red-600"}>
                             {delta >= 0 ? "+" : ""}{delta}
                           </span>
-                        ) : <span className="text-muted-foreground">—</span>}
+                        ) : <span className="text-muted-foreground">N/D</span>}
                       </td>
                       <td className="p-3 text-right text-muted-foreground">{p.impressions || 0}</td>
-                      <td className="p-3 text-right text-muted-foreground">{p.ctr ? `${p.ctr}%` : "—"}</td>
-                      <td className="p-3 text-right text-muted-foreground">{p.position ? p.position.toFixed(1) : "—"}</td>
+                      <td className="p-3 text-right text-muted-foreground">{p.ctr ? `${p.ctr}%` : "N/D"}</td>
+                      <td className="p-3 text-right text-muted-foreground">{p.position ? p.position.toFixed(1) : "N/D"}</td>
                     </tr>
                   );
                 })}
@@ -207,7 +207,7 @@ export default function TabSEO({ pages, keywords }) {
 
       {/* Keywords — formulário manual + tabela */}
       <div className="flex justify-between items-center">
-        <h2 className="text-foreground font-semibold">Palavras-chave — Semana Atual</h2>
+        <h2 className="text-foreground font-semibold">Palavras-chave | Semana Atual</h2>
         <Button size="sm" onClick={() => setShowKwForm(!showKwForm)} className="gap-2">
           <Plus className="w-4 h-4" /> Adicionar Manualmente
         </Button>
@@ -275,10 +275,10 @@ export default function TabSEO({ pages, keywords }) {
                     <td className="p-3 font-medium">{k.keyword}</td>
                     <td className="p-3 text-right text-brand-primary">{k.clicks || 0}</td>
                     <td className="p-3 text-right text-muted-foreground">{k.impressions || 0}</td>
-                    <td className="p-3 text-right text-muted-foreground">{k.ctr ? `${k.ctr}%` : "—"}</td>
+                    <td className="p-3 text-right text-muted-foreground">{k.ctr ? `${k.ctr}%` : "N/D"}</td>
                     <td className="p-3 text-right">
                       <span className={`font-bold ${(k.position || 99) <= 10 ? "text-green-600" : (k.position || 99) <= 20 ? "text-amber-600" : "text-red-600"}`}>
-                        {k.position ? k.position.toFixed(1) : "—"}
+                        {k.position ? k.position.toFixed(1) : "N/D"}
                       </span>
                     </td>
                   </tr>

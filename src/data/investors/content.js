@@ -109,7 +109,7 @@ const pt = {
   },
   competitors: {
     eyebrow: 'Fontes externas + análise',
-    title: 'Concorrentes fortes validam a necessidade — e deixam um espaço local.',
+    title: 'Concorrentes fortes validam a necessidade, e deixam um espaço local.',
     subtitle: 'Alternativas reconhecidas, e o espaço que a tese local ainda precisa comprovar.',
     items: [
       { name: 'GetNinjas', strength: 'Escala, categorias e demanda nacional', gap: 'Curadoria de microterritório não é sua proposta central.' },
@@ -135,7 +135,7 @@ const pt = {
         { n: '2', title: 'Qualidade dos dados', desc: 'Verificação, resposta, resolução e avaliações geram sinais úteis e comparáveis.' },
         { n: '3', title: 'Recorrência e distribuição', desc: 'Parcerias e repetição de uso transformam confiança em hábito local.' },
       ],
-      note: 'Moat esperado — não comprovado: rede curada + dados de qualidade + recorrência + confiança.',
+      note: 'Moat esperado, não comprovado: rede curada + dados de qualidade + recorrência + confiança.',
     },
   },
   revenueModel: {
@@ -144,13 +144,13 @@ const pt = {
     plans: [
       { name: 'Fundador', price: 'R$ 19,90', unit: '/mês', classification: 'hipotese', note: 'Hipótese de lançamento. Benefício e duração dependem de aprovação jurídica e comercial.' },
       { name: 'Profissional', price: 'R$ 59', unit: '/mês', classification: 'hipotese', note: 'Hipótese de preço-alvo para perfil completo, visibilidade e ferramentas de conversão.' },
-      { name: 'Transacional', price: '8–12%', unit: 'do GTV', classification: 'hipoteseFutura', note: 'Hipótese futura, apenas em categorias com pedido, confirmação e suporte controláveis.' },
+      { name: 'Transacional', price: '8 a 12%', unit: 'do GTV', classification: 'hipoteseFutura', note: 'Hipótese futura, apenas em categorias com pedido, confirmação e suporte controláveis.' },
     ],
     disclaimer: 'Todos os preços são hipóteses. Não representam receita atual, contratos ou tração.',
   },
   scenarioChart: {
     eyebrow: 'Cenário matemático · ilustrativo',
-    title: 'A tese financeira começa por uma sensibilidade — não por uma promessa.',
+    title: 'A tese financeira começa por uma sensibilidade, não por uma promessa.',
     stats: [
       { value: '500', label: 'prestadores no cenário' },
       { value: 'R$ 59', label: 'preço mensal' },
@@ -167,7 +167,7 @@ const pt = {
   calculator: {
     eyebrow: 'Calculadora financeira · editável',
     title: 'Simule seu próprio cenário de receita',
-    subtitle: 'Ajuste os prestadores pagantes e os preços dos planos. Os resultados são recalculados em tempo real — não são forecast nem meta aprovada.',
+    subtitle: 'Ajuste os prestadores pagantes e os preços dos planos. Os resultados são recalculados em tempo real, não são forecast nem meta aprovada.',
     fundadorLabel: 'Prestadores no plano Fundador',
     profissionalLabel: 'Prestadores no plano Profissional',
     fundadorPriceLabel: 'Preço Fundador (R$/mês)',
@@ -180,21 +180,21 @@ const pt = {
   },
   plan18: {
     eyebrow: 'Plano · hipótese',
-    title: '18 meses para provar liquidez — e só depois replicar.',
+    title: '18 meses para provar liquidez, e só depois replicar.',
     phases: [
-      { range: '0–3 meses', title: 'Estabilizar e validar', desc: 'Gates técnicos · categorias · primeiros prestadores · entrevistas e teste de demanda.' },
-      { range: '4–9 meses', title: 'Densidade e conversão', desc: 'Ativação B2C · parcerias · KPIs · pilotos pagos e retenção.' },
-      { range: '10–18 meses', title: 'Recorrência e replicação', desc: 'Playbook repetível · economia da unidade · destinos adjacentes após os gates.' },
+      { range: '0 a 3 meses', title: 'Estabilizar e validar', desc: 'Gates técnicos · categorias · primeiros prestadores · entrevistas e teste de demanda.' },
+      { range: '4 a 9 meses', title: 'Densidade e conversão', desc: 'Ativação B2C · parcerias · KPIs · pilotos pagos e retenção.' },
+      { range: '10 a 18 meses', title: 'Recorrência e replicação', desc: 'Playbook repetível · economia da unidade · destinos adjacentes após os gates.' },
     ],
     gate: 'Gate de expansão: oferta ativa + tempo de resposta + conversão + retenção dentro das metas acordadas.',
     roadmapTitle: 'Roadmap detalhado por janela',
     roadmapColumns: ['Janela', 'Produto e tecnologia', 'Oferta e qualidade', 'Demanda e GTM', 'Financeiro e governança', 'Gate'],
     roadmap: [
-      { window: '0–3 meses', product: 'Fechar acesso, dados, pagamentos e observabilidade; instrumentar eventos.', offer: 'Definir critérios; recrutar e verificar primeira coorte.', demand: 'Mapear parceiros e necessidades; preparar piloto controlado.', financial: 'Unificar preços/planos; orçamento, LGPD e políticas.', gate: 'Prontidão + oferta mínima útil.' },
-      { window: '4–6 meses', product: 'Aprimorar pedido guiado, resposta e avaliação.', offer: 'Acompanhar SLA, disponibilidade e qualidade.', demand: 'Ativar demanda em microterritório; testar mensagens e canais.', financial: 'Iniciar cobrança piloto e reconciliação.', gate: 'Resposta e conversão mensuráveis.' },
-      { window: '7–9 meses', product: 'Reduzir fricção e elevar confiabilidade dos dados.', offer: 'Expandir somente dentro das categorias com liquidez.', demand: 'Parcerias recorrentes e reativação.', financial: 'Coortes de preço, churn inicial e custos.', gate: 'Liquidez repetível + sinal de retenção.' },
-      { window: '10–12 meses', product: 'Automatizar controles maduros, sem retirar curadoria crítica.', offer: 'Padronizar playbook de onboarding e qualidade.', demand: 'Escalar canais comprovados, não alcance vazio.', financial: 'Economia unitária inicial e runway.', gate: 'Receita recorrente comprovada.' },
-      { window: '13–18 meses', product: 'Preparar replicação e reporting para data room.', offer: 'Testar nova célula apenas se gates forem atingidos.', demand: 'Replicar playbook com critérios de entrada e saída.', financial: 'Auditoria de métricas e tese de captação.', gate: 'Replicabilidade comprovável.' },
+      { window: '0 a 3 meses', product: 'Fechar acesso, dados, pagamentos e observabilidade; instrumentar eventos.', offer: 'Definir critérios; recrutar e verificar primeira coorte.', demand: 'Mapear parceiros e necessidades; preparar piloto controlado.', financial: 'Unificar preços/planos; orçamento, LGPD e políticas.', gate: 'Prontidão + oferta mínima útil.' },
+      { window: '4 a 6 meses', product: 'Aprimorar pedido guiado, resposta e avaliação.', offer: 'Acompanhar SLA, disponibilidade e qualidade.', demand: 'Ativar demanda em microterritório; testar mensagens e canais.', financial: 'Iniciar cobrança piloto e reconciliação.', gate: 'Resposta e conversão mensuráveis.' },
+      { window: '7 a 9 meses', product: 'Reduzir fricção e elevar confiabilidade dos dados.', offer: 'Expandir somente dentro das categorias com liquidez.', demand: 'Parcerias recorrentes e reativação.', financial: 'Coortes de preço, churn inicial e custos.', gate: 'Liquidez repetível + sinal de retenção.' },
+      { window: '10 a 12 meses', product: 'Automatizar controles maduros, sem retirar curadoria crítica.', offer: 'Padronizar playbook de onboarding e qualidade.', demand: 'Escalar canais comprovados, não alcance vazio.', financial: 'Economia unitária inicial e runway.', gate: 'Receita recorrente comprovada.' },
+      { window: '13 a 18 meses', product: 'Preparar replicação e reporting para data room.', offer: 'Testar nova célula apenas se gates forem atingidos.', demand: 'Replicar playbook com critérios de entrada e saída.', financial: 'Auditoria de métricas e tese de captação.', gate: 'Replicabilidade comprovável.' },
     ],
   },
   launchSteps: {
@@ -221,21 +221,21 @@ const pt = {
   metrics: {
     eyebrow: 'Framework de KPIs',
     title: 'Métricas a instrumentar e validar ao longo dos 18 meses.',
-    subtitle: 'Não há resultados comprovados nos anexos — o valor "meta" segue como "a medir/a definir" até o baseline do piloto.',
+    subtitle: 'Não há resultados comprovados nos anexos, o valor "meta" segue como "a medir/a definir" até o baseline do piloto.',
     columns: ['KPI', 'Definição', 'Frequência', 'Status'],
     groups: [
-      { phase: '0–3 meses', items: [
+      { phase: '0 a 3 meses', items: [
         { kpi: 'Prestadores verificados ativos', def: 'Perfis aprovados com disponibilidade recente', freq: 'Semanal', status: 'A medir' },
         { kpi: 'Cobertura por categoria', def: 'Categorias com oferta mínima útil por microterritório', freq: 'Semanal', status: 'A definir' },
         { kpi: 'Tempo de resposta', def: 'Mediana entre pedido e primeira resposta válida', freq: 'Semanal', status: 'A instrumentar' },
       ]},
-      { phase: '4–9 meses', items: [
+      { phase: '4 a 9 meses', items: [
         { kpi: 'Taxa pedido → resposta', def: 'Pedidos com pelo menos uma resposta válida ÷ pedidos', freq: 'Semanal', status: 'A instrumentar' },
         { kpi: 'Taxa resposta → contratação', def: 'Contratações confirmadas ÷ pedidos respondidos', freq: 'Mensal', status: 'A medir' },
         { kpi: 'Conversão para assinatura', def: 'Prestadores pagantes ÷ prestadores elegíveis', freq: 'Mensal', status: 'A medir' },
         { kpi: 'Churn de prestadores', def: 'Cancelamentos ÷ base pagante inicial', freq: 'Mensal', status: 'A medir' },
       ]},
-      { phase: '10–18 meses', items: [
+      { phase: '10 a 18 meses', items: [
         { kpi: 'Recorrência B2C', def: 'Usuários que criam novo pedido em janela definida', freq: 'Mensal', status: 'A definir' },
         { kpi: 'MRR comprovado', def: 'Receita recorrente cobrada e líquida de estornos', freq: 'Mensal', status: 'Sem dado' },
         { kpi: 'Liquidez por microterritório', def: 'Pedidos atendidos com qualidade e SLA mínimo', freq: 'Mensal', status: 'A definir' },
@@ -244,7 +244,7 @@ const pt = {
   },
   useOfFunds: {
     eyebrow: 'Recomendação · a aprovar',
-    title: 'A rodada deve financiar prova de liquidez — não expansão prematura.',
+    title: 'A rodada deve financiar prova de liquidez, não expansão prematura.',
     subtitle: 'Distribuição recomendada para planejamento. Ajustar quando rodada, orçamento, equipe e runway forem definidos.',
     items: [
       { label: 'Produto + segurança', pct: 35, desc: 'Dados, acesso, pagamentos, observabilidade e experiência principal.' },
@@ -256,16 +256,16 @@ const pt = {
     eyebrow: 'Próximo passo · validar antes de captar',
     title: 'A tese é simples',
     summary: 'Confiança local pode virar infraestrutura escalável.',
-    body: 'O próximo passo não é afirmar escala — é provar densidade, conversão e recorrência em Trancoso com métricas verificáveis.',
+    body: 'O próximo passo não é afirmar escala, é provar densidade, conversão e recorrência em Trancoso com métricas verificáveis.',
     quote: '"A Trancoso Resolve nasce de uma tese simples: em destinos de alta intenção, o gargalo não é encontrar nomes; é confiar e fechar."',
   },
   returns: {
     eyebrow: 'Estrutura condicionada',
     title: 'O capital compra marcos; retorno depende de dados ainda ausentes.',
     phases: [
-      { range: '0–3', label: 'meses · gates de lançamento' },
-      { range: '4–9', label: 'meses · densidade e conversão' },
-      { range: '10–18', label: 'meses · recorrência e replicação' },
+      { range: '0 a 3', label: 'meses · gates de lançamento' },
+      { range: '4 a 9', label: 'meses · densidade e conversão' },
+      { range: '10 a 18', label: 'meses · recorrência e replicação' },
       { range: 'N/D', label: 'prazo de retorno financeiro' },
     ],
     body: 'Não é promessa de payback. Sem rodada, valuation, custos, margem, CAC, churn e política de distribuição, não há cálculo responsável.',
@@ -275,7 +275,7 @@ const pt = {
   },
   risks: {
     eyebrow: 'Risco · auditoria anexa',
-    title: 'O risco principal não é tecnologia isolada — é lançar sem confiança.',
+    title: 'O risco principal não é tecnologia isolada, é lançar sem confiança.',
     items: [
       { risk: 'Produto e segurança', desc: 'Gate: proteção de dados, controles de acesso, pagamentos e observabilidade.', impact: 'Crítico', status: 'Aberto' },
       { risk: 'Liquidez local', desc: 'Gate: oferta ativa, resposta rápida e conversão em categorias prioritárias.', impact: 'Alto', status: 'A validar' },
@@ -289,9 +289,9 @@ const pt = {
     subtitle: 'Extrato do roteiro de Q&A usado nas reuniões com investidores.',
     items: [
       { q: 'Qual é a tração atual?', a: 'Não há tração comprovada nos anexos. O material distingue claramente tese e resultados. O plano é instrumentar oferta, pedidos, respostas, contratação, receita e retenção antes de atribuir números.' },
-      { q: 'R$ 29,5 mil de MRR já existe?', a: 'Não. É a multiplicação ilustrativa de 500 prestadores por R$ 59/mês — um cenário, não um resultado.' },
+      { q: 'R$ 29,5 mil de MRR já existe?', a: 'Não. É a multiplicação ilustrativa de 500 prestadores por R$ 59/mês, um cenário, não um resultado.' },
       { q: 'Quando o investidor recupera o capital?', a: 'Ainda não é possível estimar. Faltam rodada, valuation, participação, custos, diluição e evento de liquidez. O modelo mantém payback, MOIC e IRR pendentes.' },
-      { q: 'O moat já existe?', a: 'Não. É uma hipótese construída por densidade, dados de qualidade, recorrência e confiança — ainda a comprovar.' },
+      { q: 'O moat já existe?', a: 'Não. É uma hipótese construída por densidade, dados de qualidade, recorrência e confiança, ainda a comprovar.' },
       { q: 'A plataforma está pronta?', a: 'A auditoria técnica identificou gates críticos. O lançamento deve aguardar correções e evidências de prontidão.' },
       { q: 'Qual é a stack tecnológica?', a: 'React, Vite, Tailwind, shadcn/ui e Base44. Nenhuma outra tecnologia é apresentada como stack atual sem evidência.' },
       { q: 'Quanto vocês estão captando e qual o valuation?', a: 'O valor da rodada e o valuation ainda não foram definidos. O material apresenta apenas percentuais recomendados de uso de capital.' },
@@ -305,7 +305,7 @@ const pt = {
     note: 'Downloads não substituem diligência formal. Consulte o LEIA-ME para regras de evidência e classificação completas.',
     downloadLabel: 'Baixar',
     files: [
-      { key: 'deck', name: 'Deck de investidores (PDF)', desc: '18 slides — tese, produto, mercado, receita e plano de 18 meses.', href: '/investidores/deck-investidores.pdf' },
+      { key: 'deck', name: 'Deck de investidores (PDF)', desc: '18 slides, tese, produto, mercado, receita e plano de 18 meses.', href: '/investidores/deck-investidores.pdf' },
       { key: 'financeiro', name: 'Modelo financeiro 18 meses (XLSX)', desc: 'Planilha editável com premissas, sensibilidade de receita, uso de recursos e checks de integridade.', href: '/investidores/modelo-financeiro-18-meses.xlsx' },
       { key: 'resumo', name: 'Resumo executivo (PDF)', desc: 'Tese, diferenciação, lançamento, impacto e marco de investimento em uma página.', href: '/investidores/resumo-executivo.pdf' },
       { key: 'memo', name: 'Memorando de investimento (PDF)', desc: 'Análise completa da tese, mercado, concorrência, lançamento, impacto, retorno e riscos.', href: '/investidores/memorando-investimento.pdf' },
@@ -317,7 +317,7 @@ const pt = {
   leadForm: {
     eyebrow: 'Contato',
     title: 'Quer conversar sobre a tese?',
-    subtitle: 'Deixe seus dados e nossa equipe retorna com o próximo passo — diligência sobre o plano de validação.',
+    subtitle: 'Deixe seus dados e nossa equipe retorna com o próximo passo, diligência sobre o plano de validação.',
     nameLabel: 'Nome completo',
     emailLabel: 'Email',
     phoneLabel: 'Telefone / WhatsApp (opcional)',
@@ -445,7 +445,7 @@ const es = {
   },
   competitors: {
     eyebrow: 'Fuentes externas + análisis',
-    title: 'Competidores fuertes validan la necesidad — y dejan un espacio local.',
+    title: 'Competidores fuertes validan la necesidad, y dejan un espacio local.',
     subtitle: 'Alternativas reconocidas, y el espacio que la tesis local aún debe demostrar.',
     items: [
       { name: 'GetNinjas', strength: 'Escala, categorías y demanda nacional', gap: 'La curaduría de microterritorio no es su propuesta central.' },
@@ -471,7 +471,7 @@ const es = {
         { n: '2', title: 'Calidad de los datos', desc: 'Verificación, respuesta, resolución y reseñas generan señales útiles y comparables.' },
         { n: '3', title: 'Recurrencia y distribución', desc: 'Alianzas y repetición de uso transforman la confianza en hábito local.' },
       ],
-      note: 'Moat esperado — no comprobado: red curada + datos de calidad + recurrencia + confianza.',
+      note: 'Moat esperado, no comprobado: red curada + datos de calidad + recurrencia + confianza.',
     },
   },
   revenueModel: {
@@ -480,13 +480,13 @@ const es = {
     plans: [
       { name: 'Fundador', price: 'R$ 19,90', unit: '/mes', classification: 'hipotese', note: 'Hipótesis de lanzamiento. Beneficio y duración dependen de aprobación legal y comercial.' },
       { name: 'Profesional', price: 'R$ 59', unit: '/mes', classification: 'hipotese', note: 'Hipótesis de precio objetivo para perfil completo, visibilidad y herramientas de conversión.' },
-      { name: 'Transaccional', price: '8–12%', unit: 'del GTV', classification: 'hipoteseFutura', note: 'Hipótesis futura, solo en categorías con pedido, confirmación y soporte controlables.' },
+      { name: 'Transaccional', price: '8 a 12%', unit: 'del GTV', classification: 'hipoteseFutura', note: 'Hipótesis futura, solo en categorías con pedido, confirmación y soporte controlables.' },
     ],
     disclaimer: 'Todos los precios son hipótesis. No representan ingresos actuales, contratos o tracción.',
   },
   scenarioChart: {
     eyebrow: 'Escenario matemático · ilustrativo',
-    title: 'La tesis financiera comienza con una sensibilidad — no con una promesa.',
+    title: 'La tesis financiera comienza con una sensibilidad, no con una promesa.',
     stats: [
       { value: '500', label: 'prestadores en el escenario' },
       { value: 'R$ 59', label: 'precio mensual' },
@@ -503,7 +503,7 @@ const es = {
   calculator: {
     eyebrow: 'Calculadora financiera · editable',
     title: 'Simula tu propio escenario de ingresos',
-    subtitle: 'Ajusta los prestadores pagantes y los precios de los planes. Los resultados se recalculan en tiempo real — no son forecast ni meta aprobada.',
+    subtitle: 'Ajusta los prestadores pagantes y los precios de los planes. Los resultados se recalculan en tiempo real, no son forecast ni meta aprobada.',
     fundadorLabel: 'Prestadores en el plan Fundador',
     profissionalLabel: 'Prestadores en el plan Profesional',
     fundadorPriceLabel: 'Precio Fundador (R$/mes)',
@@ -516,21 +516,21 @@ const es = {
   },
   plan18: {
     eyebrow: 'Plan · hipótesis',
-    title: '18 meses para probar liquidez — y solo después replicar.',
+    title: '18 meses para probar liquidez, y solo después replicar.',
     phases: [
-      { range: '0–3 meses', title: 'Estabilizar y validar', desc: 'Gates técnicos · categorías · primeros prestadores · entrevistas y prueba de demanda.' },
-      { range: '4–9 meses', title: 'Densidad y conversión', desc: 'Activación B2C · alianzas · KPIs · pilotos pagados y retención.' },
-      { range: '10–18 meses', title: 'Recurrencia y replicación', desc: 'Playbook repetible · economía unitaria · destinos adyacentes tras los gates.' },
+      { range: '0 a 3 meses', title: 'Estabilizar y validar', desc: 'Gates técnicos · categorías · primeros prestadores · entrevistas y prueba de demanda.' },
+      { range: '4 a 9 meses', title: 'Densidad y conversión', desc: 'Activación B2C · alianzas · KPIs · pilotos pagados y retención.' },
+      { range: '10 a 18 meses', title: 'Recurrencia y replicación', desc: 'Playbook repetible · economía unitaria · destinos adyacentes tras los gates.' },
     ],
     gate: 'Gate de expansión: oferta activa + tiempo de respuesta + conversión + retención dentro de las metas acordadas.',
     roadmapTitle: 'Roadmap detallado por ventana',
     roadmapColumns: ['Ventana', 'Producto y tecnología', 'Oferta y calidad', 'Demanda y GTM', 'Financiero y gobernanza', 'Gate'],
     roadmap: [
-      { window: '0–3 meses', product: 'Cerrar acceso, datos, pagos y observabilidad; instrumentar eventos.', offer: 'Definir criterios; reclutar y verificar la primera cohorte.', demand: 'Mapear socios y necesidades; preparar piloto controlado.', financial: 'Unificar precios/planes; presupuesto, LGPD y políticas.', gate: 'Preparación + oferta mínima útil.' },
-      { window: '4–6 meses', product: 'Mejorar pedido guiado, respuesta y evaluación.', offer: 'Monitorear SLA, disponibilidad y calidad.', demand: 'Activar demanda en microterritorio; probar mensajes y canales.', financial: 'Iniciar cobro piloto y conciliación.', gate: 'Respuesta y conversión medibles.' },
-      { window: '7–9 meses', product: 'Reducir fricción y aumentar la confiabilidad de los datos.', offer: 'Expandir solo dentro de las categorías con liquidez.', demand: 'Alianzas recurrentes y reactivación.', financial: 'Cohortes de precio, churn inicial y costos.', gate: 'Liquidez repetible + señal de retención.' },
-      { window: '10–12 meses', product: 'Automatizar controles maduros, sin quitar curaduría crítica.', offer: 'Estandarizar playbook de onboarding y calidad.', demand: 'Escalar canales comprobados, no alcance vacío.', financial: 'Economía unitaria inicial y runway.', gate: 'Ingreso recurrente comprobado.' },
-      { window: '13–18 meses', product: 'Preparar replicación y reporting para el data room.', offer: 'Probar nueva célula solo si se cumplen los gates.', demand: 'Replicar playbook con criterios de entrada y salida.', financial: 'Auditoría de métricas y tesis de captación.', gate: 'Replicabilidad comprobable.' },
+      { window: '0 a 3 meses', product: 'Cerrar acceso, datos, pagos y observabilidad; instrumentar eventos.', offer: 'Definir criterios; reclutar y verificar la primera cohorte.', demand: 'Mapear socios y necesidades; preparar piloto controlado.', financial: 'Unificar precios/planes; presupuesto, LGPD y políticas.', gate: 'Preparación + oferta mínima útil.' },
+      { window: '4 a 6 meses', product: 'Mejorar pedido guiado, respuesta y evaluación.', offer: 'Monitorear SLA, disponibilidad y calidad.', demand: 'Activar demanda en microterritorio; probar mensajes y canales.', financial: 'Iniciar cobro piloto y conciliación.', gate: 'Respuesta y conversión medibles.' },
+      { window: '7 a 9 meses', product: 'Reducir fricción y aumentar la confiabilidad de los datos.', offer: 'Expandir solo dentro de las categorías con liquidez.', demand: 'Alianzas recurrentes y reactivación.', financial: 'Cohortes de precio, churn inicial y costos.', gate: 'Liquidez repetible + señal de retención.' },
+      { window: '10 a 12 meses', product: 'Automatizar controles maduros, sin quitar curaduría crítica.', offer: 'Estandarizar playbook de onboarding y calidad.', demand: 'Escalar canales comprobados, no alcance vacío.', financial: 'Economía unitaria inicial y runway.', gate: 'Ingreso recurrente comprobado.' },
+      { window: '13 a 18 meses', product: 'Preparar replicación y reporting para el data room.', offer: 'Probar nueva célula solo si se cumplen los gates.', demand: 'Replicar playbook con criterios de entrada y salida.', financial: 'Auditoría de métricas y tesis de captación.', gate: 'Replicabilidad comprobable.' },
     ],
   },
   launchSteps: {
@@ -557,21 +557,21 @@ const es = {
   metrics: {
     eyebrow: 'Framework de KPIs',
     title: 'Métricas para instrumentar y validar a lo largo de los 18 meses.',
-    subtitle: 'No hay resultados comprobados en los anexos — la "meta" permanece como "por medir/definir" hasta el baseline del piloto.',
+    subtitle: 'No hay resultados comprobados en los anexos, la "meta" permanece como "por medir/definir" hasta el baseline del piloto.',
     columns: ['KPI', 'Definición', 'Frecuencia', 'Estado'],
     groups: [
-      { phase: '0–3 meses', items: [
+      { phase: '0 a 3 meses', items: [
         { kpi: 'Prestadores verificados activos', def: 'Perfiles aprobados con disponibilidad reciente', freq: 'Semanal', status: 'Por medir' },
         { kpi: 'Cobertura por categoría', def: 'Categorías con oferta mínima útil por microterritorio', freq: 'Semanal', status: 'Por definir' },
         { kpi: 'Tiempo de respuesta', def: 'Mediana entre pedido y primera respuesta válida', freq: 'Semanal', status: 'Por instrumentar' },
       ]},
-      { phase: '4–9 meses', items: [
+      { phase: '4 a 9 meses', items: [
         { kpi: 'Tasa pedido → respuesta', def: 'Pedidos con al menos una respuesta válida ÷ pedidos', freq: 'Semanal', status: 'Por instrumentar' },
         { kpi: 'Tasa respuesta → contratación', def: 'Contrataciones confirmadas ÷ pedidos respondidos', freq: 'Mensual', status: 'Por medir' },
         { kpi: 'Conversión a suscripción', def: 'Prestadores pagantes ÷ prestadores elegibles', freq: 'Mensual', status: 'Por medir' },
         { kpi: 'Churn de prestadores', def: 'Cancelaciones ÷ base pagante inicial', freq: 'Mensual', status: 'Por medir' },
       ]},
-      { phase: '10–18 meses', items: [
+      { phase: '10 a 18 meses', items: [
         { kpi: 'Recurrencia B2C', def: 'Usuarios que crean un nuevo pedido en la ventana definida', freq: 'Mensual', status: 'Por definir' },
         { kpi: 'MRR comprobado', def: 'Ingreso recurrente cobrado y neto de reembolsos', freq: 'Mensual', status: 'Sin dato' },
         { kpi: 'Liquidez por microterritorio', def: 'Pedidos atendidos con calidad y SLA mínimo', freq: 'Mensual', status: 'Por definir' },
@@ -580,7 +580,7 @@ const es = {
   },
   useOfFunds: {
     eyebrow: 'Recomendación · por aprobar',
-    title: 'La ronda debe financiar la prueba de liquidez — no una expansión prematura.',
+    title: 'La ronda debe financiar la prueba de liquidez, no una expansión prematura.',
     subtitle: 'Distribución recomendada para planificación. Ajustar cuando la ronda, presupuesto, equipo y runway estén definidos.',
     items: [
       { label: 'Producto + seguridad', pct: 35, desc: 'Datos, acceso, pagos, observabilidad y experiencia principal.' },
@@ -592,16 +592,16 @@ const es = {
     eyebrow: 'Próximo paso · validar antes de captar',
     title: 'La tesis es simple',
     summary: 'La confianza local puede convertirse en infraestructura escalable.',
-    body: 'El próximo paso no es afirmar escala — es probar densidad, conversión y recurrencia en Trancoso con métricas verificables.',
+    body: 'El próximo paso no es afirmar escala, es probar densidad, conversión y recurrencia en Trancoso con métricas verificables.',
     quote: '"Trancoso Resolve nace de una tesis simple: en destinos de alta intención, el cuello de botella no es encontrar nombres; es confiar y cerrar."',
   },
   returns: {
     eyebrow: 'Estructura condicionada',
     title: 'El capital compra hitos; el retorno depende de datos aún ausentes.',
     phases: [
-      { range: '0–3', label: 'meses · gates de lanzamiento' },
-      { range: '4–9', label: 'meses · densidad y conversión' },
-      { range: '10–18', label: 'meses · recurrencia y replicación' },
+      { range: '0 a 3', label: 'meses · gates de lanzamiento' },
+      { range: '4 a 9', label: 'meses · densidad y conversión' },
+      { range: '10 a 18', label: 'meses · recurrencia y replicación' },
       { range: 'N/D', label: 'plazo de retorno financiero' },
     ],
     body: 'No es una promesa de payback. Sin ronda, valuation, costos, margen, CAC, churn y política de distribución, no hay cálculo responsable.',
@@ -611,7 +611,7 @@ const es = {
   },
   risks: {
     eyebrow: 'Riesgo · auditoría anexa',
-    title: 'El riesgo principal no es la tecnología aislada — es lanzar sin confianza.',
+    title: 'El riesgo principal no es la tecnología aislada, es lanzar sin confianza.',
     items: [
       { risk: 'Producto y seguridad', desc: 'Gate: protección de datos, controles de acceso, pagos y observabilidad.', impact: 'Crítico', status: 'Abierto' },
       { risk: 'Liquidez local', desc: 'Gate: oferta activa, respuesta rápida y conversión en categorías prioritarias.', impact: 'Alto', status: 'Por validar' },
@@ -625,9 +625,9 @@ const es = {
     subtitle: 'Extracto del guion de Q&A usado en reuniones con inversionistas.',
     items: [
       { q: '¿Cuál es la tracción actual?', a: 'No hay tracción comprobada en los anexos. El material distingue claramente tesis de resultados. El plan es instrumentar oferta, pedidos, respuestas, contratación, ingresos y retención antes de asignar números.' },
-      { q: '¿Ya existen los R$ 29,5 mil de MRR?', a: 'No. Es la multiplicación ilustrativa de 500 prestadores por R$ 59/mes — un escenario, no un resultado.' },
+      { q: '¿Ya existen los R$ 29,5 mil de MRR?', a: 'No. Es la multiplicación ilustrativa de 500 prestadores por R$ 59/mes, un escenario, no un resultado.' },
       { q: '¿Cuándo recupera el capital el inversionista?', a: 'Aún no es posible estimarlo. Faltan ronda, valuation, participación, costos, dilución y evento de liquidez. El modelo mantiene payback, MOIC e IRR pendientes.' },
-      { q: '¿Ya existe el moat?', a: 'No. Es una hipótesis construida por densidad, calidad de datos, recurrencia y confianza — aún por comprobar.' },
+      { q: '¿Ya existe el moat?', a: 'No. Es una hipótesis construida por densidad, calidad de datos, recurrencia y confianza, aún por comprobar.' },
       { q: '¿La plataforma está lista?', a: 'La auditoría técnica identificó gates críticos. El lanzamiento debe esperar correcciones y evidencia de preparación.' },
       { q: '¿Cuál es el stack tecnológico?', a: 'React, Vite, Tailwind, shadcn/ui y Base44. Ninguna otra tecnología se presenta como stack actual sin evidencia.' },
       { q: '¿Cuánto están captando y cuál es el valuation?', a: 'El valor de la ronda y el valuation aún no están definidos. El material presenta solo porcentajes recomendados de uso de capital.' },
@@ -641,7 +641,7 @@ const es = {
     note: 'Las descargas no sustituyen la diligencia formal. Consulte el LEIA-ME para las reglas de evidencia y clasificación completas.',
     downloadLabel: 'Descargar',
     files: [
-      { key: 'deck', name: 'Deck de inversionistas (PDF)', desc: '18 diapositivas — tesis, producto, mercado, ingresos y plan de 18 meses.', href: '/investidores/deck-investidores.pdf' },
+      { key: 'deck', name: 'Deck de inversionistas (PDF)', desc: '18 diapositivas, tesis, producto, mercado, ingresos y plan de 18 meses.', href: '/investidores/deck-investidores.pdf' },
       { key: 'financeiro', name: 'Modelo financiero 18 meses (XLSX)', desc: 'Planilla editable con premisas, sensibilidad de ingresos, uso de recursos y checks de integridad.', href: '/investidores/modelo-financeiro-18-meses.xlsx' },
       { key: 'resumo', name: 'Resumen ejecutivo (PDF)', desc: 'Tesis, diferenciación, lanzamiento, impacto e hito de inversión en una página.', href: '/investidores/resumo-executivo.pdf' },
       { key: 'memo', name: 'Memorando de inversión (PDF)', desc: 'Análisis completo de la tesis, mercado, competencia, lanzamiento, impacto, retorno y riesgos.', href: '/investidores/memorando-investimento.pdf' },
@@ -653,7 +653,7 @@ const es = {
   leadForm: {
     eyebrow: 'Contacto',
     title: '¿Quiere hablar sobre la tesis?',
-    subtitle: 'Deje sus datos y nuestro equipo responderá con el próximo paso — diligencia sobre el plan de validación.',
+    subtitle: 'Deje sus datos y nuestro equipo responderá con el próximo paso, diligencia sobre el plan de validación.',
     nameLabel: 'Nombre completo',
     emailLabel: 'Email',
     phoneLabel: 'Teléfono / WhatsApp (opcional)',
@@ -781,7 +781,7 @@ const en = {
   },
   competitors: {
     eyebrow: 'External sources + analysis',
-    title: 'Strong competitors validate the need — and leave a local gap.',
+    title: 'Strong competitors validate the need, and leave a local gap.',
     subtitle: 'Recognized alternatives, and the space the local thesis still has to prove.',
     items: [
       { name: 'GetNinjas', strength: 'Scale, categories and national demand', gap: 'Micro-territory curation is not its core proposition.' },
@@ -807,7 +807,7 @@ const en = {
         { n: '2', title: 'Data quality', desc: 'Verification, response, resolution and reviews generate useful, comparable signals.' },
         { n: '3', title: 'Recurrence and distribution', desc: 'Partnerships and repeat use turn trust into local habit.' },
       ],
-      note: 'Expected moat — not proven: curated network + quality data + recurrence + trust.',
+      note: 'Expected moat, not proven: curated network + quality data + recurrence + trust.',
     },
   },
   revenueModel: {
@@ -816,13 +816,13 @@ const en = {
     plans: [
       { name: 'Founder', price: 'R$19.90', unit: '/mo', classification: 'hipotese', note: 'Launch hypothesis. Benefit and duration depend on legal and commercial approval.' },
       { name: 'Professional', price: 'R$59', unit: '/mo', classification: 'hipotese', note: 'Target-price hypothesis for a full profile, visibility and conversion tools.' },
-      { name: 'Transactional', price: '8–12%', unit: 'of GTV', classification: 'hipoteseFutura', note: 'Future hypothesis, only in categories with controllable request, confirmation and support.' },
+      { name: 'Transactional', price: '8 to 12%', unit: 'of GTV', classification: 'hipoteseFutura', note: 'Future hypothesis, only in categories with controllable request, confirmation and support.' },
     ],
     disclaimer: 'All prices are hypotheses. They do not represent current revenue, contracts or traction.',
   },
   scenarioChart: {
     eyebrow: 'Mathematical scenario · illustrative',
-    title: 'The financial thesis starts with a sensitivity — not a promise.',
+    title: 'The financial thesis starts with a sensitivity, not a promise.',
     stats: [
       { value: '500', label: 'providers in the scenario' },
       { value: 'R$59', label: 'monthly price' },
@@ -839,7 +839,7 @@ const en = {
   calculator: {
     eyebrow: 'Financial calculator · editable',
     title: 'Simulate your own revenue scenario',
-    subtitle: 'Adjust paying providers and plan prices. Results recalculate live — this is not a forecast or an approved target.',
+    subtitle: 'Adjust paying providers and plan prices. Results recalculate live, this is not a forecast or an approved target.',
     fundadorLabel: 'Providers on the Founder plan',
     profissionalLabel: 'Providers on the Professional plan',
     fundadorPriceLabel: 'Founder price (R$/mo)',
@@ -852,21 +852,21 @@ const en = {
   },
   plan18: {
     eyebrow: 'Plan · hypothesis',
-    title: '18 months to prove liquidity — only then replicate.',
+    title: '18 months to prove liquidity, only then replicate.',
     phases: [
-      { range: '0–3 mo', title: 'Stabilize and validate', desc: 'Technical gates · categories · first providers · interviews and demand testing.' },
-      { range: '4–9 mo', title: 'Density and conversion', desc: 'B2C activation · partnerships · KPIs · paid pilots and retention.' },
-      { range: '10–18 mo', title: 'Recurrence and replication', desc: 'Repeatable playbook · unit economics · adjacent destinations after the gates.' },
+      { range: '0 to 3 mo', title: 'Stabilize and validate', desc: 'Technical gates · categories · first providers · interviews and demand testing.' },
+      { range: '4 to 9 mo', title: 'Density and conversion', desc: 'B2C activation · partnerships · KPIs · paid pilots and retention.' },
+      { range: '10 to 18 mo', title: 'Recurrence and replication', desc: 'Repeatable playbook · unit economics · adjacent destinations after the gates.' },
     ],
     gate: 'Expansion gate: active supply + response time + conversion + retention within agreed targets.',
     roadmapTitle: 'Detailed roadmap by window',
     roadmapColumns: ['Window', 'Product & tech', 'Supply & quality', 'Demand & GTM', 'Finance & governance', 'Gate'],
     roadmap: [
-      { window: '0–3 mo', product: 'Close access, data, payments and observability gates; instrument events.', offer: 'Define criteria; recruit and verify first cohort.', demand: 'Map partners and needs; prepare a controlled pilot.', financial: 'Unify prices/plans; budget, LGPD and policies.', gate: 'Readiness + minimum useful supply.' },
-      { window: '4–6 mo', product: 'Improve guided request, response and review.', offer: 'Monitor SLA, availability and quality.', demand: 'Activate demand in a micro-territory; test messaging and channels.', financial: 'Start pilot billing and reconciliation.', gate: 'Measurable response and conversion.' },
-      { window: '7–9 mo', product: 'Reduce friction and raise data reliability.', offer: 'Expand only within categories with liquidity.', demand: 'Recurring partnerships and reactivation.', financial: 'Pricing cohorts, initial churn and costs.', gate: 'Repeatable liquidity + retention signal.' },
-      { window: '10–12 mo', product: 'Automate mature controls without removing critical curation.', offer: 'Standardize onboarding and quality playbook.', demand: 'Scale proven channels, not empty reach.', financial: 'Initial unit economics and runway.', gate: 'Proven recurring revenue.' },
-      { window: '13–18 mo', product: 'Prepare replication and reporting for the data room.', offer: 'Test a new cell only if gates are met.', demand: 'Replicate the playbook with entry and exit criteria.', financial: 'Metrics audit and fundraising thesis.', gate: 'Provable replicability.' },
+      { window: '0 to 3 mo', product: 'Close access, data, payments and observability gates; instrument events.', offer: 'Define criteria; recruit and verify first cohort.', demand: 'Map partners and needs; prepare a controlled pilot.', financial: 'Unify prices/plans; budget, LGPD and policies.', gate: 'Readiness + minimum useful supply.' },
+      { window: '4 to 6 mo', product: 'Improve guided request, response and review.', offer: 'Monitor SLA, availability and quality.', demand: 'Activate demand in a micro-territory; test messaging and channels.', financial: 'Start pilot billing and reconciliation.', gate: 'Measurable response and conversion.' },
+      { window: '7 to 9 mo', product: 'Reduce friction and raise data reliability.', offer: 'Expand only within categories with liquidity.', demand: 'Recurring partnerships and reactivation.', financial: 'Pricing cohorts, initial churn and costs.', gate: 'Repeatable liquidity + retention signal.' },
+      { window: '10 to 12 mo', product: 'Automate mature controls without removing critical curation.', offer: 'Standardize onboarding and quality playbook.', demand: 'Scale proven channels, not empty reach.', financial: 'Initial unit economics and runway.', gate: 'Proven recurring revenue.' },
+      { window: '13 to 18 mo', product: 'Prepare replication and reporting for the data room.', offer: 'Test a new cell only if gates are met.', demand: 'Replicate the playbook with entry and exit criteria.', financial: 'Metrics audit and fundraising thesis.', gate: 'Provable replicability.' },
     ],
   },
   launchSteps: {
@@ -893,21 +893,21 @@ const en = {
   metrics: {
     eyebrow: 'KPI framework',
     title: 'Metrics to instrument and validate over the 18 months.',
-    subtitle: 'No proven results in the attachments — "target" stays "to be measured/defined" until the pilot baseline exists.',
+    subtitle: 'No proven results in the attachments, "target" stays "to be measured/defined" until the pilot baseline exists.',
     columns: ['KPI', 'Definition', 'Frequency', 'Status'],
     groups: [
-      { phase: '0–3 months', items: [
+      { phase: '0 to 3 months', items: [
         { kpi: 'Active verified providers', def: 'Approved profiles with recent availability', freq: 'Weekly', status: 'To be measured' },
         { kpi: 'Coverage by category', def: 'Categories with minimum useful supply per micro-territory', freq: 'Weekly', status: 'To be defined' },
         { kpi: 'Response time', def: 'Median time between request and first valid response', freq: 'Weekly', status: 'To be instrumented' },
       ]},
-      { phase: '4–9 months', items: [
+      { phase: '4 to 9 months', items: [
         { kpi: 'Request → response rate', def: 'Requests with at least one valid response ÷ requests', freq: 'Weekly', status: 'To be instrumented' },
         { kpi: 'Response → hire rate', def: 'Confirmed hires ÷ responded requests', freq: 'Monthly', status: 'To be measured' },
         { kpi: 'Subscription conversion', def: 'Paying providers ÷ eligible providers', freq: 'Monthly', status: 'To be measured' },
         { kpi: 'Provider churn', def: 'Cancellations ÷ initial paying base', freq: 'Monthly', status: 'To be measured' },
       ]},
-      { phase: '10–18 months', items: [
+      { phase: '10 to 18 months', items: [
         { kpi: 'B2C recurrence', def: 'Users creating a new request within a defined window', freq: 'Monthly', status: 'To be defined' },
         { kpi: 'Proven MRR', def: 'Recurring revenue billed, net of refunds', freq: 'Monthly', status: 'No data' },
         { kpi: 'Liquidity per micro-territory', def: 'Requests fulfilled with quality and minimum SLA', freq: 'Monthly', status: 'To be defined' },
@@ -916,7 +916,7 @@ const en = {
   },
   useOfFunds: {
     eyebrow: 'Recommendation · to be approved',
-    title: 'The round should fund proof of liquidity — not premature expansion.',
+    title: 'The round should fund proof of liquidity, not premature expansion.',
     subtitle: 'Recommended distribution for planning purposes. Adjust once the round, budget, team and runway are defined.',
     items: [
       { label: 'Product + security', pct: 35, desc: 'Data, access, payments, observability and core experience.' },
@@ -928,16 +928,16 @@ const en = {
     eyebrow: 'Next step · validate before raising',
     title: 'The thesis is simple',
     summary: 'Local trust can become scalable infrastructure.',
-    body: "The next step isn't to claim scale — it's to prove density, conversion and recurrence in Trancoso with verifiable metrics.",
+    body: "The next step isn't to claim scale, it's to prove density, conversion and recurrence in Trancoso with verifiable metrics.",
     quote: '"Trancoso Resolve is built on a simple thesis: in high-intent destinations, the bottleneck is not finding names; it is trusting and closing."',
   },
   returns: {
     eyebrow: 'Conditional structure',
     title: 'Capital buys milestones; returns depend on data that does not exist yet.',
     phases: [
-      { range: '0–3', label: 'months · launch gates' },
-      { range: '4–9', label: 'months · density and conversion' },
-      { range: '10–18', label: 'months · recurrence and replication' },
+      { range: '0 to 3', label: 'months · launch gates' },
+      { range: '4 to 9', label: 'months · density and conversion' },
+      { range: '10 to 18', label: 'months · recurrence and replication' },
       { range: 'N/A', label: 'financial return timeline' },
     ],
     body: 'This is not a payback promise. Without a round, valuation, costs, margin, CAC, churn and distribution policy, there is no responsible calculation.',
@@ -947,7 +947,7 @@ const en = {
   },
   risks: {
     eyebrow: 'Risk · audit attached',
-    title: "The main risk isn't isolated technology — it's launching without trust.",
+    title: "The main risk isn't isolated technology, it's launching without trust.",
     items: [
       { risk: 'Product and security', desc: 'Gate: data protection, access controls, payments and observability.', impact: 'Critical', status: 'Open' },
       { risk: 'Local liquidity', desc: 'Gate: active supply, fast response and conversion in priority categories.', impact: 'High', status: 'To validate' },
@@ -961,9 +961,9 @@ const en = {
     subtitle: 'An extract from the Q&A script used in investor meetings.',
     items: [
       { q: 'What is the current traction?', a: 'There is no proven traction in the attachments. The material clearly distinguishes thesis from results. The plan is to instrument supply, requests, responses, hiring, revenue and retention before assigning numbers.' },
-      { q: 'Does the R$29.5K MRR already exist?', a: 'No. It is the illustrative multiplication of 500 providers by R$59/month — a scenario, not a result.' },
+      { q: 'Does the R$29.5K MRR already exist?', a: 'No. It is the illustrative multiplication of 500 providers by R$59/month, a scenario, not a result.' },
       { q: 'When does the investor recover their capital?', a: 'It cannot yet be estimated. A round, valuation, ownership stake, costs, dilution and a liquidity event are all missing. The model keeps payback, MOIC and IRR pending.' },
-      { q: 'Does the moat already exist?', a: 'No. It is a hypothesis built on density, data quality, recurrence and trust — still to be proven.' },
+      { q: 'Does the moat already exist?', a: 'No. It is a hypothesis built on density, data quality, recurrence and trust, still to be proven.' },
       { q: 'Is the platform ready?', a: 'The technical audit identified critical gates. Launch should wait for fixes and readiness evidence.' },
       { q: 'What is the tech stack?', a: 'React, Vite, Tailwind, shadcn/ui and Base44. No other technology is presented as the current stack without evidence.' },
       { q: 'How much are you raising and at what valuation?', a: 'The round size and valuation have not yet been defined. The material only presents recommended percentages for capital use.' },
@@ -977,7 +977,7 @@ const en = {
     note: 'Downloads do not replace formal diligence. See the LEIA-ME file for the full evidence classification rules.',
     downloadLabel: 'Download',
     files: [
-      { key: 'deck', name: 'Investor deck (PDF)', desc: '18 slides — thesis, product, market, revenue and the 18-month plan.', href: '/investidores/deck-investidores.pdf' },
+      { key: 'deck', name: 'Investor deck (PDF)', desc: '18 slides, thesis, product, market, revenue and the 18-month plan.', href: '/investidores/deck-investidores.pdf' },
       { key: 'financeiro', name: '18-month financial model (XLSX)', desc: 'Editable spreadsheet with assumptions, revenue sensitivity, use of funds and integrity checks.', href: '/investidores/modelo-financeiro-18-meses.xlsx' },
       { key: 'resumo', name: 'Executive summary (PDF)', desc: 'Thesis, differentiation, launch, impact and investment milestone in one page.', href: '/investidores/resumo-executivo.pdf' },
       { key: 'memo', name: 'Investment memorandum (PDF)', desc: 'Full analysis of thesis, market, competition, launch, impact, return and risks.', href: '/investidores/memorando-investimento.pdf' },
@@ -989,7 +989,7 @@ const en = {
   leadForm: {
     eyebrow: 'Contact',
     title: 'Want to talk about the thesis?',
-    subtitle: "Leave your details and our team will follow up with the next step — diligence on the validation plan.",
+    subtitle: "Leave your details and our team will follow up with the next step, diligence on the validation plan.",
     nameLabel: 'Full name',
     emailLabel: 'Email',
     phoneLabel: 'Phone / WhatsApp (optional)',

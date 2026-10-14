@@ -141,20 +141,20 @@ export default function TabLeads({ leads, onRefresh }) {
                   return (
                     <tr key={lead.id} className={`border-b border-slate-700/40 hover:bg-slate-700/30 ${contatado ? "opacity-60" : ""}`}>
                       <td className="p-3 text-slate-400 text-xs whitespace-nowrap">
-                        {lead.created_date ? format(new Date(lead.created_date), "dd/MM/yy HH:mm") : "—"}
+                        {lead.created_date ? format(new Date(lead.created_date), "dd/MM/yy HH:mm") : "N/D"}
                       </td>
-                      <td className="p-3 text-slate-200 font-medium">{lead.name || "—"}</td>
+                      <td className="p-3 text-slate-200 font-medium">{lead.name || "N/D"}</td>
                       <td className="p-3">
                         <a href={`https://wa.me/55${(lead.phone || "").replace(/\D/g, "")}`} target="_blank"
                           rel="noopener noreferrer" className="text-green-400 hover:underline text-xs">
-                          {lead.phone || "—"}
+                          {lead.phone || "N/D"}
                         </a>
                       </td>
-                      <td className="p-3 text-slate-300 text-xs">{lead.service_interest || "—"}</td>
-                      <td className="p-3 text-slate-400 text-xs">{lead.source || "—"}</td>
+                      <td className="p-3 text-slate-300 text-xs">{lead.service_interest || "N/D"}</td>
+                      <td className="p-3 text-slate-400 text-xs">{lead.source || "N/D"}</td>
                       <td className="p-3">
                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${lead.type === "prestador" ? "bg-amber-900/50 text-amber-300" : "bg-orange-900/50 text-orange-300"}`}>
-                          {lead.type || "—"}
+                          {lead.type || "N/D"}
                         </span>
                       </td>
                       <td className="p-3">

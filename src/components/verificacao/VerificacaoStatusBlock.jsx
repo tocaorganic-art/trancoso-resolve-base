@@ -2,7 +2,7 @@ import { CheckCircle, Clock, AlertTriangle, XCircle, ArrowRight, Mail } from "lu
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
-const SUPORTE_EMAIL = "mailto:contato@tocaexperience.com.br?subject=Aprovação+de+perfil+—+Trancoso+Resolve";
+const SUPORTE_EMAIL = "mailto:contato@tocaexperience.com.br?subject=Aprovação+de+perfil:+Trancoso+Resolve";
 
 const statusConfig = {
   pendente: {

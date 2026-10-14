@@ -249,7 +249,7 @@ export default function SegurancaPage() {
   const isPrestador = user?.user_type === 'prestador';
 
   useEffect(() => {
-    document.title = "Segurança em Trancoso Resolve — Prestadores Verificados e Proteção de Dados";
+    document.title = "Segurança em Trancoso Resolve | Prestadores Verificados e Proteção de Dados";
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
     meta.content = "Todos os prestadores do Trancoso Resolve passam por verificação de identidade e consulta de antecedentes criminais. Sua segurança é nossa prioridade.";
@@ -267,7 +267,7 @@ export default function SegurancaPage() {
     schema.text = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Segurança — Trancoso Resolve",
+      "name": "Segurança: Trancoso Resolve",
       "description": "Saiba como garantimos a segurança de clientes e prestadores em Trancoso.",
       "url": `${window.location.origin}/Seguranca`,
     });

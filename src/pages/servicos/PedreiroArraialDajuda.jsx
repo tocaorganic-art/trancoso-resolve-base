@@ -33,7 +33,7 @@ export default function PedreiroArraialDajuda() {
         },
       ]}
       h1="Pedreiro em Arraial d'Ajuda: Reforma e Construção Verificada"
-      intro="Arraial d'Ajuda tem uma identidade arquitetônica única — chalés de madeira, cerâmicas artesanais, pedras naturais e construções que mesclam o rústico com o contemporâneo. Reformar ou construir aqui exige pedreiro que entenda essa linguagem e trabalhe com os materiais certos. Na Trancoso Resolve você encontra profissionais verificados e experientes na região."
+      intro="Arraial d'Ajuda tem uma identidade arquitetônica única, chalés de madeira, cerâmicas artesanais, pedras naturais e construções que mesclam o rústico com o contemporâneo. Reformar ou construir aqui exige pedreiro que entenda essa linguagem e trabalhe com os materiais certos. Na Trancoso Resolve você encontra profissionais verificados e experientes na região."
       servicesTitle="Serviços de pedreiro em Arraial d'Ajuda"
       services={[
         'Reforma e ampliação de pousadas, chalés e residências',
@@ -45,7 +45,7 @@ export default function PedreiroArraialDajuda() {
         'Construção de áreas gourmet, churrasqueiras e áreas de lazer',
       ]}
       howTitle="Por que contratar pedreiro pela Trancoso Resolve em Arraial d'Ajuda?"
-      howText="Reformar em Arraial d'Ajuda à distância é um desafio: acompanhar o andamento da obra sem estar presente exige total confiança no profissional. Todos os pedreiros da plataforma são verificados, têm avaliações públicas e se comunicam ativamente pelo WhatsApp — para que você acompanhe cada etapa da reforma sem precisar viajar."
+      howText="Reformar em Arraial d'Ajuda à distância é um desafio: acompanhar o andamento da obra sem estar presente exige total confiança no profissional. Todos os pedreiros da plataforma são verificados, têm avaliações públicas e se comunicam ativamente pelo WhatsApp, para que você acompanhe cada etapa da reforma sem precisar viajar."
       cta="Descreva o projeto ou reforma em Arraial d'Ajuda e receba contato de pedreiros verificados com experiência na região."
       ctaButton="Contratar pedreiro em Arraial d'Ajuda"
       category="Pedreiro"
@@ -53,9 +53,9 @@ export default function PedreiroArraialDajuda() {
       heroEmoji="🏗️"
       locationLabel="Arraial d'Ajuda, Bahia"
       seoText={[
-        "Arraial d'Ajuda tem um mercado imobiliário aquecido, com valorização constante de imóveis na orla e no centro histórico. Reformas bem executadas aumentam significativamente o valor e a atratividade de pousadas e casas de temporada na região — e pedreiros com experiência local conhecem os materiais e técnicas que melhor se adaptam ao clima e ao estilo arquitetônico do destino.",
+        "Arraial d'Ajuda tem um mercado imobiliário aquecido, com valorização constante de imóveis na orla e no centro histórico. Reformas bem executadas aumentam significativamente o valor e a atratividade de pousadas e casas de temporada na região, e pedreiros com experiência local conhecem os materiais e técnicas que melhor se adaptam ao clima e ao estilo arquitetônico do destino.",
         "Para proprietários que moram em outras cidades, gerenciar uma reforma em Arraial d'Ajuda sem estar presente é um dos maiores desafios. A Trancoso Resolve resolve isso conectando você a pedreiros verificados, com histórico de obras na região e comunicação ativa durante todo o projeto.",
-        "O crescimento do turismo de alto padrão em Arraial d'Ajuda tem gerado grande demanda por reformas de pousadas e criação de novas áreas de lazer — piscinas, decks, quiosques e áreas gourmet. Os profissionais da plataforma têm experiência nesses projetos e trabalham com os materiais típicos da arquitetura local.",
+        "O crescimento do turismo de alto padrão em Arraial d'Ajuda tem gerado grande demanda por reformas de pousadas e criação de novas áreas de lazer, piscinas, decks, quiosques e áreas gourmet. Os profissionais da plataforma têm experiência nesses projetos e trabalham com os materiais típicos da arquitetura local.",
       ]}
     />
   );

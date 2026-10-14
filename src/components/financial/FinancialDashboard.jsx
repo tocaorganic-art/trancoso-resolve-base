@@ -69,7 +69,7 @@ export default function FinancialDashboard({ transactions }) {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-slate-100">
             <TrendingUp className="text-green-500" />
-            Comparativo Mensal — {chartData.length > 0 ? `${chartData[0].month} a ${chartData[chartData.length - 1].month}` : ''}
+            Comparativo Mensal: {chartData.length > 0 ? `${chartData[0].month} a ${chartData[chartData.length - 1].month}` : ''}
           </CardTitle>
           <CardDescription className="text-slate-400">Receitas vs Despesas</CardDescription>
         </CardHeader>

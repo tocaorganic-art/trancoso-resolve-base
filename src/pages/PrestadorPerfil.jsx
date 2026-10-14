@@ -149,7 +149,7 @@ export default function PrestadorPerfilPage() {
   // SEO dinâmico por prestador
   useEffect(() => {
     if (!provider) return;
-    const title = `${provider.full_name} — ${provider.occupation} em Trancoso, BA | Trancoso Resolve`;
+    const title = `${provider.full_name} | ${provider.occupation} em Trancoso, BA | Trancoso Resolve`;
     document.title = title;
 
     let meta = document.querySelector('meta[name="description"]');
@@ -168,7 +168,7 @@ export default function PrestadorPerfilPage() {
 
     let ogTitle = document.querySelector('meta[property="og:title"]');
     if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
-    ogTitle.content = `${provider.full_name} — ${provider.occupation} em Trancoso, BA | Trancoso Resolve`;
+    ogTitle.content = `${provider.full_name} | ${provider.occupation} em Trancoso, BA | Trancoso Resolve`;
 
     let ogDesc = document.querySelector('meta[property="og:description"]');
     if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
@@ -468,7 +468,7 @@ export default function PrestadorPerfilPage() {
                           {services.length > 0 ? (
                             services.map(service => (
                               <SelectItem key={service.id} value={service.id}>
-                                {service.title} - R$ {service.price.toFixed(2)} / {service.price_unit}
+                                {service.title}: R$ {service.price.toFixed(2)} / {service.price_unit}
                               </SelectItem>
                             ))
                           ) : (

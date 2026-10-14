@@ -51,7 +51,7 @@ export default async function criarTemplateBoasVindas(req: Request): Promise<Res
         components: [
           {
             type: "BODY",
-            text: "Tudo bem? Passando pra saber se voce ainda esta precisando de servico em Trancoso. Ainda estamos por aqui pra te ajudar. Trancoso Resolve - quem resolve, pertinho de voce."
+            text: "Tudo bem? Passando pra saber se voce ainda esta precisando de servico em Trancoso. Ainda estamos por aqui pra te ajudar. Trancoso Resolve, quem resolve, pertinho de voce."
           }
         ]
       }

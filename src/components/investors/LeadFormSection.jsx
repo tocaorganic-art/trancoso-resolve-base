@@ -98,7 +98,7 @@ export default function LeadFormSection() {
             <label htmlFor="inv-type" className="block text-sm font-semibold text-foreground mb-1.5">{f.typeLabel}</label>
             <select id="inv-type" value={form.investor_type} onChange={set('investor_type')}
               className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400">
-              <option value="">—</option>
+              <option value="">Selecione</option>
               {f.types.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
             </select>
           </div>

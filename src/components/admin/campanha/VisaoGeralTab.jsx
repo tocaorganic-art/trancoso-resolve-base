@@ -38,7 +38,7 @@ export default function VisaoGeralTab({ posts, leads, approvals }) {
   const leadsByLocality = groupCount(leads, "locality");
 
   const Empty = ({ label }) => (
-    <p className="text-sm text-[#999] italic text-center py-4">Sem dados registrados — {label}</p>
+    <p className="text-sm text-[#999] italic text-center py-4">Sem dados registrados: {label}</p>
   );
 
   return (

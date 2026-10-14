@@ -188,19 +188,19 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
                 <tbody>
                   {filtered.map((p) => (
                     <tr key={p.id} className="border-b border-[#E3DED5]/50 hover:bg-[#FAFAF7]">
-                      <td className="p-2 font-semibold text-[#20382C]">{p.campaign_day || "—"}</td>
-                      <td className="p-2 text-[#555]">{p.phase || "—"}</td>
-                      <td className="p-2 text-[#555]">{p.channels || "—"}</td>
-                      <td className="p-2 text-[#555]">{p.format || "—"}</td>
+                      <td className="p-2 font-semibold text-[#20382C]">{p.campaign_day || "N/D"}</td>
+                      <td className="p-2 text-[#555]">{p.phase || "N/D"}</td>
+                      <td className="p-2 text-[#555]">{p.channels || "N/D"}</td>
+                      <td className="p-2 text-[#555]">{p.format || "N/D"}</td>
                       <td className="p-2 text-[#333] font-medium max-w-[180px] truncate" title={p.title}>
-                        {p.title || "—"}
+                        {p.title || "N/D"}
                       </td>
-                      <td className="p-2 text-[#555]">{p.localities || "—"}</td>
-                      <td className="p-2 text-[#555]">{p.audience || "—"}</td>
-                      <td className="p-2 text-[#555]">{p.cta || "—"}</td>
+                      <td className="p-2 text-[#555]">{p.localities || "N/D"}</td>
+                      <td className="p-2 text-[#555]">{p.audience || "N/D"}</td>
+                      <td className="p-2 text-[#555]">{p.cta || "N/D"}</td>
                       <td className="p-2">
                         <span className="text-[10px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-700">
-                          {p.validation_status || "—"}
+                          {p.validation_status || "N/D"}
                         </span>
                       </td>
                       <td className="p-2">
@@ -240,7 +240,7 @@ export default function CalendarioEditorialTab({ posts, onRefresh }) {
                             Abrir <ExternalLink className="w-3 h-3" />
                           </a>
                         ) : (
-                          <span className="text-[#bbb]">—</span>
+                          <span className="text-[#bbb]">N/D</span>
                         )}
                       </td>
                       <td className="p-2">

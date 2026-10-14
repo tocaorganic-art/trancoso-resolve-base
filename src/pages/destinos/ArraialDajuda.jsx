@@ -25,14 +25,14 @@ const servicos = [
 
 export default function DestinoArraialDajuda() {
   useDestinationSeo({
-    title: "Arraial d'Ajuda Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
+    title: "Arraial d'Ajuda Bahia | Serviços e Profissionais Verificados | Trancoso Resolve",
     description: "Encontre diaristas, eletricistas, piscineiros, chefs e mais em Arraial d'Ajuda, BA. Profissionais verificados para sua vila, pousada ou residência no litoral baiano.",
     canonical: "https://trancosoresolve.com.br/arraial-dajuda",
     schemaId: "schema-destino-arraial-dajuda",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "Trancoso Resolve — Serviços em Arraial d'Ajuda",
+      "name": "Trancoso Resolve: Serviços em Arraial d'Ajuda",
       "description": "Marketplace de serviços locais em Arraial d'Ajuda, Bahia. Profissionais verificados para vilas, pousadas e residências.",
       "url": "https://trancosoresolve.com.br/arraial-dajuda",
       "address": { "@type": "PostalAddress", "addressLocality": "Arraial d'Ajuda", "addressRegion": "BA", "addressCountry": "BR" },
@@ -53,7 +53,7 @@ export default function DestinoArraialDajuda() {
             Serviços Verificados<br />em <span className="text-orange-400">Arraial d'Ajuda</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-            O refúgio paradisíaco da Costa do Descobrimento — com profissionais de confiança para sua vila de férias, pousada boutique ou residência à beira-mar.
+            O refúgio paradisíaco da Costa do Descobrimento, com profissionais de confiança para sua vila de férias, pousada boutique ou residência à beira-mar.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/ServicosCategoria">
@@ -79,7 +79,7 @@ export default function DestinoArraialDajuda() {
                 Arraial d'Ajuda é o refúgio perfeito para quem busca tranquilidade, natureza intocada e beleza rústica. Conhecido pela Igreja de São João Batista colorida, praias virgens e uma atmosfera de aconchego, o destino atrai viajantes em busca de autenticidade.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                A Trancoso Resolve conecta proprietários de residências, gestores de pousadas e moradores a profissionais verificados e avaliados — da limpeza ao reparo, da reforma à jardinagem.
+                A Trancoso Resolve conecta proprietários de residências, gestores de pousadas e moradores a profissionais verificados e avaliados, da limpeza ao reparo, da reforma à jardinagem.
               </p>
               <div className="flex flex-wrap gap-3">
                 {[
@@ -133,7 +133,7 @@ export default function DestinoArraialDajuda() {
             {[
               { slug: 'trancoso', nome: 'Trancoso', desc: 'O luxo do Quadrado e praias exclusivas.', path: '/destinos/trancoso' },
               { slug: 'porto-seguro', nome: 'Porto Seguro', desc: 'A maior cidade da região com infraestrutura completa.', path: '/destinos/porto-seguro' },
-              { slug: 'caraiva', nome: 'Caraíva', desc: 'O paraíso preservado — sem asfalto, só natureza.', path: '/destinos/caraiva' },
+              { slug: 'caraiva', nome: 'Caraíva', desc: 'O paraíso preservado, sem asfalto, só natureza.', path: '/destinos/caraiva' },
             ].map((d) => (
               <Link key={d.slug} to={d.path}>
                 <div className="bg-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all border border-border hover:border-orange-300 group flex gap-4 items-start">

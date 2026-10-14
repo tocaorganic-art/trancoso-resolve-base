@@ -30,7 +30,7 @@ function buildEmailBody(page: string, badMetrics: any[]) {
   ).join('');
 
   return `
-    <h2>⚠️ Alerta de Performance — Trancoso Resolve</h2>
+    <h2>⚠️ Alerta de Performance | Trancoso Resolve</h2>
     <p><strong>Página:</strong> ${escapeHtml(page)}</p>
     <p><strong>Hora:</strong> ${new Date().toLocaleString('pt-BR')}</p>
     <table style="border-collapse:collapse;width:100%;margin-top:16px">
@@ -44,7 +44,7 @@ function buildEmailBody(page: string, badMetrics: any[]) {
       </thead>
       <tbody>${rows}</tbody>
     </table>
-    <p style="margin-top:16px;color:#64748b;font-size:12px">Trancoso Resolve — Monitoramento Automático</p>
+    <p style="margin-top:16px;color:#64748b;font-size:12px">Trancoso Resolve | Monitoramento Automático</p>
   `;
 }
 
@@ -100,7 +100,7 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: 'tocaorganic@gmail.com',
         from_name: 'Trancoso Resolve Monitor',
-        subject: `⚠️ Alerta de Performance: ${escapeHtml(String(page || 'página desconhecida').slice(0, 120)).replace(/[\r\n]/g, ' ')} — ${overallStatus.toUpperCase()}`,
+        subject: `⚠️ Alerta de Performance: ${escapeHtml(String(page || 'página desconhecida').slice(0, 120)).replace(/[\r\n]/g, ' ')} (${overallStatus.toUpperCase()})`,
         body: buildEmailBody(page || 'desconhecida', badMetrics),
       }).catch((e) => console.warn('Email alert failed:', e.message));
     }

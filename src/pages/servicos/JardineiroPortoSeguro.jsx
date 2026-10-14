@@ -10,7 +10,7 @@ export default function JardineiroPortoSeguro() {
       schemaData={{
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "Trancoso Resolve - Jardineiro Porto Seguro",
+        "name": "Trancoso Resolve: Jardineiro Porto Seguro",
         "description": "Jardineiros verificados em Porto Seguro, BA. Manutenção e paisagismo para pousadas, hotéis e residências.",
         "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
         "areaServed": { "@type": "City", "name": "Porto Seguro, BA" },
@@ -29,7 +29,7 @@ export default function JardineiroPortoSeguro() {
         'Controle fitossanitário e manejo de pragas tropicais',
       ]}
       howTitle="Por que contratar jardineiro pela Trancoso Resolve?"
-      howText="A plataforma facilita a contratação de jardineiros verificados com experiência específica no clima e na vegetação de Porto Seguro. Todos têm avaliações de clientes reais e passam por verificação de identidade — para que você contrate com confiança e sem depender de indicações de terceiros."
+      howText="A plataforma facilita a contratação de jardineiros verificados com experiência específica no clima e na vegetação de Porto Seguro. Todos têm avaliações de clientes reais e passam por verificação de identidade, para que você contrate com confiança e sem depender de indicações de terceiros."
       cta="Descreva seu jardim em Porto Seguro e receba contato de jardineiros verificados e experientes na região."
       ctaButton="Contratar jardineiro em Porto Seguro"
       category="Jardinagem"
@@ -37,7 +37,7 @@ export default function JardineiroPortoSeguro() {
       locationLabel="Porto Seguro, Bahia"
       seoText={[
         "Porto Seguro tem uma diversidade de microclimas dentro da própria cidade: a orla com brisa constante e solo arenoso, os bairros de planalto com solo mais argiloso e menos salinidade, e as áreas de mata com microclima úmido e sombra natural. Jardineiros com experiência local sabem selecionar as espécies certas para cada condição e adaptar o manejo conforme o ambiente.",
-        "Para hotéis e pousadas de Porto Seguro, o paisagismo é parte fundamental da experiência do hóspede — jardins bem cuidados geram avaliações positivas e fotos que circulam nas redes sociais. Jardineiros profissionais que atendem o setor hoteleiro entendem a importância da apresentação visual e trabalham com cronograma compatível com o fluxo de hóspedes.",
+        "Para hotéis e pousadas de Porto Seguro, o paisagismo é parte fundamental da experiência do hóspede, jardins bem cuidados geram avaliações positivas e fotos que circulam nas redes sociais. Jardineiros profissionais que atendem o setor hoteleiro entendem a importância da apresentação visual e trabalham com cronograma compatível com o fluxo de hóspedes.",
         "A manutenção de jardins em Porto Seguro durante a baixa temporada é especialmente importante: com menos visitas e supervisão, o crescimento vegetativo pode sair do controle rapidamente, especialmente nas chuvas de verão. Jardineiros com planos de manutenção periódica garantem que a propriedade esteja sempre apresentável, independente da presença do proprietário.",
       ]}
     />

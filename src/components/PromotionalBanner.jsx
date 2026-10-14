@@ -11,7 +11,7 @@ const banners = [
     badge: "✨ A Plataforma Oficial de Serviços em Trancoso",
     title: "Conecte-se aos Melhores",
     highlight: "Profissionais Verificados",
-    subtitle: "Faxina, eletricista, jardinagem, cozinheiro e muito mais — tudo num só lugar, com avaliações reais e confiança garantida.",
+    subtitle: "Faxina, eletricista, jardinagem, cozinheiro e muito mais, tudo num só lugar, com avaliações reais e confiança garantida.",
     cta: "Começar Agora",
     ctaLink: "/ServicosCategoria",
     bgColor: "linear-gradient(135deg, #E8571A 0%, #C1440E 50%, #6B7C3A 100%)",
@@ -21,7 +21,7 @@ const banners = [
   },
   {
     id: 2,
-    badge: "🔥 OFERTA ESPECIAL — Primeira Vaga do Ano!",
+    badge: "🔥 OFERTA ESPECIAL: Primeira Vaga do Ano!",
     title: "R$ 29,90",
     highlight: "Mês Inaugural + 0% Comissão",
     subtitle: "Seja um dos primeiros 100 prestadores em Trancoso. Pague uma vez só e fique com 100% de tudo que você ganhar. Sem taxas escondidas.",

@@ -31,7 +31,7 @@ const beneficios = [
   {
     icon: <Bot className="w-8 h-8 text-terracotta" />,
     title: "TryA: Agente de IA 24h",
-    description: "Mais do que um assistente, o TryA automatiza agendamentos, responde a perguntas frequentes e qualifica leads — trabalhando por você enquanto você foca no serviço."
+    description: "Mais do que um assistente, o TryA automatiza agendamentos, responde a perguntas frequentes e qualifica leads, trabalhando por você enquanto você foca no serviço."
   },
   {
     icon: <Camera className="w-8 h-8 text-orange-500" />,
@@ -65,7 +65,7 @@ const steps = [
 
 export default function SejaPrestadorPage() {
   useEffect(() => {
-    document.title = "Seja um Prestador de Serviços em Trancoso — Trancoso Resolve";
+    document.title = "Seja um Prestador de Serviços em Trancoso | Trancoso Resolve";
 
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
@@ -81,7 +81,7 @@ export default function SejaPrestadorPage() {
 
     let ogTitle = document.querySelector('meta[property="og:title"]');
     if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
-    ogTitle.content = 'Seja um Prestador de Serviços em Trancoso — Trancoso Resolve';
+    ogTitle.content = 'Seja um Prestador de Serviços em Trancoso | Trancoso Resolve';
 
     let ogDesc = document.querySelector('meta[property="og:description"]');
     if (!ogDesc) { ogDesc = document.createElement('meta'); ogDesc.setAttribute('property', 'og:description'); document.head.appendChild(ogDesc); }
@@ -259,7 +259,7 @@ export default function SejaPrestadorPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to={createPageUrl('CadastroTipo')}>
               <Button size="lg" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg px-10 shadow-xl shadow-orange-900/30 min-h-[52px] w-full sm:w-auto">
-                Cadastre-se Agora — É Grátis
+                Cadastre-se Agora, É Grátis
               </Button>
             </Link>
             <Link to={createPageUrl('Planos')}>

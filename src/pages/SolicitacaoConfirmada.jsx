@@ -22,7 +22,7 @@ const TIMELINE = [
 
 export default function SolicitacaoConfirmadaPage() {
   useEffect(() => {
-    document.title = "Solicitação Enviada! — Trancoso Resolve";
+    document.title = "Solicitação Enviada! | Trancoso Resolve";
   }, []);
 
   // Conversão "Enviar formulário de lead" no Google Ads (AW-18431007500).

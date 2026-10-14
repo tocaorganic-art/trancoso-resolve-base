@@ -155,7 +155,7 @@ export default function ContactPage() {
         <div className="container mx-auto max-w-4xl relative z-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="inline-flex items-center gap-2 bg-orange-500/15 border border-orange-500/30 text-orange-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-5">
-            <MapPin className="w-3.5 h-3.5" /> Trancoso, Bahia — respondemos rápido
+            <MapPin className="w-3.5 h-3.5" /> Trancoso, Bahia: respondemos rápido
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -171,7 +171,7 @@ export default function ContactPage() {
             transition={{ duration: 0.6, delay: 0.25 }}
             className="text-slate-300 text-lg"
           >
-            Nossa equipe está em Trancoso, Bahia — e responde rápido.
+            Nossa equipe está em Trancoso, Bahia, e responde rápido.
           </motion.p>
         </div>
       </section>

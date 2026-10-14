@@ -10,14 +10,14 @@ export default function PedreiroTrancoso() {
       schemaData={{
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "Trancoso Resolve - Pedreiro Trancoso",
+        "name": "Trancoso Resolve: Pedreiro Trancoso",
         "description": "Pedreiros verificados em Trancoso, BA. Obras e reformas para villas e residências de alto padrão.",
         "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
         "areaServed": { "@type": "City", "name": "Trancoso, BA" },
         "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 }
       }}
       h1="Pedreiro em Trancoso: Obras e Reformas para Residências de Alto Padrão"
-      intro="Trancoso concentra um dos mercados imobiliários mais valorizados da Bahia. Obras, reformas e ampliações acontecem o ano inteiro — e encontrar um pedreiro que conheça as particularidades da região, os materiais locais e os padrões exigidos por villas e residências de luxo faz toda a diferença no resultado e no prazo. Na Trancoso Resolve, todos os pedreiros são verificados e avaliados por clientes reais."
+      intro="Trancoso concentra um dos mercados imobiliários mais valorizados da Bahia. Obras, reformas e ampliações acontecem o ano inteiro, e encontrar um pedreiro que conheça as particularidades da região, os materiais locais e os padrões exigidos por villas e residências de luxo faz toda a diferença no resultado e no prazo. Na Trancoso Resolve, todos os pedreiros são verificados e avaliados por clientes reais."
       servicesTitle="Serviços de pedreiro em Trancoso"
       services={[
         'Obras de reforma e ampliação em villas e residências de alto padrão',
@@ -37,7 +37,7 @@ export default function PedreiroTrancoso() {
       heroEmoji="🧱"
       locationLabel="Trancoso, Bahia"
       seoText={[
-        "Trancoso concentra um dos mercados imobiliários mais valorizados da Bahia, com obras e reformas em villas e residências de alto padrão acontecendo o ano inteiro — mesmo na baixa temporada. Pedreiros com experiência local entendem o cronograma da região e sabem planejar entregas antes do início da alta temporada.",
+        "Trancoso concentra um dos mercados imobiliários mais valorizados da Bahia, com obras e reformas em villas e residências de alto padrão acontecendo o ano inteiro, mesmo na baixa temporada. Pedreiros com experiência local entendem o cronograma da região e sabem planejar entregas antes do início da alta temporada.",
         "A arquitetura de Trancoso mistura técnicas vernaculares com acabamentos contemporâneos: pedra-ferro, madeira de demolição, cerâmicas artesanais e revestimentos rústicos exigem mão de obra especializada. Pedreiros sem experiência nesse tipo de construção tendem a cometer erros de acabamento que comprometem o resultado final.",
         "Para obras em condomínios fechados e áreas como o Quadrado, é preciso respeitar normas específicas de preservação e protocolos de acesso. Os pedreiros cadastrados na Trancoso Resolve têm histórico de projetos na região e referências verificáveis de proprietários que já utilizaram o serviço.",
       ]}

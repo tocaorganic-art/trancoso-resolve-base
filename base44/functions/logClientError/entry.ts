@@ -116,8 +116,8 @@ Deno.serve(async (req: Request) => {
     const now = new Date().toLocaleString('pt-BR', { timeZone: 'America/Bahia', dateStyle: 'short', timeStyle: 'short' });
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: 'contato@trancosoresolve.com.br',
-      from_name: 'Trancoso Resolve — Agente de Erros',
-      subject: `🚨 Erro capturado — ${pageUrl}`,
+      from_name: 'Trancoso Resolve | Agente de Erros',
+      subject: `🚨 Erro capturado: ${pageUrl}`,
       body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${pageUrl}\nDATA: ${now}\nUSUÁRIO: ${userEmail || '(não logado)'}\n\nMENSAGEM:\n${errorMessage}\n\nTRIAGEM MICROSOFT AI:\n${microsoftText || '(indisponível)'}\n\nTRIAGEM CHATGPT:\n${openaiText || '(indisponível)'}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
     });
 

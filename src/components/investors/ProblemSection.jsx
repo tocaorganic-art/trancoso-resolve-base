@@ -41,7 +41,7 @@ export default function ProblemSection() {
       <Section
         eyebrow="Visualização · conceitual"
         title="Do caos à conexão organizada"
-        subtitle="Como o mercado funciona hoje — e o que a Trancoso Resolve organiza."
+        subtitle="Como o mercado funciona hoje, e o que a Trancoso Resolve organiza."
         tone="sand"
       >
         <FragmentationViz />
@@ -60,7 +60,7 @@ export default function ProblemSection() {
       <Section
         eyebrow="Jornada · produto"
         title="Como funciona na prática"
-        subtitle="Da necessidade ao serviço realizado — 6 etapas do lado do cliente."
+        subtitle="Da necessidade ao serviço realizado: 6 etapas do lado do cliente."
         tone="sand"
       >
         <UserJourneyViz />

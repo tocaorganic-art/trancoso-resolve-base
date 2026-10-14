@@ -28,7 +28,7 @@ export default function AdminAssinaturasPage() {
       el.content = content;
     };
     setMeta('description', 'Painel administrativo de assinaturas e planos ativos da Trancoso Resolve. Controle de prestadores, status de pagamentos e renovações.');
-    setMeta('og:title', 'Admin Assinaturas — Trancoso Resolve', true);
+    setMeta('og:title', 'Admin Assinaturas | Trancoso Resolve', true);
     setMeta('og:description', 'Gestão centralizada de assinaturas e planos da plataforma Trancoso Resolve.', true);
   }, []);
 

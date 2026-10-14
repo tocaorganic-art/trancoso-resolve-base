@@ -62,7 +62,7 @@ export default function SeoTab() {
       {/* Páginas tabela */}
       <Card className="bg-slate-800 border-slate-700">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-slate-100 text-base">Páginas — semana atual vs anterior</CardTitle>
+          <CardTitle className="text-slate-100 text-base">Páginas | semana atual vs anterior</CardTitle>
           <Button size="sm" onClick={() => setShowForm(!showForm)}>
             <Plus className="w-4 h-4 mr-1" /> Adicionar dado
           </Button>
@@ -112,7 +112,7 @@ export default function SeoTab() {
 
       {/* Keywords */}
       <Card className="bg-slate-800 border-slate-700">
-        <CardHeader><CardTitle className="text-slate-100 text-base">Keywords — semana atual</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-slate-100 text-base">Keywords | semana atual</CardTitle></CardHeader>
         <CardContent>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">

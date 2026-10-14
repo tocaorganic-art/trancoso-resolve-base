@@ -10,7 +10,7 @@ export default function EletricistaCaraiva() {
       schemaData={{
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "Trancoso Resolve - Eletricista Caraíva",
+        "name": "Trancoso Resolve: Eletricista Caraíva",
         "description": "Eletricistas verificados em Caraíva, BA. Instalações e emergências em pousadas e villas.",
         "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
         "areaServed": { "@type": "City", "name": "Caraíva, BA" },
@@ -36,7 +36,7 @@ export default function EletricistaCaraiva() {
       heroEmoji="⚡"
       locationLabel="Caraíva, Bahia"
       seoText={[
-        "Caraíva é um dos poucos destinos de alto padrão do Brasil que ainda opera parcialmente fora da rede elétrica convencional. Muitas pousadas e villas utilizam energia solar combinada com gerador a diesel como backup — o que exige eletricistas com conhecimento em sistemas fotovoltaicos, inversores de frequência e gestão de carga.",
+        "Caraíva é um dos poucos destinos de alto padrão do Brasil que ainda opera parcialmente fora da rede elétrica convencional. Muitas pousadas e villas utilizam energia solar combinada com gerador a diesel como backup, o que exige eletricistas com conhecimento em sistemas fotovoltaicos, inversores de frequência e gestão de carga.",
         "A ausência de acesso terrestre direto significa que uma emergência elétrica em Caraíva precisa ser resolvida por profissionais que já conheçam o local e possam se deslocar rapidamente de barco. Os eletricistas cadastrados na Trancoso Resolve atuam regularmente na região e estão habituados a essas condições únicas de logística e infraestrutura.",
         "Da instalação de tomadas externas para carregadores de veículos elétricos a projetos completos de iluminação cênica para uma villa de luxo à beira do rio, a plataforma conecta você ao profissional certo com histórico verificado e avaliações de outros proprietários de Caraíva.",
       ]}

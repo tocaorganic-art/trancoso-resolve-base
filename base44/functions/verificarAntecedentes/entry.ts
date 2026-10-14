@@ -84,8 +84,8 @@ Deno.serve(async (req: Request) => {
       await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
         status_verificacao: "em_analise_manual",
         relatorio_verificacao: !cpf
-          ? "CPF ausente no cadastro — encaminhado para análise manual."
-          : "Data de nascimento ausente no cadastro — encaminhado para análise manual.",
+          ? "CPF ausente no cadastro, encaminhado para análise manual."
+          : "Data de nascimento ausente no cadastro, encaminhado para análise manual.",
         data_verificacao: new Date().toISOString(),
       });
       const pendentes = await base44.asServiceRole.entities.Verificacao.filter({
@@ -100,14 +100,14 @@ Deno.serve(async (req: Request) => {
           provider_id: service_provider_id,
           verification_type: 'background_check',
           status: 'pending',
-          result: 'Dados obrigatórios ausentes (CPF/data de nascimento) — aguardando análise manual do admin.',
+          result: 'Dados obrigatórios ausentes (CPF/data de nascimento), aguardando análise manual do admin.',
         });
       }
       return Response.json({
         success: true,
         provider_id: service_provider_id,
         status_verificacao: "em_analise_manual",
-        mensagem: "Cadastro incompleto para consulta automática — encaminhado para análise manual.",
+        mensagem: "Cadastro incompleto para consulta automática, encaminhado para análise manual.",
       });
     }
 
@@ -167,7 +167,7 @@ Deno.serve(async (req: Request) => {
     if (apiData.code === 608) {
       await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
         status_verificacao: "em_analise_manual",
-        relatorio_verificacao: "Dados (nome, nome da mãe ou data de nascimento) não conferem com o CPF informado — revisar cadastro.",
+        relatorio_verificacao: "Dados (nome, nome da mãe ou data de nascimento) não conferem com o CPF informado, revisar cadastro.",
         data_verificacao: new Date().toISOString(),
       });
       const pendentes608 = await base44.asServiceRole.entities.Verificacao.filter({
@@ -182,7 +182,7 @@ Deno.serve(async (req: Request) => {
           provider_id: service_provider_id,
           verification_type: 'background_check',
           status: 'pending',
-          result: 'Dados não conferem com o CPF na Receita Federal (Infosimples code 608) — aguardando revisão manual do admin.',
+          result: 'Dados não conferem com o CPF na Receita Federal (Infosimples code 608), aguardando revisão manual do admin.',
         });
       }
       return Response.json({
@@ -212,7 +212,7 @@ Deno.serve(async (req: Request) => {
 
     if (conseguiuEmitirNegativa) {
       statusVerificacao = "aprovado";
-      relatorioVerificacao = "Antecedentes verificados — etapa aprovada (nada consta).";
+      relatorioVerificacao = "Antecedentes verificados, etapa aprovada (nada consta).";
     } else {
       statusVerificacao = "reprovado";
       relatorioVerificacao = "Cadastro não autorizado após a consulta de antecedentes.";
@@ -253,7 +253,7 @@ Deno.serve(async (req: Request) => {
       status_verificacao: statusVerificacao,
       relatorio: relatorioVerificacao,
       mensagem: conseguiuEmitirNegativa
-        ? "Antecedentes criminais verificados — Nada Consta"
+        ? "Antecedentes criminais verificados: Nada Consta"
         : "Seu cadastro não foi autorizado.",
     });
 

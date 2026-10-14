@@ -137,7 +137,7 @@ export default function ConciergePage() {
   return (
     <div className="bg-white">
       <MetaTags
-        title="Concierge de Alto Padrão — Presencial em Todo o Brasil"
+        title="Concierge de Alto Padrão | Presencial em Todo o Brasil"
         description="Concierge 100% presencial de alto padrão em qualquer destino do Brasil: mansões e vilas exclusivas, aviação executiva e helicóptero, receptivo de aeroporto, chef particular, equipe de casa e eventos privados. Matriz em Trancoso, equipes presenciais em São Paulo, Rio de Janeiro e sob demanda. Atendimento em português, espanhol e inglês."
       />
 
@@ -269,7 +269,7 @@ export default function ConciergePage() {
               <div>
                 <img
                   src={CONCIERGE_MEDIA.retratoFundador}
-                  alt="Antonio Monteiro Pereira Junior — Toca Experience"
+                  alt="Antonio Monteiro Pereira Junior | Toca Experience"
                   className="aspect-[4/5] w-full rounded-brand-xl object-cover shadow-brand"
                   loading="lazy"
                   onError={() => setFotoFundadorOk(false)}
@@ -494,7 +494,7 @@ export default function ConciergePage() {
                 </Campo>
                 <Campo label={t.labels.origem}>
                   <select required value={form.origem} onChange={set('origem')} className={inputCls}>
-                    <option value="">—</option>
+                    <option value="">Selecione</option>
                     {t.origens.map((o) => <option key={o} value={o}>{o}</option>)}
                   </select>
                 </Campo>
@@ -512,7 +512,7 @@ export default function ConciergePage() {
                 </Campo>
                 <Campo label={t.labels.periodo}>
                   <div className="relative">
-                    <input value={form.periodo} onChange={set('periodo')} placeholder="20–25 Nov" className={inputCls} />
+                    <input value={form.periodo} onChange={set('periodo')} placeholder="20 a 25 Nov" className={inputCls} />
                     <CalendarDays className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                   </div>
                 </Campo>
@@ -521,7 +521,7 @@ export default function ConciergePage() {
                 </Campo>
                 <Campo label={t.labels.servico}>
                   <select value={form.servico} onChange={set('servico')} className={inputCls}>
-                    <option value="">—</option>
+                    <option value="">Selecione</option>
                     {t.servicos.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </Campo>

@@ -47,7 +47,7 @@ export default function ConfiguracoesConta() {
   const [savingPrefs, setSavingPrefs] = useState(false);
 
   useEffect(() => {
-    document.title = 'Configurações da Conta - Trancoso Resolve';
+    document.title = 'Configurações da Conta | Trancoso Resolve';
     base44.auth.me()
       .then((u) => {
         setUser(u);

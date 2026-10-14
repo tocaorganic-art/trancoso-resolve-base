@@ -166,10 +166,10 @@ function FloatingCard({ children, className }) {
 /* ─── Main Page ────────────────────────────────────────────────────── */
 export default function ComoFuncionaPage() {
   useEffect(() => {
-    document.title = 'Como Funciona o Trancoso Resolve — Contrate Profissionais em Trancoso, BA';
+    document.title = 'Como Funciona o Trancoso Resolve | Contrate Profissionais em Trancoso, BA';
     let meta = document.querySelector('meta[name="description"]');
     if (!meta) { meta = document.createElement('meta'); meta.name = 'description'; document.head.appendChild(meta); }
-    meta.content = 'Entenda como contratar profissionais em Trancoso em 3 passos simples. Busque, agende e resolve — com profissionais verificados e avaliados pela comunidade.';
+    meta.content = 'Entenda como contratar profissionais em Trancoso em 3 passos simples. Busque, agende e resolve, com profissionais verificados e avaliados pela comunidade.';
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
@@ -196,7 +196,7 @@ export default function ComoFuncionaPage() {
   }, []);
 
   const clientSteps = [
-    { icon: <Search className="w-8 h-8 text-white" />, title: 'Encontre o Serviço', description: 'Navegue por categorias ou use a busca inteligente para achar exatamente o que você precisa — de faxina a passeio exclusivo.' },
+    { icon: <Search className="w-8 h-8 text-white" />, title: 'Encontre o Serviço', description: 'Navegue por categorias ou use a busca inteligente para achar exatamente o que você precisa, de faxina a passeio exclusivo.' },
     { icon: <Calendar className="w-8 h-8 text-white" />, title: 'Agende com Facilidade', description: 'Escolha o profissional pelas avaliações, veja os detalhes, marque a data e envie sua solicitação em poucos cliques.' },
     { icon: <Smile className="w-8 h-8 text-white" />, title: 'Problema Resolvido', description: 'O prestador confirma, realiza o serviço, e no final você avalia e ajuda nossa comunidade a crescer.' },
   ];
@@ -356,7 +356,7 @@ export default function ComoFuncionaPage() {
                 Para Clientes
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3">Sua solução em 3 passos</h2>
-              <p className="text-muted-foreground max-w-lg mx-auto">De uma faxina a um passeio exclusivo — encontre, agende e resolva sem sair do sofá.</p>
+              <p className="text-muted-foreground max-w-lg mx-auto">De uma faxina a um passeio exclusivo. Encontre, agende e resolva sem sair do sofá.</p>
             </motion.div>
           </div>
 
@@ -513,7 +513,7 @@ export default function ComoFuncionaPage() {
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold mb-3">Pronto para Resolver?</h2>
               <p className="text-orange-100 mb-8 max-w-md mx-auto text-base">
-                Encontre profissionais verificados em Trancoso agora mesmo — em menos de 2 minutos.
+                Encontre profissionais verificados em Trancoso agora mesmo, em menos de 2 minutos.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link to={createPageUrl('ServicosCategoria')}>

@@ -81,7 +81,7 @@ Equipe Trancoso Resolve 🌊
 
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: request.client_email,
-        subject: `✅ Solicitação recebida — ${serviceTitle} com ${providerFirstName}`,
+        subject: `✅ Solicitação recebida: ${serviceTitle} com ${providerFirstName}`,
         body: clientBody,
         from_name: 'Trancoso Resolve',
       });
@@ -126,7 +126,7 @@ Equipe Trancoso Resolve 🌊
 
         emails.push(base44.asServiceRole.integrations.Core.SendEmail({
           to: request.client_email,
-          subject: `🎉 Agendamento CONFIRMADO — ${serviceTitle} com ${providerFirstName}`,
+          subject: `🎉 Agendamento CONFIRMADO: ${serviceTitle} com ${providerFirstName}`,
           body: clientConfirmBody,
           from_name: 'Trancoso Resolve',
         }));
@@ -162,7 +162,7 @@ Equipe Trancoso Resolve 🌊
 
         emails.push(base44.asServiceRole.integrations.Core.SendEmail({
           to: providerEmail,
-          subject: `📅 Agendamento confirmado — ${request.client_name} em ${dateFormatted}`,
+          subject: `📅 Agendamento confirmado: ${request.client_name} em ${dateFormatted}`,
           body: providerConfirmBody,
           from_name: 'Trancoso Resolve',
         }));

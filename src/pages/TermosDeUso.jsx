@@ -101,10 +101,10 @@ const SECTIONS = [
 
 export default function TermosDeUso() {
   useEffect(() => {
-    document.title = 'Termos de Uso - Trancoso Resolve';
+    document.title = 'Termos de Uso | Trancoso Resolve';
     const meta = document.querySelector('meta[name="description"]') ||
       (() => { const m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); return m; })();
-    meta.content = 'Termos de Uso da plataforma Trancoso Resolve — regras para clientes e prestadores de serviços na Costa do Descobrimento.';
+    meta.content = 'Termos de Uso da plataforma Trancoso Resolve, regras para clientes e prestadores de serviços na Costa do Descobrimento.';
   }, []);
 
   return (

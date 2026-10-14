@@ -10,13 +10,13 @@ import { useEffect } from 'react';
  * e o risco de contexto, gerenciamos as tags do <head> com DOM puro.
  */
 export default function MetaTags({
-  title = "Trancoso Resolve - Encontre os Melhores Serviços",
+  title = "Trancoso Resolve | Encontre os Melhores Serviços",
   description = "A forma mais fácil de encontrar e contratar serviços de confiança em Trancoso, Bahia.",
   image = "https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg",
   url = typeof window !== 'undefined' ? window.location.href : '',
   type = "website"
 }) {
-  const fullTitle = title.includes('Trancoso Resolve') ? title : `${title} - Trancoso Resolve`;
+  const fullTitle = title.includes('Trancoso Resolve') ? title : `${title} | Trancoso Resolve`;
 
   useEffect(() => {
     const previousTitle = document.title;

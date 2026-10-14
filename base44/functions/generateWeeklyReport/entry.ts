@@ -85,7 +85,7 @@ Deno.serve(async (req) => {
       <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#1e293b">
         <div style="background:#1e293b;padding:24px 32px;border-radius:12px 12px 0 0">
           <h1 style="color:#f1f5f9;margin:0;font-size:22px">📊 Relatório Semanal</h1>
-          <p style="color:#94a3b8;margin:8px 0 0">Trancoso Resolve — ${formatDate(lastMonday)} a ${formatDate(lastSunday)}</p>
+          <p style="color:#94a3b8;margin:8px 0 0">Trancoso Resolve: ${formatDate(lastMonday)} a ${formatDate(lastSunday)}</p>
         </div>
         <div style="background:#f8fafc;padding:24px 32px;border:1px solid #e2e8f0">
 
@@ -118,7 +118,7 @@ Deno.serve(async (req) => {
 
         </div>
         <div style="background:#1e293b;padding:16px 32px;border-radius:0 0 12px 12px;text-align:center">
-          <p style="color:#64748b;font-size:12px;margin:0">Trancoso Resolve — Relatório gerado automaticamente em ${new Date().toLocaleString('pt-BR')}</p>
+          <p style="color:#64748b;font-size:12px;margin:0">Trancoso Resolve: Relatório gerado automaticamente em ${new Date().toLocaleString('pt-BR')}</p>
         </div>
       </div>
     `;
@@ -140,7 +140,7 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: ADMIN_EMAIL,
         from_name: 'Trancoso Resolve Analytics',
-        subject: `📊 Relatório Semanal Trancoso Resolve — ${formatDate(lastMonday)} a ${formatDate(lastSunday)}`,
+        subject: `📊 Relatório Semanal Trancoso Resolve: ${formatDate(lastMonday)} a ${formatDate(lastSunday)}`,
         body: emailBody,
       });
       emailSent = true;

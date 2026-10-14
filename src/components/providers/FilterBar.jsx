@@ -63,9 +63,9 @@ export default function FilterBar({
                 </SelectTrigger>
                 <SelectContent>
                     <SelectItem value="all">Todos os Preços ({filterCounts.price?.all || 0})</SelectItem>
-                    <SelectItem value="$">$ - Econômico ({filterCounts.price?.['$'] || 0})</SelectItem>
-                    <SelectItem value="$$">$$ - Moderado ({filterCounts.price?.['$$'] || 0})</SelectItem>
-                    <SelectItem value="$$$">$$$ - Premium ({filterCounts.price?.['$$$'] || 0})</SelectItem>
+                    <SelectItem value="$">$: Econômico ({filterCounts.price?.['$'] || 0})</SelectItem>
+                    <SelectItem value="$$">$$: Moderado ({filterCounts.price?.['$$'] || 0})</SelectItem>
+                    <SelectItem value="$$$">$$$: Premium ({filterCounts.price?.['$$$'] || 0})</SelectItem>
                 </SelectContent>
             </Select>
             

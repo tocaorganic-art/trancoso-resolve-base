@@ -88,8 +88,8 @@ Deno.serve(async (req) => {
     if (providerEmail) {
       try {
         const assunto = isAprovado
-          ? '✅ Sua verificação foi aprovada — Trancoso Resolve'
-          : '❌ Atualização sobre sua verificação — Trancoso Resolve';
+          ? '✅ Sua verificação foi aprovada | Trancoso Resolve'
+          : '❌ Atualização sobre sua verificação | Trancoso Resolve';
 
         const corpo = isAprovado
           ? `Olá${providerName ? ` ${providerName}` : ''}!\n\nSua verificação foi aprovada. Seu perfil agora está marcado como verificado na plataforma Trancoso Resolve.\n\nAcesse seu perfil em: https://www.trancosoresolve.com.br/meu-perfil\n\nObrigado por fazer parte da nossa comunidade!\n\nEquipe Trancoso Resolve`

@@ -78,7 +78,7 @@ export default function SeoCsvImport({ type, weekStart }) {
         }
       }
       if (headerIdx === -1) {
-        toast.error("CSV inválido — não encontrei colunas Clicks/Impressions. Exporte do Search Console → Desempenho → Exportar CSV.");
+        toast.error("CSV inválido: não encontrei colunas Clicks/Impressions. Exporte do Search Console → Desempenho → Exportar CSV.");
         setParsing(false);
         return;
       }
@@ -151,7 +151,7 @@ export default function SeoCsvImport({ type, weekStart }) {
         <div className="flex items-center gap-2">
           <FileSpreadsheet className="w-5 h-5 text-brand-primary" />
           <h3 className="font-semibold text-foreground">
-            Importar CSV — {type === "pages" ? "Páginas" : "Palavras-chave"}
+            Importar CSV | {type === "pages" ? "Páginas" : "Palavras-chave"}
           </h3>
         </div>
         <p className="text-sm text-muted-foreground">
@@ -176,7 +176,7 @@ export default function SeoCsvImport({ type, weekStart }) {
           <div className="space-y-3">
             <div className="bg-muted border border-border rounded-lg p-3 max-h-48 overflow-y-auto">
               <p className="text-xs font-semibold text-muted-foreground mb-2">
-                {preview.length} registros encontrados — semana {weekStart}
+                {preview.length} registros encontrados, semana {weekStart}
               </p>
               <div className="space-y-1">
                 {preview.slice(0, 8).map((r, i) => (

@@ -117,7 +117,7 @@ export default function VisaoGeralTab() {
 
       {/* Gráfico de leads por dia */}
       <Card className="bg-slate-800 border-slate-700">
-        <CardHeader><CardTitle className="text-slate-100 text-base">Leads por dia — últimos 30 dias</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-slate-100 text-base">Leads por dia | últimos 30 dias</CardTitle></CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={leadsPerDay}>

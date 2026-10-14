@@ -56,7 +56,7 @@ export default function ServicoLocalPagePS({
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Service',
-      name: `Trancoso Resolve - ${serviceLabel || category} Porto Seguro`,
+      name: `Trancoso Resolve | ${serviceLabel || category} Porto Seguro`,
       provider: {
         '@type': 'LocalBusiness',
         name: 'Trancoso Resolve',

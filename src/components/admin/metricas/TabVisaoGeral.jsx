@@ -99,7 +99,7 @@ export default function TabVisaoGeral({ leads, requests, providers }) {
       {/* Gráfico linha: Leads por dia */}
       <Card className="bg-slate-800 border-slate-700">
         <CardHeader>
-          <CardTitle className="text-slate-100 text-base">Leads por Dia — Últimos 30 Dias</CardTitle>
+          <CardTitle className="text-slate-100 text-base">Leads por Dia | Últimos 30 Dias</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={220}>

@@ -280,7 +280,7 @@ export default function CadastroTipoPage() {
                 <SelectTrigger className="bg-background border-border text-foreground"><SelectValue /></SelectTrigger>
                 <SelectContent className="bg-card border-border">
                   <SelectItem value="pf">Pessoa Física (CPF)</SelectItem>
-                  <SelectItem value="mei">MEI – Microempreendedor Individual</SelectItem>
+                  <SelectItem value="mei">MEI: Microempreendedor Individual</SelectItem>
                   <SelectItem value="pj">Empresa / PJ (CNPJ)</SelectItem>
                 </SelectContent>
               </Select>
@@ -342,7 +342,7 @@ export default function CadastroTipoPage() {
                 <Building2 className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
                 <div>
                   <p className="text-sm font-semibold text-foreground mb-1">Detectamos que você é uma empresa com ponto físico em Trancoso.</p>
-                  <p className="text-xs text-muted-foreground">Para negócios locais — lojas, restaurantes, pousadas, bares, beach clubs, clínicas e similares — o plano correto é o <strong className="text-orange-400">Plano Empresas</strong>, que garante mais visibilidade e recursos específicos para o seu negócio.</p>
+                  <p className="text-xs text-muted-foreground">Para negócios locais (lojas, restaurantes, pousadas, bares, beach clubs, clínicas e similares), o plano correto é o <strong className="text-orange-400">Plano Empresas</strong>, que garante mais visibilidade e recursos específicos para o seu negócio.</p>
                 </div>
               </div>
             )}

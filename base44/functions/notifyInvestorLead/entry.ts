@@ -56,7 +56,7 @@ Trancoso Resolve`,
 
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: 'tocaorganic@gmail.com',
-      from_name: 'Trancoso Resolve — Sistema',
+      from_name: 'Trancoso Resolve | Sistema',
       subject: `🔔 Novo lead de investidor: ${lead.name} (${tipoLabel})`,
       body: `Novo lead capturado na página de investidores!
 

@@ -288,7 +288,7 @@ export default function TocaAvatar() {
               <div className={`w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-amber-400 shadow-xl relative ${isSpeaking && !isPaused ? 'animate-pulse' : ''}`}>
                 <img
                   src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face"
-                  alt="Toca - Anfitriã Virtual de Trancoso"
+                  alt="Toca: Anfitriã Virtual de Trancoso"
                   className="w-full h-full object-cover"
                 />
               </div>

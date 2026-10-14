@@ -52,7 +52,7 @@ export default function ChatOnboarding() {
             <Bot className="w-5 h-5 text-white" />
           </div>
           <div>
-            <p className="text-white font-semibold text-sm">Toca — Assistente de Parceiros</p>
+            <p className="text-white font-semibold text-sm">Toca | Assistente de Parceiros</p>
             <div className="flex items-center gap-1.5 mt-0.5">
               <div className="w-2 h-2 rounded-full bg-green-300 animate-pulse" />
               <span className="text-amber-100 text-xs">Online agora</span>

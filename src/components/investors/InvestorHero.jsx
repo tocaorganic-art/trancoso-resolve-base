@@ -63,7 +63,7 @@ export default function InvestorHero() {
   return (
     <section
       className="relative overflow-hidden bg-[#1A1208] text-white"
-      aria-label="Apresentação — Trancoso Resolve para Investidores"
+      aria-label="Apresentação: Trancoso Resolve para Investidores"
     >
       {/* Gradiente de fundo — profundidade sutil */}
       <div

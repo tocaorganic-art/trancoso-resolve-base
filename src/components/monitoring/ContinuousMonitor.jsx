@@ -410,7 +410,7 @@ export default function ContinuousMonitor() {
                     key={index}
                     className={`flex-1 ${color} rounded-t transition-all hover:opacity-70`}
                     style={{ height: `${height}%` }}
-                    title={`Score: ${entry.overall_score} - ${new Date(entry.timestamp).toLocaleString('pt-BR')}`}
+                    title={`Score: ${entry.overall_score} (${new Date(entry.timestamp).toLocaleString('pt-BR')})`}
                   />
                 );
               })}

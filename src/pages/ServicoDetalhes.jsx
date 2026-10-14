@@ -49,7 +49,7 @@ export default function ServicoDetalhesPage() {
   useEffect(() => {
     if (!service) return;
 
-    const pageTitle = `${service.title} em Trancoso | ${provider?.full_name || 'Serviço'} — Trancoso Resolve`;
+    const pageTitle = `${service.title} em Trancoso | ${provider?.full_name || 'Serviço'} | Trancoso Resolve`;
     document.title = pageTitle;
 
     // Meta description
@@ -251,7 +251,7 @@ export default function ServicoDetalhesPage() {
                       whileHover={{ scale: 1.03 }}
                       className="overflow-hidden rounded-lg"
                     >
-                      <LazyImage src={img} alt={`${service.title} - imagem ${idx + 1}`} className="w-full h-32 sm:h-40 object-cover" />
+                      <LazyImage src={img} alt={`${service.title}, imagem ${idx + 1}`} className="w-full h-32 sm:h-40 object-cover" />
                     </motion.div>
                   ))}
                 </div>

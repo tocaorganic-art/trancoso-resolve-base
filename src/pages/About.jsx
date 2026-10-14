@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion, useInView, useMotionValue, useSpring, animate } from 'framer-motion';
@@ -7,6 +8,19 @@ import {
   ArrowRight, CheckCircle, MapPin, Sparkles, Heart
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { base44 } from '@/api/base44Client';
+
+// Conta prestadores verificados via função pública sanitizada (sem ler ServiceProvider
+// diretamente). Pagina até esgotar ou atingir o teto de segurança.
+async function countVerifiedProviders() {
+  let total = 0;
+  for (let page = 1; page <= 10; page++) {
+    const res = await base44.functions.invoke('listPublicProviders', { page, limit: 50 });
+    total += res?.data?.providers?.length || 0;
+    if (!res?.data?.has_more) break;
+  }
+  return total;
+}
 
 /* ─── Animated Counter ────────────────────────────────────────────── */
 function Counter({ to, suffix = '', duration = 1.6 }) {
@@ -117,6 +131,12 @@ const checklist = [
 ];
 
 export default function AboutPage() {
+  const { data: providerCount } = useQuery({
+    queryKey: ['aboutProviderCount'],
+    queryFn: countVerifiedProviders,
+    staleTime: 5 * 60 * 1000,
+  });
+
   useEffect(() => {
     document.title = "Sobre Nós | Trancoso Resolve — Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva";
     const desc = "Conheça a Trancoso Resolve, a plataforma que conecta quem precisa de serviço a profissionais verificados em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva, na Bahia.";
@@ -206,12 +226,11 @@ export default function AboutPage() {
       {/* ══════════════ STATS ══════════════ */}
       <section className="bg-card border-y border-border py-10 px-4">
         <div className="container mx-auto max-w-4xl">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
             {[
               { value: 8, suffix: ' anos', label: 'de experiência em Trancoso' },
-              { value: 120, suffix: '+', label: 'prestadores verificados' },
+              { value: providerCount ?? 0, suffix: '+', label: 'prestadores verificados' },
               { value: 4, suffix: ' cidades', label: 'na Costa do Descobrimento' },
-              { value: 500, suffix: '+', label: 'avaliações reais' },
             ].map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="space-y-1">

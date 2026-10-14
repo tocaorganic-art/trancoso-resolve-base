@@ -81,9 +81,13 @@
       "format": "date",
       "description": "Pr\u00f3xima data de cobran\u00e7a"
     },
+    "asaas_subscription_id": {
+      "type": "string",
+      "description": "ID da assinatura (subscription) no Asaas \u2014 gateway ativo"
+    },
     "mp_preapproval_id": {
       "type": "string",
-      "description": "ID da assinatura (preapproval) no Mercado Pago"
+      "description": "ID da assinatura (preapproval) no Mercado Pago. Assinaturas Asaas criadas antes de 14/10/2026 podem ter o ID do Asaas neste campo (legado)."
     },
     "mp_payer_id": {
       "type": "string",
@@ -97,10 +101,11 @@
     "payment_method": {
       "type": "string",
       "enum": [
+        "asaas",
         "mercadopago",
         "manual"
       ],
-      "default": "mercadopago",
+      "default": "asaas",
       "description": "M\u00e9todo de pagamento"
     },
     "notes": {

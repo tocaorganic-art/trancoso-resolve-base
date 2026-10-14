@@ -85,15 +85,20 @@ Deno.serve(async (req) => {
     // asaas_subscription_id. Sem este bloco, uma assinatura Asaas "cancelada"
     // pelo app continuava ativa no Asaas e seguia gerando cobrança ao cliente
     // (achado da auditoria de 25/09/2026).
-    if (sub.asaas_subscription_id) {
+    // Asaas grava o ID em asaas_subscription_id; em registros legados criados
+    // pelo webhook antes de 14/10/2026 o ID Asaas pode estar só em
+    // mp_preapproval_id (payment_method = 'asaas').
+    const asaasSubId = sub.asaas_subscription_id
+      || (sub.payment_method === 'asaas' ? sub.mp_preapproval_id : null);
+    if (asaasSubId) {
       const asaasApiKey = Deno.env.get('ASAAS_API_KEY');
       if (!asaasApiKey) {
         return Response.json({ error: 'ASAAS_API_KEY ausente.' }, { status: 503 });
       }
 
-      const asaasCheckRes = await asaasFetch(asaasApiKey, `/v3/subscriptions/${sub.asaas_subscription_id}`);
+      const asaasCheckRes = await asaasFetch(asaasApiKey, `/v3/subscriptions/${asaasSubId}`);
       if (asaasCheckRes.ok && asaasCheckRes.data?.status !== 'INACTIVE' && asaasCheckRes.data?.deleted !== true) {
-        const asaasDelRes = await asaasFetch(asaasApiKey, `/v3/subscriptions/${sub.asaas_subscription_id}`, {
+        const asaasDelRes = await asaasFetch(asaasApiKey, `/v3/subscriptions/${asaasSubId}`, {
           method: 'DELETE',
         });
         if (!asaasDelRes.ok) {
@@ -102,7 +107,7 @@ Deno.serve(async (req) => {
             error: `Erro ao cancelar no Asaas: ${asaasDelRes.data?.errors?.[0]?.description || `HTTP ${asaasDelRes.status}`}`,
           }, { status: 502 });
         }
-        console.log(`[cancelarAssinatura] Assinatura Asaas ${sub.asaas_subscription_id} cancelada`);
+        console.log(`[cancelarAssinatura] Assinatura Asaas ${asaasSubId} cancelada`);
       } else if (!asaasCheckRes.ok && asaasCheckRes.status !== 404) {
         console.error('[cancelarAssinatura] Não foi possível verificar assinatura no Asaas:', asaasCheckRes.status);
         return Response.json({ error: 'Não foi possível confirmar o cancelamento no Asaas. Tente novamente em instantes.' }, { status: 502 });
@@ -110,7 +115,9 @@ Deno.serve(async (req) => {
     }
 
     // ─── 5b. Cancela no Mercado Pago (assinaturas legadas) ────────────────────
-    if (sub.mp_preapproval_id) {
+    // Assinaturas Asaas legadas podem ter o ID Asaas em mp_preapproval_id —
+    // nunca mandar esse ID para o MP.
+    if (sub.mp_preapproval_id && sub.payment_method !== 'asaas') {
       const mpToken = Deno.env.get('MP_ACCESS_TOKEN');
       if (!mpToken) {
         return Response.json({ error: 'MP_ACCESS_TOKEN ausente.' }, { status: 503 });

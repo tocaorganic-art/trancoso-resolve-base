@@ -275,7 +275,8 @@ async function handleSubscriptionPayment(
     plan: plan || 'profissional',
     billing: billing === 'annual' ? 'annual' : 'monthly',
     status: newStatus,
-    mp_preapproval_id: String(subscription.id), // campo compartilhado: ID Asaas
+    asaas_subscription_id: String(subscription.id),
+    mp_preapproval_id: String(subscription.id), // campo compartilhado: ID Asaas (legado)
     payment_method: 'asaas',
     ...(amount ? { amount } : {}),
     ...(nextBilling ? { next_billing_date: nextBilling } : {}),

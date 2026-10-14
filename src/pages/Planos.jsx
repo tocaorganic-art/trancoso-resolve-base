@@ -637,9 +637,9 @@ export default function PlanosPage() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Nota Mercado Pago */}
+        {/* Nota Asaas */}
         <p className="text-center text-muted-foreground text-xs mb-4">
-          Pagamento seguro via Mercado Pago — cancele quando quiser, sem multa.
+          Pagamento seguro via Asaas — cancele quando quiser, sem multa.
         </p>
 
         {/* Transparência */}

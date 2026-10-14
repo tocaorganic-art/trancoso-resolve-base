@@ -58,11 +58,11 @@ Deno.serve(async (req) => {
     }
 
     if (provider.verified === true) {
-      return Response.json({ ok: true, note: 'prestador já totalmente verificado — boas-vindas já enviadas' });
+      return Response.json({ ok: true, note: 'prestador já totalmente verificado, boas-vindas já enviadas' });
     }
 
     if (provider.status_verificacao !== 'aprovado') {
-      return Response.json({ ok: true, note: 'status_verificacao não é aprovado — nada a notificar' });
+      return Response.json({ ok: true, note: 'status_verificacao não é aprovado, nada a notificar' });
     }
 
     const providerEmail = provider.email || provider.created_by;

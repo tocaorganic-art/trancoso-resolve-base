@@ -235,7 +235,7 @@ Deno.serve(async (req) => {
               trial_consumed_at: new Date().toISOString(),
               trial_type: 'profissional_7d',
               trial_version: 1,
-              notes: `Trial Profissional ${effectiveTrialDays}d iniciado no checkout — assinatura Asaas: ${subscription.id}`,
+              notes: `Trial Profissional ${effectiveTrialDays}d iniciado no checkout, assinatura Asaas: ${subscription.id}`,
             });
           }
         }

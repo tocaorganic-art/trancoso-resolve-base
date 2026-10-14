@@ -203,7 +203,7 @@ async function handleSubscriptionPayment(
   if (!subRes.ok) {
     console.error(`[asaasWebhook] Assinatura ${payment.subscription} não encontrada no Asaas (${subRes.status})`);
     if (subRes.status === 404) return Response.json({ ok: true, note: 'assinatura não encontrada' });
-    return Response.json({ ok: true, note: `erro Asaas ${subRes.status} — retry pendente` });
+    return Response.json({ ok: true, note: `erro Asaas ${subRes.status}, retry pendente` });
   }
   const subscription = subRes.data;
 
@@ -236,7 +236,7 @@ async function handleSubscriptionPayment(
   const alreadyProcessed = (existingEvents || []).find((e: any) => e.status === 'processed' && e.payload_hash === payloadHash);
   if (alreadyProcessed) {
     console.log(`[asaasWebhook] Evento duplicado ignorado: asaas:${payment.id}:${event}:${newStatus}`);
-    return Response.json({ ok: true, note: 'duplicate event — already processed' });
+    return Response.json({ ok: true, note: 'duplicate event, already processed' });
   }
 
   let webhookEventId: string | null = null;
@@ -426,7 +426,7 @@ async function handleStandalonePayment(
   const alreadyProcessed = (existingEvents || []).find((e: any) => e.status === 'processed' && e.payload_hash === payloadHash);
   if (alreadyProcessed) {
     console.log(`[asaasWebhook] Evento payment duplicado ignorado: asaas:${payment.id}:${newStatus}`);
-    return Response.json({ ok: true, note: 'duplicate event — already processed' });
+    return Response.json({ ok: true, note: 'duplicate event, already processed' });
   }
 
   let webhookEventId: string | null = null;
@@ -550,7 +550,7 @@ Deno.serve(async (req) => {
     if (!payRes.ok) {
       console.error(`[asaasWebhook] Cobrança ${paymentId} não encontrada no Asaas (${payRes.status})`);
       if (payRes.status === 404) return Response.json({ ok: true, note: 'cobrança não encontrada no Asaas' });
-      return Response.json({ ok: true, note: `erro Asaas ${payRes.status} — retry pendente` });
+      return Response.json({ ok: true, note: `erro Asaas ${payRes.status}, retry pendente` });
     }
     const payment = payRes.data;
 

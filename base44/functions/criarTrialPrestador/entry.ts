@@ -134,7 +134,7 @@ Deno.serve(async (req) => {
       trial_version: 1,
       amount: 0,
       payment_method: 'manual',
-      notes: `Teste Gratuito de ${trialLabel} — criado no cadastro como prestador`,
+      notes: `Teste Gratuito de ${trialLabel}, criado no cadastro como prestador`,
     });
 
     console.log(`[criarTrialPrestador] Teste Gratuito de ${trialLabel} criado para ${maskEmail(userEmail)}: ${trialStart} → ${trialEndDate}`);

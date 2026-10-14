@@ -9,9 +9,9 @@ const BASE = "https://base44.app/api/apps/68eb21726a9614db4a82ba99/files/mp/publ
 const SLIDES = [
   {
     id: "prestadores",
-    img: `${BASE}/ce4a274d5_banner_v7_1_prestadores.png`,
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/0ed9f1c46_ce4a274d5_banner_v7_1_prestadores_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/b7b31595c_ce4a274d5_banner_v7_1_prestadores_mob.webp",
+    img: `https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/c24835b75_s1_new.png`,
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/1d9307e9a_s1_new_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/a74b90d10_s1_new_mob.webp",
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
     sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 2 meses.",
@@ -21,9 +21,9 @@ const SLIDES = [
   },
   {
     id: "empresas",
-    img: `${BASE}/adb781eb1_banner_v7_2_empresas.png`,
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d868136e4_adb781eb1_banner_v7_2_empresas_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d8b00a713_adb781eb1_banner_v7_2_empresas_mob.webp",
+    img: `https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d58718496_s2_new.png`,
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/f5a87605c_s2_new_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/0996f3c50_s2_new_mob.webp",
     alt: "Parceiros oficiais para sua pousada — manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
     sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",

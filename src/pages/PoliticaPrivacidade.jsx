@@ -27,6 +27,10 @@ export default function PoliticaPrivacidade() {
           <p>
             A Plataforma é operada por <strong>Toca Experience Inova Simples (I.S.)</strong>, CNPJ <strong>68.662.845/0001-86</strong>, com sede em R. Alameda Bom Jesus, 7, Trancoso, Porto Seguro/BA, CEP 46.098-000, controladora dos dados pessoais tratados nos termos desta Política, nos termos do art. 9º da LGPD.
           </p>
+          <h3 className="text-xl font-semibold text-foreground mt-6">Encarregado de Dados (DPO)</h3>
+          <p>
+            O canal de contato com o Encarregado de Proteção de Dados (DPO) da Plataforma, nos termos do art. 41 da LGPD, é: <strong>privacidade@trancosoresolve.com.br</strong>.
+          </p>
         </motion.section>
 
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
@@ -48,6 +52,13 @@ export default function PoliticaPrivacidade() {
             <li>Verificação de identidade (verificação de antecedentes)</li>
             <li>Melhorar a experiência do usuário</li>
             <li>Conformidade legal e combate ao abuso</li>
+          </ul>
+          <h3 className="text-xl font-semibold text-foreground mt-6">Bases Legais do Tratamento (art. 7º da LGPD)</h3>
+          <ul className="list-disc pl-6 space-y-2">
+            <li><strong>Consentimento:</strong> marketing, cookies de analytics, comunicações opcionais e verificação de antecedentes criminais (dado sensível — tratado apenas mediante autorização expressa do prestador, nos termos do art. 11 da LGPD).</li>
+            <li><strong>Execução de contrato:</strong> criação de conta, cadastro de prestador/cliente, assinatura de planos e processamento de pagamentos.</li>
+            <li><strong>Legítimo interesse:</strong> segurança da plataforma, prevenção a fraudes e combate ao abuso.</li>
+            <li><strong>Cumprimento de obrigação legal ou regulatória:</strong> retenção de dados fiscais/financeiros pelo prazo exigido em lei (ver seção 6 — Retenção de Dados).</li>
           </ul>
         </motion.section>
 

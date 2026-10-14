@@ -117,12 +117,21 @@ export function activateOptionalTracking(
  * clearConsent — apaga a escolha salva e devolve o usuário ao estado sem decisão.
  * Usado pelo link do rodapé para reabrir o banner de consentimento (LGPD).
  */
-export function clearConsent(storage) {
+export function clearConsent(storage, windowRef = typeof window === 'undefined' ? null : window) {
   const targetStorage = getStorage(storage);
   try {
     targetStorage && targetStorage.removeItem(COOKIE_CONSENT_KEY);
   } catch (err) {
     // localStorage indisponível (modo privado etc.) — apenas ignora.
+  }
+  // Consent Mode v2: volta explicitamente para denied enquanto o usuário não decide de novo.
+  if (typeof windowRef?.gtag === 'function') {
+    windowRef.gtag('consent', 'update', {
+      ad_storage: 'denied',
+      analytics_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied',
+    });
   }
   return null;
 }

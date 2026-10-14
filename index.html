@@ -88,6 +88,28 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
+      // Consent Mode v2 (LGPD) — tudo negado por padrão até o usuário decidir no banner
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        analytics_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        wait_for_update: 500
+      });
+
+      // Se o usuário já decidiu antes nesta máquina, aplica o consentimento salvo
+      try {
+        var savedConsent = JSON.parse(window.localStorage.getItem('cookie-consent'));
+        if (savedConsent) {
+          gtag('consent', 'update', {
+            analytics_storage: savedConsent.analytics === true ? 'granted' : 'denied',
+            ad_storage: savedConsent.marketing === true ? 'granted' : 'denied',
+            ad_user_data: savedConsent.marketing === true ? 'granted' : 'denied',
+            ad_personalization: savedConsent.marketing === true ? 'granted' : 'denied'
+          });
+        }
+      } catch (e) { /* localStorage indisponível ou valor corrompido — mantém denied */ }
+
       gtag('config', 'G-3KF75243B4');
       gtag('config', 'AW-18431007500');
     </script>

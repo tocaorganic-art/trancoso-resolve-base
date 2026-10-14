@@ -13,8 +13,26 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 // - provider.verified === true → já totalmente verificado; o e-mail de boas-vindas
 //   do adminVerificacao já cobre a comunicação (evita e-mail duplicado).
 // - status_verificacao !== 'aprovado' → nada a notificar.
+
+// Comparacao timing-safe de segredos (mesmo padrão de criarTrialPrestador)
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 Deno.serve(async (req) => {
   try {
+    // Protegida por segredo compartilhado — sem isso, um payload.data forjado poderia
+    // direcionar o e-mail de aprovação para um endereço arbitrário.
+    const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET') ?? '';
+    const receivedSecret = req.headers.get('x-automation-secret') ?? '';
+    if (!(expectedSecret.length > 0 && timingSafeEqual(expectedSecret, receivedSecret))) {
+      console.warn('[notificarAntecedentesAprovados] Automacao sem segredo valido — rejeitada.');
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const base44 = createClientFromRequest(req);
     const payload = await req.json().catch(() => ({}));
 

@@ -2,6 +2,14 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 const ADMIN_EMAIL = 'tocaorganic@gmail.com';
 
+// Comparacao timing-safe de segredos (mesmo padrão de criarTrialPrestador)
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 function weekStart(daysBack = 0) {
   const d = new Date();
   d.setDate(d.getDate() - daysBack);
@@ -17,10 +25,21 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    // Verificar admin
-    const user = await base44.auth.me();
-    if (user && user.role !== 'admin') {
-      return Response.json({ error: 'Forbidden' }, { status: 403 });
+    // Dois caminhos de invocação: (1) automação agendada (cron), sem usuário logado,
+    // validada por AUTOMATION_WEBHOOK_SECRET; (2) chamada direta de admin autenticado
+    // (botão "Enviar relatório" no painel). Sem nenhum dos dois ⇒ 403 (fail-closed).
+    // Achado original: `if (user && user.role !== 'admin')` deixava passar QUALQUER
+    // chamada sem usuário — inclusive de um cliente HTTP anônimo não autenticado — já
+    // que a ausência de usuário também ocorre numa chamada forjada sem credenciais.
+    const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET') ?? '';
+    const receivedSecret = req.headers.get('x-automation-secret') ?? '';
+    const isInternal = expectedSecret.length > 0 && timingSafeEqual(expectedSecret, receivedSecret);
+
+    if (!isInternal) {
+      const user = await base44.auth.me().catch(() => null);
+      if (!user || user.role !== 'admin') {
+        return Response.json({ error: 'Forbidden' }, { status: 403 });
+      }
     }
 
     const now = new Date();

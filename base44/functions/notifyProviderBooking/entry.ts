@@ -1,7 +1,25 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
+// Comparacao timing-safe de segredos (mesmo padrão de criarTrialPrestador)
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 Deno.serve(async (req) => {
   try {
+    // Chamada pela automação de entity (ServiceRequest create) — protegida por segredo
+    // compartilhado. Sem isso, qualquer POST externo poderia disparar e-mails falsos de
+    // "novo agendamento" para qualquer prestador com dados arbitrários (phishing/spam).
+    const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET') ?? '';
+    const receivedSecret = req.headers.get('x-automation-secret') ?? '';
+    if (!(expectedSecret.length > 0 && timingSafeEqual(expectedSecret, receivedSecret))) {
+      console.warn('[notifyProviderBooking] Automacao sem segredo valido — rejeitada.');
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const base44 = createClientFromRequest(req);
     const payload = await req.json();
 

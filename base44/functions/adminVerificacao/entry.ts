@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from '../_shared/piiMask.ts';
 
 const APPROVED_STATUSES = new Set(['Verificado', 'approved']);
 const PHONE_PATTERN = /^\+55\d{10,11}$/;
@@ -70,7 +71,7 @@ Deno.serve(async (req: Request) => {
           body: `Olá, ${safeName(provider.full_name)}!\n\nSeu cadastro não foi autorizado com os dados enviados. Acesse o site para refazer a etapa de verificação com imagens legíveis e atualizadas.\n\nSe precisar de revisão, responda este e-mail ou use o suporte disponível no site.\n\nEquipe Trancoso Resolve`,
         });
       }
-      console.log(`[adminVerificacao] ${action} verification ${verificationId} by ${user.email}`);
+      console.log(`[adminVerificacao] ${action} verification ${verificationId} by ${maskEmail(user.email)}`);
       return Response.json({ ok: true, status: newStatus, ready_for_release: false });
     }
 

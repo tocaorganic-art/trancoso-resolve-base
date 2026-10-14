@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
+import { maskPhone } from '../_shared/piiMask.ts';
 
 const CODE_VERSION = 'v1.0.0';
 
@@ -155,7 +156,7 @@ Responda como Toca TrIA. APENAS o texto da resposta, sem prefixo "TrIA:" ou simi
       aiResponse = typeof result === 'string' ? result.trim()
         : (result?.response || result?.text || result?.message || '').trim();
       if (!aiResponse) throw new Error('Resposta vazia do LLM');
-      console.log(`[atendimento_whatsapp_ia] TrIA respondeu (${aiResponse.length} chars) para +${phoneClean}`);
+      console.log(`[atendimento_whatsapp_ia] TrIA respondeu (${aiResponse.length} chars) para ${maskPhone(phoneClean)}`);
     } catch (e) {
       console.error('[atendimento_whatsapp_ia] Erro InvokeLLM:', (e as Error).message);
       aiResponse =

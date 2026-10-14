@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
+import { maskEmail, maskName } from '../_shared/piiMask.ts';
 
 const CODE_VERSION = 'v1.0.0';
 
@@ -91,7 +92,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'conversation_id e content são obrigatórios' }, { status: 400 });
     }
 
-    console.log(`[atendimento_chat_ia] Processando mensagem de ${sender_email || sender_name} na conversa ${conversation_id}`);
+    console.log(`[atendimento_chat_ia] Processando mensagem de ${sender_email ? maskEmail(sender_email) : maskName(sender_name)} na conversa ${conversation_id}`);
 
     // --- Carregar conversa e histórico ---
     let convData: any = null;

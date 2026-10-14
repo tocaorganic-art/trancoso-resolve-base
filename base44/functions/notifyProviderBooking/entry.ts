@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskName } from '../_shared/piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -27,7 +28,7 @@ Deno.serve(async (req) => {
     const providerEmail = provider.email || provider.created_by;
 
     if (!providerEmail) {
-      console.log('No email for provider:', provider.full_name);
+      console.log('No email for provider:', maskName(provider.full_name));
       return Response.json({ ok: true, note: 'no provider email' });
     }
 

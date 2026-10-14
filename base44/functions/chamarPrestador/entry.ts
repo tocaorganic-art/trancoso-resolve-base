@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from '../_shared/piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -86,7 +87,7 @@ Deno.serve(async (req) => {
       message: 'Contato via WhatsApp',
     });
 
-    console.log(`[chamarPrestador] cliente=${user.email} prestador=${id_prestador}`);
+    console.log(`[chamarPrestador] cliente=${maskEmail(user.email)} prestador=${id_prestador}`);
 
     return Response.json({
       whatsapp_cliente: clientPhone,

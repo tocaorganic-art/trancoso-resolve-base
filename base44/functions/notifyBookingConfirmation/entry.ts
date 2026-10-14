@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from '../_shared/piiMask.ts';
 
 /**
  * Triggered by entity automation on ServiceRequest create/update.
@@ -73,7 +74,7 @@ Equipe Trancoso Resolve 🌊
         from_name: 'Trancoso Resolve',
       });
 
-      console.log(`Email de recebimento enviado ao cliente: ${request.client_email}`);
+      console.log(`Email de recebimento enviado ao cliente: ${maskEmail(request.client_email)}`);
     }
 
     // ─── UPDATE to Confirmado: notify both client and provider ───
@@ -156,7 +157,7 @@ Equipe Trancoso Resolve 🌊
       }
 
       await Promise.all(emails);
-      console.log(`Emails de confirmação enviados. Cliente: ${request.client_email}, Prestador: ${providerEmail}`);
+      console.log(`Emails de confirmação enviados. Cliente: ${maskEmail(request.client_email)}, Prestador: ${maskEmail(providerEmail)}`);
     }
 
     return Response.json({ ok: true });

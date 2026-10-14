@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from '../_shared/piiMask.ts';
 
 // ─── WEBHOOK ASAAS (12/09/2026) ────────────────────────────────────────────────
 // Substitui o mercadoPagoWebhook no pipeline de pagamentos (migração MP → Asaas).
@@ -318,19 +319,19 @@ async function handleSubscriptionPayment(
       const isVerified = provider?.verified === true && provider?.status_verificacao === 'aprovado';
 
       if (!isVerified) {
-        console.log(`[asaasWebhook] ${email} não verificado/aprovado — Fundador não concedido`);
+        console.log(`[asaasWebhook] ${maskEmail(email)} não verificado/aprovado — Fundador não concedido`);
       } else {
         const existingGrants = await base44.asServiceRole.entities.FounderGrant.filter({ provider_id: provider.id });
         const hasGrant = (existingGrants || []).length > 0;
 
         if (hasGrant) {
           const g = existingGrants[0];
-          console.log(`[asaasWebhook] ${email} já tem FounderGrant (status: ${g.status}) — idempotente`);
+          console.log(`[asaasWebhook] ${maskEmail(email)} já tem FounderGrant (status: ${g.status}) — idempotente`);
         } else {
           const allocation = await allocateFounderSlot(base44, provider.id, subscriptionId, String(subscription.id));
 
           if (!allocation) {
-            console.log(`[asaasWebhook] Vagas Fundador esgotadas ou não inicializadas — ${email} sem selo`);
+            console.log(`[asaasWebhook] Vagas Fundador esgotadas ou não inicializadas — ${maskEmail(email)} sem selo`);
           } else if (allocation.isExisting && (allocation.slot.status === 'granted' || allocation.slot.status === 'revoked')) {
             console.log(`[asaasWebhook] Slot ${allocation.slot.position} já processado (${allocation.slot.status})`);
           } else {
@@ -352,7 +353,7 @@ async function handleSubscriptionPayment(
               console.warn(`[asaasWebhook] Falha ao marcar slot ${slot.position} como granted:`, slotErr.message);
             });
 
-            console.log(`[asaasWebhook] Selo Fundador concedido: ${email} → posição ${slot.position}`);
+            console.log(`[asaasWebhook] Selo Fundador concedido: ${maskEmail(email)} → posição ${slot.position}`);
             sendCapiEvent('FounderBadgeGranted', {
               position: slot.position,
               value: 19.90,
@@ -373,7 +374,7 @@ async function handleSubscriptionPayment(
 
     } catch (grantErr) {
       grantError = (grantErr as Error).message;
-      console.error(`[asaasWebhook] [RECONCILIAR-URGENTE] Falha ao conceder Fundador para ${email}: ${grantError}.`);
+      console.error(`[asaasWebhook] [RECONCILIAR-URGENTE] Falha ao conceder Fundador para ${maskEmail(email)}: ${grantError}.`);
 
       try {
         const byKey = await base44.asServiceRole.entities.FounderSlot.filter({
@@ -393,7 +394,7 @@ async function handleSubscriptionPayment(
     await markWebhookEvent(base44, webhookEventId, 'processed');
   }
 
-  console.log(`[asaasWebhook] ${email} → ${newStatus} (plano ${plan}, assinatura ${subscription.id})`);
+  console.log(`[asaasWebhook] ${maskEmail(email)} → ${newStatus} (plano ${plan}, assinatura ${subscription.id})`);
   return Response.json({ ok: true });
 }
 

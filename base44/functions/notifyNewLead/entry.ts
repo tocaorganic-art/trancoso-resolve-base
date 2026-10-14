@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskName } from '../_shared/piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -82,7 +83,7 @@ ${lead.type === 'prestador'
 `,
     });
 
-    console.log(`[notifyNewLead] Lead ${lead.id} notificado: ${lead.name} (${lead.type || 'cliente'})`);
+    console.log(`[notifyNewLead] Lead ${lead.id} notificado: ${maskName(lead.name)} (${lead.type || 'cliente'})`);
     return Response.json({ success: true, message: 'Notifications sent' });
   } catch (error) {
     console.error('[notifyNewLead] Error:', error);

@@ -5,7 +5,6 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, RefreshCw, LogOut } from 'lucide-react';
 
-const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
 
 const USER_TYPE_LABELS = {
   prestador: 'prestadores de serviço',
@@ -75,9 +74,8 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       return;
     }
 
-    // Verificar role (whitelist de emails admin sempre passa)
-    const isAdminByEmail = ADMIN_WHITELIST.includes(user.email);
-    if (requiredRole && user.role !== requiredRole && !isAdminByEmail) {
+    // Verificar role — exclusivamente o role do usuário no backend
+    if (requiredRole && user.role !== requiredRole) {
       setPermissionStatus('forbidden');
       setErrorDetails({
         code: 'INSUFFICIENT_ROLE',

@@ -191,8 +191,9 @@ export default function Layout({ children, currentPageName }) {
 
   }, [location.pathname]);
 
-  const ADMIN_WHITELIST = ['tocaorganic@gmail.com'];
-  const isAdmin = user?.role === "admin" || ADMIN_WHITELIST.includes(user?.email);
+  // Autoridade vem exclusivamente do role do usuário (backend/Base44) —
+  // nunca de uma lista de e-mails no bundle (scanner: segredo exposto).
+  const isAdmin = user?.role === "admin";
 
 
   const isPrestador = user?.user_type === 'prestador';

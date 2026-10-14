@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { quotaCheckAndBump } from './security.ts';
 
 function redact(value: unknown, maxLength: number): string {
   return String(value || '')
@@ -75,6 +76,14 @@ Deno.serve(async (req: Request) => {
       user_email: userEmail,
       triage_status: 'pending',
     });
+
+    // Triage por IA consome créditos: limite global diário (endpoint público por
+    // design — erros de visitantes anônimos precisam ser logáveis sem triagem IA).
+    const iaQuota = await quotaCheckAndBump(base44, 'logclienterror-ia', 60).catch(() => ({ allowed: true }));
+    if (!iaQuota.allowed) {
+      await base44.asServiceRole.entities.ClientErrorLog.update(record.id, { triage_status: 'skipped_quota' }).catch(() => {});
+      return Response.json({ ok: true, triage: 'skipped_quota' });
+    }
 
     const internalSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
     const prompt = TRIAGE_PROMPT

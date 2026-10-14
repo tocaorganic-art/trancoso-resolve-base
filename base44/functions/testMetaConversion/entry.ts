@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller } from './security.ts';
 
 async function sha256Hash(str: string) {
   const encoder = new TextEncoder();
@@ -10,6 +11,10 @@ async function sha256Hash(str: string) {
 
 Deno.serve(async (req) => {
   try {
+    // Função de teste que dispara eventos reais na Conversions API: só admin/automação.
+    if (!(await isTrustedCaller(req, createClientFromRequest(req), null))) {
+      return Response.json({ error: 'Nao autorizado' }, { status: 401 });
+    }
     const base44 = createClientFromRequest(req);
     const pixelId = '1469130194903035';
     const accessToken = Deno.env.get('META_CONVERSIONS_API_TOKEN');

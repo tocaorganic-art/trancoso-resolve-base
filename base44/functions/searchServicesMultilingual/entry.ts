@@ -1,10 +1,15 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller } from './security.ts';
 
 // Cache de buscas semânticas (máximo 100 entradas)
 const semanticCache = new Map();
 const MAX_CACHE_SIZE = 100;
 
 Deno.serve(async (req) => {
+  // Função não referenciada pelo frontend e que consome LLM: restrita a admin/automação.
+  if (!(await isTrustedCaller(req, createClientFromRequest(req), null))) {
+    return Response.json({ error: 'Nao autorizado' }, { status: 401 });
+  }
   try {
     const base44 = createClientFromRequest(req);
     const { query, language = 'pt', limit = 8 } = await req.json();

@@ -2,18 +2,79 @@
   "name": "LeadConversa",
   "type": "object",
   "properties": {
-    "lead_id": { "type": "string", "description": "ID do Lead quando identificado" },
-    "canal": { "type": "string", "enum": ["whatsapp", "messenger", "instagram", "email"] },
-    "direcao": { "type": "string", "enum": ["entrada", "saida"] },
-    "conteudo": { "type": "string", "description": "Conteúdo da mensagem" },
-    "status_entrega": { "type": "string", "enum": ["enviado", "entregue", "lido", "falhou"] },
-    "enviado_em": { "type": "string", "format": "date-time" },
-    "message_id": { "type": "string", "description": "ID retornado pelo canal" },
-    "destinatario": { "type": "string", "description": "Identificador do destinatário" }
+    "lead_id": {
+      "type": "string",
+      "description": "ID do Lead quando identificado"
+    },
+    "canal": {
+      "type": "string",
+      "enum": [
+        "whatsapp",
+        "messenger",
+        "instagram",
+        "email"
+      ]
+    },
+    "direcao": {
+      "type": "string",
+      "enum": [
+        "entrada",
+        "saida"
+      ]
+    },
+    "conteudo": {
+      "type": "string",
+      "description": "Conte\u00fado da mensagem"
+    },
+    "status_entrega": {
+      "type": "string",
+      "enum": [
+        "enviado",
+        "entregue",
+        "lido",
+        "falhou"
+      ]
+    },
+    "enviado_em": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "message_id": {
+      "type": "string",
+      "description": "ID retornado pelo canal"
+    },
+    "destinatario": {
+      "type": "string",
+      "description": "Identificador do destinat\u00e1rio"
+    }
   },
-  "required": ["canal", "direcao", "conteudo", "status_entrega", "enviado_em"],
+  "required": [
+    "canal",
+    "direcao",
+    "conteudo",
+    "status_entrega",
+    "enviado_em"
+  ],
   "rls": {
-    "read": { "user_condition": { "role": "admin" } },
-    "write": { "user_condition": { "role": "admin" } }
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
   }
 }

@@ -70,6 +70,9 @@
     "verification_type"
   ],
   "rls": {
+    "create": {
+      "created_by": "{{user.email}}"
+    },
     "read": {
       "$or": [
         {
@@ -82,7 +85,6 @@
         }
       ]
     },
-    "create": true,
     "update": {
       "user_condition": {
         "role": "admin"

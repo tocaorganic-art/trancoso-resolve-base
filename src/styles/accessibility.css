@@ -54,6 +54,12 @@ input[type="radio"] {
   justify-content: center;
 }
 
+/* Exceção: indicadores pequenos (dots do carrossel) não herdam o alvo mínimo de 44px */
+button.no-touch-target {
+  min-height: 0;
+  min-width: 0;
+}
+
 /* Form labels and inputs */
 label {
   display: block;

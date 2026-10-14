@@ -1,5 +1,5 @@
 // Carrossel da Home — Trancoso Resolve (3 slides: prestadores / empresas / clientes)
-// Artes v7 sem marca d'água. Nunito em todos os textos,
+// Artes v8 (fotos novas, sem marca d'água, sem edição de arte antiga). Nunito em todos os textos,
 // dots e setas dentro dos limites do container, sem corte ou sobreposição incorreta.
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -9,21 +9,21 @@ const BASE = "https://base44.app/api/apps/68eb21726a9614db4a82ba99/files/mp/publ
 const SLIDES = [
   {
     id: "prestadores",
-    img: `${BASE}/ce4a274d5_banner_v7_1_prestadores.png`,
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/0ed9f1c46_ce4a274d5_banner_v7_1_prestadores_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/b7b31595c_ce4a274d5_banner_v7_1_prestadores_mob.webp",
+    img: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/501480410_banner_v8_1_desk.png",
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/143638e7a_banner_v8_1_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/754f59466_banner_v8_1_mob.webp",
     alt: "A vitrine oficial de profissionais e serviços — técnico eletricista, chef e arquiteto consultor",
     titulo: "A VITRINE OFICIAL DE PROFISSIONAIS E SERVIÇOS",
-    sub: "De técnicos e especialistas em hospitalidade a consultores autônomos. Os 100 primeiros entram grátis por 2 meses.",
+    sub: "Técnicos, especialistas em hospitalidade e consultores autônomos da Costa do Descobrimento. Os 100 primeiros entram grátis por 2 meses.",
     cta: "CADASTRE-SE GRÁTIS",
     to: "/SejaPrestador",
     btn: "bg-[#25D366] hover:bg-[#1fb85a] text-[#072E1A]",
   },
   {
     id: "empresas",
-    img: `${BASE}/adb781eb1_banner_v7_2_empresas.png`,
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d868136e4_adb781eb1_banner_v7_2_empresas_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d8b00a713_adb781eb1_banner_v7_2_empresas_mob.webp",
+    img: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/18b1c0145_banner_v8_2_desk.png",
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/84751126b_banner_v8_2_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/e652c8db6_banner_v8_2_mob.webp",
     alt: "Parceiros oficiais para sua pousada — manutenção, governança e serviços especializados na Costa do Descobrimento",
     titulo: "SUA POUSADA MERECE PARCEIROS OFICIAIS",
     sub: "Encontre equipes de manutenção, governança e serviços especializados para o seu negócio na Costa do Descobrimento.",
@@ -33,11 +33,11 @@ const SLIDES = [
   },
   {
     id: "clientes",
-    img: `${BASE}/fc2210a20_banner_v7_3_clientes.png`,
-    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/203e81c5f_fc2210a20_banner_v7_3_clientes_desk.webp",
-    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/d6a81ad4a_fc2210a20_banner_v7_3_clientes_mob.webp",
-    alt: "Precisa de um especialista em Trancoso? Dentistas, chefs particulares, eletricistas e limpeza premium",
-    titulo: "PRECISA DE UM ESPECIALISTA EM TRANCOSO?",
+    img: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/11af5df4d_banner_v8_3_desk.png",
+    webpDesk: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/edca8f68d_banner_v8_3_desk.webp",
+    webpMob: "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/78cd35e70_banner_v8_3_mob.webp",
+    alt: "Precisa de um especialista na Costa do Descobrimento? Dentistas, chefs particulares, eletricistas e limpeza premium",
+    titulo: "PRECISA DE UM ESPECIALISTA NA COSTA DO DESCOBRIMENTO?",
     sub: "Dentistas, chefs particulares, eletricistas, limpeza premium e muito mais. Profissionais verificados.",
     cta: "SOLICITAR SERVIÇO AGORA",
     to: "/ServicosCategoria",
@@ -159,7 +159,7 @@ export default function BannerRotativo() {
             <picture>
               <source srcSet={atual.webpMob} media="(max-width: 640px)" type="image/webp" />
               <source srcSet={atual.webpDesk} type="image/webp" />
-              <img src={atual.img} alt={atual.alt}
+              <img src={atual.img} alt={atual.alt} width={1080} height={810}
                  className="w-full h-auto max-w-full object-cover block" loading="eager"
                  fetchPriority={i === 0 ? "high" : "low"} decoding="async" />
             </picture>

@@ -47,7 +47,7 @@ function InvestidoresContent() {
       name: 'Trancoso Resolve',
       url: 'https://trancosoresolve.com.br',
       founder: { '@type': 'Person', name: 'Tony Monteiro' },
-      email: 'tocaorganic@gmail.com',
+      email: 'contato@trancosoresolve.com.br',
     },
   };
 

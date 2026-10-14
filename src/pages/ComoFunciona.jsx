@@ -260,7 +260,7 @@ export default function ComoFuncionaPage() {
           <BadgeCheck className="w-5 h-5 text-green-500 shrink-0" />
           <div>
             <p className="text-xs font-bold text-foreground">João Eletricista</p>
-            <p className="text-xs text-muted-foreground">✅ Verificado · ⭐ 4.9</p>
+            <p className="text-xs text-muted-foreground">✅ Perfil verificado</p>
           </div>
         </FloatingCard>
 
@@ -275,15 +275,15 @@ export default function ComoFuncionaPage() {
         <FloatingCard className="bottom-24 left-[8%] gap-2">
           <Star className="w-5 h-5 text-amber-400 fill-amber-400 shrink-0" />
           <div>
-            <p className="text-xs font-bold text-foreground">Ana M. avaliou</p>
-            <p className="text-xs text-muted-foreground">"Excelente profissional!" ⭐⭐⭐⭐⭐</p>
+            <p className="text-xs font-bold text-foreground">Avalie o serviço</p>
+            <p className="text-xs text-muted-foreground">Conte como foi o atendimento</p>
           </div>
         </FloatingCard>
 
         <FloatingCard className="bottom-24 right-[6%] gap-2">
           <Users className="w-5 h-5 text-blue-400 shrink-0" />
           <div>
-            <p className="text-xs font-bold text-foreground">+120 prestadores</p>
+            <p className="text-xs font-bold text-foreground">Prestadores verificados</p>
             <p className="text-xs text-muted-foreground">ativos em Trancoso</p>
           </div>
         </FloatingCard>

@@ -99,7 +99,7 @@ Equipe Trancoso Resolve 🌴
 
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: toEmail,
-      subject: `💬 Nova mensagem de ${senderDisplayName} — Trancoso Resolve`,
+      subject: `💬 Nova mensagem de ${senderDisplayName} | Trancoso Resolve`,
       body: emailBody,
       from_name: 'Trancoso Resolve'
     });

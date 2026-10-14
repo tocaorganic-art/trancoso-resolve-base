@@ -229,10 +229,10 @@ Deno.serve(async (req: Request) => {
 
       if (nadaConsta) {
         statusVerificacao = "aprovado";
-        relatorioVerificacao = `✅ VERIFICAÇÃO COMPLETA — APROVADO\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\nNascimento: ${nascimentoExtraido}\nCNH: ${registroCnh} (${categoriaCnh})\n\n🔍 ANTECEDENTES CRIMINAIS — NADA CONSTA\nCertidão nº: ${certidaoNumero}\nValidade: ${certidaoValidade}`;
+        relatorioVerificacao = `✅ VERIFICAÇÃO COMPLETA: APROVADO\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\nNascimento: ${nascimentoExtraido}\nCNH: ${registroCnh} (${categoriaCnh})\n\n🔍 ANTECEDENTES CRIMINAIS: NADA CONSTA\nCertidão nº: ${certidaoNumero}\nValidade: ${certidaoValidade}`;
       } else {
         statusVerificacao = "em_analise_manual";
-        relatorioVerificacao = `⚠️ VERIFICAÇÃO — ANÁLISE MANUAL NECESSÁRIA\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\n\n🔍 ANTECEDENTES CRIMINAIS — REGISTROS ENCONTRADOS\nMensagem: ${mensagem}\nCertidão nº: ${certidaoNumero}`;
+        relatorioVerificacao = `⚠️ VERIFICAÇÃO: ANÁLISE MANUAL NECESSÁRIA\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\n\n🔍 ANTECEDENTES CRIMINAIS: REGISTROS ENCONTRADOS\nMensagem: ${mensagem}\nCertidão nº: ${certidaoNumero}`;
       }
 
       // Atualizar prestador com resultado

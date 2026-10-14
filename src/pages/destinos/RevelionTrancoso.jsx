@@ -36,7 +36,7 @@ export default function RevelionTrancoso() {
         },
       ]}
       h1="Réveillon em Trancoso: Profissionais para a Melhor Virada de Ano da sua Vida"
-      intro="O Réveillon em Trancoso é mágico — a contagem regressiva no Quadrado histórico, as festas em villas à beira-mar e a virada sob o céu estrelado da Bahia. A Trancoso Resolve garante que você tenha o time certo para celebrar: DJ, chef, garçom, segurança, todos verificados e prontos para fazer sua festa inesquecível."
+      intro="O Réveillon em Trancoso é mágico, a contagem regressiva no Quadrado histórico, as festas em villas à beira-mar e a virada sob o céu estrelado da Bahia. A Trancoso Resolve garante que você tenha o time certo para celebrar: DJ, chef, garçom, segurança, todos verificados e prontos para fazer sua festa inesquecível."
       servicesTitle="Profissionais para o seu Réveillon em Trancoso"
       services={[
         'DJ e som profissional para festa de virada de ano',
@@ -49,7 +49,7 @@ export default function RevelionTrancoso() {
         'Montagem e desmontagem de estrutura e equipamentos',
       ]}
       howTitle="Por que contratar via Trancoso Resolve para o Réveillon?"
-      howText="Na alta temporada de verão, os melhores profissionais de Trancoso ficam com a agenda esgotada semanas antes do Réveillon. A Trancoso Resolve centraliza a contratação: você descreve sua festa, recebe contato de profissionais verificados e negocia diretamente. Sem surpresas de última hora — a gente resolve antes."
+      howText="Na alta temporada de verão, os melhores profissionais de Trancoso ficam com a agenda esgotada semanas antes do Réveillon. A Trancoso Resolve centraliza a contratação: você descreve sua festa, recebe contato de profissionais verificados e negocia diretamente. Sem surpresas de última hora, a gente resolve antes."
       cta="Descreva sua festa de Réveillon em Trancoso e receba contato de profissionais verificados: DJ, chef, garçom, segurança e mais."
       ctaButton="Contratar profissional para o Réveillon"
       category="Eventos"
@@ -58,7 +58,7 @@ export default function RevelionTrancoso() {
       locationLabel="Trancoso, Bahia"
       seoText={[
         'O Réveillon em Trancoso é um dos mais disputados da Bahia. O Quadrado histórico, as pousadas boutique e as villas privadas recebem festas de virada de ano com convidados de todo o Brasil e do exterior. A combinação de beleza natural, gastronomia e infraestrutura de alto padrão torna Trancoso um destino de referência para o Ano Novo.',
-        'Organizar um Réveillon privado em Trancoso exige planejamento antecipado. Chefs, DJs e equipes de serviço têm agenda limitada na alta temporada — e a concorrência por profissionais qualificados é grande. Via Trancoso Resolve você garante os melhores profissionais com antecedência e tranquilidade.',
+        'Organizar um Réveillon privado em Trancoso exige planejamento antecipado. Chefs, DJs e equipes de serviço têm agenda limitada na alta temporada, e a concorrência por profissionais qualificados é grande. Via Trancoso Resolve você garante os melhores profissionais com antecedência e tranquilidade.',
         'Além da festa, o Réveillon em Trancoso pede cuidado com logística: transfer de convidados, segurança para eventos maiores, e profissionais de manutenção para deixar a villa perfeita antes e depois da celebração. A Trancoso Resolve tem todos esses perfis verificados e disponíveis para a sua virada.',
       ]}
     />

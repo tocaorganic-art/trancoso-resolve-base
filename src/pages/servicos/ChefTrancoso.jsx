@@ -10,14 +10,14 @@ export default function ChefTrancoso() {
       schemaData={{
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "Trancoso Resolve - Chef Trancoso",
+        "name": "Trancoso Resolve: Chef Trancoso",
         "description": "Chefs e cozinheiros verificados em Trancoso, BA. Atendimento para villas, pousadas e eventos.",
         "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
         "areaServed": { "@type": "City", "name": "Trancoso, BA" },
         "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 }
       }}
       h1="Chef Particular em Trancoso: Gastronomia Exclusiva para Villas e Eventos"
-      intro="Trancoso é destino de quem busca experiências exclusivas — e uma refeição preparada por um chef particular na sua villa, com ingredientes frescos e culinária baiana autêntica, é uma dessas experiências. Na Trancoso Resolve você encontra chefs e cozinheiros verificados, com experiência em jantares privados, eventos e serviço diário para famílias e grupos."
+      intro="Trancoso é destino de quem busca experiências exclusivas, e uma refeição preparada por um chef particular na sua villa, com ingredientes frescos e culinária baiana autêntica, é uma dessas experiências. Na Trancoso Resolve você encontra chefs e cozinheiros verificados, com experiência em jantares privados, eventos e serviço diário para famílias e grupos."
       servicesTitle="Serviços de chef e cozinheiro em Trancoso"
       services={[
         'Refeições diárias para famílias e grupos hospedados em villas',
@@ -30,7 +30,7 @@ export default function ChefTrancoso() {
         'Compras de mercado e seleção de ingredientes frescos locais',
       ]}
       howTitle="Por que contratar um chef pela Trancoso Resolve?"
-      howText="Os melhores ingredientes de Trancoso — pescados frescos do dia, frutos de mar, ervas locais e produtos orgânicos — exigem um cozinheiro que saiba usá-los. Os chefs da plataforma têm experiência comprovada em eventos e residências de alto padrão, com avaliações publicadas por hóspedes e proprietários de villas. Todos passaram por verificação antes de entrar na plataforma."
+      howText="Os melhores ingredientes de Trancoso, pescados frescos do dia, frutos de mar, ervas locais e produtos orgânicos, exigem um cozinheiro que saiba usá-los. Os chefs da plataforma têm experiência comprovada em eventos e residências de alto padrão, com avaliações publicadas por hóspedes e proprietários de villas. Todos passaram por verificação antes de entrar na plataforma."
       cta="Descreva o tipo de refeição ou evento e receba contato de chefs e cozinheiros verificados com experiência gastronômica em Trancoso."
       ctaButton="Contratar chef em Trancoso"
       category="Cozinheiro"

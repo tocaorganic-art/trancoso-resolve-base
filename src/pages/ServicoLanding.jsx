@@ -84,7 +84,7 @@ const servicoConfig = {
     color: "from-sand-deep to-terracotta",
   },
   "eletricista-trancoso": {
-    title: "Eletricista em Trancoso, BA — Profissionais Verificados",
+    title: "Eletricista em Trancoso, BA | Profissionais Verificados",
     h1: "Eletricista em Trancoso, Bahia",
     description: "Eletricistas qualificados em Trancoso para instalações, manutenção e emergências. Profissionais verificados com avaliações de clientes reais.",
     occupation: "Eletricista",
@@ -98,7 +98,7 @@ const servicoConfig = {
     color: "from-orange-400 to-orange-700",
   },
   "encanador-trancoso": {
-    title: "Encanador em Trancoso, BA — Serviços Hidráulicos",
+    title: "Encanador em Trancoso, BA | Serviços Hidráulicos",
     h1: "Encanador em Trancoso, Bahia",
     description: "Encanadores especializados em Trancoso para reparos, entupimentos e instalações hidráulicas. Atendimento rápido com profissionais verificados.",
     occupation: "Encanador",
@@ -112,7 +112,7 @@ const servicoConfig = {
     color: "from-terracotta to-terracotta-deep",
   },
   "jardinagem-trancoso": {
-    title: "Jardineiro em Trancoso, BA — Paisagismo e Manutenção",
+    title: "Jardineiro em Trancoso, BA | Paisagismo e Manutenção",
     h1: "Jardinagem e Paisagismo em Trancoso, Bahia",
     description: "Jardineiros especializados em plantas tropicais em Trancoso. Manutenção de jardins, poda, paisagismo para residências, pousadas e villas na Bahia.",
     occupation: "Jardinagem",
@@ -153,7 +153,7 @@ const servicoConfig = {
     color: "from-slate-500 to-slate-700",
   },
   "pintor-trancoso": {
-    title: "Pintor em Trancoso, BA — Pintura Residencial e Comercial",
+    title: "Pintor em Trancoso, BA | Pintura Residencial e Comercial",
     h1: "Pintor em Trancoso, Bahia",
     description: "Pintores profissionais em Trancoso para pintura residencial, comercial e decorativa. Acabamento de qualidade para villas, pousadas e imóveis na Bahia.",
     occupation: "Pintor",

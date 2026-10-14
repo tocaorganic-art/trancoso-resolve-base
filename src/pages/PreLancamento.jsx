@@ -197,7 +197,7 @@ export default function PreLancamento() {
 
      updateMeta("description", "name", "Pré-lançamento Trancoso Resolve: Oferta exclusiva para os 50 primeiros prestadores. R$ 29,90/mês + 60 dias grátis. Vagas limitadas!");
      updateMeta("og:title", "property", "Oferta de Lançamento | Trancoso Resolve");
-     updateMeta("og:description", "property", "Seja um dos 50 primeiros prestadores de Trancoso Resolve. R$ 29,90/mês + 60 dias grátis. Vagas limitadas — garantir a sua agora!");
+     updateMeta("og:description", "property", "Seja um dos 50 primeiros prestadores de Trancoso Resolve. R$ 29,90/mês + 60 dias grátis. Vagas limitadas, garantir a sua agora!");
      updateMeta("og:image", "property", "https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/5d597cf94_prelancamento.webp");
      updateMeta("og:type", "property", "website");
      updateMeta("og:url", "property", window.location.href);

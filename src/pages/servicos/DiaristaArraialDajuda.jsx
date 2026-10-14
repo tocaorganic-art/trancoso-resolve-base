@@ -33,7 +33,7 @@ export default function DiaristaArraialDajuda() {
         },
       ]}
       h1="Diarista em Arraial d'Ajuda: Limpeza Verificada para Pousadas e Temporada"
-      intro="Arraial d'Ajuda é um dos destinos mais charmosos da Bahia — com pousadas boutique, ruas de paralelepípedo e casas de temporada que exigem cuidado especial. A Trancoso Resolve conecta você a diaristas verificadas, com experiência em imóveis de alto padrão e disponibilidade para alta temporada."
+      intro="Arraial d'Ajuda é um dos destinos mais charmosos da Bahia, com pousadas boutique, ruas de paralelepípedo e casas de temporada que exigem cuidado especial. A Trancoso Resolve conecta você a diaristas verificadas, com experiência em imóveis de alto padrão e disponibilidade para alta temporada."
       servicesTitle="Serviços de diarista em Arraial d'Ajuda"
       services={[
         'Limpeza residencial para casas, pousadas e chalés de temporada',
@@ -44,7 +44,7 @@ export default function DiaristaArraialDajuda() {
         'Limpeza pós-evento e pós-festa privada',
       ]}
       howTitle="Por que contratar diarista pela Trancoso Resolve em Arraial d'Ajuda?"
-      howText="Em Arraial d'Ajuda, onde muitas propriedades são administradas remotamente por proprietários que moram fora da Bahia, ter uma diarista confiável é essencial. Todas as profissionais da plataforma passam por verificação de antecedentes e têm avaliações públicas — para você contratar com segurança, mesmo a distância."
+      howText="Em Arraial d'Ajuda, onde muitas propriedades são administradas remotamente por proprietários que moram fora da Bahia, ter uma diarista confiável é essencial. Todas as profissionais da plataforma passam por verificação de antecedentes e têm avaliações públicas, para você contratar com segurança, mesmo a distância."
       cta="Descreva sua necessidade em Arraial d'Ajuda e receba contato de diaristas verificadas prontas para atender."
       ctaButton="Contratar diarista em Arraial d'Ajuda"
       category="Limpeza"

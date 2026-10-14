@@ -10,14 +10,14 @@ export default function RioVerdeTrancoso() {
       schemaData={{
         "@context": "https://schema.org",
         "@type": "Service",
-        "name": "Trancoso Resolve - Serviços em Rio Verde",
+        "name": "Trancoso Resolve: Serviços em Rio Verde",
         "description": "Profissionais verificados para villas e condomínios fechados em Rio Verde, Trancoso, BA.",
         "provider": { "@type": "LocalBusiness", "name": "Trancoso Resolve", "url": "https://trancosoresolve.com.br" },
         "areaServed": { "@type": "Place", "name": "Rio Verde, Trancoso, BA" },
         "geo": { "@type": "GeoCoordinates", "latitude": -16.5897, "longitude": -39.0828 }
       }}
       h1="Serviços em Rio Verde, Trancoso: Especialistas em Villas e Condomínios Fechados"
-      intro="Rio Verde é um dos bairros mais valorizados de Trancoso — com condomínios fechados, villas de luxo e propriedades de alto padrão que exigem manutenção especializada. Na Trancoso Resolve você encontra profissionais verificados com experiência em trabalhos em condomínios, acostumados com as exigências e protocolos de propriedades premium da região."
+      intro="Rio Verde é um dos bairros mais valorizados de Trancoso, com condomínios fechados, villas de luxo e propriedades de alto padrão que exigem manutenção especializada. Na Trancoso Resolve você encontra profissionais verificados com experiência em trabalhos em condomínios, acostumados com as exigências e protocolos de propriedades premium da região."
       servicesTitle="Serviços disponíveis em Rio Verde, Trancoso"
       services={[
         'Piscineiros para manutenção e tratamento de piscinas em villas e condomínios',
@@ -30,7 +30,7 @@ export default function RioVerdeTrancoso() {
         'Motoristas para transfer de hóspedes e proprietários em Rio Verde',
       ]}
       howTitle="Por que usar a Trancoso Resolve em Rio Verde?"
-      howText="Propriedades em Rio Verde ficam frequentemente fechadas entre uma temporada e outra — e é exatamente nesses períodos que problemas elétricos, hidráulicos e de manutenção se acumulam. Os profissionais da plataforma têm experiência em vistoriar e resolver pendências em imóveis de segunda residência, com comunicação direta com o proprietário mesmo à distância. Todos passaram por verificação completa antes de entrar na plataforma."
+      howText="Propriedades em Rio Verde ficam frequentemente fechadas entre uma temporada e outra, e é exatamente nesses períodos que problemas elétricos, hidráulicos e de manutenção se acumulam. Os profissionais da plataforma têm experiência em vistoriar e resolver pendências em imóveis de segunda residência, com comunicação direta com o proprietário mesmo à distância. Todos passaram por verificação completa antes de entrar na plataforma."
       cta="Informe o tipo de serviço e o endereço aproximado em Rio Verde para receber contato de profissionais verificados com experiência em condomínios de alto padrão."
       ctaButton="Contratar profissional em Rio Verde"
       category="Piscineiro"

@@ -37,7 +37,7 @@ import PermissionChecker from "../components/auth/PermissionChecker"; // Added i
 
 export default function FinanceiroPage() {
   useEffect(() => {
-    document.title = "Financeiro — Gestão de Receitas e Pagamentos | Trancoso Resolve";
+    document.title = "Financeiro | Gestão de Receitas e Pagamentos | Trancoso Resolve";
     const setMeta = (name, content, prop = false) => {
       const attr = prop ? 'property' : 'name';
       let el = document.querySelector(`meta[${attr}="${name}"]`);
@@ -45,7 +45,7 @@ export default function FinanceiroPage() {
       el.content = content;
     };
     setMeta('description', 'Acompanhe seus ganhos, histórico de pagamentos e desempenho financeiro como prestador na Trancoso Resolve. Dashboard completo em um só lugar.');
-    setMeta('og:title', 'Financeiro — Trancoso Resolve', true);
+    setMeta('og:title', 'Financeiro | Trancoso Resolve', true);
     setMeta('og:description', 'Gerencie seus recebimentos e acompanhe sua evolução financeira na plataforma Trancoso Resolve.', true);
   }, []);
 

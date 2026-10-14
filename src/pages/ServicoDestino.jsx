@@ -25,7 +25,7 @@ const FAQS = {
     { q: 'Atendem pousadas e condomínios?', r: 'Sim! Nossos encanadores têm experiência em residências, pousadas e villas da região.' },
   ],
   jardineiro: [
-    { q: 'Trabalham com plantas tropicais?', r: 'Sim! Especializados na flora tropical do litoral baiano — palmeiras, bromélias e espécies nativas.' },
+    { q: 'Trabalham com plantas tropicais?', r: 'Sim! Especializados na flora tropical do litoral baiano, palmeiras, bromélias e espécies nativas.' },
     { q: 'Fazem manutenção periódica?', r: 'Sim! Combine frequência semanal ou quinzenal diretamente com o profissional.' },
     { q: 'Fazem visita de avaliação?', r: 'Muitos oferecem visita inicial gratuita para avaliar o jardim e propor o serviço.' },
   ],
@@ -47,7 +47,7 @@ export default function ServicoDestino() {
   useEffect(() => {
     if (!dest || !cat) return;
     const prev = document.title;
-    const metaTitle = `${categoriaLabel} em ${destinoLabel} | Profissionais Verificados — Trancoso Resolve`;
+    const metaTitle = `${categoriaLabel} em ${destinoLabel} | Profissionais Verificados | Trancoso Resolve`;
     document.title = metaTitle;
 
     const metaDesc = document.querySelector('meta[name="description"]');
@@ -131,7 +131,7 @@ export default function ServicoDestino() {
           <h2 className="text-2xl font-bold text-center mb-2">
             Contratar {categoriaLabel} em {destinoLabel}
           </h2>
-          <p className="text-center text-muted-foreground mb-8">Deixe seu contato — respondemos em até 2 horas pela plataforma.</p>
+          <p className="text-center text-muted-foreground mb-8">Deixe seu contato. Respondemos em até 2 horas pela plataforma.</p>
           <LeadCaptureForm serviceInterest={categoriaLabel} serviceLabel={categoriaLabel} source={`${destino}-${categoria}`} />
         </div>
       </section>

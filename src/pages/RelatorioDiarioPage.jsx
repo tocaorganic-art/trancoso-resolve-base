@@ -29,7 +29,7 @@ export default function RelatorioDiarioPage() {
     if (!relatorioDoDia) return;
 
     const conteudo = `
-# Relatório Diário - Trancoso Resolve
+# Relatório Diário | Trancoso Resolve
 Data: ${format(new Date(relatorioDoDia.data), 'dd/MM/yyyy')}
 
 ## Métricas do Dia

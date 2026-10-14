@@ -60,7 +60,7 @@ const NODES = [
     emoji: '🤝',
     color: '#1ABC9C',
     angle: 210,
-    value: 'Associações, Sebrae e prefeitura — ecossistema de apoio ao desenvolvimento local.',
+    value: 'Associações, Sebrae e prefeitura, ecossistema de apoio ao desenvolvimento local.',
   },
 ];
 
@@ -83,7 +83,7 @@ export default function EcosystemViz() {
     <div ref={ref} className="space-y-6">
       {/* Desktop SVG */}
       <div className="hidden md:grid md:grid-cols-2 gap-6 items-center">
-        <div aria-label="Ecossistema Trancoso Resolve — interativo" role="img">
+        <div aria-label="Ecossistema Trancoso Resolve, interativo" role="img">
           <svg viewBox="0 0 400 400" className="w-full max-w-sm mx-auto" aria-hidden="true">
             {/* Linhas de conexão */}
             {NODES.map((node, i) => {
@@ -204,7 +204,7 @@ export default function EcosystemViz() {
 
       {/* SR description */}
       <p className="sr-only">
-        Ecossistema da Trancoso Resolve composto por: {NODES.map(n => `${n.label} — ${n.value}`).join('; ')}.
+        Ecossistema da Trancoso Resolve composto por: {NODES.map(n => `${n.label}: ${n.value}`).join('; ')}.
       </p>
     </div>
   );

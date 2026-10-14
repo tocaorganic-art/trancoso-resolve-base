@@ -186,7 +186,7 @@ export default function MeusPedidosPage() {
               <Info className="w-12 h-12 text-orange-500 mx-auto mb-4" />
             </motion.div>
             <h3 className="text-xl font-semibold text-foreground">Nenhum pedido encontrado</h3>
-            <p className="text-muted-foreground mt-2 mb-6">Por enquanto, nada por aqui — assim que pintar algo, te aviso!</p>
+            <p className="text-muted-foreground mt-2 mb-6">Por enquanto, nada por aqui. Assim que pintar algo, te aviso!</p>
             <Link to={createPageUrl("Home")}>
               <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">Bora resolver</Button>
             </Link>

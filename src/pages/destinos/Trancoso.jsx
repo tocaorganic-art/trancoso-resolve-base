@@ -32,14 +32,14 @@ const bairros = [
 
 export default function DestinoTrancoso() {
   useDestinationSeo({
-    title: "Trancoso Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
+    title: "Trancoso Bahia | Serviços e Profissionais Verificados | Trancoso Resolve",
     description: "Encontre diaristas, eletricistas, piscineiros, chefs e mais em Trancoso, BA. Profissionais verificados para sua villa, pousada ou residência no Quadrado.",
     canonical: "https://trancosoresolve.com.br/trancoso",
     schemaId: "schema-destino-trancoso",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "Trancoso Resolve — Serviços em Trancoso",
+      "name": "Trancoso Resolve: Serviços em Trancoso",
       "description": "Marketplace de serviços locais em Trancoso, Bahia. Profissionais verificados para villas, pousadas e residências.",
       "url": "https://trancosoresolve.com.br/trancoso",
       "address": { "@type": "PostalAddress", "addressLocality": "Trancoso", "addressRegion": "BA", "addressCountry": "BR" },
@@ -60,7 +60,7 @@ export default function DestinoTrancoso() {
             Serviços Verificados<br />em <span className="text-orange-400">Trancoso</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-            O charme rústico-chique e a exclusividade de um paraíso baiano — com profissionais de confiança para sua villa, pousada ou residência.
+            O charme rústico-chique e a exclusividade de um paraíso baiano, com profissionais de confiança para sua villa, pousada ou residência.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/ServicosCategoria">
@@ -86,7 +86,7 @@ export default function DestinoTrancoso() {
                 Trancoso é sinônimo de exclusividade. Com o famoso Quadrado repleto de casas coloridas, restaurantes de alto padrão e praias como Rio Verde e Pitinga, o destino atrai viajantes VIP do Brasil e do mundo.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                A Trancoso Resolve conecta proprietários de villas, gestores de pousadas e moradores a profissionais verificados e avaliados — da diarista ao chef particular, do eletricista ao piscineiro.
+                A Trancoso Resolve conecta proprietários de villas, gestores de pousadas e moradores a profissionais verificados e avaliados, da diarista ao chef particular, do eletricista ao piscineiro.
               </p>
               <div className="flex flex-wrap gap-3">
                 {[
@@ -154,8 +154,8 @@ export default function DestinoTrancoso() {
           <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Explore Outros Destinos</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { slug: 'porto-seguro', nome: 'Porto Seguro', desc: 'A maior cidade da região — hotéis, resorts e residências de alto padrão.', path: '/destinos/porto-seguro' },
-              { slug: 'caraiva', nome: 'Caraíva', desc: 'O paraíso preservado — sem asfalto, sem carros, só natureza e charme.', path: '/destinos/caraiva' },
+              { slug: 'porto-seguro', nome: 'Porto Seguro', desc: 'A maior cidade da região, hotéis, resorts e residências de alto padrão.', path: '/destinos/porto-seguro' },
+              { slug: 'caraiva', nome: 'Caraíva', desc: 'O paraíso preservado, sem asfalto, sem carros, só natureza e charme.', path: '/destinos/caraiva' },
             ].map((d) => (
               <Link key={d.slug} to={d.path}>
                 <div className="bg-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all border border-border hover:border-orange-300 group flex gap-4 items-start">

@@ -232,14 +232,14 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
                 <SelectContent>
                   {isBusinessDocument ? (
                     <>
-                      <SelectItem value="CNPJ">CNPJ – Registro da Empresa</SelectItem>
-                      <SelectItem value="MEI">MEI – Certificado de Registro</SelectItem>
+                      <SelectItem value="CNPJ">CNPJ: Registro da Empresa</SelectItem>
+                      <SelectItem value="MEI">MEI: Certificado de Registro</SelectItem>
                     </>
                   ) : (
                     <>
-                      <SelectItem value="CNH">CNH – Carteira de Habilitação</SelectItem>
-                      <SelectItem value="RG">RG – Carteira de Identidade</SelectItem>
-                      <SelectItem value="PASSAPORTE">Passaporte – Documento de viagem</SelectItem>
+                      <SelectItem value="CNH">CNH: Carteira de Habilitação</SelectItem>
+                      <SelectItem value="RG">RG: Carteira de Identidade</SelectItem>
+                      <SelectItem value="PASSAPORTE">Passaporte: Documento de viagem</SelectItem>
                     </>
                   )}
                 </SelectContent>
@@ -354,7 +354,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
               <ul className="text-xs text-amber-800 space-y-0.5 list-disc list-inside">
                 <li>Certifique-se de que o documento está completamente visível</li>
                 <li>Boa iluminação, sem reflexos ou sombras</li>
-                <li>Foco nítido — todas as informações devem ser legíveis</li>
+                <li>Foco nítido, todas as informações devem ser legíveis</li>
               </ul>
             </div>
 

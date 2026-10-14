@@ -105,7 +105,7 @@ Deno.serve(async (req) => {
         const endBR = (activeTrial.trial_end as string).split('-').reverse().join('/');
         return Response.json({
           error: 'trial_ativo',
-          message: `Seu Teste Gratuito está ativo até ${endBR}. Nenhuma cobrança é feita nesse período — você poderá assinar um plano quando ele terminar.`,
+          message: `Seu Teste Gratuito está ativo até ${endBR}. Nenhuma cobrança é feita nesse período, você poderá assinar um plano quando ele terminar.`,
         });
       }
     } catch (trialCheckErr) {
@@ -196,7 +196,7 @@ Deno.serve(async (req) => {
       value: amount,
       cycle: isAnnual ? 'YEARLY' : 'MONTHLY',
       nextDueDate,
-      description: `Trancoso Resolve — ${planDef.nome}${isAnnual ? ' (Anual)' : ''}`,
+      description: `Trancoso Resolve: ${planDef.nome}${isAnnual ? ' (Anual)' : ''}`,
       externalReference: `${plan}|${isAnnual ? 'annual' : 'monthly'}|${user.email}`,
     };
 

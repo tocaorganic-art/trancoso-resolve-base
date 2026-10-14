@@ -238,7 +238,7 @@ export default function AdminAntecedentesPage() {
                            )}
                            <div>
                              <p className="text-sm font-medium text-foreground">{p.full_name}</p>
-                             <p className="text-xs text-muted-foreground">{p.email || "—"}</p>
+                             <p className="text-xs text-muted-foreground">{p.email || "N/D"}</p>
                              {!p.full_body_photo_url && (
                                <span className="text-xs text-amber-600 font-medium">⚠ Sem foto corporal</span>
                              )}
@@ -254,7 +254,7 @@ export default function AdminAntecedentesPage() {
                           </span>
                         </td>
                         <td className="px-4 py-4 hidden lg:table-cell">
-                          <span className="text-sm text-muted-foreground">{p.location?.state || "—"}</span>
+                          <span className="text-sm text-muted-foreground">{p.location?.state || "N/D"}</span>
                         </td>
                         <td className="px-4 py-4">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border ${cfg.color}`}>
@@ -263,13 +263,13 @@ export default function AdminAntecedentesPage() {
                           </span>
                         </td>
                         <td className="px-4 py-4 hidden xl:table-cell max-w-xs">
-                          <p className="text-xs text-muted-foreground line-clamp-2">{p.relatorio_verificacao || "—"}</p>
+                          <p className="text-xs text-muted-foreground line-clamp-2">{p.relatorio_verificacao || "N/D"}</p>
                         </td>
                         <td className="px-4 py-4 hidden lg:table-cell">
                           <span className="text-xs text-muted-foreground">
                             {p.data_verificacao
                               ? format(new Date(p.data_verificacao), "dd/MM/yy HH:mm", { locale: ptBR })
-                              : "—"}
+                              : "N/D"}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-right">

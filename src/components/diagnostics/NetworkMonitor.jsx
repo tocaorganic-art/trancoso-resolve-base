@@ -122,7 +122,7 @@ export default function NetworkMonitor() {
           <div className="flex items-center justify-between mb-2">
             <span className="text-sm font-medium">Tipo de Conexão</span>
             <Badge className={connectionQuality.color}>
-              {networkInfo.effectiveType.toUpperCase()} - {connectionQuality.label}
+              {networkInfo.effectiveType.toUpperCase()}: {connectionQuality.label}
             </Badge>
           </div>
         </div>

@@ -19,7 +19,7 @@ const DEFAULT_STEPS = [
     id: 1,
     emoji: '💡',
     label: 'Identificar a necessidade',
-    desc: 'Proprietário percebe que precisa de um serviço — diarista, eletricista ou piscineiro — e não tem um profissional de confiança.',
+    desc: 'Proprietário percebe que precisa de um serviço (diarista, eletricista ou piscineiro) e não tem um profissional de confiança.',
     value: 'Dor real, recorrente e sem solução organizada no mercado local.',
   },
   {
@@ -27,14 +27,14 @@ const DEFAULT_STEPS = [
     emoji: '🔍',
     label: 'Buscar o profissional',
     desc: 'Acessa a Trancoso Resolve, filtra por categoria, destino e disponibilidade.',
-    value: 'Plataforma centraliza oferta verificada — sem depender de grupos de WhatsApp.',
+    value: 'Plataforma centraliza oferta verificada, sem depender de grupos de WhatsApp.',
   },
   {
     id: 3,
     emoji: '📋',
     label: 'Avaliar e escolher',
     desc: 'Vê perfil, avaliações, histórico e certificação do prestador antes de decidir.',
-    value: 'Confiança antes do contato — reduz friccção e abandono.',
+    value: 'Confiança antes do contato, reduz friccção e abandono.',
   },
   {
     id: 4,
@@ -47,7 +47,7 @@ const DEFAULT_STEPS = [
     id: 5,
     emoji: '✅',
     label: 'Receber e avaliar',
-    desc: 'Serviço realizado. Cliente avalia o prestador — alimentando o ciclo de qualidade.',
+    desc: 'Serviço realizado. Cliente avalia o prestador, alimentando o ciclo de qualidade.',
     value: 'Reputação cresce com uso. Rede melhora progressivamente.',
   },
   {
@@ -55,7 +55,7 @@ const DEFAULT_STEPS = [
     emoji: '🔁',
     label: 'Recorrência e confiança',
     desc: 'Cliente volta para o mesmo prestador. Prestador consolida sua agenda pela plataforma.',
-    value: 'Receita recorrente para ambos os lados — base do modelo de negócio.',
+    value: 'Receita recorrente para ambos os lados, base do modelo de negócio.',
   },
 ];
 

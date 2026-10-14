@@ -33,7 +33,7 @@ const PASSOS = [
 const FAQ = [
   {
     q: "Quem pode participar?",
-    r: "Prestadores de serviços que concluírem o cadastro, enviarem a documentação e forem aprovados na verificação de antecedentes. A promoção é exclusiva para prestadores — lojistas não participam desta oferta.",
+    r: "Prestadores de serviços que concluírem o cadastro, enviarem a documentação e forem aprovados na verificação de antecedentes. A promoção é exclusiva para prestadores. Lojistas não participam desta oferta.",
   },
   {
     q: "Como funcionam os 7 dias grátis?",
@@ -210,7 +210,7 @@ export default function PrestadorFundador() {
           <Lock className="w-6 h-6 text-orange-600 mx-auto mb-2" />
           <p className="text-sm text-foreground leading-relaxed">
             <strong>Transparência total:</strong> Oferta exclusiva para prestadores aprovados no processo de verificação.
-            Limitada aos primeiros 100 prestadores elegíveis. A cobrança começa somente após os 7 dias gratuitos —
+            Limitada aos primeiros 100 prestadores elegíveis. A cobrança começa somente após os 7 dias gratuitos;
             cancele antes do término do período gratuito para não ser cobrado. O cancelamento posterior remove
             definitivamente o Selo Prestador Fundador. Ao retornar, serão aplicados o preço e as condições vigentes.
           </p>

@@ -21,7 +21,7 @@ export default function CozinheiroArraialDajuda() {
       faqData={[
         {
           question: "Quanto custa contratar chef em Arraial d'Ajuda?",
-          answer: "O valor varia conforme o tipo de serviço — refeições diárias, jantar privado ou evento. Via Trancoso Resolve você recebe orçamentos de chefs e cozinheiros verificados em até 5 minutos.",
+          answer: "O valor varia conforme o tipo de serviço, refeições diárias, jantar privado ou evento. Via Trancoso Resolve você recebe orçamentos de chefs e cozinheiros verificados em até 5 minutos.",
         },
         {
           question: "Chef em Arraial d'Ajuda faz culinária baiana?",
@@ -45,7 +45,7 @@ export default function CozinheiroArraialDajuda() {
         'Aulas de culinária baiana para grupos de hóspedes',
       ]}
       howTitle="Por que contratar cozinheiro pela Trancoso Resolve em Arraial d'Ajuda?"
-      howText="Em Arraial d'Ajuda, os melhores ingredientes locais — pescado fresco do dia, frutos do mar, ervas e especiarias — estão na feira e nas peixarias da região. Os cozinheiros da plataforma sabem onde comprar e como preparar esses ingredientes com maestria. Todos são verificados e têm avaliações de clientes anteriores."
+      howText="Em Arraial d'Ajuda, os melhores ingredientes locais, pescado fresco do dia, frutos do mar, ervas e especiarias, estão na feira e nas peixarias da região. Os cozinheiros da plataforma sabem onde comprar e como preparar esses ingredientes com maestria. Todos são verificados e têm avaliações de clientes anteriores."
       cta="Descreva seu evento ou o tipo de refeição desejada em Arraial d'Ajuda e receba contato de chefs verificados."
       ctaButton="Contratar cozinheiro em Arraial d'Ajuda"
       category="Cozinheiro"
@@ -54,7 +54,7 @@ export default function CozinheiroArraialDajuda() {
       locationLabel="Arraial d'Ajuda, Bahia"
       seoText={[
         "Arraial d'Ajuda é conhecida pela qualidade dos restaurantes na Rua do Mucugê e pela variedade de frutos do mar disponíveis no mercado local. Contratar um cozinheiro particular permite aproveitar esses ingredientes frescos na privacidade da villa ou chalé, sem precisar sair para comer.",
-        "Para grupos de amigos ou famílias que alugam casas em Arraial d'Ajuda por uma semana ou mais, um cozinheiro fixo durante a temporada é um dos serviços mais solicitados. O profissional planeja o cardápio, faz as compras e entrega refeições diárias de qualidade — tornando a estadia mais confortável e econômica que comer fora todos os dias.",
+        "Para grupos de amigos ou famílias que alugam casas em Arraial d'Ajuda por uma semana ou mais, um cozinheiro fixo durante a temporada é um dos serviços mais solicitados. O profissional planeja o cardápio, faz as compras e entrega refeições diárias de qualidade, tornando a estadia mais confortável e econômica que comer fora todos os dias.",
         "Via Trancoso Resolve você encontra cozinheiros e chefs em Arraial d'Ajuda com experiência em gastronomia baiana autêntica, pratos internacionais e cardápios sob medida para eventos privados. Orçamento grátis, perfis verificados e avaliações reais de outros clientes da região.",
       ]}
     />

@@ -59,7 +59,7 @@ Deno.serve(async (req) => {
       // Send email
       await base44.integrations.Core.SendEmail({
         to: user.email,
-        subject: 'Seu código de verificação — Trancoso Resolve',
+        subject: 'Seu código de verificação | Trancoso Resolve',
         body: `
           <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; padding: 32px; background: #f8fafc; border-radius: 12px;">
             <img src="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/866729f3e_trancoso_resolve_logo_principal.png" alt="Trancoso Resolve" style="height: 48px; margin-bottom: 24px;" />

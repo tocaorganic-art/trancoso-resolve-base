@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
       || provider?.created_by === user.email
       || provider?.email === user.email;
     if (!provider || !canVerify) {
-      return Response.json({ error: 'Forbidden - Can only verify own profile' }, { status: 403 });
+      return Response.json({ error: 'Forbidden: Can only verify own profile' }, { status: 403 });
     }
 
     // Chamar IA para análise de documentos

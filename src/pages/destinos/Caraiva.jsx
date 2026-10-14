@@ -21,14 +21,14 @@ const servicos = [
 
 export default function DestinoCaraiva() {
   useDestinationSeo({
-    title: "Caraíva Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
+    title: "Caraíva Bahia | Serviços e Profissionais Verificados | Trancoso Resolve",
     description: "Encontre profissionais verificados em Caraíva, BA: diaristas, eletricistas, piscineiros, cozinheiros e jardineiros. Atendimento na vila sem carros mais charmosa da Bahia.",
     canonical: "https://trancosoresolve.com.br/caraiva",
     schemaId: "schema-destino-caraiva",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "Trancoso Resolve — Serviços em Caraíva",
+      "name": "Trancoso Resolve: Serviços em Caraíva",
       "description": "Marketplace de serviços locais em Caraíva, Bahia. Profissionais verificados para a vila sem carros mais charmosa do Brasil.",
       "url": "https://trancosoresolve.com.br/caraiva",
       "address": { "@type": "PostalAddress", "addressLocality": "Caraíva", "addressRegion": "BA", "addressCountry": "BR" },
@@ -49,7 +49,7 @@ export default function DestinoCaraiva() {
             Serviços Verificados<br />em <span className="text-orange-400">Caraíva</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-            A autenticidade e o sossego de uma vila sem carros, com praias paradisíacas — e profissionais de confiança para cuidar do seu espaço.
+            A autenticidade e o sossego de uma vila sem carros, com praias paradisíacas, e profissionais de confiança para cuidar do seu espaço.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/ServicosCategoria">
@@ -75,7 +75,7 @@ export default function DestinoCaraiva() {
                 Caraíva é única. Sem asfalto, sem carros e com um rio separando a vila do mar, o vilarejo encanta quem busca autenticidade, natureza intocada e o ritmo do tempo desacelerado.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
-                A Trancoso Resolve entende as particularidades de Caraíva — o acesso por barco, a logística especial, as necessidades de pousadas e casas neste ambiente único.
+                A Trancoso Resolve entende as particularidades de Caraíva, o acesso por barco, a logística especial, as necessidades de pousadas e casas neste ambiente único.
               </p>
               <div className="flex flex-wrap gap-3">
                 {[
@@ -127,8 +127,8 @@ export default function DestinoCaraiva() {
           <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Explore Outros Destinos</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { slug: 'trancoso', nome: 'Trancoso', desc: 'O destino mais icônico — villas de luxo, pousadas e o famoso Quadrado.', path: '/destinos/trancoso' },
-              { slug: 'porto-seguro', nome: 'Porto Seguro', desc: 'A maior cidade da região — hotéis, resorts e residências de alto padrão.', path: '/destinos/porto-seguro' },
+              { slug: 'trancoso', nome: 'Trancoso', desc: 'O destino mais icônico, villas de luxo, pousadas e o famoso Quadrado.', path: '/destinos/trancoso' },
+              { slug: 'porto-seguro', nome: 'Porto Seguro', desc: 'A maior cidade da região, hotéis, resorts e residências de alto padrão.', path: '/destinos/porto-seguro' },
             ].map((d) => (
               <Link key={d.slug} to={d.path}>
                 <div className="bg-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all border border-border hover:border-orange-300 group flex gap-4 items-start">

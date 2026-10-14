@@ -42,7 +42,7 @@ export default function ServiceCard({ service, provider, categoryImageMap, categ
                 {imageSrc ? (
                     <LazyImage
                         src={imageSrc}
-                        alt={`${service.title} — serviço de ${service.category} em Trancoso`}
+                        alt={`${service.title}, serviço de ${service.category} em Trancoso`}
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                 ) : (

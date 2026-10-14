@@ -178,7 +178,7 @@ function DashboardContent() {
         <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 mb-6 flex items-start gap-3">
           <span className="text-orange-400 text-xl mt-0.5">⚠️</span>
           <div className="flex-1">
-            <p className="font-semibold text-orange-300 text-sm">Complete seu perfil — WhatsApp obrigatório</p>
+            <p className="font-semibold text-orange-300 text-sm">Complete seu perfil: WhatsApp obrigatório</p>
             <p className="text-orange-200/80 text-xs mt-0.5">Clientes não conseguem entrar em contato sem seu WhatsApp.</p>
           </div>
           <Link to={createPageUrl("MeuPerfilPrestador")}>

@@ -25,7 +25,7 @@ export default function MorarTrancoso() {
         },
         {
           question: 'Tem internet de qualidade em Trancoso?',
-          answer: 'Sim. A fibra óptica chegou em Trancoso nos últimos anos e a cobertura 4G/5G melhorou significativamente. Para nômades digitais, recomenda-se ter mais de uma operadora como backup — a conectividade pode variar conforme a localização dentro do município.',
+          answer: 'Sim. A fibra óptica chegou em Trancoso nos últimos anos e a cobertura 4G/5G melhorou significativamente. Para nômades digitais, recomenda-se ter mais de uma operadora como backup, a conectividade pode variar conforme a localização dentro do município.',
         },
         {
           question: 'É seguro morar em Trancoso?',
@@ -41,7 +41,7 @@ export default function MorarTrancoso() {
         },
       ]}
       h1="Guia Completo: Morar em Trancoso em 2026"
-      intro="Trancoso deixou de ser só destino de férias. Cada vez mais nômades digitais, profissionais liberais e aposentados estão escolhendo a vila do Quadrado para morar — seja por alguns meses ou definitivamente. Se você está pensando em dar esse passo, este guia cobre tudo: custo de vida, internet, comunidade, serviços e o que esperar do dia a dia em uma das praias mais bonitas da Bahia."
+      intro="Trancoso deixou de ser só destino de férias. Cada vez mais nômades digitais, profissionais liberais e aposentados estão escolhendo a vila do Quadrado para morar, seja por alguns meses ou definitivamente. Se você está pensando em dar esse passo, este guia cobre tudo: custo de vida, internet, comunidade, serviços e o que esperar do dia a dia em uma das praias mais bonitas da Bahia."
       servicesTitle="O que você precisa para morar em Trancoso"
       services={[
         'Diarista e serviços de limpeza doméstica verificados',
@@ -54,7 +54,7 @@ export default function MorarTrancoso() {
         'Segurança para eventos e proteção da propriedade',
       ]}
       howTitle="Serviços domésticos em Trancoso: como contratar com segurança"
-      howText="Uma das grandes vantagens de usar a Trancoso Resolve como morador é ter acesso a profissionais verificados sem depender exclusivamente de indicações boca a boca. Em uma comunidade pequena como Trancoso, a reputação dos prestadores é visível — e na plataforma você encontra avaliações reais, histórico de serviços e comunicação direta pelo WhatsApp. A gente resolve."
+      howText="Uma das grandes vantagens de usar a Trancoso Resolve como morador é ter acesso a profissionais verificados sem depender exclusivamente de indicações boca a boca. Em uma comunidade pequena como Trancoso, a reputação dos prestadores é visível, e na plataforma você encontra avaliações reais, histórico de serviços e comunicação direta pelo WhatsApp. A gente resolve."
       cta="Encontre todos os serviços que você precisa para morar em Trancoso: diarista, eletricista, jardineiro e muito mais."
       ctaButton="Encontrar profissional em Trancoso"
       category="Limpeza"
@@ -63,7 +63,7 @@ export default function MorarTrancoso() {
       locationLabel="Trancoso, Bahia"
       seoText={[
         "Trancoso tem atraído um perfil novo de moradores nos últimos anos: profissionais que trabalham remotamente e buscam qualidade de vida fora dos grandes centros. A vila oferece um ritmo de vida desacelerado, natureza preservada, gastronomia de alto nível e uma comunidade diversa de brasileiros e estrangeiros que escolheram a Costa do Descobrimento como base.",
-        "O custo de vida em Trancoso é mais acessível do que parece. Fora da alta temporada, os preços de aluguel e alimentação são competitivos com cidades do interior paulista ou catarinense — com o bônus de praias desertas a poucos minutos. O desafio maior costuma ser a logística: Trancoso não tem supermercado de grande porte e depende de Porto Seguro para compras maiores.",
+        "O custo de vida em Trancoso é mais acessível do que parece. Fora da alta temporada, os preços de aluguel e alimentação são competitivos com cidades do interior paulista ou catarinense, com o bônus de praias desertas a poucos minutos. O desafio maior costuma ser a logística: Trancoso não tem supermercado de grande porte e depende de Porto Seguro para compras maiores.",
         "Para quem mora ou está se instalando em Trancoso, a Trancoso Resolve é a plataforma que conecta você a todos os serviços domésticos de que precisa: diarista para a limpeza semanal, eletricista para manutenção do imóvel, jardineiro para a área verde e muito mais. Todos verificados, com avaliações reais de outros moradores da região.",
       ]}
     />

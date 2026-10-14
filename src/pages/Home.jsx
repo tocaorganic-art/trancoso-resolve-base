@@ -336,7 +336,7 @@ const ServiceCard = ({ service, provider, image }) => {
                     <LazyImage
                         src={imageSrc}
                         fallbackSrc={getCategoryFallback(service)}
-                        alt={`${service.title} — serviço de ${service.category} em Trancoso`}
+                        alt={`${service.title}, serviço de ${service.category} em Trancoso`}
                         className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                 ) : (
@@ -413,7 +413,7 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.title = "Trancoso Resolve — Profissionais Verificados em Trancoso";
+    document.title = "Trancoso Resolve | Profissionais Verificados em Trancoso";
 
     // Meta description otimizada
     let meta = document.querySelector('meta[name="description"]');
@@ -624,7 +624,7 @@ export default function HomePage() {
                 Concierge de Alto Padrão
               </span>
               <h2 className="mt-3 text-xl md:text-2xl font-black text-white leading-tight">
-                Concierge presencial em todo o Brasil — matriz Trancoso
+                Concierge presencial em todo o Brasil: matriz Trancoso
               </h2>
               <p className="mt-2 text-sm text-slate-300 leading-relaxed">
                 Mansões e vilas exclusivas, aviação executiva, chef privado, equipe de casa e eventos privados. Atendimento em português, espanhol e inglês.
@@ -881,7 +881,7 @@ export default function HomePage() {
             {[
               {
                 cidade: 'Trancoso',
-                desc: 'O destino mais icônico — villas de luxo, pousadas e o famoso Quadrado.',
+                desc: 'O destino mais icônico, villas de luxo, pousadas e o famoso Quadrado.',
                 destinoHref: '/destinos/trancoso',
                 links: [
                   { label: 'Diarista Trancoso', href: '/servicos/diarista-trancoso' },
@@ -891,7 +891,7 @@ export default function HomePage() {
               },
               {
                 cidade: "Arraial d'Ajuda",
-                desc: "Vila turística charmosa — pousadas, casas de temporada e praias paradisíacas.",
+                desc: "Vila turística charmosa, pousadas, casas de temporada e praias paradisíacas.",
                 destinoHref: '/destinos/arraial-dajuda',
                 links: [
                   { label: "Diarista Arraial d'Ajuda", href: '/servicos/diarista-arraial-dajuda' },
@@ -901,7 +901,7 @@ export default function HomePage() {
               },
               {
                 cidade: 'Porto Seguro',
-                desc: 'A maior cidade da região — hotéis, resorts e residências de alto padrão.',
+                desc: 'A maior cidade da região, hotéis, resorts e residências de alto padrão.',
                 destinoHref: '/destinos/porto-seguro',
                 links: [
                   { label: 'Diarista Porto Seguro', href: '/servicos/diarista-porto-seguro' },
@@ -911,7 +911,7 @@ export default function HomePage() {
               },
               {
                 cidade: 'Caraíva',
-                desc: 'O paraíso preservado — sem asfalto, sem carros, só natureza e charme.',
+                desc: 'O paraíso preservado, sem asfalto, sem carros, só natureza e charme.',
                 destinoHref: '/destinos/caraiva',
                 links: [
                   { label: 'Diarista Caraíva', href: '/servicos/diarista-caraiva' },

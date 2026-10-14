@@ -7,10 +7,10 @@ import { ChevronLeft, ChevronRight, Flame, Smartphone, Store, Download } from "l
 const SLIDES = [
   {
     id: "prestador",
-    badge: "🔥 ÚLTIMAS VAGAS — Selo de Fundador gratuito",
+    badge: "🔥 ÚLTIMAS VAGAS: Selo de Fundador gratuito",
     headline: ["Pare de perder clientes", "para quem tem app.", "Baixe agora e dominate Trancoso."],
     highlightIndex: 1,
-    subtitle: "Sua agenda cheia começa hoje. 2 meses GRÁTIS para os 100 primeiros + verificação de antecedentes inclusa + selo de fundador LIMITADO. Depois R$29,90/mês — ou cancele quando quiser.",
+    subtitle: "Sua agenda cheia começa hoje. 2 meses GRÁTIS para os 100 primeiros + verificação de antecedentes inclusa + selo de fundador LIMITADO. Depois R$29,90/mês, ou cancele quando quiser.",
     cta: { label: "Baixar app e garantir vaga", to: "/Planos", icon: true, iconType: "download" },
     cta2: { label: "Ver planos de prestador", to: "/Planos" },
     bg: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format%3Dwebp&fit=crop&w=1600&q=80",
@@ -24,7 +24,7 @@ const SLIDES = [
     badge: "🛍️ Lojista? Suje clientes na região todo dia",
     headline: ["Seu comércio na tela", "de milhares de turistas", "e moradores."],
     highlightIndex: 1,
-    subtitle: "Anúncios com segmentação por cidade, métricas em tempo real e CTA direto pro seu WhatsApp. Comece com 7 dias grátis — sem cartão. A partir de R$49,90/mês.",
+    subtitle: "Anúncios com segmentação por cidade, métricas em tempo real e CTA direto pro seu WhatsApp. Comece com 7 dias grátis, sem cartão. A partir de R$49,90/mês.",
     cta: { label: "Baixar app e anunciar agora", to: "/Planos", icon: true, iconType: "store" },
     cta2: { label: "Ver planos de lojista", to: "/Planos" },
     bg: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format%3Dwebp&fit=crop&w=1600&q=80",
@@ -97,7 +97,7 @@ export default function HeroBanner({ vagasRestantes = 0, total = 0 }) {
         {isPrestadorSlide && vagasRestantes > 0 && (
           <div className={`mb-4 flex items-center gap-2 bg-amber-500/90 backdrop-blur-sm text-slate-900 text-sm font-extrabold px-4 py-1.5 rounded-full ${vagasRestantes <= 10 ? 'animate-pulse' : ''}`}>
             <Flame className="w-4 h-4" />
-            {vagasRestantes} de 50 vagas restantes — não perca a sua
+            {vagasRestantes} de 50 vagas restantes, não perca a sua
           </div>
         )}
 

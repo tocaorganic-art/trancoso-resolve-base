@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     // Email templates
     const templates = {
       verify_email: {
-        subject: 'Verifique seu Email - Trancoso Resolve',
+        subject: 'Verifique seu Email | Trancoso Resolve',
         html: `
           <h2>Bem-vindo ao Trancoso Resolve!</h2>
           <p>Olá ${user_name || 'usuário'},</p>
@@ -40,7 +40,7 @@ Deno.serve(async (req) => {
         `
       },
       password_reset: {
-        subject: 'Redefinir sua Senha - Trancoso Resolve',
+        subject: 'Redefinir sua Senha | Trancoso Resolve',
         html: `
           <h2>Redefinição de Senha</h2>
           <p>Olá ${user_name || 'usuário'},</p>
@@ -54,7 +54,7 @@ Deno.serve(async (req) => {
         `
       },
       booking_confirmation: {
-        subject: 'Agendamento Confirmado - Trancoso Resolve',
+        subject: 'Agendamento Confirmado | Trancoso Resolve',
         html: `
           <h2>Seu Agendamento foi Confirmado!</h2>
           <p>Olá ${user_name || 'usuário'},</p>

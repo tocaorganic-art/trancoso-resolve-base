@@ -52,7 +52,7 @@ export default function ConteudosPrioritarios() {
                   <span className="text-xs text-[#999]">Pendente</span>
                 )}
               </div>
-              <h3 className="font-bold text-[#333333] leading-snug mb-3">{a.variation || "—"}</h3>
+              <h3 className="font-bold text-[#333333] leading-snug mb-3">{a.variation || "N/D"}</h3>
               {editLink && (
                 <a
                   href={editLink}

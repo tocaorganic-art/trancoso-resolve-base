@@ -91,7 +91,7 @@ export default function TrIAResearchMode() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="text-sm font-semibold text-white group-hover:text-purple-300 transition-colors truncate mb-1">
-                        Resultado {idx + 1} - {results.query}
+                        Resultado {idx + 1}: {results.query}
                       </h3>
                       <p className="text-xs text-slate-400 line-clamp-2 mb-2">
                         Descrição resumida do resultado da busca sobre {results.query} com informações relevantes...

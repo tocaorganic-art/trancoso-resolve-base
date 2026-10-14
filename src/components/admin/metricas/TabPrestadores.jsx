@@ -105,17 +105,17 @@ export default function TabPrestadores({ providers, requests }) {
                             <span className="text-xs text-slate-400">{(p.full_name || "?")[0]}</span>
                           </div>
                         )}
-                        <span className="text-slate-200 font-medium">{p.full_name || "—"}</span>
+                        <span className="text-slate-200 font-medium">{p.full_name || "N/D"}</span>
                       </div>
                     </td>
-                    <td className="p-3 text-slate-300 text-xs">{p.occupation || "—"}</td>
+                    <td className="p-3 text-slate-300 text-xs">{p.occupation || "N/D"}</td>
                     <td className="p-3">
                       <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[p.status_verificacao || "pendente"] || STATUS_COLORS.pendente}`}>
                         {p.status_verificacao || "pendente"}
                       </span>
                     </td>
                     <td className="p-3 text-slate-400 text-xs">
-                      {p.created_date ? format(new Date(p.created_date), "dd/MM/yy") : "—"}
+                      {p.created_date ? format(new Date(p.created_date), "dd/MM/yy") : "N/D"}
                     </td>
                     <td className="p-3 text-center font-bold text-amber-400">
                       {requestsByProvider[p.id] || 0}

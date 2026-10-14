@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function PoliticaPrivacidade() {
   useEffect(() => {
-    document.title = 'Política de Privacidade - Trancoso Resolve';
+    document.title = 'Política de Privacidade | Trancoso Resolve';
     const meta = document.querySelector('meta[name="description"]') || 
                  (() => { const m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); return m; })();
     meta.content = 'Política de Privacidade e Proteção de Dados da Trancoso Resolve. LGPD em conformidade.';
@@ -22,7 +22,7 @@ export default function PoliticaPrivacidade() {
         <motion.section initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.3 }} className="mb-8 space-y-4">
           <h2 className="text-2xl font-bold text-orange-400">1. Introdução</h2>
           <p>
-            A Trancoso Resolve ("Plataforma") respeita sua privacidade e está comprometida com a proteção de seus dados pessoais de acordo com a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018).
+            A Trancoso Resolve ("Plataforma") respeita sua privacidade e está comprometida com a proteção de seus dados pessoais de acordo com a Lei Geral de Proteção de Dados (LGPD: Lei 13.709/2018).
           </p>
           <p>
             A Plataforma é operada por <strong>Toca Experience Inova Simples (I.S.)</strong>, CNPJ <strong>68.662.845/0001-86</strong>, com sede em R. Alameda Bom Jesus, 7, Trancoso, Porto Seguro/BA, CEP 46.098-000, controladora dos dados pessoais tratados nos termos desta Política, nos termos do art. 9º da LGPD.
@@ -38,7 +38,7 @@ export default function PoliticaPrivacidade() {
           <ul className="list-disc pl-6 space-y-2">
             <li>Informações de cadastro: nome, e-mail, telefone, endereço</li>
             <li>Documentos de identificação (CPF, RG) para verificação</li>
-            <li>Dados de pagamento (via Asaas - nunca armazenados diretamente)</li>
+            <li>Dados de pagamento (via Asaas: nunca armazenados diretamente)</li>
             <li>Dados de navegação e uso da plataforma (via Google Analytics)</li>
             <li>Comunicações e mensagens entre usuários</li>
           </ul>
@@ -55,10 +55,10 @@ export default function PoliticaPrivacidade() {
           </ul>
           <h3 className="text-xl font-semibold text-foreground mt-6">Bases Legais do Tratamento (art. 7º da LGPD)</h3>
           <ul className="list-disc pl-6 space-y-2">
-            <li><strong>Consentimento:</strong> marketing, cookies de analytics, comunicações opcionais e verificação de antecedentes criminais (dado sensível — tratado apenas mediante autorização expressa do prestador, nos termos do art. 11 da LGPD).</li>
+            <li><strong>Consentimento:</strong> marketing, cookies de analytics, comunicações opcionais e verificação de antecedentes criminais (dado sensível, tratado apenas mediante autorização expressa do prestador, nos termos do art. 11 da LGPD).</li>
             <li><strong>Execução de contrato:</strong> criação de conta, cadastro de prestador/cliente, assinatura de planos e processamento de pagamentos.</li>
             <li><strong>Legítimo interesse:</strong> segurança da plataforma, prevenção a fraudes e combate ao abuso.</li>
-            <li><strong>Cumprimento de obrigação legal ou regulatória:</strong> retenção de dados fiscais/financeiros pelo prazo exigido em lei (ver seção 6 — Retenção de Dados).</li>
+            <li><strong>Cumprimento de obrigação legal ou regulatória:</strong> retenção de dados fiscais/financeiros pelo prazo exigido em lei (ver seção 6: Retenção de Dados).</li>
           </ul>
         </motion.section>
 

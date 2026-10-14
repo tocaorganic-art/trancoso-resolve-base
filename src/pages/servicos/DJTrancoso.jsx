@@ -40,10 +40,10 @@ export default function DJTrancoso() {
         },
       ]}
       h1="DJ Profissional para Eventos em Trancoso"
-      intro="Trancoso tem uma das viradas de ano e temporadas de casamento mais disputadas do Brasil — e o DJ certo faz toda a diferença. Na Trancoso Resolve você encontra DJs verificados com experiência em festas no Quadrado, villas de alto padrão e cerimônias à beira-mar, com playlist personalizada e equipamento de ponta."
+      intro="Trancoso tem uma das viradas de ano e temporadas de casamento mais disputadas do Brasil, e o DJ certo faz toda a diferença. Na Trancoso Resolve você encontra DJs verificados com experiência em festas no Quadrado, villas de alto padrão e cerimônias à beira-mar, com playlist personalizada e equipamento de ponta."
       servicesTitle="Serviços de DJ e som para eventos em Trancoso"
       services={[
-        'DJ para casamento — cerimônia, coquetel e festa de recepção',
+        'DJ para casamento, cerimônia, coquetel e festa de recepção',
         'DJ para Réveillon e festas de virada de ano em Trancoso',
         'DJ para aniversário, festa corporativa e confraternização',
         'Som e iluminação para eventos em espaços abertos e villas',
@@ -53,15 +53,15 @@ export default function DJTrancoso() {
         'Suporte técnico completo durante o evento',
       ]}
       howTitle="Por que contratar DJ pela Trancoso Resolve?"
-      howText="Trancoso é um destino com particularidades: eventos no Quadrado têm restrições de som, villas afastadas precisam de gerador, e a programação da alta temporada exige profissionais com agenda confiável. Os DJs da plataforma são verificados, têm avaliações de eventos anteriores e conhecem as regras locais — para que você não tenha surpresas na hora H."
-      cta="Descreva seu evento, a data e o número de convidados — receba contato de DJs verificados com experiência em festas em Trancoso."
+      howText="Trancoso é um destino com particularidades: eventos no Quadrado têm restrições de som, villas afastadas precisam de gerador, e a programação da alta temporada exige profissionais com agenda confiável. Os DJs da plataforma são verificados, têm avaliações de eventos anteriores e conhecem as regras locais, para que você não tenha surpresas na hora H."
+      cta="Descreva seu evento, a data e o número de convidados, receba contato de DJs verificados com experiência em festas em Trancoso."
       ctaButton="Contratar DJ em Trancoso"
       category="DJ"
       serviceLabel="DJ"
       heroEmoji="🎧"
       locationLabel="Trancoso, Bahia"
       seoText={[
-        'Trancoso concentra alguns dos casamentos e festas privadas mais sofisticados da Bahia. A combinação de beleza natural, gastronomia e infraestrutura de pousadas boutique atrai celebrações de alto padrão ao longo de todo o ano — especialmente no Réveillon, quando o Quadrado histórico recebe festas memoráveis.',
+        'Trancoso concentra alguns dos casamentos e festas privadas mais sofisticados da Bahia. A combinação de beleza natural, gastronomia e infraestrutura de pousadas boutique atrai celebrações de alto padrão ao longo de todo o ano, especialmente no Réveillon, quando o Quadrado histórico recebe festas memoráveis.',
         'Contratar um DJ local com experiência em Trancoso é importante porque os eventos no Quadrado e em villas da região têm regras específicas de horário e volume de som. Profissionais que já atuaram na região conhecem essas particularidades e evitam problemas durante a festa.',
         'Via Trancoso Resolve você compara DJs com experiência comprovada em casamentos, festas de aniversário e eventos corporativos em Trancoso, Arraial d\'Ajuda e Porto Seguro. Orçamento grátis, perfis verificados e avaliações reais de outros clientes.',
       ]}

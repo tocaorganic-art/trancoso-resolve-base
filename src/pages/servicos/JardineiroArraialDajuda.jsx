@@ -25,7 +25,7 @@ export default function JardineiroArraialDajuda() {
         },
         {
           question: "Jardineiro em Arraial d'Ajuda atende imóveis de segunda residência?",
-          answer: "Sim. Os jardineiros da plataforma oferecem planos de manutenção para imóveis desocupados — mantendo o jardim apresentável mesmo quando o proprietário está fora.",
+          answer: "Sim. Os jardineiros da plataforma oferecem planos de manutenção para imóveis desocupados, mantendo o jardim apresentável mesmo quando o proprietário está fora.",
         },
         {
           question: "Fazem paisagismo e projeto de jardim em Arraial d'Ajuda?",
@@ -33,7 +33,7 @@ export default function JardineiroArraialDajuda() {
         },
       ]}
       h1="Jardineiro em Arraial d'Ajuda: Manutenção e Paisagismo Verificado"
-      intro="A vegetação exuberante de Arraial d'Ajuda é um dos charmes do destino — e manter o jardim da sua pousada ou villa impecável exige profissional que conheça as espécies locais e o ritmo de crescimento no clima úmido da Bahia. Na Trancoso Resolve você encontra jardineiros verificados com experiência em imóveis de alto padrão da região."
+      intro="A vegetação exuberante de Arraial d'Ajuda é um dos charmes do destino, e manter o jardim da sua pousada ou villa impecável exige profissional que conheça as espécies locais e o ritmo de crescimento no clima úmido da Bahia. Na Trancoso Resolve você encontra jardineiros verificados com experiência em imóveis de alto padrão da região."
       servicesTitle="Serviços de jardineiro em Arraial d'Ajuda"
       services={[
         'Manutenção semanal, quinzenal ou mensal de jardins e áreas verdes',
@@ -46,7 +46,7 @@ export default function JardineiroArraialDajuda() {
         'Limpeza de áreas externas, decks e caminhos',
       ]}
       howTitle="Jardineiros verificados em Arraial d'Ajuda"
-      howText="Em Arraial d'Ajuda, onde o verde faz parte da identidade do destino, um jardim bem cuidado valoriza o imóvel e encanta os hóspedes. Todos os jardineiros da plataforma são verificados e têm avaliações de clientes — para proprietários que moram fora, é a garantia de que o jardim está em boas mãos."
+      howText="Em Arraial d'Ajuda, onde o verde faz parte da identidade do destino, um jardim bem cuidado valoriza o imóvel e encanta os hóspedes. Todos os jardineiros da plataforma são verificados e têm avaliações de clientes, para proprietários que moram fora, é a garantia de que o jardim está em boas mãos."
       cta="Descreva o tamanho e tipo de jardim em Arraial d'Ajuda e receba contato de jardineiros verificados."
       ctaButton="Contratar jardineiro em Arraial d'Ajuda"
       category="Jardineiro"

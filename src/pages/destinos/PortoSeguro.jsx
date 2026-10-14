@@ -21,14 +21,14 @@ const servicos = [
 
 export default function DestinoPortoSeguro() {
   useDestinationSeo({
-    title: "Porto Seguro Bahia | Serviços e Profissionais Verificados — Trancoso Resolve",
+    title: "Porto Seguro Bahia | Serviços e Profissionais Verificados | Trancoso Resolve",
     description: "Encontre profissionais verificados em Porto Seguro, BA: diaristas, eletricistas, piscineiros, cozinheiros e jardineiros para hotéis, resorts e residências de alto padrão.",
     canonical: "https://trancosoresolve.com.br/porto-seguro",
     schemaId: "schema-destino-porto-seguro",
     schema: {
       "@context": "https://schema.org",
       "@type": "LocalBusiness",
-      "name": "Trancoso Resolve — Serviços em Porto Seguro",
+      "name": "Trancoso Resolve: Serviços em Porto Seguro",
       "description": "Marketplace de serviços locais em Porto Seguro, Bahia. Profissionais verificados para hotéis, resorts e residências.",
       "url": "https://trancosoresolve.com.br/porto-seguro",
       "address": { "@type": "PostalAddress", "addressLocality": "Porto Seguro", "addressRegion": "BA", "addressCountry": "BR" },
@@ -49,7 +49,7 @@ export default function DestinoPortoSeguro() {
             Serviços Verificados em<br /><span className="text-orange-400">Porto Seguro</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
-            A maior cidade da Costa do Descobrimento — hotéis, resorts e residências de alto padrão, com profissionais de confiança da Trancoso Resolve.
+            A maior cidade da Costa do Descobrimento, hotéis, resorts e residências de alto padrão, com profissionais de confiança da Trancoso Resolve.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/ServicosCategoria">
@@ -72,7 +72,7 @@ export default function DestinoPortoSeguro() {
             <div>
               <h2 className="text-3xl font-bold text-foreground mb-4">História, cultura e praias paradisíacas</h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Porto Seguro é o berço do Brasil — um destino que combina história colonial, praias deslumbrantes e uma infraestrutura turística completa.
+                Porto Seguro é o berço do Brasil, um destino que combina história colonial, praias deslumbrantes e uma infraestrutura turística completa.
               </p>
               <p className="text-muted-foreground leading-relaxed mb-6">
                 A Trancoso Resolve atua em Porto Seguro com os mesmos padrões de verificação e qualidade. Profissionais para hotéis, resorts, condomínios fechados e residências de luxo.
@@ -127,8 +127,8 @@ export default function DestinoPortoSeguro() {
           <h2 className="text-2xl font-bold text-foreground mb-6 text-center">Explore Outros Destinos</h2>
           <div className="grid sm:grid-cols-2 gap-4">
             {[
-              { slug: 'trancoso', nome: 'Trancoso', desc: 'O destino mais icônico — villas de luxo, pousadas e o famoso Quadrado.', path: '/destinos/trancoso' },
-              { slug: 'caraiva', nome: 'Caraíva', desc: 'O paraíso preservado — sem asfalto, sem carros, só natureza e charme.', path: '/destinos/caraiva' },
+              { slug: 'trancoso', nome: 'Trancoso', desc: 'O destino mais icônico, villas de luxo, pousadas e o famoso Quadrado.', path: '/destinos/trancoso' },
+              { slug: 'caraiva', nome: 'Caraíva', desc: 'O paraíso preservado, sem asfalto, sem carros, só natureza e charme.', path: '/destinos/caraiva' },
             ].map((d) => (
               <Link key={d.slug} to={d.path}>
                 <div className="bg-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all border border-border hover:border-orange-300 group flex gap-4 items-start">

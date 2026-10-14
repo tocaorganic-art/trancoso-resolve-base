@@ -107,16 +107,16 @@ function AudienceCard({ icon, title, desc, delay = 0 }) {
 }
 
 const pillars = [
-  { icon: <Shield className="w-6 h-6 text-orange-400" />, title: "Profissionais Verificados", desc: "Análise de antecedentes criminais, verificação de identidade e validação de dados — cada prestador aprovado passa por rigoroso processo antes de aparecer na plataforma." },
+  { icon: <Shield className="w-6 h-6 text-orange-400" />, title: "Profissionais Verificados", desc: "Análise de antecedentes criminais, verificação de identidade e validação de dados: cada prestador aprovado passa por rigoroso processo antes de aparecer na plataforma." },
   { icon: <Star className="w-6 h-6 text-amber-400" />, title: "Avaliações Transparentes", desc: "Clientes reais, avaliações reais. Nada de notas infladas: todo feedback é auditado para que você confie em quem contrata." },
-  { icon: <Bot className="w-6 h-6 text-blue-400" />, title: "TryA — IA 24 horas", desc: "Nosso agente de inteligência artificial está disponível a qualquer momento para sugerir o profissional certo, responder dúvidas e agilizar seu pedido — tudo em português (e espanhol)." },
-  { icon: <Camera className="w-6 h-6 text-violet-400" />, title: "Toca Vision — Criação Visual com IA", desc: "Prestadores têm acesso a um gerador de imagens exclusivo: crie posts, cardápios e materiais visuais de alto padrão em segundos, sem custo adicional." },
-  { icon: <BarChart2 className="w-6 h-6 text-green-400" />, title: "Dashboard Financeiro Integrado", desc: "Controle de receitas, despesas, previsão de ganhos e relatórios — tudo dentro da plataforma. Sem planilhas, sem complicação." },
+  { icon: <Bot className="w-6 h-6 text-blue-400" />, title: "TryA | IA 24 horas", desc: "Nosso agente de inteligência artificial está disponível a qualquer momento para sugerir o profissional certo, responder dúvidas e agilizar seu pedido, tudo em português (e espanhol)." },
+  { icon: <Camera className="w-6 h-6 text-violet-400" />, title: "Toca Vision | Criação Visual com IA", desc: "Prestadores têm acesso a um gerador de imagens exclusivo: crie posts, cardápios e materiais visuais de alto padrão em segundos, sem custo adicional." },
+  { icon: <BarChart2 className="w-6 h-6 text-green-400" />, title: "Dashboard Financeiro Integrado", desc: "Controle de receitas, despesas, previsão de ganhos e relatórios: tudo dentro da plataforma. Sem planilhas, sem complicação." },
   { icon: <Users className="w-6 h-6 text-orange-300" />, title: "Comunidade VIP Trancoso", desc: "Uma rede exclusiva de moradores, empresários e prestadores que compartilham o compromisso com a excelência que Trancoso exige." },
 ];
 
 const audience = [
-  { icon: <MapPin className="w-7 h-7 text-white" />, title: "Moradores & Proprietários", desc: "Mantenha sua casa, pousada ou villa com os melhores profissionais locais — verificados, avaliados e sempre disponíveis quando você precisa." },
+  { icon: <MapPin className="w-7 h-7 text-white" />, title: "Moradores & Proprietários", desc: "Mantenha sua casa, pousada ou villa com os melhores profissionais locais, verificados, avaliados e sempre disponíveis quando você precisa." },
   { icon: <Sparkles className="w-7 h-7 text-white" />, title: "Turistas & Visitantes", desc: "Chegou a Trancoso e precisa de um eletricista, diarista ou cozinheiro? Contrate com segurança em minutos, sem precisar de indicação." },
   { icon: <Heart className="w-7 h-7 text-white" />, title: "Prestadores de Serviço", desc: "Acesse uma audiência VIP, receba mais pedidos, organize seu negócio com IA e construa uma reputação digital sólida em Trancoso." },
 ];
@@ -138,7 +138,7 @@ export default function AboutPage() {
   });
 
   useEffect(() => {
-    document.title = "Sobre Nós | Trancoso Resolve — Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva";
+    document.title = "Sobre Nós | Trancoso Resolve | Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva";
     const desc = "Conheça a Trancoso Resolve, a plataforma que conecta quem precisa de serviço a profissionais verificados em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva, na Bahia.";
     const setMeta = (sel, attr, key, val) => { let el = document.querySelector(sel); if (!el) { el = document.createElement('meta'); if (attr) el.setAttribute(attr, key); else el.name = key; document.head.appendChild(el); } el.content = val; };
     setMeta('meta[name="description"]', null, 'description', desc);
@@ -179,7 +179,7 @@ export default function AboutPage() {
         <div className="container mx-auto max-w-5xl relative z-10">
           <motion.div initial={{ opacity: 0, y: -16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-2 bg-orange-500/15 border border-orange-500/30 text-orange-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-6">
-            <MapPin className="w-3.5 h-3.5" /> Trancoso, Bahia — Brasil
+            <MapPin className="w-3.5 h-3.5" /> Trancoso, Bahia, Brasil
           </motion.div>
 
           <motion.h1
@@ -200,7 +200,7 @@ export default function AboutPage() {
             transition={{ duration: 0.7, delay: 0.3 }}
             className="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-10"
           >
-            O Trancoso Resolve nasceu da Toca Concierge — 8 anos conectando moradores, turistas e empresários ao melhor que Trancoso tem a oferecer. Hoje somos a plataforma digital que transforma essa curadoria em tecnologia acessível para todos.
+            O Trancoso Resolve nasceu da Toca Concierge, 8 anos conectando moradores, turistas e empresários ao melhor que Trancoso tem a oferecer. Hoje somos a plataforma digital que transforma essa curadoria em tecnologia acessível para todos.
           </motion.p>
 
           <motion.div
@@ -255,7 +255,7 @@ export default function AboutPage() {
                 Curadoria de experiências.<br />Conexão de confiança.
               </h2>
               <p className="text-muted-foreground leading-relaxed mb-4">
-                Trancoso atrai um público exigente — e esse público merece serviços à altura. Por isso desenvolvemos um processo rigoroso de verificação que vai além do básico: análise de antecedentes criminais, validação de identidade e acompanhamento contínuo de desempenho.
+                Trancoso atrai um público exigente, e esse público merece serviços à altura. Por isso desenvolvemos um processo rigoroso de verificação que vai além do básico: análise de antecedentes criminais, validação de identidade e acompanhamento contínuo de desempenho.
               </p>
               <p className="text-muted-foreground leading-relaxed">
                 Mais que uma plataforma de contratação, somos o elo entre quem vive e trabalha em Trancoso e os visitantes que desejam viver a experiência com tranquilidade absoluta.

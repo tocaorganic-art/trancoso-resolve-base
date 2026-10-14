@@ -207,7 +207,7 @@ export default function ServicosCategoriaPage() {
   useEffect(() => {
     const cat = selectedCategory !== 'Todos' ? selectedCategory : null;
     const title = cat
-      ? `${cat} em Trancoso, BA — Profissionais Verificados | Trancoso Resolve`
+      ? `${cat} em Trancoso, BA | Profissionais Verificados | Trancoso Resolve`
       : 'Todos os Serviços em Trancoso, BA | Trancoso Resolve';
     document.title = title;
 
@@ -228,7 +228,7 @@ export default function ServicosCategoriaPage() {
     let ogTitle = document.querySelector('meta[property="og:title"]');
     if (!ogTitle) { ogTitle = document.createElement('meta'); ogTitle.setAttribute('property', 'og:title'); document.head.appendChild(ogTitle); }
     ogTitle.content = cat
-      ? `${cat} em Trancoso, BA — Profissionais Verificados | Trancoso Resolve`
+      ? `${cat} em Trancoso, BA | Profissionais Verificados | Trancoso Resolve`
       : 'Todos os Serviços em Trancoso, BA | Trancoso Resolve';
 
     let ogDesc = document.querySelector('meta[property="og:description"]');

@@ -152,7 +152,7 @@ function ActOrganized() {
 function MobileCards({ reduced }) {
   const stages = [
     { emoji:'⚡', label:'Mercado fragmentado', desc:'Clientes e prestadores sem canal de confiança entre eles.' },
-    { emoji:'🔍', label:'Difícil encontrar', desc:'Sem verificação, avaliações nem histórico — só indicação boca a boca.' },
+    { emoji:'🔍', label:'Difícil encontrar', desc:'Sem verificação, avaliações nem histórico, só indicação boca a boca.' },
     { emoji:'✅', label:'Trancoso Resolve', desc:'Plataforma central: curadoria, verificação, conexão e recorrência.' },
   ];
   return (
@@ -192,7 +192,7 @@ export default function FragmentationViz() {
     return () => clearTimeout(t);
   }, [inView, act, reduced]);
 
-  const ACT_LABELS = ['Situação atual — mercado fragmentado', 'Plataforma central emerge', 'Conexões organizadas e curadoria'];
+  const ACT_LABELS = ['Situação atual: mercado fragmentado', 'Plataforma central emerge', 'Conexões organizadas e curadoria'];
 
   return (
     <div ref={ref} className="space-y-4">

@@ -88,7 +88,7 @@ const PLANOS_PRESTADOR = [
       "Painel financeiro avançado",
       "Suporte prioritário dedicado",
     ],
-    ctaLabel: "Assinar — R$197/mês",
+    ctaLabel: "Assinar: R$197/mês",
     ctaKey: "prestador_elite",
   },
 ];
@@ -114,7 +114,7 @@ const PLANOS_LOJISTA = [
       "Selo de negócio verificado",
       "1 usuário gestor",
     ],
-    ctaLabel: "Assinar — R$89/mês",
+    ctaLabel: "Assinar: R$89/mês",
     ctaKey: "lojista_essencial",
   },
   {
@@ -138,7 +138,7 @@ const PLANOS_LOJISTA = [
       "Suporte por WhatsApp",
       "Até 3 usuários gestores",
     ],
-    ctaLabel: "Assinar — R$197/mês",
+    ctaLabel: "Assinar: R$197/mês",
     ctaKey: "lojista_pro",
   },
   {
@@ -163,7 +163,7 @@ const PLANOS_LOJISTA = [
       "Suporte prioritário dedicado",
       "Usuários ilimitados",
     ],
-    ctaLabel: "Assinar — R$497/mês",
+    ctaLabel: "Assinar: R$497/mês",
     ctaKey: "lojista_elite",
   },
 ];
@@ -175,7 +175,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Como funciona o período gratuito?",
-    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Nenhuma cobrança é feita durante os 2 meses grátis. O pagamento só começa quando o período grátis acaba, se você quiser continuar — e pode cancelar antes sem pagar nada.",
+    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Nenhuma cobrança é feita durante os 2 meses grátis. O pagamento só começa quando o período grátis acaba, se você quiser continuar, e pode cancelar antes sem pagar nada.",
   },
   {
     q: "Por que o Profissional tem 7 dias grátis?",
@@ -183,11 +183,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "O que é o Boost Alta Temporada?",
-    r: "Um add-on opcional que dá visibilidade máxima durante os picos (dez–fev e Carnaval). Você ativa e cancela pelo painel, sem fidelidade. Exige um plano base ativo.",
+    r: "Um add-on opcional que dá visibilidade máxima durante os picos (dez a fev e Carnaval). Você ativa e cancela pelo painel, sem fidelidade. Exige um plano base ativo.",
   },
   {
     q: "Quanto economizo no plano anual?",
-    r: "Você paga 10 meses e ganha 12 — cerca de 17% de desconto. Disponível para os planos Profissional, Elite e todos os planos Lojista.",
+    r: "Você paga 10 meses e ganha 12, cerca de 17% de desconto. Disponível para os planos Profissional, Elite e todos os planos Lojista.",
   },
   {
     q: "Existe comissão sobre os serviços prestados?",
@@ -369,12 +369,12 @@ function BoostSection({ tipo, onCta, loading }) {
             <p className="text-2xl font-extrabold">
               +R${isPrestador ? "99" : "197"}<span className="text-sm font-normal opacity-90">/mês</span>
             </p>
-            <p className="text-xs text-amber-200">somente dez–fev e Carnaval</p>
+            <p className="text-xs text-amber-200">somente dez a fev e Carnaval</p>
           </div>
         </div>
         <p className="text-sm text-amber-100/90 mt-2">
           A economia de Trancoso se concentra no Réveillon, Verão e Carnaval. O Boost dá visibilidade máxima
-          exatamente quando a demanda dispara — empilha sobre qualquer plano ativo.
+          exatamente quando a demanda dispara, empilha sobre qualquer plano ativo.
         </p>
       </div>
 
@@ -522,7 +522,7 @@ export default function PlanosPage() {
     <div className="bg-background min-h-screen py-12">
       <MetaTags
         title="Planos para Profissionais"
-        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito de 2 meses (sem cartão), Profissional R$19,90/mês e Premium Elite. Sem comissão sobre serviços — você negocia direto com o cliente e fica com 100% do valor."
+        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito de 2 meses (sem cartão), Profissional R$19,90/mês e Premium Elite. Sem comissão sobre serviços, você negocia direto com o cliente e fica com 100% do valor."
       />
       <div className="container mx-auto max-w-5xl px-4">
 
@@ -560,7 +560,7 @@ export default function PlanosPage() {
               <Shield className="w-4 h-4 text-orange-400" />
               {founderRestam === 100
                 ? "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento"
-                : `Restam ${founderRestam} vagas de Prestador Fundador — R$19,90/mês`}
+                : `Restam ${founderRestam} vagas de Prestador Fundador: R$19,90/mês`}
             </motion.div>
           )}
         </motion.div>
@@ -639,12 +639,12 @@ export default function PlanosPage() {
 
         {/* Nota Asaas */}
         <p className="text-center text-muted-foreground text-xs mb-4">
-          Pagamento seguro via Asaas — cancele quando quiser, sem multa.
+          Pagamento seguro via Asaas. Cancele quando quiser, sem multa.
         </p>
 
         {/* Transparência */}
         <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 text-sm text-orange-200 text-center mb-2">
-          <strong>Transparência total:</strong> A cobrança começa somente após os 7 dias gratuitos. Cancele antes do término do período gratuito para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços — você negocia diretamente com o cliente e fica com 100% do valor.
+          <strong>Transparência total:</strong> A cobrança começa somente após os 7 dias gratuitos. Cancele antes do término do período gratuito para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços, você negocia diretamente com o cliente e fica com 100% do valor.
         </div>
 
         {/* Boost Alta Temporada */}
@@ -680,7 +680,7 @@ export default function PlanosPage() {
             <p className="text-sm text-muted-foreground mb-1">
               Sua assinatura está ativa
               {mySubscription.next_billing_date &&
-                ` — próxima cobrança em ${new Date(
+                `, próxima cobrança em ${new Date(
                   mySubscription.next_billing_date + "T00:00:00"
                 ).toLocaleDateString("pt-BR")}`}.
             </p>

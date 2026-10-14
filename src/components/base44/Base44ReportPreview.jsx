@@ -67,7 +67,7 @@ export default function Base44ReportPreview({ reportData }) {
 
   const generateMarkdownReport = (data) => {
     // Generate markdown from template
-    let template = `# 📊 RELATÓRIO EXECUTIVO – ${data.command_id}\n\n`;
+    let template = `# 📊 RELATÓRIO EXECUTIVO: ${data.command_id}\n\n`;
     template += `**Projeto:** ${data.project}\n`;
     template += `**Ambiente:** ${data.environment}\n`;
     template += `**Data:** ${new Date(data.data_execucao).toLocaleString('pt-BR')}\n`;
@@ -322,7 +322,7 @@ export default function Base44ReportPreview({ reportData }) {
 
       {/* Footer */}
       <div className={`text-center text-xs py-4 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
-        Gerado automaticamente pelo sistema Base 44 AI Codificado – Política de Comando Único Versão 1.0 (Responsável: Tony).
+        Gerado automaticamente pelo sistema Base 44 AI Codificado, Política de Comando Único Versão 1.0 (Responsável: Tony).
       </div>
     </div>
   );

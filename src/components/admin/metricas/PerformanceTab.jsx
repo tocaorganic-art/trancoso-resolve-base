@@ -36,7 +36,7 @@ export default function PerformanceTab() {
               <p className="text-slate-400 text-sm">
                 {overallStatus === "good" && "Todas as métricas dentro dos limites aceitáveis."}
                 {overallStatus === "warning" && "Algumas páginas com performance abaixo do ideal."}
-                {overallStatus === "bad" && "Páginas críticas detectadas — LCP acima de 4000ms."}
+                {overallStatus === "bad" && "Páginas críticas detectadas, LCP acima de 4000ms."}
               </p>
             </div>
           </div>

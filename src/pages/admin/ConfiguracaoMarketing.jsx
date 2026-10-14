@@ -26,7 +26,7 @@ export default function ConfiguracaoMarketing() {
     {
       num: '4',
       title: 'Adicione no Base44',
-      desc: 'Base44 Dashboard → Segurança → Segredos do aplicativo → variável META_CONVERSIONS_API_TOKEN (já configurada — não substituir)',
+      desc: 'Base44 Dashboard → Segurança → Segredos do aplicativo → variável META_CONVERSIONS_API_TOKEN (já configurada, não substituir)',
     },
   ];
 
@@ -53,12 +53,12 @@ export default function ConfiguracaoMarketing() {
           <div className="bg-[#3E8E5A]/10 border border-[#3E8E5A]/30 rounded-xl p-4">
             <CheckCircle className="w-5 h-5 text-[#3E8E5A] mb-2" />
             <p className="text-sm font-semibold text-[#3E8E5A]">GA4</p>
-            <p className="text-xs text-[#3E8E5A]/80 mt-1">G-3KF75243B4 — Ativo</p>
+            <p className="text-xs text-[#3E8E5A]/80 mt-1">G-3KF75243B4: Ativo</p>
           </div>
           <div className="bg-[#3E8E5A]/10 border border-[#3E8E5A]/30 rounded-xl p-4">
             <CheckCircle className="w-5 h-5 text-[#3E8E5A] mb-2" />
             <p className="text-sm font-semibold text-[#3E8E5A]">Meta Pixel</p>
-            <p className="text-xs text-[#3E8E5A]/80 mt-1">1469130194903035 — Ativo</p>
+            <p className="text-xs text-[#3E8E5A]/80 mt-1">1469130194903035: Ativo</p>
           </div>
           <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
             <AlertTriangle className="w-5 h-5 text-amber-500 mb-2" />

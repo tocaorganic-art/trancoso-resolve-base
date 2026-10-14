@@ -16,7 +16,7 @@ export default function AutomacaoLeadsTab({ leads = [] }) {
   const ultimoEnvio = leads
     .filter((l) => l.email_boas_vindas_enviado_em)
     .sort((a, b) => (b.email_boas_vindas_enviado_em || "").localeCompare(a.email_boas_vindas_enviado_em || ""))[0];
-  const ultimoEnvioData = ultimoEnvio ? new Date(ultimoEnvio.email_boas_vindas_enviado_em).toLocaleString("pt-BR") : "—";
+  const ultimoEnvioData = ultimoEnvio ? new Date(ultimoEnvio.email_boas_vindas_enviado_em).toLocaleString("pt-BR") : "N/D";
 
   const handleReprocessar = async () => {
     if (!confirm("Confirmar reprocessamento dos emails pendentes?")) return;

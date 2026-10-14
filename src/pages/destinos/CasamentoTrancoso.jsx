@@ -36,7 +36,7 @@ export default function CasamentoTrancoso() {
         },
       ]}
       h1="Planeje seu Casamento em Trancoso com Profissionais Verificados"
-      intro="Casar em Trancoso é realizar um sonho — o Quadrado histórico, as praias de água cristalina e as pousadas boutique criam o cenário perfeito. A Trancoso Resolve conecta você a todos os fornecedores de que você precisa: chef, DJ, segurança, garçom e mais, todos verificados e avaliados por outros casais."
+      intro="Casar em Trancoso é realizar um sonho, o Quadrado histórico, as praias de água cristalina e as pousadas boutique criam o cenário perfeito. A Trancoso Resolve conecta você a todos os fornecedores de que você precisa: chef, DJ, segurança, garçom e mais, todos verificados e avaliados por outros casais."
       servicesTitle="Fornecedores para casamento disponíveis em Trancoso"
       services={[
         'Chef e cozinheiro para jantar de recepção e cardápio personalizado',
@@ -49,7 +49,7 @@ export default function CasamentoTrancoso() {
         'Eletricista e técnico de som para montagem de equipamentos',
       ]}
       howTitle="Como funciona a Trancoso Resolve para casamentos?"
-      howText="Você descreve seu casamento — data, número de convidados, espaço e serviços que precisa — e a Trancoso Resolve conecta você a fornecedores locais verificados. Cada profissional tem avaliações de clientes anteriores e passou por verificação de antecedentes. Você negocia diretamente, sem intermediários. Simples assim — a gente resolve."
+      howText="Você descreve seu casamento, data, número de convidados, espaço e serviços que precisa, e a Trancoso Resolve conecta você a fornecedores locais verificados. Cada profissional tem avaliações de clientes anteriores e passou por verificação de antecedentes. Você negocia diretamente, sem intermediários. Simples assim, a gente resolve."
       cta="Descreva seu casamento e receba contato de fornecedores verificados em Trancoso: chef, DJ, segurança, garçom e mais."
       ctaButton="Encontrar fornecedores para casamento"
       category="Eventos"

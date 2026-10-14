@@ -6,12 +6,12 @@ import { trackPurchase } from '@/lib/facebook-pixel';
 import { trackAnalyticsEvent } from '@/utils/consent.js';
 
 const PLAN_INFO = {
-  lancamento:         { nome: "Plano Prestador - Lançamento", valor: "R$ 29,90/mês", trial: 60 },
-  regular:            { nome: "Plano Prestador Mensal",       valor: "R$ 49,90/mês", trial: 7  },
-  empresa_lancamento: { nome: "Plano Empresas - Lançamento",  valor: "R$ 59,90/mês", trial: 7  },
-  empresa_regular:    { nome: "Plano Empresas Mensal",        valor: "R$ 89,90/mês", trial: 7  },
-  avulso_prestador:   { nome: "Uso Avulso - Prestador (1 mês)", valor: "R$ 69,90", trial: 0 },
-  avulso_empresa:     { nome: "Uso Avulso - Empresa (1 mês)",   valor: "R$ 99,99", trial: 0 },
+  lancamento:         { nome: "Plano Prestador Lançamento", valor: "R$ 29,90/mês", trial: 60 },
+  regular:            { nome: "Plano Prestador Mensal",     valor: "R$ 49,90/mês", trial: 7  },
+  empresa_lancamento: { nome: "Plano Empresas Lançamento",  valor: "R$ 59,90/mês", trial: 7  },
+  empresa_regular:    { nome: "Plano Empresas Mensal",      valor: "R$ 89,90/mês", trial: 7  },
+  avulso_prestador:   { nome: "Uso Avulso Prestador (1 mês)", valor: "R$ 69,90", trial: 0 },
+  avulso_empresa:     { nome: "Uso Avulso Empresa (1 mês)",   valor: "R$ 99,99", trial: 0 },
 };
 
 const Particle = ({ delay, x, size }) => (
@@ -40,7 +40,7 @@ export default function AssinaturaConfirmada() {
   }, []);
 
   useEffect(() => {
-    document.title = "Assinatura Confirmada - Trancoso Resolve";
+    document.title = "Assinatura Confirmada | Trancoso Resolve";
     const urlParams = new URLSearchParams(window.location.search);
     const avulso = urlParams.get('avulso') === 'true';
     const plan = urlParams.get('plan') || null;

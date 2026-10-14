@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function PoliticaDevolucoes() {
   useEffect(() => {
-    document.title = 'Política de Devoluções e Reembolsos - Trancoso Resolve';
+    document.title = 'Política de Devoluções e Reembolsos | Trancoso Resolve';
     const meta = document.querySelector('meta[name="description"]') || 
                  (() => { const m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); return m; })();
     meta.content = 'Política de Devoluções, Reembolsos e Garantia da Trancoso Resolve.';

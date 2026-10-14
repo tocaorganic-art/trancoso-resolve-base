@@ -208,7 +208,7 @@ Deno.serve(async (req) => {
       const firstName = (user.full_name || '').split(' ')[0] || 'Prestador';
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: user.email,
-        subject: 'Cancelamento de assinatura — Trancoso Resolve',
+        subject: 'Cancelamento de assinatura | Trancoso Resolve',
         body: `Olá, ${firstName}!\n\nConfirmamos o cancelamento da sua assinatura no Trancoso Resolve.\n\n` +
           `${periodEnd
             ? `Você manterá o acesso até ${new Date(periodEnd + 'T00:00:00').toLocaleDateString('pt-BR')}.`

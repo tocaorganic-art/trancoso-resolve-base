@@ -77,7 +77,7 @@ Deno.serve(async (req) => {
 
     const emailBody = `Olá, ${firstName}! 🎉
 
-Boas notícias: a verificação de antecedentes criminais do seu cadastro na Trancoso Resolve foi aprovada com sucesso — nada consta!
+Boas notícias: a verificação de antecedentes criminais do seu cadastro na Trancoso Resolve foi aprovada com sucesso, nada consta!
 
 O que acontece agora:
 
@@ -95,7 +95,7 @@ Equipe Trancoso Resolve 🌊`.trim();
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: providerEmail,
       from_name: 'Trancoso Resolve',
-      subject: '✅ Verificação de antecedentes aprovada — Trancoso Resolve',
+      subject: '✅ Verificação de antecedentes aprovada | Trancoso Resolve',
       body: emailBody,
     });
 

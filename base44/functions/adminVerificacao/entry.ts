@@ -67,7 +67,7 @@ Deno.serve(async (req: Request) => {
         await base44.asServiceRole.integrations.Core.SendEmail({
           to: provider.email,
           from_name: 'Trancoso Resolve',
-          subject: 'Verificação do cadastro — ação necessária',
+          subject: 'Verificação do cadastro: ação necessária',
           body: `Olá, ${safeName(provider.full_name)}!\n\nSeu cadastro não foi autorizado com os dados enviados. Acesse o site para refazer a etapa de verificação com imagens legíveis e atualizadas.\n\nSe precisar de revisão, responda este e-mail ou use o suporte disponível no site.\n\nEquipe Trancoso Resolve`,
         });
       }
@@ -110,7 +110,7 @@ Deno.serve(async (req: Request) => {
         await base44.asServiceRole.integrations.Core.SendEmail({
           to: provider.email,
           from_name: 'Trancoso Resolve',
-          subject: 'Bem-vindo à Trancoso Resolve — cadastro aprovado',
+          subject: 'Bem-vindo à Trancoso Resolve: cadastro aprovado',
           body: `Olá, ${safeName(provider.full_name)}!\n\nSeu cadastro foi validado e está liberado na Trancoso Resolve.\n\nSeu perfil já pode participar da plataforma conforme as regras vigentes.\n\nAcesse seu dashboard: https://trancosoresolve.com.br/Dashboard\n\nBem-vindo!\nEquipe Trancoso Resolve`,
         });
         await base44.asServiceRole.entities.Verificacao.update(verificationId, { welcome_email_sent_at: now });

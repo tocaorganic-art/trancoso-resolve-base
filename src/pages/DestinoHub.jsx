@@ -16,7 +16,7 @@ export default function DestinoHub() {
   useEffect(() => {
     if (!dest) return;
     const prev = document.title;
-    document.title = `${label} | Serviços e Profissionais Verificados — Trancoso Resolve`;
+    document.title = `${label} | Serviços e Profissionais Verificados | Trancoso Resolve`;
 
     const metaDesc = document.querySelector('meta[name="description"]');
     const prevDesc = metaDesc?.getAttribute('content') || '';
@@ -35,7 +35,7 @@ export default function DestinoHub() {
     script.textContent = JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'LocalBusiness',
-      name: `Trancoso Resolve — Serviços em ${label}`,
+      name: `Trancoso Resolve: Serviços em ${label}`,
       description: `Marketplace de serviços locais em ${label}, Bahia. Profissionais verificados para o litoral sul da Bahia.`,
       url: `${BASE_URL}/${destino}`,
       address: { '@type': 'PostalAddress', addressLocality: label, addressRegion: 'BA', addressCountry: 'BR' },

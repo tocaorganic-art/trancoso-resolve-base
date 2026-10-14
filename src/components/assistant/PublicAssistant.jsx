@@ -38,7 +38,7 @@ export default function PublicAssistant() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: 'Olá! Sou a **Toca**, sua concierge virtual da **Trancoso Resolve**. 🌴\n\nEstou aqui para ser seu guia exclusivo em Trancoso — desde as praias mais paradisíacas até os melhores restaurantes, serviços e experiências únicas da região.\n\nComo posso tornar sua experiência em Trancoso inesquecível hoje?'
+      content: 'Olá! Sou a **Toca**, sua concierge virtual da **Trancoso Resolve**. 🌴\n\nEstou aqui para ser seu guia exclusivo em Trancoso, desde as praias mais paradisíacas até os melhores restaurantes, serviços e experiências únicas da região.\n\nComo posso tornar sua experiência em Trancoso inesquecível hoje?'
     }
   ]);
   const [input, setInput] = useState('');

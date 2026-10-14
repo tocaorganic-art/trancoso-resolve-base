@@ -489,7 +489,7 @@ function MeuPerfilPrestadorContent() {
                   placeholder="Tipo de Pessoa"
                   options={[
                     { value: 'pf', label: 'Pessoa Física (CPF)' },
-                    { value: 'mei', label: 'MEI – Microempreendedor Individual' },
+                    { value: 'mei', label: 'MEI: Microempreendedor Individual' },
                     { value: 'pj', label: 'Empresa / PJ (CNPJ)' },
                   ]}
                 />

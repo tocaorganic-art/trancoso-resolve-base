@@ -33,7 +33,7 @@ export default function EletricistaArraialDajuda() {
         },
       ]}
       h1="Eletricista em Arraial d'Ajuda: Emergência e Instalações Verificadas"
-      intro="Arraial d'Ajuda tem uma infraestrutura elétrica mista — chalés com fiação antiga e condomínios modernos com automação residencial. Um eletricista que conhece o território local faz toda a diferença, seja numa emergência ou numa instalação completa. Na Trancoso Resolve você encontra profissionais verificados prontos para atender."
+      intro="Arraial d'Ajuda tem uma infraestrutura elétrica mista, chalés com fiação antiga e condomínios modernos com automação residencial. Um eletricista que conhece o território local faz toda a diferença, seja numa emergência ou numa instalação completa. Na Trancoso Resolve você encontra profissionais verificados prontos para atender."
       servicesTitle="Serviços de eletricista em Arraial d'Ajuda"
       services={[
         'Atendimento emergencial para curtos-circuitos e quedas de energia',
@@ -45,7 +45,7 @@ export default function EletricistaArraialDajuda() {
         'Adequação elétrica para piscinas e equipamentos de lazer',
       ]}
       howTitle="Eletricistas verificados em Arraial d'Ajuda"
-      howText="Todos os eletricistas da plataforma passam por verificação de identidade e têm histórico de avaliações de clientes. Em Arraial d'Ajuda, onde muitos proprietários ficam fora do município, ter um profissional confiável é essencial — você contrata com segurança mesmo à distância."
+      howText="Todos os eletricistas da plataforma passam por verificação de identidade e têm histórico de avaliações de clientes. Em Arraial d'Ajuda, onde muitos proprietários ficam fora do município, ter um profissional confiável é essencial, você contrata com segurança mesmo à distância."
       cta="Descreva o problema elétrico ou o projeto na sua propriedade em Arraial d'Ajuda e receba contato de eletricistas verificados."
       ctaButton="Contratar eletricista em Arraial d'Ajuda"
       category="Eletricista"
@@ -54,7 +54,7 @@ export default function EletricistaArraialDajuda() {
       locationLabel="Arraial d'Ajuda, Bahia"
       seoText={[
         "Arraial d'Ajuda tem uma mistura de construções históricas e imóveis modernos, o que exige eletricistas com versatilidade técnica. Pousadas antigas no centro histórico têm instalações que demandam adequação às normas atuais, enquanto novos condomínios na orla precisam de profissionais habituados a sistemas de automação e energia solar.",
-        "Durante a alta temporada em Arraial d'Ajuda, falhas elétricas em pousadas e imóveis de aluguel representam prejuízo imediato. Os eletricistas da Trancoso Resolve estão habituados a atendimentos de urgência e têm comunicação direta pelo WhatsApp — essencial para resolver problemas com agilidade durante a temporada.",
+        "Durante a alta temporada em Arraial d'Ajuda, falhas elétricas em pousadas e imóveis de aluguel representam prejuízo imediato. Os eletricistas da Trancoso Resolve estão habituados a atendimentos de urgência e têm comunicação direta pelo WhatsApp, essencial para resolver problemas com agilidade durante a temporada.",
         "Para instalação de sistemas de energia solar em Arraial d'Ajuda, a plataforma conecta proprietários a eletricistas especializados em fotovoltaico. A irradiação solar elevada na região e os incentivos fiscais tornam o investimento cada vez mais atrativo para pousadas e residências.",
       ]}
     />

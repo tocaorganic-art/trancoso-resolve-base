@@ -67,7 +67,7 @@ export default function MetricasTab({ metrics, posts, onRefresh }) {
                   <option value="">Selecione…</option>
                   {(posts || []).map((p) => (
                     <option key={p.id} value={p.id}>
-                      {p.campaign_day ? `Dia ${p.campaign_day} — ` : ""}
+                      {p.campaign_day ? `Dia ${p.campaign_day}: ` : ""}
                       {p.title}
                     </option>
                   ))}
@@ -148,7 +148,7 @@ export default function MetricasTab({ metrics, posts, onRefresh }) {
                   {(metrics || []).map((m) => (
                     <tr key={m.id} className="border-b border-[#E3DED5]/50">
                       <td className="p-3 text-[#555]">{m.date}</td>
-                      <td className="p-3 text-[#555]">{m.channel || "—"}</td>
+                      <td className="p-3 text-[#555]">{m.channel || "N/D"}</td>
                       <td className="p-3 text-[#333]">{m.reach || 0}</td>
                       <td className="p-3 text-[#333]">{m.impressions || 0}</td>
                       <td className="p-3 text-[#333]">{m.clicks || 0}</td>

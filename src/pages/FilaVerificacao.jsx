@@ -111,7 +111,7 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Eye className="w-5 h-5 text-muted-foreground" />
-            Analisar Documento — {verificacao.user_name}
+            Analisar Documento: {verificacao.user_name}
           </DialogTitle>
         </DialogHeader>
 
@@ -200,7 +200,7 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
                 {provider.tipo_pessoa && (
                   <div className="flex items-center gap-2 text-sm text-foreground">
                     <User className="w-3.5 h-3.5 text-muted-foreground" />
-                    <span>{tipoPessoaLabel[provider.tipo_pessoa] || provider.tipo_pessoa} — {provider.occupation}</span>
+                    <span>{tipoPessoaLabel[provider.tipo_pessoa] || provider.tipo_pessoa}: {provider.occupation}</span>
                   </div>
                 )}
                 {provider.razao_social && (

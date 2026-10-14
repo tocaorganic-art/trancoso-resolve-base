@@ -257,7 +257,7 @@ export default function AdminPagamentosPage() {
             {/* Paginação */}
             {filtered.length > 0 && (
               <div className="flex justify-between items-center mt-4 px-4 py-3 border-t border-border text-muted-foreground text-sm">
-                <span>Mostrando {startIndex + 1}–{endIndex} de {filtered.length} transações</span>
+                <span>Mostrando {startIndex + 1} a {endIndex} de {filtered.length} transações</span>
                 <div className="flex gap-2">
                   <button
                     onClick={prevPage}

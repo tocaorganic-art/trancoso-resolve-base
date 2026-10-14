@@ -93,7 +93,7 @@ Equipe Trancoso Resolve 🌊
 
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: providerEmail,
-      subject: `🌴 Nova solicitação de agendamento — ${request.client_name}`,
+      subject: `🌴 Nova solicitação de agendamento: ${request.client_name}`,
       body: emailBody,
       from_name: 'Trancoso Resolve'
     });

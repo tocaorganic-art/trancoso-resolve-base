@@ -11,7 +11,7 @@ export default function HeroSection() {
       <div className="absolute inset-0">
         <img
           src="https://base44.app/api/apps/6a0754c82a7c1aae19211408/files/mp/public/6a0754c82a7c1aae19211408/0d15d2c04_hero_sejaprestador_3prof.png"
-          alt="Eletricista, chef e arquiteto — profissionais que atuam na Costa do Descobrimento"
+          alt="Eletricista, chef e arquiteto, profissionais que atuam na Costa do Descobrimento"
           className="w-full h-full object-cover"
           loading="eager"
           fetchPriority="high"
@@ -53,7 +53,7 @@ export default function HeroSection() {
           </h1>
 
           <p className="text-base md:text-xl text-slate-200 mb-6 leading-relaxed max-w-xl">
-            Seu perfil ativo e visível na vitrine do site assim que você finalizar o cadastro — de técnicos e especialistas em hospitalidade a consultores e serviços autônomos.
+            Seu perfil ativo e visível na vitrine do site assim que você finalizar o cadastro, de técnicos e especialistas em hospitalidade a consultores e serviços autônomos.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 mb-8">

@@ -15,11 +15,11 @@ const FAQ_CATEGORIES = [
     items: [
       {
         question: 'O que é o Trancoso Resolve?',
-        answer: 'Somos a plataforma que conecta clientes a prestadores de serviços verificados em Trancoso, Arraial d\'Ajuda, Porto Seguro e Caraíva. Você encontra diaristas, eletricistas, cozinheiros, Jardineiros e muitos outros profissionais — com avaliações reais e agenda online.'
+        answer: 'Somos a plataforma que conecta clientes a prestadores de serviços verificados em Trancoso, Arraial d\'Ajuda, Porto Seguro e Caraíva. Você encontra diaristas, eletricistas, cozinheiros, Jardineiros e muitos outros profissionais, com avaliações reais e agenda online.'
       },
       {
         question: 'Quanto custa para usar a plataforma?',
-        answer: 'Para clientes, é totalmente gratuito buscar, solicitar e contratar serviços. Prestadores têm planos a partir do Teste Gratuito de 2 meses (60 dias) — confira a página de Planos para detalhes.'
+        answer: 'Para clientes, é totalmente gratuito buscar, solicitar e contratar serviços. Prestadores têm planos a partir do Teste Gratuito de 2 meses (60 dias): confira a página de Planos para detalhes.'
       },
       {
         question: 'Em quais cidades a plataforma atende?',
@@ -38,7 +38,7 @@ const FAQ_CATEGORIES = [
     items: [
       {
         question: 'Como contratar um profissional?',
-        answer: 'Busque pelo serviço desejado ou navegue pelas categorias. No perfil do profissional, escolha o serviço, selecione data e horário e envie a solicitação — você recebe a confirmação do prestador.'
+        answer: 'Busque pelo serviço desejado ou navegue pelas categorias. No perfil do profissional, escolha o serviço, selecione data e horário e envie a solicitação. Você recebe a confirmação do prestador.'
       },
       {
         question: 'Como sei que um profissional é confiável?',
@@ -50,7 +50,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: 'Posso cancelar um agendamento?',
-        answer: 'Sim. Em "Meus Pedidos" você cancela solicitações ainda não confirmadas. Após a confirmação, combine diretamente com o profissional — cancele com antecedência para não prejudicar a agenda dele.'
+        answer: 'Sim. Em "Meus Pedidos" você cancela solicitações ainda não confirmadas. Após a confirmação, combine diretamente com o profissional; cancele com antecedência para não prejudicar a agenda dele.'
       },
       {
         question: 'Como avaliar um serviço?',
@@ -69,7 +69,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: 'Como consigo o selo de Verificado?',
-        answer: 'No seu perfil de prestador, envie uma foto do seu documento e autorize a consulta de antecedentes. Nossa equipe analisa e, aprovado, o selo aparece automaticamente — o que aumenta muito a confiança dos clientes.'
+        answer: 'No seu perfil de prestador, envie uma foto do seu documento e autorize a consulta de antecedentes. Nossa equipe analisa e, aprovado, o selo aparece automaticamente, o que aumenta muito a confiança dos clientes.'
       },
       {
         question: 'Quanto pago para usar a plataforma?',
@@ -96,7 +96,7 @@ const FAQ_CATEGORIES = [
       },
       {
         question: 'Emito nota fiscal pelos meus serviços?',
-        answer: 'A relação fiscal é entre você e seu cliente. Se você é MEI ou PJ, emitir nota fiscal aumenta sua credibilidade — muitos clientes (pousadas e villas) solicitam.'
+        answer: 'A relação fiscal é entre você e seu cliente. Se você é MEI ou PJ, emitir nota fiscal aumenta sua credibilidade: muitos clientes (pousadas e villas) solicitam.'
       }
     ]
   },
@@ -125,7 +125,7 @@ export default function AjudaFaq() {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    document.title = 'FAQ e Ajuda - Trancoso Resolve';
+    document.title = 'FAQ e Ajuda | Trancoso Resolve';
     const meta = document.querySelector('meta[name="description"]') ||
       (() => { const m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); return m; })();
     meta.content = 'Dúvidas frequentes sobre o Trancoso Resolve: como contratar profissionais verificados, planos, pagamentos, verificação de prestadores e segurança.';

@@ -25,7 +25,7 @@ export default function PiscineiroArraialDajuda() {
         },
         {
           question: "Piscineiro em Arraial d'Ajuda atende imóveis de temporada?",
-          answer: "Sim. Os piscineiros cadastrados oferecem planos de manutenção para imóveis de segunda residência — mesmo quando o proprietário está fora, a piscina fica tratada e pronta para uso.",
+          answer: "Sim. Os piscineiros cadastrados oferecem planos de manutenção para imóveis de segunda residência, mesmo quando o proprietário está fora, a piscina fica tratada e pronta para uso.",
         },
         {
           question: "Com que frequência devo tratar a piscina em Arraial d'Ajuda?",
@@ -33,7 +33,7 @@ export default function PiscineiroArraialDajuda() {
         },
       ]}
       h1="Piscineiro em Arraial d'Ajuda: Manutenção e Tratamento Verificado"
-      intro="O clima quente e úmido de Arraial d'Ajuda exige atenção constante com a qualidade da água da piscina. Na Trancoso Resolve você encontra piscineiros verificados que conhecem as especificidades do tratamento em região litorânea — algicidas, equilíbrio de pH e produtos adequados para o clima baiano."
+      intro="O clima quente e úmido de Arraial d'Ajuda exige atenção constante com a qualidade da água da piscina. Na Trancoso Resolve você encontra piscineiros verificados que conhecem as especificidades do tratamento em região litorânea, algicidas, equilíbrio de pH e produtos adequados para o clima baiano."
       servicesTitle="Serviços de piscineiro em Arraial d'Ajuda"
       services={[
         'Limpeza e tratamento semanal ou quinzenal de piscinas',
@@ -45,7 +45,7 @@ export default function PiscineiroArraialDajuda() {
         'Abertura e fechamento de temporada',
       ]}
       howTitle="Por que contratar piscineiro pela Trancoso Resolve em Arraial d'Ajuda?"
-      howText="Em Arraial d'Ajuda, onde muitos proprietários moram fora e alugam por temporada, um piscineiro confiável é essencial para manter a piscina em boas condições o ano todo. Todos os profissionais da plataforma passam por verificação e têm avaliações públicas — você acompanha o serviço mesmo à distância."
+      howText="Em Arraial d'Ajuda, onde muitos proprietários moram fora e alugam por temporada, um piscineiro confiável é essencial para manter a piscina em boas condições o ano todo. Todos os profissionais da plataforma passam por verificação e têm avaliações públicas, você acompanha o serviço mesmo à distância."
       cta="Descreva sua piscina e frequência desejada em Arraial d'Ajuda e receba contato de piscineiros verificados."
       ctaButton="Contratar piscineiro em Arraial d'Ajuda"
       category="Piscineiro"
@@ -54,7 +54,7 @@ export default function PiscineiroArraialDajuda() {
       locationLabel="Arraial d'Ajuda, Bahia"
       seoText={[
         "Arraial d'Ajuda tem um grande número de pousadas com piscina e residências de temporada que precisam de manutenção regular para manter a água cristalina e segura. O clima quente durante todo o ano e a alta temporada intensa exigem profissionais com agenda organizada e produtos adequados para o ambiente litorâneo.",
-        "Para proprietários que alugam por plataformas digitais, a piscina limpa é um diferencial competitivo importante. Hóspedes avaliam diretamente a qualidade e a limpeza da água — um piscineiro regular e confiável é um investimento que se paga na forma de avaliações positivas e maior ocupação.",
+        "Para proprietários que alugam por plataformas digitais, a piscina limpa é um diferencial competitivo importante. Hóspedes avaliam diretamente a qualidade e a limpeza da água, um piscineiro regular e confiável é um investimento que se paga na forma de avaliações positivas e maior ocupação.",
         "A Trancoso Resolve conecta proprietários em Arraial d'Ajuda a piscineiros com planos de manutenção flexíveis: semanal, quinzenal ou mensal, com relatório de tratamento e comunicação direta pelo WhatsApp para ajustes de agenda.",
       ]}
     />

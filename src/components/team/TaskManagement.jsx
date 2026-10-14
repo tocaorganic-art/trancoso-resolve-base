@@ -193,7 +193,7 @@ export default function TaskManagement() {
                     <SelectContent>
                       {employees.map((employee) => (
                         <SelectItem key={employee.id} value={employee.id}>
-                          {employee.full_name} - {employee.role}
+                          {employee.full_name}: {employee.role}
                         </SelectItem>
                       ))}
                     </SelectContent>

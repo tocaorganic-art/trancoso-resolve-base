@@ -82,7 +82,17 @@ async function isValidSignature(req: Request, dataId: string): Promise<boolean> 
   );
   const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(manifest));
   const hex = Array.from(new Uint8Array(sig)).map((b) => b.toString(16).padStart(2, '0')).join('');
-  return hex === v1;
+  return timingSafeEqual(hex, v1);
+}
+
+// ─── Comparação timing-safe de strings (evita timing attack na validação HMAC) ─
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
 }
 
 // ─── Hash leve para detectar replays (sem PII) ───────────────────────────────
@@ -398,6 +408,10 @@ async function handlePaymentEvent(
 
 // ─── Webhook principal ────────────────────────────────────────────────────────
 Deno.serve(async (req) => {
+  // Mercado Pago desativado: ASAAS é o gateway oficial (Tony, 14/10/2026)
+  return Response.json({ error: 'gateway_desativado' }, { status: 410 });
+
+  // deno-lint-ignore no-unreachable
   const receivedAt = new Date().toISOString();
 
   try {

@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -47,7 +48,7 @@ Deno.serve(async (req) => {
               provider_email: providerEmail
             });
             updatedCount++;
-            console.log(`[Backfill] Atualizado request ${request.id} com provider_email: ${providerEmail}`);
+            console.log(`[Backfill] Atualizado request ${request.id} com provider_email: ${maskEmail(providerEmail)}`);
           } else {
             errors.push({
               requestId: request.id,

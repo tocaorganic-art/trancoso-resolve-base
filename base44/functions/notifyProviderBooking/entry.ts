@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { isTrustedCaller } from './security.ts';
+import { maskEmail, maskName } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -39,7 +40,7 @@ Deno.serve(async (req) => {
     const providerEmail = provider.email || provider.created_by;
 
     if (!providerEmail) {
-      console.log('No email for provider:', provider.full_name);
+      console.log('No email for provider:', maskName(provider.full_name));
       return Response.json({ ok: true, note: 'no provider email' });
     }
 
@@ -97,7 +98,7 @@ Equipe Trancoso Resolve 🌊
       from_name: 'Trancoso Resolve'
     });
 
-    console.log(`Notificação enviada para ${providerEmail} — pedido de ${request.client_name}`);
+    console.log(`Notificação enviada para ${maskEmail(providerEmail)} — pedido de ${maskName(request.client_name)}`);
     return Response.json({ ok: true, sent_to: providerEmail });
 
   } catch (error) {

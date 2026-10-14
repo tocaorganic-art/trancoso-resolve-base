@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from './piiMask.ts';
 
 // Comparacao timing-safe de segredos (mesmo padrão de criarTrialPrestador)
 function timingSafeEqual(a: string, b: string): boolean {
@@ -59,7 +60,7 @@ Deno.serve(async (req) => {
           phone = (provider as any).phone || null;
         }
       } catch (e) {
-        console.warn(`[verificarVencimentos] Erro ao buscar prestador para ${sub.user_email}:`, (e as Error).message);
+        console.warn(`[verificarVencimentos] Erro ao buscar prestador para ${maskEmail(sub.user_email)}:`, (e as Error).message);
       }
 
       // 3. Gerar lembrete de renovação no LogWhatsApp
@@ -76,7 +77,7 @@ Deno.serve(async (req) => {
           });
           reminders++;
         } catch (e) {
-          console.warn(`[verificarVencimentos] Erro ao logar lembrete para ${sub.user_email}:`, (e as Error).message);
+          console.warn(`[verificarVencimentos] Erro ao logar lembrete para ${maskEmail(sub.user_email)}:`, (e as Error).message);
         }
       }
 

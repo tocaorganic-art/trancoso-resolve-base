@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
+import { maskPhone } from './piiMask.ts';
 
 // Verify token agora vem exclusivamente do ambiente (fail-closed) — sem default embutido.
 const CODE_VERSION = 'v5.4.0-tria';
@@ -111,13 +112,13 @@ Deno.serve(async (req) => {
       const messageId = message.id;
 
       if (isIgnoredNumber(fromPhone)) {
-        console.log(`[whatsappWebhook] MENSAGEM IGNORADA (número oficial): +${fromPhone}`);
+        console.log(`[whatsappWebhook] MENSAGEM IGNORADA (número oficial): ${maskPhone(fromPhone)}`);
         return Response.json({ status: 'ignored_official_number', code_version: CODE_VERSION }, { status: 200 });
       }
       if (!messageText || messageText.trim().length === 0) {
         return Response.json({ status: 'no_text_ignored', code_version: CODE_VERSION }, { status: 200 });
       }
-      console.log(`[whatsappWebhook] mensagem recebida de +${fromPhone}: "${messageText.substring(0, 80)}"`);
+      console.log(`[whatsappWebhook] mensagem recebida de ${maskPhone(fromPhone)} (${messageText.length} caracteres)`);
 
       // Salvar mensagem recebida no log
       try {
@@ -136,7 +137,7 @@ Deno.serve(async (req) => {
           headers: { 'Content-Type': 'application/json', 'x-automation-secret': automationSecret },
           body: JSON.stringify({ telefone: fromPhone, mensagem: messageText }),
         }).catch((e: Error) => console.error('[whatsappWebhook] erro ao delegar ao TrIA:', e.message));
-        console.log(`[whatsappWebhook] intenção '${intencao}' delegada ao TrIA para +${fromPhone}`);
+        console.log(`[whatsappWebhook] intenção '${intencao}' delegada ao TrIA para ${maskPhone(fromPhone)}`);
         return Response.json({ status: 'delegated_to_tria', intencao, code_version: CODE_VERSION }, { status: 200 });
       }
 

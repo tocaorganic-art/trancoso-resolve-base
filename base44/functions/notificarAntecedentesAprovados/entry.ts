@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail } from './piiMask.ts';
 
 // ─── Notificar Antecedentes Aprovados ────────────────────────────────────────
 // Envia e-mail ao prestador assim que a verificação de antecedentes criminais
@@ -98,7 +99,7 @@ Equipe Trancoso Resolve 🌊`.trim();
       body: emailBody,
     });
 
-    console.log(`[notificarAntecedentesAprovados] notificação enviada para ${providerEmail} (prestador ${provider.id})`);
+    console.log(`[notificarAntecedentesAprovados] notificação enviada para ${maskEmail(providerEmail)} (prestador ${provider.id})`);
     return Response.json({ ok: true, sent_to: providerEmail });
   } catch (error) {
     console.error('[notificarAntecedentesAprovados] Error:', (error as Error).message);

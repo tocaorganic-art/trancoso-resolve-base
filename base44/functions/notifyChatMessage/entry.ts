@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { isTrustedCaller } from './security.ts';
+import { maskEmail, maskName } from './piiMask.ts';
 
 /**
  * Notificação por e-mail de nova mensagem no chat.
@@ -103,7 +104,7 @@ Equipe Trancoso Resolve 🌴
       from_name: 'Trancoso Resolve'
     });
 
-    console.log(`E-mail de chat enviado para ${toEmail} — mensagem de ${senderDisplayName}`);
+    console.log(`E-mail de chat enviado para ${maskEmail(toEmail)} — mensagem de ${maskName(senderDisplayName)}`);
     return Response.json({ ok: true, sent_to: toEmail });
 
   } catch (error) {

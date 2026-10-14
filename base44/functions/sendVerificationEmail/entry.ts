@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { maskEmail, maskName } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -74,10 +75,10 @@ Deno.serve(async (req) => {
     // In production, use SendGrid, AWS SES, or similar
     // For now, we'll log to simulate email sending
     console.log('[sendVerificationEmail]', {
-      to: email,
+      to: maskEmail(email),
       subject: template.subject,
       timestamp: new Date().toISOString(),
-      user: user_name
+      user: maskName(user_name)
     });
 
     // TODO: Integrate with email provider (SendGrid, AWS SES)

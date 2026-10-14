@@ -24,7 +24,7 @@ export default function OptimizedImage({
   };
 
   const imageProps = {
-    alt,
+    alt: alt || 'Imagem Trancoso Resolve',
     className: `${className} ${!isLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`,
     style: { objectFit },
     onLoad: () => setIsLoaded(true),

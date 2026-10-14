@@ -33,8 +33,18 @@ export default function ServicoLocalPage({
   }, []);
 
   useEffect(() => {
-    const seoTitle = title.includes('| Trancoso Resolve') ? title : `${title} | Trancoso Resolve`;
-    const seoDesc = metaDescription || `Encontre ${serviceLabel || category} verificado em ${locationLabel}. Profissionais avaliados, atendimento rápido e seguro.`;
+    // Título ideal: até ~60 caracteres. Usa só o trecho antes do primeiro "|".
+    const baseTitle = title.replace(/\s*\|\s*Trancoso Resolve\s*$/, '').split('|')[0].trim();
+    const seoTitle = `${baseTitle} | Trancoso Resolve`.length <= 60 ? `${baseTitle} | Trancoso Resolve` : baseTitle;
+    // Descrição ideal: 120 a 160 caracteres.
+    const clampDesc = (text) => {
+      if (text.length <= 160) return text;
+      const cut = text.slice(0, 157);
+      return `${cut.slice(0, cut.lastIndexOf(' '))}...`;
+    };
+    let seoDesc = metaDescription || `Encontre ${serviceLabel || category} verificado em ${locationLabel}. Profissionais avaliados, atendimento rápido e seguro.`;
+    if (seoDesc.length < 120) seoDesc = `${seoDesc} Peça orçamento grátis pela Trancoso Resolve.`;
+    seoDesc = clampDesc(seoDesc);
     const label = serviceLabel || category || 'profissional';
 
     document.title = seoTitle;
@@ -158,7 +168,7 @@ export default function ServicoLocalPage({
             <MapPin className="w-4 h-4" />
             <span>{locationLabel}</span>
           </div>
-          <CategoryIcon category={category || serviceLabel} className="w-14 h-14 mb-4 mx-auto" color="#FFFFFF" />
+          <CategoryIcon category={category || serviceLabel} className="w-14 h-14 mb-4 mx-auto" color="#FFFFFF" aria-hidden="true" />
           <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-5">{h1}</h1>
           <p className="text-lg text-orange-100 leading-relaxed mb-8 max-w-2xl">{intro}</p>
           <Link to={searchUrl} className="block sm:inline-block w-full sm:w-auto">
@@ -204,6 +214,7 @@ export default function ServicoLocalPage({
 
         {seoText && (
           <section className="bg-card backdrop-blur-sm rounded-2xl p-8 border border-border">
+            <h2 className="text-xl font-bold text-foreground mb-4">{`Sobre ${serviceLabel || category} em ${locationLabel}`}</h2>
             <div className="prose max-w-none text-muted-foreground text-sm leading-relaxed space-y-4">
               {seoText.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>

@@ -77,7 +77,7 @@ export default function HeroBanner({ vagasRestantes = 0, total = 0 }) {
       <div className="absolute inset-0 transition-all duration-700">
         <img
           src={slide.bg}
-          alt=""
+          alt={slide.alt || "Profissionais e paisagem da Costa do Descobrimento, Bahia"}
           className="w-full h-full object-cover"
           loading="eager"
         />

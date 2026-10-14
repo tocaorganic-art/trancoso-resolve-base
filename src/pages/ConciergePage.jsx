@@ -146,7 +146,7 @@ export default function ConciergePage() {
         {CONCIERGE_MEDIA.heroPrincipal && (
           <img
             src={CONCIERGE_MEDIA.heroPrincipal}
-            alt=""
+            alt="Concierge Toca Experience em Trancoso, Bahia"
             className="absolute inset-0 h-full w-full object-cover opacity-40"
             loading="eager"
           />

@@ -114,6 +114,8 @@ export default function Layout({ children, currentPageName }) {
     };
 
     const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
+    // Páginas de serviço definem seus próprios títulos, descrições e canonical.
+    if (currentPath.startsWith('/servicos/')) return;
     const currentTitle = pageTitles[currentPath] || 'Trancoso Resolve';
     const currentDescription = pageDescriptions[currentPath] || 'A forma mais fácil de encontrar e contratar serviços de confiança em Trancoso, Bahia.';
 

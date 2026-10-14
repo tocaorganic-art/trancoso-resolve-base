@@ -8,7 +8,7 @@ import CategoryIcon from "@/lib/categoryIcons";
 import { useDestinationSeo } from "@/hooks/useDestinationSeo";
 
 const LeadCaptureForm = lazy(() => import("@/components/servicos/LeadCaptureForm"));
-const HERO_IMAGE = "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=1080&q=60";
+const HERO_IMAGE = "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=960&q=30";
 
 const servicos = [
   { slug: 'diarista-porto-seguro', label: 'Diarista', path: '/servicos/diarista-porto-seguro' },

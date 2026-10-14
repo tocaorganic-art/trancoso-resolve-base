@@ -401,6 +401,7 @@ export default function ServicoLandingPage() {
               alt={`${config.occupation} profissional em Trancoso, Bahia`}
               className="rounded-2xl shadow-2xl w-full object-cover max-h-80"
               loading="eager"
+              fetchPriority="high"
             />
           </div>
         </motion.div>

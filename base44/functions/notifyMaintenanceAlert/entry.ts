@@ -11,8 +11,12 @@ Deno.serve(async (req) => {
     const alertId = payload.data?.id || payload.event?.entity_id;
     let alert: any = payload.data;
     if (alertId) {
-      const rows = await base44.asServiceRole.entities.MaintenanceAlert.filter({ id: alertId });
-      if (rows?.[0]) alert = rows[0];
+      try {
+        const rows = await base44.asServiceRole.entities.MaintenanceAlert.filter({ id: alertId });
+        if (rows?.[0]) alert = rows[0];
+      } catch (e) {
+        console.warn('Falha ao buscar MaintenanceAlert (id forjado?):', (e as Error).message);
+      }
     }
 
     if (!alert) {

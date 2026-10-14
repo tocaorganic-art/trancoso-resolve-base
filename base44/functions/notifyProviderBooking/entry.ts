@@ -20,8 +20,12 @@ Deno.serve(async (req) => {
     const recordId = data?.id || payload?.event?.entity_id;
     let request: any = data;
     if (recordId) {
-      const rows = await base44.asServiceRole.entities.ServiceRequest.filter({ id: recordId });
-      if (rows?.[0]) request = rows[0];
+      try {
+        const rows = await base44.asServiceRole.entities.ServiceRequest.filter({ id: recordId });
+        if (rows?.[0]) request = rows[0];
+      } catch (e) {
+        console.warn('Falha ao buscar ServiceRequest (id forjado?):', (e as Error).message);
+      }
     }
     if (!isInternal && request === data) {
       return Response.json({ error: 'Registro não encontrado' }, { status: 401 });

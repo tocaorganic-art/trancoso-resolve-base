@@ -23,8 +23,19 @@ export default async function (req: Request): Promise<Response> {
     const base44 = createClientFromRequest(req);
 
     // Segurança: conta Google Ads só pode ser lida/mutada por admin autenticado.
-    const user = await base44.auth.me();
-    if (!(user as any)?.role || (user as any).role !== 'admin') {
+    // auth.me() lança exceção para chamador anônimo (sem sessão) — por isso fica
+    // em try/catch próprio, para não cair no catch genérico do fim do arquivo
+    // (que devolvia 200 com ok:false em vez de 401 para o anônimo).
+    let user: any = null;
+    try {
+      user = await base44.auth.me();
+    } catch {
+      user = null;
+    }
+    if (!user) {
+      return Response.json({ ok: false, error: { message: 'Autenticação necessária.' } }, { status: 401 });
+    }
+    if (user.role !== 'admin') {
       return Response.json({ ok: false, error: { message: 'Acesso restrito a administradores.' } }, { status: 403 });
     }
 

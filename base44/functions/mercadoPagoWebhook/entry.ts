@@ -1,5 +1,4 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { maskEmail } from './piiMask.ts';
 
 // ─── CAPI (Meta Conversions API) inline helper ────────────────────────────────
 // Envia evento server-side para o Meta. No-op silencioso se secret não configurado.
@@ -592,7 +591,7 @@ Deno.serve(async (req) => {
         const isVerified = provider?.verified === true && provider?.status_verificacao === 'aprovado';
 
         if (!isVerified) {
-          console.log(`[mercadoPagoWebhook] ${maskEmail(email)} não verificado/aprovado — Fundador não concedido`);
+          console.log(`[mercadoPagoWebhook] ${email} não verificado/aprovado — Fundador não concedido`);
         } else {
           // Verifica se já tem FounderGrant em qualquer status (idempotência)
           const existingGrants = await base44.asServiceRole.entities.FounderGrant.filter({
@@ -602,7 +601,7 @@ Deno.serve(async (req) => {
 
           if (hasGrant) {
             const g = existingGrants[0];
-            console.log(`[mercadoPagoWebhook] ${maskEmail(email)} já tem FounderGrant (status: ${g.status}) — idempotente`);
+            console.log(`[mercadoPagoWebhook] ${email} já tem FounderGrant (status: ${g.status}) — idempotente`);
           } else {
             // Aloca FounderSlot atomicamente
             const allocation = await allocateFounderSlot(
@@ -614,7 +613,7 @@ Deno.serve(async (req) => {
 
             if (!allocation) {
               // Sem vagas (100 já consumidas) ou slots não inicializados
-              console.log(`[mercadoPagoWebhook] Vagas Fundador esgotadas ou não inicializadas — ${maskEmail(email)} sem selo`);
+              console.log(`[mercadoPagoWebhook] Vagas Fundador esgotadas ou não inicializadas — ${email} sem selo`);
             } else if (allocation.isExisting && (allocation.slot.status === 'granted' || allocation.slot.status === 'revoked')) {
               // Slot já processado anteriormente — apenas loga
               console.log(`[mercadoPagoWebhook] Slot ${allocation.slot.position} já processado (${allocation.slot.status})`);
@@ -639,7 +638,7 @@ Deno.serve(async (req) => {
                 console.warn(`[mercadoPagoWebhook] Falha ao marcar slot ${slot.position} como granted:`, slotErr.message);
               });
 
-              console.log(`[mercadoPagoWebhook] Selo Fundador concedido: ${maskEmail(email)} → posição ${slot.position}`);
+              console.log(`[mercadoPagoWebhook] Selo Fundador concedido: ${email} → posição ${slot.position}`);
               // CAPI: FounderBadgeGranted — sem PII, posição não é dado pessoal
               sendCapiEvent('FounderBadgeGranted', {
                 position: slot.position,
@@ -668,7 +667,7 @@ Deno.serve(async (req) => {
         //            WebhookEvent com status 'pending_reconciliation'.
         // Ação manual: admin revisa no painel Base44 e conclui a concessão ou libera o slot.
         console.error(
-          `[mercadoPagoWebhook] [RECONCILIAR-URGENTE] Falha ao conceder Fundador para ${maskEmail(email)}: ${grantError}.`
+          `[mercadoPagoWebhook] [RECONCILIAR-URGENTE] Falha ao conceder Fundador para ${email}: ${grantError}.`
         );
 
         // Tenta marcar o slot para reconciliação
@@ -702,7 +701,7 @@ Deno.serve(async (req) => {
       await markWebhookEvent(base44, webhookEventId, 'processed');
     }
 
-    console.log(`[mercadoPagoWebhook] ${maskEmail(email)} → ${newStatus} (plano ${plan}, preapproval ${pre.id})`);
+    console.log(`[mercadoPagoWebhook] ${email} → ${newStatus} (plano ${plan}, preapproval ${pre.id})`);
     return Response.json({ ok: true });
 
   } catch (error) {

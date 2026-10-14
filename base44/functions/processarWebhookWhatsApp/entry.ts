@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { getAutomationReply } from '../_shared/automationResponses.js';
+import { getAutomationReply } from './automationResponses.ts';
 
 const GRAPH_VERSION = 'v20.0';
 const PHONE_PATTERN = /^\+55\d{10,11}$/;

@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { isTrustedCaller } from '../_shared/security.js';
+import { isTrustedCaller } from './security.ts';
 
 /**
  * Triggered by entity automation on ServiceRequest create/update.

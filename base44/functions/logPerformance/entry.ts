@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { escapeHtml, quotaCheckAndBump } from './security.ts';
 
 // Thresholds para Web Vitals
 const THRESHOLDS = {
@@ -21,16 +22,16 @@ function classify(metric: string, value: number) {
 function buildEmailBody(page: string, badMetrics: any[]) {
   const rows = badMetrics.map(({ metric, value, threshold, status }: any) =>
     `<tr style="background:${status === 'bad' ? '#fee2e2' : '#fef9c3'}">
-      <td style="padding:8px 12px;font-weight:bold">${metric.toUpperCase()}</td>
-      <td style="padding:8px 12px">${value}</td>
-      <td style="padding:8px 12px">${threshold}</td>
+      <td style="padding:8px 12px;font-weight:bold">${escapeHtml(String(metric).toUpperCase())}</td>
+      <td style="padding:8px 12px">${escapeHtml(value)}</td>
+      <td style="padding:8px 12px">${escapeHtml(threshold)}</td>
       <td style="padding:8px 12px;color:${status === 'bad' ? '#dc2626' : '#d97706'}">${status.toUpperCase()}</td>
     </tr>`
   ).join('');
 
   return `
     <h2>⚠️ Alerta de Performance — Trancoso Resolve</h2>
-    <p><strong>Página:</strong> ${page}</p>
+    <p><strong>Página:</strong> ${escapeHtml(page)}</p>
     <p><strong>Hora:</strong> ${new Date().toLocaleString('pt-BR')}</p>
     <table style="border-collapse:collapse;width:100%;margin-top:16px">
       <thead>
@@ -90,10 +91,16 @@ Deno.serve(async (req) => {
     // Enviar alerta por email se houver métricas ruins
     if (badMetrics.length > 0) {
       const base44 = createClientFromRequest(req);
+      // Endpoint anonimo (telemetria do navegador): limite GLOBAL de 10 e-mails/dia
+      // para impedir uso como relay/spam no inbox do administrador.
+      const quota = await quotaCheckAndBump(base44, 'perf-alerts-email', 10).catch(() => ({ allowed: false }));
+      if (!quota.allowed) {
+        return Response.json({ status: overallStatus, metrics: results, note: 'alert_throttled' });
+      }
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: 'tocaorganic@gmail.com',
         from_name: 'Trancoso Resolve Monitor',
-        subject: `⚠️ Alerta de Performance: ${page || 'página desconhecida'} — ${overallStatus.toUpperCase()}`,
+        subject: `⚠️ Alerta de Performance: ${escapeHtml(String(page || 'página desconhecida').slice(0, 120)).replace(/[\r\n]/g, ' ')} — ${overallStatus.toUpperCase()}`,
         body: buildEmailBody(page || 'desconhecida', badMetrics),
       }).catch((e) => console.warn('Email alert failed:', e.message));
     }

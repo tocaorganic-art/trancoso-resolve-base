@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { quotaCheckAndBump } from './security.ts';
 
 const MANUS_BASE_URL = "https://api.manus.im";
 const MANUS_API_KEY = Deno.env.get("APY_KEY_MANUS");
@@ -24,6 +25,10 @@ Deno.serve(async (req) => {
       if (!prompt) {
         return Response.json({ error: 'Prompt obrigatório' }, { status: 400 });
       }
+
+      // Manus é pago por tarefa: máx. 5 tarefas novas por usuário/dia
+      const q = await quotaCheckAndBump(base44, `manus|${user.email}`, 5);
+      if (!q.allowed) return Response.json({ error: 'Limite diário de pesquisas atingido.' }, { status: 429 });
 
       console.log(`[Manus] Criando tarefa para usuário ${user.email}: ${prompt}`);
 

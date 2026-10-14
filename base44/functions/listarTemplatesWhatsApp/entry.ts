@@ -1,4 +1,12 @@
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isTrustedCaller } from './security.ts';
+
 export default async function listarTemplatesWhatsApp(req: Request): Promise<Response> {
+  const __b44 = createClientFromRequest(req);
+  if (!(await isTrustedCaller(req, __b44, null))) {
+    return new Response(JSON.stringify({ success: false, error: "Nao autorizado" }), {
+      status: 401, headers: { "Content-Type": "application/json" } });
+  }
   try {
     const token = Deno.env.get("token-id-whatsapp");
     const wabaId = Deno.env.get("waba-id-whatsapp");

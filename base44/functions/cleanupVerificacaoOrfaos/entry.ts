@@ -1,4 +1,5 @@
 import { createClientFromRequest } from "npm:@base44/sdk@0.8.48";
+import { isTrustedCaller } from "./security.ts";
 
 // Garbage collection dos 5 registros orfaos de Verificacao (23/07/2026).
 // Estrategia em cascata por registro, com diagnostico completo no response:
@@ -18,6 +19,9 @@ const corte = (msg: unknown): string => String((msg as Error)?.message ?? msg).s
 
 export default async function (req: Request): Promise<Response> {
   const base44 = createClientFromRequest(req);
+  if (!(await isTrustedCaller(req, base44, null))) {
+    return Response.json({ error: "Nao autorizado" }, { status: 401 });
+  }
   const sr = base44.asServiceRole.entities.Verificacao;
 
   const resultados: Record<string, unknown>[] = [];

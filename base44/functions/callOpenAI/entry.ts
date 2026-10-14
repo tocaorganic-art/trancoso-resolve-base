@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import OpenAI from 'npm:openai@4.20.1';
+import { quotaCheckAndBump } from './security.ts';
 
 const openai = new OpenAI({
     apiKey: Deno.env.get("OPENAI_API_KEY"),
@@ -14,6 +15,11 @@ Deno.serve(async (req) => {
         const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
         const user = isInternal ? null : await base44.auth.me();
         if (!isInternal && !user) return Response.json({ error: 'Usuário não autenticado' }, { status: 401 });
+        // Cota diária por usuário (automação interna não é limitada por usuário)
+        if (!isInternal) {
+            const q = await quotaCheckAndBump(base44, `openai|${user!.email}`, 40);
+            if (!q.allowed) return Response.json({ error: 'Limite diário de uso da IA atingido. Tente novamente amanhã.' }, { status: 429 });
+        }
         if (!Deno.env.get("OPENAI_API_KEY")) {
             return Response.json({ error: 'Configuração de IA não encontrada', details: 'A chave da OpenAI não está configurada no servidor.' }, { status: 500 });
         }

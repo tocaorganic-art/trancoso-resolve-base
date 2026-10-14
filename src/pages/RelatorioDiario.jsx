@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { base44 } from "@/api/base44Client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -5,6 +7,22 @@ import { CheckCircle2, XCircle, Clock, FileText, Palette, Code, Layout, Download
 import { Link } from "react-router-dom";
 
 export default function RelatorioDiarioPage() {
+  const { data: user, isLoading: isLoadingUser } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: () => base44.auth.me(),
+  });
+
+  if (isLoadingUser) return null;
+
+  if (user?.role !== "admin") {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen gap-4 text-center px-4">
+        <h1 className="text-xl font-bold text-foreground">Acesso restrito</h1>
+        <p className="text-muted-foreground max-w-sm">Esta página é exclusiva para administradores da plataforma.</p>
+      </div>
+    );
+  }
+
   const dataHoje = "2026-06-04";
   
   const tarefasConcluidas = [

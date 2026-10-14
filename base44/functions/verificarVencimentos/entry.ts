@@ -1,5 +1,13 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
+// Comparacao timing-safe de segredos (mesmo padrão de criarTrialPrestador)
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 // ─── Verificar Vencimentos ───────────────────────────────────────────────────
 // Automação agendada (diária):
 // 1. Assinaturas 'active' com next_billing_date vencido → 'expired' + lembrete.
@@ -12,6 +20,16 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 Deno.serve(async (req) => {
   try {
+    // Automação agendada (cron) — protegida por segredo compartilhado. Embora a lógica
+    // só expire assinaturas já vencidas (não há dado do chamador que influencie o
+    // resultado), qualquer um na internet podia disparar a rotina sem necessidade.
+    const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET') ?? '';
+    const receivedSecret = req.headers.get('x-automation-secret') ?? '';
+    if (!(expectedSecret.length > 0 && timingSafeEqual(expectedSecret, receivedSecret))) {
+      console.warn('[verificarVencimentos] Automacao sem segredo valido — rejeitada.');
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const base44 = createClientFromRequest(req);
 
     const today = new Date().toISOString().split('T')[0];

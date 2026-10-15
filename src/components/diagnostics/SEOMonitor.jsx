@@ -1,13 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, CheckCircle, XCircle, RefreshCw } from 'lucide-react';
 
-export default function SEOMonitor() {
+export default function SEOMonitor({ onResults }) {
   const [checks, setChecks] = useState([]);
   const [score, setScore] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
+
+  // Expõe os resultados do scan para o relatório da página (dados reais, nunca simulados)
+  const onResultsRef = useRef(onResults);
+  onResultsRef.current = onResults;
 
   const runSEOCheck = () => {
     setIsChecking(true);
@@ -129,6 +133,14 @@ export default function SEOMonitor() {
     setScore(calculatedScore);
     setChecks(seoChecks);
     setIsChecking(false);
+
+    onResultsRef.current?.({
+      score: calculatedScore,
+      passed,
+      total: seoChecks.length,
+      issues: seoChecks.length - passed,
+      issueDetails: seoChecks.filter((c) => !c.status).map((c) => c.name),
+    });
 
     console.log('🔍 SEO Check:', {
       Score: `${calculatedScore}/100`,

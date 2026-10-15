@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Wifi, Download, Globe } from 'lucide-react';
 
-export default function NetworkMonitor() {
+export default function NetworkMonitor({ onResults }) {
   const [networkInfo, setNetworkInfo] = useState({
     effectiveType: 'unknown',
     downlink: 0,
@@ -11,6 +11,10 @@ export default function NetworkMonitor() {
     saveData: false,
     online: true,
   });
+
+  // Expõe os dados medidos para o relatório da página (dados reais, nunca simulados)
+  const onResultsRef = useRef(onResults);
+  onResultsRef.current = onResults;
 
   const [resources, setResources] = useState({
     total: 0,
@@ -81,6 +85,11 @@ export default function NetworkMonitor() {
       'Total Size': `${(totalSize / 1024 / 1024).toFixed(2)} MB`,
     });
   }, []);
+
+  // Publica o estado atual sempre que rede/recursos mudam (para o relatório real)
+  useEffect(() => {
+    onResultsRef.current?.({ networkInfo, resources });
+  }, [networkInfo, resources]);
 
   const formatBytes = (bytes) => {
     if (bytes === 0) return '0 Bytes';

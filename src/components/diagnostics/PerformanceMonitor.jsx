@@ -35,7 +35,7 @@ function scoreOf(key, value) {
   return 50;
 }
 
-export default function PerformanceMonitor() {
+export default function PerformanceMonitor({ onResults }) {
   // null = métrica ainda não disponível (sem inventar valor)
   const [metrics, setMetrics] = useState({
     fcp: null,
@@ -45,6 +45,10 @@ export default function PerformanceMonitor() {
     ttfb: null,
   });
   const latest = useRef({ fcp: null, lcp: null, fid: null, cls: null, ttfb: null });
+
+  // Expõe as métricas medidas para o relatório da página (dados reais, nunca simulados)
+  const onResultsRef = useRef(onResults);
+  onResultsRef.current = onResults;
 
   useEffect(() => {
     const push = () => {
@@ -59,6 +63,7 @@ export default function PerformanceMonitor() {
         );
       }
       setMetrics({ ...m, score });
+      onResultsRef.current?.({ ...m, score });
     };
 
     const safeNum = (n) => Number.isFinite(n) && n >= 0 ? n : null;

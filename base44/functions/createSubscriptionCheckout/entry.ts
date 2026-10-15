@@ -48,6 +48,14 @@ async function asaasFetch(apiKey: string, path: string, init?: RequestInit): Pro
 }
 
 // ─── Customer: reaproveita por email ou cria ─────────────────────────────────
+// Asaas mobilePhone: só DDD + número (10-11 dígitos), sem código de país.
+// Ex: "+55 73 99828-3579" -> "73998283579"
+function normalizePhone(raw: string): string | null {
+  const d = (raw || '').replace(/\D/g, '');
+  const noCC = d.startsWith('55') && d.length > 11 ? d.slice(2) : d;
+  return noCC.length === 10 || noCC.length === 11 ? noCC : null;
+}
+
 async function getOrCreateCustomer(
   apiKey: string,
   email: string,
@@ -68,10 +76,13 @@ async function getOrCreateCustomer(
     // Asaas Checkout exige phone no customer — completa se faltar
     const existingPhone = ((existing as { mobilePhone?: string }).mobilePhone || '') as string;
     if (phone && !existingPhone) {
-      await asaasFetch(apiKey, `/v3/customers/${existing.id}`, {
+      const patchRes = await asaasFetch(apiKey, `/v3/customers/${existing.id}`, {
         method: 'POST',
         body: JSON.stringify({ mobilePhone: phone }),
       });
+      if (!patchRes.ok) {
+        console.warn('[createSubscriptionCheckout] PATCH mobilePhone falhou:', JSON.stringify(patchRes.data?.errors));
+      }
     }
     return existing.id;
   }
@@ -196,13 +207,12 @@ Deno.serve(async (req) => {
     // ─── Telefone (Asaas Checkout exige phone no customer) ────────────────────
     // Prioridade: telefone do usuário logado; fallback: perfil público do prestador.
     const userPhoneRaw = ((user as { phone?: string }).phone || '') as string;
-    let customerPhone: string | null = userPhoneRaw.replace(/\D/g, '').length >= 10 ? userPhoneRaw : null;
+    let customerPhone: string | null = normalizePhone(userPhoneRaw);
     if (!customerPhone) {
       try {
         const providers2 = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
         const prov = (providers2?.[0] as { phone?: string } | undefined);
-        const provPhone = ((prov?.phone || '') as string).replace(/\D/g, '');
-        if (provPhone.length >= 10) customerPhone = prov.phone as string;
+        customerPhone = normalizePhone((prov?.phone || '') as string);
       } catch (phoneErr) {
         console.warn('[createSubscriptionCheckout] Lookup telefone falhou:', (phoneErr as Error).message);
       }

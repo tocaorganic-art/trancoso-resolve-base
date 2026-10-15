@@ -29,7 +29,7 @@ const BASE_URL = 'https://trancosoresolve.com.br';
 
 // Fingerprint de versão — permite verificar qual build está em produção
 // sem depender do pipeline de Publish. Atualizar a cada PR nesta função.
-const FN_VERSION = 'v93';
+const FN_VERSION = 'v94';
 
 function asaasBaseUrl(): string {
   return Deno.env.get('ASAAS_ENV') === 'sandbox'
@@ -190,7 +190,9 @@ async function ensureCustomerForCardCheckout(
         return { id: ex.id, action: 'patched' };
       }
     }
-    return { id: ex.id, action: 'patch_failed' };
+    // PATCH falhou e exclusão falhou: customer segue incompleto — NÃO vinculá-lo
+    // (o Asaas exigiria endereço completo). Payer preenche tudo na página dele.
+    return { id: null, action: 'patch_failed' };
   }
   // Phone/cpfCnpj completam se faltarem (mesma garantia do fluxo Pix/Boleto)
   if (phone && !ex.mobilePhone) {
@@ -344,7 +346,7 @@ Deno.serve(async (req) => {
     // seguem com o customer direto, completando endereço do perfil.
     const customerName = (user as any).full_name || (user as any).name;
     const profileAddr = { address: profileAddress, province: profileProvince, city: profileCity, state: profileState };
-    let customerAction = 'none'; // card: none (novo via customerData) | deleted | patched | reused
+    let customerAction = 'none'; // card: none/deleted/patch_failed (pagador preenche) | patched/reused (vínculo por ID)
     const customerId = billingType === 'CREDIT_CARD'
       ? await ensureCustomerForCardCheckout(apiKey, user.email, customerDoc, customerPhone, profileAddr).then(({ id, action }) => {
           customerAction = action;
@@ -364,23 +366,20 @@ Deno.serve(async (req) => {
     // com o cartão tokenizado para as cobranças futuras.
     if (billingType === 'CREDIT_CARD') {
       const externalRef = `${plan}|${isAnnual ? 'annual' : 'monthly'}|${user.email}`;
-      // Asaas exige cadastro COMPLETO (rua, número, CEP) quando usamos `customer`
-      // registrado — como o perfil não coleta número/CEP, usamos `customerData`:
-      // pré-preenche o que temos e o pagador completa o resto na página do Asaas.
-      const customerData: Record<string, unknown> = {
-        name: (user as any).full_name || (user as any).name || user.email,
-        cpfCnpj: customerDoc,
-        email: user.email,
-        ...(customerPhone ? { phone: customerPhone } : {}),
-        ...(profileAddress ? { address: profileAddress } : {}),
-        ...(profileProvince ? { province: profileProvince } : {}),
-      };
+      // DOC Asaas (How to provide customer data): cliente JÁ REGISTRADO usa
+      // `customer` (ID) — dados vêm do cadastro, sem validação extra; cliente
+      // novo/incompleto usa NENHUM dos campos — o pagador preenche tudo na
+      // página hospedada do Asaas. `customerData` parcial NÃO serve aqui: para
+      // checkout RECURRENT o Asaas exige endereço completo (rua, número, CEP,
+      // cidade IBGE) que o perfil não coleta — validação falha na criação
+      // ("O campo address/addressNumber deve ser informado").
+      const payerBinding: Record<string, unknown> = customerId ? { customer: customerId } : {};
       const checkoutBody: Record<string, unknown> = {
         billingTypes: ['CREDIT_CARD'],
         chargeTypes: ['RECURRENT'],
         minutesToExpire: 120,
         externalReference: externalRef,
-        customerData,
+        ...payerBinding,
         callback: {
           successUrl: `${BASE_URL}/AssinaturaConfirmada?trial=${effectiveTrialDays}`,
           cancelUrl: `${BASE_URL}/Planos`,
@@ -420,7 +419,7 @@ Deno.serve(async (req) => {
           error: desc,
           fn_version: FN_VERSION,
           customer_action: customerAction,
-          hint: customerAction === 'none' ? 'customer novo via customerData; pagador completa endereço na página do Asaas' : `customer existente tratado com a ação '${customerAction}'`,
+          hint: customerId ? `customer existente vinculado por ID (ação '${customerAction}')` : 'sem vínculo: pagador preenche os dados na página segura do Asaas',
         }, { status: 502 });
       }
 

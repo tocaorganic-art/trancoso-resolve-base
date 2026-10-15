@@ -107,7 +107,7 @@ export default function Layout({ children, currentPageName }) {
       '/Assistentevirtual': 'Converse com o TryA, o assistente inteligente da Trancoso Resolve. Encontre o profissional certo para sua necessidade em segundos.',
       '/login': 'Acesse sua conta na Trancoso Resolve para gerenciar pedidos, contratar serviços e conectar-se com profissionais verificados em Trancoso.',
       '/register': 'Crie sua conta gratuita na Trancoso Resolve e acesse os melhores profissionais verificados de Trancoso, Bahia.',
-      '/prestador-fundador': 'Seja um dos 100 Prestadores Fundadores do Trancoso Resolve. Assine por R$ 19,90/mês e garanta seu Selo Fundador com benefícios exclusivos. Vagas limitadas.',
+      '/prestador-fundador': 'Seja um dos 100 Prestadores Fundadores do Trancoso Resolve. Assine por R$ 59,90/mês e garanta seu Selo Fundador com benefícios exclusivos. Vagas limitadas.',
       '/AssinaturaConfirmada': 'Sua assinatura foi confirmada com sucesso. Bem-vindo ao Trancoso Resolve!',
       '/costa-do-descobrimento': 'Quatro destinos da Costa do Descobrimento conectados por uma experiência regional de descoberta de serviços, profissionais e negócios locais.',
       '/participar': 'Escolha como participar da Trancoso Resolve como cliente, prestador ou lojista. Preencha o formulário e entraremos em contato.',

@@ -16,12 +16,12 @@ import { maskEmail } from './piiMask.ts';
 interface PlanDef { nome: string; curto: string; monthly: number; annual: number | null; trialDays: number; }
 const PLANS: Record<string, PlanDef> = {
   // curto: nome exibido no Asaas Checkout (item.name max 30 chars)
-  profissional:      { nome: 'Plano Profissional',  curto: 'Plano Profissional',    monthly: 19.90, annual: 199,  trialDays: 7 },
+  profissional:      { nome: 'Plano Profissional',  curto: 'Plano Profissional',    monthly: 59.90, annual: 599,  trialDays: 7 },
   prestador_elite:   { nome: 'Plano Premium Elite', curto: 'Plano Elite',           monthly: 197,   annual: 1970, trialDays: 7 },
   lojista_essencial: { nome: 'Plano Lojista Essencial', curto: 'Plano Lojista Essencial', monthly: 89,    annual: 890,  trialDays: 7 },
   lojista_pro:       { nome: 'Plano Lojista Pro',   curto: 'Plano Lojista Pro',     monthly: 197,   annual: 1970, trialDays: 7 },
   lojista_elite:     { nome: 'Plano Lojista Elite', curto: 'Plano Lojista Elite',   monthly: 497,   annual: 4970, trialDays: 7 },
-  boost_prestador:   { nome: 'Boost Alta Temporada (Prestador)', curto: 'Boost Prestador', monthly: 99,    annual: null, trialDays: 0 },
+  boost_prestador:   { nome: 'Boost Prestador 7 dias no topo',  curto: 'Boost Prestador', monthly: 9.90,  annual: null, trialDays: 0 },
   boost_lojista:     { nome: 'Boost Alta Temporada (Lojista)',   curto: 'Boost Lojista',   monthly: 197,   annual: null, trialDays: 0 },
 };
 

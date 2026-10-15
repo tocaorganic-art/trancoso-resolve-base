@@ -142,7 +142,7 @@ const pt = {
     eyebrow: 'Hipóteses de preço',
     title: 'Receita recorrente primeiro; transação quando a operação merecer.',
     plans: [
-      { name: 'Fundador', price: 'R$ 19,90', unit: '/mês', classification: 'hipotese', note: 'Hipótese de lançamento. Benefício e duração dependem de aprovação jurídica e comercial.' },
+      { name: 'Fundador', price: 'R$ 59,90', unit: '/mês', classification: 'hipotese', note: 'Hipótese de lançamento. Benefício e duração dependem de aprovação jurídica e comercial.' },
       { name: 'Profissional', price: 'R$ 59', unit: '/mês', classification: 'hipotese', note: 'Hipótese de preço-alvo para perfil completo, visibilidade e ferramentas de conversão.' },
       { name: 'Transacional', price: '8 a 12%', unit: 'do GTV', classification: 'hipoteseFutura', note: 'Hipótese futura, apenas em categorias com pedido, confirmação e suporte controláveis.' },
     ],
@@ -161,7 +161,7 @@ const pt = {
     exclusionsTitle: 'Exclusões do cenário',
     exclusions: ['Comissão', 'Mídia', 'Upsell', 'Impostos', 'Inadimplência', 'Descontos', 'Churn', 'Custos operacionais', 'Reembolsos'],
     chartTitle: 'Sensibilidade por densidade de prestadores pagantes',
-    chartLegendFundador: 'MRR · Fundador (R$ 19,90)',
+    chartLegendFundador: 'MRR · Fundador (R$ 59,90)',
     chartLegendProfissional: 'MRR · Profissional (R$ 59)',
   },
   calculator: {
@@ -478,7 +478,7 @@ const es = {
     eyebrow: 'Hipótesis de precio',
     title: 'Ingreso recurrente primero; transacción cuando la operación lo amerite.',
     plans: [
-      { name: 'Fundador', price: 'R$ 19,90', unit: '/mes', classification: 'hipotese', note: 'Hipótesis de lanzamiento. Beneficio y duración dependen de aprobación legal y comercial.' },
+      { name: 'Fundador', price: 'R$ 59,90', unit: '/mes', classification: 'hipotese', note: 'Hipótesis de lanzamiento. Beneficio y duración dependen de aprobación legal y comercial.' },
       { name: 'Profesional', price: 'R$ 59', unit: '/mes', classification: 'hipotese', note: 'Hipótesis de precio objetivo para perfil completo, visibilidad y herramientas de conversión.' },
       { name: 'Transaccional', price: '8 a 12%', unit: 'del GTV', classification: 'hipoteseFutura', note: 'Hipótesis futura, solo en categorías con pedido, confirmación y soporte controlables.' },
     ],
@@ -497,7 +497,7 @@ const es = {
     exclusionsTitle: 'Exclusiones del escenario',
     exclusions: ['Comisión', 'Medios', 'Upsell', 'Impuestos', 'Morosidad', 'Descuentos', 'Churn', 'Costos operativos', 'Reembolsos'],
     chartTitle: 'Sensibilidad por densidad de prestadores pagantes',
-    chartLegendFundador: 'MRR · Fundador (R$ 19,90)',
+    chartLegendFundador: 'MRR · Fundador (R$ 59,90)',
     chartLegendProfissional: 'MRR · Profesional (R$ 59)',
   },
   calculator: {
@@ -814,7 +814,7 @@ const en = {
     eyebrow: 'Pricing hypotheses',
     title: 'Recurring revenue first; transaction fees once the operation earns them.',
     plans: [
-      { name: 'Founder', price: 'R$19.90', unit: '/mo', classification: 'hipotese', note: 'Launch hypothesis. Benefit and duration depend on legal and commercial approval.' },
+      { name: 'Founder', price: 'R$59.90', unit: '/mo', classification: 'hipotese', note: 'Launch hypothesis. Benefit and duration depend on legal and commercial approval.' },
       { name: 'Professional', price: 'R$59', unit: '/mo', classification: 'hipotese', note: 'Target-price hypothesis for a full profile, visibility and conversion tools.' },
       { name: 'Transactional', price: '8 to 12%', unit: 'of GTV', classification: 'hipoteseFutura', note: 'Future hypothesis, only in categories with controllable request, confirmation and support.' },
     ],
@@ -833,7 +833,7 @@ const en = {
     exclusionsTitle: 'Scenario exclusions',
     exclusions: ['Commission', 'Media', 'Upsell', 'Taxes', 'Delinquency', 'Discounts', 'Churn', 'Operating costs', 'Refunds'],
     chartTitle: 'Sensitivity by density of paying providers',
-    chartLegendFundador: 'MRR · Founder (R$19.90)',
+    chartLegendFundador: 'MRR · Founder (R$59.90)',
     chartLegendProfissional: 'MRR · Professional (R$59)',
   },
   calculator: {

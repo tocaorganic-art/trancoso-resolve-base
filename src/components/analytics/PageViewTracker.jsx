@@ -17,7 +17,7 @@ const PAGE_VIEW_CONTENT = {
     content_category: 'pricing',
     content_ids: ['prestador_profissional'],
     content_type: 'product',
-    value: 19.90,
+    value: 59.90,
     currency: 'BRL',
   }),
   '/SejaPrestador': () => pixelTrack('ViewContent', {

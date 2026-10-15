@@ -32,10 +32,15 @@ const PLANOS_PRESTADOR = [
     icone: Shield,
     badge: null,
     features: [
-      "Perfil na plataforma por 2 meses",
-      "Recebimento de pedidos de clientes",
-      "Chat direto com clientes",
-      "1 serviço ativo",
+      "Painel Profissional completo liberado",
+      "Perfil profissional ativo por 2 meses",
+      "Até 10 serviços ativos simultâneos",
+      "Recebimento de pedidos e chat direto com clientes",
+      "Destaque nas buscas da região",
+      "Agenda integrada de atendimentos",
+      "Selo de prestador verificado",
+      "Sem comissão sobre os serviços",
+      "Negociação direta com o cliente",
     ],
     ctaLabel: "Começar grátis",
     ctaKey: null,
@@ -43,8 +48,8 @@ const PLANOS_PRESTADOR = [
   {
     id: "profissional",
     nome: "Profissional",
-    preco: 19.90,
-    precoAnual: 199,
+    preco: 59.90,
+    precoAnual: 599,
     trial: 7,
     trialLabel: "7 dias grátis · OFERTA DE LANÇAMENTO",
     destaque: true,
@@ -56,6 +61,7 @@ const PLANOS_PRESTADOR = [
       "Perfil profissional ativo",
       "Até 10 serviços ativos simultâneos",
       "Destaque nas buscas da região",
+      "7 dias de assinatura Premium no topo ao assinar",
       "Agenda integrada de atendimentos",
       "Selo de prestador verificado",
       "Selo Prestador Fundador para os primeiros 100 aprovados",
@@ -175,15 +181,15 @@ const FAQ_ITEMS = [
   },
   {
     q: "Como funciona o período gratuito?",
-    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Nenhuma cobrança é feita durante os 2 meses grátis. O pagamento só começa quando o período grátis acaba, se você quiser continuar, e pode cancelar antes sem pagar nada.",
+    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Durante os 2 meses grátis você usa o Painel Profissional completo — os mesmos recursos do plano Profissional. O pagamento só começa quando o período grátis acaba, se você quiser continuar, e pode cancelar antes sem pagar nada.",
   },
   {
     q: "Por que o Profissional tem 7 dias grátis?",
-    r: "O plano Profissional é nossa oferta de lançamento: R$ 19,90 por mês, 7 dias grátis e Selo Prestador Fundador para os primeiros 100 prestadores aprovados na verificação, em Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro.",
+    r: "O plano Profissional é nossa oferta de lançamento: R$ 59,90 por mês, 7 dias grátis e Selo Prestador Fundador para os primeiros 100 prestadores aprovados na verificação, em Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro.",
   },
   {
-    q: "O que é o Boost Alta Temporada?",
-    r: "Um add-on opcional que dá visibilidade máxima durante os picos (dez a fev e Carnaval). Você ativa e cancela pelo painel, sem fidelidade. Exige um plano base ativo.",
+    q: "O que é o Boost?",
+    r: "Para prestadores: um add-on de R$ 9,90 que coloca seu perfil em posição premium no topo das buscas por 7 dias, a qualquer momento. Para lojistas, o Boost Alta Temporada dá visibilidade máxima nos picos (dez a fev e Carnaval). Você ativa e cancela pelo painel, sem fidelidade. Exige um plano base ativo.",
   },
   {
     q: "Quanto economizo no plano anual?",
@@ -284,7 +290,7 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
           {plano.preco === 0 ? (
             <>
               <p className="text-3xl font-extrabold mt-1">Grátis</p>
-              <p className="text-xs mt-1 text-white/90">por 2 meses · sem cartão de crédito</p>
+              <p className="text-sm mt-1 font-semibold text-white">por 2 meses · sem cartão de crédito</p>
             </>
           ) : (
             <>
@@ -297,8 +303,8 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
                   R${plano.precoAnual}/ano · 2 meses grátis
                 </p>
               )}
-              <p className="text-xs mt-1 flex items-center justify-center gap-1 text-white/95">
-                <Calendar className="w-3 h-3" /> {plano.trialLabel}
+              <p className="text-sm mt-1 flex items-center justify-center gap-1 font-semibold text-white">
+                <Calendar className="w-3.5 h-3.5" /> {plano.trialLabel}
               </p>
             </>
           )}
@@ -308,7 +314,7 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
         <CardContent className="p-5 flex flex-col flex-1">
           <ul className="space-y-2 mb-5 flex-1">
             {plano.features.map((f, i) => (
-              <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+              <li key={i} className="flex items-start gap-2 text-sm font-medium text-foreground">
                 <Check className="w-4 h-4 shrink-0 mt-0.5 text-green-500" />
                 {f}
               </li>
@@ -367,18 +373,19 @@ function BoostSection({ tipo, onCta, loading }) {
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-widest text-amber-200">Add-on temporário</p>
-            <h3 className="text-lg font-extrabold">Boost Alta Temporada</h3>
+            <h3 className="text-lg font-extrabold">{isPrestador ? "Boost 7 Dias no Topo" : "Boost Alta Temporada"}</h3>
           </div>
           <div className="ml-auto text-right">
             <p className="text-2xl font-extrabold">
-              +R${isPrestador ? "99" : "197"}<span className="text-sm font-normal opacity-90">/mês</span>
+              +R${isPrestador ? "9,90" : "197"}<span className="text-sm font-normal opacity-90">/mês</span>
             </p>
-            <p className="text-xs text-amber-200">somente dez a fev e Carnaval</p>
+            <p className="text-xs text-amber-200">{isPrestador ? "7 dias de assinatura premium no topo" : "somente dez a fev e Carnaval"}</p>
           </div>
         </div>
         <p className="text-sm text-amber-100/90 mt-2">
-          A economia de Trancoso se concentra no Réveillon, Verão e Carnaval. O Boost dá visibilidade máxima
-          exatamente quando a demanda dispara, empilha sobre qualquer plano ativo.
+          {isPrestador
+            ? "O Boost coloca seu perfil em posição premium no topo das buscas por 7 dias, a qualquer momento do ano. Empilha sobre qualquer plano ativo."
+            : "A economia de Trancoso se concentra no Réveillon, Verão e Carnaval. O Boost dá visibilidade máxima exatamente quando a demanda dispara, empilha sobre qualquer plano ativo."}
         </p>
       </div>
 
@@ -386,9 +393,9 @@ function BoostSection({ tipo, onCta, loading }) {
         <ul className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2">
           {(isPrestador
             ? [
-                "Visibilidade máxima nas buscas durante o pico",
-                'Selo "Disponível na Temporada"',
-                "Prioridade acima dos planos padrão do mesmo nível",
+                "7 dias de assinatura premium no topo das buscas",
+                "Posição acima dos prestadores do mesmo nível",
+                "Ativa e cancela quando quiser, sem fidelidade",
                 "Notificação de destaque para clientes da região",
               ]
             : [
@@ -528,7 +535,7 @@ export default function PlanosPage() {
     <div className="bg-background min-h-screen py-12">
       <MetaTags
         title="Planos para Profissionais"
-        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito de 2 meses (sem cartão), Profissional R$19,90/mês e Premium Elite. Sem comissão sobre serviços, você negocia direto com o cliente e fica com 100% do valor."
+        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito de 2 meses (sem cartão), Profissional R$59,90/mês e Premium Elite. Sem comissão sobre serviços, você negocia direto com o cliente e fica com 100% do valor."
       />
       <div className="container mx-auto max-w-5xl px-4">
 
@@ -566,7 +573,7 @@ export default function PlanosPage() {
               <Shield className="w-4 h-4 text-orange-400" />
               {founderRestam === 100
                 ? "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento"
-                : `Restam ${founderRestam} vagas de Prestador Fundador: R$19,90/mês`}
+                : `Restam ${founderRestam} vagas de Prestador Fundador: R$59,90/mês`}
             </motion.div>
           )}
         </motion.div>
@@ -680,6 +687,20 @@ export default function PlanosPage() {
         <section className="mb-10">
           <PositionamentoEstrategico />
         </section>
+
+        {/* Teste Gratuito ativo */}
+        {mySubscription?.status === "trial" && (
+          <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 text-center mb-8">
+            <p className="text-sm text-orange-200">
+              <Shield className="w-4 h-4 inline mr-1 -mt-0.5" />
+              Seu Teste Gratuito está ativo
+              {mySubscription.trial_end
+                ? ` até ${new Date(mySubscription.trial_end + "T00:00:00").toLocaleDateString("pt-BR")}`
+                : ""}
+              . Nenhuma cobrança é feita nesse período — assine um plano quando quiser.
+            </p>
+          </div>
+        )}
 
         {/* Assinatura ativa */}
         {mySubscription?.status === "active" && (

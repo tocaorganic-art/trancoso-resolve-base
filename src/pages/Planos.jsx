@@ -185,7 +185,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Por que o Profissional tem 7 dias grátis?",
-    r: "O plano Profissional é nossa oferta de lançamento: R$ 59,90 por mês, 7 dias grátis e Selo Prestador Fundador para os primeiros 100 prestadores aprovados na verificação, em Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro.",
+    r: "Os 100 primeiros prestadores aprovados na verificação ganham o Selo Prestador Fundador para sempre e entram GRÁTIS: 2 meses sem cartão e sem cobrança, em Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro. Depois, se quiser continuar, o Profissional custa R$ 59,90/mês.",
   },
   {
     q: "O que é o Boost?",
@@ -573,7 +573,7 @@ export default function PlanosPage() {
               <Shield className="w-4 h-4 text-orange-400" />
               {founderRestam === 100
                 ? "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento"
-                : `Restam ${founderRestam} vagas de Prestador Fundador: R$59,90/mês`}
+                : `Restam ${founderRestam} vagas de Prestador Fundador — entre GRÁTIS`}
             </motion.div>
           )}
         </motion.div>
@@ -658,7 +658,7 @@ export default function PlanosPage() {
 
         {/* Transparência */}
         <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 text-sm text-orange-200 text-center mb-2">
-          <strong>Transparência total:</strong> A cobrança começa somente após os 7 dias gratuitos. Cancele antes do término do período gratuito para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços, você negocia diretamente com o cliente e fica com 100% do valor.
+          <strong>Transparência total:</strong> Nenhuma cobrança é feita durante o período grátis. Se você assinar um plano, a cobrança começa somente após os 7 dias de teste do checkout — cancele antes para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços, você negocia diretamente com o cliente e fica com 100% do valor.
         </div>
 
         {/* Boost Alta Temporada */}

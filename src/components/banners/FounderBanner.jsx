@@ -104,10 +104,10 @@ export default function FounderBanner() {
             de Prestador Fundador em Trancoso
           </h3>
           <p className="text-muted-foreground text-sm mt-1 leading-relaxed">
-            Os primeiros {FOUNDER_LIMIT} prestadores verificados ganham o{" "}
-            <strong className="text-foreground">Selo Fundador</strong> para sempre, e o preço
-            de lançamento{" "}
-            <strong className="text-orange-400">R$59,90/mês</strong> nunca mais vai baixar assim.
+            Os primeiros {FOUNDER_LIMIT} clientes ganham o{" "}
+            <strong className="text-foreground">Selo Fundador</strong> para sempre e{" "}
+            <strong className="text-orange-400">entram GRÁTIS</strong>{" "}
+            — sem cartão e sem cobrança.
           </p>
 
           <div className="mt-3 max-w-sm">

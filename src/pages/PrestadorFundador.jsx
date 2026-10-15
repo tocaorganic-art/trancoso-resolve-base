@@ -26,7 +26,7 @@ const PASSOS = [
   { n: 2, title: "Cadastre seus serviços", desc: "Adicione até 10 serviços com fotos e descrição." },
   { n: 3, title: "Envie os dados para verificação", desc: "Documento de identidade e autorização para consulta de antecedentes." },
   { n: 4, title: "Aguarde a aprovação", desc: "Nossa equipe analisa e aprova prestadores elegíveis." },
-  { n: 5, title: "Escolha o plano Profissional", desc: "7 dias grátis. Depois, R$ 59,90 por mês. Sem comissão." },
+  { n: 5, title: "Escolha o plano Profissional", desc: "GRÁTIS para os 100 primeiros: 2 meses sem cartão e sem cobrança. Sem comissão." },
   { n: 6, title: "Receba o Selo Fundador", desc: "Se ainda houver vagas, você recebe o Selo Prestador Fundador." },
 ];
 
@@ -36,16 +36,16 @@ const FAQ = [
     r: "Prestadores de serviços que concluírem o cadastro, enviarem a documentação e forem aprovados na verificação de antecedentes. A promoção é exclusiva para prestadores. Lojistas não participam desta oferta.",
   },
   {
-    q: "Como funcionam os 7 dias grátis?",
-    r: "Ao aderir ao plano Profissional, você tem 7 dias gratuitos. Seu cartão pode ser cadastrado previamente, mas nenhuma cobrança ocorre durante esse período. Você pode cancelar antes do fim dos 7 dias sem pagar nada.",
+    q: "Como funciona o período grátis?",
+    r: "Os 100 primeiros clientes entram GRÁTIS no plano Profissional: 2 meses sem cartão e sem nenhuma cobrança. Se quiser continuar depois, você escolhe; se cancelar antes do fim do período, não paga nada.",
   },
   {
     q: "Quando ocorre a primeira cobrança?",
-    r: "A primeira cobrança de R$ 59,90 acontece somente após o término dos 7 dias gratuitos. Se você cancelar antes, não é cobrado.",
+    r: "Nenhuma cobrança acontece durante o período grátis. Somente se você decidir continuar depois dele é que a assinatura de R$ 59,90/mês começa — e você pode cancelar a qualquer momento.",
   },
   {
     q: "Preciso cadastrar cartão?",
-    r: "O cartão pode ser cadastrado previamente para facilitar a continuidade, mas nenhuma cobrança é feita durante os 7 dias grátis.",
+    r: "Não. O cadastro e o período grátis são sem cartão. O cartão só é usado se você decidir continuar depois do período grátis.",
   },
   {
     q: "Existe comissão sobre os serviços?",
@@ -113,7 +113,7 @@ export default function PrestadorFundador() {
             className="inline-flex flex-col items-center gap-1 mb-8"
           >
             <p className="text-2xl md:text-3xl font-extrabold text-orange-600">
-              7 dias grátis. Depois, R$ 59,90 por mês.
+              GRÁTIS para os 100 primeiros. Sem cartão.
             </p>
             <p className="text-sm md:text-base text-muted-foreground">Sem comissão sobre seus serviços.</p>
           </motion.div>
@@ -243,7 +243,7 @@ export default function PrestadorFundador() {
             Restam vagas para os primeiros 100 prestadores
           </h2>
           <p className="text-orange-50 mb-6 max-w-xl mx-auto">
-            7 dias grátis, R$ 59,90 por mês, sem comissão sobre seus serviços e cancelamento a qualquer momento.
+            Os 100 primeiros entram GRÁTIS: 2 meses sem cartão, sem cobrança e sem comissão sobre seus serviços.
           </p>
           <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-bold text-base h-12 px-8">
             <Link to="/Planos" onClick={() => pixelClickFounderCTA('cta_final')}>Quero ser Prestador Fundador</Link>

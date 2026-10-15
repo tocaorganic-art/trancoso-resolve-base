@@ -129,6 +129,82 @@ async function getOrCreateCustomer(
   return created.data.id;
 }
 
+// ─── CARTÃO: garante customer compatível com o Checkout ────────────────────
+// Ordem do Tony (15/10/2026): excluir o customer antigo incompleto e deixar o
+// checkout criar um novo completo na página do Asaas (sem conflitos). Se o Asaas
+// bloquear a exclusão (histórico financeiro do cliente), faz fallback: completa
+// o endereço via PATCH com os dados do perfil e reaproveita o customer.
+// Nunca pré-cria customer sem endereço — causaria o erro do Asaas
+// "O campo address deve existir para o customer informado".
+async function ensureCustomerForCardCheckout(
+  apiKey: string,
+  email: string,
+  cpfCnpj: string | null,
+  phone: string | null,
+  addr?: CustomerAddress,
+): Promise<string | null> {
+  const search = await asaasFetch(apiKey, `/v3/customers?email=${encodeURIComponent(email)}`);
+  const existing = search.data?.data?.[0];
+  if (!existing) {
+    // Sem customer: o Asaas Checkout cria um novo a partir do customerData
+    // na página hospedada — o pagador completa o que faltar lá.
+    return null;
+  }
+  const ex = existing as {
+    id: string;
+    cpfCnpj?: string;
+    address?: string;
+    province?: string;
+    city?: string;
+    state?: string;
+    mobilePhone?: string;
+  };
+  const missingAddress = !ex.address || !ex.province || !ex.city || !ex.state;
+  if (missingAddress) {
+    // 1) EXCLUI o customer antigo incompleto (ordem do Tony)
+    const del = await asaasFetch(apiKey, `/v3/customers/${ex.id}`, { method: 'DELETE' });
+    if (del.ok) {
+      console.log('[createSubscriptionCheckout] Customer antigo incompleto excluído — novo será criado no Checkout do Asaas.');
+      return null;
+    }
+    console.warn(`[createSubscriptionCheckout] Exclusão do customer antigo falhou (${del.status}):`, JSON.stringify(del.data?.errors));
+    // 2) Fallback: completa o endereço com os dados do perfil
+    const addressPatch: Record<string, string> = {};
+    if (addr?.address && !ex.address) addressPatch.address = addr.address;
+    if (addr?.province && !ex.province) addressPatch.province = addr.province;
+    if (addr?.city && !ex.city) addressPatch.city = addr.city;
+    if (addr?.state && !ex.state) addressPatch.state = addr.state;
+    if (Object.keys(addressPatch).length > 0) {
+      const patchRes = await asaasFetch(apiKey, `/v3/customers/${ex.id}`, {
+        method: 'POST',
+        body: JSON.stringify(addressPatch),
+      });
+      if (!patchRes.ok) {
+        console.warn('[createSubscriptionCheckout] PATCH endereço falhou:', JSON.stringify(patchRes.data?.errors));
+      } else {
+        console.log(`[createSubscriptionCheckout] Endereço completado no customer Asaas: ${Object.keys(addressPatch).join(', ')}`);
+      }
+    }
+  }
+  // Phone/cpfCnpj completam se faltarem (mesma garantia do fluxo Pix/Boleto)
+  if (phone && !ex.mobilePhone) {
+    const patchRes = await asaasFetch(apiKey, `/v3/customers/${ex.id}`, {
+      method: 'POST',
+      body: JSON.stringify({ mobilePhone: phone }),
+    });
+    if (!patchRes.ok) {
+      console.warn('[createSubscriptionCheckout] PATCH mobilePhone falhou:', JSON.stringify(patchRes.data?.errors));
+    }
+  }
+  if (cpfCnpj && !ex.cpfCnpj) {
+    await asaasFetch(apiKey, `/v3/customers/${ex.id}`, {
+      method: 'POST',
+      body: JSON.stringify({ cpfCnpj }),
+    });
+  }
+  return ex.id;
+}
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -253,17 +329,24 @@ Deno.serve(async (req) => {
       }
     }
 
+    // billingType: PIX | BOLETO | CREDIT_CARD | DINAMICO (cliente escolhe na fatura)
+    // DINAMICO é convertido silenciosamente para BOLETO pela conta — default PIX
+    let billingType = (method || 'PIX').toUpperCase();
+
     // ─── Customer no Asaas ────────────────────────────────────────────────────
-    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name, customerDoc, customerPhone, { address: profileAddress, province: profileProvince, city: profileCity, state: profileState });
+    // Cartão NUNCA pré-cria/reaproveita customer incompleto (Checkout exige
+    // endereço; o customerData cria o novo na página do Asaas). Pix/Boleto
+    // seguem com o customer direto, completando endereço do perfil.
+    const customerName = (user as any).full_name || (user as any).name;
+    const profileAddr = { address: profileAddress, province: profileProvince, city: profileCity, state: profileState };
+    const customerId = billingType === 'CREDIT_CARD'
+      ? await ensureCustomerForCardCheckout(apiKey, user.email, customerDoc, customerPhone, profileAddr)
+      : await getOrCreateCustomer(apiKey, user.email, customerName, customerDoc, customerPhone, profileAddr);
 
     // ─── Trial via nextDueDate (primeira cobrança em X dias) ─────────────────
     const today = new Date();
     const firstDue = new Date(today.getTime() + effectiveTrialDays * 24 * 60 * 60 * 1000);
     const nextDueDate = firstDue.toISOString().split('T')[0];
-
-    // billingType: PIX | BOLETO | CREDIT_CARD | DINAMICO (cliente escolhe na fatura)
-    // DINAMICO é convertido silenciosamente para BOLETO pela conta — default PIX
-    let billingType = (method || 'PIX').toUpperCase();
 
     // ─── CARTÃO: Asaas Checkout RECURRENT (PCI-safe) ─────────────────────────
     // Assinatura CREDIT_CARD exige cartão validado na própria criação (doc Asaas:

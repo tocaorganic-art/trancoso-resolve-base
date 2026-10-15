@@ -190,6 +190,91 @@ Deno.serve(async (req) => {
     // DINAMICO é convertido silenciosamente para BOLETO pela conta — default PIX
     let billingType = (method || 'PIX').toUpperCase();
 
+    // ─── CARTÃO: Asaas Checkout RECURRENT (PCI-safe) ─────────────────────────
+    // Assinatura CREDIT_CARD exige cartão validado na própria criação (doc Asaas:
+    // FAQ Assinaturas). O app NUNCA captura dados de cartão: o cliente preenche
+    // na página hospedada do Asaas (Checkout RECURRENT), que cria a assinatura
+    // com o cartão tokenizado para as cobranças futuras.
+    if (billingType === 'CREDIT_CARD') {
+      const externalRef = `${plan}|${isAnnual ? 'annual' : 'monthly'}|${user.email}`;
+      const checkoutBody: Record<string, unknown> = {
+        billingTypes: ['CREDIT_CARD'],
+        chargeTypes: ['RECURRENT'],
+        minutesToExpire: 120,
+        externalReference: externalRef,
+        customer: customerId,
+        callback: {
+          successUrl: `${BASE_URL}/AssinaturaConfirmada?trial=${effectiveTrialDays}`,
+          cancelUrl: `${BASE_URL}/Planos`,
+          expiredUrl: `${BASE_URL}/Planos`,
+        },
+        items: [{
+          name: `Trancoso Resolve: ${planDef.nome}${isAnnual ? ' (Anual)' : ''}`,
+          description: 'Assinatura Trancoso Resolve — sem comissão sobre os serviços.',
+          quantity: 1,
+          value: amount,
+        }],
+        subscription: {
+          cycle: isAnnual ? 'YEARLY' : 'MONTHLY',
+          nextDueDate,
+        },
+      };
+
+      let checkoutRes = await asaasFetch(apiKey, '/v3/checkouts', {
+        method: 'POST',
+        body: JSON.stringify(checkoutBody),
+      });
+
+      // Retry com datetime completo caso a conta exija formato com hora
+      if (!checkoutRes.ok && String(nextDueDate).length === 10) {
+        console.warn('[createSubscriptionCheckout] Retry checkout com datetime completo:', JSON.stringify(checkoutRes.data?.errors));
+        checkoutRes = await asaasFetch(apiKey, '/v3/checkouts', {
+          method: 'POST',
+          body: JSON.stringify({ ...checkoutBody, subscription: { ...(checkoutBody.subscription as Record<string, unknown>), nextDueDate: `${nextDueDate} 12:00:00` } }),
+        });
+      }
+
+      if (!checkoutRes.ok) {
+        console.error('[createSubscriptionCheckout] Erro Asaas Checkout:', JSON.stringify(checkoutRes.data));
+        const desc = checkoutRes.data?.errors?.[0]?.description || 'Erro ao criar checkout de cartão no Asaas.';
+        return Response.json({ error: desc }, { status: 502 });
+      }
+
+      const checkoutId = checkoutRes.data?.id as string | undefined;
+      const checkoutLink = (checkoutRes.data?.link as string | undefined)
+        || `https://asaas.com/checkoutSession/show?id=${checkoutId}`;
+
+      console.log(`Checkout Asaas (cartão) criado: ${checkoutId} para plano ${plan} (user: ${maskEmail(user.email)}, trialDays: ${effectiveTrialDays})`);
+
+      // Marca consumo do trial no banco — mesma semântica do fluxo por fatura
+      if (effectiveTrialDays > 0) {
+        try {
+          const subs = await base44.asServiceRole.entities.Subscription.filter({ user_email: user.email });
+          if (subs && subs.length > 0) {
+            const sub = subs[0] as { id: string; trial_consumed_at?: string };
+            if (!sub.trial_consumed_at) {
+              await base44.asServiceRole.entities.Subscription.update(sub.id, {
+                trial_consumed_at: new Date().toISOString(),
+                trial_type: 'profissional_7d',
+                trial_version: 1,
+                notes: `Trial Profissional ${effectiveTrialDays}d iniciado no checkout de cartão (Asaas session: ${checkoutId})`,
+              });
+            }
+          }
+        } catch (markErr) {
+          console.warn('[createSubscriptionCheckout] Erro ao registrar trial_consumed_at:', (markErr as Error).message);
+        }
+      }
+
+      return Response.json({
+        url: checkoutLink,
+        checkout_id: checkoutId || null,
+        trial_days: effectiveTrialDays,
+        gateway: 'asaas',
+        method: 'CREDIT_CARD',
+      });
+    }
+
     const subscriptionBody: Record<string, unknown> = {
       customer: customerId,
       billingType,

@@ -208,9 +208,38 @@ async function handleSubscriptionPayment(
   const subscription = subRes.data;
 
   // Associação: externalReference formato "plano|ciclo|email"
-  const [plan, billing, email] = String(subscription.externalReference || '').split('|');
+  // Fallback (assinatura via Asaas Checkout): se o externalReference não propagou
+  // para a assinatura criada pelo Checkout, resolve pelo cliente do pagamento
+  // (email) e deriva plano/ciclo pelo valor e periodicidade da assinatura.
+  let [plan, billing, email] = String(subscription.externalReference || '').split('|');
+  if (!email && payment.customer) {
+    const custRes = await asaasFetch(apiKey, `/v3/customers/${payment.customer}`);
+    const custEmail = custRes.ok ? custRes.data?.email : null;
+    if (custEmail) {
+      email = custEmail;
+      billing = subscription.cycle === 'YEARLY' ? 'annual' : 'monthly';
+      const val = typeof subscription.value === 'number' ? subscription.value : payment.value;
+      const planByValue: Record<string, string> = {
+        '19.9': 'profissional', '199': 'profissional',
+        '89': 'lojista_essencial', '890': 'lojista_essencial',
+        '497': 'lojista_elite', '4970': 'lojista_elite',
+        '99': 'boost_prestador',
+      };
+      plan = planByValue[String(val)] || '';
+      if (!plan && (val === 197 || val === 1970)) {
+        // 197/1970 é ambíguo (prestador_elite x lojista_pro) — decide pelo perfil
+        try {
+          const providers = await base44.asServiceRole.entities.ServiceProvider.filter({ email: custEmail });
+          plan = (providers?.length ?? 0) > 0 ? 'prestador_elite' : 'lojista_pro';
+        } catch {
+          plan = 'prestador_elite';
+        }
+      }
+      console.log(`[asaasWebhook] externalReference ausente — resolvido via customer: ${maskEmail(custEmail)} (plano ${plan || 'desconhecido'})`);
+    }
+  }
   if (!email) {
-    console.warn('[asaasWebhook] externalReference inválido:', subscription.externalReference);
+    console.warn('[asaasWebhook] externalReference inválido e cliente não resolvido:', subscription.externalReference);
     return Response.json({ ok: true, ignored: 'externalReference inválido' });
   }
 

@@ -511,8 +511,10 @@ export default function PlanosPage() {
         return;
       }
       if (res.data?.url) window.location.href = res.data.url;
-    } catch {
-      toast.error("Erro ao iniciar pagamento. Tente novamente.");
+    } catch (err) {
+      // Mostra a mensagem real do backend (ex.: telefone/CPF faltando, erro Asaas)
+      const backendMsg = err?.response?.data?.error;
+      toast.error(backendMsg || "Erro ao iniciar pagamento. Tente novamente.");
     } finally {
       setLoadingPlan(null);
     }

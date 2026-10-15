@@ -208,11 +208,15 @@ Deno.serve(async (req) => {
     // Prioridade: telefone do usuário logado; fallback: perfil público do prestador.
     const userPhoneRaw = ((user as { phone?: string }).phone || '') as string;
     let customerPhone: string | null = normalizePhone(userPhoneRaw);
-    if (!customerPhone) {
+    let profileAddress: string | null = null;
+    let profileProvince: string | null = null;
+    // Busca telefone e endereço no perfil do prestador (pré-preenchimento do checkout)
       try {
         const providers2 = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
-        const prov = (providers2?.[0] as { phone?: string } | undefined);
-        customerPhone = normalizePhone((prov?.phone || '') as string);
+        const prov = (providers2?.[0] as { phone?: string; address?: string; neighborhood?: string } | undefined);
+        customerPhone = customerPhone || normalizePhone((prov?.phone || '') as string);
+        if (prov?.address && String(prov.address).trim()) profileAddress = String(prov.address).trim();
+        if (prov?.neighborhood && String(prov.neighborhood).trim()) profileProvince = String(prov.neighborhood).trim();
       } catch (phoneErr) {
         console.warn('[createSubscriptionCheckout] Lookup telefone falhou:', (phoneErr as Error).message);
       }
@@ -236,20 +240,24 @@ Deno.serve(async (req) => {
     // na página hospedada do Asaas (Checkout RECURRENT), que cria a assinatura
     // com o cartão tokenizado para as cobranças futuras.
     if (billingType === 'CREDIT_CARD') {
-      // Asaas Checkout exige telefone no customer — sem ele a sessão é rejeitada
-      if (!customerPhone) {
-        return Response.json(
-          { error: 'Telefone não encontrado. Complete o telefone do seu perfil antes de assinar com cartão.' },
-          { status: 400 },
-        );
-      }
       const externalRef = `${plan}|${isAnnual ? 'annual' : 'monthly'}|${user.email}`;
+      // Asaas exige cadastro COMPLETO (rua, número, CEP) quando usamos `customer`
+      // registrado — como o perfil não coleta número/CEP, usamos `customerData`:
+      // pré-preenche o que temos e o pagador completa o resto na página do Asaas.
+      const customerData: Record<string, unknown> = {
+        name: (user as any).full_name || (user as any).name || user.email,
+        cpfCnpj: customerDoc,
+        email: user.email,
+        ...(customerPhone ? { phone: customerPhone } : {}),
+        ...(profileAddress ? { address: profileAddress } : {}),
+        ...(profileProvince ? { province: profileProvince } : {}),
+      };
       const checkoutBody: Record<string, unknown> = {
         billingTypes: ['CREDIT_CARD'],
         chargeTypes: ['RECURRENT'],
         minutesToExpire: 120,
         externalReference: externalRef,
-        customer: customerId,
+        customerData,
         callback: {
           successUrl: `${BASE_URL}/AssinaturaConfirmada?trial=${effectiveTrialDays}`,
           cancelUrl: `${BASE_URL}/Planos`,

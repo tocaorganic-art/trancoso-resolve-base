@@ -10,7 +10,7 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 // ─── Fórmula idêntica à original ──────────────────────────────────────────────
 const DENSITY_SCENARIOS = [100, 250, 500, 1000];
-const FUNDADOR_PRICE = 19.9;
+const FUNDADOR_PRICE = 59.9;
 const PROFISSIONAL_PRICE = 59;
 
 function formatBRL(value) {

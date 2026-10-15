@@ -26,7 +26,7 @@ const PASSOS = [
   { n: 2, title: "Cadastre seus serviços", desc: "Adicione até 10 serviços com fotos e descrição." },
   { n: 3, title: "Envie os dados para verificação", desc: "Documento de identidade e autorização para consulta de antecedentes." },
   { n: 4, title: "Aguarde a aprovação", desc: "Nossa equipe analisa e aprova prestadores elegíveis." },
-  { n: 5, title: "Escolha o plano Profissional", desc: "7 dias grátis. Depois, R$ 19,90 por mês. Sem comissão." },
+  { n: 5, title: "Escolha o plano Profissional", desc: "7 dias grátis. Depois, R$ 59,90 por mês. Sem comissão." },
   { n: 6, title: "Receba o Selo Fundador", desc: "Se ainda houver vagas, você recebe o Selo Prestador Fundador." },
 ];
 
@@ -41,7 +41,7 @@ const FAQ = [
   },
   {
     q: "Quando ocorre a primeira cobrança?",
-    r: "A primeira cobrança de R$ 19,90 acontece somente após o término dos 7 dias gratuitos. Se você cancelar antes, não é cobrado.",
+    r: "A primeira cobrança de R$ 59,90 acontece somente após o término dos 7 dias gratuitos. Se você cancelar antes, não é cobrado.",
   },
   {
     q: "Preciso cadastrar cartão?",
@@ -76,8 +76,8 @@ const FAQ = [
     r: "As novas concessões do Selo Fundador são interrompidas. Os fundadores existentes mantêm o benefício. A página informará claramente que as vagas foram encerradas. O plano Profissional normal continua disponível pelo preço vigente.",
   },
   {
-    q: "Lojistas também pagam R$ 19,90?",
-    r: "Não. A promoção de R$ 19,90 é exclusiva para prestadores de serviços. Lojistas têm planos separados: Essencial (R$ 89/mês), Pro (R$ 197/mês) e Elite (R$ 497/mês).",
+    q: "Lojistas também pagam R$ 59,90?",
+    r: "Não. A promoção de R$ 59,90 é exclusiva para prestadores de serviços. Lojistas têm planos separados: Essencial (R$ 89/mês), Pro (R$ 197/mês) e Elite (R$ 497/mês).",
   },
 ];
 
@@ -113,7 +113,7 @@ export default function PrestadorFundador() {
             className="inline-flex flex-col items-center gap-1 mb-8"
           >
             <p className="text-2xl md:text-3xl font-extrabold text-orange-600">
-              7 dias grátis. Depois, R$ 19,90 por mês.
+              7 dias grátis. Depois, R$ 59,90 por mês.
             </p>
             <p className="text-sm md:text-base text-muted-foreground">Sem comissão sobre seus serviços.</p>
           </motion.div>
@@ -243,7 +243,7 @@ export default function PrestadorFundador() {
             Restam vagas para os primeiros 100 prestadores
           </h2>
           <p className="text-orange-50 mb-6 max-w-xl mx-auto">
-            7 dias grátis, R$ 19,90 por mês, sem comissão sobre seus serviços e cancelamento a qualquer momento.
+            7 dias grátis, R$ 59,90 por mês, sem comissão sobre seus serviços e cancelamento a qualquer momento.
           </p>
           <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-bold text-base h-12 px-8">
             <Link to="/Planos" onClick={() => pixelClickFounderCTA('cta_final')}>Quero ser Prestador Fundador</Link>

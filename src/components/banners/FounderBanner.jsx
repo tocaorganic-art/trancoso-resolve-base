@@ -107,7 +107,7 @@ export default function FounderBanner() {
             Os primeiros {FOUNDER_LIMIT} prestadores verificados ganham o{" "}
             <strong className="text-foreground">Selo Fundador</strong> para sempre, e o preço
             de lançamento{" "}
-            <strong className="text-orange-400">R$19,90/mês</strong> nunca mais vai baixar assim.
+            <strong className="text-orange-400">R$59,90/mês</strong> nunca mais vai baixar assim.
           </p>
 
           <div className="mt-3 max-w-sm">

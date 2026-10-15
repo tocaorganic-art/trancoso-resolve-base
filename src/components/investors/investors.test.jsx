@@ -126,7 +126,7 @@ describe('Formatação de moeda pt-BR', () => {
 
 /* ─── 4. Fórmulas da calculadora de cenário ──────────────────────────────── */
 describe('Fórmulas de cenário (ScenarioChart)', () => {
-  const FUNDADOR_PRICE = 19.9;
+  const FUNDADOR_PRICE = 59.9;
   const PROFISSIONAL_PRICE = 59;
 
   function calcScenario(providers) {
@@ -137,28 +137,28 @@ describe('Fórmulas de cenário (ScenarioChart)', () => {
     };
   }
 
-  it('100 prestadores: fundador = R$ 1.990', () => {
-    expect(calcScenario(100).fundador).toBe(1990);
+  it('100 prestadores: fundador = R$ 5.990', () => {
+    expect(calcScenario(100).fundador).toBe(5990);
   });
 
-  it('500 prestadores: fundador = R$ 9.950', () => {
-    expect(calcScenario(500).fundador).toBe(9950);
+  it('500 prestadores: fundador = R$ 29.950', () => {
+    expect(calcScenario(500).fundador).toBe(29950);
   });
 
   it('500 prestadores: profissional = R$ 29.500', () => {
     expect(calcScenario(500).profissional).toBe(29500);
   });
 
-  it('500 prestadores: total = R$ 39.450 (MRR cenário base)', () => {
-    expect(calcScenario(500).total).toBe(39450);
+  it('500 prestadores: total = R$ 59.450 (MRR cenário base)', () => {
+    expect(calcScenario(500).total).toBe(59450);
   });
 
-  it('1000 prestadores: fundador = R$ 19.900', () => {
-    expect(calcScenario(1000).fundador).toBe(19900);
+  it('1000 prestadores: fundador = R$ 59.900', () => {
+    expect(calcScenario(1000).fundador).toBe(59900);
   });
 
-  it('preço do plano Fundador é R$ 19,90', () => {
-    expect(FUNDADOR_PRICE).toBe(19.9);
+  it('preço do plano Fundador é R$ 59,90', () => {
+    expect(FUNDADOR_PRICE).toBe(59.9);
   });
 
   it('preço do plano Profissional é R$ 59', () => {
@@ -182,7 +182,7 @@ describe('Classificação de métricas — conformidade', () => {
     { label: 'Meta de prestadores', value: 500, classification: 'hipotese' },
     { label: 'MRR ilustrativo', value: 29.5, classification: 'cenario' },
     { label: 'ARR run-rate', value: 354, classification: 'cenario' },
-    { label: 'Plano Fundador', value: 19.9, classification: 'hipotese' },
+    { label: 'Plano Fundador', value: 59.9, classification: 'hipotese' },
     { label: 'Plano Profissional', value: 59, classification: 'hipotese' },
   ];
 

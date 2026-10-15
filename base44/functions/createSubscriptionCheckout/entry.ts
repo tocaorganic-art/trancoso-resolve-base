@@ -53,6 +53,7 @@ async function getOrCreateCustomer(
   email: string,
   name: string,
   cpfCnpj?: string | null,
+  phone?: string | null,
 ): Promise<string> {
   const search = await asaasFetch(apiKey, `/v3/customers?email=${encodeURIComponent(email)}`);
   const existing = search.data?.data?.[0];
@@ -64,12 +65,25 @@ async function getOrCreateCustomer(
         body: JSON.stringify({ cpfCnpj }),
       });
     }
+    // Asaas Checkout exige phone no customer — completa se faltar
+    const existingPhone = ((existing as { mobilePhone?: string }).mobilePhone || '') as string;
+    if (phone && !existingPhone) {
+      await asaasFetch(apiKey, `/v3/customers/${existing.id}`, {
+        method: 'POST',
+        body: JSON.stringify({ mobilePhone: phone }),
+      });
+    }
     return existing.id;
   }
 
   const created = await asaasFetch(apiKey, '/v3/customers', {
     method: 'POST',
-    body: JSON.stringify({ name: name || email, email, ...(cpfCnpj ? { cpfCnpj } : {}) }),
+    body: JSON.stringify({
+      name: name || email,
+      email,
+      ...(cpfCnpj ? { cpfCnpj } : {}),
+      ...(phone ? { mobilePhone: phone } : {}),
+    }),
   });
   if (!created.ok) {
     throw new Error(created.data?.errors?.[0]?.description || 'Erro ao criar cliente no Asaas');
@@ -157,7 +171,7 @@ Deno.serve(async (req) => {
         if (!providers?.length) {
           providers = await base44.asServiceRole.entities.ServiceProvider.filter({ created_by: user.email });
         }
-        const provider = providers?.[0] as { id?: string; cnpj?: string } | undefined;
+        const provider = providers?.[0] as { id?: string; cnpj?: string; phone?: string } | undefined;
         const cnpjPublico = ((provider?.cnpj || '') as string).replace(/\D/g, '');
         if (cnpjPublico) {
           customerDoc = cnpjPublico;
@@ -179,8 +193,23 @@ Deno.serve(async (req) => {
       );
     }
 
+    // ─── Telefone (Asaas Checkout exige phone no customer) ────────────────────
+    // Prioridade: telefone do usuário logado; fallback: perfil público do prestador.
+    const userPhoneRaw = ((user as { phone?: string }).phone || '') as string;
+    let customerPhone: string | null = userPhoneRaw.replace(/\D/g, '').length >= 10 ? userPhoneRaw : null;
+    if (!customerPhone) {
+      try {
+        const providers2 = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
+        const prov = (providers2?.[0] as { phone?: string } | undefined);
+        const provPhone = ((prov?.phone || '') as string).replace(/\D/g, '');
+        if (provPhone.length >= 10) customerPhone = prov.phone as string;
+      } catch (phoneErr) {
+        console.warn('[createSubscriptionCheckout] Lookup telefone falhou:', (phoneErr as Error).message);
+      }
+    }
+
     // ─── Customer no Asaas ────────────────────────────────────────────────────
-    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name, customerDoc);
+    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name, customerDoc, customerPhone);
 
     // ─── Trial via nextDueDate (primeira cobrança em X dias) ─────────────────
     const today = new Date();
@@ -197,6 +226,13 @@ Deno.serve(async (req) => {
     // na página hospedada do Asaas (Checkout RECURRENT), que cria a assinatura
     // com o cartão tokenizado para as cobranças futuras.
     if (billingType === 'CREDIT_CARD') {
+      // Asaas Checkout exige telefone no customer — sem ele a sessão é rejeitada
+      if (!customerPhone) {
+        return Response.json(
+          { error: 'Telefone não encontrado. Complete o telefone do seu perfil antes de assinar com cartão.' },
+          { status: 400 },
+        );
+      }
       const externalRef = `${plan}|${isAnnual ? 'annual' : 'monthly'}|${user.email}`;
       const checkoutBody: Record<string, unknown> = {
         billingTypes: ['CREDIT_CARD'],

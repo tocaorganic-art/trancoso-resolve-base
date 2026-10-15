@@ -16,16 +16,31 @@ export default function A11yChecker() {
     let totalChecks = 0;
     let passedChecks = 0;
 
-    // Check 1: Images without alt text
+    // Check 1: Images without alt text (regra axe/WCAG "image-alt")
+    // - alt AUSENTE → erro (leitor de tela lê o nome do arquivo)
+    // - alt="" → imagem DECORATIVA, correto; NÃO é erro
+    // - alt só com espaços (" ") → erro
+    // - aria-hidden="true" / role=presentation → invisível para leitores de
+    //   tela, não deve ser avaliado nem contado (ex.: variante dark do Logo)
     const images = document.querySelectorAll('img');
     images.forEach((img, index) => {
+      const hiddenFromAt =
+        img.getAttribute('aria-hidden') === 'true' ||
+        img.getAttribute('role') === 'presentation' ||
+        img.getAttribute('role') === 'none';
+      if (hiddenFromAt) return;
       totalChecks++;
-      if (!img.alt || img.alt.trim() === '') {
+      const altAttr = img.getAttribute('alt');
+      const missingAlt = altAttr === null;
+      const whitespaceOnlyAlt = altAttr !== null && altAttr.length > 0 && altAttr.trim() === '';
+      if (missingAlt || whitespaceOnlyAlt) {
         foundIssues.push({
           level: 'error',
           message: `Imagem ${index + 1} sem texto alternativo`,
           element: img.src.substring(0, 50) + '...',
-          recommendation: 'Adicione um atributo alt descritivo à imagem.',
+          recommendation: missingAlt
+            ? 'Adicione um atributo alt descritivo à imagem.'
+            : 'O alt contém apenas espaços. Use um texto descritivo ou alt="" se a imagem for decorativa.',
         });
       } else {
         passedChecks++;

@@ -13,15 +13,16 @@ import { maskEmail } from './piiMask.ts';
 // Secrets: ASAAS_API_KEY (obrigatória), ASAAS_ENV ('sandbox' para testes).
 
 // ─── Planos e preços (BRL) ───────────────────────────────────────────────────
-interface PlanDef { nome: string; monthly: number; annual: number | null; trialDays: number; }
+interface PlanDef { nome: string; curto: string; monthly: number; annual: number | null; trialDays: number; }
 const PLANS: Record<string, PlanDef> = {
-  profissional:      { nome: 'Plano Profissional',               monthly: 19.90, annual: 199,  trialDays: 7 },
-  prestador_elite:   { nome: 'Plano Premium Elite',              monthly: 197,   annual: 1970, trialDays: 7 },
-  lojista_essencial: { nome: 'Plano Lojista Essencial',          monthly: 89,    annual: 890,  trialDays: 7 },
-  lojista_pro:       { nome: 'Plano Lojista Pro',                monthly: 197,   annual: 1970, trialDays: 7 },
-  lojista_elite:     { nome: 'Plano Lojista Elite',              monthly: 497,   annual: 4970, trialDays: 7 },
-  boost_prestador:   { nome: 'Boost Alta Temporada (Prestador)', monthly: 99,    annual: null, trialDays: 0 },
-  boost_lojista:     { nome: 'Boost Alta Temporada (Lojista)',   monthly: 197,   annual: null, trialDays: 0 },
+  // curto: nome exibido no Asaas Checkout (item.name max 30 chars)
+  profissional:      { nome: 'Plano Profissional',  curto: 'Plano Profissional',    monthly: 19.90, annual: 199,  trialDays: 7 },
+  prestador_elite:   { nome: 'Plano Premium Elite', curto: 'Plano Elite',           monthly: 197,   annual: 1970, trialDays: 7 },
+  lojista_essencial: { nome: 'Plano Lojista Essencial', curto: 'Plano Lojista Essencial', monthly: 89,    annual: 890,  trialDays: 7 },
+  lojista_pro:       { nome: 'Plano Lojista Pro',   curto: 'Plano Lojista Pro',     monthly: 197,   annual: 1970, trialDays: 7 },
+  lojista_elite:     { nome: 'Plano Lojista Elite', curto: 'Plano Lojista Elite',   monthly: 497,   annual: 4970, trialDays: 7 },
+  boost_prestador:   { nome: 'Boost Alta Temporada (Prestador)', curto: 'Boost Prestador', monthly: 99,    annual: null, trialDays: 0 },
+  boost_lojista:     { nome: 'Boost Alta Temporada (Lojista)',   curto: 'Boost Lojista',   monthly: 197,   annual: null, trialDays: 0 },
 };
 
 const BASE_URL = 'https://trancosoresolve.com.br';
@@ -209,7 +210,8 @@ Deno.serve(async (req) => {
           expiredUrl: `${BASE_URL}/Planos`,
         },
         items: [{
-          name: `Trancoso Resolve: ${planDef.nome}${isAnnual ? ' (Anual)' : ''}`,
+          // Limite Asaas: item.name max 30 caracteres — usar curto; marca vai no description
+          name: `${planDef.curto}${isAnnual ? ' Anual' : ''}`.slice(0, 30),
           description: 'Assinatura Trancoso Resolve — sem comissão sobre os serviços.',
           quantity: 1,
           value: amount,

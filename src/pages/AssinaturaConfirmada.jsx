@@ -162,7 +162,7 @@ export default function AssinaturaConfirmada() {
             <div className="flex items-center gap-2 mt-3 pt-3 border-t border-white/10">
               <Clock className="w-4 h-4 text-orange-400 shrink-0" />
               <p className="text-orange-300 text-xs">
-                Cartão salvo, mas <strong>nenhuma cobrança</strong> durante o período gratuito.
+                <strong>Nenhuma cobrança</strong> durante o período gratuito.
               </p>
             </div>
           )}

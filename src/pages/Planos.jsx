@@ -236,7 +236,7 @@ function FaqItem({ q, r }) {
   );
 }
 
-function PlanCard({ plano, anual, onCta, loading, index = 0 }) {
+function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
   const preco = anual && plano.precoAnual
     ? (plano.precoAnual / 12).toFixed(2).replace(".", ",")
     : plano.preco === 0
@@ -339,7 +339,11 @@ function PlanCard({ plano, anual, onCta, loading, index = 0 }) {
                 {plano.preco > 0 && (
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2 px-1">
                     <Lock className="w-3 h-3 text-green-500 shrink-0" />
-                    Cartão salvo · sem cobrança no período grátis
+                    {metodo === "CREDIT_CARD"
+                      ? "Cartão na página segura do Asaas · sem cobrança no período grátis"
+                      : metodo === "BOLETO"
+                        ? "Boleto · sem cobrança no período grátis"
+                        : "Pix · sem cobrança no período grátis"}
                   </div>
                 )}
               </>
@@ -632,6 +636,7 @@ export default function PlanosPage() {
                 onCta={handleCheckout}
                 loading={loadingPlan === plano.ctaKey}
                 index={i}
+                metodo={paymentMethod}
               />
             ))}
           </motion.div>

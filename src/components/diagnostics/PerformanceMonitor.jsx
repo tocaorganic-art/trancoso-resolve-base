@@ -90,11 +90,6 @@ export default function PerformanceMonitor({ onResults }) {
         ?.find((e) => e.name === 'first-contentful-paint');
       if (fcpEntry) latest.current.fcp = safeNum(Math.round(fcpEntry.startTime));
     } catch { /* API indisponível */ }
-    observe('paint', (entry) => {
-      if (entry.name !== 'first-contentful-paint') return;
-      latest.current.fcp = safeNum(Math.round(entry.startTime));
-      push();
-    });
 
     const observers = [];
     const observe = (type, cb, onActive) => {
@@ -110,6 +105,14 @@ export default function PerformanceMonitor({ onResults }) {
         onActive?.();
       } catch { /* tipo não suportado */ }
     };
+
+    // FCP via observer buffered — captura o FCP mesmo quando ele
+    // acontece APÓS o mount do monitor (antes ficava 'Sem dado' para sempre)
+    observe('paint', (entry) => {
+      if (entry.name !== 'first-contentful-paint') return;
+      latest.current.fcp = safeNum(Math.round(entry.startTime));
+      push();
+    });
 
     // LCP real: atualiza a cada pintura de conteúdo maior
     observe('largest-contentful-paint', (entry) => {

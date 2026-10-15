@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -26,6 +26,13 @@ const LoadingCard = () => (
 function DiagnosticosCompletosContent() {
   const [isGeneratingReport, setIsGeneratingReport] = useState(false);
 
+  // Últimos resultados REAIS medidos por cada monitor nesta sessão do navegador.
+  // O relatório completo é gerado a partir daqui — nunca de valores fixos/simulados.
+  const resultsRef = useRef({ performance: null, accessibility: null, seo: null, network: null });
+  const collect = (key) => (data) => {
+    resultsRef.current[key] = { ...data, capturedAt: new Date().toISOString() };
+  };
+
   // SEO próprio desta página — sobrescreve o title da home
   useEffect(() => {
     document.title = 'Diagnósticos Completos do Sistema | Trancoso Resolve';
@@ -44,65 +51,97 @@ function DiagnosticosCompletosContent() {
   const generateFullReport = () => {
     setIsGeneratingReport(true);
 
-    setTimeout(() => {
-      const report = {
-        timestamp: new Date().toISOString(),
-        performance: { score: 92, lcp: 1850, fid: 45, cls: 0.05 },
-        accessibility: { score: 95, issues: 2 },
-        seo: { score: 88, passed: 8, total: 10 },
-        network: { type: '4g', resources: 45, totalSize: '2.3 MB' },
-      };
+    const r = resultsRef.current;
+    const p = r.performance;
+    const a = r.accessibility;
+    const s = r.seo;
+    const n = r.network;
 
-      const reportText = `
+    const fmt = (v, unit = '') =>
+      v === null || v === undefined ? 'sem dado' : `${v}${unit}`;
+    const fmtScore = (v) =>
+      typeof v === 'number' ? `${v}/100` : 'sem dado';
+
+    // Score geral = média das áreas que foram medidas de fato
+    const areaScores = [p, a, s]
+      .map((x) => (x && typeof x.score === 'number' ? x.score : null))
+      .filter((v) => v !== null);
+    const overallScore = areaScores.length
+      ? Math.round(areaScores.reduce((x, y) => x + y, 0) / areaScores.length)
+      : null;
+    const overallStatus =
+      overallScore === null
+        ? 'SEM DADOS COLETADOS'
+        : overallScore >= 90
+          ? 'BOM'
+          : overallScore >= 75
+            ? 'ATENÇÃO'
+            : 'RUIM';
+
+    const line = (label, value) => `${label}: ${value}`;
+    const captured = (x) => (x && x.capturedAt ? ` | medido às ${new Date(x.capturedAt).toLocaleTimeString('pt-BR')}` : '');
+
+    const reportText = `
 ==============================================
 RELATÓRIO DE DIAGNÓSTICO COMPLETO
 Trancoso Resolve
 ==============================================
 
 Data: ${new Date().toLocaleString('pt-BR')}
+Fonte: medições em tempo real dos monitores nesta sessão do navegador.
+Métricas "sem dado" = ainda não medidas nesta sessão (ex.: FID requer
+interação do usuário; monitores lazy ainda podem estar carregando).
 
-PERFORMANCE
+PERFORMANCE (PerformanceMonitor)${captured(p)}
 -----------
-Score: ${report.performance.score}/100
-LCP: ${report.performance.lcp}ms
-FID: ${report.performance.fid}ms
-CLS: ${report.performance.cls}
+${line('Score', fmtScore(p?.score))}
+${line('LCP', fmt(p?.lcp, 'ms'))}
+${line('FID', fmt(p?.fid, 'ms'))}
+${line('CLS', fmt(p?.cls))}
+${line('FCP', fmt(p?.fcp, 'ms'))}
+${line('TTFB', fmt(p?.ttfb, 'ms'))}
 
-ACESSIBILIDADE
+ACESSIBILIDADE (A11yChecker)${captured(a)}
 --------------
-Score: ${report.accessibility.score}/100
-Issues: ${report.accessibility.issues}
+${line('Score', fmtScore(a?.score))}
+${line('Checks aprovados', a ? `${a.passed}/${a.total}` : 'sem dado')}
+${line('Problemas encontrados', a ? a.issues : 'sem dado')}${a && a.issueDetails && a.issueDetails.length ? `\nDetalhes:\n${a.issueDetails.map((d) => `  - ${d}`).join('\n')}` : ''}
 
-SEO
+SEO (SEOMonitor)${captured(s)}
 ---
-Score: ${report.seo.score}/100
-Checks Passed: ${report.seo.passed}/${report.seo.total}
+${line('Score', fmtScore(s?.score))}
+${line('Checks aprovados', s ? `${s.passed}/${s.total}` : 'sem dado')}
+${line('Falhas', s ? s.issues : 'sem dado')}${s && s.issueDetails && s.issueDetails.length ? `\nDetalhes:\n${s.issueDetails.map((d) => `  - ${d}`).join('\n')}` : ''}
 
-NETWORK
+REDE (NetworkMonitor)${captured(n)}
 -------
-Connection: ${report.network.type}
-Resources: ${report.network.resources}
-Total Size: ${report.network.totalSize}
+${line('Conexão', n ? `${n.networkInfo?.effectiveType || 'desconhecida'}${n.networkInfo?.downlink ? ` (${n.networkInfo.downlink} Mbps, RTT ${n.networkInfo.rtt}ms)` : ''}` : 'sem dado')}
+${line('Online', n ? (n.networkInfo?.online ? 'sim' : 'não') : 'sem dado')}
+${line('Recursos carregados', n ? `${n.resources?.total ?? 0} (scripts: ${n.resources?.scripts ?? 0}, css: ${n.resources?.stylesheets ?? 0}, imagens: ${n.resources?.images ?? 0})` : 'sem dado')}
+${line('Tamanho total transferido', n && n.resources?.totalSize ? `${(n.resources.totalSize / 1024 / 1024).toFixed(2)} MB` : 'sem dado')}
 
 ==============================================
-Status Geral: APROVADO
-Todos os critérios dentro dos limites aceitáveis.
+Status Geral: ${overallStatus}
+Score médio das áreas medidas: ${overallScore === null ? 'sem dados coletados ainda — aguarde os monitores e gere novamente' : `${overallScore}/100`}
 ==============================================
-      `;
+    `.trimStart();
 
-      const blob = new Blob([reportText], { type: 'text/plain' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `diagnostico-completo-${Date.now()}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      a.remove();
+    const blob = new Blob([reportText], { type: 'text/plain' });
+    const url = window.URL.createObjectURL(blob);
+    const dl = document.createElement('a');
+    dl.href = url;
+    dl.download = `diagnostico-completo-${Date.now()}.txt`;
+    document.body.appendChild(dl);
+    dl.click();
+    window.URL.revokeObjectURL(url);
+    dl.remove();
 
-      toast.success('Relatório gerado com sucesso!');
-      setIsGeneratingReport(false);
-    }, 2000);
+    toast.success(
+      overallScore === null
+        ? 'Relatório gerado, mas sem dados ainda — aguarde os monitores medirem e gere novamente.'
+        : 'Relatório gerado com os dados reais medidos pelos monitores!'
+    );
+    setIsGeneratingReport(false);
   };
 
   return (
@@ -152,29 +191,29 @@ Todos os critérios dentro dos limites aceitáveis.
 
         <TabsContent value="all" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Suspense fallback={<LoadingCard />}><PerformanceMonitor /></Suspense>
-            <Suspense fallback={<LoadingCard />}><A11yChecker /></Suspense>
-            <Suspense fallback={<LoadingCard />}><SEOMonitor /></Suspense>
-            <Suspense fallback={<LoadingCard />}><NetworkMonitor /></Suspense>
+            <Suspense fallback={<LoadingCard />}><PerformanceMonitor onResults={collect('performance')} /></Suspense>
+            <Suspense fallback={<LoadingCard />}><A11yChecker onResults={collect('accessibility')} /></Suspense>
+            <Suspense fallback={<LoadingCard />}><SEOMonitor onResults={collect('seo')} /></Suspense>
+            <Suspense fallback={<LoadingCard />}><NetworkMonitor onResults={collect('network')} /></Suspense>
           </div>
           <Suspense fallback={<LoadingCard />}><SystemHealthCheck /></Suspense>
           <Suspense fallback={<LoadingCard />}><ContinuousMonitor /></Suspense>
         </TabsContent>
 
         <TabsContent value="performance">
-          <Suspense fallback={<LoadingCard />}><PerformanceMonitor /></Suspense>
+          <Suspense fallback={<LoadingCard />}><PerformanceMonitor onResults={collect('performance')} /></Suspense>
         </TabsContent>
 
         <TabsContent value="a11y">
-          <Suspense fallback={<LoadingCard />}><A11yChecker /></Suspense>
+          <Suspense fallback={<LoadingCard />}><A11yChecker onResults={collect('accessibility')} /></Suspense>
         </TabsContent>
 
         <TabsContent value="seo">
-          <Suspense fallback={<LoadingCard />}><SEOMonitor /></Suspense>
+          <Suspense fallback={<LoadingCard />}><SEOMonitor onResults={collect('seo')} /></Suspense>
         </TabsContent>
 
         <TabsContent value="network">
-          <Suspense fallback={<LoadingCard />}><NetworkMonitor /></Suspense>
+          <Suspense fallback={<LoadingCard />}><NetworkMonitor onResults={collect('network')} /></Suspense>
         </TabsContent>
 
         <TabsContent value="system" className="space-y-6">

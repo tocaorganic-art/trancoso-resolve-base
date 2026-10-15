@@ -1,14 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Eye, AlertTriangle, CheckCircle, RefreshCw } from 'lucide-react';
 import { toast } from 'sonner';
 
-export default function A11yChecker() {
+export default function A11yChecker({ onResults }) {
   const [issues, setIssues] = useState([]);
   const [score, setScore] = useState(0);
   const [isChecking, setIsChecking] = useState(false);
+
+  // Expõe os resultados do scan para o relatório da página (dados reais, nunca simulados)
+  const onResultsRef = useRef(onResults);
+  onResultsRef.current = onResults;
 
   const runAccessibilityCheck = () => {
     setIsChecking(true);
@@ -137,6 +141,14 @@ export default function A11yChecker() {
     setScore(calculatedScore);
     setIssues(foundIssues);
     setIsChecking(false);
+
+    onResultsRef.current?.({
+      score: calculatedScore,
+      passed: passedChecks,
+      total: totalChecks,
+      issues: foundIssues.length,
+      issueDetails: foundIssues.map((i) => `[${i.level}] ${i.message}`),
+    });
 
     // Log to console
     console.log('♿ Accessibility Check:', {

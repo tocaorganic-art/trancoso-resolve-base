@@ -73,23 +73,31 @@ export default function PerformanceMonitor({ onResults }) {
       const nav = performance.getEntriesByType?.('navigation')?.[0];
       if (nav) {
         latest.current.ttfb = safeNum(Math.round(nav.responseStart));
-      } else if (performance.timing && performance.timing.requestStart > 0) {
+      } else if (performance.timing && performance.timing.responseStart > 0) {
+        // TTFB = responseStart desde o início da navegação (API legada, fallback raro)
         latest.current.ttfb = safeNum(
-          Math.round(performance.timing.responseStart - performance.timing.requestStart)
+          Math.round(performance.timing.responseStart - performance.timing.navigationStart)
         );
       }
     } catch { /* API indisponível */ }
 
-    // FCP: paint entries
+    // FCP: paint entries (leitura única imediata + observer buffered para
+    // o caso do FCP acontecer APÓS o mount do monitor — antes ele ficava
+    // 'Sem dado' para sempre nesse cenário)
     try {
       const fcpEntry = performance
         .getEntriesByType?.('paint')
         ?.find((e) => e.name === 'first-contentful-paint');
       if (fcpEntry) latest.current.fcp = safeNum(Math.round(fcpEntry.startTime));
     } catch { /* API indisponível */ }
+    observe('paint', (entry) => {
+      if (entry.name !== 'first-contentful-paint') return;
+      latest.current.fcp = safeNum(Math.round(entry.startTime));
+      push();
+    });
 
     const observers = [];
-    const observe = (type, cb) => {
+    const observe = (type, cb, onActive) => {
       try {
         if (!('PerformanceObserver' in window)) return;
         const supported = PerformanceObserver.supportedEntryTypes?.includes(type);
@@ -99,6 +107,7 @@ export default function PerformanceMonitor({ onResults }) {
         });
         po.observe({ type, buffered: true });
         observers.push(po);
+        onActive?.();
       } catch { /* tipo não suportado */ }
     };
 
@@ -114,21 +123,33 @@ export default function PerformanceMonitor({ onResults }) {
       push();
     });
 
-    // CLS real: acumula shifts de layout sem interação recente
+    // CLS real: acumula shifts de layout sem interação recente.
+    // Flag do observer: se registrado e NENHUM shift ocorreu, CLS = 0 (Bom).
+    let clsObserverActive = false;
     observe('layout-shift', (entry) => {
       if (entry.hadRecentInput) return;
       latest.current.cls = Number(((latest.current.cls || 0) + entry.value).toFixed(3));
       push();
-    });
+    }, () => { clsObserverActive = true; });
 
     // Se a página já terminou de carregar, LCP/FCP/TTFB já estão disponíveis
-    const finalize = () => push();
+    const finalize = () => {
+      // CLS: observer ativo + nenhum shift = CLS real 0 (não 'Sem dado')
+      if (clsObserverActive && latest.current.cls === null) {
+        latest.current.cls = 0;
+      }
+      push();
+    };
     if (document.readyState === 'complete') {
       finalize();
       // Em páginas carregadas o LCP às vezes só é reportado via buffered entries
       setTimeout(finalize, 500);
     } else {
-      window.addEventListener('load', finalize, { once: true });
+      window.addEventListener('load', () => {
+        finalize();
+        // dá tempo do buffered replay do LCP/FCP chegar antes do último push
+        setTimeout(finalize, 500);
+      }, { once: true });
     }
 
     if (import.meta.env.DEV) console.log('📊 Performance Metrics (reais):', latest.current);

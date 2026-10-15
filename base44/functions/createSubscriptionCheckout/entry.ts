@@ -56,12 +56,20 @@ function normalizePhone(raw: string): string | null {
   return noCC.length === 10 || noCC.length === 11 ? noCC : null;
 }
 
+interface CustomerAddress {
+  address?: string | null;
+  province?: string | null;
+  city?: string | null;
+  state?: string | null;
+}
+
 async function getOrCreateCustomer(
   apiKey: string,
   email: string,
   name: string,
   cpfCnpj?: string | null,
   phone?: string | null,
+  addr?: CustomerAddress,
 ): Promise<string> {
   const search = await asaasFetch(apiKey, `/v3/customers?email=${encodeURIComponent(email)}`);
   const existing = search.data?.data?.[0];
@@ -82,6 +90,25 @@ async function getOrCreateCustomer(
       });
       if (!patchRes.ok) {
         console.warn('[createSubscriptionCheckout] PATCH mobilePhone falhou:', JSON.stringify(patchRes.data?.errors));
+      }
+    }
+    // Asaas Checkout exige endereço no customer ("O campo address deve existir
+    // para o customer informado") — completa do perfil o que estiver faltando.
+    const ex = existing as { address?: string; province?: string; city?: string; state?: string };
+    const addressPatch: Record<string, string> = {};
+    if (addr?.address && !ex.address) addressPatch.address = addr.address;
+    if (addr?.province && !ex.province) addressPatch.province = addr.province;
+    if (addr?.city && !ex.city) addressPatch.city = addr.city;
+    if (addr?.state && !ex.state) addressPatch.state = addr.state;
+    if (Object.keys(addressPatch).length > 0) {
+      const patchAddrRes = await asaasFetch(apiKey, `/v3/customers/${existing.id}`, {
+        method: 'POST',
+        body: JSON.stringify(addressPatch),
+      });
+      if (!patchAddrRes.ok) {
+        console.warn('[createSubscriptionCheckout] PATCH endereço falhou:', JSON.stringify(patchAddrRes.data?.errors));
+      } else {
+        console.log(`[createSubscriptionCheckout] Endereço completado no customer Asaas: ${Object.keys(addressPatch).join(', ')}`);
       }
     }
     return existing.id;
@@ -210,20 +237,24 @@ Deno.serve(async (req) => {
     let customerPhone: string | null = normalizePhone(userPhoneRaw);
     let profileAddress: string | null = null;
     let profileProvince: string | null = null;
+    let profileCity: string | null = null;
+    let profileState: string | null = null;
     // Busca telefone e endereço no perfil do prestador (pré-preenchimento do checkout)
       try {
         const providers2 = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
-        const prov = (providers2?.[0] as { phone?: string; address?: string; neighborhood?: string } | undefined);
+        const prov = (providers2?.[0] as { phone?: string; address?: string; neighborhood?: string; city?: string; state?: string } | undefined);
         customerPhone = customerPhone || normalizePhone((prov?.phone || '') as string);
         if (prov?.address && String(prov.address).trim()) profileAddress = String(prov.address).trim();
         if (prov?.neighborhood && String(prov.neighborhood).trim()) profileProvince = String(prov.neighborhood).trim();
+        if (prov?.city && String(prov.city).trim()) profileCity = String(prov.city).trim();
+        if (prov?.state && String(prov.state).trim()) profileState = String(prov.state).trim();
       } catch (phoneErr) {
         console.warn('[createSubscriptionCheckout] Lookup telefone falhou:', (phoneErr as Error).message);
       }
     }
 
     // ─── Customer no Asaas ────────────────────────────────────────────────────
-    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name, customerDoc, customerPhone);
+    const customerId = await getOrCreateCustomer(apiKey, user.email, (user as any).full_name || (user as any).name, customerDoc, customerPhone, { address: profileAddress, province: profileProvince, city: profileCity, state: profileState });
 
     // ─── Trial via nextDueDate (primeira cobrança em X dias) ─────────────────
     const today = new Date();
@@ -251,6 +282,8 @@ Deno.serve(async (req) => {
         ...(customerPhone ? { phone: customerPhone } : {}),
         ...(profileAddress ? { address: profileAddress } : {}),
         ...(profileProvince ? { province: profileProvince } : {}),
+        ...(profileCity ? { city: profileCity } : {}),
+        ...(profileState ? { state: profileState } : {}),
       };
       const checkoutBody: Record<string, unknown> = {
         billingTypes: ['CREDIT_CARD'],

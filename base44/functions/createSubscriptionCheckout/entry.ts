@@ -27,6 +27,10 @@ const PLANS: Record<string, PlanDef> = {
 
 const BASE_URL = 'https://trancosoresolve.com.br';
 
+// Fingerprint de versão — permite verificar qual build está em produção
+// sem depender do pipeline de Publish. Atualizar a cada PR nesta função.
+const FN_VERSION = 'v93';
+
 function asaasBaseUrl(): string {
   return Deno.env.get('ASAAS_ENV') === 'sandbox'
     ? 'https://api-sandbox.asaas.com'
@@ -142,13 +146,13 @@ async function ensureCustomerForCardCheckout(
   cpfCnpj: string | null,
   phone: string | null,
   addr?: CustomerAddress,
-): Promise<string | null> {
+): Promise<{ id: string | null; action: string }> {
   const search = await asaasFetch(apiKey, `/v3/customers?email=${encodeURIComponent(email)}`);
   const existing = search.data?.data?.[0];
   if (!existing) {
     // Sem customer: o Asaas Checkout cria um novo a partir do customerData
     // na página hospedada — o pagador completa o que faltar lá.
-    return null;
+    return { id: null, action: 'none' };
   }
   const ex = existing as {
     id: string;
@@ -165,7 +169,7 @@ async function ensureCustomerForCardCheckout(
     const del = await asaasFetch(apiKey, `/v3/customers/${ex.id}`, { method: 'DELETE' });
     if (del.ok) {
       console.log('[createSubscriptionCheckout] Customer antigo incompleto excluído — novo será criado no Checkout do Asaas.');
-      return null;
+      return { id: null, action: 'deleted' };
     }
     console.warn(`[createSubscriptionCheckout] Exclusão do customer antigo falhou (${del.status}):`, JSON.stringify(del.data?.errors));
     // 2) Fallback: completa o endereço com os dados do perfil
@@ -183,8 +187,10 @@ async function ensureCustomerForCardCheckout(
         console.warn('[createSubscriptionCheckout] PATCH endereço falhou:', JSON.stringify(patchRes.data?.errors));
       } else {
         console.log(`[createSubscriptionCheckout] Endereço completado no customer Asaas: ${Object.keys(addressPatch).join(', ')}`);
+        return { id: ex.id, action: 'patched' };
       }
     }
+    return { id: ex.id, action: 'patch_failed' };
   }
   // Phone/cpfCnpj completam se faltarem (mesma garantia do fluxo Pix/Boleto)
   if (phone && !ex.mobilePhone) {
@@ -202,7 +208,7 @@ async function ensureCustomerForCardCheckout(
       body: JSON.stringify({ cpfCnpj }),
     });
   }
-  return ex.id;
+  return { id: ex.id, action: 'reused' };
 }
 
 Deno.serve(async (req) => {
@@ -316,17 +322,16 @@ Deno.serve(async (req) => {
     let profileCity: string | null = null;
     let profileState: string | null = null;
     // Busca telefone e endereço no perfil do prestador (pré-preenchimento do checkout)
-      try {
-        const providers2 = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
-        const prov = (providers2?.[0] as { phone?: string; address?: string; neighborhood?: string; city?: string; state?: string } | undefined);
-        customerPhone = customerPhone || normalizePhone((prov?.phone || '') as string);
-        if (prov?.address && String(prov.address).trim()) profileAddress = String(prov.address).trim();
-        if (prov?.neighborhood && String(prov.neighborhood).trim()) profileProvince = String(prov.neighborhood).trim();
-        if (prov?.city && String(prov.city).trim()) profileCity = String(prov.city).trim();
-        if (prov?.state && String(prov.state).trim()) profileState = String(prov.state).trim();
-      } catch (phoneErr) {
-        console.warn('[createSubscriptionCheckout] Lookup telefone falhou:', (phoneErr as Error).message);
-      }
+    try {
+      const providers2 = await base44.asServiceRole.entities.ServiceProvider.filter({ email: user.email });
+      const prov = (providers2?.[0] as { phone?: string; address?: string; neighborhood?: string; city?: string; state?: string } | undefined);
+      customerPhone = customerPhone || normalizePhone((prov?.phone || '') as string);
+      if (prov?.address && String(prov.address).trim()) profileAddress = String(prov.address).trim();
+      if (prov?.neighborhood && String(prov.neighborhood).trim()) profileProvince = String(prov.neighborhood).trim();
+      if (prov?.city && String(prov.city).trim()) profileCity = String(prov.city).trim();
+      if (prov?.state && String(prov.state).trim()) profileState = String(prov.state).trim();
+    } catch (phoneErr) {
+      console.warn('[createSubscriptionCheckout] Lookup telefone falhou:', (phoneErr as Error).message);
     }
 
     // billingType: PIX | BOLETO | CREDIT_CARD | DINAMICO (cliente escolhe na fatura)
@@ -339,8 +344,12 @@ Deno.serve(async (req) => {
     // seguem com o customer direto, completando endereço do perfil.
     const customerName = (user as any).full_name || (user as any).name;
     const profileAddr = { address: profileAddress, province: profileProvince, city: profileCity, state: profileState };
+    let customerAction = 'none'; // card: none (novo via customerData) | deleted | patched | reused
     const customerId = billingType === 'CREDIT_CARD'
-      ? await ensureCustomerForCardCheckout(apiKey, user.email, customerDoc, customerPhone, profileAddr)
+      ? await ensureCustomerForCardCheckout(apiKey, user.email, customerDoc, customerPhone, profileAddr).then(({ id, action }) => {
+          customerAction = action;
+          return id;
+        })
       : await getOrCreateCustomer(apiKey, user.email, customerName, customerDoc, customerPhone, profileAddr);
 
     // ─── Trial via nextDueDate (primeira cobrança em X dias) ─────────────────
@@ -365,8 +374,6 @@ Deno.serve(async (req) => {
         ...(customerPhone ? { phone: customerPhone } : {}),
         ...(profileAddress ? { address: profileAddress } : {}),
         ...(profileProvince ? { province: profileProvince } : {}),
-        ...(profileCity ? { city: profileCity } : {}),
-        ...(profileState ? { state: profileState } : {}),
       };
       const checkoutBody: Record<string, unknown> = {
         billingTypes: ['CREDIT_CARD'],
@@ -409,7 +416,12 @@ Deno.serve(async (req) => {
       if (!checkoutRes.ok) {
         console.error('[createSubscriptionCheckout] Erro Asaas Checkout:', JSON.stringify(checkoutRes.data));
         const desc = checkoutRes.data?.errors?.[0]?.description || 'Erro ao criar checkout de cartão no Asaas.';
-        return Response.json({ error: desc }, { status: 502 });
+        return Response.json({
+          error: desc,
+          fn_version: FN_VERSION,
+          customer_action: customerAction,
+          hint: customerAction === 'none' ? 'customer novo via customerData; pagador completa endereço na página do Asaas' : `customer existente tratado com a ação '${customerAction}'`,
+        }, { status: 502 });
       }
 
       const checkoutId = checkoutRes.data?.id as string | undefined;
@@ -443,6 +455,8 @@ Deno.serve(async (req) => {
         checkout_id: checkoutId || null,
         trial_days: effectiveTrialDays,
         gateway: 'asaas',
+        fn_version: FN_VERSION,
+        customer_action: customerAction,
         method: 'CREDIT_CARD',
       });
     }

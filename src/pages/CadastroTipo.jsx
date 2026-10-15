@@ -64,6 +64,10 @@ export default function CadastroTipoPage() {
       tipo_pessoa: tipoPessoa,
       full_name: nomeCompleto?.trim() || name?.trim() || '',
       email: email || '',
+      // occupation é obrigatório pelo schema do ServiceProvider; sem ele o create
+      // falha em silêncio (catch abaixo) e o registro mínimo nunca é persistido.
+      // 'Outro' é o valor neutro do enum — a ocupação real é definida no perfil.
+      occupation: 'Outro',
       cpf: cpf.replace(/\D/g, ''),
       data_nascimento: dataNascimento,
       autorizou_verificacao: autorizouVerificacao,

@@ -1,93 +1,147 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Zap } from 'lucide-react';
 
+/**
+ * Monitor de métricas reais do navegador.
+ *
+ * Corrige dois problemas da versão anterior:
+ * 1. LCP negativo (-1.79e12ms): era calculado com a API legada
+ *    `performance.timing.loadEventEnd - performance.timing.navigationStart`.
+ *    Quando loadEventEnd ainda era 0, subtraía o epoch de navigationStart,
+ *    produzindo um valor negativo gigante. Agora usa Navigation Timing Level 2
+ *    e o PerformanceObserver `largest-contentful-paint` (valores relativos,
+ *    nunca negativos).
+ * 2. FID/CLS "simulados" (50ms / 0.05): números inventados exibidos como se
+ *    fossem medição. Agora mede FID (first-input), CLS (layout-shift) e
+ *    FCP (paint) de verdade e mostra "—" quando a métrica ainda não existe.
+ */
+
+const METRIC_WEIGHTS = { lcp: 0.25, fid: 0.25, cls: 0.25, fcp: 0.15, ttfb: 0.1 };
+const THRESHOLDS = {
+  lcp: { good: 2500, needs: 4000 },
+  fid: { good: 100, needs: 300 },
+  cls: { good: 0.1, needs: 0.25 },
+  fcp: { good: 1800, needs: 3000 },
+  ttfb: { good: 600, needs: 1500 },
+};
+
+function scoreOf(key, value) {
+  const t = THRESHOLDS[key];
+  if (value <= t.good) return 100;
+  if (value <= t.needs) return 75;
+  return 50;
+}
+
 export default function PerformanceMonitor() {
+  // null = métrica ainda não disponível (sem inventar valor)
   const [metrics, setMetrics] = useState({
-    fcp: 0,
-    lcp: 0,
-    fid: 0,
-    cls: 0,
-    ttfb: 0,
-    score: 0,
+    fcp: null,
+    lcp: null,
+    fid: null,
+    cls: null,
+    ttfb: null,
   });
+  const latest = useRef({ fcp: null, lcp: null, fid: null, cls: null, ttfb: null });
 
   useEffect(() => {
-    const measurePerformance = () => {
-      if (!performance || !performance.timing) return;
-
-      const timing = performance.timing;
-      const navigation = performance.getEntriesByType('navigation')[0];
-
-      // Calculate Core Web Vitals
-      const ttfb = timing.responseStart - timing.requestStart;
-      const fcp = navigation?.domContentLoadedEventStart - navigation?.fetchStart || 0;
-      
-      // Simulated LCP, FID, CLS (in production, use real measurements)
-      const lcp = timing.loadEventEnd - timing.navigationStart;
-      const fid = 50; // Simulated
-      const cls = 0.05; // Simulated
-
-      // Calculate overall score (0-100)
-      const lcpScore = lcp < 2500 ? 100 : lcp < 4000 ? 75 : 50;
-      const fidScore = fid < 100 ? 100 : fid < 300 ? 75 : 50;
-      const clsScore = cls < 0.1 ? 100 : cls < 0.25 ? 75 : 50;
-      const fcpScore = fcp < 1800 ? 100 : fcp < 3000 ? 75 : 50;
-      const ttfbScore = ttfb < 600 ? 100 : ttfb < 1500 ? 75 : 50;
-
-      const overallScore = Math.round(
-        (lcpScore * 0.25 + fidScore * 0.25 + clsScore * 0.25 + fcpScore * 0.15 + ttfbScore * 0.1)
-      );
-
-      setMetrics({
-        fcp: Math.round(fcp),
-        lcp: Math.round(lcp),
-        fid,
-        cls: cls.toFixed(3),
-        ttfb: Math.round(ttfb),
-        score: overallScore,
-      });
-
-      // Log to console for debugging
-      if (import.meta.env.DEV) console.log('📊 Performance Metrics:', {
-        FCP: `${Math.round(fcp)}ms`,
-        LCP: `${Math.round(lcp)}ms`,
-        FID: `${fid}ms`,
-        CLS: cls.toFixed(3),
-        TTFB: `${Math.round(ttfb)}ms`,
-        Score: `${overallScore}/100`,
-      });
+    const push = () => {
+      const m = { ...latest.current };
+      // Score ponderado calculado apenas sobre as métricas realmente medidas
+      const measured = Object.keys(m).filter((k) => m[k] !== null);
+      let score = null;
+      if (measured.length > 0) {
+        const totalWeight = measured.reduce((acc, k) => acc + METRIC_WEIGHTS[k], 0);
+        score = Math.round(
+          measured.reduce((acc, k) => acc + scoreOf(k, m[k]) * METRIC_WEIGHTS[k], 0) / totalWeight
+        );
+      }
+      setMetrics({ ...m, score });
     };
 
-    // Measure on load
+    const safeNum = (n) => Number.isFinite(n) && n >= 0 ? n : null;
+
+    // TTFB: Navigation Timing Level 2 (valor relativo, sempre >= 0)
+    try {
+      const nav = performance.getEntriesByType?.('navigation')?.[0];
+      if (nav) {
+        latest.current.ttfb = safeNum(Math.round(nav.responseStart));
+      } else if (performance.timing && performance.timing.requestStart > 0) {
+        latest.current.ttfb = safeNum(
+          Math.round(performance.timing.responseStart - performance.timing.requestStart)
+        );
+      }
+    } catch { /* API indisponível */ }
+
+    // FCP: paint entries
+    try {
+      const fcpEntry = performance
+        .getEntriesByType?.('paint')
+        ?.find((e) => e.name === 'first-contentful-paint');
+      if (fcpEntry) latest.current.fcp = safeNum(Math.round(fcpEntry.startTime));
+    } catch { /* API indisponível */ }
+
+    const observers = [];
+    const observe = (type, cb) => {
+      try {
+        if (!('PerformanceObserver' in window)) return;
+        const supported = PerformanceObserver.supportedEntryTypes?.includes(type);
+        if (!supported) return;
+        const po = new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) cb(entry);
+        });
+        po.observe({ type, buffered: true });
+        observers.push(po);
+      } catch { /* tipo não suportado */ }
+    };
+
+    // LCP real: atualiza a cada pintura de conteúdo maior
+    observe('largest-contentful-paint', (entry) => {
+      latest.current.lcp = safeNum(Math.round(entry.startTime));
+      push();
+    });
+
+    // FID real: só existe após a primeira interação do usuário
+    observe('first-input', (entry) => {
+      latest.current.fid = safeNum(Math.round(entry.processingStart - entry.startTime));
+      push();
+    });
+
+    // CLS real: acumula shifts de layout sem interação recente
+    observe('layout-shift', (entry) => {
+      if (entry.hadRecentInput) return;
+      latest.current.cls = Number(((latest.current.cls || 0) + entry.value).toFixed(3));
+      push();
+    });
+
+    // Se a página já terminou de carregar, LCP/FCP/TTFB já estão disponíveis
+    const finalize = () => push();
     if (document.readyState === 'complete') {
-      measurePerformance();
+      finalize();
+      // Em páginas carregadas o LCP às vezes só é reportado via buffered entries
+      setTimeout(finalize, 500);
     } else {
-      window.addEventListener('load', measurePerformance);
-      return () => window.removeEventListener('load', measurePerformance);
+      window.addEventListener('load', finalize, { once: true });
     }
+
+    if (import.meta.env.DEV) console.log('📊 Performance Metrics (reais):', latest.current);
+
+    return () => observers.forEach((po) => po.disconnect());
   }, []);
 
   const getScoreColor = (score) => {
+    if (score === null) return 'text-slate-400';
     if (score >= 90) return 'text-green-600';
     if (score >= 75) return 'text-yellow-600';
     return 'text-red-600';
   };
 
   const getMetricStatus = (metric, value) => {
-    const thresholds = {
-      lcp: { good: 2500, needs: 4000 },
-      fid: { good: 100, needs: 300 },
-      cls: { good: 0.1, needs: 0.25 },
-      fcp: { good: 1800, needs: 3000 },
-      ttfb: { good: 600, needs: 1500 },
-    };
-
-    const threshold = thresholds[metric];
+    if (value === null || value === undefined) return 'no-data';
+    const threshold = THRESHOLDS[metric];
     if (!threshold) return 'good';
-
     if (value <= threshold.good) return 'good';
     if (value <= threshold.needs) return 'needs-improvement';
     return 'poor';
@@ -111,7 +165,7 @@ export default function PerformanceMonitor() {
           </CardTitle>
           <div className="text-right">
             <div className={`text-3xl font-bold ${getScoreColor(metrics.score)}`}>
-              {metrics.score}
+              {metrics.score ?? '—'}
             </div>
             <p className="text-xs text-slate-500">Performance Score</p>
           </div>
@@ -119,7 +173,7 @@ export default function PerformanceMonitor() {
       </CardHeader>
       <CardContent className="space-y-4">
         {metricsList.map((metric) => {
-          const status = getMetricStatus(metric.key, parseFloat(metric.value));
+          const status = getMetricStatus(metric.key, metric.value === null ? null : parseFloat(metric.value));
           return (
             <div key={metric.key}>
               <div className="flex items-center justify-between mb-2">
@@ -129,19 +183,19 @@ export default function PerformanceMonitor() {
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-mono">
-                    {metric.value}{metric.unit}
+                    {metric.value === null ? '—' : `${metric.value}${metric.unit}`}
                   </span>
                   <Badge className={
                     status === 'good' ? 'bg-green-500' :
                     status === 'needs-improvement' ? 'bg-yellow-500' :
-                    'bg-red-500'
+                    status === 'poor' ? 'bg-red-500' : 'bg-slate-400'
                   }>
-                    {status === 'good' ? 'Bom' : status === 'needs-improvement' ? 'OK' : 'Ruim'}
+                    {status === 'good' ? 'Bom' : status === 'needs-improvement' ? 'OK' : status === 'poor' ? 'Ruim' : 'Sem dado'}
                   </Badge>
                 </div>
               </div>
-              <Progress 
-                value={status === 'good' ? 100 : status === 'needs-improvement' ? 60 : 30} 
+              <Progress
+                value={status === 'good' ? 100 : status === 'needs-improvement' ? 60 : status === 'poor' ? 30 : 0}
                 className="h-2"
               />
             </div>

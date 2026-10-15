@@ -132,11 +132,16 @@ export default function PermissionChecker({ children, requiredRole = null, requi
       return;
     }
 
-    // Sem requiredUserType: verifica se precisa fazer setup
-    const userTypeUndefined = !user.user_type || user.user_type === 'indefinido';
-    if (userTypeUndefined && window.location.pathname !== '/CadastroTipo') {
-      setPermissionStatus('needs_setup');
-      return;
+    // Sem requiredUserType: verifica se precisa fazer setup.
+    // Páginas protegidas por requiredRole (ex.: admin) NÃO exigem onboarding de
+    // user_type — a role já foi validada acima. Redirecionar admin ao /CadastroTipo
+    // deixava a página em branco (return null) e travava o acesso às telas de gestão.
+    if (!requiredRole) {
+      const userTypeUndefined = !user.user_type || user.user_type === 'indefinido';
+      if (userTypeUndefined && window.location.pathname !== '/CadastroTipo') {
+        setPermissionStatus('needs_setup');
+        return;
+      }
     }
 
     setPermissionStatus('authorized');
@@ -199,7 +204,18 @@ export default function PermissionChecker({ children, requiredRole = null, requi
 
   if (permissionStatus === 'needs_setup') {
     window.location.href = '/CadastroTipo';
-    return null;
+    // Durante o redirect mostra a tela de verificação em vez de página em branco
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-sand/30">
+        <Card className="w-full max-w-md">
+          <CardContent className="p-8 text-center">
+            <RefreshCw className="w-12 h-12 text-orange-600 animate-spin mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-slate-900 mb-2">Redirecionando...</h2>
+            <p className="text-slate-600">Vamos completar seu cadastro em instantes.</p>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 
   if (permissionStatus === 'unauthorized') {

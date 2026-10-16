@@ -290,16 +290,26 @@ function getCategoryFallback(service) {
 // distribuindo as fotos do pool de cada categoria em round-robin (sem repetir
 // dentro do mesmo lote enquanto o pool não esgotar). Evita o bug de cards
 // diferentes mostrando exatamente a mesma foto na tela ao mesmo tempo.
+//
+// Categorias correlatas (ex.: limpeza/diarista/faxina, cozinheiro/chef/
+// gastronomia) compartilham as mesmas fotos nas mesmas posições do pool, então
+// o round-robin isolado por categoryKey não bastava: dois serviços de
+// categorias diferentes podiam cair no mesmo índice e mostrar a mesma foto no
+// mesmo lote. `usedUrls` rastreia o lote inteiro e pula pra próxima imagem
+// livre do pool antes de aceitar repetição.
 function buildImageAssignments(list) {
   const counters = {};
+  const usedUrls = new Set();
   const map = {};
   for (const service of list) {
     if (SERVICE_IMAGE_OVERRIDES[service.id]) {
       map[service.id] = SERVICE_IMAGE_OVERRIDES[service.id];
+      usedUrls.add(SERVICE_IMAGE_OVERRIDES[service.id]);
       continue;
     }
     if (isValidImageUrl(service.images?.[0])) {
       map[service.id] = service.images[0];
+      usedUrls.add(service.images[0]);
       continue;
     }
     const raw = (service.category || service.serviceType || service.name || '')
@@ -308,9 +318,17 @@ function buildImageAssignments(list) {
       .replace(/[̀-ͯ]/g, '');
     const categoryKey = Object.keys(categoryImageMap).find(key => raw.includes(key)) || 'default';
     const imgs = categoryImageMap[categoryKey];
-    const idx = counters[categoryKey] || 0;
+    let idx = counters[categoryKey] || 0;
+    let chosen = imgs[idx % imgs.length];
+    let attempts = 0;
+    while (usedUrls.has(chosen) && attempts < imgs.length) {
+      idx++;
+      attempts++;
+      chosen = imgs[idx % imgs.length];
+    }
     counters[categoryKey] = idx + 1;
-    map[service.id] = imgs[idx % imgs.length];
+    map[service.id] = chosen;
+    usedUrls.add(chosen);
   }
   return map;
 }

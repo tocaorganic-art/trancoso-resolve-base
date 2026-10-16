@@ -81,7 +81,7 @@ export default function FinancialCalculator() {
                 step={0.1}
                 value={state.fundadorPrice}
                 onChange={update('fundadorPrice')}
-                className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400"
               />
             </div>
             <div>
@@ -93,7 +93,7 @@ export default function FinancialCalculator() {
                 step={0.1}
                 value={state.profissionalPrice}
                 onChange={update('profissionalPrice')}
-                className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400"
+                className="w-full rounded-lg border border-border bg-muted px-3 py-2 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400"
               />
             </div>
           </div>

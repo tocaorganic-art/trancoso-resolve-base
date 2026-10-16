@@ -28,11 +28,11 @@ export default function TrIAResearchMode() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-br from-black via-slate-900 to-slate-800 overflow-y-auto">
+    <div className="flex flex-col h-full bg-linear-to-br from-black via-slate-900 to-slate-800 overflow-y-auto">
       {/* Header */}
       <div className="p-6 md:p-8 border-b border-slate-800">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-lg bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center">
             <Globe className="w-5 h-5 text-white" />
           </div>
           <div>
@@ -49,13 +49,13 @@ export default function TrIAResearchMode() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleSearch(searchQuery)}
               placeholder="Pesquise sobre Trancoso, eventos, roteiros..."
-              className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 focus:border-purple-500 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none transition-colors focus:shadow-lg focus:shadow-purple-500/20"
+              className="w-full bg-slate-800 border border-slate-700 hover:border-slate-600 focus:border-purple-500 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-hidden transition-colors focus:shadow-lg focus:shadow-purple-500/20"
             />
           </div>
           <button
             onClick={() => handleSearch(searchQuery)}
             disabled={!searchQuery.trim() || isSearching}
-            className="p-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="p-3 bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {isSearching ? (
               <Loader2 className="w-5 h-5 animate-spin" />
@@ -86,7 +86,7 @@ export default function TrIAResearchMode() {
                   className="p-4 rounded-lg bg-slate-800/50 border border-slate-700 hover:border-purple-500/50 transition-colors cursor-pointer group"
                 >
                   <div className="flex gap-3">
-                    <div className="w-16 h-12 rounded bg-gradient-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center flex-shrink-0">
+                    <div className="w-16 h-12 rounded bg-linear-to-br from-purple-500/20 to-pink-500/20 flex items-center justify-center shrink-0">
                       <Globe className="w-5 h-5 text-purple-400" />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -120,7 +120,7 @@ export default function TrIAResearchMode() {
                   <button
                     key={idx}
                     onClick={() => handleSearch(topic.query)}
-                    className={`group relative p-4 rounded-lg bg-gradient-to-br ${topic.color} overflow-hidden transition-all transform hover:scale-105`}
+                    className={`group relative p-4 rounded-lg bg-linear-to-br ${topic.color} overflow-hidden transition-all transform hover:scale-105`}
                   >
                     <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
                     <div className="relative flex items-center gap-3">
@@ -139,7 +139,7 @@ export default function TrIAResearchMode() {
 
             <div className="mt-8 p-6 rounded-lg bg-slate-800/50 border border-slate-700">
               <div className="flex gap-3 mb-3">
-                <Sparkles className="w-5 h-5 text-cyan-400 flex-shrink-0" />
+                <Sparkles className="w-5 h-5 text-cyan-400 shrink-0" />
                 <h3 className="font-semibold text-white">Dicas de pesquisa</h3>
               </div>
               <ul className="space-y-2 text-sm text-slate-300">

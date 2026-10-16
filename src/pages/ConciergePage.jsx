@@ -42,7 +42,7 @@ function Campo({ label, children }) {
 
 const inputCls =
   'w-full rounded-brand-md border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 ' +
-  'placeholder:text-slate-400 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20';
+  'placeholder:text-slate-400 focus:border-orange-500 focus:outline-hidden focus:ring-2 focus:ring-orange-500/20';
 
 export default function ConciergePage() {
   const [lang, setLang] = useState('pt');
@@ -151,11 +151,11 @@ export default function ConciergePage() {
             loading="eager"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-900/85 to-slate-900/60" />
+        <div className="absolute inset-0 bg-linear-to-br from-slate-950/95 via-slate-900/85 to-slate-900/60" />
 
         <div className="relative mx-auto max-w-6xl px-5 py-16 sm:py-24">
           <div className="flex justify-end mb-8">
-            <div className="inline-flex rounded-full border border-white/20 bg-white/10 p-0.5 backdrop-blur">
+            <div className="inline-flex rounded-full border border-white/20 bg-white/10 p-0.5 backdrop-blur-sm">
               {['pt', 'es'].map((l) => (
                 <button
                   key={l}
@@ -270,7 +270,7 @@ export default function ConciergePage() {
                 <img
                   src={CONCIERGE_MEDIA.retratoFundador}
                   alt="Antonio Monteiro Pereira Junior | Toca Experience"
-                  className="aspect-[4/5] w-full rounded-brand-xl object-cover shadow-brand"
+                  className="aspect-4/5 w-full rounded-brand-xl object-cover shadow-brand"
                   loading="lazy"
                   onError={() => setFotoFundadorOk(false)}
                 />
@@ -316,7 +316,7 @@ export default function ConciergePage() {
                     controls
                     playsInline
                     preload="none"
-                    className="mx-auto aspect-[9/16] w-48 rounded-brand-md border border-slate-200 object-cover sm:w-56"
+                    className="mx-auto aspect-9/16 w-48 rounded-brand-md border border-slate-200 object-cover sm:w-56"
                   >
                     <track kind="captions" />
                   </video>
@@ -397,7 +397,7 @@ export default function ConciergePage() {
 
           <div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {ETAPAS.map((etapa) => (
-              <div key={etapa.n} className="rounded-brand-lg border border-white/10 bg-white/[0.04] p-6">
+              <div key={etapa.n} className="rounded-brand-lg border border-white/10 bg-white/4 p-6">
                 <span className="text-2xl font-black text-orange-400">{etapa.n}</span>
                 <h3 className="mt-3 text-base font-bold text-white">{etapa.titulo[lang]}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-slate-400">{etapa.texto[lang]}</p>
@@ -419,7 +419,7 @@ export default function ConciergePage() {
           <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {CONCIERGE_MEDIA.galeriaTrabalhos.map((foto) => (
               <figure key={foto.src} className="overflow-hidden rounded-brand-lg border border-slate-200">
-                <img src={foto.src} alt={foto.alt} className="aspect-[4/3] w-full object-cover" loading="lazy" />
+                <img src={foto.src} alt={foto.alt} className="aspect-4/3 w-full object-cover" loading="lazy" />
                 {foto.local && (
                   <figcaption className="px-4 py-3 text-xs font-semibold text-slate-500">{foto.local}</figcaption>
                 )}
@@ -439,7 +439,7 @@ export default function ConciergePage() {
                     <img
                       src={foto.src}
                       alt={foto.alt}
-                      className="aspect-[4/3] w-full object-cover"
+                      className="aspect-4/3 w-full object-cover"
                       loading="lazy"
                       onError={() => setFotosDjOk((m) => ({ ...m, [foto.src]: false }))}
                     />

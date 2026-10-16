@@ -162,7 +162,7 @@ export default function AdminAssinaturasPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-xs">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-muted-foreground">Trial</span>
@@ -172,7 +172,7 @@ export default function AdminAssinaturasPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-xs">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-muted-foreground">Ativos</span>
@@ -182,7 +182,7 @@ export default function AdminAssinaturasPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-xs">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-muted-foreground">Expirados</span>
@@ -192,7 +192,7 @@ export default function AdminAssinaturasPage() {
             </CardContent>
           </Card>
 
-          <Card className="border-none shadow-sm bg-orange-50">
+          <Card className="border-none shadow-xs bg-orange-50">
             <CardContent className="p-4">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-orange-700 font-medium">MRR</span>

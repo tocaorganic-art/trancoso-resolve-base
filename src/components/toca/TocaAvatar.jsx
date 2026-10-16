@@ -190,7 +190,7 @@ export default function TocaAvatar() {
         {/* Overlay com botão de play grande (aparece antes do play) */}
         {!videoPlaying && !videoPaused && (
           <div className="absolute inset-0 bg-black/40 flex items-center justify-center pointer-events-none">
-            <div className="w-20 h-20 rounded-full bg-gradient-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl animate-pulse">
+            <div className="w-20 h-20 rounded-full bg-linear-to-r from-amber-500 to-orange-500 flex items-center justify-center shadow-2xl animate-pulse">
               <Play className="w-10 h-10 text-white ml-1" />
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function TocaAvatar() {
             {/* Controles e título */}
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-400 to-orange-500 flex items-center justify-center">
                   <Video className="w-5 h-5 text-white" />
                 </div>
                 <div>
@@ -225,7 +225,7 @@ export default function TocaAvatar() {
               <div className="flex items-center gap-2">
                 <Button
                   onClick={handleVideoPlayPause}
-                  className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold shadow-lg"
+                  className="bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold shadow-lg"
                   aria-label={videoPlaying && !videoPaused ? 'Pausar vídeo' : 'Reproduzir vídeo'}
                 >
                   {videoPlaying && !videoPaused ? (
@@ -274,7 +274,7 @@ export default function TocaAvatar() {
             </div>
 
             {/* Roteiro em texto para acessibilidade */}
-            <div className="mt-4 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+            <div className="mt-4 bg-white/5 backdrop-blur-xs rounded-xl p-4 border border-white/10">
               <p className="text-white/80 text-sm leading-relaxed">
                 <span className="font-semibold text-amber-400">Transcrição:</span> {ROTEIRO_TOCA}
               </p>
@@ -284,7 +284,7 @@ export default function TocaAvatar() {
           /* MODO ÁUDIO - Fallback com avatar estático e narração por navegador */
           <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
             {/* Avatar da Toca */}
-            <div className="relative flex-shrink-0">
+            <div className="relative shrink-0">
               <div className={`w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-amber-400 shadow-xl relative ${isSpeaking && !isPaused ? 'animate-pulse' : ''}`}>
                 <img
                   src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face"
@@ -312,12 +312,12 @@ export default function TocaAvatar() {
             
             {/* Balão de fala com texto */}
             <div className="flex-1 w-full">
-              <div className="relative bg-white/5 backdrop-blur-sm rounded-xl p-4 md:p-5 border border-white/10">
+              <div className="relative bg-white/5 backdrop-blur-xs rounded-xl p-4 md:p-5 border border-white/10">
                 {/* Seta do balão */}
                 <div className="absolute -left-2 top-6 w-4 h-4 bg-white/5 border-l border-b border-white/10 transform rotate-45 hidden md:block" />
                 
                 <div className="flex items-start gap-3">
-                  <Volume2 className={`w-5 h-5 text-amber-400 flex-shrink-0 mt-1 ${isSpeaking && !isPaused ? 'animate-pulse' : ''}`} />
+                  <Volume2 className={`w-5 h-5 text-amber-400 shrink-0 mt-1 ${isSpeaking && !isPaused ? 'animate-pulse' : ''}`} />
                   
                   <div className="flex-1">
                     <p className="text-white/90 text-sm md:text-base leading-relaxed">
@@ -329,7 +329,7 @@ export default function TocaAvatar() {
                       <Button
                         onClick={handlePlayPause}
                         disabled={!voicesLoaded}
-                        className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold shadow-lg disabled:opacity-50"
+                        className="bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-semibold shadow-lg disabled:opacity-50"
                         aria-label={isSpeaking && !isPaused ? 'Pausar narração' : 'Ouvir explicação'}
                       >
                         {isSpeaking && !isPaused ? (

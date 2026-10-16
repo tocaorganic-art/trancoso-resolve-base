@@ -173,7 +173,7 @@ export default function ServicoDetalhesPage() {
         initial={{ opacity: 0, scale: 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative h-48 md:h-72 bg-gradient-to-r from-orange-500 to-orange-700 overflow-hidden"
+        className="relative h-48 md:h-72 bg-linear-to-r from-orange-500 to-orange-700 overflow-hidden"
       >
         <img
           src={imageSrc}
@@ -181,7 +181,7 @@ export default function ServicoDetalhesPage() {
           className="absolute inset-0 w-full h-full object-cover opacity-30"
           onError={e => { e.target.style.display = 'none'; }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-black/30 to-transparent" />
       </motion.div>
 
       <div className="container mx-auto max-w-4xl px-4 -mt-32 pb-12">
@@ -191,7 +191,7 @@ export default function ServicoDetalhesPage() {
           transition={{ duration: 0.4, delay: 0.15 }}
         >
           <Link to={createPageUrl("ServicosCategoria", `?cat=${service.category}`)}>
-            <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/30 backdrop-blur-sm">
+            <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/30 backdrop-blur-xs">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar
             </Button>
@@ -207,7 +207,7 @@ export default function ServicoDetalhesPage() {
           <CardContent className="p-4 sm:p-8">
             <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
               <div className="flex-1 min-w-0">
-                <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 break-words">{service.title}</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 wrap-break-word">{service.title}</h1>
                 <Badge className="bg-orange-100 text-orange-800">{service.category}</Badge>
               </div>
               <div className="text-left sm:text-right shrink-0">
@@ -304,7 +304,7 @@ export default function ServicoDetalhesPage() {
                       <motion.div className="flex-1" whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                         <Button
                           size="lg"
-                          className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/25"
+                          className="w-full bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/25"
                           onClick={() => setShowBooking(true)}
                         >
                           <CalendarIcon className="w-5 h-5 mr-2" />

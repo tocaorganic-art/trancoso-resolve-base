@@ -78,7 +78,7 @@ export default function ManutencaoSistemaPage() {
       </div>
 
       {/* Info */}
-      <Card className="bg-gradient-to-r from-orange-50 to-amber-50 border-orange-200">
+      <Card className="bg-linear-to-r from-orange-50 to-amber-50 border-orange-200">
         <CardContent className="p-6">
           <h3 className="font-semibold text-foreground mb-2 flex items-center gap-2">
             <Shield className="w-5 h-5 text-brand-primary" />

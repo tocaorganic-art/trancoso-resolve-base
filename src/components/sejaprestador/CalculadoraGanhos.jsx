@@ -37,7 +37,7 @@ export default function CalculadoraGanhos() {
   const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
   return (
-    <section className="py-12 md:py-20 bg-gradient-to-br from-slate-900 to-blue-950">
+    <section className="py-12 md:py-20 bg-linear-to-br from-slate-900 to-blue-950">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-10">
           <span className="text-sm font-semibold text-cyan-400 uppercase tracking-widest">Simule seus ganhos</span>
@@ -51,7 +51,7 @@ export default function CalculadoraGanhos() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Controles */}
-          <Card className="bg-white/10 border-white/20 text-white backdrop-blur-sm">
+          <Card className="bg-white/10 border-white/20 text-white backdrop-blur-xs">
             <CardContent className="p-6 space-y-7">
 
               {/* Ocupação */}
@@ -85,7 +85,7 @@ export default function CalculadoraGanhos() {
                   min={1} max={10} step={1}
                   value={[horasPorDia]}
                   onValueChange={([v]) => setHorasPorDia(v)}
-                  className="[&_[role=slider]]:bg-cyan-400 [&_.range]:bg-cyan-400"
+                  className="**:[[role=slider]]:bg-cyan-400 [&_.range]:bg-cyan-400"
                 />
                 <div className="flex justify-between text-xs text-slate-400 mt-1">
                   <span>1h</span><span>10h</span>
@@ -102,7 +102,7 @@ export default function CalculadoraGanhos() {
                   min={1} max={30} step={1}
                   value={[diasPorMes]}
                   onValueChange={([v]) => setDiasPorMes(v)}
-                  className="[&_[role=slider]]:bg-cyan-400"
+                  className="**:[[role=slider]]:bg-cyan-400"
                 />
                 <div className="flex justify-between text-xs text-slate-400 mt-1">
                   <span>1 dia</span><span>30 dias</span>
@@ -113,7 +113,7 @@ export default function CalculadoraGanhos() {
 
           {/* Resultados */}
           <div className="space-y-4">
-            <Card className="bg-gradient-to-br from-cyan-500 to-blue-600 border-none text-white">
+            <Card className="bg-linear-to-br from-cyan-500 to-blue-600 border-none text-white">
               <CardContent className="p-6">
                 <div className="flex items-center gap-3 mb-1">
                   <DollarSign className="w-6 h-6 opacity-80" />
@@ -125,7 +125,7 @@ export default function CalculadoraGanhos() {
             </Card>
 
             <div className="grid grid-cols-2 gap-4">
-              <Card className="bg-white/10 border-white/20 text-white backdrop-blur-sm">
+              <Card className="bg-white/10 border-white/20 text-white backdrop-blur-xs">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-1">
                     <TrendingUp className="w-4 h-4 text-green-400" />
@@ -135,7 +135,7 @@ export default function CalculadoraGanhos() {
                 </CardContent>
               </Card>
 
-              <Card className="bg-white/10 border-white/20 text-white backdrop-blur-sm">
+              <Card className="bg-white/10 border-white/20 text-white backdrop-blur-xs">
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-1">
                     <Calendar className="w-4 h-4 text-yellow-400" />
@@ -146,7 +146,7 @@ export default function CalculadoraGanhos() {
               </Card>
             </div>
 
-            <Card className="bg-white/5 border-white/10 text-white backdrop-blur-sm">
+            <Card className="bg-white/5 border-white/10 text-white backdrop-blur-xs">
               <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Zap className="w-4 h-4 text-orange-400" />

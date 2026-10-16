@@ -101,7 +101,7 @@ export default function BookingForm({ provider, services, user, onCancel }) {
 
   if (success) {
     return (
-      <Card className="border-none shadow-xl bg-gradient-to-br from-green-50 to-cyan-50">
+      <Card className="border-none shadow-xl bg-linear-to-br from-green-50 to-cyan-50">
         <CardContent className="p-8 text-center">
           <PartyPopper className="w-16 h-16 text-green-600 mx-auto mb-4" />
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Solicitação Enviada!</h2>
@@ -211,7 +211,7 @@ export default function BookingForm({ provider, services, user, onCancel }) {
 
               <div className="flex gap-3 pt-4 border-t">
                 <Button type="button" variant="outline" onClick={onCancel} className="flex-1">Cancelar</Button>
-                <Button type="button" onClick={handleNext} className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600">
+                <Button type="button" onClick={handleNext} className="flex-1 bg-linear-to-r from-cyan-500 to-blue-600">
                   Continuar <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
               </div>
@@ -269,7 +269,7 @@ export default function BookingForm({ provider, services, user, onCancel }) {
                 <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
                   <ArrowLeft className="w-4 h-4 mr-1" /> Voltar
                 </Button>
-                <Button type="submit" disabled={mutation.isPending} className="flex-1 bg-gradient-to-r from-green-600 to-emerald-600">
+                <Button type="submit" disabled={mutation.isPending} className="flex-1 bg-linear-to-r from-green-600 to-emerald-600">
                   {mutation.isPending ? "Enviando..." : <><Check className="w-4 h-4 mr-1" /> Confirmar Agendamento</>}
                 </Button>
               </div>

@@ -86,7 +86,7 @@ function TypingIndicator() {
       <div className="w-7 h-7 rounded-full bg-[#E8571A] flex items-center justify-center shrink-0">
         <Bot className="w-4 h-4 text-white" />
       </div>
-      <div className="bg-white border border-slate-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
+      <div className="bg-white border border-slate-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-xs">
         <div className="flex gap-1 items-center">
           <div className="w-2 h-2 rounded-full bg-[#E8571A] animate-bounce" style={{ animationDelay: '0ms' }} />
           <div className="w-2 h-2 rounded-full bg-[#E8571A] animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -106,7 +106,7 @@ function MessageBubble({ msg }) {
           <Bot className="w-4 h-4 text-white" />
         </div>
       )}
-      <div className={`max-w-[82%] rounded-2xl px-4 py-2.5 shadow-sm ${
+      <div className={`max-w-[82%] rounded-2xl px-4 py-2.5 shadow-xs ${
         isUser
           ? 'bg-[#E8571A] text-white rounded-br-sm'
           : 'bg-white border border-slate-100 text-slate-900 rounded-bl-sm'
@@ -326,7 +326,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
       <div className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 transition-all duration-300 ${isMinimized ? 'w-80' : 'w-96'} max-w-[calc(100vw-2rem)]`}>
       <Card className="shadow-2xl border border-slate-200 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-[#E8571A] to-[#C1440E] text-white p-4 flex items-center justify-between">
+        <div className="bg-linear-to-r from-[#E8571A] to-[#C1440E] text-white p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
               <Bot className="w-5 h-5" />
@@ -415,7 +415,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
                   disabled={isTyping || uploadingImage}
-                  className="flex-1 text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:border-orange-400 focus:ring-1 focus:ring-orange-200 disabled:opacity-50 bg-slate-50"
+                  className="flex-1 text-sm px-3 py-2 rounded-xl border border-slate-200 focus:outline-hidden focus:border-orange-400 focus:ring-1 focus:ring-orange-200 disabled:opacity-50 bg-slate-50"
                 />
                 <button
                   onClick={() => sendMessage()}

@@ -92,7 +92,7 @@ export default function ServicoLocalPagePS({
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-orange-900 to-orange-700 text-white py-14 px-4">
+      <section className="bg-linear-to-br from-orange-900 to-orange-700 text-white py-14 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="flex items-center gap-2 text-orange-200 text-sm font-medium mb-4">
             <MapPin className="w-4 h-4" />
@@ -115,7 +115,7 @@ export default function ServicoLocalPagePS({
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">{servicesTitle}</h2>
           <ul className="space-y-3">
             {services.map((item, i) => (
-              <li key={i} className="flex items-start gap-3 bg-card rounded-xl px-5 py-4 shadow-sm border border-border">
+              <li key={i} className="flex items-start gap-3 bg-card rounded-xl px-5 py-4 shadow-xs border border-border">
                 <CheckCircle className="w-5 h-5 text-orange-500 mt-0.5 shrink-0" />
                 <span className="text-foreground text-base">{item}</span>
               </li>
@@ -124,7 +124,7 @@ export default function ServicoLocalPagePS({
         </section>
 
         {/* Como funciona */}
-        <section className="bg-card rounded-2xl p-8 shadow-sm border border-border">
+        <section className="bg-card rounded-2xl p-8 shadow-xs border border-border">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">{howTitle}</h2>
           <p className="text-muted-foreground text-base leading-relaxed">{howText}</p>
         </section>
@@ -133,7 +133,7 @@ export default function ServicoLocalPagePS({
         <LeadCaptureForm serviceInterest={category} serviceLabel={serviceLabel || category} />
 
         {/* CTA */}
-        <section className="bg-gradient-to-r from-orange-700 to-orange-900 rounded-3xl p-8 md:p-12 text-center">
+        <section className="bg-linear-to-r from-orange-700 to-orange-900 rounded-3xl p-8 md:p-12 text-center">
           <p className="text-white text-lg font-medium mb-6 max-w-xl mx-auto">{cta}</p>
           <Link to={searchUrl} className="block sm:inline-block w-full sm:w-auto">
             <Button className="w-full sm:w-auto bg-white text-orange-800 hover:bg-orange-50 font-bold text-base px-8 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95">

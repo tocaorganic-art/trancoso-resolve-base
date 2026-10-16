@@ -65,7 +65,7 @@ export default function AssinaturaConfirmada() {
   ];
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] overflow-hidden flex items-center justify-center px-4 py-16">
+    <div className="relative min-h-screen bg-linear-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] overflow-hidden flex items-center justify-center px-4 py-16">
       {/* Aurora blobs */}
       <motion.div
         className="absolute top-[-80px] left-[-80px] w-[340px] h-[340px] rounded-full bg-orange-600/20 blur-[100px] pointer-events-none"
@@ -114,7 +114,7 @@ export default function AssinaturaConfirmada() {
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-2xl md:text-3xl font-extrabold mb-3"
         >
-          <span className="bg-gradient-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-orange-400 to-amber-300 bg-clip-text text-transparent">
             Assinatura ativada
           </span>{' '}
           <span className="text-white">com sucesso!</span>
@@ -178,7 +178,7 @@ export default function AssinaturaConfirmada() {
             whileTap={{ scale: 0.97 }}
           >
             <Link to="/Dashboard">
-              <button className="w-full py-3.5 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold flex items-center justify-center gap-2 transition-all shadow-lg shadow-orange-900/30">
+              <button className="w-full py-3.5 rounded-xl bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold flex items-center justify-center gap-2 transition-all shadow-lg shadow-orange-900/30">
                 Acessar meu painel <ArrowRight className="w-4 h-4" />
               </button>
             </Link>

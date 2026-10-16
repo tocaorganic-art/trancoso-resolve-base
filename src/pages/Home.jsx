@@ -360,7 +360,7 @@ const ServiceCard = ({ service, provider, image }) => {
                 )}
             </div>
 
-            <CardContent className="p-5 flex flex-col flex-grow">
+            <CardContent className="p-5 flex flex-col grow">
                 {/* Título */}
                 <h3 className="font-bold text-base text-foreground leading-snug mb-1 line-clamp-2">
                     {service.title}
@@ -372,7 +372,7 @@ const ServiceCard = ({ service, provider, image }) => {
                 )}
 
                 {/* Descrição */}
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2 flex-grow leading-relaxed">
+                <p className="text-sm text-muted-foreground mb-4 line-clamp-2 grow leading-relaxed">
                     {description}
                 </p>
 
@@ -702,7 +702,7 @@ export default function HomePage() {
               );
             })()
           ) : (
-            <div className="text-center py-12 bg-gradient-to-br from-orange-50 to-sand rounded-xl border border-orange-100">
+            <div className="text-center py-12 bg-linear-to-br from-orange-50 to-sand rounded-xl border border-orange-100">
               <Sparkles className="w-12 h-12 mx-auto text-amber-400 mb-3" />
               <h3 className="text-lg font-semibold text-foreground mb-2">{t('home.noFeaturedTitle')}</h3>
               <p className="text-muted-foreground mb-4 max-w-md mx-auto">
@@ -814,7 +814,7 @@ export default function HomePage() {
         </section>
 
         {/* Por que usar */}
-        <section className="mb-10 md:mb-20 bg-gradient-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border overflow-hidden relative">
+        <section className="mb-10 md:mb-20 bg-linear-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border overflow-hidden relative">
           <div className="absolute top-0 right-0 w-64 h-64 bg-orange-400/10 blur-[80px] rounded-full pointer-events-none" />
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -867,7 +867,7 @@ export default function HomePage() {
         </section>
 
         {/* Costa do Descobrimento */}
-        <section className="mb-10 md:mb-20 bg-gradient-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border">
+        <section className="mb-10 md:mb-20 bg-linear-to-br from-orange-50 to-sand dark:from-secondary dark:to-background rounded-3xl p-8 md:p-12 border border-orange-100 dark:border-border">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -933,7 +933,7 @@ export default function HomePage() {
                   <MapPin className="w-5 h-5 text-orange-500" />
                 </div>
                 <h3 className="font-bold text-lg text-foreground mb-2">{dest.cidade}</h3>
-                <p className="text-muted-foreground text-sm mb-4 leading-relaxed flex-grow">{dest.desc}</p>
+                <p className="text-muted-foreground text-sm mb-4 leading-relaxed grow">{dest.desc}</p>
                 <ul className="space-y-2 mb-4">
                   {dest.links.map((link) => (
                     <li key={link.href}>

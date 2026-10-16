@@ -55,7 +55,7 @@ export default function DestinoHub() {
   return (
     <div className="bg-background overflow-x-hidden">
       {/* Hero */}
-      <section className="relative bg-gradient-to-br from-[#1A1208] via-[#3a2d18] to-[#1A1208] text-white py-20 md:py-32 overflow-hidden">
+      <section className="relative bg-linear-to-br from-[#1A1208] via-[#3a2d18] to-[#1A1208] text-white py-20 md:py-32 overflow-hidden">
         <div className="relative container mx-auto max-w-5xl px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}

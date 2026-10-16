@@ -44,7 +44,7 @@ export default function AIRecommendations({ services }) {
 
   return (
     <Card className="glass-card border-none shadow-xl mb-8">
-      <CardHeader className="bg-gradient-to-r from-orange-50 to-sand/30 border-b">
+      <CardHeader className="bg-linear-to-r from-orange-50 to-sand/30 border-b">
         <CardTitle className="flex items-center gap-3">
           <div className="p-2 bg-brand-primary rounded-xl">
             <Sparkles className="w-6 h-6 text-white" />
@@ -68,7 +68,7 @@ export default function AIRecommendations({ services }) {
           <Button
             onClick={getRecommendations}
             disabled={!query.trim() || loading}
-            className="w-full bg-gradient-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
+            className="w-full bg-linear-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
           >
             {loading ? (
               <>
@@ -95,7 +95,7 @@ export default function AIRecommendations({ services }) {
               const service = services.find(s => s.name === rec.service_name);
               
               return (
-                <Card key={index} className="border-2 border-orange-200 bg-gradient-to-br from-white to-orange-50">
+                <Card key={index} className="border-2 border-orange-200 bg-linear-to-br from-white to-orange-50">
                   <CardContent className="p-5">
                     <div className="flex items-start gap-3">
                       <div className="bg-brand-primary text-white rounded-full w-8 h-8 flex items-center justify-center font-bold shrink-0">

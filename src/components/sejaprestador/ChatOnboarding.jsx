@@ -50,7 +50,7 @@ export default function ChatOnboarding() {
     <section className="container mx-auto px-4 max-w-2xl pb-10">
       <div className="bg-white rounded-2xl shadow-md border border-amber-100 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-amber-700 to-amber-600 px-5 py-4 flex items-center gap-3">
+        <div className="bg-linear-to-r from-amber-700 to-amber-600 px-5 py-4 flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center shrink-0">
             <Bot className="w-5 h-5 text-white" />
           </div>
@@ -70,7 +70,7 @@ export default function ChatOnboarding() {
               <div className={`max-w-[85%] rounded-xl px-3 py-2 text-sm ${
                 msg.role === 'user'
                   ? 'bg-amber-700 text-white rounded-br-none'
-                  : 'bg-white border border-amber-100 text-slate-800 rounded-bl-none shadow-sm'
+                  : 'bg-white border border-amber-100 text-slate-800 rounded-bl-none shadow-xs'
               }`}>
                 {msg.role === 'assistant' ? (
                   <ReactMarkdown className="prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
@@ -115,7 +115,7 @@ export default function ChatOnboarding() {
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && sendMessage()}
             placeholder="Tire sua dúvida sobre como ser parceiro..."
-            className="flex-1 text-sm border border-amber-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-300 bg-amber-50/30"
+            className="flex-1 text-sm border border-amber-200 rounded-lg px-3 py-2 focus:outline-hidden focus:ring-2 focus:ring-amber-300 bg-amber-50/30"
           />
           <Button
             size="icon"

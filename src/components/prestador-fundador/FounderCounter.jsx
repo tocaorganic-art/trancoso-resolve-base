@@ -114,7 +114,7 @@ export default function FounderCounter({ variant = "hero" }) {
       </div>
       <div className="h-3 w-full rounded-full bg-muted overflow-hidden">
         <motion.div
-          className="h-full bg-gradient-to-r from-orange-500 to-amber-500 rounded-full"
+          className="h-full bg-linear-to-r from-orange-500 to-amber-500 rounded-full"
           initial={{ width: 0 }}
           animate={{ width: `${pct}%` }}
           transition={{ duration: 0.8, ease: "easeOut" }}

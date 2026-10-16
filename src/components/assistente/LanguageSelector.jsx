@@ -27,7 +27,7 @@ export default function LanguageSelector({ currentLanguage, onLanguageChange }) 
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 bg-orange-900/20 hover:bg-orange-900/40 border border-orange-800/30 hover:border-orange-700/50 text-[#F2DEC4] rounded-pill px-3 py-2 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-orange-500"
+        className="flex items-center gap-2 bg-orange-900/20 hover:bg-orange-900/40 border border-orange-800/30 hover:border-orange-700/50 text-[#F2DEC4] rounded-pill px-3 py-2 text-sm transition-all focus:outline-hidden focus:ring-2 focus:ring-orange-500"
         aria-label="Selecionar idioma"
         aria-expanded={isOpen}
       >

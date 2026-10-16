@@ -18,14 +18,14 @@ export default function RegionalHero() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             to="/"
-            className="inline-flex items-center justify-center bg-[#F26A21] hover:bg-[#d95a1a] text-white font-bold px-6 py-3 rounded-lg min-h-[44px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F26A21] focus-visible:ring-offset-2 focus-visible:ring-offset-[#20382C]"
+            className="inline-flex items-center justify-center bg-[#F26A21] hover:bg-[#d95a1a] text-white font-bold px-6 py-3 rounded-lg min-h-[44px] transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F26A21] focus-visible:ring-offset-2 focus-visible:ring-offset-[#20382C]"
           >
             <Sparkles className="w-4 h-4 mr-2" />
             Conheça a plataforma
           </Link>
           <Link
             to="/participar"
-            className="inline-flex items-center justify-center bg-transparent hover:bg-[#F26A21]/10 text-[#F26A21] font-bold px-6 py-3 rounded-lg min-h-[44px] transition-colors border-2 border-[#F26A21] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F26A21] focus-visible:ring-offset-2 focus-visible:ring-offset-[#20382C]"
+            className="inline-flex items-center justify-center bg-transparent hover:bg-[#F26A21]/10 text-[#F26A21] font-bold px-6 py-3 rounded-lg min-h-[44px] transition-colors border-2 border-[#F26A21] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F26A21] focus-visible:ring-offset-2 focus-visible:ring-offset-[#20382C]"
           >
             Escolha como participar
           </Link>

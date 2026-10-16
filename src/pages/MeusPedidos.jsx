@@ -46,7 +46,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
           </motion.div>
         </div>
       </CardHeader>
-      <CardContent className="flex-grow space-y-3">
+      <CardContent className="grow space-y-3">
         <div className="flex items-center gap-2 text-sm">
           <Calendar className="w-4 h-4 text-muted-foreground" />
           <span>{format(new Date(request.date), "PPP", { locale: ptBR })}</span>
@@ -81,7 +81,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
         <div className="p-4 pt-0">
           <Button
             className="w-full border-border text-foreground"
-            variant={hasReview ? "secondary" : "outline"}
+            variant={hasReview ? "secondary" : "outline-solid"}
             onClick={() => !hasReview && onReviewClick(request, provider)}
             disabled={hasReview}
           >
@@ -188,7 +188,7 @@ export default function MeusPedidosPage() {
             <h3 className="text-xl font-semibold text-foreground">Nenhum pedido encontrado</h3>
             <p className="text-muted-foreground mt-2 mb-6">Por enquanto, nada por aqui. Assim que pintar algo, te aviso!</p>
             <Link to={createPageUrl("Home")}>
-              <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">Bora resolver</Button>
+              <Button className="bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700">Bora resolver</Button>
             </Link>
           </motion.div>
         )}

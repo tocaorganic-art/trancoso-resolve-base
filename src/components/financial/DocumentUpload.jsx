@@ -248,7 +248,7 @@ Retorne um JSON válido.
       </Card>
 
       <Card className="glass-card border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 border-b">
+        <CardHeader className="bg-linear-to-r from-purple-50 to-pink-50 border-b">
           <CardTitle className="flex items-center gap-2">
             <Upload className="w-5 h-5 text-purple-600" />
             Importação Inteligente de Documentos com IA
@@ -294,7 +294,7 @@ Retorne um JSON válido.
                 <Button
                   onClick={handleUpload}
                   disabled={uploading || processing}
-                  className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
+                  className="bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700"
                 >
                   {uploading || processing ? (
                     <>

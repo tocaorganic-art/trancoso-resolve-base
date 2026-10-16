@@ -104,7 +104,7 @@ export default function UserJourneyViz() {
               id={`journey-tab-${s.id}`}
               onClick={() => setActiveStep(i)}
               onKeyDown={(e) => handleKeyDown(e, i)}
-              className={`flex-1 flex flex-col items-center gap-1.5 p-2 rounded-xl transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary
+              className={`flex-1 flex flex-col items-center gap-1.5 p-2 rounded-xl transition-all focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-primary
                 ${isActive ? 'bg-brand-primary/10' : 'hover:bg-muted/50'}`}
             >
               <motion.span
@@ -138,7 +138,7 @@ export default function UserJourneyViz() {
         role="tabpanel"
         aria-labelledby={`journey-tab-${step.id}`}
         tabIndex={0}
-        className="focus:outline-none"
+        className="focus:outline-hidden"
       >
         <AnimatePresence mode="wait">
           <motion.div

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 export default function AuthLayout({ icon: Icon, title, subtitle, footer, children }) {
   return (
-    <div className="min-h-screen relative bg-gradient-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] flex items-center justify-center px-4 overflow-hidden">
+    <div className="min-h-screen relative bg-linear-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] flex items-center justify-center px-4 overflow-hidden">
       {/* Aurora blobs */}
       <motion.div
         className="absolute top-[-80px] left-[-80px] w-[360px] h-[360px] rounded-full bg-orange-600/20 blur-[100px] pointer-events-none"
@@ -33,7 +33,7 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 300, damping: 14, delay: 0.1 }}
             whileHover={{ scale: 1.1, rotate: 5 }}
-            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 mb-4 shadow-lg shadow-orange-900/30"
+            className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-linear-to-br from-orange-500 to-orange-600 mb-4 shadow-lg shadow-orange-900/30"
           >
             <Icon className="w-7 h-7 text-white" aria-hidden="true" />
           </motion.div>
@@ -42,7 +42,7 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
         </motion.div>
 
         {/* Glassmorphism card */}
-        <div className="bg-white/5 border border-white/10 backdrop-blur-sm rounded-2xl shadow-xl p-8">
+        <div className="bg-white/5 border border-white/10 backdrop-blur-xs rounded-2xl shadow-xl p-8">
           {children}
         </div>
 

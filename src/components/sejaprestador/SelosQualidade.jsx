@@ -52,7 +52,7 @@ export default function SelosQualidade() {
             const Icon = selo.icon;
             return (
               <div key={i} className={`rounded-2xl border ${selo.border} ${selo.bg} p-6 text-center`}>
-                <div className={`w-14 h-14 rounded-full bg-white shadow-sm flex items-center justify-center mx-auto mb-4`}>
+                <div className={`w-14 h-14 rounded-full bg-white shadow-xs flex items-center justify-center mx-auto mb-4`}>
                   <Icon className={`w-7 h-7 ${selo.color}`} />
                 </div>
                 <h3 className="font-bold text-slate-900 mb-2">{selo.title}</h3>

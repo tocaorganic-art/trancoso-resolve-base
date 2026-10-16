@@ -52,7 +52,7 @@ export default function BundleAnalyzer() {
   };
 
   return (
-    <Card className="bg-gradient-to-br from-orange-50 to-sand/50">
+    <Card className="bg-linear-to-br from-orange-50 to-sand/50">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Package className="w-5 h-5 text-orange-600" />

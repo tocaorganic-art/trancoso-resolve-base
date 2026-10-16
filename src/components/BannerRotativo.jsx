@@ -59,7 +59,7 @@ function Seta({ dir, onClick }) {
       aria-label={esq ? "Slide anterior" : "Próximo slide"}
       className={`absolute top-1/2 -translate-y-1/2 z-30 grid place-items-center
                   h-11 w-11 rounded-full bg-black/45 hover:bg-black/70 text-white
-                  backdrop-blur-sm transition-colors focus:outline-none
+                  backdrop-blur-xs transition-colors focus:outline-hidden
                   focus:ring-2 focus:ring-white/70 ${esq ? "left-4" : "right-4"}`}
     >
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
@@ -74,14 +74,14 @@ function Seta({ dir, onClick }) {
 // sempre dentro dos limites, legíveis sobre qualquer arte, sem corte.
 function Dots({ i, total, irPara, compact = false }) {
   return (
-    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-sm px-3 py-2">
+    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 rounded-full bg-black/40 backdrop-blur-xs px-3 py-2">
       {Array.from({ length: total }).map((_, idx) => (
         <button
           key={idx}
           onClick={() => irPara(idx)}
           aria-label={`Ir para o slide ${idx + 1}`}
           aria-current={idx === i}
-          className={`no-touch-target rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white/70 ${
+          className={`no-touch-target rounded-full transition-all focus:outline-hidden focus:ring-2 focus:ring-white/70 ${
             compact ? "h-2" : "h-2.5"
           } ${idx === i ? (compact ? "w-6" : "w-8") + " bg-white" : (compact ? "w-2" : "w-2.5") + " bg-white/50 hover:bg-white/80"}`}
         />
@@ -139,7 +139,7 @@ export default function BannerRotativo() {
             </Link>
             <Link to={s.to}
                   className={`absolute flex items-center justify-center rounded-full font-extrabold
-                              transition-all active:scale-[0.98] shadow-lg focus:outline-none
+                              transition-all active:scale-[0.98] shadow-lg focus:outline-hidden
                               focus:ring-4 focus:ring-white/50 ${s.btn}`}
                   style={{ ...ZONA, fontFamily: "Nunito, sans-serif", fontSize: "clamp(12px, 1.05vw, 20px)", letterSpacing: "0.02em" }}>
               {s.cta}

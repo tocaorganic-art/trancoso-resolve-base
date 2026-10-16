@@ -98,7 +98,7 @@ export default function Base44ReportPreview({ reportData }) {
   return (
     <div className={`space-y-6 ${isDark ? 'dark' : ''}`}>
       {/* Header */}
-      <Card className={`border-none shadow-xl ${isDark ? 'bg-slate-800 text-white' : 'bg-gradient-to-br from-blue-50 to-cyan-50'}`}>
+      <Card className={`border-none shadow-xl ${isDark ? 'bg-slate-800 text-white' : 'bg-linear-to-br from-blue-50 to-cyan-50'}`}>
         <CardHeader>
           <div className="flex items-start justify-between">
             <div>
@@ -296,7 +296,7 @@ export default function Base44ReportPreview({ reportData }) {
       )}
 
       {/* Final Status */}
-      <Card className={`border-none shadow-lg ${isDark ? 'bg-slate-800' : 'bg-gradient-to-br from-green-50 to-emerald-50'}`}>
+      <Card className={`border-none shadow-lg ${isDark ? 'bg-slate-800' : 'bg-linear-to-br from-green-50 to-emerald-50'}`}>
         <CardHeader>
           <CardTitle className={`text-lg flex items-center gap-2 ${isDark ? 'text-white' : 'text-green-900'}`}>
             <CheckCircle2 className="w-5 h-5 text-green-600" />

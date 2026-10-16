@@ -17,7 +17,7 @@ export default function TrIASidebar({ isOpen, conversations, activeId, onSelect,
     <>
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/60 md:hidden z-30 backdrop-blur-sm"
+          className="fixed inset-0 bg-black/60 md:hidden z-30 backdrop-blur-xs"
           onClick={onClose}
         />
       )}

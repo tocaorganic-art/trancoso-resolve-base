@@ -231,7 +231,7 @@ export default function CadastroTipoPage() {
                           <motion.div
                             whileHover={{ scale: 1.08, rotate: -3 }}
                             transition={{ type: 'spring', stiffness: 280, damping: 12 }}
-                            className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-gradient-to-br from-orange-400 to-orange-600 shadow-lg"
+                            className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 bg-linear-to-br from-orange-400 to-orange-600 shadow-lg"
                           >
                             <opt.icon className="w-8 h-8 text-white" />
                           </motion.div>
@@ -364,7 +364,7 @@ export default function CadastroTipoPage() {
               </label>
             </div>
 
-            <Button className="w-full bg-gradient-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600 text-white" onClick={handlePrestadorSubmit} disabled={updateUserMutation.isPending}>
+            <Button className="w-full bg-linear-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600 text-white" onClick={handlePrestadorSubmit} disabled={updateUserMutation.isPending}>
               {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
               {isEmpresaComPonto ? 'Continuar com Plano Empresas' : 'Cadastrar como Prestador'}
             </Button>

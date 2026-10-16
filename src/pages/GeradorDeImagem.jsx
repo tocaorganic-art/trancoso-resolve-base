@@ -207,7 +207,7 @@ export default function GeradorDeImagemPage() {
                   <button
                     key={t.label}
                     onClick={() => setPrompt(t.prompt)}
-                    className="text-left bg-card border border-border hover:border-orange-400 rounded-xl p-3 shadow-sm transition-all"
+                    className="text-left bg-card border border-border hover:border-orange-400 rounded-xl p-3 shadow-xs transition-all"
                   >
                     <p className="text-xs font-semibold text-foreground mb-0.5">{t.label}</p>
                     <p className="text-xs text-muted-foreground line-clamp-2">{t.prompt}</p>

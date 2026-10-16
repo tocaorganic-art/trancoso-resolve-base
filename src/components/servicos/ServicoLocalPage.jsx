@@ -162,7 +162,7 @@ export default function ServicoLocalPage({
 
   return (
     <div className="min-h-screen bg-background">
-      <section className="bg-gradient-to-br from-orange-900 to-orange-700 text-white py-14 px-4">
+      <section className="bg-linear-to-br from-orange-900 to-orange-700 text-white py-14 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="flex items-center gap-2 text-orange-200 text-sm font-medium mb-4">
             <MapPin className="w-4 h-4" />
@@ -172,7 +172,7 @@ export default function ServicoLocalPage({
           <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-5">{h1}</h1>
           <p className="text-lg text-orange-100 leading-relaxed mb-8 max-w-2xl">{intro}</p>
           <Link to={searchUrl} className="block sm:inline-block w-full sm:w-auto">
-            <Button className="w-full sm:w-auto bg-gradient-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold text-base px-8 py-4 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg">
+            <Button className="w-full sm:w-auto bg-linear-to-r from-orange-600 to-orange-700 hover:from-orange-700 hover:to-orange-800 text-white font-bold text-base px-8 py-4 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg">
               {ctaButton} <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
           </Link>
@@ -190,7 +190,7 @@ export default function ServicoLocalPage({
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-6">{servicesTitle}</h2>
           <ul className="space-y-3">
             {services.map((item, i) => (
-              <li key={i} className="flex items-start gap-3 bg-card backdrop-blur-sm rounded-xl px-5 py-4 border border-border">
+              <li key={i} className="flex items-start gap-3 bg-card backdrop-blur-xs rounded-xl px-5 py-4 border border-border">
                 <CheckCircle className="w-5 h-5 text-orange-500 mt-0.5 shrink-0" />
                 <span className="text-foreground text-base">{item}</span>
               </li>
@@ -198,12 +198,12 @@ export default function ServicoLocalPage({
           </ul>
         </section>
 
-        <section className="bg-card backdrop-blur-sm rounded-2xl p-8 border border-border">
+        <section className="bg-card backdrop-blur-xs rounded-2xl p-8 border border-border">
           <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4">{howTitle}</h2>
           <p className="text-muted-foreground text-base leading-relaxed">{howText}</p>
         </section>
 
-        <section className="bg-gradient-to-r from-orange-600 to-orange-800 rounded-3xl p-8 md:p-12 text-center shadow-xl">
+        <section className="bg-linear-to-r from-orange-600 to-orange-800 rounded-3xl p-8 md:p-12 text-center shadow-xl">
           <p className="text-white text-lg font-medium mb-6 max-w-xl mx-auto">{cta}</p>
           <Link to={searchUrl} className="block sm:inline-block w-full sm:w-auto">
             <Button className="w-full sm:w-auto bg-white text-orange-800 hover:bg-orange-50 font-bold text-base px-8 min-h-[44px] transition-all duration-200 hover:scale-105 active:scale-95 shadow-lg">
@@ -213,7 +213,7 @@ export default function ServicoLocalPage({
         </section>
 
         {seoText && (
-          <section className="bg-card backdrop-blur-sm rounded-2xl p-8 border border-border">
+          <section className="bg-card backdrop-blur-xs rounded-2xl p-8 border border-border">
             <h2 className="text-xl font-bold text-foreground mb-4">{`Sobre ${serviceLabel || category} em ${locationLabel}`}</h2>
             <div className="prose max-w-none text-muted-foreground text-sm leading-relaxed space-y-4">
               {seoText.map((paragraph, i) => (

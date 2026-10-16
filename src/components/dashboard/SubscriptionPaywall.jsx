@@ -27,7 +27,7 @@ export default function SubscriptionPaywall({ subscriptionStatus, isTrial, hasAn
   const showTrialButton = !hasAnySubscription && userEmail;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-amber-50 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 max-w-md w-full p-8 text-center">
         <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-5">
           <LockKeyhole className="w-8 h-8 text-amber-600" />
@@ -61,7 +61,7 @@ export default function SubscriptionPaywall({ subscriptionStatus, isTrial, hasAn
             <Button
               onClick={handleActivateTrial}
               disabled={activatingTrial}
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 font-bold h-12 text-base"
+              className="w-full bg-linear-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 font-bold h-12 text-base"
             >
               {activatingTrial ? (
                 <Loader2 className="w-5 h-5 mr-2 animate-spin" />
@@ -73,7 +73,7 @@ export default function SubscriptionPaywall({ subscriptionStatus, isTrial, hasAn
           )}
 
           <Link to={createPageUrl("Planos")} className="block">
-            <Button className={`w-full font-bold h-12 text-base ${showTrialButton ? 'bg-white border-2 border-amber-600 text-amber-700 hover:bg-amber-50' : 'bg-gradient-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600'}`} variant={showTrialButton ? "outline" : "default"}>
+            <Button className={`w-full font-bold h-12 text-base ${showTrialButton ? 'bg-white border-2 border-amber-600 text-amber-700 hover:bg-amber-50' : 'bg-linear-to-r from-amber-600 to-orange-500 hover:from-amber-700 hover:to-orange-600'}`} variant={showTrialButton ? "outline-solid" : "default"}>
               <CreditCard className="w-5 h-5 mr-2" />
               {showTrialButton ? "Ou assinar direto" : "Ativar assinatura"}
             </Button>

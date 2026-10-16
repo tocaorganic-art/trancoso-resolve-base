@@ -164,7 +164,7 @@ export default function DisponibilidadeEditor({ providerId }) {
                         type="time"
                         value={customSlotInput[day.key] || ''}
                         onChange={e => setCustomSlotInput(prev => ({ ...prev, [day.key]: e.target.value }))}
-                        className="text-xs border border-slate-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-1 focus:ring-orange-400"
+                        className="text-xs border border-slate-300 rounded-lg px-2 py-1 focus:outline-hidden focus:ring-1 focus:ring-orange-400"
                       />
                       <Button type="button" size="sm" variant="outline" onClick={() => addCustomSlot(day.key)} className="text-xs gap-1">
                         <Plus className="w-3 h-3" /> Adicionar
@@ -214,7 +214,7 @@ export default function DisponibilidadeEditor({ providerId }) {
       <Button
         onClick={() => saveMutation.mutate({ weekly_availability: availability, blocked_dates: blockedDates })}
         disabled={saveMutation.isPending}
-        className="w-full bg-gradient-to-r from-orange-600 to-orange-500"
+        className="w-full bg-linear-to-r from-orange-600 to-orange-500"
         size="lg"
       >
         {saveMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}

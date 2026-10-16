@@ -35,7 +35,7 @@ export default function ClientForm() {
 
   return (
     <Card className="border-none shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50">
+      <CardHeader className="bg-linear-to-r from-blue-50 to-cyan-50">
         <CardTitle className="flex items-center gap-2">
           <UserPlus className="w-5 h-5 text-blue-600" />
           Novo Cliente
@@ -81,7 +81,7 @@ export default function ClientForm() {
           <Button
             type="submit"
             disabled={createMutation.isPending}
-            className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
+            className="w-full bg-linear-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700"
           >
             {createMutation.isPending ? "Salvando..." : "Salvar Cliente"}
           </Button>

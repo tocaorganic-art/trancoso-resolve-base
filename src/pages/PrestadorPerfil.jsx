@@ -288,14 +288,14 @@ export default function PrestadorPerfilPage() {
         initial={{ opacity: 0, scale: 1.04 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className="relative h-56 bg-gradient-to-r from-orange-500 to-orange-700 overflow-hidden"
+        className="relative h-56 bg-linear-to-r from-orange-500 to-orange-700 overflow-hidden"
       >
         <LazyImage
           src={provider.cover_photo_url || "https://images.unsplash.com/photo-1541599360-14863869b657?q=80&w=1964&auto=format&fit=crop"}
           alt={provider.cover_photo_url ? `Foto de capa de ${provider.full_name}` : "Imagem de fundo abstrata"}
           className={`absolute inset-0 w-full h-full object-cover ${provider.cover_photo_url ? 'opacity-80' : 'opacity-20'}`}
         />
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-black/40 to-transparent" />
       </motion.div>
 
       <div className="container mx-auto max-w-4xl px-4 -mt-24 pb-12">
@@ -305,7 +305,7 @@ export default function PrestadorPerfilPage() {
           transition={{ duration: 0.4, delay: 0.1 }}
         >
           <Link to={createPageUrl("ServicosCategoria", `?cat=${provider.occupation}`)}>
-            <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/20 backdrop-blur-sm" aria-label="Voltar para a categoria de serviços">
+            <Button variant="ghost" className="text-white hover:bg-white/20 mb-4 bg-black/20 backdrop-blur-xs" aria-label="Voltar para a categoria de serviços">
               <ArrowLeft className="w-4 h-4 mr-2" />
               Voltar
             </Button>
@@ -338,7 +338,7 @@ export default function PrestadorPerfilPage() {
                 <div className="flex-1">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1 break-words">{provider.full_name}</h1>
+                      <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-1 wrap-break-word">{provider.full_name}</h1>
                       <p className="text-lg text-orange-600 font-medium">{provider.occupation}</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-2">
@@ -402,7 +402,7 @@ export default function PrestadorPerfilPage() {
               <motion.div className="flex-1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} whileHover={{ y: -2 }}>
                 <Button
                   size="lg"
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/20"
+                  className="w-full bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/20"
                   onClick={() => {
                     if (!user) {
                       base44.auth.redirectToLogin(window.location.href);
@@ -435,7 +435,7 @@ export default function PrestadorPerfilPage() {
         <AnimatePresence>
         {showRequestForm && (
           <Card className="border-none shadow-xl mb-8">
-            <CardHeader className="bg-gradient-to-r from-orange-50 to-orange-50">
+            <CardHeader className="bg-linear-to-r from-orange-50 to-orange-50">
               <CardTitle>Agendar com {provider.full_name.split(' ')[0]}</CardTitle>
             </CardHeader>
             <CardContent className="p-6">
@@ -575,7 +575,7 @@ export default function PrestadorPerfilPage() {
                         <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1" aria-label="Voltar para a etapa anterior">
                             <ArrowLeft className="w-4 h-4 mr-1" /> Voltar
                         </Button>
-                        <Button type="submit" disabled={createRequestMutation.isPending} className="flex-1 bg-gradient-to-r from-green-600 to-[#3E8E5A]" aria-label="Confirmar agendamento do serviço">
+                        <Button type="submit" disabled={createRequestMutation.isPending} className="flex-1 bg-linear-to-r from-green-600 to-[#3E8E5A]" aria-label="Confirmar agendamento do serviço">
                             {createRequestMutation.isPending ? "Enviando..." : <>Confirmar Agendamento <Check className="w-4 h-4 ml-1" /></>}
                         </Button>
                     </div>

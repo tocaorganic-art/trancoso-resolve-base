@@ -396,7 +396,7 @@ export default function FilaVerificacaoPage() {
           { label: "Verificado", key: "Verificado", color: "border-[#3E8E5A]/30 bg-[#3E8E5A]/10", textColor: "text-[#3E8E5A]" },
           { label: "Rejeitado", key: "Rejeitado", color: "border-red-200 bg-red-50", textColor: "text-red-700" },
         ].map(({ label, key, color, textColor }) => (
-          <Card key={key} className={`border ${color} cursor-pointer hover:shadow-sm transition-shadow`} onClick={() => setStatusFilter(key)}>
+          <Card key={key} className={`border ${color} cursor-pointer hover:shadow-xs transition-shadow`} onClick={() => setStatusFilter(key)}>
             <CardContent className="p-4">
               <p className={`text-2xl font-bold ${textColor}`}>{counts[key] || 0}</p>
               <p className={`text-xs font-medium ${textColor} opacity-80 mt-0.5`}>{label}</p>

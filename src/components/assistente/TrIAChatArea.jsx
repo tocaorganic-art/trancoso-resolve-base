@@ -176,7 +176,7 @@ export default function TrIAChatArea({
               rows={rows}
               placeholder={PLACEHOLDER[language]}
               disabled={isLoading}
-              className="flex-1 bg-transparent text-[#F2DEC4] placeholder-[#4A3828] text-sm leading-6 resize-none focus:outline-none disabled:opacity-50 max-h-[120px]"
+              className="flex-1 bg-transparent text-[#F2DEC4] placeholder-[#4A3828] text-sm leading-6 resize-none focus:outline-hidden disabled:opacity-50 max-h-[120px]"
               style={{ minHeight: '24px' }}
             />
             <button

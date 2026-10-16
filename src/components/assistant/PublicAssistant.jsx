@@ -90,7 +90,7 @@ export default function PublicAssistant() {
             <div className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
               msg.role === 'user'
                 ? 'bg-[#E8571A] text-white rounded-br-sm'
-                : 'bg-white border border-slate-200 text-slate-800 rounded-bl-sm shadow-sm'
+                : 'bg-white border border-slate-200 text-slate-800 rounded-bl-sm shadow-xs'
             }`}>
               {msg.role === 'assistant' ? (
                 <ReactMarkdown
@@ -120,7 +120,7 @@ export default function PublicAssistant() {
             <div className="w-8 h-8 rounded-full bg-[#E8571A] flex items-center justify-center shrink-0">
               <Bot className="w-4 h-4 text-white" />
             </div>
-            <div className="bg-white border border-slate-200 rounded-2xl rounded-bl-sm px-4 py-3 shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-2xl rounded-bl-sm px-4 py-3 shadow-xs">
               <Loader2 className="w-4 h-4 animate-spin text-[#E8571A]" />
             </div>
           </div>

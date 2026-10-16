@@ -86,7 +86,7 @@ export default function PositionamentoEstrategico() {
         />
       </div>
 
-      <div className="bg-gradient-to-r from-[#E8571A] to-[#C1440E] rounded-2xl p-6 md:p-8 text-white text-center">
+      <div className="bg-linear-to-r from-[#E8571A] to-[#C1440E] rounded-2xl p-6 md:p-8 text-white text-center">
         <Zap className="w-8 h-8 mx-auto mb-3 opacity-90" />
         <p className="text-base font-semibold max-w-2xl mx-auto leading-relaxed">
           O Trancoso Resolve, com o TryA, o Toca Vision e o Dashboard Financeiro Integrado, constitui um ecossistema completo que capacita seus usuários com inteligência artificial e gestão financeira avançada: a escolha estratégica para profissionais e lojistas que buscam eficiência, visibilidade e crescimento sustentável.

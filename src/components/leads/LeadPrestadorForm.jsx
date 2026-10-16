@@ -78,7 +78,7 @@ export default function LeadPrestadorForm() {
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
               placeholder="Seu nome"
-              className="w-full rounded-lg border border-amber-200 bg-white px-4 py-3 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="w-full rounded-lg border border-amber-200 bg-white px-4 py-3 text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-400"
             />
           </div>
           <div>
@@ -89,7 +89,7 @@ export default function LeadPrestadorForm() {
               value={form.phone}
               onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
               placeholder="(73) 9 0000-0000"
-              className="w-full rounded-lg border border-amber-200 bg-white px-4 py-3 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+              className="w-full rounded-lg border border-amber-200 bg-white px-4 py-3 text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-400"
             />
           </div>
         </div>
@@ -99,13 +99,13 @@ export default function LeadPrestadorForm() {
             required
             value={form.occupation}
             onChange={e => setForm(f => ({ ...f, occupation: e.target.value }))}
-            className="w-full rounded-lg border border-amber-200 bg-white px-4 py-3 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="w-full rounded-lg border border-amber-200 bg-white px-4 py-3 text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-400"
           >
             <option value="">Selecione sua área...</option>
             {OCUPACOES.map(o => <option key={o} value={o}>{o}</option>)}
           </select>
         </div>
-        <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
           <label htmlFor="prestador_website">Não preencha este campo</label>
           <input id="prestador_website" tabIndex={-1} autoComplete="off" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} />
         </div>

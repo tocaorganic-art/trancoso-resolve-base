@@ -169,7 +169,7 @@ export default function ChatInterface({ conversationId, onConversationUpdate }) 
           {recognition && (
             <Button
               type="button"
-              variant={isListening ? "default" : "outline"}
+              variant={isListening ? "default" : "outline-solid"}
               size="icon"
               onClick={toggleVoiceInput}
               disabled={sendMessageMutation.isPending}

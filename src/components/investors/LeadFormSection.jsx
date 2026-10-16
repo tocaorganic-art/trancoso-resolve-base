@@ -71,12 +71,12 @@ export default function LeadFormSection() {
           <div>
             <label htmlFor="inv-name" className="block text-sm font-semibold text-foreground mb-1.5">{f.nameLabel} *</label>
             <input id="inv-name" required type="text" value={form.name} onChange={set('name')}
-              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400" />
           </div>
           <div>
             <label htmlFor="inv-email" className="block text-sm font-semibold text-foreground mb-1.5">{f.emailLabel} *</label>
             <input id="inv-email" required type="email" value={form.email} onChange={set('email')}
-              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400" />
           </div>
         </div>
 
@@ -84,12 +84,12 @@ export default function LeadFormSection() {
           <div>
             <label htmlFor="inv-phone" className="block text-sm font-semibold text-foreground mb-1.5">{f.phoneLabel}</label>
             <input id="inv-phone" type="tel" value={form.phone} onChange={set('phone')}
-              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400" />
           </div>
           <div>
             <label htmlFor="inv-org" className="block text-sm font-semibold text-foreground mb-1.5">{f.organizationLabel}</label>
             <input id="inv-org" type="text" value={form.organization} onChange={set('organization')}
-              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400" />
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export default function LeadFormSection() {
           <div>
             <label htmlFor="inv-type" className="block text-sm font-semibold text-foreground mb-1.5">{f.typeLabel}</label>
             <select id="inv-type" value={form.investor_type} onChange={set('investor_type')}
-              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400">
+              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400">
               <option value="">Selecione</option>
               {f.types.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
             </select>
@@ -105,14 +105,14 @@ export default function LeadFormSection() {
           <div>
             <label htmlFor="inv-ticket" className="block text-sm font-semibold text-foreground mb-1.5">{f.ticketLabel}</label>
             <input id="inv-ticket" type="text" value={form.ticket_range} onChange={set('ticket_range')}
-              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400" />
+              className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400" />
           </div>
         </div>
 
         <div>
           <label htmlFor="inv-message" className="block text-sm font-semibold text-foreground mb-1.5">{f.messageLabel}</label>
           <textarea id="inv-message" rows={4} value={form.message} onChange={set('message')} placeholder={f.messagePlaceholder}
-            className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none" />
+            className="w-full rounded-lg border border-border bg-muted px-3 py-2.5 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400 resize-none" />
         </div>
 
         <label className="flex items-start gap-2.5 text-sm text-muted-foreground cursor-pointer">

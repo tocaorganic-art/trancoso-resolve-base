@@ -116,7 +116,7 @@ export default function AdminPagamentosPage() {
       <div className="bg-card border-b border-border">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow">
+            <div className="w-10 h-10 rounded-xl bg-linear-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-sm">
               <CreditCard className="w-5 h-5 text-white" />
             </div>
             <div>

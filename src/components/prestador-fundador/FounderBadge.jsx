@@ -15,7 +15,7 @@ export default function FounderBadge({ position, className, size = "md" }) {
     <span
       className={cn(
         "inline-flex items-center font-bold rounded-full whitespace-nowrap",
-        "bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-sm",
+        "bg-linear-to-r from-amber-500 to-orange-600 text-white shadow-xs",
         sizes[size],
         className
       )}

@@ -216,7 +216,7 @@ function MeusServicosContent() {
                   </div>
                   <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{service.description}</p>
                   <div className="flex items-end justify-between mt-4">
-                    <span className="text-2xl font-extrabold bg-gradient-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent">
+                    <span className="text-2xl font-extrabold bg-linear-to-r from-orange-400 to-orange-500 bg-clip-text text-transparent">
                       R$ {service.price?.toLocaleString('pt-BR', { minimumFractionDigits: 0 })}
                     </span>
                     <span className="text-xs text-muted-foreground">por {service.price_unit}</span>

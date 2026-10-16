@@ -41,7 +41,7 @@ export default function HeroSearch() {
   };
 
   return (
-    <section className="bg-gradient-to-br from-orange-600 via-orange-500 to-terracotta py-16 md:py-24 px-4">
+    <section className="bg-linear-to-br from-orange-600 via-orange-500 to-terracotta py-16 md:py-24 px-4">
       <div className="container mx-auto max-w-3xl text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 bg-white/20 border border-white/30 text-white text-xs font-semibold px-4 py-1.5 rounded-pill mb-6">

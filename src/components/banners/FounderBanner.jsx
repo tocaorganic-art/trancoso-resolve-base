@@ -65,8 +65,8 @@ export default function FounderBanner() {
     <div
       className={`relative rounded-2xl border-2 p-4 md:p-5 overflow-hidden ${
         isUrgent
-          ? "border-red-500 bg-gradient-to-r from-red-950/40 to-orange-950/40"
-          : "border-orange-500 bg-gradient-to-r from-orange-950/40 to-amber-950/30"
+          ? "border-red-500 bg-linear-to-r from-red-950/40 to-orange-950/40"
+          : "border-orange-500 bg-linear-to-r from-orange-950/40 to-amber-950/30"
       }`}
     >
       <button

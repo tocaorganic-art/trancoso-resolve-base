@@ -39,7 +39,7 @@ export default function DestinoPortoSeguro() {
 
   return (
     <div className="bg-background overflow-x-hidden">
-      <section className="relative bg-gradient-to-br from-background via-orange-900 to-card text-white py-20 md:py-32 overflow-hidden">
+      <section className="relative bg-linear-to-br from-background via-orange-900 to-card text-white py-20 md:py-32 overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: `url('${HERO_IMAGE}')` }} aria-hidden="true" />
         <div className="relative container mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-700/40 border border-orange-400/30 rounded-full px-4 py-1.5 text-sm font-medium text-orange-200 mb-6">
@@ -96,7 +96,7 @@ export default function DestinoPortoSeguro() {
                 { icon: Sun, title: 'Praias Para Todos', desc: 'Coroa Vermelha, Taperapuã, Itacimirim e muito mais' },
                 { icon: Heart, title: 'Cultura e História', desc: 'Cidade Histórica tombada pelo patrimônio nacional' },
               ].map(({ icon: Icon, title, desc }) => (
-                <div key={title} className="bg-card rounded-2xl p-4 shadow-sm border border-border">
+                <div key={title} className="bg-card rounded-2xl p-4 shadow-xs border border-border">
                   <Icon className="w-6 h-6 text-orange-600 mb-2" />
                   <h3 className="font-bold text-sm text-foreground mb-1">{title}</h3>
                   <p className="text-xs text-muted-foreground">{desc}</p>
@@ -114,7 +114,7 @@ export default function DestinoPortoSeguro() {
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
             {servicos.map((s) => (
               <Link key={s.slug} to={s.path}>
-                <div className="bg-card rounded-2xl p-4 text-center shadow-sm hover:shadow-md transition-all duration-200 border border-border hover:border-orange-300 group h-full flex flex-col items-center justify-center">
+                <div className="bg-card rounded-2xl p-4 text-center shadow-xs hover:shadow-md transition-all duration-200 border border-border hover:border-orange-300 group h-full flex flex-col items-center justify-center">
                   <CategoryIcon category={s.label} className="w-7 h-7 mb-2" />
                   <span className="text-xs font-bold text-foreground group-hover:text-orange-700 transition-colors">{s.label}</span>
                 </div>
@@ -131,7 +131,7 @@ export default function DestinoPortoSeguro() {
               { slug: 'caraiva', nome: 'Caraíva', desc: 'O paraíso preservado, sem asfalto, sem carros, só natureza e charme.', path: '/destinos/caraiva' },
             ].map((d) => (
               <Link key={d.slug} to={d.path}>
-                <div className="bg-card rounded-2xl p-6 shadow-sm hover:shadow-md transition-all border border-border hover:border-orange-300 group flex gap-4 items-start">
+                <div className="bg-card rounded-2xl p-6 shadow-xs hover:shadow-md transition-all border border-border hover:border-orange-300 group flex gap-4 items-start">
                   <MapPin className="w-7 h-7 shrink-0" style={{ color: '#E8571A' }} aria-hidden="true" />
                   <div>
                     <h3 className="font-bold text-foreground group-hover:text-orange-700 transition-colors mb-1">{d.nome}</h3>

@@ -137,7 +137,7 @@ function AdminControleFinanceiroContent() {
 
       {/* KPIs */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 mb-8">
-        <Card className="border-none shadow-lg bg-gradient-to-br from-green-50 to-white">
+        <Card className="border-none shadow-lg bg-linear-to-br from-green-50 to-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
               <TrendingUp className="w-5 h-5 text-green-600" />
@@ -147,7 +147,7 @@ function AdminControleFinanceiroContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-red-50 to-white">
+        <Card className="border-none shadow-lg bg-linear-to-br from-red-50 to-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
               <DollarSign className="w-5 h-5 text-red-600" />
@@ -157,7 +157,7 @@ function AdminControleFinanceiroContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-white">
+        <Card className="border-none shadow-lg bg-linear-to-br from-orange-50 to-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
               <FileText className="w-5 h-5 text-orange-600" />
@@ -169,7 +169,7 @@ function AdminControleFinanceiroContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-emerald-50 to-white">
+        <Card className="border-none shadow-lg bg-linear-to-br from-emerald-50 to-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
               <Banknote className="w-5 h-5 text-emerald-600" />
@@ -180,7 +180,7 @@ function AdminControleFinanceiroContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-teal-50 to-white">
+        <Card className="border-none shadow-lg bg-linear-to-br from-teal-50 to-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-2">
               <TrendingUp className="w-5 h-5 text-teal-600" />

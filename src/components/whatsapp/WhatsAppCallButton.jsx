@@ -47,7 +47,7 @@ function ContactModal({ providerName, whatsappPrestador, whatsappCliente, onClos
       <div
         ref={modalRef}
         tabIndex={-1}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 outline-none"
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 outline-hidden"
       >
         <div className="flex items-center justify-between mb-5">
           <h2 id="modal-title" className="text-lg font-bold text-slate-900">

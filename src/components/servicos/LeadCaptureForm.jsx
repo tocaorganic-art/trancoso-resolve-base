@@ -119,7 +119,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
               placeholder="Seu nome"
-              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2"
+              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E', focusRingColor: '#8B6914' }}
             />
           </div>
@@ -137,7 +137,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               placeholder="(73) 9 0000-0000"
               inputMode="tel"
               aria-describedby="lead-phone-help"
-              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2"
+              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
             />
             <p id="lead-phone-help" className="text-xs mt-1" style={{ color: '#6B4F3A' }}>
@@ -157,7 +157,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
             onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
             placeholder="Descreva brevemente o que precisa..."
             rows={3}
-            className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2 resize-none"
+            className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2 resize-none"
             style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
           />
         </div>
@@ -174,7 +174,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               value={form.email}
               onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
               placeholder="voce@email.com"
-              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2"
+              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
             />
           </div>
@@ -188,7 +188,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               required
               value={form.service}
               onChange={e => setForm(f => ({ ...f, service: e.target.value }))}
-              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2"
+              className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
             >
               <option value="">Selecione...</option>
@@ -207,7 +207,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
             required
             value={form.location}
             onChange={e => setForm(f => ({ ...f, location: e.target.value }))}
-            className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-none focus:ring-2"
+            className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
             style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
           >
             <option value="">Onde você precisa?</option>

@@ -94,7 +94,7 @@ export default function StayList() {
   if (!user) {
     return (
       <Card className="border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-emerald-50 to-green-50">
+        <CardHeader className="bg-linear-to-r from-emerald-50 to-green-50">
           <CardTitle>Lista de Hospedagens</CardTitle>
         </CardHeader>
         <CardContent className="p-4 text-center text-gray-600">
@@ -106,7 +106,7 @@ export default function StayList() {
 
   return (
     <Card className="border-none shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-emerald-50 to-green-50">
+      <CardHeader className="bg-linear-to-r from-emerald-50 to-green-50">
         <CardTitle>Lista de Hospedagens ({stays.length})</CardTitle>
       </CardHeader>
       <CardContent className="p-0">

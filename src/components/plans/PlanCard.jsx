@@ -33,7 +33,7 @@ export default function PlanCard({ plan, isCurrentPlan }) {
             )}
         </CardHeader>
 
-        <CardContent className="flex-grow p-6 space-y-4">
+        <CardContent className="grow p-6 space-y-4">
             <p className="text-slate-600 text-sm h-12">{plan.description}</p>
             
             <ul className="space-y-3 text-slate-700">
@@ -47,7 +47,7 @@ export default function PlanCard({ plan, isCurrentPlan }) {
         </CardContent>
 
         <CardFooter className="p-6">
-             <Button asChild className="w-full" variant={isFeatured ? 'default' : 'outline'} style={{backgroundColor: isFeatured ? plan.color_theme : undefined}}>
+             <Button asChild className="w-full" variant={isFeatured ? 'default' : 'outline-solid'} style={{backgroundColor: isFeatured ? plan.color_theme : undefined}}>
                 <Link to={createPageUrl('CadastroTipo')}>
                     {isCurrentPlan ? "Seu Plano Atual" : "Escolher Plano"}
                 </Link>

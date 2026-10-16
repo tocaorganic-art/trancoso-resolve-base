@@ -108,7 +108,7 @@ export default function TwoFactorVerification({ maskedEmail, onSuccess, onCancel
               value={digit}
               onChange={e => handleChange(idx, e.target.value)}
               onKeyDown={e => handleKeyDown(idx, e)}
-              className="w-12 h-14 text-center text-2xl font-bold border-2 rounded-xl focus:outline-none focus:border-amber-500 bg-slate-50 text-slate-900 transition-colors"
+              className="w-12 h-14 text-center text-2xl font-bold border-2 rounded-xl focus:outline-hidden focus:border-amber-500 bg-slate-50 text-slate-900 transition-colors"
               style={{ borderColor: digit ? '#b45309' : undefined }}
             />
           ))}

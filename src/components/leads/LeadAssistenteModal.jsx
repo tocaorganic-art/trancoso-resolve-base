@@ -33,7 +33,7 @@ export default function LeadAssistenteModal({ onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center px-4 pb-4 sm:pb-0">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-xs" onClick={onClose} />
       <div className="relative bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm z-10 border border-slate-100">
         <button
           onClick={onClose}
@@ -70,9 +70,9 @@ export default function LeadAssistenteModal({ onClose }) {
                 value={form.name}
                 onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                 placeholder="Seu nome"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-400"
               />
-              <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+              <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
                 <label htmlFor="assistente_website">Não preencha este campo</label>
                 <input id="assistente_website" tabIndex={-1} autoComplete="off" value={form.website} onChange={e => setForm(f => ({ ...f, website: e.target.value }))} />
               </div>
@@ -86,7 +86,7 @@ export default function LeadAssistenteModal({ onClose }) {
                 value={form.phone}
                 onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
                 placeholder="(73) 9 0000-0000"
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-400"
               />
               {status === 'error' && (
                 <p className="text-red-500 text-xs">Erro ao salvar. Tente novamente.</p>

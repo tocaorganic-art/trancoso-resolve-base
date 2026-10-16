@@ -91,6 +91,13 @@ async function enviarRespostaWABA(fromPhone: string, mensagem: string): Promise<
 // ---------------------------------------------------------------------------
 // Main Handler
 // ---------------------------------------------------------------------------
+function timingSafeEqualStr(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
+
 Deno.serve(async (req) => {
   if (req.method !== 'POST') {
     return Response.json({ error: 'Method not allowed' }, { status: 405 });
@@ -103,7 +110,7 @@ Deno.serve(async (req) => {
     // --- Autenticação ---
     const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
     const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
-    const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
+    const isInternal = Boolean(expectedSecret && timingSafeEqualStr(providedSecret, expectedSecret));
 
     if (!isInternal) {
       const user = await base44.auth.me().catch(() => null);

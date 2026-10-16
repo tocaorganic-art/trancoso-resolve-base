@@ -11,7 +11,31 @@
         "indefinido"
       ],
       "default": "indefinido",
-      "description": "Define se o usu\u00e1rio \u00e9 um cliente, um prestador de servi\u00e7o ou um lojista (empres\u00e1rio local que anuncia na plataforma)."
+      "description": "Define se o usuário é um cliente, um prestador de serviço ou um lojista (empresário local que anuncia na plataforma)."
+    },
+    "two_fa_enabled": {
+      "type": "boolean",
+      "description": "2FA por email ativo para prestadores (verificado server-side em ações sensíveis)."
+    },
+    "two_fa_code": {
+      "type": "string",
+      "description": "Código 2FA temporário (transiente)."
+    },
+    "two_fa_expires_at": {
+      "type": "number",
+      "description": "Expiração do código 2FA (epoch ms)."
+    },
+    "two_fa_attempts": {
+      "type": "number",
+      "description": "Tentativas de verificação 2FA na janela atual."
+    },
+    "two_fa_lockout_until": {
+      "type": "number",
+      "description": "Bloqueio temporário após tentativas erradas de 2FA (epoch ms)."
+    },
+    "two_fa_verified_until": {
+      "type": "number",
+      "description": "Janela verificada 2FA (epoch ms) exigida em ações de pagamento."
     }
   },
   "required": []

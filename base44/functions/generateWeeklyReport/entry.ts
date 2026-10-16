@@ -21,6 +21,10 @@ function formatDate(d: Date) {
   return d.toLocaleDateString('pt-BR');
 }
 
+// Escape HTML (painel 16/10): nomes de serviço/origem vêm de campos
+// preenchidos por leads — interpolação crua permitiria injeção no e-mail.
+const escapeHtml = (v: unknown) => String(v ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -106,14 +110,14 @@ Deno.serve(async (req) => {
           <h2 style="color:#0f172a;font-size:16px">🏆 Top Serviços da Semana</h2>
           <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
             <tr style="background:#e2e8f0"><td style="padding:8px 14px;font-weight:bold">Serviço</td><td style="padding:8px 14px;font-weight:bold;text-align:right">Solicitações</td></tr>
-            ${topServices.map(([s, c], i) => `<tr style="background:${i%2===0?'white':'#f8fafc'}"><td style="padding:8px 14px;border-bottom:1px solid #e2e8f0">${s}</td><td style="padding:8px 14px;text-align:right;font-weight:bold;border-bottom:1px solid #e2e8f0">${c}</td></tr>`).join('')}
+            ${topServices.map(([s, c], i) => `<tr style="background:${i%2===0?'white':'#f8fafc'}"><td style="padding:8px 14px;border-bottom:1px solid #e2e8f0">${escapeHtml(s)}</td><td style="padding:8px 14px;text-align:right;font-weight:bold;border-bottom:1px solid #e2e8f0">${c}</td></tr>`).join('')}
           </table>` : ''}
 
           ${topSources.length > 0 ? `
           <h2 style="color:#0f172a;font-size:16px">📍 Origens dos Leads</h2>
           <table style="width:100%;border-collapse:collapse;margin-bottom:24px">
             <tr style="background:#e2e8f0"><td style="padding:8px 14px;font-weight:bold">Origem</td><td style="padding:8px 14px;font-weight:bold;text-align:right">Leads</td></tr>
-            ${topSources.map(([s, c], i) => `<tr style="background:${i%2===0?'white':'#f8fafc'}"><td style="padding:8px 14px;border-bottom:1px solid #e2e8f0">${s}</td><td style="padding:8px 14px;text-align:right;font-weight:bold;border-bottom:1px solid #e2e8f0">${c}</td></tr>`).join('')}
+            ${topSources.map(([s, c], i) => `<tr style="background:${i%2===0?'white':'#f8fafc'}"><td style="padding:8px 14px;border-bottom:1px solid #e2e8f0">${escapeHtml(s)}</td><td style="padding:8px 14px;text-align:right;font-weight:bold;border-bottom:1px solid #e2e8f0">${c}</td></tr>`).join('')}
           </table>` : ''}
 
         </div>

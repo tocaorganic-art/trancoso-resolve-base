@@ -19,6 +19,13 @@ interface VerificarAntecedentesRequest {
   event?: { entity_id?: string };
 }
 
+function timingSafeEqualStr(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
+
 Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -27,7 +34,7 @@ Deno.serve(async (req: Request) => {
     // Origem da chamada: automação interna vs usuário logado
     const expectedSecret = Deno.env.get("AUTOMATION_WEBHOOK_SECRET");
     const providedSecret = req.headers.get("x-automation-secret") || body.internal_secret;
-    const isInternal = Boolean(expectedSecret && providedSecret === expectedSecret);
+    const isInternal = Boolean(expectedSecret && timingSafeEqualStr(providedSecret, expectedSecret));
 
     // Suporta payload direto ({service_provider_id}) e payload de automação
     // On Create ({event: {entity_id}, data: {registro criado}})

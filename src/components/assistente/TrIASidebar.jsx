@@ -35,7 +35,7 @@ export default function TrIASidebar({ isOpen, conversations, activeId, onSelect,
               <Sparkles className="w-4 h-4 text-white" />
             </div>
             <div>
-              <p className="text-sm font-bold text-[#F2DEC4] leading-none">TryA</p>
+              <p className="text-sm font-bold text-[#F2DEC4] leading-none">TrIA</p>
               <p className="text-[10px] text-[#8A6A4A] leading-none mt-0.5">Assistente inteligente</p>
             </div>
           </div>

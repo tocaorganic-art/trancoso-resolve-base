@@ -25,20 +25,20 @@ export default function PositionamentoEstrategico() {
       <div className="text-center mb-10">
         <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-2">Inovação & Vantagem Competitiva</p>
         <h2 className="text-2xl md:text-3xl font-extrabold text-foreground mb-3">
-          Trancoso Resolve, TryA e Toca Vision:<br className="hidden md:block" /> inovação ao alcance de prestadores e lojistas.
+          Trancoso Resolve, TrIA e Toca Vision:<br className="hidden md:block" /> inovação ao alcance de prestadores e lojistas.
         </h2>
         <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
-          O Trancoso Resolve, impulsionado pelas tecnologias TryA e Toca Vision, redefine o padrão de excelência e acessibilidade para prestadores de serviços e lojistas no Brasil. A plataforma não apenas conecta profissionais a clientes, mas os capacita com ferramentas de inteligência artificial de ponta, tornando acessíveis recursos antes restritos a grandes corporações e agências especializadas.
+          O Trancoso Resolve, impulsionado pelas tecnologias TrIA e Toca Vision, redefine o padrão de excelência e acessibilidade para prestadores de serviços e lojistas no Brasil. A plataforma não apenas conecta profissionais a clientes, mas os capacita com ferramentas de inteligência artificial de ponta, tornando acessíveis recursos antes restritos a grandes corporações e agências especializadas.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Section
           icon={<Bot className="w-7 h-7 text-orange-600 dark:text-orange-400" />}
-          title="TryA"
+          title="TrIA"
           subtitle="Agente de IA autônomo"
           color="bg-orange-50 dark:bg-orange-500/10 border-orange-200 dark:border-orange-500/30"
-          text="O TryA é um agente de inteligência artificial integrado à Trancoso Resolve. Mais do que um simples assistente, ele atua de forma autônoma, aprendendo com o seu negócio e otimizando processos para prestadores e lojistas."
+          text="O TrIA é um agente de inteligência artificial integrado à Trancoso Resolve. Mais do que um simples assistente, ele atua de forma autônoma, aprendendo com o seu negócio e otimizando processos para prestadores e lojistas."
           benefits={[
             "Automação inteligente: gerencia agendamentos, responde perguntas frequentes, qualifica leads e otimiza a comunicação com clientes",
             "Otimização de processos: analisa dados de desempenho, sugere melhorias em serviços e precificação e identifica oportunidades de mercado",
@@ -89,7 +89,7 @@ export default function PositionamentoEstrategico() {
       <div className="bg-linear-to-r from-[#E8571A] to-[#C1440E] rounded-2xl p-6 md:p-8 text-white text-center">
         <Zap className="w-8 h-8 mx-auto mb-3 opacity-90" />
         <p className="text-base font-semibold max-w-2xl mx-auto leading-relaxed">
-          O Trancoso Resolve, com o TryA, o Toca Vision e o Dashboard Financeiro Integrado, constitui um ecossistema completo que capacita seus usuários com inteligência artificial e gestão financeira avançada: a escolha estratégica para profissionais e lojistas que buscam eficiência, visibilidade e crescimento sustentável.
+          O Trancoso Resolve, com o TrIA, o Toca Vision e o Dashboard Financeiro Integrado, constitui um ecossistema completo que capacita seus usuários com inteligência artificial e gestão financeira avançada: a escolha estratégica para profissionais e lojistas que buscam eficiência, visibilidade e crescimento sustentável.
         </p>
       </div>
     </div>

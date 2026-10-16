@@ -109,7 +109,7 @@ function AudienceCard({ icon, title, desc, delay = 0 }) {
 const pillars = [
   { icon: <Shield className="w-6 h-6 text-orange-400" />, title: "Profissionais Verificados", desc: "Análise de antecedentes criminais, verificação de identidade e validação de dados: cada prestador aprovado passa por rigoroso processo antes de aparecer na plataforma." },
   { icon: <Star className="w-6 h-6 text-amber-400" />, title: "Avaliações Transparentes", desc: "Clientes reais, avaliações reais. Nada de notas infladas: todo feedback é auditado para que você confie em quem contrata." },
-  { icon: <Bot className="w-6 h-6 text-blue-400" />, title: "TryA | IA 24 horas", desc: "Nosso agente de inteligência artificial está disponível a qualquer momento para sugerir o profissional certo, responder dúvidas e agilizar seu pedido, tudo em português (e espanhol)." },
+  { icon: <Bot className="w-6 h-6 text-blue-400" />, title: "TrIA | IA 24 horas", desc: "Nosso agente de inteligência artificial está disponível a qualquer momento para sugerir o profissional certo, responder dúvidas e agilizar seu pedido, tudo em português (e espanhol)." },
   { icon: <Camera className="w-6 h-6 text-violet-400" />, title: "Toca Vision | Criação Visual com IA", desc: "Prestadores têm acesso a um gerador de imagens exclusivo: crie posts, cardápios e materiais visuais de alto padrão em segundos, sem custo adicional." },
   { icon: <BarChart2 className="w-6 h-6 text-green-400" />, title: "Dashboard Financeiro Integrado", desc: "Controle de receitas, despesas, previsão de ganhos e relatórios: tudo dentro da plataforma. Sem planilhas, sem complicação." },
   { icon: <Users className="w-6 h-6 text-orange-300" />, title: "Comunidade VIP Trancoso", desc: "Uma rede exclusiva de moradores, empresários e prestadores que compartilham o compromisso com a excelência que Trancoso exige." },
@@ -126,7 +126,7 @@ const checklist = [
   'Avaliações auditadas e transparentes',
   'Suporte em português, inglês e espanhol (argentino)',
   'Pagamentos seguros via Asaas',
-  'IA integrada: TryA e Toca Vision',
+  'IA integrada: TrIA e Toca Vision',
   'Dashboard financeiro completo para prestadores',
 ];
 

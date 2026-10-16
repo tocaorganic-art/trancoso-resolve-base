@@ -129,7 +129,7 @@ export default function TrIAChatArea({
               {WELCOME_TITLE[language]}
             </h2>
             <p className="text-[#6A5040] text-sm max-w-xs mb-8">
-              O TryA conecta você aos melhores profissionais de Trancoso.
+              O TrIA conecta você aos melhores profissionais de Trancoso.
             </p>
 
             <div className="grid grid-cols-2 gap-2 w-full max-w-sm">

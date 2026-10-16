@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -128,33 +127,12 @@ IMPORTANTE:
 Retorne um JSON válido.
 `;
 
-      const response_json_schema = {
-        type: "object",
-        properties: {
-          transactions: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                description: { type: "string" },
-                amount: { type: "number" },
-                type: { type: "string" },
-                category: { type: "string" },
-                date: { type: "string" },
-                payment_method: { type: "string" },
-                notes: { type: "string" }
-              }
-            }
-          }
-        }
-      };
-
       console.log("Chamando IA para análise...");
       
-      const aiResult = await base44.integrations.Core.InvokeLLM({
+      const aiResult = await base44.functions.invoke('iaCreditada', {
+        operacao: 'extrair_transacoes',
         prompt: prompt,
-        file_urls: [fileUrl],
-        response_json_schema: response_json_schema
+        file_url: fileUrl,
       });
 
       console.log("Resposta da IA:", aiResult);

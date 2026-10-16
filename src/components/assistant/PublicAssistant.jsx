@@ -65,8 +65,8 @@ export default function PublicAssistant() {
 
     const prompt = `${SYSTEM_PROMPT}\n\nHistórico recente:\n${history}\n\nUsuário: ${userMessage}\n\nToca:`;
 
-    const response = await base44.integrations.Core.InvokeLLM({ prompt });
-    setMessages(prev => [...prev, { role: 'assistant', content: response }]);
+    const response = await base44.functions.invoke('iaCreditada', { operacao: 'conversa', prompt });
+    setMessages(prev => [...prev, { role: 'assistant', content: response?.resposta ?? response }]);
     setLoading(false);
   };
 

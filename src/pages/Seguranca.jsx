@@ -140,12 +140,7 @@ function DangerZonePanel({ user }) {
     if (typed !== user?.email) return;
     setLoading(true);
     try {
-      // In a real scenario, call a backend function. For now just notify admin.
-      await base44.integrations.Core.SendEmail({
-        to: 'contato@tocaexperience.com.br',
-        subject: `[SOLICITAÇÃO] Exclusão de conta: ${user.email}`,
-        body: `Usuário ${user.full_name} (${user.email}) solicitou exclusão da conta em ${new Date().toLocaleString('pt-BR')}.`,
-      });
+      await base44.functions.invoke('notificarExclusaoConta', {});
       toast.success('Solicitação de exclusão enviada. Nossa equipe entrará em contato em até 48h.');
       setStep(0);
     } catch {

@@ -263,12 +263,13 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
 
     const prompt = buildContextualPrompt(content, historyText, imageUrl);
 
-    const result = await base44.integrations.Core.InvokeLLM({
+    const resp = await base44.functions.invoke('iaCreditada', {
+      operacao: 'conversa',
       prompt,
       ...(imageUrl ? { file_urls: [imageUrl] } : {}),
     });
 
-    const responseText = typeof result === 'string' ? result : (result?.response || 'Desculpe, não consegui processar sua mensagem. Tente novamente ou contate suporte@trancosoresolve.com.br.');
+    const responseText = typeof resp === 'string' ? resp : (resp?.resposta || resp?.response || 'Desculpe, não consegui processar sua mensagem. Tente novamente ou contate suporte@trancosoresolve.com.br.');
 
     const assistantMsg = {
       id: (Date.now() + 1).toString(),

@@ -79,7 +79,7 @@ export default function GeradorDeImagemPage() {
     setIsGenerating(true);
     setGeneratedImage(null);
     try {
-      const result = await base44.integrations.Core.GenerateImage({ prompt: buildFullPrompt() });
+      const result = await base44.functions.invoke('iaCreditada', { operacao: 'imagem', prompt: buildFullPrompt() });
       if (result.url) {
         setGeneratedImage(result.url);
         toast.success('Imagem criada com sucesso!', { icon: <Sparkles className="w-4 h-4" /> });
@@ -95,9 +95,10 @@ export default function GeradorDeImagemPage() {
     if (!generatedImage) return;
     setIsGenerating(true);
     try {
-      const result = await base44.integrations.Core.GenerateImage({
+      const result = await base44.functions.invoke('iaCreditada', {
+        operacao: 'imagem',
         prompt: buildFullPrompt(),
-        existing_image_urls: [generatedImage]
+        existing_image_url: generatedImage,
       });
       if (result.url) {
         setGeneratedImage(result.url);

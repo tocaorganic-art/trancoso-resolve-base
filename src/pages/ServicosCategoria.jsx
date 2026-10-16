@@ -326,15 +326,12 @@ export default function ServicosCategoriaPage() {
             bio: p.bio || '', specialties: p.specialties || [],
           }));
 
-          const result = await base44.integrations.Core.InvokeLLM({
-            prompt: `Baseado na busca do usuário "${normalizedQuery}", analise a lista de prestadores e retorne APENAS os IDs dos mais relevantes. Procure por correspondência semântica. Se não encontrar correspondência, retorne array vazio. Contexto: ${JSON.stringify(providerContext.slice(0, 50))}`,
-            response_json_schema: {
-              type: "object",
-              properties: { relevant_provider_ids: { type: "array", items: { type: "string" }, description: "IDs dos prestadores relevantes" } },
-              required: ["relevant_provider_ids"]
-            }
+          const result = await base44.functions.invoke('iaCreditada', {
+            operacao: 'busca_semantica',
+            query: normalizedQuery,
+            prestadores: providerContext.slice(0, 50),
           });
-          
+
           const ids = result?.relevant_provider_ids;
           const resultIds = Array.isArray(ids) ? ids : [];
           

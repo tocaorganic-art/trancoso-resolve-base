@@ -36,10 +36,11 @@ export default function ChatOnboarding() {
     setLoading(true);
 
     const history = newMessages.map(m => `${m.role === 'user' ? 'Usuário' : 'Toca'}: ${m.content}`).join('\n');
-    const result = await base44.integrations.Core.InvokeLLM({
+    const resp = await base44.functions.invoke('iaCreditada', {
+      operacao: 'conversa',
       prompt: `${SYSTEM_PROMPT}\n\nHistórico:\n${history}\n\nResponda à última mensagem do usuário:`,
     });
-    setMessages(prev => [...prev, { role: 'assistant', content: result }]);
+    setMessages(prev => [...prev, { role: 'assistant', content: resp?.resposta ?? resp }]);
     setLoading(false);
   };
 

@@ -26,53 +26,13 @@ export default function AIRecommendations({ services }) {
         price_range: s.price_range
       }));
 
-      const prompt = `
-Você é um concierge virtual especializado em Trancoso, Brasil.
-
-Usuário perguntou: "${query}"
-
-Serviços disponíveis:
-${JSON.stringify(servicesData, null, 2)}
-
-Analise a pergunta e recomende os 3 MELHORES serviços para o usuário.
-Para cada recomendação, forneça:
-1. Nome do serviço
-2. Por que você recomenda (seja específico e relevante à pergunta)
-3. Dicas práticas para aproveitar melhor
-
-Responda em formato JSON:
-{
-  "recommendations": [
-    {
-      "service_name": "nome exato do serviço",
-      "reason": "por que recomendamos...",
-      "tips": "dicas práticas..."
-    }
-  ]
-}
-`;
-
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: prompt,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            recommendations: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  service_name: { type: "string" },
-                  reason: { type: "string" },
-                  tips: { type: "string" }
-                }
-              }
-            }
-          }
-        }
+      const response = await base44.functions.invoke('iaCreditada', {
+        operacao: 'recomendacao',
+        pergunta: query,
+        servicos: servicesData,
       });
 
-      if (response.recommendations) {
+      if (response?.recommendations) {
         setRecommendations(response.recommendations);
       }
     } catch (error) {

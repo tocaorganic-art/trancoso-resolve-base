@@ -45,11 +45,12 @@ Use emojis para tornar a resposta mais amigável.
 Seja conciso mas completo.
 `;
 
-      const response = await base44.integrations.Core.InvokeLLM({
-        prompt: prompt
+      const response = await base44.functions.invoke('iaCreditada', {
+        operacao: 'conversa',
+        prompt,
       });
 
-      setMessages(prev => [...prev, { role: "assistant", content: response }]);
+      setMessages(prev => [...prev, { role: "assistant", content: response?.resposta ?? response }]);
     } catch (error) {
       setMessages(prev => [...prev, { 
         role: "assistant", 

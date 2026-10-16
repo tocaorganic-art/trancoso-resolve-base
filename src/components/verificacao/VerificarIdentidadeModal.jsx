@@ -102,7 +102,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
         throw new Error('Prestador não encontrado. Complete seu perfil primeiro.');
       }
 
-      await base44.entities.Verificacao.create({
+      const verificacaoCriada = await base44.entities.Verificacao.create({
         provider_id: provider.id,
         verification_type: "identity",
         status: "pending",
@@ -124,11 +124,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
 
       // Enviar email de notificacao para admin
       try {
-        await base44.integrations.Core.SendEmail({
-          to: "tocaorganic@gmail.com",
-          subject: `Nova verificação de documento enviada por ${user.full_name}`,
-          body: `Prestador: ${user.full_name}\nEmail: ${user.email}\nDocumento: ${documentType}\nData: ${new Date().toLocaleString('pt-BR')}\n\nAcesse o painel administrativo para analisar.`,
-        });
+        await base44.functions.invoke('notificarVerificacaoDocumento', { verificacao_id: verificacaoCriada?.id });
       } catch (emailError) {
         console.error("Erro ao enviar email de notificacao:", emailError);
       }

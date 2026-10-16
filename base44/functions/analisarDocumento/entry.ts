@@ -1,4 +1,5 @@
 import { createClientFromRequest } from "npm:@base44/sdk@0.8.31";
+import { quotaCheckAndBump } from "./security.ts";
 
 interface AnalisarDocumentoRequest {
   verificacao_id: string;
@@ -94,6 +95,28 @@ Deno.serve(async (req: Request) => {
       || (providerRecord as any).email === user.email;
     if (!canAnalyze) {
       return Response.json({ error: "Você só pode analisar documentos do próprio cadastro" }, { status: 403 });
+    }
+
+    // Cota diária: cada análise dispara OCR + consulta PAGA (Infosimples).
+    // Admins ficam isentos para reanálises.
+    if ((user as any).role !== 'admin') {
+      const quota = await quotaCheckAndBump(base44, `dococr|${user.email}`, 5);
+      if (!quota.allowed) {
+        return Response.json({ error: "Limite diário de análises de documento atingido. Tente novamente amanhã." }, { status: 429 });
+      }
+    }
+
+    // Idempotência: verificação já processada não dispara nova consulta paga
+    // (admins podem reenviar após mudar o status da verificação).
+    if ((verificacao as any).ocr_status === "concluido") {
+      return Response.json({
+        success: true,
+        verificacao_id,
+        provider_id: serviceProviderId,
+        status_final: (verificacao as any).status || "em_analise_manual",
+        mensagem: "Documento já analisado anteriormente.",
+        cached: true,
+      });
     }
 
     // 1. Baixar a imagem do documento (URL validada contra SSRF)

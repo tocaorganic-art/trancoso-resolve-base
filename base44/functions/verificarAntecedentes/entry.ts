@@ -1,4 +1,5 @@
 import { createClientFromRequest } from "npm:@base44/sdk@0.8.31";
+import { quotaCheckAndBump } from "./security.ts";
 
 // ─── Verificar Antecedentes ──────────────────────────────────────────────────
 // Consulta antecedentes criminais na Infosimples (api.infosimples.com, body
@@ -58,16 +59,43 @@ Deno.serve(async (req: Request) => {
 
     // Gate de segurança: chamadas HTTP normais exigem admin ou dono do cadastro.
     // Automações internas (secret válido) não exigem usuário logado.
+    let isAdmin = false;
     if (!isInternal) {
       const user = await base44.auth.me();
       if (!user) {
         return Response.json({ error: "Não autorizado" }, { status: 401 });
       }
-      const canVerify = user.role === 'admin'
+      isAdmin = user.role === 'admin';
+      const canVerify = isAdmin
         || (provider as any).created_by === user.email
         || (provider as any).email === user.email;
       if (!canVerify) {
         return Response.json({ error: "Você só pode verificar o próprio cadastro" }, { status: 403 });
+      }
+      // Cota diária por usuário: cada chamada dispara consulta PAGA (Infosimples).
+      const quota = await quotaCheckAndBump(base44, `antecedentes|${user.email}`, 5);
+      if (!quota.allowed) {
+        return Response.json({ error: "Limite diário de consultas de antecedentes atingido. Tente novamente amanhã." }, { status: 429 });
+      }
+    }
+
+    // Idempotência: resultado concluído há menos de 30 dias é reutilizado
+    // (evita nova consulta paga; admins podem reconsultar).
+    if (!isAdmin) {
+      const lastAt = (provider as any).data_verificacao;
+      const lastStatus = (provider as any).status_verificacao;
+      if (lastAt && (lastStatus === "aprovado" || lastStatus === "reprovado")) {
+        const ageDays = (Date.now() - new Date(lastAt).getTime()) / 86400000;
+        if (ageDays < 30) {
+          return Response.json({
+            success: true,
+            provider_id: service_provider_id,
+            status_verificacao: lastStatus,
+            relatorio: (provider as any).relatorio_verificacao || "",
+            mensagem: "Consulta recente já registrada (resultado válido por 30 dias).",
+            cached: true,
+          });
+        }
       }
     }
 

@@ -93,7 +93,7 @@ Deno.serve(async (req: Request) => {
       .replace('{{component}}', componentStack);
     const request = {
       messages: [{ role: 'user', content: prompt }],
-      systemPrompt: 'Você é o agente interno de triagem de bugs da Trancoso Resolve. Seja objetivo e seguro.',
+      systemPrompt: 'Você é o agente interno de triagem de bugs da Trancoso Resolve. Seja objetivo e seguro. Nunca use travessão (—), meia risca (–) nem hífen como separador de frase nas respostas. Use vírgula, ponto, dois pontos ou parênteses.',
       ...(internalSecret ? { internal_secret: internalSecret } : {}),
     };
 

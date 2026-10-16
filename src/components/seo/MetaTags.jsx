@@ -18,24 +18,38 @@ export default function MetaTags({
 }) {
   const fullTitle = title.includes('Trancoso Resolve') ? title : `${title} | Trancoso Resolve`;
 
+  // Segurança (painel Base44 16/10): valores dinâmicos jamais podem quebrar o
+  // atributo e injetar tags no <head> (meta refresh/base/tag injection).
+  const esc = (v) => String(v ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+  const safeDescription = esc(description);
+  const safeTitle = esc(fullTitle);
+  const safeImage = esc(image);
+  const safeUrl = esc(url);
+  const safeType = esc(type);
+
   useEffect(() => {
     const previousTitle = document.title;
     document.title = fullTitle;
 
     const tags = [
-      { selector: 'meta[name="description"]', html: '<meta name="description" content="' + description + '">' },
-      { selector: 'meta[property="og:title"]', html: '<meta property="og:title" content="' + fullTitle + '">' },
-      { selector: 'meta[property="og:description"]', html: '<meta property="og:description" content="' + description + '">' },
-      { selector: 'meta[property="og:image"]', html: '<meta property="og:image" content="' + image + '">' },
-      { selector: 'meta[property="og:url"]', html: '<meta property="og:url" content="' + url + '">' },
-      { selector: 'meta[property="og:type"]', html: '<meta property="og:type" content="' + type + '">' },
+      { selector: 'meta[name="description"]', html: '<meta name="description" content="' + safeDescription + '">' },
+      { selector: 'meta[property="og:title"]', html: '<meta property="og:title" content="' + safeTitle + '">' },
+      { selector: 'meta[property="og:description"]', html: '<meta property="og:description" content="' + safeDescription + '">' },
+      { selector: 'meta[property="og:image"]', html: '<meta property="og:image" content="' + safeImage + '">' },
+      { selector: 'meta[property="og:url"]', html: '<meta property="og:url" content="' + safeUrl + '">' },
+      { selector: 'meta[property="og:type"]', html: '<meta property="og:type" content="' + safeType + '">' },
       { selector: 'meta[property="og:locale"]', html: '<meta property="og:locale" content="pt_BR">' },
       { selector: 'meta[name="twitter:card"]', html: '<meta name="twitter:card" content="summary_large_image">' },
       { selector: 'meta[name="twitter:site"]', html: '<meta name="twitter:site" content="@trancosoresolve">' },
-      { selector: 'meta[name="twitter:title"]', html: '<meta name="twitter:title" content="' + fullTitle + '">' },
-      { selector: 'meta[name="twitter:description"]', html: '<meta name="twitter:description" content="' + description + '">' },
-      { selector: 'meta[name="twitter:image"]', html: '<meta name="twitter:image" content="' + image + '">' },
-      { selector: 'link[rel="canonical"]', html: '<link rel="canonical" href="' + url + '">' },
+      { selector: 'meta[name="twitter:title"]', html: '<meta name="twitter:title" content="' + safeTitle + '">' },
+      { selector: 'meta[name="twitter:description"]', html: '<meta name="twitter:description" content="' + safeDescription + '">' },
+      { selector: 'meta[name="twitter:image"]', html: '<meta name="twitter:image" content="' + safeImage + '">' },
+      { selector: 'link[rel="canonical"]', html: '<link rel="canonical" href="' + safeUrl + '">' },
     ];
 
     const inserted = [];

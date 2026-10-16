@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { quotaCheckAndBump } from './security.ts';
+import { quotaCheckAndBump, isTrustedCaller } from './security.ts';
 
 const SOURCE_VALUES = new Set(['whatsapp', 'facebook', 'site', 'indicacao', 'google']);
 const PHONE_PATTERN = /^\+55\d{10,11}$/;
@@ -37,6 +37,14 @@ Deno.serve(async (req: Request) => {
     if (!SOURCE_VALUES.has(source)) return Response.json({ error: 'Invalid source' }, { status: 400 });
 
     const base44 = createClientFromRequest(req);
+
+    // Segurança (painel Base44 16/10): entrada legada sem uso público —
+    // exige chamador autenticado ou automação interna.
+    const isInternal = await isTrustedCaller(req, base44, body);
+    const callerAuth = isInternal || Boolean(await base44.auth.me().catch(() => null));
+    if (!callerAuth) {
+      return Response.json({ error: 'Não autorizado' }, { status: 401 });
+    }
 
     // Cota diária por IP: entrada pública anônima — sem isso, um atacante
     // inunda a entidade Lead e dispara emails de boas-vindas em massa.

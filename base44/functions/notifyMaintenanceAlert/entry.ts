@@ -8,6 +8,13 @@ Deno.serve(async (req) => {
 
     // Segurança: sem segredo de automação/admin, o alerta é resolvido pelo ID no banco.
     const isInternal = await isTrustedCaller(req, base44, payload);
+    // Segurança (painel Base44 16/10/2026): função fechada para chamadores
+    // autenticados — workflows chamam com auth de serviço; anônimo recebe 401.
+    const callerAuth = isInternal || Boolean(await base44.auth.me().catch(() => null));
+    if (!callerAuth) {
+      return Response.json({ error: 'Não autorizado' }, { status: 401 });
+    }
+
     const alertId = payload.data?.id || payload.event?.entity_id;
     let alert: any = payload.data;
     if (alertId) {

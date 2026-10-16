@@ -1,16 +1,24 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { isTrustedCaller } from './security.ts';
+import { isTrustedCaller, escapeHtml } from './security.ts';
 import { maskName } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const esc = escapeHtml;
     const body = await req.json();
 
     // Segurança: payload `data` só é confiável com segredo de automação ou admin.
     // Caso contrário, o lead é resolvido SEMPRE pelo ID no banco — destinatário e
     // conteúdo vêm do registro real, nunca do chamador.
     const isInternal = await isTrustedCaller(req, base44, body);
+    // Segurança (painel Base44 16/10/2026): função fechada para chamadores
+    // autenticados — workflows chamam com auth de serviço; anônimo recebe 401.
+    const callerAuth = isInternal || Boolean(await base44.auth.me().catch(() => null));
+    if (!callerAuth) {
+      return Response.json({ error: 'Não autorizado' }, { status: 401 });
+    }
+
     const leadId = body.leadId || body.event?.entity_id || body.data?.id;
     let lead: any = null;
     if (leadId) {
@@ -26,7 +34,7 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Lead not found' }, { status: 404 });
     }
 
-    const serviceLabel = lead.service_interest || 'Serviço não especificado';
+    const serviceLabel = esc(lead.service_interest || 'Serviço não especificado');
     const sourceLabel = lead.source === 'pagina-servico'
       ? `Página de serviço (${serviceLabel})`
       : (lead.source || 'Plataforma');
@@ -41,8 +49,8 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: lead.email,
         from_name: 'Trancoso Resolve',
-        subject: `${lead.name}, recebemos seu pedido! 🎉`,
-        body: `Olá, ${lead.name}!
+        subject: `${esc(lead.name)}, recebemos seu pedido! 🎉`,
+        body: `Olá, ${esc(lead.name)}!
 
 Recebemos sua solicitação de ${serviceLabel} em Trancoso e já estamos conectando você com os melhores profissionais da região.
 
@@ -66,18 +74,18 @@ Equipe Trancoso Resolve`,
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: 'suporte@trancosoresolve.com.br',
       from_name: 'Trancoso Resolve | Sistema',
-      subject: `🔔 Novo Lead: ${lead.name} (${serviceLabel}, ${lead.type || 'cliente'})`,
+      subject: `🔔 Novo Lead: ${esc(lead.name)} (${serviceLabel}, ${lead.type || 'cliente'})`,
       body: `Novo lead capturado na plataforma!
 
 📋 DADOS DO LEAD
 ━━━━━━━━━━━━━━━━━━━━━━━━
-Nome: ${lead.name}
+Nome: ${esc(lead.name)}
 Tipo: ${tipoLabel}
 WhatsApp: ${lead.phone}${whatsappLink ? ` → ${whatsappLink}` : ''}
 Email: ${lead.email || '(não informado)'}
 Serviço de interesse: ${serviceLabel}
 Origem: ${sourceLabel}
-Mensagem: ${lead.message || '(não informado)'}
+Mensagem: ${esc(lead.message || '(não informado)')}
 ━━━━━━━━━━━━━━━━━━━━━━━━
 🕐 Recebido em: ${now}
 

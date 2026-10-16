@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { isTrustedCaller } from './security.ts';
+import { isTrustedCaller, escapeHtml } from './security.ts';
 import { maskEmail } from './piiMask.ts';
 
 /**
@@ -10,6 +10,7 @@ import { maskEmail } from './piiMask.ts';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const esc = escapeHtml;
     const payload = await req.json();
     const { event, data, old_data } = payload;
 
@@ -20,6 +21,13 @@ Deno.serve(async (req) => {
     // Segurança: sem segredo de automação/admin, a solicitação é resolvida pelo
     // ID no banco — destinatário e conteúdo vêm do registro real.
     const isInternal = await isTrustedCaller(req, base44, payload);
+    // Segurança (painel Base44 16/10/2026): função fechada para chamadores
+    // autenticados — workflows chamam com auth de serviço; anônimo recebe 401.
+    const callerAuth = isInternal || Boolean(await base44.auth.me().catch(() => null));
+    if (!callerAuth) {
+      return Response.json({ error: 'Não autorizado' }, { status: 401 });
+    }
+
     const recordId = data?.id || event?.entity_id;
     let request: any = data;
     if (recordId) {
@@ -55,7 +63,7 @@ Deno.serve(async (req) => {
     // ─── CREATE: notify client that booking was received ───
     if (eventType === 'create' && request.client_email) {
       const clientBody = `
-Olá, ${request.client_name}! 🌴
+Olá, ${esc(request.client_name)}! 🌴
 
 Sua solicitação de agendamento foi recebida com sucesso no Trancoso Resolve!
 
@@ -63,12 +71,12 @@ Sua solicitação de agendamento foi recebida com sucesso no Trancoso Resolve!
 📋 RESUMO DO AGENDAMENTO
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🔧 Serviço: ${serviceTitle}
-👤 Prestador: ${providerName}
+🔧 Serviço: ${esc(serviceTitle)}
+👤 Prestador: ${esc(providerName)}
 📅 Data: ${dateFormatted}
 🕐 Horário: ${timeFormatted}
 ${request.urgency === 'Urgente' ? '⚡ Urgência: URGENTE\n' : ''}
-${request.location?.address ? `📍 Local: ${request.location.address}${request.location.number ? ', ' + request.location.number : ''}` : ''}
+${request.location?.address ? `📍 Local: ${esc(request.location.address)}${request.location.number ? ', ' + esc(request.location.number) : ''}` : ''}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
@@ -100,7 +108,7 @@ Equipe Trancoso Resolve 🌊
       // Email para o cliente
       if (request.client_email) {
         const clientConfirmBody = `
-Olá, ${request.client_name}! 🎉
+Olá, ${esc(request.client_name)}! 🎉
 
 Boa notícia! Seu agendamento foi CONFIRMADO por ${providerFirstName}!
 

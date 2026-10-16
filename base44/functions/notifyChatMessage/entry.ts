@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { isTrustedCaller } from './security.ts';
+import { isTrustedCaller, escapeHtml } from './security.ts';
 import { maskEmail, maskName } from './piiMask.ts';
 
 /**
@@ -21,6 +21,13 @@ Deno.serve(async (req) => {
     // Segurança: sem segredo de automação/admin, a mensagem é resolvida pelo ID
     // no banco — destinatário e conteúdo vêm do registro real.
     const isInternal = await isTrustedCaller(req, base44, payload);
+    // Segurança (painel Base44 16/10/2026): função fechada para chamadores
+    // autenticados — workflows chamam com auth de serviço; anônimo recebe 401.
+    const callerAuth = isInternal || Boolean(await base44.auth.me().catch(() => null));
+    if (!callerAuth) {
+      return Response.json({ error: 'Não autorizado' }, { status: 401 });
+    }
+
     const messageId = data?.id || payload?.event?.entity_id;
     let message: any = data;
     if (messageId) {
@@ -67,13 +74,14 @@ Deno.serve(async (req) => {
     }
 
     // Trecho da mensagem (máx 120 chars)
-    const preview = content.length > 120 ? content.substring(0, 120) + '...' : content;
+    const esc = escapeHtml;
+    const preview = esc(content.length > 120 ? content.substring(0, 120) + '...' : content);
 
     const appUrl = 'https://trancosoresolve.base44.app/Chat';
     const convUrl = `${appUrl}?conv=${conversation_id}`;
 
     const emailBody = `
-Olá, ${recipientName?.split(' ')[0] || 'você'}! 💬
+Olá, ${esc(recipientName?.split(' ')[0]) || 'você'}! 💬
 
 Você recebeu uma nova mensagem no Trancoso Resolve.
 
@@ -81,8 +89,8 @@ Você recebeu uma nova mensagem no Trancoso Resolve.
 ✉️ NOVA MENSAGEM
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-👤 De: ${senderDisplayName}
-${conv.service_title ? `📋 Serviço: ${conv.service_title}` : ''}
+👤 De: ${esc(senderDisplayName)}
+${conv.service_title ? `📋 Serviço: ${esc(conv.service_title)}` : ''}
 
 💬 "${preview}"
 
@@ -99,7 +107,7 @@ Equipe Trancoso Resolve 🌴
 
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: toEmail,
-      subject: `💬 Nova mensagem de ${senderDisplayName} | Trancoso Resolve`,
+      subject: `💬 Nova mensagem de ${esc(senderDisplayName)} | Trancoso Resolve`,
       body: emailBody,
       from_name: 'Trancoso Resolve'
     });

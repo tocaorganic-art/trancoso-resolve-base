@@ -17,9 +17,10 @@ export default function InvestorFooter() {
             <a href={`mailto:${f.email}`} className="flex items-center gap-2 text-sm mt-2 hover:text-orange-400 transition-colors">
               <Mail className="w-4 h-4" /> {f.email}
             </a>
-            <a href={`https://wa.me/${f.phone.replace(/\D/g, '')}`} className="flex items-center gap-2 text-sm mt-1 hover:text-orange-400 transition-colors">
+            {/* Regra do projeto: sem CTA público de WhatsApp — telefone como texto */}
+            <p className="flex items-center gap-2 text-sm mt-1">
               <Phone className="w-4 h-4" /> {f.phone}
-            </a>
+            </p>
           </div>
 
           <div className="max-w-lg rounded-brand-lg border border-white/10 bg-white/5 p-5">

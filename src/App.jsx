@@ -29,7 +29,6 @@ import { CONSENT_CHANGED_EVENT, activateOptionalTracking, readConsent } from '@/
 // Páginas carregadas sob demanda (code-splitting) para reduzir o bundle inicial.
 const FilaVerificacaoPage = lazy(() => import('@/pages/FilaVerificacao'));
 const AdminPagamentosPage = lazy(() => import('@/pages/AdminPagamentos'));
-const PreLancamentoPage = lazy(() => import('@/pages/PreLancamento'));
 const InvestidoresPage = lazy(() => import('@/pages/Investidores'));
 const AdminAntecedentesPage = lazy(() => import('@/pages/AdminAntecedentes'));
 const ServicoLandingPage = lazy(() => import('@/pages/ServicoLanding'));
@@ -188,9 +187,6 @@ const AuthenticatedApp = () => {
               </LayoutWrapper>
             } />
           </Route>
-          <Route path="/PreLancamento" element={
-            <AnimatedPage><PreLancamentoPage /></AnimatedPage>
-          } />
 
           <Route path="/investidores" element={
             <AnimatedPage><InvestidoresPage /></AnimatedPage>

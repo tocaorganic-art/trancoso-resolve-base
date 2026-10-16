@@ -76,6 +76,20 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'request_id é obrigatório.' }, { status: 400 });
     }
 
+    // BUSCAR SOLICITAÇÃO + PROPRIEDADE (antes da idempotência — corrige IDOR:
+    // o caminho idempotente devolvia fatura/valores de outro usuário sem checar dono)
+    const requests = await base44.asServiceRole.entities.ServiceRequest.filter({ id: request_id });
+    const serviceRequest = requests?.[0];
+    if (!serviceRequest) {
+      return Response.json({ error: 'Solicitação de serviço não encontrada.' }, { status: 404 });
+    }
+
+    const isAdmin = user.role === 'admin';
+    const isOwner = serviceRequest.client_email === user.email || serviceRequest.created_by === user.email;
+    if (!isAdmin && !isOwner) {
+      return Response.json({ error: 'Sem permissão.' }, { status: 403 });
+    }
+
     // IDEMPOTÊNCIA
     const existingPayments = await base44.asServiceRole.entities.Payment.filter({ request_id });
     if (existingPayments && existingPayments.length > 0) {
@@ -92,19 +106,6 @@ Deno.serve(async (req) => {
           amount_platform: existing.amount_platform,
         });
       }
-    }
-
-    // BUSCAR SOLICITAÇÃO
-    const requests = await base44.asServiceRole.entities.ServiceRequest.filter({ id: request_id });
-    const serviceRequest = requests?.[0];
-    if (!serviceRequest) {
-      return Response.json({ error: 'Solicitação de serviço não encontrada.' }, { status: 404 });
-    }
-
-    const isAdmin = user.role === 'admin';
-    const isOwner = serviceRequest.client_email === user.email || serviceRequest.created_by === user.email;
-    if (!isAdmin && !isOwner) {
-      return Response.json({ error: 'Sem permissão.' }, { status: 403 });
     }
 
     if (serviceRequest.status !== 'Confirmado') {

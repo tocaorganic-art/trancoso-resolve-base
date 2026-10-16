@@ -1,16 +1,25 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { isTrustedCaller } from './security.ts';
+import { isTrustedCaller, quotaCheckAndBump, escapeHtml } from './security.ts';
 import { maskName } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const esc = escapeHtml;
     const body = await req.json();
 
     // Segurança: payload `data` só é confiável com segredo de automação ou admin.
     // Caso contrário, o lead é resolvido SEMPRE pelo ID no banco — destinatário e
     // conteúdo vêm do registro real, nunca do chamador.
     const isInternal = await isTrustedCaller(req, base44, body);
+
+    // Relay de e-mail (painel 16/10): formulário público chama esta função sem
+    // login — cota por IP limita disparo de e-mails para endereços arbitrários.
+    const ip = (req.headers.get('x-forwarded-for') || 'desconhecido').split(',')[0].trim();
+    const quota = await quotaCheckAndBump(base44, `investor-notify-ip|${ip}`, 10).catch(() => ({ allowed: true }));
+    if (!quota.allowed) {
+      return Response.json({ success: true, throttled: true });
+    }
     const leadId = body.leadId || body.event?.entity_id || body.data?.id;
     let lead: any = null;
     if (leadId) {
@@ -39,8 +48,8 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.integrations.Core.SendEmail({
         to: lead.email,
         from_name: 'Trancoso Resolve',
-        subject: `${lead.name}, recebemos seu contato sobre a tese de investimento`,
-        body: `Olá, ${lead.name}!
+        subject: `${esc(lead.name)}, recebemos seu contato sobre a tese de investimento`,
+        body: `Olá, ${esc(lead.name)}!
 
 Obrigado pelo interesse na tese de investimento da Trancoso Resolve.
 
@@ -57,19 +66,19 @@ Trancoso Resolve`,
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: 'tocaorganic@gmail.com',
       from_name: 'Trancoso Resolve | Sistema',
-      subject: `🔔 Novo lead de investidor: ${lead.name} (${tipoLabel})`,
+      subject: `🔔 Novo lead de investidor: ${esc(lead.name)} (${tipoLabel})`,
       body: `Novo lead capturado na página de investidores!
 
 📋 DADOS DO LEAD
 ━━━━━━━━━━━━━━━━━━━━━━━━
-Nome: ${lead.name}
+Nome: ${esc(lead.name)}
 Perfil: ${tipoLabel}
-Organização: ${lead.organization || '(não informado)'}
+Organização: ${esc(lead.organization || '(não informado)')}
 Email: ${lead.email}
 Telefone/WhatsApp: ${lead.phone || '(não informado)'}
 Faixa de ticket: ${lead.ticket_range || '(não informado)'}
 Idioma da página: ${lead.language || 'pt'}
-Mensagem: ${lead.message || '(não informado)'}
+Mensagem: ${esc(lead.message || '(não informado)')}
 Consentimento LGPD: ${lead.consent ? 'Sim' : 'Não'}
 ━━━━━━━━━━━━━━━━━━━━━━━━
 🕐 Recebido em: ${now}

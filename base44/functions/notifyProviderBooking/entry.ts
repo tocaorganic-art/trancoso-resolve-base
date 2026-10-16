@@ -1,10 +1,11 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { isTrustedCaller } from './security.ts';
+import { isTrustedCaller, escapeHtml } from './security.ts';
 import { maskEmail, maskName } from './piiMask.ts';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const esc = escapeHtml;
     const payload = await req.json();
 
     // Called by automation — use service role
@@ -17,6 +18,13 @@ Deno.serve(async (req) => {
     // Segurança: sem segredo de automação/admin, a solicitação é resolvida pelo
     // ID no banco — destinatário e conteúdo vêm do registro real.
     const isInternal = await isTrustedCaller(req, base44, payload);
+    // Segurança (painel Base44 16/10/2026): função fechada para chamadores
+    // autenticados — workflows chamam com auth de serviço; anônimo recebe 401.
+    const callerAuth = isInternal || Boolean(await base44.auth.me().catch(() => null));
+    if (!callerAuth) {
+      return Response.json({ error: 'Não autorizado' }, { status: 401 });
+    }
+
     const recordId = data?.id || payload?.event?.entity_id;
     let request: any = data;
     if (recordId) {
@@ -68,7 +76,7 @@ Deno.serve(async (req) => {
     const timeFormatted = request.time || 'Horário a combinar';
 
     const emailBody = `
-Olá, ${provider.full_name.split(' ')[0]}! 🌴
+Olá, ${esc(provider.full_name.split(' ')[0])}! 🌴
 
 Você tem uma nova solicitação de agendamento na plataforma Trancoso Resolve.
 
@@ -76,14 +84,14 @@ Você tem uma nova solicitação de agendamento na plataforma Trancoso Resolve.
 📋 DETALHES DO AGENDAMENTO
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 
-👤 Cliente: ${request.client_name}
+👤 Cliente: ${esc(request.client_name)}
 📱 Telefone: ${request.client_phone}
-🔧 Serviço: ${service?.title || 'Serviço solicitado'}
+🔧 Serviço: ${esc(service?.title || 'Serviço solicitado')}
 📅 Data: ${dateFormatted}
 🕐 Horário: ${timeFormatted}
 ${request.urgency === 'Urgente' ? '⚡ URGÊNCIA: Este pedido é URGENTE!\n' : ''}
-${request.message ? `💬 Mensagem do cliente: "${request.message}"` : ''}
-${request.location?.address ? `📍 Local: ${request.location.address}${request.location.number ? ', ' + request.location.number : ''}` : ''}
+${request.message ? `💬 Mensagem do cliente: "${esc(request.message)}"` : ''}
+${request.location?.address ? `📍 Local: ${esc(request.location.address)}${request.location.number ? ', ' + esc(request.location.number) : ''}` : ''}
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━
 

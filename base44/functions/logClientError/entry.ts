@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { quotaCheckAndBump } from './security.ts';
+import { quotaCheckAndBump, escapeHtml } from './security.ts';
 
 function redact(value: unknown, maxLength: number): string {
   return String(value || '')
@@ -113,12 +113,13 @@ Deno.serve(async (req: Request) => {
       triage_completed_at: completedAt,
     });
 
+    const esc = escapeHtml;
     const now = new Date().toLocaleString('pt-BR', { timeZone: 'America/Bahia', dateStyle: 'short', timeStyle: 'short' });
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: 'contato@trancosoresolve.com.br',
       from_name: 'Trancoso Resolve | Agente de Erros',
-      subject: `🚨 Erro capturado: ${pageUrl}`,
-      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${pageUrl}\nDATA: ${now}\nUSUÁRIO: ${userEmail || '(não logado)'}\n\nMENSAGEM:\n${errorMessage}\n\nTRIAGEM MICROSOFT AI:\n${microsoftText || '(indisponível)'}\n\nTRIAGEM CHATGPT:\n${openaiText || '(indisponível)'}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
+      subject: `🚨 Erro capturado: ${esc(pageUrl).slice(0, 120)}`,
+      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${esc(pageUrl)}\nDATA: ${now}\nUSUÁRIO: ${esc(userEmail || '(não logado)')}\n\nMENSAGEM:\n${esc(errorMessage)}\n\nTRIAGEM MICROSOFT AI:\n${microsoftText || '(indisponível)'}\n\nTRIAGEM CHATGPT:\n${openaiText || '(indisponível)'}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
     });
 
     return Response.json({ ok: true, triage: completed ? 'completed' : 'failed' });

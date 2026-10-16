@@ -35,7 +35,14 @@ export default function ServicoLocalPage({
   useEffect(() => {
     // Título ideal: até ~60 caracteres. Usa só o trecho antes do primeiro "|".
     const baseTitle = title.replace(/\s*\|\s*Trancoso Resolve\s*$/, '').split('|')[0].trim();
-    const seoTitle = `${baseTitle} | Trancoso Resolve`.length <= 60 ? `${baseTitle} | Trancoso Resolve` : baseTitle;
+    const suffix = ' | Trancoso Resolve';
+    let seoTitle = `${baseTitle}${suffix}`;
+    if (seoTitle.length > 60) {
+      const maxBase = 60 - suffix.length;
+      const cutBase = baseTitle.slice(0, maxBase);
+      const trimmedBase = cutBase.includes(' ') ? cutBase.slice(0, cutBase.lastIndexOf(' ')) : cutBase;
+      seoTitle = `${trimmedBase}${suffix}`;
+    }
     // Descrição ideal: 120 a 160 caracteres.
     const clampDesc = (text) => {
       if (text.length <= 160) return text;

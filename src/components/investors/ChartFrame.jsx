@@ -97,7 +97,7 @@ export default function ChartFrame({
                 aria-checked={active}
                 onClick={() => toggleKey(s.key)}
                 onKeyDown={(e) => handleKeyDown(e, s.key)}
-                className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary
+                className={`flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-all focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-primary
                   ${active
                     ? 'border-current opacity-100'
                     : 'border-border opacity-40'
@@ -128,7 +128,7 @@ export default function ChartFrame({
       {/* Tabela textual acessível */}
       {tableData.length > 0 && (
         <details className="mt-2">
-          <summary className="cursor-pointer text-xs text-muted-foreground hover:text-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary rounded">
+          <summary className="cursor-pointer text-xs text-muted-foreground hover:text-foreground transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-primary rounded">
             Ver dados em formato de tabela
           </summary>
           <div className="mt-3 overflow-x-auto">

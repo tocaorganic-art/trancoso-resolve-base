@@ -97,10 +97,10 @@ export default function PromotionalBanner() {
              </div>
 
              {/* Animated gradient overlay */}
-             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/65 to-transparent" />
+             <div className="absolute inset-0 bg-linear-to-r from-black/80 via-black/65 to-transparent" />
 
              {/* Dynamic accent gradient */}
-             <div className={`absolute -right-20 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-20 bg-gradient-to-r ${banner.accent}`} />
+             <div className={`absolute -right-20 top-1/2 -translate-y-1/2 w-96 h-96 rounded-full blur-3xl opacity-20 bg-linear-to-r ${banner.accent}`} />
 
             {/* Content */}
             <div className="relative h-full flex items-center z-20 px-5 md:px-12">
@@ -118,7 +118,7 @@ export default function PromotionalBanner() {
                   <h2 className="text-2xl md:text-5xl font-black leading-[1.15] drop-shadow-lg tracking-tight">
                     {banner.title}
                   </h2>
-                  <div className={`text-2xl md:text-5xl font-black leading-[1.15] drop-shadow-lg bg-gradient-to-r ${banner.accent} bg-clip-text text-transparent tracking-tight`}>
+                  <div className={`text-2xl md:text-5xl font-black leading-[1.15] drop-shadow-lg bg-linear-to-r ${banner.accent} bg-clip-text text-transparent tracking-tight`}>
                     {banner.highlight}
                   </div>
                 </div>
@@ -158,7 +158,7 @@ export default function PromotionalBanner() {
                         {banner.cta}
                         <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-amber-400 opacity-0 group-hover:opacity-20 transition-opacity" />
+                      <div className="absolute inset-0 bg-linear-to-r from-orange-400 to-amber-400 opacity-0 group-hover:opacity-20 transition-opacity" />
                     </Button>
                   </Link>
                 </div>

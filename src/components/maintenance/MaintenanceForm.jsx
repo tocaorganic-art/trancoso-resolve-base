@@ -42,7 +42,7 @@ export default function MaintenanceForm({ onClose }) {
 
   return (
     <Card className="border-none shadow-xl">
-      <CardHeader className="bg-gradient-to-r from-orange-50 to-red-50 border-b">
+      <CardHeader className="bg-linear-to-r from-orange-50 to-red-50 border-b">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Wrench className="w-5 h-5 text-orange-600" />
@@ -160,7 +160,7 @@ export default function MaintenanceForm({ onClose }) {
             <Button 
               type="submit" 
               disabled={createMutation.isPending}
-              className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700"
+              className="bg-linear-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700"
             >
               {createMutation.isPending ? "Salvando..." : "Criar Alerta"}
             </Button>

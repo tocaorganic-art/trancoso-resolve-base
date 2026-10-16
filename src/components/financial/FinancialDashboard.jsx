@@ -65,7 +65,7 @@ export default function FinancialDashboard({ transactions }) {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
       {/* Gráfico de Receita x Despesa */}
-      <Card className="border border-slate-700 shadow-lg bg-slate-800/50 backdrop-blur-sm">
+      <Card className="border border-slate-700 shadow-lg bg-slate-800/50 backdrop-blur-xs">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-slate-100">
             <TrendingUp className="text-green-500" />
@@ -92,7 +92,7 @@ export default function FinancialDashboard({ transactions }) {
       </Card>
 
       {/* Gráfico de Pizza - Categorias */}
-      <Card className="border border-slate-700 shadow-lg bg-slate-800/50 backdrop-blur-sm">
+      <Card className="border border-slate-700 shadow-lg bg-slate-800/50 backdrop-blur-xs">
         <CardHeader>
           <CardTitle className="text-slate-100">Despesas por Categoria</CardTitle>
           <CardDescription className="text-slate-400">Distribuição dos gastos</CardDescription>
@@ -130,7 +130,7 @@ export default function FinancialDashboard({ transactions }) {
       </Card>
 
       {/* Gráfico de Área - Tendência */}
-      <Card className="border border-slate-700 shadow-lg col-span-1 lg:col-span-2 bg-slate-800/50 backdrop-blur-sm">
+      <Card className="border border-slate-700 shadow-lg col-span-1 lg:col-span-2 bg-slate-800/50 backdrop-blur-xs">
         <CardHeader>
           <CardTitle className="text-slate-100">Tendência Financeira</CardTitle>
           <CardDescription className="text-slate-400">Evolução ao longo do tempo</CardDescription>

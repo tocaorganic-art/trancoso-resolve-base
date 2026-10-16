@@ -22,7 +22,7 @@ function FloatingInput({ id, label, type = 'text', value, onChange, required, pl
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         placeholder=" "
-        className="w-full rounded-xl border border-border bg-muted px-4 pt-5 pb-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400 transition-all peer"
+        className="w-full rounded-xl border border-border bg-muted px-4 pt-5 pb-2 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400 transition-all peer"
       />
       <label
         htmlFor={id}
@@ -51,7 +51,7 @@ function FloatingTextarea({ id, label, value, onChange, required, rows = 4 }) {
         onBlur={() => setFocused(false)}
         rows={rows}
         placeholder=" "
-        className="w-full rounded-xl border border-border bg-muted px-4 pt-5 pb-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none transition-all"
+        className="w-full rounded-xl border border-border bg-muted px-4 pt-5 pb-2 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400 resize-none transition-all"
       />
       <label
         htmlFor={id}
@@ -81,9 +81,9 @@ function ChannelCard({ href, icon, label, sub, delay = 0, iconColor = 'text-oran
         href={href}
         target={href?.startsWith('http') ? '_blank' : undefined}
         rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-        className={`flex items-start gap-4 p-4 bg-card rounded-xl border border-border shadow-sm hover:border-orange-300 hover:shadow-md transition-all duration-300 group ${href ? 'cursor-pointer' : ''}`}
+        className={`flex items-start gap-4 p-4 bg-card rounded-xl border border-border shadow-xs hover:border-orange-300 hover:shadow-md transition-all duration-300 group ${href ? 'cursor-pointer' : ''}`}
       >
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/20 flex items-center justify-center border border-orange-400/20 group-hover:scale-110 transition-transform duration-300 shrink-0">
+        <div className="w-10 h-10 rounded-xl bg-linear-to-br from-orange-500/10 to-orange-600/20 flex items-center justify-center border border-orange-400/20 group-hover:scale-110 transition-transform duration-300 shrink-0">
           <span className={iconColor}>{icon}</span>
         </div>
         <div>
@@ -143,7 +143,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
 
       {/* ── Hero ── */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-16 px-4">
+      <section className="relative overflow-hidden bg-linear-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-16 px-4">
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
             animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2] }}
@@ -223,7 +223,7 @@ export default function ContactPage() {
             initial={{ opacity: 0, x: 32 }}
             animate={formInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="bg-card rounded-2xl p-6 shadow-sm border border-border"
+            className="bg-card rounded-2xl p-6 shadow-xs border border-border"
           >
             <h2 className="text-xl font-bold text-foreground mb-6">Envie uma Mensagem</h2>
 
@@ -276,7 +276,7 @@ export default function ContactPage() {
                     <select
                       required value={form.subject}
                       onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
-                      className="w-full rounded-xl border border-border bg-muted px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-orange-400 appearance-none"
+                      className="w-full rounded-xl border border-border bg-muted px-4 py-3 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400 appearance-none"
                     >
                       <option value="">Assunto *</option>
                       {ASSUNTOS.map(a => <option key={a} value={a}>{a}</option>)}
@@ -289,7 +289,7 @@ export default function ContactPage() {
                     onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                   />
 
-                  <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                  <div aria-hidden="true" className="absolute left-[-9999px] h-px w-px overflow-hidden">
                     <label htmlFor="contact_website">Não preencha este campo</label>
                     <input
                       id="contact_website"
@@ -330,7 +330,7 @@ export default function ContactPage() {
                   <Button
                     type="submit"
                     disabled={status === 'loading'}
-                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-md"
+                    className="w-full bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-md"
                   >
                     {status === 'loading'
                       ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Enviando...</>

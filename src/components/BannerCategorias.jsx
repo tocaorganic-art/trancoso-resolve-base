@@ -15,7 +15,7 @@ export default function BannerCategorias() {
   ];
 
   return (
-    <section className="py-8 md:py-12 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 border-t border-b border-slate-200 dark:border-slate-800">
+    <section className="py-8 md:py-12 bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 border-t border-b border-slate-200 dark:border-slate-800">
         <div className="container mx-auto px-4 max-w-full overflow-hidden">
             <div className="mb-6 text-center">
               <h3 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">Categorias Principais</h3>
@@ -37,7 +37,7 @@ export default function BannerCategorias() {
                        }}
                      >
                        {/* Hover state: intensify background and shadow */}
-                       <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-40 transition-opacity duration-300`} />
+                       <div className={`absolute inset-0 bg-linear-to-br ${cat.color} opacity-0 group-hover:opacity-40 transition-opacity duration-300`} />
 
                        {/* Icon - always visible */}
                        <div className="text-slate-700 dark:text-slate-300 transition-all duration-300 group-hover:text-slate-900 dark:group-hover:text-white relative z-10 group-hover:scale-125" role="img" aria-hidden="true">

@@ -48,7 +48,7 @@ export default function ClientList() {
 
   return (
     <Card className="border-none shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50">
+      <CardHeader className="bg-linear-to-r from-blue-50 to-cyan-50">
         <CardTitle>Lista de Clientes ({clients.length})</CardTitle>
       </CardHeader>
       <CardContent className="p-0">

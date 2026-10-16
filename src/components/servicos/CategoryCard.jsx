@@ -27,9 +27,9 @@ export default function CategoryCard({ category, onClick }) {
   return (
     <a
       onClick={onClick}
-      className="rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 p-4 flex flex-col gap-2 transition hover:scale-[1.02] cursor-pointer"
+      className="rounded-2xl bg-white/5 backdrop-blur-xs border border-white/10 p-4 flex flex-col gap-2 transition hover:scale-[1.02] cursor-pointer"
     >
-      <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
+      <div className="w-11 h-11 rounded-xl bg-linear-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center">
         <CategoryIcon category={category} className="w-6 h-6" />
       </div>
       <h3 className="font-bold text-white">{category}</h3>

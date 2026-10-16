@@ -269,7 +269,7 @@ export default function Layout({ children, currentPageName }) {
               <div className={`hidden md:flex items-center gap-3 lg:gap-6 min-w-0 overflow-hidden transition-all duration-300 ${scrolled ? 'opacity-0 pointer-events-none w-0' : 'opacity-100'}`}>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <button className="flex items-center gap-1 text-sm font-semibold text-foreground hover:text-orange-500 transition-colors focus:outline-none">
+                    <button className="flex items-center gap-1 text-sm font-semibold text-foreground hover:text-orange-500 transition-colors focus:outline-hidden">
                       <MapPin className="w-4 h-4" /> {t('nav.destinos')} <ChevronDown className="w-3.5 h-3.5" />
                     </button>
                   </DropdownMenuTrigger>

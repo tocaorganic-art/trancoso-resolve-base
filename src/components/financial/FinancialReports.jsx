@@ -43,7 +43,7 @@ export default function FinancialReports({ transactions }) {
     <div className="space-y-6">
       {/* Export Buttons */}
       <Card className="glass-card border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50">
+        <CardHeader className="bg-linear-to-r from-blue-50 to-purple-50">
           <CardTitle className="flex items-center gap-2">
             <Download className="w-5 h-5 text-blue-600" />
             Exportar Relatórios
@@ -53,14 +53,14 @@ export default function FinancialReports({ transactions }) {
           <div className="flex flex-wrap gap-3">
             <Button 
               onClick={generatePDFReport}
-              className="bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700"
+              className="bg-linear-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700"
             >
               <FileText className="w-4 h-4 mr-2" />
               Exportar PDF
             </Button>
             <Button 
               onClick={generateExcelReport}
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
+              className="bg-linear-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
             >
               <FileText className="w-4 h-4 mr-2" />
               Exportar Excel
@@ -71,7 +71,7 @@ export default function FinancialReports({ transactions }) {
 
       {/* Summary Report */}
       <Card className="glass-card border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50">
+        <CardHeader className="bg-linear-to-r from-green-50 to-emerald-50">
           <CardTitle>Resumo Financeiro</CardTitle>
         </CardHeader>
         <CardContent className="p-6">

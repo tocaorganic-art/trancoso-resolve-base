@@ -75,7 +75,7 @@ export default function PesquisaProfunda() {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gradient-to-br from-purple-50 to-slate-50">
+    <div className="flex flex-col h-full bg-linear-to-br from-purple-50 to-slate-50">
       {/* Header */}
       <div className="p-4 border-b border-purple-100 bg-white shrink-0">
         <div className="flex items-center gap-2 mb-1">
@@ -121,7 +121,7 @@ export default function PesquisaProfunda() {
           const cfg = STATUS_CONFIG[task.status] || STATUS_CONFIG.running;
           const Icon = cfg.icon;
           return (
-            <div key={task.task_id} className={`rounded-xl border p-4 bg-white shadow-sm ${task.status === 'running' || task.status === 'pending' ? 'border-blue-200' : ''}`}>
+            <div key={task.task_id} className={`rounded-xl border p-4 bg-white shadow-xs ${task.status === 'running' || task.status === 'pending' ? 'border-blue-200' : ''}`}>
               {/* Task header */}
               <div className="flex items-start justify-between gap-2 mb-2">
                 <p className="text-sm font-medium text-slate-800 line-clamp-2 flex-1">{task.prompt}</p>

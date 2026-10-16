@@ -208,7 +208,7 @@ const ProviderMiniCard = ({ provider, index = 0 }) => (
           <LazyImage
             src={provider.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(provider.full_name)}&size=80`}
             alt={`Foto de ${provider.full_name}, ${provider.occupation} em Trancoso`}
-            className="w-14 h-14 rounded-full object-cover border-2 border-white shadow"
+            className="w-14 h-14 rounded-full object-cover border-2 border-white shadow-sm"
           />
           {provider.verified && (
             <div className="absolute -bottom-1 -right-1 bg-orange-500 rounded-full p-0.5">
@@ -360,7 +360,7 @@ export default function ServicoLandingPage() {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero */}
-      <section className={`bg-gradient-to-r ${config.color} text-white py-12 md:py-20`}>
+      <section className={`bg-linear-to-r ${config.color} text-white py-12 md:py-20`}>
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }} className="container mx-auto max-w-6xl px-4 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div>
             <motion.nav initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="text-sm text-white/70 mb-4" aria-label="Breadcrumb">
@@ -372,7 +372,7 @@ export default function ServicoLandingPage() {
                 <li className="text-white font-medium">{config.occupation}</li>
               </ol>
             </motion.nav>
-            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="text-2xl sm:text-4xl font-extrabold mb-4 leading-tight bg-gradient-to-r from-orange-400 via-orange-300 to-amber-300 bg-clip-text text-transparent">{config.h1}</motion.h1>
+            <motion.h1 initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="text-2xl sm:text-4xl font-extrabold mb-4 leading-tight bg-linear-to-r from-orange-400 via-orange-300 to-amber-300 bg-clip-text text-transparent">{config.h1}</motion.h1>
             <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg text-white/90 mb-6">{config.description}</motion.p>
             <div className="flex flex-wrap gap-3 mb-6">
               {availableCount > 0 && (
@@ -468,7 +468,7 @@ export default function ServicoLandingPage() {
         </section>
 
         {/* Links para outras categorias */}
-        <section className="bg-card rounded-2xl p-6 shadow-sm border border-border">
+        <section className="bg-card rounded-2xl p-6 shadow-xs border border-border">
           <h2 className="text-lg font-bold text-foreground mb-4">Outros Serviços em Trancoso</h2>
           <div className="flex flex-wrap gap-2">
             {Object.entries(servicoConfig)
@@ -485,7 +485,7 @@ export default function ServicoLandingPage() {
       </div>
 
       {/* CTA Final */}
-      <section className="relative bg-gradient-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-12 overflow-hidden">
+      <section className="relative bg-linear-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-12 overflow-hidden">
         <motion.div className="absolute top-[-60px] left-[-60px] w-[300px] h-[300px] rounded-full bg-orange-600/20 blur-[100px] pointer-events-none"
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
           transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }} />

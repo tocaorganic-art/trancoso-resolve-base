@@ -71,9 +71,9 @@ Seja conciso mas completo.
 
   return (
     <Card className="glass-card border-none shadow-2xl">
-      <CardHeader className="bg-gradient-to-r from-purple-50 to-blue-50 border-b">
+      <CardHeader className="bg-linear-to-r from-purple-50 to-blue-50 border-b">
         <CardTitle className="flex items-center gap-3">
-          <div className="p-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl">
+          <div className="p-2 bg-linear-to-r from-purple-600 to-blue-600 rounded-xl">
             <Bot className="w-6 h-6 text-white" />
           </div>
           <div>
@@ -100,8 +100,8 @@ Seja conciso mas completo.
                 >
                   <div className={`p-2 rounded-xl ${
                     message.role === 'assistant' 
-                      ? 'bg-gradient-to-r from-purple-100 to-blue-100' 
-                      : 'bg-gradient-to-r from-blue-100 to-cyan-100'
+                      ? 'bg-linear-to-r from-purple-100 to-blue-100' 
+                      : 'bg-linear-to-r from-blue-100 to-cyan-100'
                   }`}>
                     {message.role === 'assistant' ? (
                       <Bot className="w-5 h-5 text-purple-600" />
@@ -113,7 +113,7 @@ Seja conciso mas completo.
                     <div className={`inline-block max-w-[85%] p-4 rounded-2xl ${
                       message.role === 'assistant'
                         ? 'bg-white shadow-md border border-slate-200'
-                        : 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
+                        : 'bg-linear-to-r from-blue-600 to-cyan-600 text-white shadow-lg'
                     }`}>
                       <p className="text-sm whitespace-pre-wrap leading-relaxed">
                         {message.content}
@@ -130,7 +130,7 @@ Seja conciso mas completo.
                 animate={{ opacity: 1 }}
                 className="flex gap-3"
               >
-                <div className="p-2 rounded-xl bg-gradient-to-r from-purple-100 to-blue-100">
+                <div className="p-2 rounded-xl bg-linear-to-r from-purple-100 to-blue-100">
                   <Bot className="w-5 h-5 text-purple-600" />
                 </div>
                 <div className="bg-white shadow-md border border-slate-200 p-4 rounded-2xl">
@@ -183,7 +183,7 @@ Seja conciso mas completo.
             <Button
               onClick={handleSend}
               disabled={!input.trim() || loading}
-              className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-6"
+              className="bg-linear-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 px-6"
             >
               {loading ? (
                 <Loader2 className="w-5 h-5 animate-spin" />

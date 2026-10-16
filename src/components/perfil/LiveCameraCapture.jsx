@@ -111,7 +111,7 @@ export default function LiveCameraCapture({ onCapture }) {
           <>
             <Button
               onClick={capturePhoto}
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold h-11"
+              className="flex-1 bg-linear-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold h-11"
             >
               <Camera className="w-5 h-5 mr-2" />
               Capturar Foto

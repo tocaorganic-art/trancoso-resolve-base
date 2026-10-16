@@ -53,7 +53,7 @@ export default function EventCard({ event, showDetails }) {
   if (showDetails) {
     return (
       <Card className="border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-b">
+        <CardHeader className="bg-linear-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-b">
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <CardTitle className="text-2xl mb-3">{event.name}</CardTitle>
@@ -117,7 +117,7 @@ export default function EventCard({ event, showDetails }) {
 
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all">
-      <CardHeader className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-b">
+      <CardHeader className="bg-linear-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-b">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <CardTitle className="text-lg mb-2">{event.name}</CardTitle>

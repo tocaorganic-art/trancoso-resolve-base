@@ -19,14 +19,14 @@ export default function MessageBubble({ message }) {
     return (
         <div className={cn("flex gap-3 max-w-[85%]", isUser ? "ml-auto" : "mr-auto")}>
             {!isUser && (
-                <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center shrink-0 text-white font-bold text-sm shadow-md">
+                <div className="h-8 w-8 rounded-full bg-linear-to-br from-blue-500 to-blue-600 flex items-center justify-center shrink-0 text-white font-bold text-sm shadow-md">
                     T
                 </div>
             )}
             <div className={cn(
                 "rounded-2xl px-4 py-3 shadow-md",
                 isUser 
-                    ? "bg-gradient-to-r from-blue-600 to-blue-700 text-white" 
+                    ? "bg-linear-to-r from-blue-600 to-blue-700 text-white" 
                     : "bg-white border border-slate-200"
             )}>
                 {isUser ? (

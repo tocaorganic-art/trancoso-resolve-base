@@ -80,7 +80,7 @@ export default function ConfiguracaoMarketing() {
           <ol className="space-y-4">
             {steps.map(step => (
               <li key={step.num} className="flex gap-4">
-                <span className="flex-shrink-0 w-7 h-7 rounded-full bg-brand-primary text-white flex items-center justify-center text-xs font-bold">
+                <span className="shrink-0 w-7 h-7 rounded-full bg-brand-primary text-white flex items-center justify-center text-xs font-bold">
                   {step.num}
                 </span>
                 <div>

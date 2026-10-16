@@ -48,7 +48,7 @@ export default function PerfisParticipacao() {
                 <p className="text-[#666] text-sm leading-relaxed mb-5 flex-1">{p.desc}</p>
                 <Link
                   to="/participar"
-                  className="inline-flex items-center justify-center bg-[#20382C] hover:bg-[#1a2d22] text-white font-semibold px-4 py-2.5 rounded-lg min-h-[44px] text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F26A21]"
+                  className="inline-flex items-center justify-center bg-[#20382C] hover:bg-[#1a2d22] text-white font-semibold px-4 py-2.5 rounded-lg min-h-[44px] text-sm transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F26A21]"
                 >
                   {p.cta}
                 </Link>

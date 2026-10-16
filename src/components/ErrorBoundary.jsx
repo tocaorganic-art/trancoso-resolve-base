@@ -41,7 +41,7 @@ class ErrorBoundary extends React.Component {
       const errorId = `err_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
       return (
-        <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-50 flex items-center justify-center p-4">
+        <div className="min-h-screen bg-linear-to-br from-red-50 to-orange-50 flex items-center justify-center p-4">
           <Card className="max-w-lg w-full border-red-200 shadow-xl">
             <CardContent className="p-8 text-center">
               <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />

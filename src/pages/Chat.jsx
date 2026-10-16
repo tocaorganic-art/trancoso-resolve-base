@@ -65,7 +65,7 @@ function ConversationList({ conversations, selectedId, onSelect, currentUser }) 
             className={`w-full text-left p-4 hover:bg-muted transition-colors ${isSelected ? "bg-orange-50 border-l-4 border-brand-primary" : ""}`}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold shrink-0">
+              <div className="w-10 h-10 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold shrink-0">
                 {otherName?.charAt(0)?.toUpperCase() || "?"}
               </div>
               <div className="flex-1 min-w-0">
@@ -193,7 +193,7 @@ function ChatWindow({ conversation, currentUser, onBack }) {
         <Button variant="ghost" size="icon" onClick={onBack} className="md:hidden">
           <ArrowLeft className="w-5 h-5" />
         </Button>
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold">
+        <div className="w-10 h-10 rounded-full bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center text-white font-bold">
           {otherName?.charAt(0)?.toUpperCase() || "?"}
         </div>
         <div>

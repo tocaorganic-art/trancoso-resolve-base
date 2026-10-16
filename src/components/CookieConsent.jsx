@@ -55,7 +55,7 @@ export default function CookieConsent() {
               Ao continuar, você concorda com nossa <a href="/PoliticaPrivacidade" className="underline text-orange-300">Política de Privacidade</a>.
             </p>
           </div>
-          <div className="flex gap-3 flex-shrink-0">
+          <div className="flex gap-3 shrink-0">
             <Button
               variant="outline"
               onClick={handleReject}

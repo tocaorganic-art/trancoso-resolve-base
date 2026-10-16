@@ -37,7 +37,7 @@ export default function ProviderCard({ provider }) {
     return (
     <div className="rounded-2xl overflow-hidden bg-[#1a1a2e] shadow-lg flex flex-col h-full border border-white/5">
         {/* 1) IMAGEM DE CAPA no topo - altura fixa, sem sobreposição */}
-        <div className="h-28 w-full bg-gradient-to-br from-[#c2410c] to-[#9a3412] relative flex-shrink-0">
+        <div className="h-28 w-full bg-linear-to-br from-[#c2410c] to-[#9a3412] relative shrink-0">
             {provider.cover_photo_url && provider.cover_photo_url.trim() ? (
                 <LazyImage
                     src={provider.cover_photo_url}
@@ -49,12 +49,12 @@ export default function ProviderCard({ provider }) {
         </div>
 
         {/* 2-7) CORPO DO CARD - todo conteúdo ABAIXO da capa, com padding adequado */}
-        <div className="p-4 flex flex-col gap-3 flex-grow">
+        <div className="p-4 flex flex-col gap-3 grow">
             
             {/* Header com avatar + nome + ocupação + favorito */}
             <div className="flex items-start gap-3">
                 {/* Avatar circular sobreposto na borda da capa (-mt-8) */}
-                <Avatar className="w-16 h-16 border-3 border-white flex-shrink-0 -mt-8 relative z-10 shadow-md">
+                <Avatar className="w-16 h-16 border-3 border-white shrink-0 -mt-8 relative z-10 shadow-md">
                     {provider.photo_url && provider.photo_url.trim() && (
                         <AvatarImage
                             src={provider.photo_url}
@@ -94,7 +94,7 @@ export default function ProviderCard({ provider }) {
                 </div>
 
                 {/* Botão de favorito no canto superior direito */}
-                <div className="flex-shrink-0">
+                <div className="shrink-0">
                     <FavoriteButton 
                         id={provider.id} 
                         type="provider" 
@@ -160,7 +160,7 @@ export default function ProviderCard({ provider }) {
 
             {/* 7) BOTÃO "Ver Perfil Completo" - gradiente âmbar padrão do site */}
             <Link to={createPageUrl("PrestadorPerfil", `?id=${provider.id}`)} className="mt-auto">
-                <button className="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm rounded-xl transition-all duration-200 shadow-lg hover:shadow-amber-500/30 hover:-translate-y-0.5">
+                <button className="w-full py-3 px-4 bg-linear-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-sm rounded-xl transition-all duration-200 shadow-lg hover:shadow-amber-500/30 hover:-translate-y-0.5">
                     Ver Perfil Completo →
                 </button>
             </Link>

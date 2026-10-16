@@ -36,7 +36,7 @@ export default function TrIAStreamingMessage({ content, isComplete, onComplete }
   }, [content, isComplete]);
 
   return (
-    <div className="bg-[#1A1008] rounded-2xl rounded-tl-sm px-4 py-3 max-w-2xl border border-white/6 shadow-sm">
+    <div className="bg-[#1A1008] rounded-2xl rounded-tl-sm px-4 py-3 max-w-2xl border border-white/6 shadow-xs">
       <div className="text-sm text-[#EDD8B0] leading-relaxed">
         <ReactMarkdown
           className="prose prose-sm max-w-none"

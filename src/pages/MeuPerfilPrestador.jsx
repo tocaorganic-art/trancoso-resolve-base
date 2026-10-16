@@ -101,7 +101,7 @@ const ProfileCompleteness = ({ formData }) => {
             </CardHeader>
             <CardContent>
                 <div className="flex items-center gap-4 mb-4">
-                    <Progress value={score} className="h-2 [&>*]:bg-[#3E8E5A]" />
+                    <Progress value={score} className="h-2 *:bg-[#3E8E5A]" />
                     <span className="text-lg font-bold text-foreground">{score}%</span>
                 </div>
                 {suggestions.length > 0 && (
@@ -689,7 +689,7 @@ function MeuPerfilPrestadorContent() {
                     <Button 
                       key={method}
                       type="button"
-                      variant={formData.payment_methods?.includes(method) ? "default" : "outline"}
+                      variant={formData.payment_methods?.includes(method) ? "default" : "outline-solid"}
                       onClick={() => {
                         const currentMethods = formData.payment_methods || [];
                         const newMethods = currentMethods.includes(method) 

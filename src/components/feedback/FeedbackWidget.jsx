@@ -58,7 +58,7 @@ export default function FeedbackWidget() {
                 value={feedback}
                 onChange={(e) => setFeedback(e.target.value)}
                 placeholder="Diga-nos o que você acha..."
-                className="w-full p-3 border border-slate-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3"
+                className="w-full p-3 border border-slate-300 rounded-lg resize-none focus:outline-hidden focus:ring-2 focus:ring-blue-500 mb-3"
                 rows={4}
               />
               <Button

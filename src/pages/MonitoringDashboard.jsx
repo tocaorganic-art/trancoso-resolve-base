@@ -19,7 +19,7 @@ function MonitoringDashboardContent() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-card">
+        <Card className="border-none shadow-lg bg-linear-to-br from-orange-50 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Activity className="w-5 h-5 text-brand-primary" />
@@ -30,7 +30,7 @@ function MonitoringDashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-[#3E8E5A]/10 to-card">
+        <Card className="border-none shadow-lg bg-linear-to-br from-[#3E8E5A]/10 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <TrendingUp className="w-5 h-5 text-[#3E8E5A]" />
@@ -41,7 +41,7 @@ function MonitoringDashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-amber-50 to-card">
+        <Card className="border-none shadow-lg bg-linear-to-br from-amber-50 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Shield className="w-5 h-5 text-amber-600" />
@@ -52,7 +52,7 @@ function MonitoringDashboardContent() {
           </CardContent>
         </Card>
 
-        <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-card">
+        <Card className="border-none shadow-lg bg-linear-to-br from-orange-50 to-card">
           <CardContent className="p-6">
             <div className="flex items-center gap-3 mb-2">
               <Zap className="w-5 h-5 text-orange-600" />

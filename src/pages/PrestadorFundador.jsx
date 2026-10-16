@@ -87,7 +87,7 @@ export default function PrestadorFundador() {
     <div className="min-h-screen bg-background">
       {/* HERO */}
       <section className="relative overflow-hidden pt-16 pb-12 md:pt-24 md:pb-16">
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 via-amber-500/5 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-orange-500/10 via-amber-500/5 to-transparent pointer-events-none" />
         <div className="container mx-auto max-w-4xl px-4 relative z-10 text-center">
           <FounderBadge size="lg" className="mb-6" />
           <motion.h1
@@ -237,7 +237,7 @@ export default function PrestadorFundador() {
 
       {/* CTA FINAL */}
       <section className="container mx-auto max-w-3xl px-4 mb-16 text-center">
-        <div className="bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl p-8 md:p-12 text-white">
+        <div className="bg-linear-to-br from-orange-500 to-amber-600 rounded-2xl p-8 md:p-12 text-white">
           <Users className="w-10 h-10 mx-auto mb-4 opacity-90" />
           <h2 className="text-2xl md:text-3xl font-extrabold mb-3">
             Restam vagas para os primeiros 100 prestadores

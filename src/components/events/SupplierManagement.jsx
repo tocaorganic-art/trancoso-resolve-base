@@ -83,7 +83,7 @@ export default function SupplierManagement({ eventId }) {
   return (
     <div className="space-y-6">
       {/* Header com Resumo */}
-      <Card className="border-none shadow-lg bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+      <Card className="border-none shadow-lg bg-linear-to-br from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
@@ -93,7 +93,7 @@ export default function SupplierManagement({ eventId }) {
             <Button
               onClick={() => setShowForm(!showForm)}
               size="sm"
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+              className="bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
             >
               <Plus className="w-4 h-4 mr-1" />
               Adicionar Fornecedor
@@ -127,7 +127,7 @@ export default function SupplierManagement({ eventId }) {
       {/* Formulário */}
       {showForm && (
         <Card className="border-none shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
+          <CardHeader className="bg-linear-to-r from-purple-50 to-pink-50 dark:from-purple-900/20 dark:to-pink-900/20">
             <CardTitle className="text-lg">Novo Fornecedor</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -220,7 +220,7 @@ export default function SupplierManagement({ eventId }) {
                 <Button
                   type="submit"
                   disabled={createMutation.isPending}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  className="bg-linear-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
                 >
                   {createMutation.isPending ? "Salvando..." : "Adicionar Fornecedor"}
                 </Button>
@@ -245,7 +245,7 @@ export default function SupplierManagement({ eventId }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {suppliers.map((supplier) => (
             <Card key={supplier.id} className="border-none shadow-lg hover:shadow-xl transition-all">
-              <CardHeader className="bg-gradient-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 border-b">
+              <CardHeader className="bg-linear-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 border-b">
                 <div className="flex items-start justify-between">
                   <div>
                     <CardTitle className="text-lg mb-2">{supplier.supplier_name}</CardTitle>

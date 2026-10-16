@@ -189,7 +189,7 @@ export default function SejaPrestadorPage() {
                 whileInView={{ scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.1 + 0.2, type: 'spring', stiffness: 220 }}
-                className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-orange-500 to-orange-700 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md"
+                className="shrink-0 w-10 h-10 bg-linear-to-br from-orange-500 to-orange-700 text-white rounded-full flex items-center justify-center font-bold text-lg shadow-md"
               >
                 {s.n}
               </motion.div>
@@ -209,7 +209,7 @@ export default function SejaPrestadorPage() {
 
       {/* Links internos de suporte */}
       <section className="container mx-auto px-4 max-w-3xl pb-4">
-        <div className="bg-card rounded-2xl p-6 shadow-sm border text-center">
+        <div className="bg-card rounded-2xl p-6 shadow-xs border text-center">
           <p className="text-foreground font-medium mb-3">Quer saber mais antes de se cadastrar?</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to={createPageUrl("ComoFunciona")}>
@@ -227,7 +227,7 @@ export default function SejaPrestadorPage() {
       </section>
 
       {/* CTA Final */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-20 md:py-28 border-t border-border">
+      <div className="relative overflow-hidden bg-linear-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-20 md:py-28 border-t border-border">
         {/* Aurora blobs */}
         <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.35, 0.2] }}
@@ -251,14 +251,14 @@ export default function SejaPrestadorPage() {
           <span className="inline-block bg-orange-500/15 border border-orange-500/30 text-orange-300 text-xs font-semibold uppercase tracking-widest px-4 py-1.5 rounded-full mb-6">Vagas limitadas por categoria</span>
           <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
             Sua Expertise no<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-400">Coração de Trancoso.</span>
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-amber-300 to-orange-400">Coração de Trancoso.</span>
           </h2>
           <p className="text-slate-300 mb-8 max-w-lg mx-auto text-base md:text-lg leading-relaxed">
             Conecte-se a uma audiência VIP de moradores, proprietários de villas e turistas de alto padrão que buscam exatamente o que você oferece. Sem custo de marketing. Sem intermediários.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to={createPageUrl('CadastroTipo')}>
-              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg px-10 shadow-xl shadow-orange-900/30 min-h-[52px] w-full sm:w-auto">
+              <Button size="lg" className="bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold text-lg px-10 shadow-xl shadow-orange-900/30 min-h-[52px] w-full sm:w-auto">
                 Cadastre-se Agora, É Grátis
               </Button>
             </Link>

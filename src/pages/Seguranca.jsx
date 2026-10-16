@@ -91,7 +91,7 @@ function TwoFAPanel({ user }) {
           <Button
             onClick={handleToggle}
             disabled={loading || awaitingCode}
-            variant={enabled ? 'outline' : 'default'}
+            variant={enabled ? 'outline-solid' : 'default'}
             className={enabled ? '' : 'bg-amber-600 hover:bg-amber-700 text-white'}
           >
             {loading && <Loader2 className="w-4 h-4 mr-1 animate-spin" />}
@@ -317,7 +317,7 @@ export default function SegurancaPage() {
             description="Seus dados são protegidos conforme a LGPD. Nunca vendemos ou compartilhamos seus dados com terceiros." />
         </div>
 
-        <div className="mt-12 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
+        <div className="mt-12 bg-linear-to-r from-green-50 to-emerald-50 border border-green-200 rounded-2xl p-8">
           <h2 className="text-xl font-bold text-center text-green-900 mb-6">O que significa o Selo Verificado?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
@@ -365,7 +365,7 @@ export default function SegurancaPage() {
         </Card>
 
         <div className="container mx-auto px-4 mt-12">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border">
+          <div className="bg-white rounded-2xl p-6 shadow-xs border">
             <h2 className="text-lg font-bold text-slate-900 mb-3">Profissionais Verificados por Categoria</h2>
             <p className="text-sm text-slate-600 mb-4">Todos os prestadores abaixo passaram pela nossa verificação de antecedentes:</p>
             <div className="flex flex-wrap gap-2 mb-4">
@@ -402,7 +402,7 @@ export default function SegurancaPage() {
           <p className="text-slate-600 mb-6 max-w-lg mx-auto">Todos os profissionais listados passaram por verificação. Você tem a segurança que merece.</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link to={createPageUrl("ServicosCategoria")}>
-              <Button size="lg" className="bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 font-bold w-full sm:w-auto">
+              <Button size="lg" className="bg-linear-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 font-bold w-full sm:w-auto">
                 Ver Profissionais Verificados
               </Button>
             </Link>

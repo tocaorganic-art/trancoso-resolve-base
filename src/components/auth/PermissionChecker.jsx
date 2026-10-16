@@ -157,7 +157,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
 
   if (permissionStatus === 'checking') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-sand/30">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-orange-50 to-sand/30">
         <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
             <RefreshCw className="w-12 h-12 text-orange-600 animate-spin mx-auto mb-4" />
@@ -171,7 +171,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
 
   if (permissionStatus === 'timeout') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-red-50 to-orange-50">
         <Card className="w-full max-w-md border-red-200">
           <CardContent className="p-8 text-center">
             <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
@@ -206,7 +206,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
     window.location.href = '/CadastroTipo';
     // Durante o redirect mostra a tela de verificação em vez de página em branco
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-sand/30">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-orange-50 to-sand/30">
         <Card className="w-full max-w-md">
           <CardContent className="p-8 text-center">
             <RefreshCw className="w-12 h-12 text-orange-600 animate-spin mx-auto mb-4" />
@@ -225,7 +225,7 @@ export default function PermissionChecker({ children, requiredRole = null, requi
 
   if (permissionStatus === 'forbidden') {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-amber-50 to-orange-50">
+      <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-amber-50 to-orange-50">
         <Card className="w-full max-w-md border-amber-200">
           <CardContent className="p-8 text-center">
             <AlertCircle className="w-16 h-16 text-amber-500 mx-auto mb-4" />

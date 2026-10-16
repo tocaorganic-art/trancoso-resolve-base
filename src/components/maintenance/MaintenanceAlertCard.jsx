@@ -49,7 +49,7 @@ export default function MaintenanceAlertCard({ alert, priorityColors, statusColo
 
   return (
     <Card className="border-none shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border-b">
+      <CardHeader className="bg-linear-to-r from-orange-50 to-red-50 dark:from-orange-900/20 dark:to-red-900/20 border-b">
         <div className="flex items-start justify-between">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
@@ -107,7 +107,7 @@ export default function MaintenanceAlertCard({ alert, priorityColors, statusColo
             <div className="flex items-center gap-2">
               <div className="flex-1 bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                 <div
-                  className="bg-gradient-to-r from-orange-600 to-red-600 h-2 rounded-full"
+                  className="bg-linear-to-r from-orange-600 to-red-600 h-2 rounded-full"
                   style={{ width: `${alert.ai_confidence}%` }}
                 />
               </div>

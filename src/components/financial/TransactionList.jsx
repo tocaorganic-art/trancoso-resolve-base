@@ -72,7 +72,7 @@ export default function TransactionList({ transactions }) {
     <div className="space-y-6">
       {/* Filters */}
       <Card className="glass-card border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50">
+        <CardHeader className="bg-linear-to-r from-blue-50 to-cyan-50">
           <CardTitle className="flex items-center gap-2">
             <Filter className="w-5 h-5 text-blue-600" />
             Filtros
@@ -137,7 +137,7 @@ export default function TransactionList({ transactions }) {
 
       {/* Transactions Table */}
       <Card className="glass-card border-none shadow-lg">
-        <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50">
+        <CardHeader className="bg-linear-to-r from-green-50 to-emerald-50">
           <CardTitle>
             Transações ({filteredTransactions.length})
           </CardTitle>

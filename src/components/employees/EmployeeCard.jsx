@@ -40,7 +40,7 @@ export default function EmployeeCard({ employee }) {
 
   return (
     <Card className="border-none shadow-lg hover:shadow-xl transition-all">
-      <CardHeader className="bg-gradient-to-r from-orange-50 to-sand/40 border-b">
+      <CardHeader className="bg-linear-to-r from-orange-50 to-sand/40 border-b">
         <div className="flex items-start justify-between">
           <div>
             <CardTitle className="text-lg mb-2">{employee.full_name}</CardTitle>

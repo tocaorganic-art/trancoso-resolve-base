@@ -14,7 +14,7 @@ const SLIDES = [
     cta: { label: "Baixar app e garantir vaga", to: "/Planos", icon: true, iconType: "download" },
     cta2: { label: "Ver planos de prestador", to: "/Planos" },
     bg: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format%3Dwebp&fit=crop&w=1600&q=80",
-    overlay: "bg-gradient-to-r from-slate-900/92 via-slate-800/78 to-slate-900/50",
+    overlay: "bg-linear-to-r from-slate-900/92 via-slate-800/78 to-slate-900/50",
     accentColor: "text-amber-400",
     urgencyPrice: "R$29,90/mês",
     urgencyOldPrice: "R$49,90",
@@ -28,7 +28,7 @@ const SLIDES = [
     cta: { label: "Baixar app e anunciar agora", to: "/Planos", icon: true, iconType: "store" },
     cta2: { label: "Ver planos de lojista", to: "/Planos" },
     bg: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format%3Dwebp&fit=crop&w=1600&q=80",
-    overlay: "bg-gradient-to-r from-orange-950/90 via-slate-800/75 to-slate-900/50",
+    overlay: "bg-linear-to-r from-orange-950/90 via-slate-800/75 to-slate-900/50",
     accentColor: "text-orange-400",
     urgencyPrice: "R$49,90/mês",
     urgencyOldPrice: "R$79,90",
@@ -42,7 +42,7 @@ const SLIDES = [
     cta: { label: "Baixar app agora", to: "/Planos", icon: true, iconType: "smartphone" },
     cta2: { label: "Comparar planos", to: "/Planos" },
     bg: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format%3Dwebp&fit=crop&w=1600&q=80",
-    overlay: "bg-gradient-to-r from-teal-950/90 via-slate-800/75 to-slate-900/50",
+    overlay: "bg-linear-to-r from-teal-950/90 via-slate-800/75 to-slate-900/50",
     accentColor: "text-cyan-400",
     urgencyPrice: "Trial grátis",
     urgencyOldPrice: null,
@@ -88,14 +88,14 @@ export default function HeroBanner({ vagasRestantes = 0, total = 0 }) {
       <div className="relative z-10 container mx-auto max-w-5xl px-4 py-14 md:py-24 flex flex-col items-start">
         {/* Badge */}
         <div className="mb-3">
-          <Badge className="bg-red-600/90 text-white border border-red-400/40 backdrop-blur-sm text-xs md:text-sm px-3 py-1 font-bold uppercase tracking-wide">
+          <Badge className="bg-red-600/90 text-white border border-red-400/40 backdrop-blur-xs text-xs md:text-sm px-3 py-1 font-bold uppercase tracking-wide">
             {slide.badge}
           </Badge>
         </div>
 
         {/* Vagas counter — prestador slide only */}
         {isPrestadorSlide && vagasRestantes > 0 && (
-          <div className={`mb-4 flex items-center gap-2 bg-amber-500/90 backdrop-blur-sm text-slate-900 text-sm font-extrabold px-4 py-1.5 rounded-full ${vagasRestantes <= 10 ? 'animate-pulse' : ''}`}>
+          <div className={`mb-4 flex items-center gap-2 bg-amber-500/90 backdrop-blur-xs text-slate-900 text-sm font-extrabold px-4 py-1.5 rounded-full ${vagasRestantes <= 10 ? 'animate-pulse' : ''}`}>
             <Flame className="w-4 h-4" />
             {vagasRestantes} de 50 vagas restantes, não perca a sua
           </div>
@@ -121,7 +121,7 @@ export default function HeroBanner({ vagasRestantes = 0, total = 0 }) {
         {/* Urgency price tag */}
         {slide.urgencyPrice && (
           <div className="mb-6 flex items-center gap-3">
-            <span className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg px-3 py-1.5">
+            <span className="bg-white/10 backdrop-blur-xs border border-white/20 rounded-lg px-3 py-1.5">
               <span className="text-white text-xs font-semibold uppercase block leading-none mb-0.5">A partir de</span>
               <span className={`text-xl md:text-2xl font-extrabold ${slide.accentColor}`}>{slide.urgencyPrice}</span>
             </span>
@@ -142,7 +142,7 @@ export default function HeroBanner({ vagasRestantes = 0, total = 0 }) {
           </Link>
           {slide.cta2 && (
             <Link to={slide.cta2.to}>
-              <Button variant="outline" className="font-bold px-6 py-3 text-sm md:text-base w-full sm:w-auto hover:bg-white/15 backdrop-blur-sm" style={{ border: '2px solid rgba(255,255,255,0.7)', color: '#FFFFFF', background: 'rgba(255,255,255,0.05)' }}>
+              <Button variant="outline" className="font-bold px-6 py-3 text-sm md:text-base w-full sm:w-auto hover:bg-white/15 backdrop-blur-xs" style={{ border: '2px solid rgba(255,255,255,0.7)', color: '#FFFFFF', background: 'rgba(255,255,255,0.05)' }}>
                 {slide.cta2.label}
               </Button>
             </Link>

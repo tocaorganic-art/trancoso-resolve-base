@@ -108,7 +108,7 @@ export default function TaskManagement() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <Card className="border-none shadow-lg bg-gradient-to-br from-orange-50 to-sand/30 dark:from-orange-900/20 dark:to-sand/10">
+      <Card className="border-none shadow-lg bg-linear-to-br from-orange-50 to-sand/30 dark:from-orange-900/20 dark:to-sand/10">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2">
@@ -118,7 +118,7 @@ export default function TaskManagement() {
             <Button
               onClick={() => setShowForm(!showForm)}
               size="sm"
-              className="bg-gradient-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
+              className="bg-linear-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
             >
               <Plus className="w-4 h-4 mr-1" />
               Nova Tarefa
@@ -152,7 +152,7 @@ export default function TaskManagement() {
       {/* Formulário */}
       {showForm && (
         <Card className="border-none shadow-lg">
-          <CardHeader className="bg-gradient-to-r from-orange-50 to-sand/30 dark:from-orange-900/20 dark:to-sand/10">
+          <CardHeader className="bg-linear-to-r from-orange-50 to-sand/30 dark:from-orange-900/20 dark:to-sand/10">
             <CardTitle className="text-lg">Nova Tarefa</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
@@ -257,7 +257,7 @@ export default function TaskManagement() {
                 <Button
                   type="submit"
                   disabled={createMutation.isPending || !formData.assigned_to}
-                  className="bg-gradient-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
+                  className="bg-linear-to-r from-orange-600 to-[#C1440E] hover:from-orange-700 hover:to-[#A33A0C]"
                 >
                   {createMutation.isPending ? "Criando..." : "Criar Tarefa"}
                 </Button>
@@ -282,7 +282,7 @@ export default function TaskManagement() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {tasks.map((task) => (
             <Card key={task.id} className="border-none shadow-lg hover:shadow-xl transition-all">
-              <CardHeader className="bg-gradient-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 border-b">
+              <CardHeader className="bg-linear-to-r from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 border-b">
                 <div className="flex items-start justify-between mb-2">
                   <CardTitle className="text-base">{task.title}</CardTitle>
                   <Badge variant="outline" className={`${priorityColors[task.priority]} border`}>

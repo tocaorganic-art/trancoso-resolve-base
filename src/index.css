@@ -1,53 +1,255 @@
 /* Trancoso Resolve brand design system — warm burnt-orange identity.
    Tokens (colors/type/spacing/radius/shadows) + self-hosted Nunito.
    Additive: exposes --orange-500, --brand-primary, --sand, etc. */
-@import "./styles/brand/index.css";
-@import "./styles/accessibility.css";
+@import './styles/brand/index.css' layer(base);
+@import './styles/accessibility.css' layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
-/* ===== SHADCN/UI — Light mode tokens ===== */
+@source '../index.html';
+@source './**/*.{js,jsx,ts,tsx}';
 
-/* Igreja de Trancoso como marca d'água global */
-body::before {
-  content: "";
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40vw;
-  height: 40vw;
-  max-width: 500px;
-  max-height: 500px;
-  background-image: url("https://media.base44.com/images/public/68eb21726a9614db4a82ba99/d73fbd00d_watermark_light.png");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  background-attachment: fixed;
-  opacity: 0.07;
-  z-index: 0;
-  pointer-events: none;
-}
+@plugin 'tailwindcss-animate';
 
-.dark body::before {
-  opacity: 0.12;
-  filter: brightness(0.7) invert(0.2);
-}
+@custom-variant dark (&:is(.dark *));
 
-@media (max-width: 768px) {
-  body::before {
-    width: 70vw;
-    height: 70vw;
-    opacity: 0.05;
+@theme {
+  --font-sans: Nunito, ui-rounded, Segoe UI, system-ui, sans-serif;
+  --font-display: Nunito, ui-rounded, system-ui, sans-serif;
+  --font-nunito: Nunito, ui-rounded, system-ui, sans-serif;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-brand-xs: var(--radius-xs);
+  --radius-brand-sm: var(--radius-sm);
+  --radius-brand-md: var(--radius-md);
+  --radius-brand-lg: var(--radius-lg);
+  --radius-brand-xl: var(--radius-xl);
+  --radius-brand-2xl: var(--radius-2xl);
+  --radius-pill: var(--radius-pill-value);
+
+  --shadow-warm-xs: var(--shadow-xs);
+  --shadow-warm-sm: var(--shadow-sm);
+  --shadow-warm-md: var(--shadow-md);
+  --shadow-warm-lg: var(--shadow-lg);
+  --shadow-warm-xl: var(--shadow-xl);
+  --shadow-brand: var(--shadow-brand-value);
+
+  --color-brand: var(--brand-primary);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-hover: var(--brand-primary-hover);
+  --color-brand-primary-press: var(--brand-primary-press);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-accent: var(--brand-accent);
+
+  --color-orange-50: var(--orange-50);
+  --color-orange-100: var(--orange-100);
+  --color-orange-200: var(--orange-200);
+  --color-orange-300: var(--orange-300);
+  --color-orange-400: var(--orange-400);
+  --color-orange-500: var(--orange-500);
+  --color-orange-600: var(--orange-600);
+  --color-orange-700: var(--orange-700);
+  --color-orange-800: var(--orange-800);
+  --color-orange-900: var(--orange-900);
+
+  --color-olive-50: var(--olive-50);
+  --color-olive-100: var(--olive-100);
+  --color-olive-200: var(--olive-200);
+  --color-olive-300: var(--olive-300);
+  --color-olive-400: var(--olive-400);
+  --color-olive-500: var(--olive-500);
+  --color-olive-600: var(--olive-600);
+  --color-olive-700: var(--olive-700);
+  --color-olive-800: var(--olive-800);
+  --color-olive-900: var(--olive-900);
+
+  --color-sand: var(--sand);
+  --color-sand-soft: var(--sand-soft);
+  --color-sand-deep: var(--sand-deep);
+
+  --color-terracotta: var(--terracotta);
+  --color-terracotta-deep: var(--terracotta-deep);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --color-sidebar: hsl(var(--sidebar-background));
+  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
+  --color-sidebar-primary: hsl(var(--sidebar-primary));
+  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
+  --color-sidebar-accent: hsl(var(--sidebar-accent));
+  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
+  --color-sidebar-border: hsl(var(--sidebar-border));
+  --color-sidebar-ring: hsl(var(--sidebar-ring));
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
   }
 }
 
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
 
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
+@utility animate-fade-in-up {
+  /* Animação fade-in suave */
+  animation: fade-in-up 0.4s ease-out;
+}
 
-/* :root {
+@utility glass-card {
+  /* Glassmorphism sutil — apenas em cards principais */
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+@utility glass-card-elevated {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+@utility gradient-brand {
+  /* Gradiente da marca — laranja queimado */
+  background: linear-gradient(
+    135deg,
+    var(--orange-400) 0%,
+    var(--orange-600) 100%
+  );
+}
+
+@utility gradient-brand-hover {
+  background: linear-gradient(
+    135deg,
+    var(--orange-400) 0%,
+    var(--orange-600) 100%
+  );
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-brand);
+  }
+}
+
+@utility gradient-text-brand {
+  background: linear-gradient(135deg, var(--orange-400), var(--orange-700));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility section-spacing {
+  /* Espaçamento generoso */
+  @apply py-8 md:py-12;
+}
+
+@layer utilities {
+  /* ===== SHADCN/UI — Light mode tokens ===== */
+
+  /* Igreja de Trancoso como marca d'água global */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40vw;
+    height: 40vw;
+    max-width: 500px;
+    max-height: 500px;
+    background-image: url('https://media.base44.com/images/public/68eb21726a9614db4a82ba99/d73fbd00d_watermark_light.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-attachment: fixed;
+    opacity: 0.07;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .dark body::before {
+    opacity: 0.12;
+    filter: brightness(0.7) invert(0.2);
+  }
+
+  @media (max-width: 768px) {
+    body::before {
+      width: 70vw;
+      height: 70vw;
+      opacity: 0.05;
+    }
+  }
+
+  /* :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -115,6 +317,7 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 } */
+}
 
 
 
@@ -195,16 +398,17 @@ button:focus-visible {
 
 
 
-:root {
-  --safe-area-inset-top: env(safe-area-inset-top, 0px);
-  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
-  --safe-area-inset-left: env(safe-area-inset-left, 0px);
-  --safe-area-inset-right: env(safe-area-inset-right, 0px);
-}
-
-/* ===== MICROINTERAÇÕES GLOBAIS — Minimalistas ===== */
 @layer utilities {
-  /* Animação fade-in suave */
+  :root {
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+  }
+
+  /* ===== MICROINTERAÇÕES GLOBAIS — Minimalistas ===== */
+}
+@layer utilities {
   @keyframes fade-in-up {
     from {
       opacity: 0;
@@ -214,53 +418,6 @@ button:focus-visible {
       opacity: 1;
       transform: translateY(0);
     }
-  }
-  
-  .animate-fade-in-up {
-    animation: fade-in-up 0.4s ease-out;
-  }
-  
-  /* Glassmorphism sutil — apenas em cards principais */
-  .glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 16px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-  }
-  
-  .glass-card-elevated {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Gradiente da marca — laranja queimado */
-  .gradient-brand {
-    background: linear-gradient(135deg, var(--orange-400) 0%, var(--orange-600) 100%);
-  }
-
-  .gradient-brand-hover {
-    background: linear-gradient(135deg, var(--orange-400) 0%, var(--orange-600) 100%);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  .gradient-brand-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-brand);
-  }
-
-  .gradient-text-brand {
-    background: linear-gradient(135deg, var(--orange-400), var(--orange-700));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  
-  /* Espaçamento generoso */
-  .section-spacing {
-    @apply py-8 md:py-12;
   }
 }
 

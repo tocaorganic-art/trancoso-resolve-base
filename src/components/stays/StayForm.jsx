@@ -54,7 +54,7 @@ export default function StayForm() {
 
   return (
     <Card className="border-none shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-emerald-50 to-green-50">
+      <CardHeader className="bg-linear-to-r from-emerald-50 to-green-50">
         <CardTitle className="flex items-center gap-2">
           <CalendarPlus className="w-5 h-5 text-emerald-600" />
           Nova Hospedagem
@@ -135,7 +135,7 @@ export default function StayForm() {
           <Button
             type="submit"
             disabled={createMutation.isPending}
-            className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700"
+            className="w-full bg-linear-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700"
           >
             {createMutation.isPending ? "Salvando..." : "Salvar Hospedagem"}
           </Button>

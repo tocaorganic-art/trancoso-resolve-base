@@ -81,7 +81,7 @@ export default function MultilingualAutocomplete({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="w-full pl-10 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500"
+          className="w-full pl-10 pr-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-hidden focus:border-cyan-500"
         />
         {isLoading && (
           <Loader2 className="absolute right-3 w-4 h-4 text-cyan-500 animate-spin" />

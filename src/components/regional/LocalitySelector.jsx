@@ -45,7 +45,7 @@ export default function LocalitySelector() {
                 key={loc.slug}
                 onClick={() => setSelected(isSelected ? null : loc.slug)}
                 aria-pressed={isSelected}
-                className={`relative rounded-xl p-4 md:p-6 text-center min-h-[120px] flex flex-col items-center justify-center transition-all border-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F26A21] ${
+                className={`relative rounded-xl p-4 md:p-6 text-center min-h-[120px] flex flex-col items-center justify-center transition-all border-2 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#F26A21] ${
                   isSelected
                     ? "border-[#F26A21] bg-white shadow-lg"
                     : "border-transparent bg-white hover:border-[#F26A21]/30"

@@ -163,7 +163,7 @@ function DashboardContent() {
       transition={{ duration: 0.4, delay: 0.05 }}
     >
       <div className="flex items-center gap-3">
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
+        <div className="w-12 h-12 rounded-xl bg-linear-to-br from-orange-400 to-orange-600 flex items-center justify-center shadow-lg">
           <TrendingUp className="w-6 h-6 text-white" />
         </div>
         <div>
@@ -182,7 +182,7 @@ function DashboardContent() {
             <p className="text-orange-200/80 text-xs mt-0.5">Clientes não conseguem entrar em contato sem seu WhatsApp.</p>
           </div>
           <Link to={createPageUrl("MeuPerfilPrestador")}>
-            <Button size="sm" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shrink-0">Completar</Button>
+            <Button size="sm" className="bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shrink-0">Completar</Button>
           </Link>
         </div>
       )}

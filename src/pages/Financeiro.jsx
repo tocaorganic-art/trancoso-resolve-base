@@ -186,7 +186,7 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
             transition={{ duration: 0.4, delay: 0.07 }}
             whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
           >
-          <Card className={`border-2 shadow-sm transition-all ${
+          <Card className={`border-2 shadow-xs transition-all ${
             saldo < 0 ? 'border-red-400 bg-red-50/50' : 'border-[#3E8E5A]/40'
           }`}>
             <CardContent className="p-5">
@@ -209,7 +209,7 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
             transition={{ duration: 0.4, delay: 0.14 }}
             whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
           >
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-xs">
             <CardContent className="p-5">
               <p className="text-sm font-medium text-muted-foreground mb-2">Total Faturado (mês)</p>
               <p className="text-3xl font-bold text-[#3E8E5A]">
@@ -229,7 +229,7 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
             transition={{ duration: 0.4, delay: 0.21 }}
             whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
           >
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-xs">
             <CardContent className="p-5">
               <p className="text-sm font-medium text-muted-foreground mb-2">Serviços Concluídos</p>
               <p className="text-3xl font-bold text-amber-600">{servicosConcluidos}</p>
@@ -242,7 +242,7 @@ function FinanceiroContent() { // Renamed from FinanceiroPage
             transition={{ duration: 0.4, delay: 0.28 }}
             whileHover={{ y: -3, boxShadow: '0 8px 24px rgba(0,0,0,0.08)' }}
           >
-          <Card className="border-none shadow-sm">
+          <Card className="border-none shadow-xs">
             <CardContent className="p-5">
               <p className="text-sm font-medium text-muted-foreground mb-2">Sua Avaliação Média</p>
               <div className="flex items-baseline gap-2">

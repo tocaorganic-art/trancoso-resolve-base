@@ -62,7 +62,7 @@ export default function MetricasTab({ metrics, posts, onRefresh }) {
                 <select
                   value={form.campaign_post_id}
                   onChange={set("campaign_post_id")}
-                  className="w-full min-h-[40px] rounded-md border border-[#E3DED5] bg-white px-3 text-sm focus-visible:ring-[#F26A21] focus-visible:outline-none"
+                  className="w-full min-h-[40px] rounded-md border border-[#E3DED5] bg-white px-3 text-sm focus-visible:ring-[#F26A21] focus-visible:outline-hidden"
                 >
                   <option value="">Selecione…</option>
                   {(posts || []).map((p) => (

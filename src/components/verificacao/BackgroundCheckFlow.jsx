@@ -108,7 +108,7 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
 
   return (
     <Card className="w-full max-w-2xl mx-auto border-none shadow-lg">
-      <CardHeader className="bg-gradient-to-r from-blue-50 to-cyan-50">
+      <CardHeader className="bg-linear-to-r from-blue-50 to-cyan-50">
         <CardTitle className="flex items-center gap-2">
           <CheckCircle className="w-6 h-6 text-cyan-600" />
           Verificação de Antecedentes
@@ -165,7 +165,7 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
             <Button
               onClick={processVerification}
               disabled={isProcessing}
-              className="w-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold h-12"
+              className="w-full bg-linear-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-bold h-12"
             >
               {isProcessing ? (
                 <>

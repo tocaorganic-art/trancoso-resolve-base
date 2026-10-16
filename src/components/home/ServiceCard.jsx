@@ -64,7 +64,7 @@ export default function ServiceCard({ service, provider, categoryImageMap, categ
                 )}
             </div>
 
-            <CardContent className="p-5 flex flex-col flex-grow">
+            <CardContent className="p-5 flex flex-col grow">
                 <h3 className="font-bold text-base text-slate-900 dark:text-white leading-snug mb-1 line-clamp-2">
                     {service.title}
                 </h3>
@@ -73,7 +73,7 @@ export default function ServiceCard({ service, provider, categoryImageMap, categ
                     <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">{provider.full_name}</p>
                 )}
 
-                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2 flex-grow leading-relaxed">
+                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 line-clamp-2 grow leading-relaxed">
                     {description}
                 </p>
 

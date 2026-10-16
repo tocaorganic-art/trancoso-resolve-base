@@ -36,7 +36,7 @@ function StepCard({ number, icon, title, description, delay = 0, dark = false })
         initial={{ scale: 0 }}
         animate={inView ? { scale: 1 } : {}}
         transition={{ duration: 0.35, delay: delay + 0.25, type: 'spring', stiffness: 220, damping: 12 }}
-        className="absolute -top-3.5 left-6 w-8 h-8 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-white text-sm font-black flex items-center justify-center shadow-md"
+        className="absolute -top-3.5 left-6 w-8 h-8 rounded-full bg-linear-to-br from-orange-500 to-orange-600 text-white text-sm font-black flex items-center justify-center shadow-md"
       >
         {number}
       </motion.div>
@@ -44,8 +44,8 @@ function StepCard({ number, icon, title, description, delay = 0, dark = false })
       {/* Icon */}
       <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-5 mt-2 shadow-inner ${
         dark
-          ? 'bg-gradient-to-br from-slate-700 to-slate-900 border border-slate-600'
-          : 'bg-gradient-to-br from-orange-400 to-orange-600'
+          ? 'bg-linear-to-br from-slate-700 to-slate-900 border border-slate-600'
+          : 'bg-linear-to-br from-orange-400 to-orange-600'
       }`}>
         {icon}
       </div>
@@ -59,7 +59,7 @@ function StepCard({ number, icon, title, description, delay = 0, dark = false })
 /* ─── Connector Arrow ──────────────────────────────────────────────── */
 function Connector({ dark = false }) {
   return (
-    <div className="hidden md:flex items-center justify-center flex-shrink-0 w-10">
+    <div className="hidden md:flex items-center justify-center shrink-0 w-10">
       <ArrowRight className={`w-6 h-6 ${dark ? 'text-orange-400/60' : 'text-orange-400/70'}`} />
     </div>
   );
@@ -76,7 +76,7 @@ function TrustBadge({ icon, label, sub, delay = 0 }) {
       transition={{ duration: 0.5, delay, type: 'spring', stiffness: 160, damping: 14 }}
       className="flex flex-col items-center text-center p-5 bg-card rounded-2xl border border-border hover:border-orange-300 hover:shadow-md transition-all duration-300 group cursor-default"
     >
-      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/10 to-orange-600/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 border border-orange-200/30">
+      <div className="w-12 h-12 rounded-xl bg-linear-to-br from-orange-500/10 to-orange-600/20 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 border border-orange-200/30">
         {icon}
       </div>
       <p className="font-bold text-foreground text-sm">{label}</p>
@@ -240,7 +240,7 @@ export default function ComoFuncionaPage() {
     <div className="bg-background overflow-x-hidden">
 
       {/* ══════════════ HERO ══════════════ */}
-      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-24 px-4">
+      <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden bg-linear-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00] py-24 px-4">
         {/* Radial glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-orange-600/20 blur-[120px]" />
@@ -306,7 +306,7 @@ export default function ComoFuncionaPage() {
             className="text-4xl md:text-6xl font-extrabold text-white mb-5 leading-tight"
           >
             Simples,{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-400 to-amber-300">
               Rápido
             </span>{' '}
             e Confiável
@@ -328,7 +328,7 @@ export default function ComoFuncionaPage() {
             className="flex flex-col sm:flex-row gap-3 justify-center"
           >
             <Link to={createPageUrl('ServicosCategoria')}>
-              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-xl shadow-orange-900/30 w-full sm:w-auto">
+              <Button size="lg" className="bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-xl shadow-orange-900/30 w-full sm:w-auto">
                 <Search className="w-4 h-4 mr-2" /> Buscar Profissional
               </Button>
             </Link>
@@ -382,7 +382,7 @@ export default function ComoFuncionaPage() {
             className="text-center mt-10"
           >
             <Link to={createPageUrl('ServicosCategoria')}>
-              <Button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold shadow">
+              <Button className="bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold shadow-sm">
                 Encontrar um profissional <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
@@ -399,7 +399,7 @@ export default function ComoFuncionaPage() {
         </section>
 
         {/* ══════════════ PARA PRESTADORES ══════════════ */}
-        <section className="mb-20 bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 border border-slate-700 relative overflow-hidden">
+        <section className="mb-20 bg-linear-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-12 border border-slate-700 relative overflow-hidden">
           {/* BG glow */}
           <div className="absolute top-0 right-0 w-80 h-80 bg-orange-600/10 blur-[100px] rounded-full pointer-events-none" />
 
@@ -442,7 +442,7 @@ export default function ComoFuncionaPage() {
               className="text-center mt-10"
             >
               <Link to={createPageUrl('SejaPrestador')}>
-                <Button size="lg" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-xl shadow-orange-900/40">
+                <Button size="lg" className="bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-xl shadow-orange-900/40">
                   <Zap className="w-4 h-4 mr-2" /> Quero ser Prestador
                 </Button>
               </Link>
@@ -501,7 +501,7 @@ export default function ComoFuncionaPage() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 rounded-3xl p-10 md:p-14 text-center text-white overflow-hidden"
+            className="relative bg-linear-to-br from-orange-600 via-orange-500 to-amber-500 rounded-3xl p-10 md:p-14 text-center text-white overflow-hidden"
           >
             {/* Decorative circles */}
             <div className="absolute -top-16 -right-16 w-64 h-64 rounded-full bg-white/10 blur-2xl pointer-events-none" />

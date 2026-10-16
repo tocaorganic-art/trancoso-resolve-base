@@ -18,7 +18,7 @@ export default function HeroSection() {
           width="1920"
           height="1080"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-orange-950/95 via-orange-900/75 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-r from-orange-950/95 via-orange-900/75 to-transparent" />
         <div className="absolute inset-0 bg-neutral-900/20" />
 
         {/* Logo oficial — canto superior esquerdo */}
@@ -47,7 +47,7 @@ export default function HeroSection() {
 
           <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
             Apareça hoje mesmo para toda Trancoso e Região.{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-600">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-amber-600">
               100 primeiras vagas: 2 meses grátis.
             </span>
           </h1>

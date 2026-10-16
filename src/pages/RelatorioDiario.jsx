@@ -38,7 +38,7 @@ export default function RelatorioDiarioPage() {
         "Alteração de indicadores de loading de azul para âmbar",
         "Substituição de pull-to-refresh de azul para âmbar",
         "Atualização de links 'Ver todos' de cyan para âmbar",
-        "Mudança de foco de ring de cyan-500 para amber-500",
+        "Mudança de foco de ring-3 de cyan-500 para amber-500",
         "Atualização de hover borders de cyan-400 para amber-400",
         "Substituição de backgrounds gradientes de cyan/blue para amber/orange",
         "Alteração de ícones de step de cyan para âmbar",
@@ -186,7 +186,7 @@ ${tarefasPendentes.map((t, i) => `### ${i + 1}. ${t.descricao}
     <div className="min-h-screen bg-background p-6">
       <div className="container mx-auto max-w-6xl">
         {/* Header */}
-        <div className="bg-gradient-to-r from-orange-800 to-orange-600 text-white rounded-2xl p-8 mb-8">
+        <div className="bg-linear-to-r from-orange-800 to-orange-600 text-white rounded-2xl p-8 mb-8">
           <div className="flex items-center gap-3 mb-4">
             <FileText className="w-8 h-8" />
             <h1 className="text-3xl font-bold">Relatório Diário de Desenvolvimento</h1>

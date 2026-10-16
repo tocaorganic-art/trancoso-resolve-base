@@ -26,7 +26,7 @@ export default function OnboardingTour() {
         <>
           {/* Overlay */}
           <motion.div
-            className="fixed inset-0 bg-black/60 z-50 backdrop-blur-sm"
+            className="fixed inset-0 bg-black/60 z-50 backdrop-blur-xs"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -44,7 +44,7 @@ export default function OnboardingTour() {
             <div className="pointer-events-auto bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden border border-amber-100">
 
               {/* Header — gradiente terra */}
-              <div className="bg-gradient-to-br from-amber-600 to-amber-800 px-6 pt-8 pb-6 text-center relative">
+              <div className="bg-linear-to-br from-amber-600 to-amber-800 px-6 pt-8 pb-6 text-center relative">
                 {/* Ícone central */}
                 <div className="mx-auto w-20 h-20 bg-white/15 rounded-full flex items-center justify-center mb-4 ring-4 ring-white/20">
                   <Smartphone className="w-10 h-10 text-white" />

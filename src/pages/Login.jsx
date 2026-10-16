@@ -156,7 +156,7 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="seu@email.com"
-                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-hidden focus:ring-2 focus:ring-orange-500"
               />
             </div>
             <div>
@@ -169,14 +169,14 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Sua senha"
-                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-hidden focus:ring-2 focus:ring-orange-500"
               />
             </div>
             {error && <p className="text-sm text-red-400" role="alert">{error}</p>}
             <Button
               type="submit"
               disabled={loading}
-              className="w-full h-12 text-sm font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
+              className="w-full h-12 text-sm font-medium bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
             >
               <LogIn className="w-5 h-5 mr-2" />
               {loading ? "Entrando..." : "Entrar"}
@@ -201,7 +201,7 @@ export default function Login() {
             whileTap={{ scale: 0.97 }}
           >
             <Button
-              className="w-full h-12 text-sm font-medium bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
+              className="w-full h-12 text-sm font-medium bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-900/30"
               onClick={() => setShowEmailForm(true)}
             >
               <LogIn className="w-5 h-5 mr-2" />

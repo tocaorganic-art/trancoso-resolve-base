@@ -65,7 +65,7 @@ export default function Plan18MonthsSection() {
               onClick={() => setActivePhase(isActive ? null : i)}
               onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setActivePhase(isActive ? null : i)}
               className={`rounded-2xl border bg-card p-6 cursor-pointer transition-all
-                focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary
+                focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-primary
                 ${isActive ? 'border-brand-primary shadow-warm-md' : 'border-border hover:border-brand-primary/40'}`}
             >
               {/* Cabeçalho */}

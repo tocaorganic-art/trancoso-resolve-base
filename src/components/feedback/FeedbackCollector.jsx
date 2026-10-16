@@ -52,7 +52,7 @@ export default function FeedbackCollector() {
   return (
     <div className="fixed bottom-24 right-6 w-96 z-50">
       <Card className="shadow-2xl border-2">
-        <CardHeader className="bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 flex flex-row items-center justify-between">
+        <CardHeader className="bg-linear-to-r from-green-500 to-teal-600 text-white p-4 flex flex-row items-center justify-between">
           <CardTitle className="text-lg">Envie seu Feedback</CardTitle>
           <Button
             variant="ghost"
@@ -70,7 +70,7 @@ export default function FeedbackCollector() {
             </label>
             <div className="grid grid-cols-3 gap-3">
               <Button
-                variant={rating === 'positive' ? 'default' : 'outline'}
+                variant={rating === 'positive' ? 'default' : 'outline-solid'}
                 onClick={() => setRating('positive')}
                 className="flex flex-col gap-2 h-auto py-3"
               >
@@ -78,7 +78,7 @@ export default function FeedbackCollector() {
                 <span className="text-xs">Ótima</span>
               </Button>
               <Button
-                variant={rating === 'neutral' ? 'default' : 'outline'}
+                variant={rating === 'neutral' ? 'default' : 'outline-solid'}
                 onClick={() => setRating('neutral')}
                 className="flex flex-col gap-2 h-auto py-3"
               >
@@ -86,7 +86,7 @@ export default function FeedbackCollector() {
                 <span className="text-xs">Ok</span>
               </Button>
               <Button
-                variant={rating === 'negative' ? 'default' : 'outline'}
+                variant={rating === 'negative' ? 'default' : 'outline-solid'}
                 onClick={() => setRating('negative')}
                 className="flex flex-col gap-2 h-auto py-3"
               >

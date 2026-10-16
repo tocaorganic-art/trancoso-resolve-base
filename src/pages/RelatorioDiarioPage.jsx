@@ -61,7 +61,7 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-r from-orange-800 to-orange-600 text-white py-6 px-4">
+      <div className="bg-linear-to-r from-orange-800 to-orange-600 text-white py-6 px-4">
         <div className="container mx-auto max-w-7xl">
           <Link to="/">
             <Button variant="ghost" className="text-white hover:bg-white/20 mb-4">
@@ -97,7 +97,7 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
 
         {/* Métricas */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
+          <Card className="bg-linear-to-br from-orange-50 to-orange-100 border-orange-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -111,7 +111,7 @@ ${relatorioDoDia.tarefas_concluidas?.map((tarefa, i) =>
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+          <Card className="bg-linear-to-br from-green-50 to-emerald-50 border-green-200">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>

@@ -108,7 +108,7 @@ export default function InvestorHero() {
         </motion.div>
 
         {/* 2 — Título: reveal por palavra */}
-        <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.06] tracking-[-0.025em] max-w-3xl mb-6">
+        <h1 className="font-display font-extrabold text-4xl md:text-5xl lg:text-6xl leading-[1.06] tracking-tight max-w-3xl mb-6">
           {reduced ? (
             h.title
           ) : (
@@ -164,7 +164,7 @@ export default function InvestorHero() {
               shadow-brand hover:bg-brand-primary-hover
               transition-all duration-200
               hover:scale-[1.03] active:scale-[0.98]
-              focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60
+              focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/60
             "
           >
             <Download className="w-4 h-4 transition-transform group-hover:-translate-y-0.5" aria-hidden="true" />
@@ -178,7 +178,7 @@ export default function InvestorHero() {
               rounded-pill border border-white/25 text-white font-bold px-7 py-3.5
               hover:bg-white/10 hover:border-white/40
               transition-all duration-200 active:scale-[0.98]
-              focus:outline-none focus-visible:ring-2 focus-visible:ring-white/60
+              focus:outline-hidden focus-visible:ring-2 focus-visible:ring-white/60
             "
           >
             <MessageCircle className="w-4 h-4" aria-hidden="true" />

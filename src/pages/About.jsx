@@ -76,7 +76,7 @@ function PillarCard({ icon, title, desc, delay = 0 }) {
       whileHover={{ y: -4, transition: { duration: 0.25 } }}
       className="bg-card border border-border rounded-2xl p-6 hover:border-orange-400/50 hover:shadow-xl transition-shadow duration-300 cursor-default group"
     >
-      <div className="w-12 h-12 bg-gradient-to-br from-orange-500/15 to-orange-600/25 rounded-xl flex items-center justify-center mb-4 border border-orange-400/20 group-hover:scale-110 transition-transform duration-300">
+      <div className="w-12 h-12 bg-linear-to-br from-orange-500/15 to-orange-600/25 rounded-xl flex items-center justify-center mb-4 border border-orange-400/20 group-hover:scale-110 transition-transform duration-300">
         {icon}
       </div>
       <h3 className="font-bold text-base text-foreground mb-2">{title}</h3>
@@ -97,7 +97,7 @@ function AudienceCard({ icon, title, desc, delay = 0 }) {
       transition={{ duration: 0.55, delay, type: 'spring', stiffness: 140, damping: 14 }}
       className="bg-card border border-border rounded-2xl p-6 text-center hover:border-orange-300 hover:shadow-md transition-all duration-300 group"
     >
-      <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
+      <div className="w-14 h-14 bg-linear-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg group-hover:scale-110 transition-transform duration-300">
         {icon}
       </div>
       <h3 className="font-bold text-base text-foreground mb-2">{title}</h3>
@@ -159,7 +159,7 @@ export default function AboutPage() {
     <div className="bg-background text-foreground overflow-x-hidden">
 
       {/* ══════════════ HERO ══════════════ */}
-      <section className="relative overflow-hidden min-h-[75vh] flex items-center py-24 px-4 bg-gradient-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00]">
+      <section className="relative overflow-hidden min-h-[75vh] flex items-center py-24 px-4 bg-linear-to-br from-[#1a0c00] via-[#2d1200] to-[#1a0c00]">
         {/* Aurora blobs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <motion.div
@@ -189,7 +189,7 @@ export default function AboutPage() {
             className="text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 text-white"
           >
             Sua Expertise no<br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-400 animate-gradient-x">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-orange-400 via-amber-300 to-orange-400 animate-gradient-x">
               Coração de Trancoso.
             </span>
           </motion.h1>
@@ -210,7 +210,7 @@ export default function AboutPage() {
             className="flex flex-col sm:flex-row gap-3"
           >
             <Link to={createPageUrl('ServicosCategoria')}>
-              <Button size="lg" className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-xl shadow-orange-900/30 w-full sm:w-auto">
+              <Button size="lg" className="bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-bold shadow-xl shadow-orange-900/30 w-full sm:w-auto">
                 Explorar Profissionais <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
@@ -234,7 +234,7 @@ export default function AboutPage() {
             ].map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="space-y-1">
-                  <p className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-400">
+                  <p className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-orange-500 to-amber-400">
                     <Counter to={s.value} suffix={s.suffix} />
                   </p>
                   <p className="text-xs text-muted-foreground">{s.label}</p>
@@ -318,7 +318,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="relative bg-gradient-to-br from-orange-600 via-orange-500 to-amber-500 rounded-3xl p-10 md:p-14 overflow-hidden"
+              className="relative bg-linear-to-br from-orange-600 via-orange-500 to-amber-500 rounded-3xl p-10 md:p-14 overflow-hidden"
             >
               <div className="absolute -top-16 -right-16 w-56 h-56 rounded-full bg-white/10 blur-2xl pointer-events-none" />
               <div className="absolute -bottom-8 -left-8 w-40 h-40 rounded-full bg-white/10 blur-2xl pointer-events-none" />

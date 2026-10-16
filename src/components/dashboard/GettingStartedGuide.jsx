@@ -57,7 +57,7 @@ export default function GettingStartedGuide({ onDismiss }) {
       )}
       <CardContent className="p-6">
         <div className="flex items-center gap-3 mb-2">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow">
+          <div className="w-9 h-9 rounded-xl bg-linear-to-br from-orange-500 to-orange-600 flex items-center justify-center shadow-sm">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <h3 className="text-xl font-bold text-foreground">Bem-vindo(a) ao seu Painel!</h3>
@@ -84,9 +84,9 @@ export default function GettingStartedGuide({ onDismiss }) {
                   {step.icon}
                 </div>
                 <h4 className="font-semibold text-sm text-foreground mb-2">{step.title}</h4>
-                <p className="text-xs text-muted-foreground mb-4 flex-grow leading-relaxed">{step.description}</p>
+                <p className="text-xs text-muted-foreground mb-4 grow leading-relaxed">{step.description}</p>
                 <Link to={step.link} className="w-full">
-                  <Button size="sm" className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-sm">
+                  <Button size="sm" className="w-full bg-linear-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-xs">
                     {step.cta} <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
                   </Button>
                 </Link>

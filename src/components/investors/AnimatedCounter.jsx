@@ -131,7 +131,7 @@ export default function AnimatedCounter({
             <TooltipTrigger asChild>
               <button
                 aria-label={`Mais informações sobre ${label}`}
-                className="absolute top-3 right-3 text-muted-foreground/50 hover:text-muted-foreground transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary rounded"
+                className="absolute top-3 right-3 text-muted-foreground/50 hover:text-muted-foreground transition-colors focus:outline-hidden focus-visible:ring-2 focus-visible:ring-brand-primary rounded"
               >
                 <Info className="w-4 h-4" aria-hidden="true" />
               </button>

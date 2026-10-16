@@ -57,7 +57,7 @@ export default function EventForm({ event, onClose }) {
 
   return (
     <Card className="border-none shadow-xl">
-      <CardHeader className="bg-gradient-to-r from-amber-50 to-orange-50 border-b">
+      <CardHeader className="bg-linear-to-r from-amber-50 to-orange-50 border-b">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Briefcase className="w-5 h-5 text-amber-600" />
@@ -209,7 +209,7 @@ export default function EventForm({ event, onClose }) {
             <Button 
               type="submit" 
               disabled={createMutation.isPending}
-              className="bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
+              className="bg-linear-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700"
             >
               {createMutation.isPending ? "Salvando..." : "Salvar Evento"}
             </Button>

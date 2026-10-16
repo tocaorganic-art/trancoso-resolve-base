@@ -281,7 +281,7 @@ export default function ContinuousMonitor() {
 
   return (
     <div className="space-y-6">
-      <Card className="border-none shadow-xl bg-gradient-to-br from-orange-50 to-sand/30">
+      <Card className="border-none shadow-xl bg-linear-to-br from-orange-50 to-sand/30">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-3">

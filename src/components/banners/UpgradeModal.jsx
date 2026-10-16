@@ -89,7 +89,7 @@ export default function UpgradeModal({ open, onClose, feature = "default" }) {
     <Dialog open={open} onOpenChange={v => !v && onClose()}>
       <DialogContent className="max-w-sm rounded-2xl p-0 overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-br from-orange-600 to-orange-500 p-6 text-white text-center">
+        <div className="bg-linear-to-br from-orange-600 to-orange-500 p-6 text-white text-center">
           <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-3">
             <Lock className="w-6 h-6 text-white" />
           </div>

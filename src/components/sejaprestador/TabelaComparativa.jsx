@@ -16,7 +16,7 @@ const items = [
 
 export default function TabelaComparativa() {
   return (
-    <section className="py-10 md:py-16 bg-gradient-to-br from-slate-50 to-amber-50">
+    <section className="py-10 md:py-16 bg-linear-to-br from-slate-50 to-amber-50">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-8 md:mb-12">
           <span className="text-sm font-semibold text-amber-600 uppercase tracking-widest">Por que escolher o Trancoso Resolve?</span>
@@ -29,7 +29,7 @@ export default function TabelaComparativa() {
            <div className="grid grid-cols-3 bg-slate-900 text-white text-center">
              <div className="p-4 text-left pl-6 font-bold text-slate-100">Benefício</div>
              <div className="p-4 font-bold text-slate-300">Por conta própria</div>
-             <div className="p-4 font-bold text-white bg-gradient-to-b from-amber-600 to-amber-800">
+             <div className="p-4 font-bold text-white bg-linear-to-b from-amber-600 to-amber-800">
                Parceiro Trancoso Resolve 🌴
              </div>
            </div>
@@ -65,7 +65,7 @@ export default function TabelaComparativa() {
         {/* Mobile Cards */}
         <div className="md:hidden space-y-3">
           {items.map((item, i) => (
-            <div key={i} className="bg-white rounded-xl shadow-sm border border-slate-100 p-4">
+            <div key={i} className="bg-white rounded-xl shadow-xs border border-slate-100 p-4">
               <p className="font-semibold text-slate-800 mb-3 text-sm">{item.label}</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-slate-50 rounded-lg p-3 text-center">

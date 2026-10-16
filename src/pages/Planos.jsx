@@ -283,7 +283,7 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
         }`}
       >
         {/* Header */}
-        <div className={`p-6 text-center text-white bg-gradient-to-br ${plano.cor}`}>
+        <div className={`p-6 text-center text-white bg-linear-to-br ${plano.cor}`}>
           <Icon className="w-9 h-9 mx-auto opacity-90" />
           <h2 className="text-xl font-extrabold mb-1 mt-2">{plano.nome}</h2>
 
@@ -366,7 +366,7 @@ function BoostSection({ tipo, onCta, loading }) {
 
   return (
     <div className="rounded-2xl border-2 border-amber-500 overflow-hidden my-10">
-      <div className="bg-gradient-to-r from-amber-700 via-orange-600 to-amber-600 p-5 text-white">
+      <div className="bg-linear-to-r from-amber-700 via-orange-600 to-amber-600 p-5 text-white">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
             <Flame className="w-6 h-6 text-amber-200" />
@@ -413,7 +413,7 @@ function BoostSection({ tipo, onCta, loading }) {
 
         <div className="shrink-0 text-center">
           <Button
-            className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 rounded-full shadow"
+            className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 rounded-full shadow-sm"
             onClick={() => onCta(isPrestador ? "boost_prestador" : "boost_lojista", false)}
             disabled={loading}
           >
@@ -441,7 +441,7 @@ function AnnualStrip({ anual, onToggle }) {
         className={`relative w-12 h-6 rounded-full transition-colors ${anual ? "bg-orange-500" : "bg-border"}`}
       >
         <span
-          className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow transition-transform ${anual ? "translate-x-7" : "translate-x-1"}`}
+          className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${anual ? "translate-x-7" : "translate-x-1"}`}
         />
       </button>
 
@@ -546,7 +546,7 @@ export default function PlanosPage() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-extrabold tracking-tight mb-3 bg-gradient-to-r from-orange-400 via-orange-300 to-amber-300 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-extrabold tracking-tight mb-3 bg-linear-to-r from-orange-400 via-orange-300 to-amber-300 bg-clip-text text-transparent">
             Escolha seu plano
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto text-base">
@@ -585,7 +585,7 @@ export default function PlanosPage() {
               onClick={() => setAba("prestador")}
               className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
                 aba === "prestador"
-                  ? "bg-orange-500 text-white shadow"
+                  ? "bg-orange-500 text-white shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -595,7 +595,7 @@ export default function PlanosPage() {
               onClick={() => setAba("lojista")}
               className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
                 aba === "lojista"
-                  ? "bg-orange-500 text-white shadow"
+                  ? "bg-orange-500 text-white shadow-sm"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -617,7 +617,7 @@ export default function PlanosPage() {
                 onClick={() => setPaymentMethod(val)}
                 className={`px-4 py-2 rounded-full text-xs font-bold transition-all ${
                   paymentMethod === val
-                    ? "bg-orange-500 text-white shadow"
+                    ? "bg-orange-500 text-white shadow-sm"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >

@@ -86,7 +86,7 @@ export default function ServicoDestino() {
   return (
     <div className="bg-background overflow-x-hidden">
       {/* Hero */}
-      <section className="bg-gradient-to-br from-[#1A1208] via-[#2d1f10] to-[#1A1208] text-white py-16 md:py-24">
+      <section className="bg-linear-to-br from-[#1A1208] via-[#2d1f10] to-[#1A1208] text-white py-16 md:py-24">
         <div className="container mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-700/40 border border-orange-400/30 rounded-full px-4 py-1.5 text-sm font-medium text-orange-200 mb-6">
             <MapPin className="w-4 h-4" /> {destinoLabel}, Bahia

@@ -175,7 +175,7 @@ ${checklist.map(item => `- [${item.status === 'completed' ? 'x' : ' '}] ${item.t
           </Badge>
         </div>
 
-        <Card className="border-none shadow-lg bg-gradient-to-r from-orange-50 to-sand">
+        <Card className="border-none shadow-lg bg-linear-to-r from-orange-50 to-sand">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-3">
               <p className="text-sm font-medium text-foreground">Progresso Geral</p>

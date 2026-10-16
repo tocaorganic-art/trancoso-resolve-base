@@ -19,7 +19,7 @@ export default function CheckoutSuccessBanner() {
   if (!visible) return null;
 
   return (
-    <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl p-5 mb-8 shadow-lg relative">
+    <div className="bg-linear-to-r from-green-500 to-emerald-600 text-white rounded-xl p-5 mb-8 shadow-lg relative">
       <button
         onClick={() => setVisible(false)}
         className="absolute top-3 right-3 text-white/70 hover:text-white"

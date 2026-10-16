@@ -67,7 +67,7 @@ const PLANOS_PRESTADOR = [
       "Selo Prestador Fundador para os primeiros 100 aprovados",
       "Sem comissão sobre os serviços",
       "Negociação direta com o cliente",
-      "Suporte por WhatsApp",
+      "Suporte prioritário no chat do site",
     ],
     ctaLabel: "Quero ser Prestador Fundador",
     ctaKey: "profissional",
@@ -89,7 +89,7 @@ const PLANOS_PRESTADOR = [
       "Serviços ilimitados ativos",
       "Prioridade máxima nas buscas",
       "Destaque na página inicial",
-      "Assistente IA premium (TryA)",
+      "Assistente IA premium (TrIA)",
       "Gerador de imagens IA",
       "Painel financeiro avançado",
       "Suporte prioritário dedicado",
@@ -141,7 +141,7 @@ const PLANOS_LOJISTA = [
       "Destaque nas buscas locais",
       "Sistema de reservas / agendamento integrado",
       "Painel de analytics (acessos, cliques, contatos)",
-      "Suporte por WhatsApp",
+      "Suporte prioritário no chat do site",
       "Até 3 usuários gestores",
     ],
     ctaLabel: "Assinar: R$197/mês",
@@ -163,7 +163,7 @@ const PLANOS_LOJISTA = [
       "Tudo do Pro",
       "Posição fixa no topo das buscas",
       "Destaque na página inicial da plataforma",
-      "Assistente IA TryA + gerador de imagens",
+      "Assistente IA TrIA + gerador de imagens",
       "Relatórios avançados com exportação",
       "Integração com Instagram / WhatsApp Business",
       "Suporte prioritário dedicado",
@@ -243,11 +243,23 @@ function FaqItem({ q, r }) {
 }
 
 function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
-  const preco = anual && plano.precoAnual
+  const isAnual = Boolean(anual && plano.precoAnual);
+  const precoMensal = plano.preco === 0
+    ? "0"
+    : plano.preco.toFixed(2).replace(".", ",");
+  const precoAnualFmt = plano.precoAnual
+    ? plano.precoAnual.toLocaleString("pt-BR")
+    : null;
+  const equivMensal = plano.precoAnual
     ? (plano.precoAnual / 12).toFixed(2).replace(".", ",")
-    : plano.preco === 0
-      ? "0"
-      : plano.preco.toFixed(2).replace(".", ",");
+    : null;
+  // Mensal selecionado mostra preço mensal; Anual selecionado mostra o total anual.
+  // Nunca exibir valor anual como se fosse mensal (nem vice-versa).
+  const headline = isAnual ? `R$${precoAnualFmt}` : `R$${precoMensal}`;
+  const sufixo = isAnual ? "/ano" : "/mês";
+  const ctaLabel = isAnual
+    ? plano.ctaLabel.replace(/R\$[\d.,]+\/mês/, `R$${precoAnualFmt}/ano`)
+    : plano.ctaLabel;
 
   const Icon = plano.icone;
 
@@ -295,12 +307,14 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
           ) : (
             <>
               <p className="text-3xl font-extrabold mt-1">
-                R${preco}
-                <span className="text-sm font-normal opacity-90">/mês</span>
+                {headline}
+                <span className="text-sm font-normal opacity-90">{sufixo}</span>
               </p>
-              {anual && plano.precoAnual && (
+              {plano.precoAnual && (
                 <p className="text-xs mt-0.5 text-white/80">
-                  R${plano.precoAnual}/ano · 2 meses grátis
+                  {isAnual
+                    ? `Equivale a R$${equivMensal}/mês · 2 meses grátis`
+                    : `Ou R$${precoAnualFmt}/ano · 2 meses grátis`}
                 </p>
               )}
               <p className="text-sm mt-1 flex items-center justify-center gap-1 font-semibold text-white">
@@ -340,7 +354,7 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
                   disabled={loading}
                 >
                   {loading ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
-                  {plano.ctaLabel}
+                  {ctaLabel}
                 </Button>
                 {plano.preco > 0 && (
                   <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2 px-1">
@@ -377,7 +391,7 @@ function BoostSection({ tipo, onCta, loading }) {
           </div>
           <div className="ml-auto text-right">
             <p className="text-2xl font-extrabold">
-              +R${isPrestador ? "9,90" : "197"}<span className="text-sm font-normal opacity-90">/mês</span>
+              +R${isPrestador ? "9,90" : "197"}<span className="text-sm font-normal opacity-90">{isPrestador ? "/7 dias" : "/mês"}</span>
             </p>
             <p className="text-xs text-amber-200">{isPrestador ? "7 dias de assinatura premium no topo" : "somente dez a fev e Carnaval"}</p>
           </div>
@@ -402,7 +416,7 @@ function BoostSection({ tipo, onCta, loading }) {
                 "Posição fixa no topo das buscas da categoria",
                 "Destaque na página inicial durante o pico",
                 'Banner "Aberto na Temporada"',
-                "Prioridade no assistente TryA para captação",
+                "Prioridade no assistente TrIA para captação",
               ]
           ).map((f, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">

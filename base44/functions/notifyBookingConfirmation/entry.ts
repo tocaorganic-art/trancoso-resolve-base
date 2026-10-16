@@ -14,18 +14,20 @@ Deno.serve(async (req) => {
     const payload = await req.json();
     const { event, data, old_data } = payload;
 
-    if (!data) {
-      return Response.json({ error: 'No data' }, { status: 400 });
-    }
-
     // Segurança: sem segredo de automação/admin, a solicitação é resolvida pelo
-    // ID no banco — destinatário e conteúdo vêm do registro real.
+    // ID no banco — destinatário e conteúdo vêm do registro real. O gate de auth
+    // vem antes de qualquer checagem de payload, para que um chamador anônimo
+    // sempre receba 401 (nunca 400 por payload vazio, sem precisar autenticar).
     const isInternal = await isTrustedCaller(req, base44, payload);
     // Segurança (painel Base44 16/10/2026): função fechada para chamadores
     // autenticados — workflows chamam com auth de serviço; anônimo recebe 401.
     const callerAuth = isInternal || Boolean(await base44.auth.me().catch(() => null));
     if (!callerAuth) {
       return Response.json({ error: 'Não autorizado' }, { status: 401 });
+    }
+
+    if (!data) {
+      return Response.json({ error: 'No data' }, { status: 400 });
     }
 
     const recordId = data?.id || event?.entity_id;

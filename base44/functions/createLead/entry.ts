@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { quotaCheckAndBump } from './security.ts';
 
 const SOURCE_VALUES = new Set(['whatsapp', 'facebook', 'site', 'indicacao', 'google']);
 const PHONE_PATTERN = /^\+55\d{10,11}$/;
@@ -36,6 +37,15 @@ Deno.serve(async (req: Request) => {
     if (!SOURCE_VALUES.has(source)) return Response.json({ error: 'Invalid source' }, { status: 400 });
 
     const base44 = createClientFromRequest(req);
+
+    // Cota diária por IP: entrada pública anônima — sem isso, um atacante
+    // inunda a entidade Lead e dispara emails de boas-vindas em massa.
+    const ip = (req.headers.get('x-forwarded-for') || 'desconhecido').split(',')[0].trim();
+    const quota = await quotaCheckAndBump(base44, `lead-create-ip|${ip}`, 15).catch(() => ({ allowed: true }));
+    if (!quota.allowed) {
+      return Response.json({ success: true, throttled: true }, { status: 202 });
+    }
+
     const recent = await base44.asServiceRole.entities.Lead.filter({ phone, source }, '-created_date', 1);
     const latest = recent?.[0];
     if (latest?.created_date && Date.now() - Date.parse(latest.created_date) < 10 * 60 * 1000) {

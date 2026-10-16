@@ -32,6 +32,8 @@ dist-ssr
 # Ruflo local secrets and runtime data
 .env.local
 .env.*.local
-.claude-flow/data/
-.claude-flow/logs/
-.claude-flow/sessions/
+.claude-flow/
+.swarm/
+
+# Scratch output from live-site audits (curl dumps etc.)
+.audit-tmp/

@@ -34,6 +34,62 @@
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "https://base44.app/api/$1" },
+
+    { "source": "/trancoso", "destination": "/trancoso.html" },
+    { "source": "/arraial-dajuda", "destination": "/arraial-dajuda.html" },
+    { "source": "/porto-seguro", "destination": "/porto-seguro.html" },
+    { "source": "/caraiva", "destination": "/caraiva.html" },
+
+    { "source": "/SejaPrestador", "destination": "/SejaPrestador.html" },
+    { "source": "/Planos", "destination": "/Planos.html" },
+    { "source": "/About", "destination": "/About.html" },
+    { "source": "/Contact", "destination": "/Contact.html" },
+    { "source": "/ServicosCategoria", "destination": "/ServicosCategoria.html" },
+
+    { "source": "/servicos/diarista-trancoso", "destination": "/servicos/diarista-trancoso.html" },
+    { "source": "/servicos/eletricista-trancoso", "destination": "/servicos/eletricista-trancoso.html" },
+    { "source": "/servicos/piscineiro-trancoso", "destination": "/servicos/piscineiro-trancoso.html" },
+    { "source": "/servicos/pedreiro-trancoso", "destination": "/servicos/pedreiro-trancoso.html" },
+    { "source": "/servicos/pintor-trancoso", "destination": "/servicos/pintor-trancoso.html" },
+    { "source": "/servicos/jardineiro-trancoso", "destination": "/servicos/jardineiro-trancoso.html" },
+    { "source": "/servicos/encanador-trancoso", "destination": "/servicos/encanador-trancoso.html" },
+    { "source": "/servicos/chef-trancoso", "destination": "/servicos/chef-trancoso.html" },
+    { "source": "/servicos/seguranca-trancoso", "destination": "/servicos/seguranca-trancoso.html" },
+    { "source": "/servicos/motorista-trancoso", "destination": "/servicos/motorista-trancoso.html" },
+    { "source": "/servicos/dj-trancoso", "destination": "/servicos/dj-trancoso.html" },
+    { "source": "/servicos/quadrado-trancoso", "destination": "/servicos/quadrado-trancoso.html" },
+    { "source": "/servicos/rio-verde-trancoso", "destination": "/servicos/rio-verde-trancoso.html" },
+    { "source": "/servicos/pitinga-trancoso", "destination": "/servicos/pitinga-trancoso.html" },
+
+    { "source": "/servicos/diarista-arraial-dajuda", "destination": "/servicos/diarista-arraial-dajuda.html" },
+    { "source": "/servicos/eletricista-arraial-dajuda", "destination": "/servicos/eletricista-arraial-dajuda.html" },
+    { "source": "/servicos/piscineiro-arraial-dajuda", "destination": "/servicos/piscineiro-arraial-dajuda.html" },
+    { "source": "/servicos/cozinheiro-arraial-dajuda", "destination": "/servicos/cozinheiro-arraial-dajuda.html" },
+    { "source": "/servicos/jardineiro-arraial-dajuda", "destination": "/servicos/jardineiro-arraial-dajuda.html" },
+    { "source": "/servicos/pedreiro-arraial-dajuda", "destination": "/servicos/pedreiro-arraial-dajuda.html" },
+
+    { "source": "/servicos/diarista-porto-seguro", "destination": "/servicos/diarista-porto-seguro.html" },
+    { "source": "/servicos/eletricista-porto-seguro", "destination": "/servicos/eletricista-porto-seguro.html" },
+    { "source": "/servicos/piscineiro-porto-seguro", "destination": "/servicos/piscineiro-porto-seguro.html" },
+    { "source": "/servicos/cozinheiro-porto-seguro", "destination": "/servicos/cozinheiro-porto-seguro.html" },
+    { "source": "/servicos/jardineiro-porto-seguro", "destination": "/servicos/jardineiro-porto-seguro.html" },
+    { "source": "/servicos/pedreiro-porto-seguro", "destination": "/servicos/pedreiro-porto-seguro.html" },
+
+    { "source": "/servicos/diarista-caraiva", "destination": "/servicos/diarista-caraiva.html" },
+    { "source": "/servicos/eletricista-caraiva", "destination": "/servicos/eletricista-caraiva.html" },
+    { "source": "/servicos/piscineiro-caraiva", "destination": "/servicos/piscineiro-caraiva.html" },
+    { "source": "/servicos/cozinheiro-caraiva", "destination": "/servicos/cozinheiro-caraiva.html" },
+    { "source": "/servicos/jardineiro-caraiva", "destination": "/servicos/jardineiro-caraiva.html" },
+    { "source": "/servicos/pedreiro-caraiva", "destination": "/servicos/pedreiro-caraiva.html" },
+
+    { "source": "/destinos/casamento-trancoso", "destination": "/destinos/casamento-trancoso.html" },
+    { "source": "/destinos/reveillon-trancoso", "destination": "/destinos/reveillon-trancoso.html" },
+    { "source": "/guides/morar-em-trancoso", "destination": "/guides/morar-em-trancoso.html" },
+
+    { "source": "/investidores", "destination": "/investidores.html" },
+    { "source": "/participar", "destination": "/participar.html" },
+    { "source": "/costa-do-descobrimento", "destination": "/costa-do-descobrimento.html" },
+
     { "source": "/((?!sitemap\\.xml$|robots\\.txt$).*)", "destination": "/index.html" }
   ]
 }

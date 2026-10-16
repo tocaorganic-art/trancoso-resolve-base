@@ -4,14 +4,14 @@ const Section = ({ icon, title, subtitle, text, benefits, color }) => (
   <div className={`rounded-2xl border p-6 md:p-8 ${color}`}>
     <div className="flex items-center gap-3 mb-3">
       {icon}
-      <h3 className="text-xl font-bold text-slate-900">{title}</h3>
+      <h3 className="text-xl font-bold text-foreground">{title}</h3>
     </div>
-    {subtitle && <p className="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-2">{subtitle}</p>}
-    <p className="text-slate-600 text-sm mb-4 leading-relaxed">{text}</p>
+    {subtitle && <p className="text-xs font-semibold uppercase tracking-widest text-orange-600 dark:text-orange-400 mb-2">{subtitle}</p>}
+    <p className="text-muted-foreground text-sm mb-4 leading-relaxed">{text}</p>
     <ul className="space-y-2">
       {benefits.map((b, i) => (
-        <li key={i} className="flex items-start gap-2 text-sm text-slate-700">
-          <CheckCircle className="w-4 h-4 text-green-500 shrink-0 mt-0.5" />
+        <li key={i} className="flex items-start gap-2 text-sm text-foreground/85">
+          <CheckCircle className="w-4 h-4 text-green-600 dark:text-green-400 shrink-0 mt-0.5" />
           <span>{b}</span>
         </li>
       ))}
@@ -24,20 +24,20 @@ export default function PositionamentoEstrategico() {
     <div className="mt-16 max-w-4xl mx-auto">
       <div className="text-center mb-10">
         <p className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-2">Inovação & Vantagem Competitiva</p>
-        <h2 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-3">
+        <h2 className="text-2xl md:text-3xl font-extrabold text-foreground mb-3">
           Trancoso Resolve, TryA e Toca Vision:<br className="hidden md:block" /> inovação ao alcance de prestadores e lojistas.
         </h2>
-        <p className="text-slate-600 text-sm max-w-2xl mx-auto">
+        <p className="text-muted-foreground text-sm max-w-2xl mx-auto">
           O Trancoso Resolve, impulsionado pelas tecnologias TryA e Toca Vision, redefine o padrão de excelência e acessibilidade para prestadores de serviços e lojistas no Brasil. A plataforma não apenas conecta profissionais a clientes, mas os capacita com ferramentas de inteligência artificial de ponta, tornando acessíveis recursos antes restritos a grandes corporações e agências especializadas.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <Section
-          icon={<Bot className="w-7 h-7 text-orange-600" />}
+          icon={<Bot className="w-7 h-7 text-orange-600 dark:text-orange-400" />}
           title="TryA"
           subtitle="Agente de IA autônomo"
-          color="bg-orange-50 border-orange-200"
+          color="bg-orange-50 dark:bg-orange-500/10 border-orange-200 dark:border-orange-500/30"
           text="O TryA é um agente de inteligência artificial integrado à Trancoso Resolve. Mais do que um simples assistente, ele atua de forma autônoma, aprendendo com o seu negócio e otimizando processos para prestadores e lojistas."
           benefits={[
             "Automação inteligente: gerencia agendamentos, responde perguntas frequentes, qualifica leads e otimiza a comunicação com clientes",
@@ -47,10 +47,10 @@ export default function PositionamentoEstrategico() {
           ]}
         />
         <Section
-          icon={<Eye className="w-7 h-7 text-[#6B7C3A]" />}
+          icon={<Eye className="w-7 h-7 text-[#6B7C3A] dark:text-[#9CB06B]" />}
           title="Toca Vision"
           subtitle="Imagens exclusivas com IA"
-          color="bg-[#6B7C3A]/10 border-[#6B7C3A]/30"
+          color="bg-[#6B7C3A]/10 dark:bg-[#6B7C3A]/20 border-[#6B7C3A]/30 dark:border-[#6B7C3A]/50"
           text="O Toca Vision é a ferramenta definitiva para criação de conteúdo visual impactante. Utilizando inteligência artificial avançada, gera imagens exclusivas em alta qualidade, perfeitas para posts, marcas, logos e a representação de experiências únicas em Trancoso."
           benefits={[
             "Marketing profissional otimizado: crie materiais visuais de alta qualidade sem depender de agências",
@@ -60,10 +60,10 @@ export default function PositionamentoEstrategico() {
           ]}
         />
         <Section
-          icon={<BarChart2 className="w-7 h-7 text-green-600" />}
+          icon={<BarChart2 className="w-7 h-7 text-green-600 dark:text-green-400" />}
           title="Dashboard Financeiro Integrado"
           subtitle="Gestão 360º"
-          color="bg-green-50 border-green-200"
+          color="bg-green-50 dark:bg-green-500/10 border-green-200 dark:border-green-500/30"
           text="O Dashboard Financeiro vai além da gestão do negócio. Ele oferece uma visão holística, permitindo que prestadores e lojistas administrem tudo que está no aplicativo e também organizem sua vida financeira pessoal."
           benefits={[
             "Controle total do negócio: receitas, despesas, lucros, fluxo de caixa e performance dos serviços",
@@ -73,10 +73,10 @@ export default function PositionamentoEstrategico() {
           ]}
         />
         <Section
-          icon={<Target className="w-7 h-7 text-amber-600" />}
+          icon={<Target className="w-7 h-7 text-amber-600 dark:text-amber-400" />}
           title="Tecnologia avançada acessível"
           subtitle="Otimização de custo-benefício"
-          color="bg-amber-50 border-amber-200"
+          color="bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30"
           text="O grande diferencial do ecossistema Toca é oferecer ferramentas inovadoras de alto impacto com investimento otimizado. Tecnologias que antes eram restritas a grandes empresas, agora ao alcance de quem trabalha em Trancoso."
           benefits={[
             "Acessibilidade tecnológica: equalize as condições de mercado e compita com grandes players",

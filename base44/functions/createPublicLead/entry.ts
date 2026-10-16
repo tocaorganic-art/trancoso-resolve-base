@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { quotaCheckAndBump } from './security.ts';
 
 const ALLOWED_TYPES = new Set(['cliente', 'prestador']);
 const PHONE_PATTERN = /^\d{10,11}$/;
@@ -80,6 +81,15 @@ Deno.serve(async (req: Request) => {
       ? `+${internationalDigits}`
       : `+55${phone}`;
     const base44 = createClientFromRequest(req);
+
+    // Cota diária por IP: entrada pública anônima — sem isso, um atacante
+    // inunda a entidade Lead e dispara emails de boas-vindas em massa.
+    const ip = (req.headers.get('x-forwarded-for') || 'desconhecido').split(',')[0].trim();
+    const quota = await quotaCheckAndBump(base44, `lead-public-ip|${ip}`, 15).catch(() => ({ allowed: true }));
+    if (!quota.allowed) {
+      return Response.json({ success: true, throttled: true }, { status: 202 });
+    }
+
     const duplicates = await base44.asServiceRole.entities.Lead.filter(
       { phone: internationalPhone, source: leadSource },
       '-created_date',

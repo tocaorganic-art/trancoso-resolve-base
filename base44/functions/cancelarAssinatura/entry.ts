@@ -56,6 +56,16 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Não autorizado' }, { status: 401 });
     }
 
+    // 2FA server-side (painel Base44 16/10): prestador com 2FA ativo precisa de
+    // janela verificada (twoFactor verify grava two_fa_verified_until). Sem isso
+    // o 2FA era apenas um flag no sessionStorage (burlável no navegador).
+    if ((user as any).user_type === 'prestador' && (user as any).two_fa_enabled) {
+      const until = Number((user as any).two_fa_verified_until || 0);
+      if (!until || Date.now() > until) {
+        return Response.json({ error: 'Confirme a autenticação em dois fatores para esta ação.', requires_2fa: true }, { status: 403 });
+      }
+    }
+
     // ─── 2. Busca assinatura pelo email do usuário autenticado ────────────────
     // Nunca usa email do payload — ownership garantida pelo token.
     const subs = await base44.asServiceRole.entities.Subscription.filter({ user_email: user.email });

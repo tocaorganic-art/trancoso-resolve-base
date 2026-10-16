@@ -79,6 +79,13 @@ async function enviarRespostaWABA(fromPhone: string, mensagem: string): Promise<
   });
 }
 
+function timingSafeEqualStr(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let d = 0;
+  for (let i = 0; i < a.length; i++) d |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return d === 0;
+}
+
 Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
@@ -88,7 +95,7 @@ Deno.serve(async (req) => {
       const mode = url.searchParams.get('hub.mode');
       const token = url.searchParams.get('hub.verify_token');
       const challenge = url.searchParams.get('hub.challenge');
-      if (verifyToken && mode === 'subscribe' && token === verifyToken) return new Response(challenge || '', { status: 200 });
+      if (verifyToken && mode === 'subscribe' && timingSafeEqualStr(token, verifyToken)) return new Response(challenge || '', { status: 200 });
       return new Response('Forbidden', { status: 403 });
     }
     if (req.method === 'POST') {

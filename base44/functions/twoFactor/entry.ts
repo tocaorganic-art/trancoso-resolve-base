@@ -109,7 +109,9 @@ Deno.serve(async (req) => {
         two_fa_expires_at: null,
         two_fa_attempts: 0,
         two_fa_lockout_until: null,
-        two_fa_verified_until: now + 10 * 60 * 1000,
+        // Janela verificada ampliada p/ 60 min (painel 16/10): agora exigida
+        // server-side nas funções de pagamento — ver PR fix/painel-2fa.
+        two_fa_verified_until: now + 60 * 60 * 1000,
       });
 
       return Response.json({ success: true });

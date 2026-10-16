@@ -119,7 +119,7 @@ Deno.serve(async (req: Request) => {
       to: 'contato@trancosoresolve.com.br',
       from_name: 'Trancoso Resolve | Agente de Erros',
       subject: `🚨 Erro capturado: ${esc(pageUrl).slice(0, 120)}`,
-      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${esc(pageUrl)}\nDATA: ${now}\nUSUÁRIO: ${esc(userEmail || '(não logado)')}\n\nMENSAGEM:\n${esc(errorMessage)}\n\nTRIAGEM MICROSOFT AI:\n${microsoftText || '(indisponível)'}\n\nTRIAGEM CHATGPT:\n${openaiText || '(indisponível)'}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
+      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${esc(pageUrl)}\nDATA: ${now}\nUSUÁRIO: ${esc(userEmail || '(não logado)')}\n\nMENSAGEM:\n${esc(errorMessage)}\n\nTRIAGEM MICROSOFT AI:\n${esc(microsoftText || '(indisponível)')}\n\nTRIAGEM CHATGPT:\n${esc(openaiText || '(indisponível)')}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
     });
 
     return Response.json({ ok: true, triage: completed ? 'completed' : 'failed' });

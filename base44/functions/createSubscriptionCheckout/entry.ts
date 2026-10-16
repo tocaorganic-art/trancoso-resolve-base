@@ -226,6 +226,15 @@ Deno.serve(async (req) => {
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    // 2FA server-side (painel Base44 16/10): prestador com 2FA ativo precisa de
+    // janela verificada (twoFactor verify grava two_fa_verified_until). Sem isso
+    // o 2FA era apenas um flag no sessionStorage (burlável no navegador).
+    if ((user as any).user_type === 'prestador' && (user as any).two_fa_enabled) {
+      const until = Number((user as any).two_fa_verified_until || 0);
+      if (!until || Date.now() > until) {
+        return Response.json({ error: 'Confirme a autenticação em dois fatores para esta ação.', requires_2fa: true }, { status: 403 });
+      }
+    }
 
     // ─── REGRA (Tony, 13/10/2026): ordem do pagamento sem cartão no cadastro ──
     // Enquanto o Teste Gratuito estiver em andamento, nenhuma assinatura paga

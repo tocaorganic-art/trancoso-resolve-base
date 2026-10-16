@@ -146,14 +146,14 @@ function ChatWindow({ conversation, currentUser, onBack }) {
 
   const sendMessageMutation = useMutation({
     mutationFn: async (content) => {
-      const msg = await base44.entities.ChatMessage.create({
+      // Papel e identidade do remetente são definidos server-side
+      // (função createChatMessage) — payload não controla sender_role
+      // nem sender_name (painel Base44 16/10: falsificação de mensagens).
+      const res = await base44.functions.invoke('createChatMessage', {
         conversation_id: conversation.id,
-        sender_email: currentUser.email,
-        sender_name: currentUser.full_name || currentUser.email,
-        sender_role: isClient ? "client" : "provider",
         content,
-        read: false,
       });
+      const msg = res?.message || res;
       await base44.entities.ChatConversation.update(conversation.id, {
         last_message: content,
         last_message_at: new Date().toISOString(),

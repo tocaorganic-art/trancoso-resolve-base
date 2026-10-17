@@ -121,7 +121,7 @@ export default function AdminPagamentosPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-foreground">Dashboard de Pagamentos</h1>
-              <p className="text-muted-foreground text-sm">Monitoramento de transações e split de receita</p>
+              <p className="text-muted-foreground text-sm">Monitoramento de transações (sem comissão sobre serviços — prestador fica com 100%)</p>
             </div>
           </div>
         </div>
@@ -147,7 +147,7 @@ export default function AdminPagamentosPage() {
             <CardContent className="p-0">
               <div className="flex items-center gap-2 mb-1">
                 <TrendingUp className="w-4 h-4 text-brand-primary" />
-                <span className="text-xs text-muted-foreground">Comissão Plataforma (20%)</span>
+                <span className="text-xs text-muted-foreground">Comissão Plataforma</span>
               </div>
               {totalPlatform === 0 ? (
                 <span className="text-muted-foreground text-xs">Nenhuma transação ainda</span>
@@ -226,8 +226,8 @@ export default function AdminPagamentosPage() {
                     <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-left px-4 py-3">Cliente</th>
                     <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-left px-4 py-3">Prestador</th>
                     <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Total</th>
-                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Prestador (80%)</th>
-                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Plataforma (20%)</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Prestador</th>
+                    <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-right px-4 py-3">Plataforma</th>
                     <th className="text-xs font-semibold text-muted-foreground uppercase tracking-wide text-left px-4 py-3">Status</th>
                   </tr>
                 </thead>

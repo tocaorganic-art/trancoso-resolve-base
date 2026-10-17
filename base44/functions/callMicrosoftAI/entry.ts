@@ -33,7 +33,7 @@ Deno.serve(async (req) => {
     const base44 = createClientFromRequest(req);
     const body = await req.json();
     const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
-    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
+    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret || '';
     const isInternal = Boolean(expectedSecret && timingSafeEqualStr(providedSecret, expectedSecret));
     const user = isInternal ? null : await base44.auth.me();
     if (!isInternal && !user) return Response.json({ error: 'Usuário não autenticado' }, { status: 401 });

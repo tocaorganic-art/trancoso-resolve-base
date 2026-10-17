@@ -74,7 +74,7 @@ Deno.serve(async (req) => {
 
     // --- Autenticação ---
     const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
-    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
+    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret || '';
     const isInternal = Boolean(expectedSecret && timingSafeEqualStr(providedSecret, expectedSecret));
 
     if (!isInternal) {

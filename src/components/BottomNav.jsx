@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useApp } from "@/contexts/AppContext";
+import { useAuth } from "@/lib/AuthContext";
+import { AI_CHAT_SUSPENDED } from "@/lib/feature-flags";
 import { Home, LayoutGrid, Sparkles, Bot } from "lucide-react";
 
 const TAB_HISTORY_KEY = "tr-tab-history";
@@ -18,12 +20,16 @@ export default function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useApp();
+  const { user } = useAuth();
+  const isAdmin = user?.role === "admin";
 
   const navItems = [
     { key: 'home', path: "/", icon: Home },
     { key: 'categories', path: "/ServicosCategoria", icon: LayoutGrid },
     { key: 'ai', path: "/GeradorDeImagem", icon: Sparkles },
-    { key: 'assistant', path: "/Assistentevirtual", icon: Bot },
+    // Chat IA suspenso (Rodada 3) — tab de assistente some do rodapé para
+    // usuários comuns, admin mantém acesso para testes internos.
+    ...(!AI_CHAT_SUSPENDED || isAdmin ? [{ key: 'assistant', path: "/Assistentevirtual", icon: Bot }] : []),
   ];
 
   // Preserva a pilha de navegação por aba: memoriza a última sub-rota visitada

@@ -26,6 +26,7 @@ import ForgotPassword from '@/pages/ForgotPassword';
 import ResetPassword from '@/pages/ResetPassword';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { CONSENT_CHANGED_EVENT, activateOptionalTracking, readConsent } from '@/utils/consent.js';
+import { AI_CHAT_SUSPENDED } from '@/lib/feature-flags';
 // Páginas carregadas sob demanda (code-splitting) para reduzir o bundle inicial.
 const FilaVerificacaoPage = lazy(() => import('@/pages/FilaVerificacao'));
 const AdminPagamentosPage = lazy(() => import('@/pages/AdminPagamentos'));
@@ -138,6 +139,13 @@ const GATED_PATHS = [
   '/VerificacaoDocumento', '/VerificacaoAntecedentes',
 ];
 
+// Rotas do chat IA in-platform suspenso (Rodada 3) — /AssistenteIA já
+// redireciona para /Assistentevirtual antes de chegar aqui, então checar o
+// destino final é suficiente. /Recomendador usa o agente nativo do Base44
+// (base44.agents.*), não as funções de IA quebradas — não é o mesmo
+// assistente, segue liberado.
+const SUSPENDED_AI_CHAT_PATHS = ['/Assistentevirtual'];
+
 const AuthenticatedApp = () => {
   const { isLoadingAuth, authError, isAuthenticated, user } = useAuth();
   const location = useLocation();
@@ -167,6 +175,17 @@ const AuthenticatedApp = () => {
     GATED_PATHS.includes(location.pathname)
   ) {
     return <Navigate to="/CadastroTipo" replace />;
+  }
+
+  // Chat IA suspenso (decisão do Tony, Rodada 3 — ver feature-flags.js):
+  // qualquer usuário não-admin que tentar acessar o assistente volta pra home,
+  // sem tela de erro. Admin mantém acesso para testes internos.
+  if (
+    AI_CHAT_SUSPENDED &&
+    SUSPENDED_AI_CHAT_PATHS.includes(location.pathname) &&
+    user?.role !== 'admin'
+  ) {
+    return <Navigate to="/" replace />;
   }
 
   return (

@@ -68,9 +68,6 @@ Problema de infraestrutura no pipeline de publicação da Base44 (build server, 
 - `MP_WEBHOOK_SECRET`
 - `MP_PUBLIC_KEY`
 - `MP_ACCESS_TOKEN`
-- `AZURE_FOUNDRY_PROJECT_ENDPOINT`
-- `AZURE_FOUNDRY_MODEL`
-- `AZURE_FOUNDRY_API_KEY`
 - `META_CONVERSIONS_API_TOKEN`
 - `INFOSIMPLES_API_KEY`
 - `APY_KEY_MANUS`

@@ -40,7 +40,7 @@
     },
     "triage_microsoft": {
       "type": "string",
-      "description": "An\u00e1lise do erro pelo agente Microsoft Foundry"
+      "description": "[Descontinuado em 17/10/2026, conta Azure cancelada] Campo mantido apenas para preservar registros hist\u00f3ricos; novas triagens n\u00e3o escrevem mais aqui."
     },
     "triage_openai": {
       "type": "string",

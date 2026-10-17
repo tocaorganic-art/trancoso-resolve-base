@@ -452,7 +452,7 @@ function AnnualStrip({ anual, onToggle }) {
         role="switch"
         aria-checked={anual}
         onClick={onToggle}
-        className={`relative w-12 h-6 rounded-full transition-colors ${anual ? "bg-orange-500" : "bg-border"}`}
+        className={`relative w-12 h-6 rounded-full transition-colors ${anual ? "bg-orange-500" : "bg-neutral-600 dark:bg-border"}`}
       >
         <span
           className={`absolute top-1 w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${anual ? "translate-x-7" : "translate-x-1"}`}
@@ -462,7 +462,7 @@ function AnnualStrip({ anual, onToggle }) {
       <span className={`text-sm font-semibold ${anual ? "text-foreground" : "text-muted-foreground"}`}>
         Anual
       </span>
-      <span className="bg-green-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+      <span className="bg-offer text-offer-foreground text-xs font-bold px-2 py-0.5 rounded-full">
         2 meses grátis
       </span>
     </div>
@@ -560,7 +560,7 @@ export default function PlanosPage() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center mb-8"
         >
-          <h1 className="text-4xl font-extrabold tracking-tight mb-3 bg-linear-to-r from-orange-400 via-orange-300 to-amber-300 bg-clip-text text-transparent">
+          <h1 className="text-4xl font-extrabold tracking-tight mb-3 bg-linear-to-r from-orange-600 via-orange-700 to-amber-700 dark:from-orange-400 dark:via-orange-300 dark:to-amber-300 bg-clip-text text-transparent">
             Escolha seu plano
           </h1>
           <p className="text-muted-foreground max-w-lg mx-auto text-base">
@@ -582,9 +582,9 @@ export default function PlanosPage() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.3, type: 'spring', stiffness: 300, damping: 18 }}
-              className="mt-3 inline-flex items-center gap-2 bg-orange-900/30 border border-orange-600 text-orange-200 text-sm font-semibold rounded-full px-4 py-1.5"
+              className="mt-3 inline-flex items-center gap-2 bg-orange-50 dark:bg-orange-900/30 border border-orange-300 dark:border-orange-600 text-orange-800 dark:text-orange-200 text-sm font-semibold rounded-full px-4 py-1.5"
             >
-              <Shield className="w-4 h-4 text-orange-400" />
+              <Shield className="w-4 h-4 text-orange-700 dark:text-orange-400" />
               {founderRestam === 100
                 ? "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento"
                 : `Restam ${founderRestam} vagas de Prestador Fundador, entre GRÁTIS`}
@@ -671,7 +671,7 @@ export default function PlanosPage() {
         </p>
 
         {/* Transparência */}
-        <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 text-sm text-orange-200 text-center mb-2">
+        <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-300 dark:border-orange-700/50 rounded-xl p-4 text-sm text-orange-900 dark:text-orange-200 text-center mb-2">
           <strong>Transparência total:</strong> Nenhuma cobrança é feita durante o período grátis. Se você assinar um plano, a cobrança começa somente após os 7 dias de teste do checkout: cancele antes para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços, você negocia diretamente com o cliente e fica com 100% do valor.
         </div>
 

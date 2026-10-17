@@ -17,8 +17,6 @@ const ocupacoes = [
   { label: "Outro", valorHora: 50 },
 ];
 
-const COMISSAO = 0.20; // 20%
-
 export default function CalculadoraGanhos() {
   const [ocupacaoIndex, setOcupacaoIndex] = useState(0);
   const [horasPorDia, setHorasPorDia] = useState(4);
@@ -27,11 +25,12 @@ export default function CalculadoraGanhos() {
   const ocupacao = ocupacoes[ocupacaoIndex];
 
   const ganhos = useMemo(() => {
+    // Sem comissão sobre serviços (modelo Asaas) — o prestador fica com 100%
+    // do valor negociado direto com o cliente.
     const bruto = ocupacao.valorHora * horasPorDia * diasPorMes;
-    const comissao = bruto * COMISSAO;
-    const liquido = bruto - comissao;
+    const liquido = bruto;
     const anual = liquido * 12;
-    return { bruto, comissao, liquido, anual };
+    return { bruto, liquido, anual };
   }, [ocupacao, horasPorDia, diasPorMes]);
 
   const fmt = (val) => val.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
@@ -120,7 +119,7 @@ export default function CalculadoraGanhos() {
                   <span className="text-sm font-medium opacity-90">Ganho líquido mensal</span>
                 </div>
                 <p className="text-4xl md:text-5xl font-black tracking-tight">{fmt(ganhos.liquido)}</p>
-                <p className="text-xs opacity-70 mt-1">Após comissão da plataforma (20%)</p>
+                <p className="text-xs opacity-70 mt-1">Sem comissão sobre o serviço, você fica com 100%</p>
               </CardContent>
             </Card>
 

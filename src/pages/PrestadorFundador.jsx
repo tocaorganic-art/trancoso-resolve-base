@@ -41,7 +41,7 @@ const FAQ = [
   },
   {
     q: "Quando ocorre a primeira cobrança?",
-    r: "Nenhuma cobrança acontece durante o período grátis. Somente se você decidir continuar depois dele é que a assinatura de R$ 59,90/mês começa — e você pode cancelar a qualquer momento.",
+    r: "Nenhuma cobrança acontece durante o período grátis. Somente se você decidir continuar depois dele é que a assinatura de R$ 59,90/mês começa, e você pode cancelar a qualquer momento.",
   },
   {
     q: "Preciso cadastrar cartão?",

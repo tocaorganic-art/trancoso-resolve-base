@@ -181,7 +181,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Como funciona o período gratuito?",
-    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Durante os 2 meses grátis você usa o Painel Profissional completo — os mesmos recursos do plano Profissional. O pagamento só começa quando o período grátis acaba, se você quiser continuar, e pode cancelar antes sem pagar nada.",
+    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Durante os 2 meses grátis você usa o Painel Profissional completo, os mesmos recursos do plano Profissional. O pagamento só começa quando o período grátis acaba, se você quiser continuar, e pode cancelar antes sem pagar nada.",
   },
   {
     q: "Por que o Profissional tem 7 dias grátis?",
@@ -587,7 +587,7 @@ export default function PlanosPage() {
               <Shield className="w-4 h-4 text-orange-400" />
               {founderRestam === 100
                 ? "Seja um dos 100 Prestadores Fundadores da Costa do Descobrimento"
-                : `Restam ${founderRestam} vagas de Prestador Fundador — entre GRÁTIS`}
+                : `Restam ${founderRestam} vagas de Prestador Fundador, entre GRÁTIS`}
             </motion.div>
           )}
         </motion.div>
@@ -672,7 +672,7 @@ export default function PlanosPage() {
 
         {/* Transparência */}
         <div className="bg-orange-900/20 border border-orange-700/50 rounded-xl p-4 text-sm text-orange-200 text-center mb-2">
-          <strong>Transparência total:</strong> Nenhuma cobrança é feita durante o período grátis. Se você assinar um plano, a cobrança começa somente após os 7 dias de teste do checkout — cancele antes para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços, você negocia diretamente com o cliente e fica com 100% do valor.
+          <strong>Transparência total:</strong> Nenhuma cobrança é feita durante o período grátis. Se você assinar um plano, a cobrança começa somente após os 7 dias de teste do checkout: cancele antes para não ser cobrado. O cancelamento posterior remove definitivamente o Selo Prestador Fundador. Sem comissão sobre seus serviços, você negocia diretamente com o cliente e fica com 100% do valor.
         </div>
 
         {/* Boost Alta Temporada */}
@@ -711,7 +711,7 @@ export default function PlanosPage() {
               {mySubscription.trial_end
                 ? ` até ${new Date(mySubscription.trial_end + "T00:00:00").toLocaleDateString("pt-BR")}`
                 : ""}
-              . Nenhuma cobrança é feita nesse período — assine um plano quando quiser.
+              . Nenhuma cobrança é feita nesse período, assine um plano quando quiser.
             </p>
           </div>
         )}

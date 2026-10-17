@@ -121,7 +121,7 @@ export default function AdminPagamentosPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-foreground">Dashboard de Pagamentos</h1>
-              <p className="text-muted-foreground text-sm">Monitoramento de transações (sem comissão sobre serviços — prestador fica com 100%)</p>
+              <p className="text-muted-foreground text-sm">Monitoramento de transações (sem comissão sobre serviços, prestador fica com 100%)</p>
             </div>
           </div>
         </div>

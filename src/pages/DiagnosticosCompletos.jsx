@@ -122,7 +122,7 @@ ${line('Tamanho total transferido', n && n.resources?.totalSize ? `${(n.resource
 
 ==============================================
 Status Geral: ${overallStatus}
-Score médio das áreas medidas: ${overallScore === null ? 'sem dados coletados ainda — aguarde os monitores e gere novamente' : `${overallScore}/100`}
+Score médio das áreas medidas: ${overallScore === null ? 'sem dados coletados ainda, aguarde os monitores e gere novamente' : `${overallScore}/100`}
 ==============================================
     `.trimStart();
 
@@ -138,7 +138,7 @@ Score médio das áreas medidas: ${overallScore === null ? 'sem dados coletados 
 
     toast.success(
       overallScore === null
-        ? 'Relatório gerado, mas sem dados ainda — aguarde os monitores medirem e gere novamente.'
+        ? 'Relatório gerado, mas sem dados ainda, aguarde os monitores medirem e gere novamente.'
         : 'Relatório gerado com os dados reais medidos pelos monitores!'
     );
     setIsGeneratingReport(false);

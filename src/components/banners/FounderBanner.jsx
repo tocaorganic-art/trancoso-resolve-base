@@ -106,8 +106,7 @@ export default function FounderBanner() {
           <p className="text-muted-foreground text-sm mt-1 leading-relaxed">
             Os primeiros {FOUNDER_LIMIT} clientes ganham o{" "}
             <strong className="text-foreground">Selo Fundador</strong> para sempre e{" "}
-            <strong className="text-orange-400">entram GRÁTIS</strong>{" "}
-            — sem cartão e sem cobrança.
+            <strong className="text-orange-400">entram GRÁTIS</strong>, sem cartão e sem cobrança.
           </p>
 
           <div className="mt-3 max-w-sm">

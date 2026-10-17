@@ -104,6 +104,18 @@ function DashboardContent() {
     initialData: [],
   });
 
+  // Receita Total vem de Payment (dinheiro real processado via Asaas na
+  // plataforma), nunca de Transaction — Transaction é um livro-caixa manual
+  // genérico (herdado do template de concierge) sem vínculo com ServiceRequest
+  // nenhum (reference_id sempre nulo hoje), então somá-lo aqui misturava
+  // lançamentos manuais/legados de outro negócio com a receita da plataforma.
+  const { data: payments, isLoading: isLoadingPayments } = useQuery({
+    queryKey: ['myPayments', providerProfile?.id],
+    queryFn: () => base44.entities.Payment.filter({ provider_id: providerProfile?.id }),
+    enabled: !!providerProfile?.id,
+    initialData: [],
+  });
+
   // Grava flag de checkout no localStorage por 5 min (para reload/refetch)
   useEffect(() => {
     if (checkoutSuccess) {
@@ -120,7 +132,7 @@ function DashboardContent() {
     }
   }, [subscription]);
 
-  const isLoading = isUserLoading || isLoadingRequests || isLoadingTransactions || isLoadingSubscription;
+  const isLoading = isUserLoading || isLoadingRequests || isLoadingTransactions || isLoadingPayments || isLoadingSubscription;
 
   if (isLoading) {
     return (
@@ -148,9 +160,9 @@ function DashboardContent() {
   const pendingRequests = serviceRequests?.filter(req => req.status === 'Pendente').length || 0;
   const confirmedServices = serviceRequests?.filter(req => req.status === 'Confirmado').length || 0;
 
-  const totalReceita = (transactions || [])
-    .filter(t => t.type === "Receita" && t.status === "Validado")
-    .reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
+  const totalReceita = (payments || [])
+    .filter(p => p.status === "captured")
+    .reduce((sum, p) => sum + (Number(p.amount_provider) || 0), 0) / 100;
 
   return (
     <div className="min-h-screen bg-background pb-24">

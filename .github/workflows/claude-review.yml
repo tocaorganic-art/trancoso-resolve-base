@@ -1,0 +1,39 @@
+name: Claude Code Review
+
+# Responde a mencoes "@claude" em comentarios de PR/issue, usando o app
+# Claude (anthropics) ja instalado na org tocaorganic-art. Sem este
+# workflow, mencionar @claude em um comentario nao tem nenhum efeito —
+# nao existe listener (achado da Rodada 3, PR #128).
+#
+# Requer o secret ANTHROPIC_API_KEY (ou CLAUDE_CODE_OAUTH_TOKEN, se a
+# autenticacao for via assinatura Claude) configurado em
+# Settings > Secrets and variables > Actions. Este workflow nao cria
+# nem pode criar esse secret — precisa ser adicionado manualmente.
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
+jobs:
+  claude-review:
+    if: contains(github.event.comment.body, '@claude')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}

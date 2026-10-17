@@ -539,3 +539,266 @@ Produção (`trancosoresolve.com.br`) verificada via browser real:
   tipo indefinido (nenhum alterado); teste manual do fluxo de cadastro
   completo (OTP) e da legibilidade em 390px real no celular; investigar
   "Prestador: Carregando..." em `/MeusPedidos` numa próxima rodada.
+
+---
+
+## 13. Rodada 3 (17/10/2026)
+
+> Continuação da Rodada 3: Tony publicou os PRs #121-#125 (mergeados por
+> mim na passada anterior) e seu agente validou ao vivo em produção em
+> 17/10 — confirmado funcionando: Receita Total do Dashboard, fix do
+> crash de autenticação das 6 funções de IA, `MeusPedidos` carregando.
+> Pré-condição verificada antes de começar: `src/lib/facebook-pixel.ts`,
+> `src/lib/whatsapp-templates.ts`, `src/utils/index.js` e todos os
+> `base44/functions/*/entry.ts` presentes — nada faltando.
+>
+> Modo de execução: `/resolveimediato` (resolve e segue, relatório só no
+> final). `/ruflo` não pôde ser usado nesta rodada — a ferramenta MCP
+> `ruflo` conectou, mas `swarm_status` e `memory_search_unified`
+> retornaram erro `policy-ledger-anchor-missing` ("receipts exist but no
+> ledger anchor was found... otherwise treat as tampering"); o MCP
+> `claude-flow` estava desconectado (`CONNECTION_CLOSED`). Segui sem
+> orquestração de swarm, com coordenação nativa, em vez de simular o uso
+> do Ruflo sem chamada MCP real — como a própria regra exige.
+
+### PRs mergeados (squash), em ordem
+
+| PR | SHA do squash | O que corrigia | Review `@claude` |
+|---|---|---|---|
+| [#126](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/126) | `42c1c8d6` | Ajuste A: `/MeusPedidos` — "Carregando..." eterno quando o prestador não é encontrado + redirect para `/login` quando não autenticado | Sem resposta em ~13 min — prossegui conforme a regra combinada |
+| [#127](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/127) | `d150835d` | Ajuste B (vazamento de `Transaction` no Dashboard) + Ajuste C (remoção completa da dependência de Azure) | Sem resposta em ~12 min — prossegui conforme a regra combinada |
+
+O app GitHub do Claude (`anthropics`) não comentou em nenhum dos 2 PRs
+dentro da janela combinada. Não investiguei a causa (instalação do app
+na org, permissões do repo) porque isso é configuração do GitHub que só
+o Tony administra — sinalizando aqui para ele verificar se quiser que o
+`@claude` funcione nas próximas rodadas.
+
+### Ajuste A — `/MeusPedidos` "Carregando..." eterno
+
+Causa raiz confirmada em `src/pages/MeusPedidos.jsx`: a condição antiga
+só checava se `provider_id` existia, nunca se a busca de prestadores
+(`fetchAllPublicProviders`, paginada via `listPublicProviders`) tinha
+*terminado* de carregar. Um `provider_id` que existe mas não aparece na
+lista pública (prestador deletado ou não verificado — exatamente o caso
+dos 2 pedidos de 24/07 e 08/04) ficava preso em "Carregando..." para
+sempre. Corrigido para 3 estados: sem `provider_id` → "Prestador não
+atribuído"; lista ainda carregando → "Carregando..."; lista carregada e
+sem correspondência → "Prestador não encontrado".
+
+Também corrigido, no mesmo PR, o item 5 da Tarefa 2 (ver abaixo):
+`/MeusPedidos` não tinha nenhuma guarda de autenticação (faz parte do
+loop genérico de rotas de `App.jsx`, que não usa `ProtectedRoute`) — um
+visitante não logado via a tela "Nenhum pedido encontrado" em vez de
+ser mandado para `/login`. Agora usa `useAuth()` e redireciona.
+
+**Evidência:** revisão de código (causa raiz localizada e corrigida na
+fonte) + lint/typecheck/build limpos. Não testei ao vivo com os 2
+pedidos reais do banco porque esta sessão não tem acesso ao backend real
+(ver "Tarefas 1-4" abaixo) — recomendo ao Tony confirmar visualmente
+após o próximo publish.
+
+### Ajuste B — Dashboard "Visão Geral Financeira" (vazamento confirmado)
+
+Causa raiz: `Dashboard.jsx` lia `base44.entities.Transaction.filter({},
+'-created_date')` **sem nenhum filtro por prestador** — isso buscava
+(e trazia para o navegador) os dados de *todo mundo* no livro-caixa
+legado de concierge, não só exibia errado. O PR #124 já tinha corrigido
+o card "Receita Total" para usar `Payment`, mas `AssistenteFinanceiro`
+e `FinancialDashboard` continuavam recebendo o `Transaction` global.
+
+Corrigido: a seção agora usa `Payment` (já filtrado por `provider_id` no
+próprio `Dashboard.jsx`), com estado vazio honesto ("Sem movimentações
+ainda") quando o prestador não tem recebimentos. `FinancialDashboard`
+perdeu o gráfico "Despesas por Categoria" (removido, não escondido —
+`Payment` não tem essa dimensão, é dinheiro recebido via Asaas, não um
+livro-caixa com categorias) e ganhou "Receita Mensal" + "Tendência de
+Receita". A query de `Transaction` foi **removida** do `Dashboard.jsx`,
+não só deixada de exibir — o vazamento era o fetch, não só a tela.
+
+**Evidência:** leitura do código confirmando a query sem filtro +
+comparação com a query de `Payment` (já corretamente filtrada, usada
+pelo card "Receita Total" desde o PR #124) + lint/typecheck/build
+limpos. Não testei ao vivo (mesma limitação de acesso a backend).
+
+### Ajuste C — inventário Azure completo e migração
+
+Causa confirmada do erro 530: `base44/functions/callMicrosoftAI/entry.ts`
+chamava `https://trancosoresolve-2533-resource.services.ai.azure.com/...`
+direto via `fetch` (sem SDK `@azure/*`), usando os secrets
+`AZURE_FOUNDRY_API_KEY`/`AZURE_AI_API_KEY`,
+`AZURE_FOUNDRY_PROJECT_ENDPOINT`, `AZURE_FOUNDRY_MODEL`.
+
+**Inventário completo** (toda referência a Azure encontrada no projeto):
+
+| Arquivo | O que tinha | Resultado |
+|---|---|---|
+| `base44/functions/callMicrosoftAI/entry.ts` | Chamador direto do Azure AI Foundry | **Excluído** |
+| `src/components/financial/AssistenteFinanceiro.jsx:79` | Chamava `callMicrosoftAI` — widget do Dashboard, **ativo em produção** | Migrado para `callPlatformAI` |
+| `src/components/assistente/TocaTrIAPremium.jsx:191` | Chamava `callMicrosoftAI` — chat in-platform, **suspenso por flag** (sem efeito prático agora) | Migrado para `callPlatformAI` |
+| `base44/functions/logClientError/entry.ts:101` | Triagem dupla Microsoft+OpenAI via `Promise.allSettled` (já degradava sem crash) | Perna Microsoft removida, mantém OpenAI |
+| `docs/RELATORIO_SUPORTE.md`, `docs/automacao-comunicacao.md` | Referências a `AZURE_FOUNDRY_*` e "Microsoft Foundry" na documentação | Atualizados |
+| `base44/entities/ClientErrorLog.jsonc` (campo `triage_microsoft`) | Descrição citando "agente Microsoft Foundry" | Descrição marcada como descontinuada (campo mantido só para registros históricos) |
+
+**Substituto criado:** `base44/functions/callPlatformAI/entry.ts`, que
+usa `base44.asServiceRole.integrations.Core.InvokeLLM` — a integração
+nativa do Base44, já usada e comprovadamente funcionando em
+`atendimento_chat_ia`, `atendimento_whatsapp_ia`, `tocaTriaTranslator`,
+`verificarDocumento`, `searchServicesMultilingual` e `iaCreditada`.
+**Nenhum secret novo foi necessário** — mesmo contrato de
+request/response do `callMicrosoftAI` antigo (`messages[]`,
+`systemPrompt`, `response_json_schema` opcional), então os 2 chamadores
+vivos só trocaram o nome da função invocada.
+
+**Confirmado que NÃO existe** backend de antecedentes via Azure/APIM no
+código atual — `verificarAntecedentes` já é 100% Infosimples
+(`api.infosimples.com`), sem nenhuma referência Azure. `calcularLeadScore`
+não usa IA nenhuma (é scoring determinístico por regras). A premissa do
+pedido original sobre esse backend estava desatualizada — não precisou
+de ação.
+
+**Chat IA in-platform continua suspenso** (decisão do Tony, PR #121) —
+não foi reativado por este trabalho, só corrigido para não depender
+mais de Azure quando for reativado.
+
+**Secret pendente (ação do Tony, não urgente):** os secrets antigos
+`AZURE_FOUNDRY_API_KEY`/`AZURE_AI_API_KEY`/`AZURE_FOUNDRY_PROJECT_ENDPOINT`/
+`AZURE_FOUNDRY_MODEL` continuam cadastrados no painel do Base44, mas o
+código não os lê mais em nenhum lugar — podem ser removidos do Base44
+quando o Tony quiser, sem impacto.
+
+### Ajuste D — validação da suspensão do chat (verificado via código)
+
+Os 4 pontos de controle do flag `AI_CHAT_SUSPENDED`
+(`src/lib/feature-flags.js`) foram revisados no código:
+
+1. **Guarda de rota** (`src/App.jsx`, `AuthenticatedApp`): usuário com
+   `role !== 'admin'` tentando acessar `/Assistentevirtual` é
+   redirecionado para `/` — admin não é redirecionado. Checado antes de
+   `<Routes>` renderizar, então vale tanto para visitante anônimo quanto
+   logado.
+2. **Nav desktop** (`src/Layout.jsx:307,403`): link "Assistente IA" só
+   aparece se `!AI_CHAT_SUSPENDED || isAdmin`.
+3. **Bottom nav mobile** (`src/components/BottomNav.jsx:32`): mesma
+   condição.
+4. **Sidebars por papel** (`Layout.jsx:230,242`): condicionadas só a
+   `AI_CHAT_SUSPENDED` (sem `isAdmin`) — mas isso é inofensivo, porque
+   admin nunca cai nesses branches: tem seu próprio `adminNavItems`
+   (que nunca incluiu esse link, por design anterior) e acessa via nav
+   desktop (ponto 2), que já tem a exceção.
+
+**Nenhum bug encontrado.** Não produzi screenshot ao vivo dos dois casos
+(comum vs. admin) porque esta sessão não tem uma conta logada real para
+testar (ver limitação abaixo) — a verificação foi 100% por leitura de
+código, não por clique real no navegador. Recomendo ao Tony um teste
+visual rápido quando puder.
+
+### Achado adicional fora do pedido original — gap de autenticação nas rotas genéricas
+
+Investigando o item 5 da Tarefa 2 (`/MeusPedidos` deveria mandar para
+`/login`), encontrei a causa raiz real: `src/App.jsx` tem um loop
+genérico (`Object.entries(Pages).map(...)`) que renderiza **sem
+nenhuma `ProtectedRoute`** todas as páginas listadas em
+`src/pages.config.js`. Isso inclui não só `MeusPedidos`, mas também
+`Dashboard`, `MeuPerfilPrestador`, `MinhaAgenda`, `MeusServicos`,
+`DashboardLojista`, `Financeiro`, `AdminAssinaturas`,
+`AdminControleFinanceiro`, `AdminUserManagement`, `Base44ReportViewer`,
+`Base44Templates`, `DeployDashboard`, `ManutencaoSistema` e
+`MonitoringDashboard`. Nenhuma delas tem checagem própria de
+`isAuthenticated` no componente (confirmado por busca de código em
+`MinhaAgenda.jsx` e `MeuPerfilPrestador.jsx`, nenhum resultado).
+
+Isso **não é um vazamento de dados** — a Base44 RLS continua protegendo
+os dados no servidor — mas é a mesma classe de bug do `/MeusPedidos`
+(tela quebrada/vazia em vez de redirect) possivelmente em várias dessas
+rotas, incluindo páginas administrativas (`AdminUserManagement`,
+`Base44ReportViewer`, `DeployDashboard`), onde a UI (não os dados) pode
+aparecer para quem não deveria ver nem o shell da página.
+
+**Decisão:** corrigi só `/MeusPedidos` nesta rodada (era o pedido
+explícito) e não fiz uma correção em massa nas outras ~13 páginas,
+porque (a) é uma mudança de escopo bem maior que o pedido original, (b)
+não tenho como testar ao vivo cada uma delas nesta sessão (ver
+limitação abaixo), e (c) algumas podem ter proteção equivalente em
+outro lugar que eu não tenha visto. Sinalizando para o Tony decidir se
+quer isso como item de uma próxima rodada — se sim, a correção correta
+é no nível de rota (`App.jsx`), movendo esse grupo para dentro de um
+bloco `<ProtectedRoute>` (e separando as páginas admin-only para checar
+`role === 'admin'`), em vez de duplicar a checagem em cada página.
+
+### Tarefas 1, 2, 3 (modo claro, bateria E2E, mobile 390px) — bloqueadas nesta sessão
+
+**Causa raiz do bloqueio, confirmada tecnicamente, não assumida:** este
+projeto não tem nenhum arquivo `.env`/`.env.local` no repositório — a
+conexão com o backend real do Base44 (`VITE_BASE44_APP_BASE_URL`) só
+existe quando o app roda via Base44 CLI (`base44 dev` ou `base44 dev
+--remote`, que exige login do Tony no Base44). Subi o Vite local
+(`npm run dev`) para testar e confirmei: ele sobe sem erro, mas imprime
+`[base44] No Base44 backend configured — VITE_BASE44_APP_BASE_URL is not
+set, so /api requests have nowhere to go`. Sem backend, nenhuma página
+autenticada carrega dados reais (login, Dashboard, pedidos, Asaas
+checkout) — só o shell estático renderiza. Também notei que a porta
+5173 já estava ocupada por outro processo (provavelmente uma sessão sua
+já aberta); não toquei nele por não ser meu para encerrar ou reconfigurar
+sem confirmação sua. Matei meu próprio servidor de teste (sem backend,
+inútil) ao confirmar o bloqueio.
+
+Como login é por e-mail+senha (não OTP — OTP é só na verificação de
+cadastro em `/register`), eu nem teria como criar as contas de teste
+pedidas (`tocaorganic+auditoria.rodada3b@gmail.com` etc.) sem acesso à
+caixa de entrada para o código de verificação.
+
+**O que ficou de fato feito dessas 3 tarefas:**
+- Tarefa 2, item 5 (redirect de não logado): resolvido de verdade no
+  código (Ajuste A, acima) — essa parte não dependia de backend, é
+  guarda de rota.
+- Tarefa 2 (bugs de IA que dependiam de Azure): resolvidos via Ajuste C,
+  não "escondidos" como eram bugs de E2E — como instruído.
+- Ajuste D: verificado via código (acima).
+- Tudo que exige dado real (contraste medido nas 47+ rotas autenticadas,
+  fluxo completo cliente/prestador/lojista/admin com contas novas,
+  checkout Asaas até o gateway, páginas admin que travaram no agente do
+  Tony, viewport 390×844 real): **não executado nesta sessão.**
+
+**Para a próxima rodada, preciso de uma destas duas coisas do Tony:**
+1. Confirmar que o processo já rodando na porta 5173 é um `base44 dev
+   --remote` válido que eu posso usar com segurança (e nesse caso, para
+   quais contas de teste já existem credenciais), ou
+2. Rodar `base44 dev --remote` nesta máquina antes da próxima sessão,
+   para eu herdar a conexão com o backend real.
+
+### Tarefa 4 — catálogo de dados de teste
+
+Também bloqueada pela mesma falta de acesso a backend/dados reais desta
+sessão — não consegui consultar `ServiceRequest`, `Payment`,
+`ChatMessage`/`ChatConversation` nem contas de usuário reais para
+catalogar com IDs. Nenhum dado foi criado, alterado ou apagado nesta
+sessão (zero risco de ação indevida), mas também não há catálogo novo
+para reportar. O catálogo da Rodada 2 (seção 11) continua a referência
+mais recente disponível.
+
+### Pendências externas (mantidas, não resolvidas no código)
+
+- Sitemap com 52 URLs legadas maiúsculas (plataforma Base44) — não
+  tocado.
+- Email OTP em inglês (template de auth da plataforma) — não tocado.
+- Truncamento de apóstrofo no snapshot e canonical maiúsculas/minúsculas
+  (Rodada 1) — não tocado.
+- Secrets `AZURE_FOUNDRY_*` órfãos no painel Base44 — ver Ajuste C,
+  remoção é opcional e não urgente.
+- Modo claro, bateria E2E, mobile 390px, catálogo de dados — ver acima,
+  bloqueados por acesso a backend, não por decisão de escopo.
+
+---
+
+## 14. Validação final — Rodada 3
+
+- `npm run lint`: 0 erros, 44 warnings pré-existentes (nenhum novo
+  introduzido nesta rodada).
+- `npm run typecheck`: limpo.
+- `npm run build`: limpo (confirmado no commit squash de cada PR antes
+  do merge; repetido após o merge em `main`).
+- `gh pr list --state open`: nenhum PR pendente de merge desta rodada.
+- PRs mergeados (squash): #126 (`42c1c8d6`), #127 (`d150835d`).
+- `git checkout main && git pull`: SHA final `d150835d`.
+- Publish no Base44: não executado por mim (é exclusivo do Tony).

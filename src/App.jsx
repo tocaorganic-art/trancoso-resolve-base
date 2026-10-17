@@ -139,6 +139,24 @@ const GATED_PATHS = [
   '/VerificacaoDocumento', '/VerificacaoAntecedentes',
 ];
 
+// Rodada 3, Tarefa 6: chaves de src/pages.config.js renderizadas pelo loop
+// genérico abaixo (Object.entries(Pages)) que precisam de login — mesmo bug
+// do /MeusPedidos corrigido no #126, aplicado às demais rotas autenticadas.
+// Páginas públicas/SEO (ex.: Planos, ServicosCategoria, PrestadorPerfil,
+// SejaPrestador, Manual, ConciergePage) ficam de fora de propósito.
+const AUTHENTICATED_PAGE_KEYS = [
+  'Financeiro', 'CadastroTipo', 'MeuPerfilPrestador', 'MinhaAgenda',
+  'Dashboard', 'MeusServicos', 'Chat', 'DashboardLojista',
+];
+
+// Mesma guarda de login + exige role "admin" (verificado dentro do
+// ProtectedRoute). Essas páginas não tinham checagem própria nenhuma.
+const ADMIN_PAGE_KEYS = [
+  'AdminAssinaturas', 'DiagnosticosCompletos', 'ManutencaoSistema',
+  'MonitoringDashboard', 'AdminControleFinanceiro', 'AdminUserManagement',
+  'Base44ReportViewer', 'Base44Templates', 'DeployDashboard',
+];
+
 // Rotas do chat IA in-platform suspenso (Rodada 3) — /AssistenteIA já
 // redireciona para /Assistentevirtual antes de chegar aqui, então checar o
 // destino final é suficiente. /Recomendador usa o agente nativo do Base44
@@ -203,17 +221,50 @@ const AuthenticatedApp = () => {
               <AnimatedPage><MainPage /></AnimatedPage>
             </LayoutWrapper>
           } />
-          {Object.entries(Pages).map(([path, Page]) => (
-            <Route
-              key={path}
-              path={`/${path}`}
-              element={
-                <LayoutWrapper currentPageName={path}>
-                  <AnimatedPage><Page /></AnimatedPage>
-                </LayoutWrapper>
-              }
-            />
-          ))}
+          {Object.entries(Pages).map(([path, Page]) => {
+            // /Assistentevirtual já tem rota própria protegida mais abaixo
+            // (suspensão de chat IA) — não duplicar aqui.
+            if (path === 'Assistentevirtual') return null;
+            // /MeusPedidos já tem guarda de autenticação própria dentro do
+            // componente (ver PR #126) — não duplicar aqui.
+            if (path === 'MeusPedidos') {
+              return (
+                <Route
+                  key={path}
+                  path={`/${path}`}
+                  element={
+                    <LayoutWrapper currentPageName={path}>
+                      <AnimatedPage><Page /></AnimatedPage>
+                    </LayoutWrapper>
+                  }
+                />
+              );
+            }
+
+            const element = (
+              <LayoutWrapper currentPageName={path}>
+                <AnimatedPage><Page /></AnimatedPage>
+              </LayoutWrapper>
+            );
+
+            if (ADMIN_PAGE_KEYS.includes(path)) {
+              return (
+                <Route key={path} element={<ProtectedRoute requireAdmin unauthenticatedElement={<Navigate to="/login" replace />} />}>
+                  <Route path={`/${path}`} element={element} />
+                </Route>
+              );
+            }
+
+            if (AUTHENTICATED_PAGE_KEYS.includes(path)) {
+              return (
+                <Route key={path} element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+                  <Route path={`/${path}`} element={element} />
+                </Route>
+              );
+            }
+
+            return <Route key={path} path={`/${path}`} element={element} />;
+          })}
           <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
             <Route path="/FilaVerificacao" element={
               <LayoutWrapper currentPageName="FilaVerificacao">
@@ -291,7 +342,7 @@ const AuthenticatedApp = () => {
           <Route path="/AssinaturaConfirmada" element={
             <AnimatedPage><AssinaturaConfirmadaPage /></AnimatedPage>
           } />
-          <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+          <Route element={<ProtectedRoute requireAdmin unauthenticatedElement={<Navigate to="/login" replace />} />}>
             <Route path="/admin/seo" element={
               <AnimatedPage><SeoDashboard /></AnimatedPage>
             } />

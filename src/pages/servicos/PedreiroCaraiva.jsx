@@ -3,7 +3,7 @@ import ServicoLocalPage from '@/components/servicos/ServicoLocalPage';
 export default function PedreiroCaraiva() {
   return (
     <ServicoLocalPage
-      title="Pedreiro em Caraíva | Trancoso Resolve"
+      title="Pedreiro em Caraíva | Obras e Reformas | Trancoso Resolve"
       metaDescription="Encontre pedreiro verificado em Caraíva, BA. Profissionais avaliados para sua pousada ou villa. Solicite agora pela Trancoso Resolve."
       keywords="pedreiro Caraíva, pedreiro Caraíva Bahia, profissional Caraíva BA, serviços Caraíva, obra Caraíva"
       canonicalUrl="https://trancosoresolve.com.br/servicos/pedreiro-caraiva"

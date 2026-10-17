@@ -4,7 +4,7 @@ export default function PitingaTrancoso() {
   return (
     <ServicoLocalPage
       title="Serviços em Pitinga, Trancoso BA | Profissionais para Praia e Propriedades | Trancoso Resolve"
-      metaDescription="Contrate profissionais verificados para serviços em Pitinga, Trancoso: manutenção de casas de praia, diaristas, eletricistas, encanadores e muito mais. Especialistas em propriedades à beira-mar."
+      metaDescription="Profissionais verificados para serviços em Pitinga, Trancoso: manutenção de casas de praia, diaristas, eletricistas e mais. Especialistas em beira-mar."
       keywords="serviços Pitinga Trancoso, profissional Pitinga Trancoso BA, diarista Pitinga, eletricista Pitinga, manutenção casa de praia Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/pitinga-trancoso"
       schemaData={{

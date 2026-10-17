@@ -3,7 +3,7 @@ import ServicoLocalPage from '@/components/servicos/ServicoLocalPage';
 export default function DiaristaCaraiva() {
   return (
     <ServicoLocalPage
-      title="Diarista em Caraíva | Trancoso Resolve"
+      title="Diarista em Caraíva | Limpeza Verificada | Trancoso Resolve"
       metaDescription="Encontre diarista verificada em Caraíva, BA. Profissionais avaliados para sua pousada ou villa. Solicite agora pela Trancoso Resolve."
       keywords="diarista Caraíva, diarista Caraíva Bahia, profissional Caraíva BA, serviços Caraíva, limpeza Caraíva"
       canonicalUrl="https://trancosoresolve.com.br/servicos/diarista-caraiva"

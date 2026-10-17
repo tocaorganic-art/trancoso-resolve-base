@@ -4,7 +4,7 @@ export default function PintorTrancoso() {
   return (
     <ServicoLocalPage
       title="Pintor em Trancoso, BA | Pintura Residencial e Comercial | Trancoso Resolve"
-      metaDescription="Contrate pintor verificado em Trancoso, Bahia. Pintura interna, externa, textura e acabamentos finos para villas, pousadas e residências. Profissionais avaliados, orçamento grátis."
+      metaDescription="Contrate pintor verificado em Trancoso, Bahia. Pintura interna, externa e acabamentos finos para villas e residências. Orçamento grátis."
       keywords="pintor Trancoso, pintor Trancoso Bahia, profissional Trancoso BA, serviços Trancoso, pintura Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/pintor-trancoso"
       schemaData={{

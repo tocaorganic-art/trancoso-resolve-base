@@ -4,7 +4,7 @@ export default function DJTrancoso() {
   return (
     <ServicoLocalPage
       title="DJ para Casamento e Eventos em Trancoso | Som Profissional | Trancoso Resolve"
-      metaDescription="DJ profissional em Trancoso para casamento, Réveillon, aniversário e festas corporativas. Som cristalino, equipamento de ponta, playlist personalizada. Orçamento grátis!"
+      metaDescription="DJ profissional em Trancoso para casamento, Réveillon, aniversário e festas corporativas. Som de qualidade e playlist personalizada. Orçamento grátis!"
       keywords="DJ Trancoso, DJ casamento Trancoso, DJ eventos Trancoso, som para evento Trancoso, DJ Bahia, DJ Réveillon Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/dj-trancoso"
       schemaData={{

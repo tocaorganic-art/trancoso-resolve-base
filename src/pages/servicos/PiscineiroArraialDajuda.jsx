@@ -4,7 +4,7 @@ export default function PiscineiroArraialDajuda() {
   return (
     <ServicoLocalPage
       title="Piscineiro em Arraial d'Ajuda | Tratamento e Manutenção | Trancoso Resolve"
-      metaDescription="Piscineiro verificado em Arraial d'Ajuda, BA. Tratamento, limpeza e manutenção de piscinas para pousadas e residências. Serviço semanal ou mensal. Orçamento grátis!"
+      metaDescription="Piscineiro verificado em Arraial d'Ajuda, BA. Tratamento, limpeza e manutenção de piscinas para pousadas e residências. Orçamento grátis!"
       keywords="piscineiro Arraial d'Ajuda, limpeza piscina Arraial d'Ajuda, manutenção piscina Arraial Ajuda BA, tratamento piscina Arraial d'Ajuda"
       canonicalUrl="https://trancosoresolve.com.br/servicos/piscineiro-arraial-dajuda"
       schemaData={{

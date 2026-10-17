@@ -4,7 +4,7 @@ export default function ChefTrancoso() {
   return (
     <ServicoLocalPage
       title="Chef Particular em Trancoso, BA | Cozinheiro para Villas e Eventos | Trancoso Resolve"
-      metaDescription="Contrate chef particular ou cozinheiro verificado em Trancoso, Bahia. Refeições diárias, eventos, jantares privados e culinária baiana para villas e pousadas. Orçamento grátis."
+      metaDescription="Contrate chef particular ou cozinheiro verificado em Trancoso, Bahia. Refeições, eventos e jantares privados para villas e pousadas. Orçamento grátis."
       keywords="chef Trancoso, cozinheiro Trancoso, chef particular Trancoso Bahia, profissional Trancoso BA, gastronomia Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/chef-trancoso"
       schemaData={{

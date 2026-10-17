@@ -1,6 +1,19 @@
 <!doctype html>
 <html lang="pt-BR" translate="no">
   <head>
+    <script>
+      // Aplica o tema antes do primeiro paint para evitar flash de tema
+      // errado. Mesma regra do AppContext: sem preferência salva, escuro
+      // é o padrão (Rodada 3).
+      (function () {
+        try {
+          var stored = localStorage.getItem('tr-theme');
+          var theme = stored === 'light' ? 'light' : 'dark';
+          document.documentElement.classList.toggle('dark', theme === 'dark');
+          document.documentElement.style.colorScheme = theme;
+        } catch (e) {}
+      })();
+    </script>
     <meta charset="UTF-8" />
     <!-- Brand Kit "Trancoso Resolve Casa" — glifo casa, sem símbolo religioso -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -15,28 +15,18 @@ import { playMessageSound } from "@/components/chat/ChatNotificationSound";
 import { motion, AnimatePresence } from "framer-motion";
 
 function EmptyConversations() {
-  const suggestions = ["Preciso de uma diarista", "Quero um eletricista", "Buscar cozinheiro particular"];
   return (
     <div className="flex flex-col items-center justify-center h-full p-6 text-center">
       <span className="text-5xl mb-4">💬</span>
-      <h3 className="text-lg font-bold text-foreground mb-2">Olá! Sou o TrIA</h3>
+      <h3 className="text-lg font-bold text-foreground mb-2">Nenhuma conversa ainda</h3>
       <p className="text-sm text-muted-foreground mb-6 max-w-xs leading-relaxed">
-        Seu assistente para encontrar os melhores profissionais em Trancoso. Como posso ajudar hoje?
+        Busque um profissional e peça um orçamento pra começar a conversar por aqui.
       </p>
-      <Link to="/Assistentevirtual">
+      <Link to="/ServicosCategoria">
         <Button className="bg-orange-700 hover:bg-orange-800 text-white font-semibold mb-5 transition-all duration-200 active:scale-95 hover:scale-105">
-          Iniciar Conversa
+          Buscar profissional
         </Button>
       </Link>
-      <div className="space-y-2 w-full max-w-xs">
-        {suggestions.map((s) => (
-          <Link key={s} to={`/Assistentevirtual`}>
-            <button className="w-full text-left text-sm px-4 py-2.5 rounded-xl bg-orange-50 border border-orange-200 text-orange-800 hover:bg-orange-100 transition-colors duration-150">
-              {s} →
-            </button>
-          </Link>
-        ))}
-      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { createPageUrl } from "@/utils";
 import { cn } from "@/lib/utils";
 import { BASE_URL } from "@/data/seoLocal";
 import { CONSENT_REOPEN_EVENT } from "@/utils/consent.js";
+import { AI_CHAT_SUSPENDED } from "@/lib/feature-flags";
 import { useApp } from "@/contexts/AppContext";
 import {
   Home, Calendar, Briefcase, UserCog,
@@ -226,7 +227,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Meus Serviços", path: createPageUrl("MeusServicos"), icon: Briefcase },
     { name: "Minha Agenda", path: createPageUrl("MinhaAgenda"), icon: Calendar },
     { name: "Meus Pedidos", path: createPageUrl("MeusPedidos"), icon: ListOrdered },
-    { name: "Assistente IA", path: createPageUrl("Assistentevirtual"), icon: Bot },
+    ...(AI_CHAT_SUSPENDED ? [] : [{ name: "Assistente IA", path: createPageUrl("Assistentevirtual"), icon: Bot }]),
     { name: "Meu Perfil", path: createPageUrl("MeuPerfilPrestador"), icon: UserCog },
     { name: "Ver Site", path: "/", icon: Globe, clearLogin: true },
   ] : isLojista ? [
@@ -238,7 +239,7 @@ export default function Layout({ children, currentPageName }) {
     { name: "Início", path: "/", icon: Home },
     { name: "Serviços", path: createPageUrl("ServicosCategoria"), icon: Briefcase },
     { name: "Meus Pedidos", path: createPageUrl("MeusPedidos"), icon: ListOrdered },
-    { name: "Assistente IA", path: createPageUrl("Assistentevirtual"), icon: Bot },
+    ...(AI_CHAT_SUSPENDED ? [] : [{ name: "Assistente IA", path: createPageUrl("Assistentevirtual"), icon: Bot }]),
     { name: "Meu Perfil", path: createPageUrl("MeusPedidos"), icon: UserCog },
   ];
 
@@ -303,9 +304,11 @@ export default function Layout({ children, currentPageName }) {
                     <Link to={createPageUrl("MeusPedidos")} className="flex items-center gap-1 text-sm font-semibold text-foreground hover:text-orange-500 transition-colors">
                       <ListOrdered className="w-4 h-4" /> {t('nav.myOrders')}
                     </Link>
-                    <Link to={createPageUrl("Assistentevirtual")} className="flex items-center gap-1 text-sm font-semibold text-foreground hover:text-orange-500 transition-colors">
-                      <Bot className="w-4 h-4" /> {t('nav.aiAssistant')}
-                    </Link>
+                    {(!AI_CHAT_SUSPENDED || isAdmin) && (
+                      <Link to={createPageUrl("Assistentevirtual")} className="flex items-center gap-1 text-sm font-semibold text-foreground hover:text-orange-500 transition-colors">
+                        <Bot className="w-4 h-4" /> {t('nav.aiAssistant')}
+                      </Link>
+                    )}
                   </>
                 ) : (
                   <>
@@ -397,7 +400,9 @@ export default function Layout({ children, currentPageName }) {
                   <>
                     <Link to={createPageUrl("ServicosCategoria")} className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-3 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}>{t('nav.services')}</Link>
                     <Link to={createPageUrl("MeusPedidos")} className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-3 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}><ListOrdered className="w-4 h-4" /> {t('nav.myOrders')}</Link>
-                    <Link to={createPageUrl("Assistentevirtual")} className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-3 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}><Bot className="w-4 h-4" /> {t('nav.aiAssistant')}</Link>
+                    {(!AI_CHAT_SUSPENDED || isAdmin) && (
+                      <Link to={createPageUrl("Assistentevirtual")} className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-3 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}><Bot className="w-4 h-4" /> {t('nav.aiAssistant')}</Link>
+                    )}
                     {user.user_type === 'prestador' && <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2 text-base font-semibold text-foreground hover:text-orange-500 py-3 min-h-[44px]" onClick={() => setMobileMenuOpen(false)}>{t('nav.dashboard')}</Link>}
                   </>
                 ) : (

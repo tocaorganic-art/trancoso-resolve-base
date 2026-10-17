@@ -23,7 +23,13 @@ const statusConfig = {
   Cancelado: { color: "bg-muted text-foreground border-border", text: "Cancelado" },
 };
 
-function RequestCard({ request, provider, onReviewClick, hasReview, payment, onPaymentConfirmed, index = 0 }) {
+function providerLabel(request, provider, providersLoaded) {
+  if (provider?.full_name) return provider.full_name;
+  if (!request.provider_id) return "Prestador não atribuído";
+  return providersLoaded ? "Prestador não encontrado" : "Carregando...";
+}
+
+function RequestCard({ request, provider, providersLoaded, onReviewClick, hasReview, payment, onPaymentConfirmed, index = 0 }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -16 }}
@@ -38,7 +44,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
           <div>
             <p className="text-sm text-muted-foreground">Prestador:</p>
             <CardTitle className="text-lg">
-              {provider?.full_name || (request.provider_id ? "Carregando..." : "Prestador não atribuído")}
+              {providerLabel(request, provider, providersLoaded)}
             </CardTitle>
           </div>
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 14 }}>
@@ -119,7 +125,7 @@ export default function MeusPedidosPage() {
     initialData: [],
   });
 
-  const { data: providers } = useQuery({
+  const { data: providers, isFetched: providersLoaded } = useQuery({
     queryKey: ['allProviders'],
     queryFn: () => fetchAllPublicProviders(),
     initialData: [],
@@ -169,6 +175,7 @@ export default function MeusPedidosPage() {
                   key={req.id}
                   request={req}
                   provider={provider}
+                  providersLoaded={providersLoaded}
                   hasReview={hasReview}
                   payment={payment}
                   index={i}

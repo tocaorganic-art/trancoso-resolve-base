@@ -71,7 +71,7 @@ Deno.serve(async (req: Request) => {
   try {
     const body = await req.json();
     const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET');
-    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret;
+    const providedSecret = req.headers.get('x-automation-secret') || body.internal_secret || '';
     const isInternal = Boolean(expectedSecret && timingSafeEqualStr(providedSecret, expectedSecret));
     const base44 = isInternal ? null : createClientFromRequest(req);
     const user = base44 ? await base44.auth.me().catch(() => null) : null;

@@ -128,8 +128,18 @@ const RouteFallback = () => (
   </div>
 );
 
+// Rotas do "app" autenticado onde o tipo de conta (cliente/prestador/lojista)
+// já é necessário. Fora dessa lista: páginas públicas/SEO, admin (gating
+// próprio por role) e o /CadastroTipo em si — nunca redirecionadas por aqui.
+const GATED_PATHS = [
+  '/Dashboard', '/MeusPedidos', '/MeuPerfilPrestador', '/MinhaAgenda',
+  '/MeusServicos', '/DashboardLojista', '/Financeiro', '/Chat',
+  '/Assistentevirtual', '/Recomendador', '/configuracoes',
+  '/VerificacaoDocumento', '/VerificacaoAntecedentes',
+];
+
 const AuthenticatedApp = () => {
-  const { isLoadingAuth, authError } = useAuth();
+  const { isLoadingAuth, authError, isAuthenticated, user } = useAuth();
   const location = useLocation();
 
   if (isLoadingAuth) {
@@ -142,6 +152,21 @@ const AuthenticatedApp = () => {
 
   if (authError?.type === 'user_not_registered') {
     return <UserNotRegisteredError />;
+  }
+
+  // Gate pós-cadastro: usuário autenticado sem user_type definido ainda não
+  // escolheu cliente/prestador/lojista. Força a passagem por /CadastroTipo
+  // antes de liberar as rotas do app (admins ficam de fora: role é separado
+  // de user_type e não deve ficar preso nesse fluxo).
+  const userTypeUndefined = !user?.user_type || user.user_type === 'indefinido';
+  if (
+    isAuthenticated &&
+    user &&
+    user.role !== 'admin' &&
+    userTypeUndefined &&
+    GATED_PATHS.includes(location.pathname)
+  ) {
+    return <Navigate to="/CadastroTipo" replace />;
   }
 
   return (

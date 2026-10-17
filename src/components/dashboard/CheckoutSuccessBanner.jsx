@@ -50,7 +50,7 @@ export default function CheckoutSuccessBanner() {
               </Button>
             </Link>
             <Link to={createPageUrl("MeusServicos")}>
-              <Button size="sm" variant="outline" className="border-white/50 text-white hover:bg-white/20">
+              <Button size="sm" variant="outline" className="bg-transparent border-white/50 text-white hover:bg-white/20 hover:text-white">
                 Cadastrar serviços
               </Button>
             </Link>

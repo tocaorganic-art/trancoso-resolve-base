@@ -333,7 +333,7 @@ export default function ComoFuncionaPage() {
               </Button>
             </Link>
             <Link to={createPageUrl('SejaPrestador')}>
-              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white w-full sm:w-auto">
                 Sou Prestador <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
@@ -522,7 +522,7 @@ export default function ComoFuncionaPage() {
                   </Button>
                 </Link>
                 <Link to={createPageUrl('SejaPrestador')}>
-                  <Button size="lg" variant="outline" className="border-white/50 text-white hover:bg-white/15 w-full sm:w-auto">
+                  <Button size="lg" variant="outline" className="bg-transparent border-white/50 text-white hover:bg-white/15 hover:text-white w-full sm:w-auto">
                     Seja um Prestador
                   </Button>
                 </Link>

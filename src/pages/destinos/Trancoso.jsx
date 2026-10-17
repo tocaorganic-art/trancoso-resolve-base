@@ -69,7 +69,7 @@ export default function DestinoTrancoso() {
               </Button>
             </Link>
             <Link to="/SejaPrestador">
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10 font-semibold px-8 text-base">
+              <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/10 hover:text-white font-semibold px-8 text-base">
                 Seja Prestador em Trancoso
               </Button>
             </Link>

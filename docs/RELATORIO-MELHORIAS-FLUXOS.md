@@ -370,3 +370,172 @@ está muito bem cuidado — 0 duplicatas, 0 JSON-LD inválido, noindex correto),
   2), decidir sobre `PromotionalBanner.jsx` morto (seção 7), confirmar
   split de 20% em `AdminPagamentos` (seção 3), e os itens que só o Base44
   resolve (seção 6).
+
+---
+
+## 11. Rodada 2 (17/10/2026)
+
+> Continuação da rodada 1, completando os itens pendentes de
+> `docs/RELATORIO-MELHORIAS-FLUXOS.md`. Preparação: `git checkout main &&
+> git pull` (HEAD `f021afb4`), `npm ci`, `npm run build` — build verde, 68
+> funções `base44/functions/`, arquivos críticos confirmados presentes
+> (`facebook-pixel.ts`, `whatsapp-templates.ts`, `utils/index.js`, todos os
+> `entry.ts`). Item "cópia de fallback Vercel" (seção 2) já estava
+> resolvido pelo próprio Tony antes do início desta rodada (PR #110,
+> `f021afb4`).
+
+### PRs mergeados (squash), em ordem
+
+| PR | SHA do squash | O que corrigia |
+|---|---|---|
+| [#111](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/111) | `0860ff97` | Remove código morto confirmado (zero imports): `PromotionalBanner.jsx` (oferta desatualizada R$29,90/R$49,90), `PublicAssistant.jsx`, `VirtualAssistant.jsx` (nome antigo "Toca"). |
+| [#112](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/112) | `2077f85a` | Investigação do split "Comissão Plataforma 20%" em `AdminPagamentos`: confirmado que é só UI legada — backend fixa `platformFee = 0` desde a migração Asaas (12/09/2026), prestador recebe 100%. Removida a linguagem desatualizada da tela. Backend não alterado. |
+| [#113](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/113) | `7edd9f7a` | Gate de rota pós-cadastro: usuário autenticado sem role admin e com `user_type` indefinido é redirecionado para `/CadastroTipo` em 13 rotas do app (`/Dashboard`, `/MeusPedidos`, `/MeuPerfilPrestador`, `/MinhaAgenda`, `/MeusServicos`, `/DashboardLojista`, `/Financeiro`, `/Chat`, `/Assistentevirtual`, `/Recomendador`, `/configuracoes`, `/VerificacaoDocumento`, `/VerificacaoAntecedentes`). Causa raiz: `MeusPedidos.jsx` e `Chat.jsx` nunca tiveram a checagem que `Dashboard`/`MeusServicos`/etc já tinham via `PermissionChecker`. |
+| [#114](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/114) | `c2742c31` | **Achado na verificação ao vivo** (fora do escopo original): `Layout.jsx` sobrescrevia `document.title`/meta tags com fallback genérico em qualquer rota fora de um mapa fixo, destruindo o título correto do HTML pré-renderizado em `/guides/*`, páginas de destino e outras. Reproduzido ao vivo em `/guides/morar-em-trancoso`. |
+| [#115](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/115) | `d75a15ba` | Mais um componente morto (mesmo padrão do #111): `HeroBanner.jsx`, zero imports, preços desatualizados (R$29,90/R$49,90/R$79,90) vs. os reais (R$59,90/R$197). |
+| [#116](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/116) | `294c453a` | 16 `metaDescription` acima de 160 chars (medição atual, mais que as 2 originalmente reportadas) encurtadas; 2 títulos abaixo de 40 chars (`DiaristaCaraiva`, `PedreiroCaraiva`) expandidos para 50-60 chars. |
+| [#117](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/117) | `807c8542` | Bug de contraste reproduzido ao vivo: botões `variant="outline"` + `text-white` ficavam ilegíveis (texto branco sobre fundo quase branco) no tema claro, em 13 lugares incluindo as 4 páginas de destino. Mais 2 componentes com cores hardcoded sempre escuras trocados por tokens semânticos. |
+| [#118](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/118) | `970924fd` | Conteúdo único de 300+ palavras adicionado nas 32 páginas serviço×cidade (todas estavam entre 122-174 palavras). |
+| [#119](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/119) | `5d05484c` | 7 ocorrências reais de travessão em texto visível removidas (regra do Tony), incluindo uma introduzida por engano no próprio PR #112 desta rodada. |
+
+### Tarefa 2 — investigação do split 20%
+
+Backend (`base44/functions/criarPagamentoServico/entry.ts:146`) fixa
+`const platformFee = 0; // COMISSÃO ZERO` desde a migração para Asaas
+(12/09/2026). A UI de `AdminPagamentos.jsx` ainda mostrava "Comissão
+Plataforma (20%)" / "Prestador (80%)", contradizendo a oferta pública
+atual. Corrigido no PR #112. **Nota separada (não é código):** a rodada 1
+já sinalizava uma transação de teste em produção com valores do modelo
+antigo (R$29,90 → R$23,92/R$5,98) — isso é limpeza de dado, continua
+pendente de decisão do Tony.
+
+### Tarefa 3 — usuários com `user_type` indefinido
+
+Consultados via Base44 (`User` entity, `query_entities`): **15 usuários**
+com `user_type` indefinido no momento desta auditoria (id, e-mail
+mascarado, data de criação). Nenhum foi alterado ou removido.
+
+| ID | E-mail (mascarado) | Criado em | Observação |
+|---|---|---|---|
+| `6ab2af83...` | to\*\*\*@gmail.com | 22/09/2026 | role `admin` — não é "quebrado", admin não passa pelo gate |
+| `6aa5f6c7...` | to\*\*\*@gmail.com | 13/09/2026 | conta de teste (`+asaasteste`) |
+| `6aa5f6b3...` | to\*\*\*@gmail.com | 13/09/2026 | conta de teste (`+asaas`) |
+| `6aa1be69...` | au\*\*\*@uberip.com | 09/09/2026 | parece conta de bot/auditoria |
+| `6a9c69bd...` | au\*\*\*@trancosoresolve-audit-20260905.com | 05/09/2026 | conta de auditoria de rodada anterior |
+| `6a8dc2a8...` | ch\*\*\*@uxua.com | 25/08/2026 | usuário real |
+| `6a858ddb...` | lu\*\*\*@gmail.com | 19/08/2026 | usuário real |
+| `6a7c86db...` | ge\*\*\*@gmail.com | 12/08/2026 | usuário real |
+| `6a79b48d...` | wi\*\*\*@gmail.com | 10/08/2026 | usuário real |
+| `6a7344ee...` | ca\*\*\*@yahoo.com.br | 05/08/2026 | usuário real |
+| `6a3f631a...` | co\*\*\*@tocaexperience.com.br | 27/06/2026 | e-mail institucional (Toca Experience) |
+| `68ed6539...` | so\*\*\*@gmail.com | 13/10/2025 | usuário real |
+| `68ec1282...` | is\*\*\*@gmail.com | 12/10/2025 | usuário real |
+| `68ebc252...` | gr\*\*\*@gmail.com | 12/10/2025 | usuário real |
+| `68ebbc53...` | ja\*\*\*@gmail.com | 12/10/2025 | usuário real |
+
+Pelo menos 4 das 15 são contas de teste/auditoria de rodadas anteriores,
+não usuários finais reais. O gate do PR #113 impede que o número cresça;
+estes 15 continuam com tipo indefinido até logarem de novo e passarem
+pelo `/CadastroTipo` (ou até o Tony decidir agir sobre eles — nada foi
+alterado por conta própria).
+
+**Limitação de teste:** não foi possível rodar o teste end-to-end
+"cadastrar, fechar antes de escolher tipo, logar de novo" em ambiente
+real porque o cadastro exige confirmação por OTP de e-mail
+(`Register.jsx`), e este ambiente não tem acesso a uma caixa de entrada
+real. Recomendo um teste manual rápido do Tony.
+
+### Tarefa 4 — cards alt/width/height
+
+Auditados `ProviderCard`, `AnuncioCard`, `PlanCard`, `CategoryCard`,
+`EventCard`, grid de serviços da Home e `BannerRotativo`. Todos já usam
+`LazyImage` (ou `<img>` com `width`/`height` explícitos no caso do
+`BannerRotativo`) dentro de containers com altura/largura fixa via
+Tailwind, o que já previne CLS mesmo sem atributo `width`/`height` no
+próprio `<img>`. Nenhuma correção necessária além do `HeroBanner.jsx`
+morto removido no PR #115.
+
+### Tarefa 5 — fluxos E2E
+
+**Não foi possível completar os 4 fluxos completos** (cliente, prestador
+com checkout Asaas, lojista, admin) como usuário real porque:
+- Cadastro exige OTP de e-mail (sem caixa de entrada real disponível).
+- Criar uma conta de teste real e avançar até o checkout Asaas teria
+  efeito colateral em produção (conta real, possível e-mail/webhook
+  disparado) sem autorização explícita para esse tipo de ação.
+
+O que foi verificado com a sessão já autenticada do Tony (leitura, sem
+nenhuma ação destrutiva): `/MeusPedidos` carrega corretamente com dados
+reais e não é afetado indevidamente pelo gate do PR #113. Observação
+secundária, fora do escopo desta rodada, não corrigida: os cards de
+pedido mostram "Prestador: Carregando..." que nunca resolve para o nome
+real — vale investigar numa próxima rodada.
+
+### Tarefa 6 — legibilidade modo claro + 390px
+
+**Achado real, corrigido no PR #117:** botão "Como funciona?" em
+`/SejaPrestador` (e mais 12 ocorrências do mesmo padrão, incluindo as 4
+páginas de destino) com texto branco sobre fundo quase branco no tema
+claro — reproduzido ao vivo com screenshot e zoom. Causa: `variant="outline"`
+do shadcn/ui usa `bg-background` (branco no claro), e o override local só
+trocava a cor do texto. Também corrigidos 2 componentes com cores
+hardcoded sempre escuras (`ProviderGrid.jsx`, `MultilingualAutocomplete.jsx`).
+
+`ProviderCard` revisado no código: cores hardcoded escuras (`bg-[#1a1a2e]`,
+`text-white`) são **internamente consistentes** (fundo escuro + texto
+claro = contraste correto), não ficam ilegíveis no tema claro, só não
+usam tokens semânticos. Como o critério do Tony era "se ficar ilegível,
+corrija", não alterado.
+
+**Limitação de teste:** não foi possível validar no viewport exato
+390×844 — a ferramenta de automação de browser desta sessão
+(`resize_window`) não alterou o `window.innerWidth` real da página
+(confirmado via JS: ficou em 911px mesmo após redimensionar a janela).
+A auditoria de contraste foi feita no viewport disponível (~911px), nos
+dois temas, nas páginas públicas acessíveis sem login. Recomendo
+confirmação manual do Tony no celular.
+
+### Tarefa 7 — SEO complemento
+
+1. **Conteúdo único 300+ palavras:** todas as 32 páginas serviço×cidade
+   estavam abaixo de 300 (122-174). PR #118 adiciona 2-3 parágrafos
+   únicos por página (menor resultado: 302 palavras; maior: 362).
+2. **Títulos:** só 2 páginas estavam genuinamente abaixo de 40 chars
+   (`DiaristaCaraiva`, `PedreiroCaraiva`), corrigidas no PR #116. O
+   título da home já estava em 56 chars (dentro de 50-60) — a
+   expectativa de "maior oportunidade" do pedido original parece já ter
+   sido endereçada em rodada anterior.
+3. **Meta descriptions:** medição atual achou **16** páginas acima de
+   160 chars (não as 2 originalmente reportadas — o conteúdo cresceu
+   desde a rodada 1). Todas as 16 corrigidas no PR #116.
+
+### Tarefa 8 — verificação ao vivo (sem Publish)
+
+Produção (`trancosoresolve.com.br`) verificada via browser real:
+- `/` e `/Planos`: título com marca, "TrIA" (não "Toca"), oferta "2 meses
+  grátis" e "sem comissão" consistentes com o código.
+- `/guides/morar-em-trancoso`: **achado crítico** (ver PR #114) — título
+  ficava genérico ("Trancoso Resolve") após a hidratação, mesmo com o
+  HTML pré-renderizado correto. Causa raiz identificada e corrigida.
+- `/SejaPrestador`: **achado crítico** (ver PR #117) — botão "Como
+  funciona?" ilegível no tema claro.
+- Produção já refletia a `main` no momento da verificação (Tony publicou
+  do Base44 durante esta sessão, múltiplas vezes). Nenhum Publish foi
+  feito por mim.
+
+---
+
+## 12. Validação final — Rodada 2
+
+- `npm run build`: limpo, 47 rotas pré-renderizadas.
+- `npm run lint`: 0 erros, 44 warnings pré-existentes (nenhum novo
+  introduzido nesta rodada).
+- `gh pr list --state open`: nenhum PR pendente de merge desta rodada.
+- PRs mergeados (squash), em ordem: #111 (`0860ff97`), #112 (`2077f85a`),
+  #113 (`7edd9f7a`), #114 (`c2742c31`), #115 (`d75a15ba`), #116
+  (`294c453a`), #117 (`807c8542`), #118 (`970924fd`), #119 (`5d05484c`).
+- Pendências que dependem do Tony: limpeza da transação de teste em
+  `AdminPagamentos` (dado, não código); decisão sobre os 15 usuários com
+  tipo indefinido (nenhum alterado); teste manual do fluxo de cadastro
+  completo (OTP) e da legibilidade em 390px real no celular; investigar
+  "Prestador: Carregando..." em `/MeusPedidos` numa próxima rodada.

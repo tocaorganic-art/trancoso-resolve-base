@@ -37,7 +37,9 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
         <div className="flex justify-between items-start">
           <div>
             <p className="text-sm text-muted-foreground">Prestador:</p>
-            <CardTitle className="text-lg">{provider?.full_name || "Carregando..."}</CardTitle>
+            <CardTitle className="text-lg">
+              {provider?.full_name || (request.provider_id ? "Carregando..." : "Prestador não atribuído")}
+            </CardTitle>
           </div>
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 14 }}>
             <Badge className={`${statusConfig[request.status]?.color} font-medium`}>

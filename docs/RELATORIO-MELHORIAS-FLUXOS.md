@@ -802,3 +802,182 @@ mais recente disponível.
 - PRs mergeados (squash): #126 (`42c1c8d6`), #127 (`d150835d`).
 - `git checkout main && git pull`: SHA final `d150835d`.
 - Publish no Base44: não executado por mim (é exclusivo do Tony).
+
+---
+
+## 15. Rodada 3 — continuação (17/10/2026)
+
+> Tony publicou os PRs #121-#128 e pediu para completar o restante da
+> Rodada 3 mais um pedido novo (Tarefa 0, modo escuro padrão).
+> Pré-condição verificada: `facebook-pixel.ts`, `whatsapp-templates.ts`,
+> `utils/index.js` (o pedido citou `.ts`, o arquivo real é `.js` — mesmo
+> arquivo, sem bloqueio) e todos os `entry.ts` presentes.
+>
+> Preparação, passo 2 (`base44 dev --remote`): a porta 5173 estava
+> ocupada por um `vite` simples, sem backend. Tentei subir
+> `base44 dev --remote` eu mesmo. Na primeira tentativa, quebrou com
+> **achado real**: `base44/functions/createPublicLead/function.jsonc`
+> tinha um `entry` com o caminho duplicado (relativo à raiz do repo em
+> vez de relativo à própria pasta da função) — corrigido no PR #130,
+> e aí o dev server avançou. Na tentativa seguinte, a sessão salva do
+> Base44 (`~/.base44`, não lida por mim — só confirmei que existia)
+> retornou `401 Unauthorized`. Numa nova tentativa após os merges desta
+> rodada, o CLI pediu login completo por device code
+> (`https://app.base44.com/login/device`). Pedi ao Tony para confirmar
+> o código uma única vez, como autorizado nas instruções, e seguí com o
+> resto enquanto aguardava — resultado registrado na seção de validação
+> final abaixo.
+
+### PRs mergeados (squash), em ordem
+
+| PR | SHA do squash | O que corrigia | Review `@claude` |
+|---|---|---|---|
+| [#129](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/129) | `eeb91730` | Tarefa 7: cria `.github/workflows/claude-review.yml` (listener para `@claude`) | Mergeado sem esperar review — workflows de `issue_comment` sempre rodam a versão do branch padrão, e o workflow ainda não existia em `main` nesse momento (exceção documentada no próprio PR) |
+| [#130](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/130) | `fe4cc05c` | Corrige `entry` duplicado em `createPublicLead/function.jsonc`, achado ao tentar subir `base44 dev --remote` | Respondeu, mas com erro de ambiente (ver Tarefa 7 abaixo) |
+| [#131](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/131) | `bac0d4c1` | Tarefa 0: modo escuro como padrão sem preferência salva | Idem |
+| [#132](https://github.com/tocaorganic-art/trancoso-resolve-base/pull/132) | `7725ebf4` | Tarefa 6: `ProtectedRoute` nas rotas autenticadas/admin sem guarda | Idem |
+
+### Tarefa 0 — modo escuro padrão
+
+`src/contexts/AppContext.jsx` (o `ThemeContext` real do app — ver nota
+abaixo) decidia o tema inicial com `window.matchMedia('(prefers-color-scheme: dark)')`
+quando não havia `tr-theme` salvo no `localStorage`. Trocado para
+`dark` fixo nesse caso. Script inline adicionado em `index.html` aplica
+a classe `dark` antes do primeiro paint (evita flash). Removido também
+`src/components/ThemeToggle.jsx`: um segundo componente de tema, morto
+(zero imports em todo o projeto), com lógica própria conflitante
+(chave de `localStorage` diferente, default por sistema operacional) —
+risco real de bug se alguém importasse esse componente no futuro
+pensando que era o atual.
+
+**Nota:** o pedido mencionava "ThemeContext/Provider" — o nome real no
+código é `AppContext`/`AppProvider` (`src/contexts/AppContext.jsx`),
+que já cobre tema **e** idioma. Não existe um `ThemeContext` separado;
+ajustei o arquivo certo.
+
+**Evidência:** revisão de código + lint/typecheck/build limpos. Teste
+funcional (storage limpo → dark; trocar para claro → persiste; voltar →
+abre no tema salvo) depende de um navegador real — ver limitação de
+backend abaixo; a lógica foi conferida por leitura de código, não
+clicada ao vivo.
+
+### Tarefa 5 — travamento de FilaVerificacao/AdminMetricas: investigado, causa raiz não confirmada
+
+Revisão linha a linha de `src/pages/FilaVerificacao.jsx` e
+`src/pages/AdminMetricas.jsx` e dos 4 componentes de aba que
+`AdminMetricas` renderiza (`TabVisaoGeral`, `TabSEO`, `TabLeads`,
+`TabPrestadores`). Descartei, com evidência, as hipóteses mais comuns
+de "página trava o navegador":
+
+- **Loop de render via `useEffect`:** nenhum dos dois arquivos de
+  página tem `useEffect`. Sem efeito, não há como um `setState` dentro
+  de efeito realimentar o próprio efeito.
+- **N+1 de queries:** o único `useQuery` por item (`ReviewModal`, em
+  `FilaVerificacao.jsx`) só é habilitado quando o modal está aberto
+  (`enabled: ... && isOpen`) — não dispara uma query por linha da
+  tabela.
+- **Todas as abas computando ao mesmo tempo:** `Tabs`/`TabsContent`
+  (Radix, via `src/components/ui/tabs.jsx`) não usa `forceMount` — por
+  padrão, só a aba ativa é montada e computa seus `useMemo`. As outras
+  3 abas de `AdminMetricas` não rodam nada enquanto inativas.
+- **Complexidade algorítmica:** os `useMemo` de `TabVisaoGeral` são
+  todos O(n) lineares sobre, no máximo, ~500-1400 registros (filter/map/
+  reduce simples) — não há `.find()` dentro de `.map()` nem laços
+  aninhados que explicassem segundos de bloqueio da thread principal.
+
+**Não encontrei o bug.** Isso não significa que o problema relatado
+pelo agente do Tony (`page busy/unresponsive`) não exista — significa
+que, por leitura de código, essas duas páginas não têm nenhum padrão
+clássico de loop infinito ou N+1. As causas mais plausíveis que restam
+são de natureza que só aparece com dado real e navegador real: volume
+de registros muito maior em produção do que o esperado (`.list()` sem
+paginação em `AdminMetricas` busca até 500+500+200+100+100 ≈ 1400
+linhas de uma vez), latência de rede do ambiente remoto do agente, ou
+um componente de terceiro (Recharts, dentro de `TabVisaoGeral`/`TabSEO`)
+engasgando com muitos pontos de dados. Fica pendente de reprodução ao
+vivo — não forcei uma correção que eu não poderia validar.
+
+### Tarefa 6 — rotas protegidas (lista completa)
+
+Ver corpo do commit do PR #132 para a lista com justificativa
+arquivo-a-arquivo. Resumo: 8 rotas autenticadas (`Financeiro`,
+`CadastroTipo`, `MeuPerfilPrestador`, `MinhaAgenda`, `Dashboard`,
+`MeusServicos`, `Chat`, `DashboardLojista`), 9 rotas admin
+(`AdminAssinaturas`, `DiagnosticosCompletos`, `ManutencaoSistema`,
+`MonitoringDashboard`, `AdminControleFinanceiro`, `AdminUserManagement`,
+`Base44ReportViewer`, `Base44Templates`, `DeployDashboard`) + achado
+bônus (`/admin/marketing`, que não tinha nenhuma checagem de role
+própria, diferente das outras 3 rotas do mesmo bloco `/admin/*`).
+`MeusPedidos` deixado como está (guarda própria, #126);
+`Assistentevirtual` perdeu a duplicata desprotegida no loop genérico
+(a rota protegida já existente seguiu intacta).
+
+### Tarefa 7 — causa raiz confirmada do silêncio do `@claude`
+
+PR #129 criou `.github/workflows/claude-review.yml`. Funcionou: o
+workflow agora dispara e o `@claude` comenta nos PRs #130-#132 (antes,
+zero comentários em #126-#128). Mas a action falha com:
+
+```
+Action failed with error: Environment variable validation failed:
+- Either ANTHROPIC_API_KEY, CLAUDE_CODE_OAUTH_TOKEN, or workload
+  identity federation... is required
+```
+
+**Causa raiz 100% confirmada** (log do job, não suposição): o secret
+`ANTHROPIC_API_KEY` **não existe** neste repositório (`gh secret list`
+retorna vazio). O app Claude estar instalado na org não substitui esse
+secret — a action precisa dele (ou `CLAUDE_CODE_OAUTH_TOKEN`) para
+autenticar com a API da Anthropic. Não posso criar esse secret.
+
+**Ação do Tony:** Settings → Secrets and variables → Actions → New
+repository secret → `ANTHROPIC_API_KEY` (ou `CLAUDE_CODE_OAUTH_TOKEN`
+se preferir autenticação via assinatura Claude). Depois disso, o
+`@claude` deve responder normalmente nos próximos PRs.
+
+### Tarefas 1, 2, 3, 4 — ainda bloqueadas (acesso a backend)
+
+Confirmado tecnicamente, de novo, que não há `base44 dev --remote`
+válido rodando nesta máquina. Tentei subir eu mesmo (autorizado pelo
+Tony no pedido desta rodada): a sessão salva em `~/.base44` (não lida
+por mim, só confirmada como existente) estava expirada de verdade — o
+CLI pediu login completo por device code
+(`https://app.base44.com/login/device`, código `ZLJG-BRSX`). Pedi ao
+Tony para confirmar, uma única vez como autorizado, e seguí com o resto
+da rodada (Tarefas 0, 5, 6, 7 e este relatório) enquanto aguardava.
+
+**Resultado ao fechar este relatório:** o código do device code expirou
+antes da confirmação (`Error: OAuth error: expired_token`) — o Tony
+respondeu "22" no meio da espera, mas isso não corresponde ao código
+gerado (`ZLJG-BRSX`), então não ficou claro se era uma confirmação para
+outra coisa ou uma mensagem solta; não adivinhei. Não assumi nem simulei
+dados de teste, contas ou resultados de E2E — as Tarefas 1 (modo claro
+completo com dado real),
+2 (bateria E2E com contas de teste), 3 (mobile 390px com Playwright
+contra backend real) e 4 (catálogo de dados com ids) continuam
+bloqueadas por essa mesma causa raiz, não por falta de tentativa nem
+por decisão de escopo.
+
+**Para a próxima rodada:** confirmar o login do Base44 CLI nesta
+máquina (`base44 login`, ou manter `base44 dev --remote` já rodando
+antes de me chamar) é o único passo que falta para eu executar as 4
+tarefas de verdade, com dado real e screenshots.
+
+---
+
+## 16. Validação final — Rodada 3 (continuação)
+
+- `npm run lint`: 0 erros, 43 warnings pré-existentes (nenhum novo
+  introduzido nesta rodada).
+- `npm run typecheck`: limpo.
+- `npm run build`: limpo, 47 rotas pré-renderizadas.
+- `gh pr list --state open`: nenhum PR pendente de merge.
+- PRs mergeados (squash), em ordem: #129 (`eeb91730`), #130
+  (`fe4cc05c`), #131 (`bac0d4c1`), #132 (`7725ebf4`).
+- `git checkout main && git pull`: SHA final `7725ebf4`.
+- Publish no Base44: não executado por mim (é exclusivo do Tony).
+- Bloqueado, não concluído: Tarefas 1, 2, 3 e 4 (acesso a backend —
+  ver seção acima) e Tarefa 5 (causa raiz do travamento não reproduzida
+  sem navegador/backend real).
+- Ação pendente do Tony: secret `ANTHROPIC_API_KEY`/`CLAUDE_CODE_OAUTH_TOKEN`
+  (Tarefa 7) e confirmação de login do Base44 CLI (Tarefas 1-4).

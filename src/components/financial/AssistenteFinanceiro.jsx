@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { Loader2, Sparkles, TrendingUp, Calendar, Scissors } from 'lucide-react';
+import { Loader2, Sparkles, TrendingUp, Calendar } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { toast } from "sonner";
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,47 +12,56 @@ const jsonSchema = {
         crescimentoProjetado: { type: "number", description: "Porcentagem de crescimento projetado em relação ao mês atual." },
         melhorDia: { type: "string", description: "O dia da semana com maior faturamento médio." },
         receitaMelhorDia: { type: "number", description: "O valor médio faturado nesse dia." },
-        servicoMaisLucrativo: { type: "string", description: "A categoria de serviço que gerou mais receita." },
-        margemLucro: { type: "number", description: "Simulação de margem de lucro sobre a categoria mais lucrativa." },
         recomendacoes: { type: "array", items: { type: "string" }, description: "Lista com 3 recomendações acionáveis." }
     },
-    required: ["receitaProjetada", "crescimentoProjetado", "melhorDia", "receitaMelhorDia", "servicoMaisLucrativo", "margemLucro", "recomendacoes"]
+    required: ["receitaProjetada", "crescimentoProjetado", "melhorDia", "receitaMelhorDia", "recomendacoes"]
 };
 
-export default function AssistenteFinanceiro({ transacoes }) {
+function toSimplifiedPayments(payments) {
+  return (payments || [])
+    .filter((p) => p.status === 'captured')
+    .map((p) => ({
+      date: p.captured_at || p.service_date,
+      amount: (Number(p.amount_provider) || 0) / 100,
+    }));
+}
+
+export default function AssistenteFinanceiro({ payments }) {
   const [insights, setInsights] = useState(null);
   const [loading, setLoading] = useState(false);
   const [variacaoDespesas, setVariacaoDespesas] = useState(null);
 
-  // Calcula variação de despesas ao carregar
+  const recebimentos = toSimplifiedPayments(payments);
+
+  // Variação de receita (mês atual x anterior) com base nos recebimentos da plataforma
   React.useEffect(() => {
-    if (transacoes && transacoes.length > 0) {
+    if (recebimentos.length > 0) {
       const now = new Date();
       const currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
       const previousMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
       const previousMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0);
 
-      const despesaAtual = transacoes
-        .filter(t => t.type === 'Despesa' && new Date(t.date) >= currentMonthStart)
-        .reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
+      const receitaAtual = recebimentos
+        .filter(r => r.date && new Date(r.date) >= currentMonthStart)
+        .reduce((sum, r) => sum + r.amount, 0);
 
-      const despesaAnterior = transacoes
-        .filter(t => t.type === 'Despesa' && new Date(t.date) >= previousMonthStart && new Date(t.date) <= previousMonthEnd)
-        .reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
+      const receitaAnterior = recebimentos
+        .filter(r => r.date && new Date(r.date) >= previousMonthStart && new Date(r.date) <= previousMonthEnd)
+        .reduce((sum, r) => sum + r.amount, 0);
 
-      if (despesaAnterior > 0) {
-        const variacao = ((despesaAtual - despesaAnterior) / despesaAnterior) * 100;
+      if (receitaAnterior > 0) {
+        const variacao = ((receitaAtual - receitaAnterior) / receitaAnterior) * 100;
         setVariacaoDespesas({
           valor: Math.abs(variacao).toFixed(1),
           aumentou: variacao > 0
         });
       }
     }
-  }, [transacoes]);
+  }, [payments]);
 
   const analisarFinancas = async () => {
-    if (!transacoes || transacoes.length === 0) {
-      toast.info("Não há transações suficientes para análise.");
+    if (recebimentos.length === 0) {
+      toast.info("Não há recebimentos suficientes para análise.");
       return;
     }
 
@@ -60,23 +69,21 @@ export default function AssistenteFinanceiro({ transacoes }) {
     setInsights(null);
 
     const prompt = `
-      Analise os seguintes dados de transações de um prestador de serviços em Trancoso e forneça insights.
+      Analise os seguintes recebimentos de um prestador de serviços em Trancoso (pagamentos confirmados via Asaas na plataforma) e forneça insights.
 
-      Dados das Transações (JSON):
-      ${JSON.stringify(transacoes.slice(0, 50), null, 2)}
+      Recebimentos (JSON, data e valor em R$):
+      ${JSON.stringify(recebimentos.slice(0, 50), null, 2)}
 
       Com base nesses dados, calcule e retorne as seguintes informações em um objeto JSON:
       - receitaProjetada: Uma projeção de receita para o próximo mês.
       - crescimentoProjetado: A porcentagem de crescimento projetado em relação ao mês atual.
       - melhorDia: O dia da semana com maior faturamento médio.
       - receitaMelhorDia: O valor médio faturado nesse dia.
-      - servicoMaisLucrativo: A categoria de serviço que gerou mais receita.
-      - margemLucro: Simule uma margem de lucro de 60% sobre a categoria mais lucrativa.
-      - recomendacoes: Uma lista (array) com 3 recomendações acionáveis.
+      - recomendacoes: Uma lista (array) com 3 recomendações acionáveis para aumentar a receita.
     `;
 
     try {
-       const response = await base44.functions.invoke('callMicrosoftAI', {
+       const response = await base44.functions.invoke('callPlatformAI', {
          messages: [{ role: 'user', content: prompt }],
          response_json_schema: jsonSchema,
          systemPrompt: 'Você é um assistente financeiro especializado em análise de dados. Retorne insights acionáveis em português do Brasil.'
@@ -100,20 +107,20 @@ export default function AssistenteFinanceiro({ transacoes }) {
           <Sparkles className="w-5 h-5 text-orange-400"/>
           Assistente Financeiro
         </h3>
-        
+
         {variacaoDespesas && (
           <div className={`text-sm p-3 rounded-lg mb-3 ${
-            variacaoDespesas.aumentou 
-              ? 'bg-red-900/20 border border-red-800/30 text-red-300' 
-              : 'bg-green-900/20 border border-green-800/30 text-green-300'
+            variacaoDespesas.aumentou
+              ? 'bg-green-900/20 border border-green-800/30 text-green-300'
+              : 'bg-red-900/20 border border-red-800/30 text-red-300'
           }`}>
-            {variacaoDespesas.aumentou ? '⚠️' : '✅'} Suas despesas {variacaoDespesas.aumentou ? 'aumentaram' : 'reduziram'} {variacaoDespesas.valor}% em relação ao mês anterior.
+            {variacaoDespesas.aumentou ? '✅' : '⚠️'} Sua receita {variacaoDespesas.aumentou ? 'aumentou' : 'reduziu'} {variacaoDespesas.valor}% em relação ao mês anterior.
           </div>
         )}
 
         <Button
           onClick={analisarFinancas}
-          disabled={loading || !transacoes?.length}
+          disabled={loading || recebimentos.length === 0}
           className="bg-orange-600 hover:bg-orange-700 text-white w-full sm:w-auto"
         >
           {loading ? (
@@ -123,7 +130,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
           )}
         </Button>
       </div>
-      
+
       {loading && (
           <div className="text-center py-8">
               <Loader2 className="w-8 h-8 mx-auto animate-spin text-orange-500" />
@@ -133,7 +140,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
 
       {insights && (
         <div className="animate-in fade-in-50 duration-500">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <Card className="bg-orange-50 p-4 border-orange-200">
               <CardContent>
                   <h4 className="text-sm font-medium text-orange-800 mb-1 flex items-center gap-1.5"><TrendingUp className="w-4 h-4"/>Receita Projetada</h4>
@@ -143,7 +150,7 @@ export default function AssistenteFinanceiro({ transacoes }) {
                   </p>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-green-50 p-4 border-green-200">
               <CardContent>
                   <h4 className="text-sm font-medium text-green-800 mb-1 flex items-center gap-1.5"><Calendar className="w-4 h-4"/>Melhor Dia</h4>
@@ -153,18 +160,8 @@ export default function AssistenteFinanceiro({ transacoes }) {
                   </p>
               </CardContent>
             </Card>
-            
-            <Card className="bg-[#6B7C3A]/10 p-4 border-[#6B7C3A]/30">
-               <CardContent>
-                  <h4 className="text-sm font-medium text-[#6B7C3A] mb-1 flex items-center gap-1.5"><Scissors className="w-4 h-4"/>Serviço Mais Rentável</h4>
-                  <p className="text-xl font-bold text-[#6B7C3A]">{insights.servicoMaisLucrativo}</p>
-                  <p className="text-xs text-[#6B7C3A] mt-1">
-                    {insights.margemLucro?.toFixed(0)}% de margem estimada
-                  </p>
-              </CardContent>
-            </Card>
           </div>
-          
+
           <div className="mt-6">
             <h4 className="font-medium text-slate-800 mb-3">Recomendações para Aumentar sua Receita:</h4>
             <ul className="list-disc pl-5 space-y-2">

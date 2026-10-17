@@ -97,13 +97,6 @@ function DashboardContent() {
     enabled: !!providerProfile?.id,
   });
 
-  const { data: transactions, isLoading: isLoadingTransactions } = useQuery({
-    queryKey: ['transactions', user?.email],
-    queryFn: () => base44.entities.Transaction.filter({}, '-created_date'),
-    enabled: !!user,
-    initialData: [],
-  });
-
   // Receita Total vem de Payment (dinheiro real processado via Asaas na
   // plataforma), nunca de Transaction — Transaction é um livro-caixa manual
   // genérico (herdado do template de concierge) sem vínculo com ServiceRequest
@@ -132,7 +125,7 @@ function DashboardContent() {
     }
   }, [subscription]);
 
-  const isLoading = isUserLoading || isLoadingRequests || isLoadingTransactions || isLoadingPayments || isLoadingSubscription;
+  const isLoading = isUserLoading || isLoadingRequests || isLoadingPayments || isLoadingSubscription;
 
   if (isLoading) {
     return (
@@ -341,17 +334,14 @@ function DashboardContent() {
       
       <div className="mt-10">
          <h2 className="text-xl font-bold text-foreground mb-4">Visão Geral Financeira</h2>
-         {(transactions && transactions.length > 0) ? (
+         {(payments && payments.length > 0) ? (
             <>
-                <AssistenteFinanceiro transacoes={transactions} />
-                <FinancialDashboard transactions={transactions} />
+                <AssistenteFinanceiro payments={payments} />
+                <FinancialDashboard payments={payments} />
             </>
         ) : (
             <div className="text-center py-12 bg-muted rounded-lg">
-                <p className="text-muted-foreground">Seus dados financeiros aparecerão aqui assim que você registrar sua primeira transação.</p>
-                <Link to={createPageUrl("Financeiro")}>
-                    <Button variant="secondary" className="mt-4">Ir para Financeiro</Button>
-                </Link>
+                <p className="text-muted-foreground">Sem movimentações ainda. Seus recebimentos pela plataforma (Asaas) aparecerão aqui.</p>
             </div>
         )}
       </div>

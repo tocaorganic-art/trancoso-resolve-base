@@ -97,18 +97,15 @@ Deno.serve(async (req: Request) => {
       ...(internalSecret ? { internal_secret: internalSecret } : {}),
     };
 
-    const [microsoftResult, openaiResult] = await Promise.allSettled([
-      base44.asServiceRole.functions.invoke('callMicrosoftAI', request),
+    const openaiResult = await Promise.allSettled([
       base44.asServiceRole.functions.invoke('callOpenAI', request),
     ]);
-    const microsoftText = microsoftResult.status === 'fulfilled' ? aiText(microsoftResult.value) : '';
-    const openaiText = openaiResult.status === 'fulfilled' ? aiText(openaiResult.value) : '';
-    const completed = Boolean(microsoftText || openaiText);
+    const openaiText = openaiResult[0].status === 'fulfilled' ? aiText(openaiResult[0].value) : '';
+    const completed = Boolean(openaiText);
     const completedAt = new Date().toISOString();
 
     await base44.asServiceRole.entities.ClientErrorLog.update(record.id, {
       triage_status: completed ? 'completed' : 'failed',
-      triage_microsoft: microsoftText || 'Triagem não disponível.',
       triage_openai: openaiText || 'Triagem não disponível.',
       triage_completed_at: completedAt,
     });
@@ -119,7 +116,7 @@ Deno.serve(async (req: Request) => {
       to: 'contato@trancosoresolve.com.br',
       from_name: 'Trancoso Resolve | Agente de Erros',
       subject: `🚨 Erro capturado: ${esc(pageUrl).slice(0, 120)}`,
-      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${esc(pageUrl)}\nDATA: ${now}\nUSUÁRIO: ${esc(userEmail || '(não logado)')}\n\nMENSAGEM:\n${esc(errorMessage)}\n\nTRIAGEM MICROSOFT AI:\n${esc(microsoftText || '(indisponível)')}\n\nTRIAGEM CHATGPT:\n${esc(openaiText || '(indisponível)')}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
+      body: `Um erro foi capturado e triado automaticamente.\n\nPÁGINA: ${esc(pageUrl)}\nDATA: ${now}\nUSUÁRIO: ${esc(userEmail || '(não logado)')}\n\nMENSAGEM:\n${esc(errorMessage)}\n\nTRIAGEM CHATGPT:\n${esc(openaiText || '(indisponível)')}\n\nO registro completo está no painel administrativo do Base44. Nenhuma correção ou deploy foi executado automaticamente.`,
     });
 
     return Response.json({ ok: true, triage: completed ? 'completed' : 'failed' });

@@ -25,11 +25,6 @@ export async function isAdminUser(base44: any): Promise<boolean> {
   }
 }
 
-/**
- * Retorna true se o chamador é confiável: automação interna com o segredo
- * correto (header x-automation-secret ou body.internal_secret) ou usuário
- * admin autenticado. Fail-closed quando o segredo não está configurado.
- */
 export async function isTrustedCaller(req: Request, base44: any, body?: any): Promise<boolean> {
   if (automationSecretValid(req, body)) return true;
   if (!base44) return false;
@@ -40,7 +35,6 @@ export async function isTrustedCaller(req: Request, base44: any, body?: any): Pr
   }
 }
 
-/** Escapa valores interpolados em corpos de e-mail HTML. */
 export function escapeHtml(value: any): string {
   return String(value ?? '')
     .replace(/&/g, '&amp;')

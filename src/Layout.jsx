@@ -114,9 +114,15 @@ export default function Layout({ children, currentPageName }) {
     };
 
     const currentPath = location.pathname === '/Home' ? '/' : location.pathname;
-    // Páginas de serviço definem seus próprios títulos, descrições e canonical.
+    // Páginas de serviço e qualquer rota fora do mapa abaixo definem seu
+    // próprio SEO (prerender por rota + useSEO/useDestinationSeo) — sem isso,
+    // este efeito sobrescrevia o título/description corretos (vindos do HTML
+    // pré-renderizado ou do hook da própria página) com o fallback genérico
+    // "Trancoso Resolve" em toda rota não listada aqui (ex.: /guides/*,
+    // /trancoso, /arraial-dajuda, /porto-seguro, /caraiva, /investidores).
     if (currentPath.startsWith('/servicos/')) return;
-    const currentTitle = pageTitles[currentPath] || 'Trancoso Resolve';
+    if (!(currentPath in pageTitles)) return;
+    const currentTitle = pageTitles[currentPath];
     const currentDescription = pageDescriptions[currentPath] || 'A forma mais fácil de encontrar e contratar serviços de confiança em Trancoso, Bahia.';
 
     document.title = currentTitle;

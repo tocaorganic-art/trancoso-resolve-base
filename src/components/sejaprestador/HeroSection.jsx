@@ -64,7 +64,7 @@ export default function HeroSection() {
               </Button>
             </Link>
             <a href="#como-funciona" className="w-full sm:w-auto">
-              <Button size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 font-medium px-6 md:px-8 min-h-[48px] w-full">
+              <Button size="lg" variant="outline" className="bg-transparent border-white/30 text-white hover:bg-white/10 hover:text-white font-medium px-6 md:px-8 min-h-[48px] w-full">
                 Como funciona?
               </Button>
             </a>

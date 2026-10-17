@@ -32,41 +32,41 @@ export default function ProviderGrid({
             return (
                 <div className="text-center py-16">
                     <Loader2 className="w-8 h-8 mx-auto text-amber-500 animate-spin mb-4" />
-                    <p className="text-slate-500 text-lg">Carregando profissionais...</p>
+                    <p className="text-muted-foreground text-lg">Carregando profissionais...</p>
                 </div>
             );
         }
 
         if (isErrorProviders) {
             return (
-                <div className="text-center py-16 bg-red-50 rounded-lg">
+                <div className="text-center py-16 bg-red-50 dark:bg-red-950/30 rounded-lg">
                     <AlertCircle className="w-10 h-10 mx-auto text-red-500 mb-4" />
-                    <h3 className="text-xl font-semibold text-red-800">Erro ao Carregar</h3>
-                    <p className="text-red-600 mt-2">Não foi possível buscar os profissionais. Por favor, tente novamente.</p>
+                    <h3 className="text-xl font-semibold text-red-800 dark:text-red-300">Erro ao Carregar</h3>
+                    <p className="text-red-600 dark:text-red-400 mt-2">Não foi possível buscar os profissionais. Por favor, tente novamente.</p>
                 </div>
             );
         }
-        
+
         if (searchQuery.trim() !== '' && isSearching) {
             return (
                 <div className="text-center py-16">
                     <Loader2 className="w-8 h-8 mx-auto text-amber-500 animate-spin mb-4" />
-                    <p className="text-slate-500 text-lg">Buscando profissionais com IA...</p>
+                    <p className="text-muted-foreground text-lg">Buscando profissionais com IA...</p>
                 </div>
             );
         }
-        
+
         if (filteredProviders.length === 0) {
             const hasActiveFilters = priceFilter !== 'all' || ratingFilter !== 'all' || availabilityFilter !== 'all' || neighborhoodFilter !== 'all' || searchQuery.trim() !== '';
             const hasSearchQuery = searchQuery.trim() !== '';
 
             return (
-                <div className="col-span-full text-center py-16 bg-linear-to-br from-slate-800 to-slate-900 rounded-xl border border-slate-700">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-slate-700 rounded-full flex items-center justify-center">
+                <div className="col-span-full text-center py-16 bg-muted rounded-xl border border-border">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-background rounded-full flex items-center justify-center">
                         <Search className="w-8 h-8 text-orange-400" />
                     </div>
-                    <h3 className="text-xl font-semibold text-slate-100 mb-2">Nenhum Prestador Encontrado</h3>
-                    <p className="text-slate-400 max-w-md mx-auto mb-6">
+                    <h3 className="text-xl font-semibold text-foreground mb-2">Nenhum Prestador Encontrado</h3>
+                    <p className="text-muted-foreground max-w-md mx-auto mb-6">
                         {hasSearchQuery
                             ? `Não encontramos profissionais para "${searchQuery}". Tente uma busca diferente ou explore as categorias.`
                             : hasActiveFilters 

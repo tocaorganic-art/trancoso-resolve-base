@@ -505,7 +505,7 @@ export default function ServicoLandingPage() {
               </Button>
             </Link>
             <Link to={createPageUrl("SejaPrestador")}>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/20 w-full sm:w-auto">
+              <Button size="lg" variant="outline" className="bg-transparent border-white text-white hover:bg-white/20 hover:text-white w-full sm:w-auto">
                 Seja um Prestador
               </Button>
             </Link>

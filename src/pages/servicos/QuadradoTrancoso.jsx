@@ -4,7 +4,7 @@ export default function QuadradoTrancoso() {
   return (
     <ServicoLocalPage
       title="Serviços no Quadrado de Trancoso, BA | Profissionais Verificados | Trancoso Resolve"
-      metaDescription="Encontre profissionais verificados para serviços no Quadrado de Trancoso: diaristas, eletricistas, encanadores, jardineiros e muito mais. Atendimento para pousadas, boutiques e residências de alto padrão."
+      metaDescription="Profissionais verificados para serviços no Quadrado de Trancoso: diaristas, eletricistas, encanadores, jardineiros e mais. Para pousadas e residências."
       keywords="serviços Quadrado Trancoso, profissional Quadrado Trancoso BA, diarista Quadrado, eletricista Quadrado, manutenção pousada Quadrado de Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/quadrado-trancoso"
       schemaData={{

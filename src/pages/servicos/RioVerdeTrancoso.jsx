@@ -4,7 +4,7 @@ export default function RioVerdeTrancoso() {
   return (
     <ServicoLocalPage
       title="Serviços em Rio Verde, Trancoso BA | Profissionais para Villas e Condomínios | Trancoso Resolve"
-      metaDescription="Contrate profissionais verificados para serviços em Rio Verde, Trancoso: manutenção de villas, piscineiros, jardineiros, eletricistas e muito mais. Especialistas em condomínios de alto padrão."
+      metaDescription="Profissionais verificados para serviços em Rio Verde, Trancoso: piscineiros, jardineiros, eletricistas e mais. Especialistas em condomínios de alto padrão."
       keywords="serviços Rio Verde Trancoso, profissional Rio Verde Trancoso BA, piscineiro Rio Verde, jardineiro Rio Verde, manutenção condomínio Rio Verde Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/rio-verde-trancoso"
       schemaData={{

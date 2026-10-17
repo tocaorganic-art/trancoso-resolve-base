@@ -4,7 +4,7 @@ export default function DiaristaTrancoso() {
   return (
     <ServicoLocalPage
       title="Diarista em Trancoso | Limpeza Premium para Villas, Pousadas e Residências de Alto Padrão"
-      metaDescription="Contrate diarista verificada em Trancoso para limpeza residencial, villas, pousadas e casas de temporada. Profissionais treinados para residências de alto padrão. Peça orçamento pela Trancoso Resolve."
+      metaDescription="Contrate diarista verificada em Trancoso para limpeza residencial, villas, pousadas e casas de temporada. Profissionais treinados. Peça orçamento."
       keywords="diarista Trancoso, diarista Trancoso Bahia, profissional Trancoso BA, serviços Trancoso, limpeza Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/diarista-trancoso"
       schemaData={{

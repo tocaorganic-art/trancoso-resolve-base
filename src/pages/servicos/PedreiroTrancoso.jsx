@@ -4,7 +4,7 @@ export default function PedreiroTrancoso() {
   return (
     <ServicoLocalPage
       title="Pedreiro em Trancoso, BA | Obras e Reformas com Profissionais Verificados | Trancoso Resolve"
-      metaDescription="Encontre pedreiro de confiança em Trancoso, Bahia. Obras, reformas, ampliações e manutenção para villas e residências de alto padrão. Profissionais verificados, orçamento grátis."
+      metaDescription="Encontre pedreiro de confiança em Trancoso, Bahia. Obras, reformas e manutenção para villas e residências de alto padrão. Profissionais verificados."
       keywords="pedreiro Trancoso, pedreiro Trancoso Bahia, profissional Trancoso BA, serviços Trancoso, obra Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/pedreiro-trancoso"
       schemaData={{

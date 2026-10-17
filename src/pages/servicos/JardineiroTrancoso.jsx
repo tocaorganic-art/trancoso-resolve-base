@@ -4,7 +4,7 @@ export default function JardineiroTrancoso() {
   return (
     <ServicoLocalPage
       title="Jardineiro em Trancoso, BA | Jardins e Paisagismo para Villas | Trancoso Resolve"
-      metaDescription="Contrate jardineiro verificado em Trancoso, Bahia. Manutenção de jardins, poda, paisagismo e cuidado com vegetação nativa para villas e residências de alto padrão. Orçamento grátis."
+      metaDescription="Contrate jardineiro verificado em Trancoso, Bahia. Manutenção de jardins, poda e paisagismo para villas e residências de alto padrão. Orçamento grátis."
       keywords="jardineiro Trancoso, jardineiro Trancoso Bahia, profissional Trancoso BA, serviços Trancoso, paisagismo Trancoso"
       canonicalUrl="https://trancosoresolve.com.br/servicos/jardineiro-trancoso"
       schemaData={{

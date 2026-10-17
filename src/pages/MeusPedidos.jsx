@@ -8,11 +8,12 @@ import { Loader2, Calendar, Info, Star, CreditCard, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReviewModal from '@/components/reviews/ReviewModal';
 import StatusPagamentoBadge from '@/components/pagamento/StatusPagamentoBadge';
 import { fetchAllPublicProviders } from '@/lib/publicProviders';
+import { useAuth } from '@/lib/AuthContext';
 
 const statusConfig = {
   Pendente: { color: "bg-amber-100 text-amber-800 border-amber-200", text: "Pendente" },
@@ -105,10 +106,12 @@ function RequestCard({ request, provider, providersLoaded, onReviewClick, hasRev
 
 export default function MeusPedidosPage() {
   const [reviewingRequest, setReviewingRequest] = useState(null);
+  const { isAuthenticated, isLoadingAuth } = useAuth();
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me(),
+    enabled: isAuthenticated,
   });
 
   const { data: requests, isLoading: isLoadingRequests } = useQuery({
@@ -137,6 +140,14 @@ export default function MeusPedidosPage() {
     enabled: !!user,
     initialData: [],
   });
+
+  if (isLoadingAuth) {
+    return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin" /></div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   if (isLoadingRequests) {
     return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin" /></div>;

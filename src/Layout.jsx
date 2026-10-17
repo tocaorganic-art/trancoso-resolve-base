@@ -609,7 +609,7 @@ export default function Layout({ children, currentPageName }) {
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                       isActive(item.path) ?
                       'bg-orange-600 text-white' :
-                      'text-slate-300 hover:bg-slate-700'}`
+                      'text-muted-foreground hover:bg-muted hover:text-foreground'}`
                       }
                       data-testid={`admin-nav-${item.name.toLowerCase().replace(' ', '-')}`}>
                       
@@ -645,7 +645,7 @@ export default function Layout({ children, currentPageName }) {
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     isActive(item.path) ?
                     'bg-orange-600 text-white' :
-                    'text-slate-300 hover:bg-slate-700'}`
+                    'text-muted-foreground hover:bg-muted hover:text-foreground'}`
                     }
                     data-testid={`admin-mobile-nav-${item.name.toLowerCase().replace(' ', '-')}`}>
                     

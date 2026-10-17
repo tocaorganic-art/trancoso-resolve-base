@@ -50,7 +50,7 @@ export default function DestinoTrancoso() {
 
   return (
     <div className="bg-background overflow-x-hidden">
-      <section className="relative bg-linear-to-br from-background via-orange-900 to-card text-white py-20 md:py-32 overflow-hidden">
+      <section className="relative bg-linear-to-br from-[#1A1208] via-orange-900 to-[#1A1208] text-white py-20 md:py-32 overflow-hidden">
         <div className="absolute inset-0 opacity-20 bg-cover bg-center" style={{ backgroundImage: `url('${HERO_IMAGE}')` }} aria-hidden="true" />
         <div className="relative container mx-auto max-w-5xl px-4 text-center">
           <div className="inline-flex items-center gap-2 bg-orange-700/40 border border-orange-400/30 rounded-full px-4 py-1.5 text-sm font-medium text-orange-200 mb-6">

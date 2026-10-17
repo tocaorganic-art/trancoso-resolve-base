@@ -42,6 +42,14 @@
   --color-brand-primary-press: var(--brand-primary-press);
   --color-brand-secondary: var(--brand-secondary);
   --color-brand-accent: var(--brand-accent);
+  /* Laranja escurecido para TEXTO sobre fundo claro (5.8:1/7:1) — o
+     --brand-primary (#E8571A) é só 3:1, ok pra botão preenchido com texto
+     branco, mas ilegível como cor de texto direta. Rodada 3 (17/10/2026). */
+  --color-brand-ink: var(--terracotta-deep);
+  /* Cor única pro selo de oferta ("2 meses grátis"), em vez de verde cru
+     (bg-green-600) que destoava da paleta e variava de tela pra tela. */
+  --color-offer: var(--green-success);
+  --color-offer-foreground: var(--white);
 
   --color-orange-50: var(--orange-50);
   --color-orange-100: var(--orange-100);
@@ -335,7 +343,9 @@ button:focus-visible {
     --secondary: 34 38% 88%;        /* warm light surface */
     --secondary-foreground: 30 24% 11%;
     --muted: 34 28% 88%;
-    --muted-foreground: 30 16% 46%; /* warm gray text */
+    /* WCAG AA (Rodada 3, 17/10/2026): 30 16% 46% dava 3.82:1 contra o fundo —
+       abaixo do mínimo de 4.5:1 para texto normal. Escurecido pra 4.7:1/5.4:1. */
+    --muted-foreground: 30 22% 40%; /* warm gray text */
     --accent: 78 36% 36%;           /* olive */
     --accent-foreground: 0 0% 100%;
     --destructive: 4 64% 51%;       /* #D7382B */

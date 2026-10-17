@@ -4,10 +4,11 @@ import translations, { LANGUAGES } from '@/i18n/translations';
 const AppContext = createContext(null);
 
 export function AppProvider({ children }) {
+  // Sem preferência salva, o app abre em modo escuro por padrão (decisão do
+  // Tony, Rodada 3) — não segue mais o tema do sistema operacional.
   const [theme, setTheme] = useState(() => {
     const stored = localStorage.getItem('tr-theme');
-    if (stored === 'dark' || stored === 'light') return stored;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    return stored === 'light' ? 'light' : 'dark';
   });
 
   const [lang, setLang] = useState(() => {
@@ -22,26 +23,12 @@ export function AppProvider({ children }) {
     localStorage.setItem('tr-theme', theme);
   }, [theme]);
 
-  // Segue mudanças de tema do sistema operacional durante o uso,
-  // exceto se o usuário já escolheu um tema manualmente.
-  useEffect(() => {
-    const mql = window.matchMedia('(prefers-color-scheme: dark)');
-    const onChange = (e) => {
-      if (!localStorage.getItem('tr-theme-manual')) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    };
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, []);
-
   useEffect(() => {
     localStorage.setItem('tr-lang', lang);
     document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
   }, [lang]);
 
   const toggleTheme = () => {
-    localStorage.setItem('tr-theme-manual', '1');
     setTheme(t => (t === 'dark' ? 'light' : 'dark'));
   };
 

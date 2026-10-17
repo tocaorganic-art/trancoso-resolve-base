@@ -8,11 +8,12 @@ import { Loader2, Calendar, Info, Star, CreditCard, Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import ReviewModal from '@/components/reviews/ReviewModal';
 import StatusPagamentoBadge from '@/components/pagamento/StatusPagamentoBadge';
 import { fetchAllPublicProviders } from '@/lib/publicProviders';
+import { useAuth } from '@/lib/AuthContext';
 
 const statusConfig = {
   Pendente: { color: "bg-amber-100 text-amber-800 border-amber-200", text: "Pendente" },
@@ -23,7 +24,13 @@ const statusConfig = {
   Cancelado: { color: "bg-muted text-foreground border-border", text: "Cancelado" },
 };
 
-function RequestCard({ request, provider, onReviewClick, hasReview, payment, onPaymentConfirmed, index = 0 }) {
+function providerLabel(request, provider, providersLoaded) {
+  if (provider?.full_name) return provider.full_name;
+  if (!request.provider_id) return "Prestador não atribuído";
+  return providersLoaded ? "Prestador não encontrado" : "Carregando...";
+}
+
+function RequestCard({ request, provider, providersLoaded, onReviewClick, hasReview, payment, onPaymentConfirmed, index = 0 }) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -16 }}
@@ -38,7 +45,7 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
           <div>
             <p className="text-sm text-muted-foreground">Prestador:</p>
             <CardTitle className="text-lg">
-              {provider?.full_name || (request.provider_id ? "Carregando..." : "Prestador não atribuído")}
+              {providerLabel(request, provider, providersLoaded)}
             </CardTitle>
           </div>
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 14 }}>
@@ -99,10 +106,12 @@ function RequestCard({ request, provider, onReviewClick, hasReview, payment, onP
 
 export default function MeusPedidosPage() {
   const [reviewingRequest, setReviewingRequest] = useState(null);
+  const { isAuthenticated, isLoadingAuth } = useAuth();
 
   const { data: user } = useQuery({
     queryKey: ['currentUser'],
     queryFn: () => base44.auth.me(),
+    enabled: isAuthenticated,
   });
 
   const { data: requests, isLoading: isLoadingRequests } = useQuery({
@@ -119,7 +128,7 @@ export default function MeusPedidosPage() {
     initialData: [],
   });
 
-  const { data: providers } = useQuery({
+  const { data: providers, isFetched: providersLoaded } = useQuery({
     queryKey: ['allProviders'],
     queryFn: () => fetchAllPublicProviders(),
     initialData: [],
@@ -131,6 +140,14 @@ export default function MeusPedidosPage() {
     enabled: !!user,
     initialData: [],
   });
+
+  if (isLoadingAuth) {
+    return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin" /></div>;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
   if (isLoadingRequests) {
     return <div className="flex justify-center items-center h-64"><Loader2 className="w-8 h-8 animate-spin" /></div>;
@@ -169,6 +186,7 @@ export default function MeusPedidosPage() {
                   key={req.id}
                   request={req}
                   provider={provider}
+                  providersLoaded={providersLoaded}
                   hasReview={hasReview}
                   payment={payment}
                   index={i}

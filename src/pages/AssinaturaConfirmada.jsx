@@ -6,12 +6,12 @@ import { trackPurchase } from '@/lib/facebook-pixel';
 import { trackAnalyticsEvent } from '@/utils/consent.js';
 
 const PLAN_INFO = {
-  lancamento:         { nome: "Plano Prestador Lançamento", valor: "R$ 29,90/mês", trial: 60 },
-  regular:            { nome: "Plano Prestador Mensal",     valor: "R$ 49,90/mês", trial: 7  },
-  empresa_lancamento: { nome: "Plano Empresas Lançamento",  valor: "R$ 59,90/mês", trial: 7  },
-  empresa_regular:    { nome: "Plano Empresas Mensal",      valor: "R$ 89,90/mês", trial: 7  },
-  avulso_prestador:   { nome: "Uso Avulso Prestador (1 mês)", valor: "R$ 69,90", trial: 0 },
-  avulso_empresa:     { nome: "Uso Avulso Empresa (1 mês)",   valor: "R$ 99,99", trial: 0 },
+  profissional:      { nome: "Plano Profissional",       valor: "R$ 59,90/mês", trial: 7 },
+  prestador_elite:   { nome: "Plano Premium Elite",      valor: "R$ 197/mês",   trial: 7 },
+  lojista_essencial: { nome: "Plano Lojista Essencial",  valor: "R$ 89/mês",    trial: 7 },
+  lojista_pro:       { nome: "Plano Lojista Pro",        valor: "R$ 197/mês",   trial: 7 },
+  lojista_elite:     { nome: "Plano Lojista Elite",      valor: "R$ 497/mês",   trial: 7 },
+  boost_prestador:   { nome: "Boost Prestador (7 dias no topo)", valor: "R$ 9,90", trial: 0 },
 };
 
 const Particle = ({ delay, x, size }) => (

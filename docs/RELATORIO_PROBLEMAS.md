@@ -1,4 +1,6 @@
 # Relatório de Diagnóstico e Correções — Trancoso Resolve
+> ⚠️ **DOCUMENTO HISTÓRICO (23/07/2026, era Stripe).** Escrito antes das migrações Stripe → Mercado Pago → **Asaas** (oficial desde 22/09/2026). As instruções de gateway deste relatório são obsoletas; a referência atual é `base44/functions/asaasWebhook/entry.ts`.
+
 
 **Data:** 23 de julho de 2026
 **Status:** Correções aplicadas — pendente configuração de secrets e publicação

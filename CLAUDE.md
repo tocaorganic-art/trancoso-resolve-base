@@ -77,7 +77,7 @@ src/
 ├── api/                    # Integração com serviços
 │   ├── base44Client.js     # Base44 SDK wrapper
 │   ├── entities.js         # Mapeamento de entidades
-│   └── integrations.js     # APIs externas (Stripe, etc)
+│   └── integrations.js     # APIs externas (Asaas, etc)
 │
 ├── hooks/                  # React hooks customizados
 │   ├── use-mobile.jsx
@@ -241,7 +241,7 @@ Lógica vive em `components/` (e.g., `components/admin/`, `components/providers/
 
 - **Base44 client:** `api/base44Client.js` — wrapper do SDK
 - **Entities:** `api/entities.js` — mapeamento de tipos (User, Service, Provider, etc)
-- **Integrations:** `api/integrations.js` — Stripe, webhooks, etc
+- **Integrations:** `api/integrations.js` — Asaas, webhooks, etc
 
 **Padrão:** use a instância do client para CRUD e queries.
 ```javascript

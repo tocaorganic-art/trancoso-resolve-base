@@ -10,7 +10,7 @@ Marketplace de serviços locais em **Trancoso, Bahia**. Conecta moradores, empre
 
 - **Frontend:** React 18 + Vite 6.1 + Tailwind 3.4 + shadcn/ui (new-york)
 - **Backend:** Base44 (entities + Deno edge functions)
-- **Pagamentos:** Stripe (assinaturas + webhooks)
+- **Pagamentos:** Asaas (assinaturas + webhooks)
 - **Notificações:** WhatsApp via Z-API ou WABA
 - **Hosting:** Vercel (frontend) + Base44 (functions/entities)
 
@@ -65,8 +65,6 @@ Variáveis de ambiente necessárias no painel Vercel (Settings → Environment V
 
 | Variável | Descrição |
 |---|---|
-| `STRIPE_SECRET_KEY` | Chave secreta do Stripe |
-| `STRIPE_WEBHOOK_SECRET` | Secret do webhook Stripe |
 | `WHATSAPP_PROVIDER` | `zapi` (padrão) ou `waba` |
 | `ZAPI_INSTANCE_ID` | ID da instância Z-API |
 | `ZAPI_TOKEN` | Token Z-API |
@@ -74,30 +72,24 @@ Variáveis de ambiente necessárias no painel Vercel (Settings → Environment V
 | `WABA_PHONE_ID` | Phone Number ID (se usar WABA) |
 | `VITE_GOOGLE_MAPS_API_KEY` | Chave pública do Google Maps com restrição por domínio, APIs e quota |
 
+> Os secrets de pagamento (Asaas) ficam apenas no ambiente das functions do Base44 — nunca no frontend/Vercel.
+
 #### Backend (Base44)
 
 1. Acesse o app `68eb21726a9614db4a82ba99` no painel Base44
 2. **Entities → New Entity** → colar `base44/entities/LogWhatsApp.jsonc`
 3. **Functions → enviarMensagemWhatsApp** → colar `base44/functions/enviarMensagemWhatsApp/entry.ts`
-4. **Functions → stripeWebhook** → colar `base44/functions/stripeWebhook/entry.ts`
-5. Configurar as variáveis de ambiente em cada function, incluindo
+4. Configurar as variáveis de ambiente em cada function, incluindo
    `AUTOMATION_WEBHOOK_SECRET` para as chamadas internas protegidas
 
 > ⚠️ A publicação do Base44 deve ser manual. Não usar "Push to GitHub" no
 > Base44 sem revisar a direção do sincronismo.
 
-#### Webhook Stripe
+#### Webhook Asaas
 
-1. [dashboard.stripe.com/webhooks](https://dashboard.stripe.com/webhooks) → Add endpoint
-2. URL: `https://trancosoresolve.com.br/api/functions/stripeWebhook`
-3. Eventos:
-   - `checkout.session.completed`
-   - `invoice.paid` / `invoice.payment_failed`
-   - `customer.subscription.deleted`
-   - `payment_intent.amount_capturable_updated` / `payment_intent.succeeded` / `payment_intent.payment_failed` / `payment_intent.canceled`
-   - `charge.dispute.created`
-   - `account.updated`
-4. Copiar **Signing secret** → adicionar como `STRIPE_WEBHOOK_SECRET`
+1. No painel do Asaas (Integrações → Webhooks), cadastrar a URL `https://trancosoresolve.com.br/api/functions/asaasWebhook`
+2. Definir o mesmo token em `ASAAS_WEBHOOK_TOKEN` (o Asaas envia no header `asaas-access-token`)
+3. Eventos e proteções: ver `base44/functions/asaasWebhook/entry.ts`
 
 ---
 
@@ -112,38 +104,24 @@ Variáveis de ambiente necessárias no painel Vercel (Settings → Environment V
 └─────────────────────┘     └────────────────────────────┘
                                         │
                               ┌─────────┴─────────┐
-                              │  Stripe Webhooks  │
+                              │  Webhooks Asaas   │
                               │  Z-API / WABA     │
                               └───────────────────┘
 ```
 
 ---
 
-## Teste com Stripe CLI
+## Pagamentos (Asaas)
 
-```bash
-# Instalar
-brew install stripe/stripe-cli/stripe   # macOS
-# Windows: https://stripe.com/docs/stripe-cli
-
-# Login
-stripe login
-
-# Encaminhar eventos para o servidor local
-stripe listen --forward-to http://localhost:5173/api/functions/stripeWebhook
-
-# Simular eventos
-stripe trigger checkout.session.completed
-stripe trigger invoice.paid
-stripe trigger customer.subscription.deleted
-```
+O gateway oficial é o **Asaas**. O webhook `asaasWebhook` valida token,
+garante idempotência e busca o estado real da cobrança no Asaas.
+Eventos e configuração: `base44/functions/asaasWebhook/entry.ts`.
 
 ---
 
 ## Documentação adicional
 
 - [`CHANGELOG.md`](./CHANGELOG.md) — histórico de versões
-- [`PLANO_DE_ACAO.md`](./PLANO_DE_ACAO.md) — checklist completo de deploy e testes
 - [`CLAUDE.md`](./CLAUDE.md) — guia para agentes de IA (stack, padrões, design system)
 - [`STATUS-DO-PROJETO.md`](./STATUS-DO-PROJETO.md) — estado atual do projeto
 
@@ -161,7 +139,7 @@ src/
 
 base44/
 ├── entities/       # Schemas JSONC (LogWhatsApp, ServiceProvider…)
-└── functions/      # Deno edge functions (stripeWebhook, enviarMensagemWhatsApp…)
+└── functions/      # Deno edge functions (asaasWebhook, enviarMensagemWhatsApp…)
 
 scripts/
 ├── deploy.sh       # Deploy Linux/macOS

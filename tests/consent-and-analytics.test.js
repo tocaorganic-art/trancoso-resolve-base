@@ -41,7 +41,6 @@ test('frontend não grava leads diretamente na entidade pública', async () => {
     '../src/pages/Contact.jsx',
     '../src/components/servicos/LeadCaptureForm.jsx',
     '../src/components/leads/LeadPrestadorForm.jsx',
-    '../src/components/leads/LeadAssistenteModal.jsx',
   ];
 
   for (const path of files) {

@@ -25,7 +25,7 @@ const PLANOS_PRESTADOR = [
     preco: 0,
     precoAnual: null,
     trial: null,
-    trialLabel: "30 dias grátis · sem cartão",
+    trialLabel: "2 meses grátis · sem cartão",
     destaque: false,
     cor: "from-neutral-700 to-neutral-600",
     borda: "border-border",
@@ -33,7 +33,7 @@ const PLANOS_PRESTADOR = [
     badge: null,
     features: [
       "Painel Profissional completo liberado",
-      "Perfil profissional ativo por 30 dias",
+      "Perfil profissional ativo por 2 meses",
       "Até 10 serviços ativos simultâneos",
       "Recebimento de pedidos e chat direto com clientes",
       "Destaque nas buscas da região",
@@ -181,11 +181,11 @@ const FAQ_ITEMS = [
   },
   {
     q: "Como funciona o período gratuito?",
-    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Durante os 30 dias grátis você usa o Painel Profissional completo, os mesmos recursos do plano Profissional. O pagamento só começa quando o período grátis acaba, se você quiser continuar, e pode cancelar antes sem pagar nada.",
+    r: "Sem cartão no cadastro: você não cadastra nenhum cartão. Durante os 2 meses grátis você usa o Painel Profissional completo, os mesmos recursos do plano Profissional. O pagamento só começa quando o período grátis acaba, se você quiser continuar, e pode cancelar antes sem pagar nada.",
   },
   {
     q: "Por que o Profissional tem 7 dias grátis?",
-    r: "Os 100 primeiros prestadores aprovados na verificação ganham o Selo Prestador Fundador para sempre e entram GRÁTIS: 30 dias sem cartão e sem cobrança, em Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro. Depois, se quiser continuar, o Profissional custa R$ 59,90/mês.",
+    r: "Os 100 primeiros prestadores aprovados na verificação ganham o Selo Prestador Fundador para sempre e entram GRÁTIS: 2 meses sem cartão e sem cobrança, em Trancoso, Arraial d'Ajuda, Caraíva e Porto Seguro. Depois, se quiser continuar, o Profissional custa R$ 59,90/mês.",
   },
   {
     q: "O que é o Boost?",
@@ -302,7 +302,7 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
           {plano.preco === 0 ? (
             <>
               <p className="text-3xl font-extrabold mt-1">Grátis</p>
-              <p className="text-sm mt-1 font-semibold text-white">por 30 dias · sem cartão de crédito</p>
+              <p className="text-sm mt-1 font-semibold text-white">por 2 meses · sem cartão de crédito</p>
             </>
           ) : (
             <>
@@ -313,8 +313,8 @@ function PlanCard({ plano, anual, onCta, loading, index = 0, metodo = "PIX" }) {
               {plano.precoAnual && (
                 <p className="text-xs mt-0.5 text-white/80">
                   {isAnual
-                    ? `Equivale a R$${equivMensal}/mês · 12 pelo preço de 10`
-                    : `Ou R$${precoAnualFmt}/ano · 12 pelo preço de 10`}
+                    ? `Equivale a R$${equivMensal}/mês · 2 meses grátis`
+                    : `Ou R$${precoAnualFmt}/ano · 2 meses grátis`}
                 </p>
               )}
               <p className="text-sm mt-1 flex items-center justify-center gap-1 font-semibold text-white">
@@ -463,7 +463,7 @@ function AnnualStrip({ anual, onToggle }) {
         Anual
       </span>
       <span className="bg-offer text-offer-foreground text-xs font-bold px-2 py-0.5 rounded-full">
-        12 pelo preço de 10
+        2 meses grátis
       </span>
     </div>
   );
@@ -549,7 +549,7 @@ export default function PlanosPage() {
     <div className="bg-background min-h-screen py-12">
       <MetaTags
         title="Planos para Profissionais"
-        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito de 30 dias (sem cartão), Profissional R$59,90/mês e Premium Elite. Sem comissão sobre serviços, você negocia direto com o cliente e fica com 100% do valor."
+        description="Planos da Trancoso Resolve para prestadores: Teste Gratuito de 2 meses (sem cartão), Profissional R$59,90/mês e Premium Elite. Sem comissão sobre serviços, você negocia direto com o cliente e fica com 100% do valor."
       />
       <div className="container mx-auto max-w-5xl px-4">
 

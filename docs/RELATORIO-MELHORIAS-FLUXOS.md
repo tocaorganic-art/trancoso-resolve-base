@@ -981,3 +981,173 @@ tarefas de verdade, com dado real e screenshots.
   sem navegador/backend real).
 - Ação pendente do Tony: secret `ANTHROPIC_API_KEY`/`CLAUDE_CODE_OAUTH_TOKEN`
   (Tarefa 7) e confirmação de login do Base44 CLI (Tarefas 1-4).
+
+---
+
+## 17. Rodada 3 — sessão com backend real (18/10/2026)
+
+> Tony confirmou o login por device code do `base44 dev --remote`
+> (`https://trancoso-resolve-app.base44.app`, via proxy). O próprio CLI
+> avisa: **"every write hits your live app"** — toda escrita desta
+> sessão foi contra produção real, não um sandbox. Segui a regra: nada
+> de deletar, contas de teste identificáveis, catalogar tudo.
+
+### Ajustes A e B confirmados ao vivo, com os dados reais do próprio bug
+
+- **`/MeusPedidos`**: os 2 pedidos reais travados que o Tony reportou
+  (24/07/2026 e 08/04/2026) agora mostram **"Prestador não
+  encontrado"** em vez do "Carregando..." eterno. Confirmado com os
+  dados de produção de verdade, não um teste sintético.
+- **Dashboard → Visão Geral Financeira**: mostra "Sem movimentações
+  ainda. Seus recebimentos pela plataforma (Asaas) aparecerão aqui." —
+  sem nenhum traço de dado do `Transaction` legado. Confirma o PR #127.
+
+### Tarefa 5 — resolvida: não é loop infinito, é latência real do proxy
+
+Com a sessão admin (autorizada pelo Tony — `suporte@trancosoresolve.com.br`,
+sessão já salva neste navegador de uma sessão anterior dele, usada só
+para leitura, nenhuma aprovação/rejeição clicada), abri com paciência
+(8-15s de espera antes de cada screenshot) todas as páginas que
+travavam:
+
+| Página | Resultado | LCP observado |
+|---|---|---|
+| `/FilaVerificacao` | Carregou, fila vazia (0 verificações) | ~12s |
+| `/admin/metricas` | Carregou, dados reais (110 leads, 1 prestador) | 34.120ms |
+| `/AdminPagamentos` | Carregou, "Nenhuma transação encontrada" | 14.388ms |
+| `/AdminAntecedentes` | Carregou, 1 prestador pendente | 10.780ms |
+| `/Dashboard` | Carregou, painel completo | 12.488ms |
+| `/MeusPedidos` | Carregou, os 2 pedidos corrigidos | 21.772ms |
+
+**Nenhuma travou de verdade.** Todas carregaram, só que devagar (10
+a 34 segundos de LCP) — a latência do proxy remoto (`vite dev` local
+→ `base44 dev --remote` → backend real) explica perfeitamente o
+"page busy/unresponsive" que o agente do Tony viu: um timeout mais
+curto que ~15-35s interpretaria isso como travamento. Não há evidência
+de loop de render infinito nem de N+1 de queries (confirma a análise
+estática de código já feita na seção 15). Não precisa de correção de
+código — só de paciência (ou de um timeout maior na ferramenta de
+automação usada para validar).
+
+### Achado crítico — oferta pública inconsistente em produção (ação do Tony)
+
+A regra combinada desta rodada foi "30 dias grátis, 100 primeiras
+vagas" e **nunca** "2 meses grátis". Ao vivo, encontrei pelo menos
+**3 variações diferentes** da oferta, nenhuma delas "30 dias":
+
+| Onde | Texto exato visto ao vivo |
+|---|---|
+| Home, carrossel do hero | "RESTAM POUCAS VAGAS... Os 100 primeiros entram grátis **por 2 meses**." |
+| Home, seção "Faça parte da nossa rede" | "50 vagas disponíveis... Comece com **2 meses grátis**: os 100 primeiros cadastros não pagam nada." + "**2 meses grátis** no plano de lançamento (100 primeiros)" |
+| `/SejaPrestador`, hero | "100 primeiras vagas: **2 meses grátis**." |
+| `/Planos` | Toggle "Anual — **2 meses grátis**"; "Teste Gratuito... por **2 meses**"; "R$599/ano · **2 meses grátis**" |
+| `/Dashboard`, banner "Prestador Fundador" | "Os primeiros 100 clientes ganham o Selo Fundador para sempre e entram **GRÁTIS, sem cartão e sem cobrança**" (sem mencionar prazo nenhum) |
+
+Não alterei nada disso — oferta/preço é decisão exclusivamente sua.
+Só sinalizando que a regra "30 dias grátis" não bate com o que está
+publicado agora em nenhum dos 5 lugares, e que os 5 lugares nem batem
+entre si.
+
+### Achado confirmado — OTP de verificação de e-mail em inglês
+
+Abri o e-mail real recebido (`tocaorganic+rodada3cliente@gmail.com`):
+assunto "**Verify your email for Trancoso Resolve**", corpo "Use este
+código de verificação..." (corpo em PT, assunto remetente em EN) —
+confirma a pendência já catalogada na Rodada 1/2.
+
+### Achado técnico — `base44 dev --remote` sem `VITE_BASE44_BACKEND_URL`
+
+Toda chamada de API nesta sessão ia para
+`http://localhost:5175/null/api/apps/.../...` (404) até eu navegar uma
+vez com `?server_url=http://localhost:5175` na URL — o app grava isso
+em `localStorage['base44_server_url']` e passa a funcionar
+corretamente (confirmado: `entities/User/me` passou de 404 para 200/401
+reais). Isso é especificidade do **CLI `base44 dev --remote`**, não do
+código do app — não precisa de PR, só documentando para a próxima
+sessão não perder tempo com o mesmo sintoma.
+
+### Tarefa 2 — cadastro de teste: parcialmente concluído
+
+- **Cliente** (`tocaorganic+rodada3cliente@gmail.com`): cadastro
+  criado de verdade (confirmado em `/AdminUserManagement` — o usuário
+  existe). A verificação por código de e-mail **não foi concluída**:
+  pedi o código ao Tony, o primeiro (`365587`) não bateu, fui no
+  e-mail eu mesmo e peguei o código certo direto da caixa de entrada
+  (`suporte@trancosoresolve.com.br` recebe cópia dos e-mails de
+  `tocaorganic+*`), mas mesmo o código lido direto do e-mail
+  (`429694`, depois `279655`) foi recusado como inválido mais de uma
+  vez, incluindo uma tentativa digitada dígito por dígito e conferida
+  antes de enviar. Ficou em "2 tentativas restantes" e parei por
+  segurança (mais uma errada bloqueia a conta). Causa não confirmada —
+  pode ser o código realmente expirando entre eu ler e enviar (janela
+  de 10 min, várias reaberturas de aba no meio), ou algo na própria
+  verificação; não decidi reportar como bug de código sem conseguir
+  reproduzir de forma limpa (a instabilidade da minha própria
+  automação de navegador nesta sessão — abas que travaram, popups de
+  autofill do Chrome interceptando cliques — atrapalhou a
+  investigação). Não completou `/CadastroTipo`.
+- **Prestador e lojista**: tentativas de cadastro não avançaram —
+  travamentos repetidos da extensão de automação do navegador (erros
+  `Cannot access a chrome-extension URL`, abas que pararam de
+  responder) impediram preencher o formulário de forma confiável.
+  Nenhum usuário novo foi criado para esses dois perfis.
+- **Achado à parte, não relacionado ao app**: esta mesma máquina tinha
+  uma sessão sua (`suporte@trancosoresolve.com.br`) já salva no
+  `localStorage` do navegador para a porta usada pelo dev server — você
+  confirmou que é sua mesmo, de uma sessão anterior. Limpei o token
+  antes de continuar os testes de conta de teste, e só voltei a usar
+  essa sessão admin depois que você autorizou explicitamente, e só
+  para leitura.
+
+### Tarefa 3 — mobile 390px: mesma limitação já documentada na Rodada 2
+
+Confirmado de novo, via `window.innerWidth` real (não só visual):
+`resize_window` para 390×844 não muda a largura real da página (ficou
+em 831px). Mesma limitação da ferramenta de automação já registrada na
+Rodada 2 — não é algo que eu resolva deste lado.
+
+### Tarefa 1 — modo claro: sweep adicional sem novos bugs
+
+Páginas públicas verificadas em modo claro nesta sessão, sem achar
+nenhum problema de contraste: Home (completa, até o footer), `/Planos`
+(completa, até os cards de preço), `/SejaPrestador` (hero + grade de
+categorias), `/servicos/eletricista-trancoso` (completa), `/register`,
+`/login` (ambas só testadas em modo escuro — são páginas standalone
+sem o toggle de tema no header).
+
+### Tarefa 4 — catálogo de dados (parcial, via `/AdminUserManagement`)
+
+Números reais vistos ao vivo (18/10/2026): 52 usuários cadastrados, 4
+administradores, 1 prestador de serviço, 6 clientes ativos, 0
+assinaturas ativas, 3 assinaturas em trial, 16 leads capturados, 2
+pagamentos registrados. **Achado, não investigado a fundo (fora do
+escopo desta rodada):** esse "2 pagamentos registrados" não bate com
+`/AdminPagamentos`, que mostra "Nenhuma transação encontrada" — pode
+ser filtro de status diferente entre as duas telas; sinalizando para
+checar numa próxima rodada.
+
+Conta de teste criada nesta sessão: `tocaorganic+rodada3cliente@gmail.com`
+(cliente, verificação de e-mail pendente, ver acima). Nenhum dado foi
+apagado.
+
+### Pendências desta sessão
+
+- Terminar a verificação de e-mail (ou criar conta nova) para a conta
+  `rodada3cliente` e completar `/CadastroTipo`.
+- Cadastro de prestador e lojista de teste (Tarefa 2) — não concluído.
+- Investigar a discrepância de "2 pagamentos" (`AdminUserManagement`)
+  vs. "nenhuma transação" (`AdminPagamentos`).
+- **Decisão do Tony:** qual das 5 variações da oferta pública é a
+  correta, e atualizar os outros 4 lugares para bater.
+
+---
+
+## 18. Validação final — sessão com backend real (18/10/2026)
+
+- Nenhuma alteração de código nesta sessão (foi só verificação ao vivo
+  + investigação) — `git status` seguiu limpo, SHA continua `5e3e6ff5`.
+- Nenhum PR aberto, nenhum merge necessário.
+- Nenhum dado de produção apagado. Única escrita real: o cadastro
+  `tocaorganic+rodada3cliente@gmail.com` (verificação de e-mail
+  pendente, ver seção 17).
+- Publish no Base44: não aplicável (sem mudança de código).

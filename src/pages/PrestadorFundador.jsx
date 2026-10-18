@@ -26,7 +26,7 @@ const PASSOS = [
   { n: 2, title: "Cadastre seus serviços", desc: "Adicione até 10 serviços com fotos e descrição." },
   { n: 3, title: "Envie os dados para verificação", desc: "Documento de identidade e autorização para consulta de antecedentes." },
   { n: 4, title: "Aguarde a aprovação", desc: "Nossa equipe analisa e aprova prestadores elegíveis." },
-  { n: 5, title: "Escolha o plano Profissional", desc: "GRÁTIS para os 100 primeiros: 2 meses sem cartão e sem cobrança. Sem comissão." },
+  { n: 5, title: "Escolha o plano Profissional", desc: "GRÁTIS para os 100 primeiros: 30 dias sem cartão e sem cobrança. Sem comissão." },
   { n: 6, title: "Receba o Selo Fundador", desc: "Se ainda houver vagas, você recebe o Selo Prestador Fundador." },
 ];
 
@@ -37,7 +37,7 @@ const FAQ = [
   },
   {
     q: "Como funciona o período grátis?",
-    r: "Os 100 primeiros clientes entram GRÁTIS no plano Profissional: 2 meses sem cartão e sem nenhuma cobrança. Se quiser continuar depois, você escolhe; se cancelar antes do fim do período, não paga nada.",
+    r: "Os 100 primeiros prestadores entram GRÁTIS no plano Profissional: 30 dias sem cartão e sem nenhuma cobrança. Se quiser continuar depois, você escolhe; se cancelar antes do fim do período, não paga nada.",
   },
   {
     q: "Quando ocorre a primeira cobrança?",
@@ -210,7 +210,7 @@ export default function PrestadorFundador() {
           <Lock className="w-6 h-6 text-orange-600 mx-auto mb-2" />
           <p className="text-sm text-foreground leading-relaxed">
             <strong>Transparência total:</strong> Oferta exclusiva para prestadores aprovados no processo de verificação.
-            Limitada aos primeiros 100 prestadores elegíveis. A cobrança começa somente após os 7 dias gratuitos;
+            Limitada aos primeiros 100 prestadores elegíveis. A cobrança começa somente após os 30 dias gratuitos;
             cancele antes do término do período gratuito para não ser cobrado. O cancelamento posterior remove
             definitivamente o Selo Prestador Fundador. Ao retornar, serão aplicados o preço e as condições vigentes.
           </p>
@@ -243,7 +243,7 @@ export default function PrestadorFundador() {
             Restam vagas para os primeiros 100 prestadores
           </h2>
           <p className="text-orange-50 mb-6 max-w-xl mx-auto">
-            Os 100 primeiros entram GRÁTIS: 2 meses sem cartão, sem cobrança e sem comissão sobre seus serviços.
+            Os 100 primeiros entram GRÁTIS: 30 dias sem cartão, sem cobrança e sem comissão sobre seus serviços.
           </p>
           <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-bold text-base h-12 px-8">
             <Link to="/Planos" onClick={() => pixelClickFounderCTA('cta_final')}>Quero ser Prestador Fundador</Link>

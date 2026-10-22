@@ -1,12 +1,24 @@
 /**
  * Coleta Web Vitals (LCP, CLS, TTFB, loadTime) usando Performance API nativa
  * e envia para logPerformance 1x por sessão por página.
+ *
+ * IMPORTANTE (fix 22/10/2026): TTFB, LOADTIME e as entradas "buffered" de
+ * LCP/CLS pertencem exclusivamente à rota onde a sessão carregou
+ * (INITIAL_LOAD_PATH). Em rotas SPA (navegação interna), o
+ * PerformanceNavigationTiming continua sendo o do carregamento inicial —
+ * atribuí-lo à nova rota gerava alertas falsos com valores idênticos em
+ * páginas diferentes. Rotas SPA reportam apenas LCP/CLS coletados a partir
+ * da própria troca de rota (sem buffered), e ttfb/loadTime = null.
  */
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 
 const SESSION_KEY = 'wv_reported_pages';
+
+// Caminho da rota onde o documento foi carregado (dono do navigation timing).
+// Capturado uma vez, na carga inicial do bundle, antes de qualquer navegação SPA.
+const INITIAL_LOAD_PATH = window.location.pathname;
 
 function getReportedPages() {
   try { return JSON.parse(sessionStorage.getItem(SESSION_KEY) || '[]'); } catch { return []; }
@@ -31,6 +43,7 @@ export default function WebVitalsCollector() {
     const page = location.pathname;
     if (getReportedPages().includes(page)) return;
 
+    const isInitialPage = page === INITIAL_LOAD_PATH;
     const collected = {};
     const observers = [];
 
@@ -42,7 +55,8 @@ export default function WebVitalsCollector() {
           collected.lcp = Math.round(entries[entries.length - 1].startTime);
         }
       });
-      lcpObs.observe({ type: 'largest-contentful-paint', buffered: true });
+      // buffered só na página inicial: entradas antigas não pertencem a rotas SPA
+      lcpObs.observe({ type: 'largest-contentful-paint', buffered: isInitialPage });
       observers.push(lcpObs);
 
       // CLS
@@ -53,19 +67,21 @@ export default function WebVitalsCollector() {
         }
         collected.cls = Math.round(clsScore * 1000) / 1000;
       });
-      clsObs.observe({ type: 'layout-shift', buffered: true });
+      clsObs.observe({ type: 'layout-shift', buffered: isInitialPage });
       observers.push(clsObs);
     }
 
-    // TTFB + loadTime via Navigation Timing API
+    // TTFB + loadTime via Navigation Timing API — apenas para a página inicial
     const sendMetrics = () => {
       if (reportedRef.current) return;
       reportedRef.current = true;
 
-      const nav = performance.getEntriesByType?.('navigation')?.[0];
-      if (nav) {
-        collected.ttfb = Math.round(nav.responseStart - nav.requestStart);
-        collected.loadTime = Math.round(nav.loadEventEnd - nav.startTime);
+      if (isInitialPage) {
+        const nav = performance.getEntriesByType?.('navigation')?.[0];
+        if (nav) {
+          collected.ttfb = Math.round(nav.responseStart - nav.requestStart);
+          collected.loadTime = Math.round(nav.loadEventEnd - nav.startTime);
+        }
       }
 
       markReported(page);

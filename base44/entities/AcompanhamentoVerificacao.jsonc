@@ -1,0 +1,91 @@
+{
+  "name": "AcompanhamentoVerificacao",
+  "type": "object",
+  "properties": {
+    "provider_id": {
+      "type": "string",
+      "description": "ID do ServiceProvider acompanhado"
+    },
+    "provider_name": {
+      "type": "string",
+      "description": "Nome do prestador (denormalizado para exibi\u00e7\u00e3o)"
+    },
+    "provider_email": {
+      "type": "string",
+      "description": "Email do prestador"
+    },
+    "provider_phone": {
+      "type": "string",
+      "description": "Telefone do prestador"
+    },
+    "ocupacao": {
+      "type": "string",
+      "description": "Ocupa\u00e7\u00e3o principal do prestador"
+    },
+    "contatado": {
+      "type": "boolean",
+      "default": false,
+      "description": "Admin j\u00e1 entrou em contato com o prestador"
+    },
+    "contatado_em": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora do primeiro contato"
+    },
+    "respondeu": {
+      "type": "boolean",
+      "default": false,
+      "description": "Prestador respondeu ao contato"
+    },
+    "respondeu_em": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora da resposta"
+    },
+    "documentos_enviados": {
+      "type": "boolean",
+      "default": false,
+      "description": "Prestador enviou os documentos"
+    },
+    "documentos_enviados_em": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora do envio dos documentos"
+    },
+    "aprovado": {
+      "type": "boolean",
+      "default": false,
+      "description": "Verifica\u00e7\u00e3o conclu\u00edda/aprovada"
+    },
+    "aprovado_em": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora da aprova\u00e7\u00e3o"
+    }
+  },
+  "required": [
+    "provider_id"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { toast } from "sonner";
 import VerificacaoBadge from "@/components/verificacao/VerificacaoBadge";
+import AcompanhamentoPrestadores from "@/components/verificacao/AcompanhamentoPrestadores";
 
 // Status normalizados (apenas português)
 const STATUS_MAP = {
@@ -290,6 +291,7 @@ export default function FilaVerificacaoPage() {
   const [selected, setSelected] = useState(null);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [quickActionId, setQuickActionId] = useState(null);
+  const [activeTab, setActiveTab] = useState("documentos");
 
   const { data: user, isLoading: isLoadingUser } = useQuery({
     queryKey: ["currentUser"],
@@ -387,6 +389,29 @@ export default function FilaVerificacaoPage() {
         </Button>
       </div>
 
+      {/* Abas */}
+      <div className="flex gap-1 mb-6 border-b border-border">
+        {[
+          { key: "documentos", label: "Documentos enviados" },
+          { key: "acompanhamento", label: "Prestadores sem verificação" },
+        ].map(({ key, label }) => (
+          <button
+            key={key}
+            type="button"
+            onClick={() => setActiveTab(key)}
+            className={`px-4 py-2.5 text-sm font-semibold border-b-2 -mb-px transition-colors ${
+              activeTab === key
+                ? "border-brand-primary text-brand-primary"
+                : "border-transparent text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {activeTab === "documentos" ? (
+      <>
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
         {[
@@ -558,6 +583,10 @@ export default function FilaVerificacaoPage() {
         onClose={() => { setReviewOpen(false); setSelected(null); }}
         onAction={handleAction}
       />
+      </>
+      ) : (
+        <AcompanhamentoPrestadores />
+      )}
     </div>
   );
 }

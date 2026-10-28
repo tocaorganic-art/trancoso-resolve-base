@@ -18,12 +18,12 @@ function FloatingInput({ id, label, type = 'text', value, onChange, ...props }) 
         onChange={onChange}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="peer w-full pt-5 pb-2 px-3 bg-white/8 border border-white/20 rounded-xl text-white placeholder-transparent focus:outline-hidden focus:ring-2 focus:ring-orange-500/50 transition-all"
+        className="peer w-full pt-5 pb-2 px-3 bg-muted/50 border border-border rounded-xl text-foreground placeholder-transparent focus:outline-hidden focus:ring-2 focus:ring-orange-500/50 transition-all"
         {...props}
       />
       <label
         htmlFor={id}
-        className="absolute left-3 text-white/60 pointer-events-none transition-all duration-200"
+        className="absolute left-3 text-muted-foreground pointer-events-none transition-all duration-200"
         style={{
           top: lifted ? '6px' : '50%',
           transform: lifted ? 'none' : 'translateY(-50%)',
@@ -75,7 +75,7 @@ export default function ResetPassword() {
           </Link>
         }
       >
-        <p className="text-sm text-white/80 text-center">
+        <p className="text-sm text-muted-foreground text-center">
           O link parece estar incompleto. Solicite um novo e-mail de redefinição de senha.
         </p>
       </AuthLayout>
@@ -96,7 +96,7 @@ export default function ResetPassword() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            className="mb-4 p-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20"
+            className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm border border-destructive/20"
           >
             {error}
           </motion.div>

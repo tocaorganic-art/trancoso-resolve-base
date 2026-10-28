@@ -147,7 +147,7 @@ export default function Login() {
         {showEmailForm ? (
           <form onSubmit={handleEmailLogin} className="space-y-3" noValidate>
             <div>
-              <label htmlFor="login-email" className="block text-sm text-white/70 mb-1.5">E-mail</label>
+              <label htmlFor="login-email" className="block text-sm text-muted-foreground mb-1.5">E-mail</label>
               <input
                 id="login-email"
                 type="email"
@@ -156,11 +156,11 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="seu@email.com"
-                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                className="w-full h-12 rounded-lg bg-muted/50 border border-border px-4 text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-500"
               />
             </div>
             <div>
-              <label htmlFor="login-password" className="block text-sm text-white/70 mb-1.5">Senha</label>
+              <label htmlFor="login-password" className="block text-sm text-muted-foreground mb-1.5">Senha</label>
               <input
                 id="login-password"
                 type="password"
@@ -169,10 +169,10 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Sua senha"
-                className="w-full h-12 rounded-lg bg-white/5 border border-white/15 px-4 text-white placeholder-white/40 focus:outline-hidden focus:ring-2 focus:ring-orange-500"
+                className="w-full h-12 rounded-lg bg-muted/50 border border-border px-4 text-foreground placeholder:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-500"
               />
             </div>
-            {error && <p className="text-sm text-red-400" role="alert">{error}</p>}
+            {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
             <Button
               type="submit"
               disabled={loading}
@@ -187,7 +187,7 @@ export default function Login() {
             <button
               type="button"
               onClick={() => { setShowEmailForm(false); setError(""); }}
-              className="w-full text-sm text-white/60 hover:text-white/90 underline"
+              className="w-full text-sm text-muted-foreground hover:text-foreground underline"
             >
               Voltar para outras opções
             </button>
@@ -217,10 +217,10 @@ export default function Login() {
           className="relative my-4"
         >
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-white/10" />
+            <div className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-[#2d1200] px-2 text-white/40">ou continue com</span>
+            <span className="bg-card px-2 text-muted-foreground">ou continue com</span>
           </div>
         </motion.div>
 
@@ -239,7 +239,7 @@ export default function Login() {
           >
             <Button
               variant="outline"
-              className="w-full h-12 text-sm font-medium border-white/20 text-white hover:bg-white/10"
+              className="w-full h-12 text-sm font-medium border-border text-foreground hover:bg-muted"
               onClick={btn.onClick}
             >
               {btn.icon}

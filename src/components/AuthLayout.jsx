@@ -2,15 +2,15 @@ import { motion } from 'framer-motion';
 
 export default function AuthLayout({ icon: Icon, title, subtitle, footer, children }) {
   return (
-    <div className="min-h-screen relative bg-linear-to-b from-[#1a0c00] via-[#2d1200] to-[#1a0c00] flex items-center justify-center px-4 overflow-hidden">
-      {/* Aurora blobs */}
+    <div className="min-h-screen relative bg-background flex items-center justify-center px-4 overflow-hidden">
+      {/* Aurora blobs — cor da marca, intensidade ajustada por tema via opacity do token */}
       <motion.div
-        className="absolute top-[-80px] left-[-80px] w-[360px] h-[360px] rounded-full bg-orange-600/20 blur-[100px] pointer-events-none"
+        className="absolute top-[-80px] left-[-80px] w-[360px] h-[360px] rounded-full bg-primary/20 blur-[100px] pointer-events-none"
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
       <motion.div
-        className="absolute bottom-[-60px] right-[-60px] w-[280px] h-[280px] rounded-full bg-amber-500/15 blur-[90px] pointer-events-none"
+        className="absolute bottom-[-60px] right-[-60px] w-[280px] h-[280px] rounded-full bg-primary/15 blur-[90px] pointer-events-none"
         animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
       />
@@ -37,12 +37,12 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
           >
             <Icon className="w-7 h-7 text-white" aria-hidden="true" />
           </motion.div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">{title}</h1>
-          {subtitle && <p className="text-white/60 mt-2">{subtitle}</p>}
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">{title}</h1>
+          {subtitle && <p className="text-muted-foreground mt-2">{subtitle}</p>}
         </motion.div>
 
-        {/* Glassmorphism card */}
-        <div className="bg-white/5 border border-white/10 backdrop-blur-xs rounded-2xl shadow-xl p-8">
+        {/* Glassmorphism card — bg-card com transparência para manter o blur nos dois temas */}
+        <div className="bg-card/90 border border-border backdrop-blur-xs rounded-2xl shadow-xl p-8">
           {children}
         </div>
 
@@ -51,7 +51,7 @@ export default function AuthLayout({ icon: Icon, title, subtitle, footer, childr
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="text-center text-sm text-white/60 mt-6"
+            className="text-center text-sm text-muted-foreground mt-6"
           >
             {footer}
           </motion.div>

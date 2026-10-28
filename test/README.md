@@ -34,7 +34,7 @@ function.
 
 A RLS (`base44/entities/FounderGrant.jsonc`) é aplicada pelo motor do
 Base44 em runtime — não há como simular isso em `node:test` sem um
-ambiente Base44 real. Ver `test/MANUAL-RLS-CHECKLIST.md` para o roteiro de
+ambiente Base44 real. Ver [MANUAL-RLS-CHECKLIST.md](MANUAL-RLS-CHECKLIST.md) para o roteiro de
 validação manual com usuários de teste (anônimo, prestador dono do grant,
 outro prestador, admin).
 

@@ -37,3 +37,6 @@ dist-ssr
 
 # Scratch output from live-site audits (curl dumps etc.)
 .audit-tmp/
+
+# Notas com dados pessoais reais (nomes, emails, telefones) — nunca versionar
+*.confidencial.md

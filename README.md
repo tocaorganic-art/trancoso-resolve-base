@@ -124,6 +124,16 @@ Eventos e configuração: `base44/functions/asaasWebhook/entry.ts`.
 - [`CHANGELOG.md`](./CHANGELOG.md) — histórico de versões
 - [`CLAUDE.md`](./CLAUDE.md) — guia para agentes de IA (stack, padrões, design system)
 - [`STATUS-DO-PROJETO.md`](./STATUS-DO-PROJETO.md) — estado atual do projeto
+- [`TESTING_GUIDE.md`](./TESTING_GUIDE.md) — guia de testes (manual)
+- [`BROWSER_COMPATIBILITY.md`](./BROWSER_COMPATIBILITY.md) — suporte de browsers
+- [`OPTIMIZATION_SUMMARY.md`](./OPTIMIZATION_SUMMARY.md) — resumo de otimizações de performance
+- [`RELEASE_CHECKLIST.md`](./RELEASE_CHECKLIST.md) — checklist de release
+- [`SEO_RELATORIO.md`](./SEO_RELATORIO.md) — relatório de SEO
+- [`SEO_AUDIT_A1_onpage.md`](./SEO_AUDIT_A1_onpage.md) — auditoria SEO: on-page
+- [`SEO_AUDIT_A2_imagens.md`](./SEO_AUDIT_A2_imagens.md) — auditoria SEO: imagens
+- [`SEO_AUDIT_A3_tecnico.md`](./SEO_AUDIT_A3_tecnico.md) — auditoria SEO: técnico
+- [`SEO_AUDIT_A4_performance.md`](./SEO_AUDIT_A4_performance.md) — auditoria SEO: performance
+- [`test/README.md`](./test/README.md) — testes automatizados (node:test) e checklist manual de RLS
 
 ---
 
@@ -146,3 +156,4 @@ scripts/
 ├── deploy.ps1      # Deploy Windows
 └── generate-sitemap.js
 ```
+- [docs/](docs/INDEX.md)

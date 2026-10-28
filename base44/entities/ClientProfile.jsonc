@@ -1,0 +1,82 @@
+{
+  "name": "ClientProfile",
+  "type": "object",
+  "properties": {
+    "tipo_pessoa": {
+      "type": "string",
+      "enum": [
+        "pf",
+        "pj"
+      ],
+      "default": "pf",
+      "description": "Pessoa física ou jurídica para o cadastro de Cliente"
+    },
+    "cpf": {
+      "type": "string",
+      "description": "CPF do cliente pessoa física"
+    },
+    "cnpj": {
+      "type": "string",
+      "description": "CNPJ do cliente pessoa jurídica (obrigatório quando tipo_pessoa = pj)"
+    },
+    "razao_social": {
+      "type": "string",
+      "description": "Razão social da empresa (tipo_pessoa = pj)"
+    },
+    "nome_fantasia": {
+      "type": "string",
+      "description": "Nome fantasia da empresa (tipo_pessoa = pj)"
+    },
+    "fotos_trabalho_empresa": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "URLs de fotos do trabalho/empresa do cliente, enviadas no cadastro (opcional)"
+    }
+  },
+  "required": [
+    "tipo_pessoa"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by": "{{user.email}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

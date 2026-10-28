@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Briefcase, Shield, Building2, ChevronRight, Loader2 } from 'lucide-react';
+import PortfolioGallery from '@/components/perfil/PortfolioGallery';
 
 const formatCpf = (v) => {
   const d = v.replace(/\D/g, '').substring(0, 11);
@@ -28,7 +29,7 @@ const formatCnpj = (v) => {
   return d;
 };
 
-// step: 'tipo_conta' | 'tipo_pessoa' | 'processando'
+// step: 'tipo_conta' | 'tipo_pessoa' | 'cliente_perfil' | 'processando'
 export default function CadastroTipoPage() {
   const queryClient = useQueryClient();
   const registrationTrackedRef = useRef(false);
@@ -42,6 +43,13 @@ export default function CadastroTipoPage() {
   const [dataNascimento, setDataNascimento] = useState('');
   const [razaoSocial, setRazaoSocial] = useState('');
   const [nomFantasia, setNomeFantasia] = useState('');
+
+  // Cadastro de Cliente PJ (empresa) — opcional, com fotos do trabalho/empresa
+  const [clienteTipoPessoa, setClienteTipoPessoa] = useState('pf');
+  const [clienteCnpj, setClienteCnpj] = useState('');
+  const [clienteRazaoSocial, setClienteRazaoSocial] = useState('');
+  const [clienteNomeFantasia, setClienteNomeFantasia] = useState('');
+  const [clienteFotos, setClienteFotos] = useState([]);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
@@ -139,6 +147,32 @@ export default function CadastroTipoPage() {
 
   const handleClienteClick = () => updateUserMutation.mutate('cliente');
 
+  const handleClientePjClick = () => setStep('cliente_perfil');
+
+  const handleClientePjSubmit = async () => {
+    if (clienteTipoPessoa === 'pj' && clienteCnpj.replace(/\D/g, '').length < 14) {
+      alert('Informe um CNPJ válido.');
+      return;
+    }
+    setStep('processando');
+    if (clienteTipoPessoa === 'pj') {
+      try {
+        await base44.entities.ClientProfile.create({
+          tipo_pessoa: 'pj',
+          cnpj: clienteCnpj.replace(/\D/g, ''),
+          razao_social: clienteRazaoSocial.trim(),
+          nome_fantasia: clienteNomeFantasia.trim(),
+          fotos_trabalho_empresa: clienteFotos,
+        });
+      } catch (error) {
+        // Não bloqueia o cadastro por uma falha transitória ao salvar o perfil PJ;
+        // o cliente pode completar os dados da empresa depois, em Configurações.
+        console.warn('[CadastroTipo] Não foi possível salvar o perfil PJ do cliente:', error);
+      }
+    }
+    updateUserMutation.mutate('cliente');
+  };
+
   const handleLojistaClick = () => updateUserMutation.mutate('lojista');
 
   const handlePrestadorClick = () => {
@@ -212,7 +246,7 @@ export default function CadastroTipoPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[
-                    { icon: User, title: 'Sou Cliente', desc: 'Quero encontrar e contratar os melhores serviços em Trancoso.', action: handleClienteClick, cta: null },
+                    { icon: User, title: 'Sou Cliente', desc: 'Quero encontrar e contratar os melhores serviços em Trancoso.', action: handleClienteClick, cta: null, secondaryLabel: 'Sou empresa (PJ)', secondaryAction: handleClientePjClick },
                     { icon: Briefcase, title: 'Sou Prestador', desc: 'Quero oferecer meus serviços na plataforma.', action: handlePrestadorClick, cta: 'Continuar' },
                     { icon: Building2, title: 'Sou Lojista', desc: 'Quero divulgar minha loja, restaurante ou negócio local com anúncios.', action: handleLojistaClick, cta: null },
                   ].map((opt, i) => (
@@ -242,6 +276,15 @@ export default function CadastroTipoPage() {
                               {opt.cta} <ChevronRight className="w-4 h-4" />
                             </div>
                           )}
+                          {opt.secondaryLabel && (
+                            <button
+                              type="button"
+                              onClick={(e) => { e.stopPropagation(); opt.secondaryAction(); }}
+                              className="mt-3 text-xs text-muted-foreground hover:text-orange-400 underline underline-offset-2"
+                            >
+                              {opt.secondaryLabel}
+                            </button>
+                          )}
                         </CardContent>
                       </Card>
                     </motion.div>
@@ -253,6 +296,78 @@ export default function CadastroTipoPage() {
             </Card>
           </motion.div>
         </AnimatePresence>
+      </div>
+    );
+  }
+
+  // ─── Step Cliente: Pessoa Física ou Empresa (PJ) + fotos do trabalho/empresa ───
+  if (step === 'cliente_perfil') {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <motion.div
+          key="cliente_perfil"
+          initial={{ opacity: 0, x: 32, scale: 0.97 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full max-w-2xl"
+        >
+          <Card className="shadow-2xl">
+            <CardContent className="p-8 md:p-10">
+              <button onClick={() => setStep('tipo_conta')} className="text-sm text-muted-foreground hover:text-foreground mb-6 flex items-center gap-1">
+                ← Voltar
+              </button>
+              <h1 className="text-2xl font-bold text-foreground mb-2">Cadastro de cliente</h1>
+              <p className="text-muted-foreground mb-6 text-sm">Se você representa uma empresa, conte um pouco sobre ela e mostre fotos do seu trabalho.</p>
+
+              <div className="grid grid-cols-2 gap-3 mb-6">
+                <button
+                  type="button"
+                  onClick={() => setClienteTipoPessoa('pf')}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${clienteTipoPessoa === 'pf' ? 'border-orange-500 bg-orange-500/5' : 'border-border'}`}
+                >
+                  <User className="w-5 h-5 text-orange-400 mb-2" />
+                  <span className="block font-semibold text-foreground">Pessoa Física</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setClienteTipoPessoa('pj')}
+                  className={`p-4 rounded-xl border-2 text-left transition-all ${clienteTipoPessoa === 'pj' ? 'border-orange-500 bg-orange-500/5' : 'border-border'}`}
+                >
+                  <Building2 className="w-5 h-5 text-orange-400 mb-2" />
+                  <span className="block font-semibold text-foreground">Empresa (PJ)</span>
+                </button>
+              </div>
+
+              {clienteTipoPessoa === 'pj' && (
+                <div className="space-y-4 mb-6">
+                  <div>
+                    <Label htmlFor="cliente_cnpj" className="text-foreground">CNPJ <span className="text-destructive">*</span></Label>
+                    <Input id="cliente_cnpj" placeholder="00.000.000/0000-00" value={clienteCnpj} onChange={(e) => setClienteCnpj(formatCnpj(e.target.value))} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                      <Label className="text-foreground">Razão Social</Label>
+                      <Input placeholder="Opcional" value={clienteRazaoSocial} onChange={(e) => setClienteRazaoSocial(e.target.value)} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+                    </div>
+                    <div>
+                      <Label className="text-foreground">Nome Fantasia</Label>
+                      <Input placeholder="Opcional" value={clienteNomeFantasia} onChange={(e) => setClienteNomeFantasia(e.target.value)} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-foreground mb-2 block">Fotos do seu trabalho e empresa</Label>
+                    <PortfolioGallery images={clienteFotos} onChange={setClienteFotos} />
+                  </div>
+                </div>
+              )}
+
+              <Button className="w-full bg-linear-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600 text-white" onClick={handleClientePjSubmit} disabled={updateUserMutation.isPending}>
+                {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+                {clienteTipoPessoa === 'pj' ? 'Concluir cadastro da empresa' : 'Continuar como Pessoa Física'}
+              </Button>
+            </CardContent>
+          </Card>
+        </motion.div>
       </div>
     );
   }
@@ -279,7 +394,7 @@ export default function CadastroTipoPage() {
 
           <div className="space-y-4">
             <div>
-              <Label className="text-foreground">Tipo de pessoa <span className="text-red-400">*</span></Label>
+              <Label className="text-foreground">Tipo de pessoa <span className="text-destructive">*</span></Label>
               <Select value={tipoPessoa} onValueChange={setTipoPessoa}>
                 <SelectTrigger className="bg-background border-border text-foreground"><SelectValue /></SelectTrigger>
                 <SelectContent className="bg-card border-border">
@@ -291,24 +406,24 @@ export default function CadastroTipoPage() {
             </div>
 
             <div>
-              <Label htmlFor="cpf_cad" className="text-foreground">CPF do responsável <span className="text-red-400">*</span></Label>
+              <Label htmlFor="cpf_cad" className="text-foreground">CPF do responsável <span className="text-destructive">*</span></Label>
               <Input id="cpf_cad" placeholder="000.000.000-00" value={cpf} onChange={(e) => setCpf(formatCpf(e.target.value))} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
             </div>
 
             <div>
-              <Label htmlFor="nome_completo_cad" className="text-foreground">Nome completo <span className="text-red-400">*</span></Label>
+              <Label htmlFor="nome_completo_cad" className="text-foreground">Nome completo <span className="text-destructive">*</span></Label>
               <Input id="nome_completo_cad" placeholder="Seu nome completo" value={nomeCompleto} onChange={(e) => setNomeCompleto(e.target.value)} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
             </div>
 
             <div>
-              <Label htmlFor="data_nasc_cad" className="text-foreground">Data de nascimento <span className="text-red-400">*</span></Label>
+              <Label htmlFor="data_nasc_cad" className="text-foreground">Data de nascimento <span className="text-destructive">*</span></Label>
               <Input id="data_nasc_cad" type="date" value={dataNascimento} onChange={(e) => setDataNascimento(e.target.value)} className="bg-background border-border text-foreground" />
             </div>
 
             {(tipoPessoa === 'mei' || tipoPessoa === 'pj') && (
               <>
                 <div>
-                  <Label htmlFor="cnpj_cad" className="text-foreground">CNPJ <span className="text-red-400">*</span></Label>
+                  <Label htmlFor="cnpj_cad" className="text-foreground">CNPJ <span className="text-destructive">*</span></Label>
                   <Input id="cnpj_cad" placeholder="00.000.000/0000-00" value={cnpj} onChange={(e) => setCnpj(formatCnpj(e.target.value))} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

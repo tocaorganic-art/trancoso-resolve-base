@@ -22,12 +22,12 @@ function FloatingInput({ id, label, type = 'text', value, onChange, ...props }) 
         onChange={onChange}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
-        className="peer w-full pt-5 pb-2 px-3 bg-white/8 border border-white/20 rounded-xl text-white placeholder-transparent focus:outline-hidden focus:ring-2 focus:ring-orange-500/50 transition-all"
+        className="peer w-full pt-5 pb-2 px-3 bg-muted/50 border border-border rounded-xl text-foreground placeholder-transparent focus:outline-hidden focus:ring-2 focus:ring-orange-500/50 transition-all"
         {...props}
       />
       <label
         htmlFor={id}
-        className="absolute left-3 text-white/60 pointer-events-none transition-all duration-200"
+        className="absolute left-3 text-muted-foreground pointer-events-none transition-all duration-200"
         style={{
           top: lifted ? '6px' : '50%',
           transform: lifted ? 'none' : 'translateY(-50%)',
@@ -122,7 +122,7 @@ export default function Register() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="mb-4 p-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20"
+              className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm border border-destructive/20"
             >
               {error}
             </motion.div>
@@ -162,7 +162,7 @@ export default function Register() {
             )}
           </Button>
         </motion.div>
-        <p className="text-center text-sm text-white/60 mt-4">
+        <p className="text-center text-sm text-muted-foreground mt-4">
           Não recebeu o código?{" "}
           <button onClick={handleResend} className="text-orange-400 font-medium hover:underline">
             Reenviar
@@ -195,7 +195,7 @@ export default function Register() {
       >
         <Button
           variant="outline"
-          className="w-full h-12 text-sm font-medium mb-6 border-white/20 text-white hover:bg-white/10"
+          className="w-full h-12 text-sm font-medium mb-6 border-border text-foreground hover:bg-muted"
           onClick={handleGoogle}
         >
           <GoogleIcon className="w-5 h-5 mr-2" />
@@ -205,10 +205,10 @@ export default function Register() {
 
       <div className="relative my-4">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-white/10" />
+          <div className="w-full border-t border-border" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-[#2d1200] px-2 text-white/40">ou</span>
+          <span className="bg-card px-2 text-muted-foreground">ou</span>
         </div>
       </div>
 
@@ -220,7 +220,7 @@ export default function Register() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            className="mb-4 p-3 rounded-lg bg-red-500/10 text-red-400 text-sm border border-red-500/20"
+            className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm border border-destructive/20"
           >
             {error}
           </motion.div>

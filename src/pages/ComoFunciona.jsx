@@ -260,7 +260,7 @@ export default function ComoFuncionaPage() {
           <BadgeCheck className="w-5 h-5 text-green-500 shrink-0" />
           <div>
             <p className="text-xs font-bold text-foreground">João Eletricista</p>
-            <p className="text-xs text-muted-foreground">✅ Perfil verificado</p>
+            <p className="text-xs text-muted-foreground">Perfil verificado</p>
           </div>
         </FloatingCard>
 

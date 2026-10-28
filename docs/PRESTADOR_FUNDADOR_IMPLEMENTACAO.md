@@ -9,16 +9,20 @@
 
 ## 1. Visão Geral
 
-O programa **Prestador Fundador** concede um selo permanente aos primeiros 100 prestadores verificados que assinarem o plano Profissional (R$ 19,90/mês). O selo é uma distinção vitalícia e irrevogável à posição — cancelamentos não liberam vagas para outros prestadores.
+O programa **Prestador Fundador** concede um selo permanente aos primeiros 100 prestadores verificados que assinarem o plano Profissional (R$ 59,90/mês, após 2 meses grátis). O selo é uma distinção vitalícia e irrevogável à posição — cancelamentos não liberam vagas para outros prestadores.
+
+> ⚠️ **Correção (27/10/2026):** esta tabela dizia R$ 19,90/mês com trial de 7 (ou 30) dias.
+> Confirmado com Tony que o valor correto é **R$ 59,90/mês com 2 meses grátis sem cartão**,
+> que é o que já está implementado em `src/pages/PrestadorFundador.jsx` (página real em
+> produção). Os números abaixo foram corrigidos para bater com o código/produção.
 
 ### Regras Comerciais Imutáveis
 
 | Regra | Valor |
 |-------|-------|
 | Limite máximo de concessões | 100 |
-| Preço mensal | R$ 19,90 |
-| Trial Profissional | 7 dias grátis |
-| Teste Gratuito (alternativo) | 30 dias sem cartão |
+| Preço mensal (após período grátis) | R$ 59,90 |
+| Período grátis | 2 meses, sem cartão |
 | Cancelamento | Perde o selo definitivamente |
 | Retorno após cancelamento | Não recupera o selo |
 | Posição revogada | Permanece consumida (não volta ao pool) |

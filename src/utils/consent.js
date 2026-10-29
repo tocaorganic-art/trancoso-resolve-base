@@ -102,13 +102,25 @@ function enableMetaPixel(documentRef, windowRef) {
   });
 }
 
+function enableMicrosoftClarity(documentRef, windowRef) {
+  const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
+  if (!projectId) return;
+  windowRef.clarity = windowRef.clarity || function clarity(...args) {
+    (windowRef.clarity.q = windowRef.clarity.q || []).push(args);
+  };
+  appendScriptOnce(documentRef, 'trancoso-clarity', `https://www.clarity.ms/tag/${projectId}`);
+}
+
 export function activateOptionalTracking(
   consent,
   documentRef = document,
   windowRef = window,
 ) {
   if (!consent) return;
-  if (consent.analytics) enableGoogleTagManager(documentRef, windowRef, consent);
+  if (consent.analytics) {
+    enableGoogleTagManager(documentRef, windowRef, consent);
+    enableMicrosoftClarity(documentRef, windowRef);
+  }
   if (consent.marketing) enableMetaPixel(documentRef, windowRef);
 }
 

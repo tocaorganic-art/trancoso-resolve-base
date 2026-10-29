@@ -131,7 +131,7 @@ export default function BannerRotativo() {
               <picture>
                 <source srcSet={s.webpDesk} type="image/webp" />
                 <img src={s.img} alt={s.alt} width={1920} height={640}
-                   loading={idx === 0 ? "eager" : "lazy"}
+                   loading="lazy"
                    fetchPriority={idx === 0 ? "high" : "low"}
                    decoding="async"
                    className="w-full h-full object-cover block" />

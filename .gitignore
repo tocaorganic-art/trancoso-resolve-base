@@ -35,6 +35,9 @@ dist-ssr
 .claude-flow/
 .swarm/
 
+# Memoria local do Claude Code (autoMemoryDirectory aponta para a vault segundo-cerebro)
+.claude/settings.local.json
+
 # Scratch output from live-site audits (curl dumps etc.)
 .audit-tmp/
 

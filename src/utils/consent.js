@@ -103,7 +103,9 @@ function enableMetaPixel(documentRef, windowRef) {
 }
 
 function enableMicrosoftClarity(documentRef, windowRef) {
-  const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID;
+  // ID público do projeto Microsoft Clarity (não é segredo). O site oficial é publicado
+  // pelo Base44, que não lê variáveis do Vercel; por isso o valor padrão fica no código.
+  const projectId = import.meta.env.VITE_CLARITY_PROJECT_ID || 'z5j9vakf44';
   if (!projectId) return;
   windowRef.clarity = windowRef.clarity || function clarity(...args) {
     (windowRef.clarity.q = windowRef.clarity.q || []).push(args);

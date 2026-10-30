@@ -370,10 +370,12 @@ npm run typecheck  # TypeScript check (JSX)
 
 ### Testes automatizados
 
-Atualmente **não há suíte de testes**. Dependências instaladas:
-- `@testing-library/react`, `@testing-library/jest-dom`, `jest`, `jest-axe`
+Suíte com `node:test` em `tests/` (rodar um por vez: `node --test tests/<arquivo>.test.js`):
+- `consent-and-analytics.test.js`: LGPD. O `index.html` não carrega Google, Meta nem Clarity antes do consentimento; o Clarity só carrega junto do GA4, com consentimento de analytics.
+- `lead-validation.test.js`: validação de leads.
+- `meta-pixel-id-consistency.test.js`: um único Pixel Meta em todo o código.
 
-**TODO:** configurar e adicionar testes E2E / unit.
+Todo PR deve passar em `npm run build` (0 erros) e em todos os testes.
 
 ### Acessibilidade
 
@@ -385,10 +387,12 @@ Atualmente **não há suíte de testes**. Dependências instaladas:
 
 ## 📊 Deployment e infraestrutura
 
-### Hosting
+### Hosting (conferido ao vivo em 29/10/2026)
 
-- **Vercel** — deploy automático de `main`, preview em PRs
-- `vercel.json` — configuração: rewrites para SPA, rewrite `/sitemap.xml`
+- **Produção (trancosoresolve.com.br) é publicada pelo Base44**, pelo botão **Publish**, que é **exclusivo do Tony**. Cabeçalhos ao vivo: Cloudflare na frente de Caddy/uvicorn (infra do Base44). O Base44 compila a `main` deste repositório (sync 2-way).
+- **Vercel (trancoso-resolve.vercel.app) é só cópia de reserva/preview de PR.** Não é a produção: variáveis de ambiente criadas no Vercel **não chegam** ao site oficial.
+- `vercel.json`: rewrites para SPA e `/sitemap.xml` (vale só para a cópia no Vercel).
+- **Prova de deploy:** HTTP 200 sozinho não prova nada. Conferir pelo conteúdo do bundle ao vivo (ex.: buscar uma string da mudança no `assets/index-*.js` servido pelo domínio).
 
 ### Build
 
@@ -401,32 +405,25 @@ npm run build
 
 ### Variáveis de ambiente
 
-Nenhuma configurada explicitamente no `.env`. Verificar Vercel dashboard para secrets.
+- Não há `.env` versionado. O build de produção do Base44 **não lê** variáveis `VITE_*` do Vercel.
+- **Valores públicos** (Project ID do Clarity, Measurement ID do GA4, Pixel Meta) podem ficar no código como valor padrão, com a variável `VITE_*` tendo prioridade se existir (ex.: `src/utils/consent.js`).
+- **Segredos** ficam só no backend, no painel de segredos do Base44, lidos com `Deno.env.get(...)`. Nunca hardcodar token, chave ou senha.
+
+### Analytics e rastreamento (29/10/2026)
+
+| Ferramenta | ID | Observação |
+|---|---|---|
+| GA4 | `G-3KF75243B4` | Propriedade oficial `540240288` ("Trancoso resolve"). A `540301725` é duplicada e vazia. |
+| GTM | `GTM-5CQLT5JM` | Carregado só após consentimento. |
+| Google Ads | `AW-18431007500` | Conta 714-209-2343. |
+| Meta Pixel | `1469130194903035` | Único Pixel no código (teste `meta-pixel-id-consistency`). |
+| Microsoft Clarity | `z5j9vakf44` | Carrega só com consentimento de analytics, no mesmo ponto do GTM (`src/utils/consent.js`). A API de exportação aceita 10 consultas por dia. |
+
+Consent Mode v2 (LGPD): tudo negado por padrão no `index.html` até o usuário decidir no banner (`localStorage['cookie-consent']`).
 
 ---
 
 ## 🐛 Problemas conhecidos e backlog
-
-### ⚠️ REGRA ATIVA — Base44 sem créditos (25/08/2026 → renovação 01/09/2026)
-
-Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, renova em
-01/09/2026). Enquanto isso durar:
-
-- **O `main` deste repositório GitHub é a fonte da verdade.** Todo PR aprovado por Tony deve
-  ser mergeado em `main` normalmente — isso não depende de crédito do Base44.
-- **Vercel** (frontend, deploy automático de `main`) funciona **independente** do Base44—
-  sem crédito não impede o deploy do site em si.
-- **Rotas `/api/*`** são redirecionadas para `https://base44.app/api/$1` (ver `vercel.json`) —
-  o comportamento do backend (funções em `base44/functions/`) só reflete o que está em
-  `main` **depois** que Tony fizer o *pull* do GitHub → Base44 dentro do editor Base44
-  (ver regra "Sync GitHub ↔ Base44" abaixo). Esse pull/preview no editor é o que está
-  bloqueado sem crédito — não confirmado ainda se a app já publicada continua rodando
-  normalmente ou se o próprio runtime é afetado.
-- **Enquanto o crédito não renova:** manter todos os PRs prontos/aprovados mergeados em
-  `main`, para que, assim que os créditos voltarem em 01/09/2026, um único pull/publish no
-  Base44 já traga tudo de uma vez. Não é necessário (nem recomendado) mergear PRs com
-  pendências de decisão em aberto só por causa disso — ver PRs #1 e #3 abertos, cada um com
-  ressalvas explícitas que dependem de decisão do Tony.
 
 ### Prioridade alta
 
@@ -440,7 +437,7 @@ Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, r
    ⚠️ **REGRA:** `node_modules` e `dist` já estão no `.gitignore` — nunca force adicioná-los
    de volta ao índice do git. Se o publish voltar a falhar com erro de S3, confira primeiro
    `git ls-files | grep -c node_modules` — deve ser sempre `0`.
-   ⚠️ **NUNCA** push do Base44 → GitHub (sobrescreve migração de marca).
+   ⚠️ Depois do Publish do Tony, o commit automático do `base44-builder[bot]` na `main` é o sync esperado; não reverter.
 
 2. **QA visual das páginas** — rodar `npm run dev`, conferir claro/escuro
    em todas as rotas: Dashboard, Financeiro, Home, Chat, admin/*, destinos/*.
@@ -466,7 +463,7 @@ Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, r
 
 ## 🔍 SEO — estado atual (24/06/2026)
 
-### O que já está no `main` (deployado na Vercel)
+### O que já está no `main` (publicado no Base44)
 
 **PR #48** (commit `54701436`):
 - `index.html` — schemas LocalBusiness (com `telephone`, `email`, `aggregateRating`, `sameAs` corretos), Organization, WebSite, FAQPage
@@ -571,7 +568,7 @@ Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, r
 ### Quando um PR está pronto para mergear, execute esta sequência:
 
 1. **Verificar pré-condições** (via `mcp__github__pull_request_read`):
-   - CI verde: checks `Lint & Build` + `Vercel – Preview` com status `success`
+   - CI verde: check `Lint, Test & Build` com status `success`
    - `mergeable_state: clean` (sem conflitos)
    - Nenhum review pendente / changes requested bloqueando
 
@@ -581,8 +578,8 @@ Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, r
    - Título do commit: mesmo título do PR
    - Body: vazio ou resumo automático do GitHub
 
-4. **Confirmar deploy Vercel:** aguardar alguns segundos e verificar se o workflow
-   `Vercel – Production Deployment` foi disparado (ou confirmar na Vercel Dashboard)
+4. **Não publicar.** O Publish no Base44 é exclusivo do Tony. Avisar "Pronto para o Tony publicar" com o SHA do squash.
+   Depois do Publish, conferir no bundle ao vivo do trancosoresolve.com.br se a mudança entrou.
 
 5. **Repetir para todos os PRs abertos**, na ordem: mais antigo → mais novo
 
@@ -590,11 +587,23 @@ Tony ficou sem créditos de mensagem/preview no editor do Base44 (0 restantes, r
 
 - **NUNCA** usar `merge_method: merge` (gera commit extra) — sempre squash
 - **NUNCA** push direto em `main` — branch protection está ativa
-- **NUNCA** push do Base44 → GitHub (sobrescreve migração de marca)
+- Depois do Publish, o commit do `base44-builder[bot]` na `main` é o sync esperado; não reverter. Se não houve mudança feita no Builder, ele não cria commit (normal).
 - Se um PR tiver CI falhando, investigar e corrigir antes de mergear
 - Commit messages em português, imperativo ("fix: corrige", "feat: adiciona")
-- Após mergear, o deploy Vercel dispara automaticamente via integração Git
+- Após mergear, o Vercel gera só a cópia de reserva; a produção só muda quando o Tony clica Publish no Base44
+
+### Regras inegociáveis (confirmadas pelo Tony)
+
+1. **Publish é exclusivo do Tony.** Nunca rodar `base44 deploy`, `site deploy` nem `entities push`.
+2. **Arquivos protegidos:** `src/lib/facebook-pixel.ts`, `src/lib/whatsapp-templates.ts`, `src/utils/index.js` e todos os `base44/functions/*/entry.ts` (a pasta `_shared` é helper e não tem `entry.ts`). Se faltar algum, parar e avisar; nunca recriar.
+3. **`index.html`:** só mudanças cirúrgicas, sem tocar em LGPD/Consent Mode nem no Meta Pixel.
+4. **Pagamentos:** Asaas é o gateway oficial. Não editar nem reativar Mercado Pago ou Stripe; só sinalizar.
+5. **Oferta:** 2 meses (60 dias) grátis sem cartão; os 100 primeiros recebem o Selo Fundador. Nunca escrever "30 dias grátis". Preço e plano só mudam com ordem do Tony.
+6. **Sem CTA público de WhatsApp.** Marca: só o Brand Kit "Trancoso Resolve Casa".
+7. **Entidades:** mudanças mínimas em `base44/entities/*.jsonc`; schema ausente localmente não significa apagar no remoto.
+8. **Contato externo:** nunca enviar e-mail, abrir ticket ou falar com suporte por iniciativa própria.
+9. **Arquivos não rastreados do Tony** (ex.: `ESTRATEGIA_GROWTH.md` na raiz) ficam fora do git: não abrir, mover, commitar nem apagar.
 
 ---
 
-**Última atualização:** 23/07/2026
+**Última atualização:** 29/10/2026

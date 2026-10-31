@@ -7,9 +7,10 @@ import { base44 } from '@/api/base44Client';
 import { CONSENT_CHANGED_EVENT, trackAnalyticsEvent } from '@/utils/consent.js';
 import { buildConversionParams, conversionKey, pickSubscription } from '@/utils/assinaturaConversao.js';
 
-// O webhook do Asaas pode chegar alguns segundos depois do redirect.
-const POLL_INTERVAL_MS = 4000;
-const POLL_MAX_TENTATIVAS = 8;
+// O webhook do Asaas pode chegar depois do redirect: consulta por cerca de
+// 2,5 minutos, com intervalo crescente de 5s até 10s.
+const POLL_MAX_TENTATIVAS = 20;
+const pollDelay = (tentativa) => Math.min(4000 + tentativa * 1000, 10000);
 
 const storageGet = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
 const storageSet = (key, value) => { try { localStorage.setItem(key, value); } catch { /* storage indisponível */ } };
@@ -83,7 +84,7 @@ export default function AssinaturaConfirmada() {
         // Falha transitória: tenta de novo até o limite.
       }
       if (!cancelado && tentativas < POLL_MAX_TENTATIVAS) {
-        timer = setTimeout(verificar, POLL_INTERVAL_MS);
+        timer = setTimeout(verificar, pollDelay(tentativas));
       }
     };
 

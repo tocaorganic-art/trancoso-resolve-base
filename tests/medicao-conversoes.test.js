@@ -20,6 +20,7 @@ const ativa = {
   status: 'active',
   subscription_start: '2026-10-30',
   asaas_subscription_id: 'sub_asaas_1',
+  updated_date: '2026-10-30T14:58:00Z',
 };
 
 test('Google Ads: valor real do plano (Profissional 59,90; Boost 9,90; anual)', () => {
@@ -36,6 +37,9 @@ test('Google Ads: só conta pagamento confirmado pelo backend e recente', () => 
   assert.equal(isPagamentoConfirmado({ ...ativa, subscription_start: undefined }, AGORA), false);
   assert.equal(isPagamentoConfirmado({ ...ativa, subscription_start: '2026-09-01' }, AGORA), false);
   assert.equal(isPagamentoConfirmado(null, AGORA), false);
+  // Registro não atualizado pelo webhook nos últimos 15 min (ex.: renovação antiga)
+  assert.equal(isPagamentoConfirmado({ ...ativa, updated_date: '2026-10-29T10:00:00Z' }, AGORA), false);
+  assert.equal(isPagamentoConfirmado({ ...ativa, updated_date: undefined }, AGORA), false);
 });
 
 test('Google Ads: parâmetros da conversão levam valor, moeda e transaction_id', () => {

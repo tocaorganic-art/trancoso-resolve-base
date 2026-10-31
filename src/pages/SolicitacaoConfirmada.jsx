@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { CheckCircle, Clock, Star, ArrowRight, Home } from 'lucide-react';
-import { trackAnalyticsEvent } from '@/utils/consent.js';
+import { CONSENT_CHANGED_EVENT, trackAnalyticsEvent } from '@/utils/consent.js';
 
 const Particle = ({ delay, x, size }) => (
   <motion.div
@@ -27,12 +27,23 @@ export default function SolicitacaoConfirmadaPage() {
 
   // Conversão "Enviar formulário de lead" no Google Ads (AW-18431007500).
   // Dispara uma vez por sessão, apenas com consentimento de analytics.
+  // A marca de "enviado" só é gravada depois do envio de fato: quem aceitar
+  // os cookies depois, na mesma visita, ainda gera a conversão.
   useEffect(() => {
-    if (sessionStorage.getItem('gads-lead-conversion-sent') === '1') return;
-    sessionStorage.setItem('gads-lead-conversion-sent', '1');
-    trackAnalyticsEvent('conversion', {
-      send_to: 'AW-18431007500/_7iUCJ3Vo_EcEIy2y9RE',
-    });
+    const KEY = 'gads-lead-conversion-sent';
+    const enviar = () => {
+      try {
+        if (sessionStorage.getItem(KEY) === '1') return;
+        if (trackAnalyticsEvent('conversion', { send_to: 'AW-18431007500/_7iUCJ3Vo_EcEIy2y9RE' })) {
+          sessionStorage.setItem(KEY, '1');
+        }
+      } catch {
+        // storage indisponível: não bloqueia a página
+      }
+    };
+    enviar();
+    window.addEventListener(CONSENT_CHANGED_EVENT, enviar);
+    return () => window.removeEventListener(CONSENT_CHANGED_EVENT, enviar);
   }, []);
 
   return (

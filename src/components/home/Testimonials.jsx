@@ -1,34 +1,14 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Star } from 'lucide-react';
-import LazyImage from '@/components/ui/LazyImage';
 import { useApp } from '@/contexts/AppContext';
 
-const testimonials = [
-  {
-    name: 'Ana Júlia S.',
-    role: 'Cliente de São Paulo',
-    avatar: 'https://i.pravatar.cc/150?img=1',
-    rating: 5,
-    comment: 'Contratei um serviço de limpeza de última hora e foi impecável. O prestador era verificado e super profissional. O Trancoso Resolve salvou minhas férias!'
-  },
-  {
-    name: 'Carlos F.',
-    role: 'Chef de Cozinha',
-    avatar: 'https://i.pravatar.cc/150?img=32',
-    rating: 5,
-    comment: 'Desde que me cadastrei, minha agenda está sempre cheia. A plataforma me deu a visibilidade que eu precisava para conseguir clientes de alto padrão em Trancoso.'
-  },
-  {
-    name: 'Mariana C.',
-    role: 'Arquiteta e Cliente',
-    avatar: 'https://i.pravatar.cc/150?img=5',
-    rating: 5,
-    comment: 'Usei para contratar um eletricista e um jardineiro para uma casa que estou reformando. Ambos foram excelentes. A facilidade de encontrar profissionais qualificados é o grande diferencial.'
-  },
-];
+// Depoimentos só entram aqui quando vierem de avaliações reais de clientes
+// (ex.: entidade de avaliação), passados pela prop `testimonials`.
+// Nunca usar texto fixo no código nem avatar de banco de imagem: sem
+// depoimento real, a seção não é exibida.
 
 const StarRating = ({ rating }) => (
-  <div className="flex gap-0.5">
+  <div className="flex gap-0.5" aria-label={`${rating} de 5`}>
     {Array.from({ length: 5 }).map((_, index) => (
       <Star
         key={index}
@@ -38,13 +18,22 @@ const StarRating = ({ rating }) => (
   </div>
 );
 
-export default function Testimonials() {
+const initials = (name = '') =>
+  name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join('');
+
+export default function Testimonials({ testimonials = [] }) {
   const { t } = useApp();
-  const localizedTestimonials = testimonials.map((testimonial, index) => ({
-    ...testimonial,
-    role: t(`testimonials.roles.${index}`),
-    comment: t(`testimonials.comments.${index}`),
-  }));
+  const reais = Array.isArray(testimonials)
+    ? testimonials.filter((item) => item?.name && item?.comment)
+    : [];
+
+  if (reais.length === 0) return null;
+
   return (
     <section className="bg-slate-100 py-20">
       <div className="container mx-auto px-4">
@@ -53,27 +42,30 @@ export default function Testimonials() {
           <p className="text-slate-700 mt-2 font-medium text-lg">{t('testimonials.subtitle')}</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-           {localizedTestimonials.map((testimonial, index) => (
-             <Card key={index} className="border-none shadow-lg bg-white">
-               <CardContent className="p-8 flex flex-col h-full">
-                 <div className="grow mb-4">
-                   <StarRating rating={testimonial.rating} />
-                   <p className="text-slate-800 mt-4 italic leading-relaxed text-base">"{testimonial.comment}"</p>
-                 </div>
-                 <div className="flex items-center mt-auto">
-                   <LazyImage src={testimonial.avatar} alt={testimonial.name} className="w-12 h-12 rounded-full mr-4" priority={true} />
-                   <div>
-                     <p className="font-bold text-slate-900 text-base">{testimonial.name}</p>
-                     <p className="text-sm font-medium text-slate-700">{testimonial.role}</p>
-                   </div>
-                 </div>
-               </CardContent>
-             </Card>
-           ))}
-         </div>
-
-
+          {reais.map((testimonial, index) => (
+            <Card key={testimonial.id || index} className="border-none shadow-lg bg-white">
+              <CardContent className="p-8 flex flex-col h-full">
+                <div className="grow mb-4">
+                  {typeof testimonial.rating === 'number' && <StarRating rating={testimonial.rating} />}
+                  <p className="text-slate-800 mt-4 italic leading-relaxed text-base">"{testimonial.comment}"</p>
+                </div>
+                <div className="flex items-center mt-auto">
+                  <div
+                    aria-hidden="true"
+                    className="w-12 h-12 rounded-full mr-4 bg-orange-100 text-orange-700 font-bold flex items-center justify-center"
+                  >
+                    {initials(testimonial.name)}
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900 text-base">{testimonial.name}</p>
+                    {testimonial.role && <p className="text-sm font-medium text-slate-700">{testimonial.role}</p>}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </div>
-        </section>
-        );
-        }
+      </div>
+    </section>
+  );
+}

@@ -46,31 +46,43 @@ jobs:
             const { owner, repo } = context.repo;
             const head = `${owner}:${context.ref.replace('refs/heads/', '')}`;
             const base = 'main';
+            // Sem filtro de base: um PR já aberto para outra base (ex.: empilhado
+            // sobre outra branch de fix/feat) também conta como "já existe".
             const { data: openPulls } = await github.rest.pulls.list({
               owner,
               repo,
               state: 'open',
               head,
-              base,
             });
 
             let pullRequest = openPulls[0];
             if (!pullRequest) {
-              const { data } = await github.rest.pulls.create({
-                owner,
-                repo,
-                head: context.ref.replace('refs/heads/', ''),
-                base,
-                title: `Atualização automática: ${context.ref.replace('refs/heads/', '')}`,
-                body: [
-                  'PR criado automaticamente após validação local no GitHub Actions.',
-                  '',
-                  `Commit validado: ${context.sha}`,
-                  'Validações: lint, testes e build.',
-                  'Após o merge, o deploy no Base44 continua manual.',
-                ].join('\n'),
-              });
-              pullRequest = data;
+              try {
+                const { data } = await github.rest.pulls.create({
+                  owner,
+                  repo,
+                  head: context.ref.replace('refs/heads/', ''),
+                  base,
+                  title: `Atualização automática: ${context.ref.replace('refs/heads/', '')}`,
+                  body: [
+                    'PR criado automaticamente após validação local no GitHub Actions.',
+                    '',
+                    `Commit validado: ${context.sha}`,
+                    'Validações: lint, testes e build.',
+                    'Após o merge, o deploy no Base44 continua manual.',
+                  ].join('\n'),
+                });
+                pullRequest = data;
+              } catch (error) {
+                // "GitHub Actions is not permitted to create or approve pull requests."
+                // é uma configuração do repositório, não uma falha de validação: o
+                // código já passou lint/teste/build. Não quebra o check por isso.
+                if (error.status === 403) {
+                  core.warning(`Não foi possível criar o PR automaticamente: ${error.message}`);
+                  return;
+                }
+                throw error;
+              }
             }
 
             core.info(`PR pronto para revisão: ${pullRequest.html_url}`);

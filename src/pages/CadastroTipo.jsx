@@ -30,6 +30,8 @@ const formatCnpj = (v) => {
   return d;
 };
 
+const PRAZO_TOTAL_REDIRECT_MS = 20000;
+
 const ERRO_SALVAR = 'Não foi possível salvar seu cadastro agora. Verifique sua conexão e tente novamente.';
 
 // Mensagem de erro exibida na própria tela, no lugar do alerta nativo do navegador.
@@ -79,12 +81,16 @@ export default function CadastroTipoPage() {
   });
 
   const redirectPrestador = async (email, name) => {
+    // Prazo total de 20s para todas as chamadas abaixo somadas: o spinner
+    // nunca fica mais que isso antes de seguir para /MeuPerfilPrestador.
+    const prazoFinal = Date.now() + PRAZO_TOTAL_REDIRECT_MS;
+    const comPrazo = (promise) => withTimeout(promise, Math.max(1000, prazoFinal - Date.now()));
     // Cria o trial ANTES do redirect. O fire-and-forget anterior era abortado pela
     // navegação (window.location.replace) e o trial se perdia silenciosamente.
-    // Cada chamada tem limite de tempo próprio (withTimeout): em rede lenta o
+    // As chamadas têm prazo total (comPrazo): em rede lenta o
     // fluxo segue para /MeuPerfilPrestador em vez de travar ou cair no /Dashboard.
     try {
-      await withTimeout(base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name }));
+      await comPrazo(base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name }));
     } catch {
       localStorage.setItem('trial_pendente', 'true');
     }
@@ -105,24 +111,24 @@ export default function CadastroTipoPage() {
       autorizou_verificacao: autorizouVerificacao,
     };
     try {
-      const providers = await withTimeout(base44.entities.ServiceProvider.filter({ created_by: email }));
+      const providers = await comPrazo(base44.entities.ServiceProvider.filter({ created_by: email }));
       let providerId;
       if (!providers || providers.length === 0) {
-        const created = await withTimeout(base44.entities.ServiceProvider.create(providerData));
+        const created = await comPrazo(base44.entities.ServiceProvider.create(providerData));
         providerId = created.id;
       } else {
         providerId = providers[0].id;
-        await withTimeout(base44.entities.ServiceProvider.update(providerId, providerData));
+        await comPrazo(base44.entities.ServiceProvider.update(providerId, providerData));
       }
       // PII em local seguro (LGPD): espelha CPF e data de nascimento no
       // ServiceProviderPrivate (nome_mae é coletado depois, no perfil).
       try {
-        const privateRows = await withTimeout(base44.entities.ServiceProviderPrivate.filter({ service_provider_id: providerId }));
+        const privateRows = await comPrazo(base44.entities.ServiceProviderPrivate.filter({ service_provider_id: providerId }));
         const privateData = { cpf: providerData.cpf, data_nascimento: dataNascimento };
         if (privateRows?.length) {
-          await withTimeout(base44.entities.ServiceProviderPrivate.update(privateRows[0].id, privateData));
+          await comPrazo(base44.entities.ServiceProviderPrivate.update(privateRows[0].id, privateData));
         } else {
-          await withTimeout(base44.entities.ServiceProviderPrivate.create({ service_provider_id: providerId, ...privateData }));
+          await comPrazo(base44.entities.ServiceProviderPrivate.create({ service_provider_id: providerId, ...privateData }));
         }
       } catch (privateError) {
         console.warn('[CadastroTipo] ServiceProviderPrivate não persistido:', privateError);

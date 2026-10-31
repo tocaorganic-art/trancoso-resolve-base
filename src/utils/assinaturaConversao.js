@@ -26,6 +26,11 @@ export const PLAN_VALUES = {
 // Pagamento precisa ser recente para contar como a conversão desta visita.
 export const MAX_DIAS_DESDE_PAGAMENTO = 3;
 
+// O registro precisa ter sido atualizado pelo webhook há pouco tempo. Evita
+// contar uma assinatura antiga (renovação recente) quando a pessoa compra
+// outro plano e o webhook da compra nova ainda não chegou.
+export const MAX_MINUTOS_DESDE_ATUALIZACAO = 15;
+
 /** Escolhe a assinatura do checkout atual (pelo id do Asaas) ou a mais recente. */
 export function pickSubscription(subscriptions = [], asaasSubscriptionId = null) {
   const list = Array.isArray(subscriptions) ? subscriptions.filter(Boolean) : [];
@@ -49,7 +54,11 @@ export function isPagamentoConfirmado(subscription, now = new Date()) {
   const startTime = new Date(`${String(start).slice(0, 10)}T12:00:00Z`).getTime();
   if (!Number.isFinite(startTime)) return false;
   const dias = (now.getTime() - startTime) / 86400000;
-  return dias >= -1 && dias <= MAX_DIAS_DESDE_PAGAMENTO;
+  if (dias < -1 || dias > MAX_DIAS_DESDE_PAGAMENTO) return false;
+  const updatedTime = new Date(subscription.updated_date || 0).getTime();
+  if (!updatedTime) return false;
+  const minutos = (now.getTime() - updatedTime) / 60000;
+  return minutos >= -5 && minutos <= MAX_MINUTOS_DESDE_ATUALIZACAO;
 }
 
 /** Valor real do plano contratado (R$ 59,90 Profissional, R$ 9,90 Boost etc.). */

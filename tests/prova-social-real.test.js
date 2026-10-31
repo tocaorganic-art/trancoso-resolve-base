@@ -25,3 +25,9 @@ test('Barra de prova social: sem fallback fixo de profissionais', async () => {
   assert.doesNotMatch(source, /:\s*19\b/);
   assert.match(source, /total > 0/);
 });
+
+test('Home: contagem de verificados usa o campo `verified` de listPublicProviders', async () => {
+  const source = await read('../src/pages/Home.jsx');
+
+  assert.match(source, /const totalVerificados = allProviders\?\.filter\(p => p\.verified === true\)/);
+});

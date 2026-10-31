@@ -193,11 +193,17 @@ Deno.serve(async (req: Request) => {
     }
 
     // 4. Atualizar o ServiceProvider com os dados extraídos
+    const dadosSensiveis = { cpf: cpfExtraido, data_nascimento: birthdateIso, nome_mae: nomeMaeExtraido };
+    const privateList = await base44.asServiceRole.entities.ServiceProviderPrivate.list();
+    const privateRow = privateList?.find((p: any) => p.service_provider_id === serviceProviderId);
+    if (privateRow?.id) {
+      await base44.asServiceRole.entities.ServiceProviderPrivate.update(privateRow.id, dadosSensiveis);
+    } else {
+      await base44.asServiceRole.entities.ServiceProviderPrivate.create({ service_provider_id: serviceProviderId, ...dadosSensiveis });
+    }
+
     const providerUpdate: Record<string, any> = {
-      cpf: cpfExtraido,
       full_name: nomeExtraido,
-      data_nascimento: birthdateIso,
-      nome_mae: nomeMaeExtraido,
       cnh_numero: registroCnh,
       cnh_categoria: categoriaCnh,
       cnh_validade: validadeCnh,

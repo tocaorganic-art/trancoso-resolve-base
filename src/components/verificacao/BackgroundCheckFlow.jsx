@@ -40,10 +40,18 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
     setStep('processing');
 
     try {
-      // Salva o CPF informado no cadastro do prestador (o backend consulta a partir dele)
-      await base44.entities.ServiceProvider.update(prestadorId, {
-        cpf: formData.cpf.replace(/\D/g, ''),
-      });
+      // CPF fica em ServiceProviderPrivate (LGPD); o backend consulta a partir dele
+      const cpfDigitos = formData.cpf.replace(/\D/g, '');
+      const privados = await base44.entities.ServiceProviderPrivate.filter({ service_provider_id: prestadorId });
+      if (privados?.length) {
+        await base44.entities.ServiceProviderPrivate.update(privados[0].id, { cpf: cpfDigitos });
+      } else {
+        await base44.entities.ServiceProviderPrivate.create({
+          service_provider_id: prestadorId,
+          cpf: cpfDigitos,
+          data_nascimento: formData.dateOfBirth,
+        });
+      }
 
       const res = await base44.functions.invoke('verificarAntecedentes', {
         service_provider_id: prestadorId,

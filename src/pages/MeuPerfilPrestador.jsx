@@ -18,6 +18,8 @@ import { Progress } from '@/components/ui/progress';
 import PermissionChecker from "../components/auth/PermissionChecker";
 import AccountDeletionDialog from '@/components/account/AccountDeletionDialog';
 import SecurityBadge from '@/components/security/SecurityBadge';
+import CnpjStatus from '@/components/cadastro/CnpjStatus';
+import { useCnpjAutofill } from '@/hooks/useCnpjAutofill';
 
 const occupations = ["Limpeza", "Garçom", "Pedreiro", "Jardinagem", "Babá", "Eletricista", "Encanador", "Pintor", "Cozinheiro", "Outro"];
 const priceRanges = ["$", "$$", "$$$"];
@@ -270,6 +272,16 @@ function MeuPerfilPrestadorContent() {
     return "";
   };
 
+  // Autopreenchimento via BrasilAPI (MEI/PJ): só preenche campos ainda vazios.
+  const isEmpresa = formData?.tipo_pessoa === 'mei' || formData?.tipo_pessoa === 'pj';
+  const cnpjAutofill = useCnpjAutofill(isEmpresa ? formData?.cnpj : '', (r) => {
+    setFormData(prev => prev ? ({
+      ...prev,
+      razao_social: prev.razao_social || r.razaoSocial,
+      nome_fantasia: prev.nome_fantasia || r.nomeFantasia,
+    }) : prev);
+  });
+
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     setErrors(prev => ({ ...prev, [field]: undefined })); // Clear error for this field
@@ -513,6 +525,7 @@ function MeuPerfilPrestadorContent() {
                       value={formatCnpj(formData.cnpj || '')}
                       onChange={(e) => handleInputChange('cnpj', formatCnpj(e.target.value))}
                     />
+                    <CnpjStatus status={cnpjAutofill.status} dados={cnpjAutofill.dados} />
                   </div>
                 )}
                 </div>

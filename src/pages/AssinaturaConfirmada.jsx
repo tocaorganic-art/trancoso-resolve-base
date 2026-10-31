@@ -3,7 +3,17 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Crown, CreditCard, ArrowRight, Clock, Sparkles } from "lucide-react";
 import { trackPurchase } from '@/lib/facebook-pixel';
-import { trackAnalyticsEvent } from '@/utils/consent.js';
+import { base44 } from '@/api/base44Client';
+import { CONSENT_CHANGED_EVENT, trackAnalyticsEvent } from '@/utils/consent.js';
+import { buildConversionParams, conversionKey, pickSubscription } from '@/utils/assinaturaConversao.js';
+
+// O webhook do Asaas pode chegar depois do redirect: consulta por cerca de
+// 2,5 minutos, com intervalo crescente de 5s até 10s.
+const POLL_MAX_TENTATIVAS = 20;
+const pollDelay = (tentativa) => Math.min(4000 + tentativa * 1000, 10000);
+
+const storageGet = (key) => { try { return localStorage.getItem(key); } catch { return null; } };
+const storageSet = (key, value) => { try { localStorage.setItem(key, value); } catch { /* storage indisponível */ } };
 
 const PLAN_INFO = {
   profissional:      { nome: "Plano Profissional",       valor: "R$ 59,90/mês", trial: 7 },
@@ -28,15 +38,63 @@ export default function AssinaturaConfirmada() {
   const purchaseTracked = useRef(false);
 
   // Conversão "Assinatura" no Google Ads (AW-18431007500).
-  // Dispara uma vez por sessão, apenas com consentimento de analytics.
+  // Só dispara com pagamento confirmado pelo backend (Subscription "active",
+  // gravada pelo asaasWebhook) e com o valor real do plano. Carregar a página
+  // sozinho, ou com assinatura ainda em trial, não gera conversão.
+  // A marca de "enviado" só é gravada depois do envio de fato: quem aceitar
+  // os cookies depois, na mesma visita, ainda gera a conversão.
   useEffect(() => {
-    if (sessionStorage.getItem('gads-assinatura-conversion-sent') === '1') return;
-    sessionStorage.setItem('gads-assinatura-conversion-sent', '1');
-    trackAnalyticsEvent('conversion', {
-      send_to: 'AW-18431007500/bYDPCPzcwPEcEIy2y9RE',
-      value: 1.0,
-      currency: 'BRL',
-    });
+    let cancelado = false;
+    let timer = null;
+    let tentativas = 0;
+    let pendente = null;
+    let email = null;
+    const asaasSubscriptionId = new URLSearchParams(window.location.search).get('subscription');
+
+    const enviar = () => {
+      if (!pendente) return;
+      if (storageGet(pendente.key) === '1') {
+        pendente = null;
+        return;
+      }
+      if (trackAnalyticsEvent('conversion', pendente.params)) {
+        storageSet(pendente.key, '1');
+        pendente = null;
+      }
+    };
+
+    const verificar = async () => {
+      tentativas += 1;
+      try {
+        if (!email) {
+          const user = await base44.auth.me();
+          email = user?.email || null;
+        }
+        if (cancelado || !email) return;
+        const subscriptions = await base44.entities.Subscription.filter({ user_email: email });
+        if (cancelado) return;
+        const subscription = pickSubscription(subscriptions, asaasSubscriptionId);
+        const conversionParams = buildConversionParams(subscription);
+        if (conversionParams) {
+          pendente = { key: conversionKey(subscription), params: conversionParams };
+          enviar();
+          return;
+        }
+      } catch {
+        // Falha transitória: tenta de novo até o limite.
+      }
+      if (!cancelado && tentativas < POLL_MAX_TENTATIVAS) {
+        timer = setTimeout(verificar, pollDelay(tentativas));
+      }
+    };
+
+    verificar();
+    window.addEventListener(CONSENT_CHANGED_EVENT, enviar);
+    return () => {
+      cancelado = true;
+      clearTimeout(timer);
+      window.removeEventListener(CONSENT_CHANGED_EVENT, enviar);
+    };
   }, []);
 
   useEffect(() => {

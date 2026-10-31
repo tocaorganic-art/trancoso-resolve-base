@@ -11,6 +11,8 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { User, Briefcase, Shield, Building2, ChevronRight, Loader2 } from 'lucide-react';
 import PortfolioGallery from '@/components/perfil/PortfolioGallery';
+import CnpjStatus from '@/components/cadastro/CnpjStatus';
+import { useCnpjAutofill } from '@/hooks/useCnpjAutofill';
 
 const formatCpf = (v) => {
   const d = v.replace(/\D/g, '').substring(0, 11);
@@ -49,6 +51,16 @@ export default function CadastroTipoPage() {
   const [clienteCnpj, setClienteCnpj] = useState('');
   const [clienteRazaoSocial, setClienteRazaoSocial] = useState('');
   const [clienteNomeFantasia, setClienteNomeFantasia] = useState('');
+
+  // Autopreenchimento via BrasilAPI: só preenche campos ainda vazios.
+  const cnpjPrestador = useCnpjAutofill(cnpj, (r) => {
+    setRazaoSocial((atual) => atual || r.razaoSocial);
+    setNomeFantasia((atual) => atual || r.nomeFantasia);
+  });
+  const cnpjCliente = useCnpjAutofill(clienteCnpj, (r) => {
+    setClienteRazaoSocial((atual) => atual || r.razaoSocial);
+    setClienteNomeFantasia((atual) => atual || r.nomeFantasia);
+  });
   const [clienteFotos, setClienteFotos] = useState([]);
 
   const { data: user, isLoading } = useQuery({
@@ -343,6 +355,7 @@ export default function CadastroTipoPage() {
                   <div>
                     <Label htmlFor="cliente_cnpj" className="text-foreground">CNPJ <span className="text-destructive">*</span></Label>
                     <Input id="cliente_cnpj" placeholder="00.000.000/0000-00" value={clienteCnpj} onChange={(e) => setClienteCnpj(formatCnpj(e.target.value))} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+                    <CnpjStatus status={cnpjCliente.status} dados={cnpjCliente.dados} />
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div>
@@ -425,6 +438,7 @@ export default function CadastroTipoPage() {
                 <div>
                   <Label htmlFor="cnpj_cad" className="text-foreground">CNPJ <span className="text-destructive">*</span></Label>
                   <Input id="cnpj_cad" placeholder="00.000.000/0000-00" value={cnpj} onChange={(e) => setCnpj(formatCnpj(e.target.value))} className="bg-background border-border text-foreground placeholder:text-muted-foreground" />
+                  <CnpjStatus status={cnpjPrestador.status} dados={cnpjPrestador.dados} />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <div>

@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { trackFirstRegistration } from '@/utils/analytics.js';
+import { validatePrestadorForm } from '@/utils/cadastroPrestador.js';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { withTimeout } from '@/lib/utils';
@@ -29,6 +30,23 @@ const formatCnpj = (v) => {
   return d;
 };
 
+const PRAZO_TOTAL_REDIRECT_MS = 20000;
+
+const ERRO_SALVAR = 'Não foi possível salvar seu cadastro agora. Verifique sua conexão e tente novamente.';
+
+// Mensagem de erro exibida na própria tela, no lugar do alerta nativo do navegador.
+const FormError = ({ message }) => (
+  message ? (
+    <div
+      role="alert"
+      aria-live="assertive"
+      className="rounded-lg border border-red-500/40 bg-red-500/10 p-3 text-left text-sm font-medium text-red-600 dark:text-red-400"
+    >
+      {message}
+    </div>
+  ) : null
+);
+
 // step: 'tipo_conta' | 'tipo_pessoa' | 'cliente_perfil' | 'processando'
 export default function CadastroTipoPage() {
   const queryClient = useQueryClient();
@@ -44,12 +62,18 @@ export default function CadastroTipoPage() {
   const [razaoSocial, setRazaoSocial] = useState('');
   const [nomFantasia, setNomeFantasia] = useState('');
 
-  // Cadastro de Cliente PJ (empresa) — opcional, com fotos do trabalho/empresa
+  // Cadastro de Cliente PJ (empresa), opcional, com fotos do trabalho/empresa
   const [clienteTipoPessoa, setClienteTipoPessoa] = useState('pf');
   const [clienteCnpj, setClienteCnpj] = useState('');
   const [clienteRazaoSocial, setClienteRazaoSocial] = useState('');
   const [clienteNomeFantasia, setClienteNomeFantasia] = useState('');
   const [clienteFotos, setClienteFotos] = useState([]);
+  const [formError, setFormError] = useState('');
+
+  // Ao corrigir qualquer campo, a mensagem de erro anterior some.
+  useEffect(() => {
+    setFormError('');
+  }, [tipoPessoa, cpf, cnpj, nomeCompleto, dataNascimento, autorizouVerificacao, clienteTipoPessoa, clienteCnpj]);
 
   const { data: user, isLoading } = useQuery({
     queryKey: ['currentUser'],
@@ -57,16 +81,22 @@ export default function CadastroTipoPage() {
   });
 
   const redirectPrestador = async (email, name) => {
+    // Prazo total de 20s para todas as chamadas abaixo somadas: o spinner
+    // nunca fica mais que isso antes de seguir para /MeuPerfilPrestador.
+    const prazoFinal = Date.now() + PRAZO_TOTAL_REDIRECT_MS;
+    const comPrazo = (promise) => withTimeout(promise, Math.max(1000, prazoFinal - Date.now()));
     // Cria o trial ANTES do redirect. O fire-and-forget anterior era abortado pela
     // navegação (window.location.replace) e o trial se perdia silenciosamente.
+    // As chamadas têm prazo total (comPrazo): em rede lenta o
+    // fluxo segue para /MeuPerfilPrestador em vez de travar ou cair no /Dashboard.
     try {
-      await base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name });
+      await comPrazo(base44.functions.invoke('criarTrialPrestador', { user_email: email, user_name: name }));
     } catch {
       localStorage.setItem('trial_pendente', 'true');
     }
 
     // O cadastro completo acontece em MeuPerfilPrestador. Aqui criamos o registro
-    // mínimo — já persistindo CPF/data de nascimento e a autorização LGPD
+    // mínimo, já persistindo CPF/data de nascimento e a autorização LGPD
     // (necessários para a verificação automática de antecedentes).
     const providerData = {
       tipo_pessoa: tipoPessoa,
@@ -74,31 +104,31 @@ export default function CadastroTipoPage() {
       email: email || '',
       // occupation é obrigatório pelo schema do ServiceProvider; sem ele o create
       // falha em silêncio (catch abaixo) e o registro mínimo nunca é persistido.
-      // 'Outro' é o valor neutro do enum — a ocupação real é definida no perfil.
+      // 'Outro' é o valor neutro do enum; a ocupação real é definida no perfil.
       occupation: 'Outro',
       cpf: cpf.replace(/\D/g, ''),
       data_nascimento: dataNascimento,
       autorizou_verificacao: autorizouVerificacao,
     };
     try {
-      const providers = await base44.entities.ServiceProvider.filter({ created_by: email });
+      const providers = await comPrazo(base44.entities.ServiceProvider.filter({ created_by: email }));
       let providerId;
       if (!providers || providers.length === 0) {
-        const created = await base44.entities.ServiceProvider.create(providerData);
+        const created = await comPrazo(base44.entities.ServiceProvider.create(providerData));
         providerId = created.id;
       } else {
         providerId = providers[0].id;
-        await base44.entities.ServiceProvider.update(providerId, providerData);
+        await comPrazo(base44.entities.ServiceProvider.update(providerId, providerData));
       }
       // PII em local seguro (LGPD): espelha CPF e data de nascimento no
       // ServiceProviderPrivate (nome_mae é coletado depois, no perfil).
       try {
-        const privateRows = await base44.entities.ServiceProviderPrivate.filter({ service_provider_id: providerId });
+        const privateRows = await comPrazo(base44.entities.ServiceProviderPrivate.filter({ service_provider_id: providerId }));
         const privateData = { cpf: providerData.cpf, data_nascimento: dataNascimento };
         if (privateRows?.length) {
-          await base44.entities.ServiceProviderPrivate.update(privateRows[0].id, privateData);
+          await comPrazo(base44.entities.ServiceProviderPrivate.update(privateRows[0].id, privateData));
         } else {
-          await base44.entities.ServiceProviderPrivate.create({ service_provider_id: providerId, ...privateData });
+          await comPrazo(base44.entities.ServiceProviderPrivate.create({ service_provider_id: providerId, ...privateData }));
         }
       } catch (privateError) {
         console.warn('[CadastroTipo] ServiceProviderPrivate não persistido:', privateError);
@@ -140,8 +170,12 @@ export default function CadastroTipoPage() {
         window.location.replace('/');
       }
     },
-    onError: () => {
-      setStep('tipo_pessoa');
+    onError: (_error, userType) => {
+      // Prestador volta ao formulário com os dados preenchidos; cliente e
+      // lojista voltam à escolha do tipo de conta (antes caíam no formulário
+      // de prestador por engano).
+      setStep(userType === 'prestador' ? 'tipo_pessoa' : 'tipo_conta');
+      setFormError(ERRO_SALVAR);
     },
   });
 
@@ -151,9 +185,10 @@ export default function CadastroTipoPage() {
 
   const handleClientePjSubmit = async () => {
     if (clienteTipoPessoa === 'pj' && clienteCnpj.replace(/\D/g, '').length < 14) {
-      alert('Informe um CNPJ válido.');
+      setFormError('Informe um CNPJ válido.');
       return;
     }
+    setFormError('');
     setStep('processando');
     if (clienteTipoPessoa === 'pj') {
       try {
@@ -175,39 +210,29 @@ export default function CadastroTipoPage() {
 
   const handleLojistaClick = () => updateUserMutation.mutate('lojista');
 
+  // O card "Sou Prestador" abre o formulário de CPF, nome completo e data de
+  // nascimento. O tipo de conta só é gravado depois do formulário validado.
   const handlePrestadorClick = () => {
-    setStep('processando');
-    updateUserMutation.mutate('prestador');
+    setFormError('');
+    setStep('tipo_pessoa');
   };
 
   const handlePrestadorSubmit = () => {
-    if (!autorizouVerificacao) {
-      alert('Autorize a verificação de antecedentes para continuar como prestador.');
+    const erro = validatePrestadorForm({
+      tipoPessoa,
+      cpf,
+      nomeCompleto,
+      dataNascimento,
+      cnpj,
+      autorizouVerificacao,
+    });
+    if (erro) {
+      setFormError(erro);
       return;
     }
-    if (!cpf || cpf.replace(/\D/g,'').length < 11) {
-      alert('Informe um CPF válido.');
-      return;
-    }
-    if (!nomeCompleto || nomeCompleto.trim().length < 5) {
-      alert('Informe seu nome completo.');
-      return;
-    }
-    if (!dataNascimento) {
-      alert('Informe sua data de nascimento. É obrigatória para a verificação de antecedentes.');
-      return;
-    }
-    if ((tipoPessoa === 'mei' || tipoPessoa === 'pj') && cnpj.replace(/\D/g,'').length < 14) {
-      alert('Informe um CNPJ válido.');
-      return;
-    }
+    setFormError('');
     setStep('processando');
     updateUserMutation.mutate('prestador');
-
-    // Timeout de segurança: se travar por mais de 12s, força o redirect
-    setTimeout(() => {
-      window.location.replace('/Dashboard');
-    }, 12000);
   };
 
   if (isLoading || step === 'processando' || updateUserMutation.isPending) {
@@ -292,6 +317,7 @@ export default function CadastroTipoPage() {
                 </div>
 
                 {updateUserMutation.isPending && <p className="mt-8 text-muted-foreground">Salvando sua escolha...</p>}
+                {formError && <div className="mt-8"><FormError message={formError} /></div>}
               </CardContent>
             </Card>
           </motion.div>
@@ -313,7 +339,7 @@ export default function CadastroTipoPage() {
         >
           <Card className="shadow-2xl">
             <CardContent className="p-8 md:p-10">
-              <button onClick={() => setStep('tipo_conta')} className="text-sm text-muted-foreground hover:text-foreground mb-6 flex items-center gap-1">
+              <button onClick={() => { setFormError(''); setStep('tipo_conta'); }} className="text-sm text-muted-foreground hover:text-foreground mb-6 flex items-center gap-1">
                 ← Voltar
               </button>
               <h1 className="text-2xl font-bold text-foreground mb-2">Cadastro de cliente</h1>
@@ -361,6 +387,8 @@ export default function CadastroTipoPage() {
                 </div>
               )}
 
+              {formError && <div className="mb-4"><FormError message={formError} /></div>}
+
               <Button className="w-full bg-linear-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600 text-white" onClick={handleClientePjSubmit} disabled={updateUserMutation.isPending}>
                 {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 {clienteTipoPessoa === 'pj' ? 'Concluir cadastro da empresa' : 'Continuar como Pessoa Física'}
@@ -386,7 +414,7 @@ export default function CadastroTipoPage() {
       >
       <Card className="shadow-2xl">
         <CardContent className="p-8 md:p-10">
-          <button onClick={() => setStep('tipo_conta')} className="text-sm text-muted-foreground hover:text-foreground mb-6 flex items-center gap-1">
+          <button onClick={() => { setFormError(''); setStep('tipo_conta'); }} className="text-sm text-muted-foreground hover:text-foreground mb-6 flex items-center gap-1">
             ← Voltar
           </button>
           <h1 className="text-2xl font-bold text-foreground mb-2">Dados do seu cadastro</h1>
@@ -478,6 +506,8 @@ export default function CadastroTipoPage() {
                 </span>
               </label>
             </div>
+
+            <FormError message={formError} />
 
             <Button className="w-full bg-linear-to-r from-orange-500 to-orange-500 hover:from-orange-600 hover:to-orange-600 text-white" onClick={handlePrestadorSubmit} disabled={updateUserMutation.isPending}>
               {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}

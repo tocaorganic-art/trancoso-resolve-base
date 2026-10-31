@@ -96,8 +96,7 @@ export default function CadastroTipoPage() {
     }
 
     // O cadastro completo acontece em MeuPerfilPrestador. Aqui criamos o registro
-    // mínimo, já persistindo CPF/data de nascimento e a autorização LGPD
-    // (necessários para a verificação automática de antecedentes).
+    // mínimo e a autorização LGPD; CPF e data de nascimento vão só para ServiceProviderPrivate.
     const providerData = {
       tipo_pessoa: tipoPessoa,
       full_name: nomeCompleto?.trim() || name?.trim() || '',
@@ -106,8 +105,6 @@ export default function CadastroTipoPage() {
       // falha em silêncio (catch abaixo) e o registro mínimo nunca é persistido.
       // 'Outro' é o valor neutro do enum; a ocupação real é definida no perfil.
       occupation: 'Outro',
-      cpf: cpf.replace(/\D/g, ''),
-      data_nascimento: dataNascimento,
       autorizou_verificacao: autorizouVerificacao,
     };
     try {
@@ -120,11 +117,11 @@ export default function CadastroTipoPage() {
         providerId = providers[0].id;
         await comPrazo(base44.entities.ServiceProvider.update(providerId, providerData));
       }
-      // PII em local seguro (LGPD): espelha CPF e data de nascimento no
+      // PII em local seguro (LGPD): CPF e data de nascimento ficam só no
       // ServiceProviderPrivate (nome_mae é coletado depois, no perfil).
       try {
         const privateRows = await comPrazo(base44.entities.ServiceProviderPrivate.filter({ service_provider_id: providerId }));
-        const privateData = { cpf: providerData.cpf, data_nascimento: dataNascimento };
+        const privateData = { cpf: cpf.replace(/\D/g, ''), data_nascimento: dataNascimento };
         if (privateRows?.length) {
           await comPrazo(base44.entities.ServiceProviderPrivate.update(privateRows[0].id, privateData));
         } else {

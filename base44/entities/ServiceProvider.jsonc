@@ -239,8 +239,7 @@
   },
   "required": [
     "full_name",
-    "occupation",
-    "data_nascimento"
+    "occupation"
   ],
   "rls": {
     "create": null,

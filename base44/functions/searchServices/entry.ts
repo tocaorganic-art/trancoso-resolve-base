@@ -52,7 +52,8 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     const body = await req.json();
-    const { query, limit = 10, filters = {} } = body;
+    const { query, filters = {} } = body;
+    const limit = Math.min(Math.max(parseInt(body.limit, 10) || 10, 1), 50);
 
     if (!query || typeof query !== 'string' || query.trim().length === 0) {
       return Response.json({ error: 'Query parameter is required' }, { status: 400 });

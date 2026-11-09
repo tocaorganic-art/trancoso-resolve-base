@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { WifiOff, Wifi } from 'lucide-react';
 import { toast } from 'sonner';
+import { useApp } from '@/contexts/AppContext';
 
 export default function OfflineIndicator() {
+  const { t } = useApp();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
     const handleOnline = () => {
       setIsOnline(true);
-      toast.success('Conexão restaurada!', {
+      toast.success(t('status.restored'), {
         icon: <Wifi className="w-4 h-4" />,
       });
     };
@@ -36,7 +38,7 @@ export default function OfflineIndicator() {
   return (
     <div className="fixed bottom-4 left-4 z-50 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 animate-in slide-in-from-bottom">
       <WifiOff className="w-5 h-5" />
-      <span className="text-sm font-medium">Sem conexão</span>
+      <span className="text-sm font-medium">{t('status.noConnection')}</span>
     </div>
   );
 }

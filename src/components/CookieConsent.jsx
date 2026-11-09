@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { X } from 'lucide-react';
+import { useApp } from '@/contexts/AppContext';
 import {
   CONSENT_CHANGED_EVENT,
   CONSENT_REOPEN_EVENT,
@@ -10,6 +11,7 @@ import {
 } from '@/utils/consent.js';
 
 export default function CookieConsent() {
+  const { t } = useApp();
   const [showConsent, setShowConsent] = useState(false);
 
   useEffect(() => {
@@ -49,10 +51,10 @@ export default function CookieConsent() {
       <div className="container mx-auto max-w-4xl">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="flex-1">
-            <h3 className="font-bold text-white mb-2">Consentimento de Cookies</h3>
+            <h3 className="font-bold text-white mb-2">{t('cookie.title')}</h3>
             <p className="text-sm text-slate-300">
-              Usamos cookies para melhorar sua experiência, analisar tráfego e personalizar conteúdo. 
-              Ao continuar, você concorda com nossa <a href="/PoliticaPrivacidade" className="underline text-orange-300">Política de Privacidade</a>.
+              {t('cookie.text')}{' '}
+              <a href="/PoliticaPrivacidade" className="underline text-orange-300">{t('cookie.privacy')}</a>.
             </p>
           </div>
           <div className="flex gap-3 shrink-0">
@@ -61,19 +63,19 @@ export default function CookieConsent() {
               onClick={handleReject}
               className="text-sm"
             >
-              Rejeitar
+              {t('cookie.reject')}
             </Button>
             <Button
               onClick={handleAccept}
               className="bg-orange-600 hover:bg-orange-700 text-sm"
             >
-              Aceitar
+              {t('cookie.accept')}
             </Button>
           </div>
           <button
             onClick={handleReject}
             className="absolute top-2 right-2 md:hidden"
-            aria-label="Fechar"
+            aria-label={t('cookie.close')}
           >
             <X className="w-5 h-5 text-slate-400" />
           </button>

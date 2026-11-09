@@ -5,6 +5,7 @@ import { trackLead } from '@/utils/analytics.js';
 import { buildPublicLeadPayload, isValidBrazilianPhone } from '@/utils/leadValidation.js';
 import { Button } from '@/components/ui/button';
 import { CheckCircle, Loader2, ArrowRight } from 'lucide-react';
+import { useApp } from '@/contexts/AppContext';
 
 function formatPhone(value) {
   const digits = value.replace(/\D/g, '').slice(0, 11);
@@ -14,10 +15,29 @@ function formatPhone(value) {
   return value;
 }
 
+// Os valores enviados ao CRM/backend continuam em português (contrato de dados);
+// apenas o rótulo exibido é traduzido.
+const SERVICE_OPTIONS = [
+  { value: 'Limpeza', labelKey: 'leadForm.serviceLimpeza' },
+  { value: 'Elétrica', labelKey: 'leadForm.serviceEletrica' },
+  { value: 'Hidráulica', labelKey: 'leadForm.serviceHidraulica' },
+  { value: 'Jardinagem', labelKey: 'leadForm.serviceJardinagem' },
+  { value: 'Cozinheiro', labelKey: 'leadForm.serviceCozinheiro' },
+  { value: 'Segurança', labelKey: 'leadForm.serviceSeguranca' },
+  { value: 'Outros', labelKey: 'leadForm.serviceOutros' },
+];
+
+const LOCATION_OPTIONS = [
+  { value: 'Trancoso', label: 'Trancoso' },
+  { value: "Arraial d'Ajuda", label: "Arraial d'Ajuda" },
+  { value: 'Porto Seguro', label: 'Porto Seguro' },
+  { value: 'Caraíva', label: 'Caraíva' },
+  { value: 'Outra', labelKey: 'leadForm.locationOther' },
+];
+
 export default function LeadCaptureForm({ serviceInterest, serviceLabel, source }) {
-  const SERVICE_OPTIONS = ['Limpeza', 'Elétrica', 'Hidráulica', 'Jardinagem', 'Cozinheiro', 'Segurança', 'Outros'];
-  const LOCATION_OPTIONS = ['Trancoso', "Arraial d'Ajuda", 'Porto Seguro', 'Caraíva', 'Outra'];
-  const initialService = SERVICE_OPTIONS.includes(serviceInterest) ? serviceInterest : '';
+  const { t } = useApp();
+  const initialService = SERVICE_OPTIONS.some(o => o.value === serviceInterest) ? serviceInterest : '';
   const [form, setForm] = useState({ name: '', phone: '', email: '', service: initialService, location: '', message: '', consent: false, website: '' });
   const [status, setStatus] = useState('idle');
   const [errorMessage, setErrorMessage] = useState('');
@@ -32,17 +52,17 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
     e.preventDefault();
     if (!isValidBrazilianPhone(form.phone)) {
       setStatus('error');
-      setErrorMessage('Informe um telefone válido com DDD.');
+      setErrorMessage(t('leadForm.errorPhone'));
       return;
     }
     if (!form.consent) {
       setStatus('error');
-      setErrorMessage('Confirme o consentimento para receber o contato.');
+      setErrorMessage(t('leadForm.errorConsent'));
       return;
     }
     if (!form.service || !form.location) {
       setStatus('error');
-      setErrorMessage('Selecione o serviço e a localização para continuarmos.');
+      setErrorMessage(t('leadForm.errorSelect'));
       return;
     }
     if (submittingRef.current) return;
@@ -72,7 +92,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
     } catch {
       submittingRef.current = false;
       setStatus('error');
-      setErrorMessage('Não foi possível enviar agora. Tente novamente em instantes.');
+      setErrorMessage(t('leadForm.errorGeneric'));
     }
   };
 
@@ -83,15 +103,15 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
         style={{ background: '#F5E6CC', borderColor: '#E8D5B7' }}
       >
         <CheckCircle className="w-12 h-12 mx-auto mb-3" style={{ color: '#4A6741' }} />
-        <h3 className="text-xl font-bold mb-2" style={{ color: '#2C1A0E' }}>Recebemos seu contato! ✅</h3>
+        <h3 className="text-xl font-bold mb-2" style={{ color: '#2C1A0E' }}>{t('leadForm.successTitle')} ✅</h3>
         <p style={{ color: '#6B4F3A' }} className="leading-relaxed">
-          Obrigado! Em breve um profissional da plataforma entrará em contato com você.
+          {t('leadForm.successText')}
         </p>
       </div>
     );
   }
 
-  const displayLabel = serviceLabel || serviceInterest || 'profissional';
+  const displayLabel = serviceLabel || serviceInterest || t('leadForm.defaultLabel');
 
   return (
     <div
@@ -99,17 +119,17 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
       style={{ background: '#F5E6CC', borderColor: '#E8D5B7' }}
     >
       <h2 className="text-2xl md:text-3xl font-bold mb-1" style={{ color: '#2C1A0E' }}>
-        Precisa de {displayLabel} agora?
+        {t('leadForm.title').replace('{label}', displayLabel)}
       </h2>
       <p className="text-sm mb-6" style={{ color: '#6B4F3A' }}>
-        Deixe seus dados e um profissional da Costa do Descobrimento entrará em contato pelo site.
+        {t('leadForm.subtitle')}
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="lead-name" className="block text-sm font-semibold mb-1" style={{ color: '#2C1A0E' }}>
-              Nome <span className="text-red-500">*</span>
+              {t('leadForm.name')} <span className="text-red-500">*</span>
             </label>
             <input
               id="lead-name"
@@ -118,14 +138,14 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               required
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-              placeholder="Seu nome"
+              placeholder={t('leadForm.namePlaceholder')}
               className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E', focusRingColor: '#8B6914' }}
             />
           </div>
           <div>
             <label htmlFor="lead-phone" className="block text-sm font-semibold mb-1" style={{ color: '#2C1A0E' }}>
-              Telefone <span className="text-red-500">*</span>
+              {t('leadForm.phone')} <span className="text-red-500">*</span>
             </label>
             <input
               id="lead-phone"
@@ -134,28 +154,28 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               required
               value={form.phone}
               onChange={handlePhoneChange}
-              placeholder="(73) 9 0000-0000"
+              placeholder={t('leadForm.phonePlaceholder')}
               inputMode="tel"
               aria-describedby="lead-phone-help"
               className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
             />
             <p id="lead-phone-help" className="text-xs mt-1" style={{ color: '#6B4F3A' }}>
-              Inclua o DDD.
+              {t('leadForm.phoneHelp')}
             </p>
           </div>
         </div>
 
         <div>
           <label htmlFor="lead-message" className="block text-sm font-semibold mb-1" style={{ color: '#2C1A0E' }}>
-            Mensagem (opcional)
+            {t('leadForm.message')}
           </label>
           <textarea
             id="lead-message"
             name="message"
             value={form.message}
             onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-            placeholder="Descreva brevemente o que precisa..."
+            placeholder={t('leadForm.messagePlaceholder')}
             rows={3}
             className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2 resize-none"
             style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
@@ -165,7 +185,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="lead-email" className="block text-sm font-semibold mb-1" style={{ color: '#2C1A0E' }}>
-              Email (opcional)
+              {t('leadForm.email')}
             </label>
             <input
               id="lead-email"
@@ -173,14 +193,14 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               type="email"
               value={form.email}
               onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-              placeholder="voce@email.com"
+              placeholder={t('leadForm.emailPlaceholder')}
               className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
             />
           </div>
           <div>
             <label htmlFor="lead-service" className="block text-sm font-semibold mb-1" style={{ color: '#2C1A0E' }}>
-              Serviço de interesse <span className="text-red-500">*</span>
+              {t('leadForm.service')} <span className="text-red-500">*</span>
             </label>
             <select
               id="lead-service"
@@ -191,15 +211,17 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
               className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
               style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
             >
-              <option value="">Selecione...</option>
-              {SERVICE_OPTIONS.map(option => <option key={option} value={option}>{option}</option>)}
+              <option value="">{t('leadForm.selectPlaceholder')}</option>
+              {SERVICE_OPTIONS.map(option => (
+                <option key={option.value} value={option.value}>{t(option.labelKey)}</option>
+              ))}
             </select>
           </div>
         </div>
 
         <div>
           <label htmlFor="lead-location" className="block text-sm font-semibold mb-1" style={{ color: '#2C1A0E' }}>
-            Localização <span className="text-red-500">*</span>
+            {t('leadForm.location')} <span className="text-red-500">*</span>
           </label>
           <select
             id="lead-location"
@@ -210,13 +232,15 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
             className="w-full rounded-lg border px-4 py-3 text-sm bg-white focus:outline-hidden focus:ring-2"
             style={{ borderColor: '#E8D5B7', color: '#2C1A0E' }}
           >
-            <option value="">Onde você precisa?</option>
-            {LOCATION_OPTIONS.map(option => <option key={option} value={option}>{option}</option>)}
+            <option value="">{t('leadForm.locationPlaceholder')}</option>
+            {LOCATION_OPTIONS.map(option => (
+              <option key={option.value} value={option.value}>{option.labelKey ? t(option.labelKey) : option.label}</option>
+            ))}
           </select>
         </div>
 
         <div className="sr-only" aria-hidden="true">
-          <label htmlFor="lead-website">Não preencha este campo</label>
+          <label htmlFor="lead-website">{t('leadForm.honeypot')}</label>
           <input
             id="lead-website"
             name="website"
@@ -239,8 +263,9 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
             className="mt-0.5 h-4 w-4"
           />
           <span>
-            Concordo com a Política de Privacidade e autorizo contato via plataforma.{' '}
-            <a href="/PoliticaPrivacidade" className="underline font-semibold">Política de Privacidade</a>.
+            {t('leadForm.consentBefore')}{' '}
+            <a href="/PoliticaPrivacidade" className="underline font-semibold">{t('leadForm.privacy')}</a>{' '}
+            {t('leadForm.consentAfter')}
           </span>
         </label>
 
@@ -255,14 +280,14 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
           style={{ background: '#8B6914', borderColor: '#8B6914' }}
         >
           {status === 'loading' ? (
-            <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Enviando...</>
+            <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> {t('leadForm.sending')}</>
           ) : (
-            <>Quero ser atendido agora <ArrowRight className="w-4 h-4 ml-1" /></>
+            <>{t('leadForm.submit')} <ArrowRight className="w-4 h-4 ml-1" /></>
           )}
         </Button>
 
         <p className="text-xs text-center" style={{ color: '#A0785A' }}>
-          Sem compromisso. Seus dados serão usados apenas para atender esta solicitação.
+          {t('leadForm.disclaimer')}
         </p>
       </form>
     </div>

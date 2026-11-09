@@ -2,8 +2,10 @@ import { useState, useEffect } from 'react';
 import { Wifi, WifiOff } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { useApp } from "@/contexts/AppContext";
 
 export default function ConnectionStatus() {
+  const { t } = useApp();
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ export default function ConnectionStatus() {
       "animate-in slide-in-from-bottom-full duration-500"
     )}>
       <WifiOff className="w-4 h-4 mr-2" />
-      <span>Você está offline. Algumas funcionalidades podem estar limitadas.</span>
+      <span>{t('status.offline')}</span>
     </div>
   );
 }

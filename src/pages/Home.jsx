@@ -640,18 +640,18 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-stretch">
             <div className="flex-1 p-6 md:p-8">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-500/15 border border-orange-400/40 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-orange-300">
-                Concierge de Alto Padrão
+                {t('concierge.badge')}
               </span>
               <h2 className="mt-3 text-xl md:text-2xl font-black text-white leading-tight">
-                Concierge presencial em todo o Brasil: matriz Trancoso
+                {t('concierge.title')}
               </h2>
               <p className="mt-2 text-sm text-slate-300 leading-relaxed">
-                Mansões e vilas exclusivas, aviação executiva, chef privado, equipe de casa e eventos privados. Atendimento em português, espanhol e inglês.
+                {t('concierge.description')}
               </p>
             </div>
             <div className="flex sm:w-auto items-center justify-center p-4 sm:p-8 bg-orange-600 hover:bg-orange-700 transition-colors">
               <span className="text-sm font-bold text-white whitespace-nowrap">
-                Solicitar concierge →
+                {t('concierge.cta')} →
               </span>
             </div>
           </div>
@@ -693,7 +693,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-4 md:mb-6">
             <h2 className="text-lg md:text-2xl font-bold text-foreground leading-tight">{t('home.featuredTitle')}</h2>
             <Link to={createPageUrl("ServicosCategoria")} data-testid="home-ver-todos-servicos-link">
-              <Button variant="ghost" className="text-orange-600 hover:text-orange-700" aria-label="Ver todos os serviços">
+              <Button variant="ghost" className="text-orange-600 hover:text-orange-700" aria-label={t('homeA11y.viewAllServices')}>
                 {t('home.viewAll')}
               </Button>
             </Link>
@@ -744,15 +744,15 @@ export default function HomePage() {
            </div>
            <div className="flex overflow-x-auto snap-x snap-mandatory gap-3 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-4 lg:grid-cols-5 md:gap-4 md:overflow-visible">
              {[
-               { slug: 'limpeza-trancoso', label: 'Diarista', icon: Home },
-               { slug: 'eletricista-trancoso', label: 'Eletricista', icon: Zap },
-               { slug: 'encanador-trancoso', label: 'Encanador', icon: Wrench },
-               { slug: 'jardinagem-trancoso', label: 'Jardineiro', icon: Leaf },
-               { slug: 'cozinheiro-trancoso', label: 'Cozinheiro', icon: UtensilsCrossed },
-               { slug: 'pedreiro-trancoso', label: 'Pedreiro', icon: Hammer },
-               { slug: 'pintor-trancoso', label: 'Pintor', icon: Paintbrush },
-               { slug: 'baba-trancoso', label: 'Babá', icon: Baby },
-               { slug: 'garcom-trancoso', label: 'Garçom', icon: UtensilsCrossed },
+               { slug: 'limpeza-trancoso', label: t('popular.diarista'), icon: Home },
+               { slug: 'eletricista-trancoso', label: t('popular.eletricista'), icon: Zap },
+               { slug: 'encanador-trancoso', label: t('popular.encanador'), icon: Wrench },
+               { slug: 'jardinagem-trancoso', label: t('popular.jardineiro'), icon: Leaf },
+               { slug: 'cozinheiro-trancoso', label: t('popular.cozinheiro'), icon: UtensilsCrossed },
+               { slug: 'pedreiro-trancoso', label: t('popular.pedreiro'), icon: Hammer },
+               { slug: 'pintor-trancoso', label: t('popular.pintor'), icon: Paintbrush },
+               { slug: 'baba-trancoso', label: t('popular.baba'), icon: Baby },
+               { slug: 'garcom-trancoso', label: t('popular.garcom'), icon: UtensilsCrossed },
              ].map((item, i) => {
                const Icon = item.icon;
                return (
@@ -900,42 +900,42 @@ export default function HomePage() {
             {[
               {
                 cidade: 'Trancoso',
-                desc: 'O destino mais icônico, villas de luxo, pousadas e o famoso Quadrado.',
+                descKey: 'destinationsUi.trancoso',
                 destinoHref: '/destinos/trancoso',
                 links: [
-                  { label: 'Diarista Trancoso', href: '/servicos/diarista-trancoso' },
-                  { label: 'Eletricista Trancoso', href: '/servicos/eletricista-trancoso' },
-                  { label: 'Piscineiro Trancoso', href: '/servicos/piscineiro-trancoso' },
+                  { labelKey: 'popular.diarista', href: '/servicos/diarista-trancoso' },
+                  { labelKey: 'popular.eletricista', href: '/servicos/eletricista-trancoso' },
+                  { labelKey: 'popular.piscineiro', href: '/servicos/piscineiro-trancoso' },
                 ],
               },
               {
                 cidade: "Arraial d'Ajuda",
-                desc: "Vila turística charmosa, pousadas, casas de temporada e praias paradisíacas.",
+                descKey: 'destinationsUi.arraialDajuda',
                 destinoHref: '/destinos/arraial-dajuda',
                 links: [
-                  { label: "Diarista Arraial d'Ajuda", href: '/servicos/diarista-arraial-dajuda' },
-                  { label: "Eletricista Arraial d'Ajuda", href: '/servicos/eletricista-arraial-dajuda' },
-                  { label: "Piscineiro Arraial d'Ajuda", href: '/servicos/piscineiro-arraial-dajuda' },
+                  { labelKey: 'popular.diarista', href: '/servicos/diarista-arraial-dajuda' },
+                  { labelKey: 'popular.eletricista', href: '/servicos/eletricista-arraial-dajuda' },
+                  { labelKey: 'popular.piscineiro', href: '/servicos/piscineiro-arraial-dajuda' },
                 ],
               },
               {
                 cidade: 'Porto Seguro',
-                desc: 'A maior cidade da região, hotéis, resorts e residências de alto padrão.',
+                descKey: 'destinationsUi.portoSeguro',
                 destinoHref: '/destinos/porto-seguro',
                 links: [
-                  { label: 'Diarista Porto Seguro', href: '/servicos/diarista-porto-seguro' },
-                  { label: 'Eletricista Porto Seguro', href: '/servicos/eletricista-porto-seguro' },
-                  { label: 'Piscineiro Porto Seguro', href: '/servicos/piscineiro-porto-seguro' },
+                  { labelKey: 'popular.diarista', href: '/servicos/diarista-porto-seguro' },
+                  { labelKey: 'popular.eletricista', href: '/servicos/eletricista-porto-seguro' },
+                  { labelKey: 'popular.piscineiro', href: '/servicos/piscineiro-porto-seguro' },
                 ],
               },
               {
                 cidade: 'Caraíva',
-                desc: 'O paraíso preservado, sem asfalto, sem carros, só natureza e charme.',
+                descKey: 'destinationsUi.caraiva',
                 destinoHref: '/destinos/caraiva',
                 links: [
-                  { label: 'Diarista Caraíva', href: '/servicos/diarista-caraiva' },
-                  { label: 'Eletricista Caraíva', href: '/servicos/eletricista-caraiva' },
-                  { label: 'Piscineiro Caraíva', href: '/servicos/piscineiro-caraiva' },
+                  { labelKey: 'popular.diarista', href: '/servicos/diarista-caraiva' },
+                  { labelKey: 'popular.eletricista', href: '/servicos/eletricista-caraiva' },
+                  { labelKey: 'popular.piscineiro', href: '/servicos/piscineiro-caraiva' },
                 ],
               },
             ].map((dest, i) => (
@@ -952,13 +952,13 @@ export default function HomePage() {
                   <MapPin className="w-5 h-5 text-orange-500" />
                 </div>
                 <h3 className="font-bold text-lg text-foreground mb-2">{dest.cidade}</h3>
-                <p className="text-muted-foreground text-sm mb-4 leading-relaxed grow">{dest.desc}</p>
+                <p className="text-muted-foreground text-sm mb-4 leading-relaxed grow">{t(dest.descKey)}</p>
                 <ul className="space-y-2 mb-4">
                   {dest.links.map((link) => (
                     <li key={link.href}>
                       <Link to={link.href} className="text-orange-600 hover:text-orange-800 text-sm font-medium flex items-center gap-1 group min-h-[48px] py-1">
                         <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                        {link.label}
+                        {t(link.labelKey)} {dest.cidade}
                       </Link>
                     </li>
                   ))}
@@ -976,7 +976,7 @@ export default function HomePage() {
         <Suspense fallback={<div className="py-12"><Skeleton className="h-96 w-full rounded-lg" /></div>}>
           <LeadCaptureForm
             serviceInterest="Geral"
-            serviceLabel="um profissional"
+            serviceLabel={t('leadForm.defaultLabel')}
             source="home"
           />
         </Suspense>

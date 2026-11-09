@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, X } from 'lucide-react';
+import { useApp } from '@/contexts/AppContext';
 
 export default function PWAPrompt() {
+  const { t } = useApp();
   const [showPrompt, setShowPrompt] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
 
@@ -58,19 +60,19 @@ export default function PWAPrompt() {
         <div className="flex items-start justify-between mb-3">
           <div className="flex items-center gap-2">
             <Download className="w-5 h-5 text-orange-600" />
-            <h3 className="font-bold text-slate-900 dark:text-white">Instalar App</h3>
+            <h3 className="font-bold text-slate-900 dark:text-white">{t('pwa.title')}</h3>
           </div>
           <button
             onClick={handleDismiss}
             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
-            aria-label="Fechar"
+            aria-label={t('pwa.close')}
           >
             <X className="w-4 h-4 text-slate-500" />
           </button>
         </div>
         
         <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-          Instale o Trancoso Resolve na sua tela inicial para acesso mais rápido e funcionamento offline.
+          {t('pwa.text')}
         </p>
 
         <div className="flex gap-2">
@@ -80,14 +82,14 @@ export default function PWAPrompt() {
             onClick={handleDismiss}
             className="flex-1"
           >
-            Agora não
+            {t('pwa.later')}
           </Button>
           <Button
             size="sm"
             onClick={handleInstall}
             className="flex-1 bg-orange-600 hover:bg-orange-700"
           >
-            Instalar
+            {t('pwa.install')}
           </Button>
         </div>
       </div>

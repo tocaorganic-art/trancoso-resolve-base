@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Smartphone, Bell, Zap, Download } from 'lucide-react';
+import { useApp } from '@/contexts/AppContext';
 
 const STORAGE_KEY = 'tr_onboarding_done';
 
 export default function OnboardingTour() {
+  const { t } = useApp();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -51,19 +53,19 @@ export default function OnboardingTour() {
                 </div>
 
                 <h2 className="text-xl font-bold text-white mb-2 leading-snug">
-                  Baixe o App<br />Trancoso Resolve
+                  {t('onboarding.title1')}<br />{t('onboarding.title2')}
                 </h2>
                 <p className="text-amber-100 text-sm leading-relaxed">
-                  Acesso direto a profissionais verificados, atualizações em tempo real e notificações do seu pedido, tudo na palma da mão.
+                  {t('onboarding.description')}
                 </p>
               </div>
 
               {/* Benefícios rápidos */}
               <div className="px-6 py-4 space-y-2 bg-amber-50/60">
                 {[
-                  { icon: <Zap className="w-4 h-4 text-amber-600" />, text: 'Solicite serviços em segundos' },
-                  { icon: <Bell className="w-4 h-4 text-amber-600" />, text: 'Notificações em tempo real' },
-                  { icon: <Download className="w-4 h-4 text-amber-600" />, text: 'Acesso offline ao seu histórico' },
+                  { icon: <Zap className="w-4 h-4 text-amber-600" />, text: t('onboarding.benefit1') },
+                  { icon: <Bell className="w-4 h-4 text-amber-600" />, text: t('onboarding.benefit2') },
+                  { icon: <Download className="w-4 h-4 text-amber-600" />, text: t('onboarding.benefit3') },
                 ].map(({ icon, text }) => (
                   <div key={text} className="flex items-center gap-2 text-sm text-stone-700">
                     {icon}
@@ -83,7 +85,7 @@ export default function OnboardingTour() {
                   className="flex items-center justify-center gap-3 w-full bg-amber-600 hover:bg-amber-700 text-white rounded-xl py-3 px-4 transition-colors font-semibold text-base"
                 >
                   <Download className="w-5 h-5" />
-                  Baixar Agora
+                  {t('onboarding.download')}
                 </a>
 
                 {/* Continuar no site */}
@@ -91,7 +93,7 @@ export default function OnboardingTour() {
                   onClick={dismiss}
                   className="w-full text-sm text-stone-500 hover:text-stone-700 py-2 transition-colors"
                 >
-                  Continuar no site →
+                  {t('onboarding.continueOnSite')} →
                 </button>
               </div>
 

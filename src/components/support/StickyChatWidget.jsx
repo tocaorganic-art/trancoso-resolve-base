@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { MessageCircle } from 'lucide-react';
+import { useApp } from '@/contexts/AppContext';
 
 /**
  * StickyChatWidget — botão flutuante do chat da Toca.
@@ -17,6 +18,7 @@ import { MessageCircle } from 'lucide-react';
  * - Ação: abre o chat interno (SupportChat).
  */
 export default function StickyChatWidget({ onClick, unreadCount = 0 }) {
+  const { t } = useApp();
   const [expanded, setExpanded] = useState(false);
   const [hovered, setHovered] = useState(false);
 
@@ -57,7 +59,7 @@ export default function StickyChatWidget({ onClick, unreadCount = 0 }) {
       onMouseLeave={handleMouseLeave}
       onFocus={handleFocus}
       onBlur={handleBlur}
-      aria-label="Abrir chat de atendimento: Fale com a Toca"
+      aria-label={t('chatWidget.openAria')}
       className="fixed left-4 md:left-auto md:right-8 bottom-[calc(env(safe-area-inset-bottom,0px)+90px)] md:bottom-8 h-14 pl-4 pr-4 relative flex items-center bg-[#E8571A] hover:bg-[#C1440E] active:bg-[#C1440E] text-white cursor-pointer select-none"
       style={{
         zIndex: 99999,
@@ -79,12 +81,12 @@ export default function StickyChatWidget({ onClick, unreadCount = 0 }) {
           transition: 'all 0.3s ease-in-out',
         }}
       >
-        Fale com a Toca
+        {t('chatWidget.label')}
       </span>
       {unreadCount > 0 && (
         <span
           className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold"
-          aria-label={`${unreadCount} mensagens não lidas`}
+          aria-label={t('chatWidget.unread').replace('{count}', String(unreadCount))}
         >
           {unreadCount}
         </span>

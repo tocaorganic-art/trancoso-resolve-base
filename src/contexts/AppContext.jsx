@@ -43,8 +43,11 @@ export function AppProvider({ children }) {
     return val ?? key;
   };
 
+  // `locale` alimenta formatações sensíveis ao idioma (hora, data, números).
+  const locale = LANGUAGES.find(l => l.code === lang)?.locale || 'pt-BR';
+
   return (
-    <AppContext.Provider value={{ theme, toggleTheme, lang, setLang, t, LANGUAGES }}>
+    <AppContext.Provider value={{ theme, toggleTheme, lang, setLang, t, LANGUAGES, locale }}>
       {children}
     </AppContext.Provider>
   );

@@ -5,8 +5,11 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import ReactMarkdown from 'react-markdown';
 import StickyChatWidget from './StickyChatWidget';
+import { useApp } from '@/contexts/AppContext';
+import { LANGUAGES } from '@/i18n/translations';
 
 // ── Base de conhecimento RAG inline (evita alucinações, reduz latência) ────────
+// Mantida em português: o prompt instrui a IA a responder no idioma do visitante.
 const KNOWLEDGE_BASE = `
 PLATAFORMA TRANCOSO RESOLVE | BASE DE CONHECIMENTO OFICIAL
 
@@ -46,32 +49,68 @@ TRANCOSO LOCAL:
 - Ponto cultural: Quadrado Histórico de Trancoso
 `;
 
-// ── Cache de respostas para FAQs frequentes (reduz custos de API) ──────────────
-const FAQ_CACHE = {
-  'como funciona': `A **Trancoso Resolve** funciona em 4 passos simples:\n\n1. **Encontre** um prestador verificado na busca\n2. **Agende** o serviço na data e hora desejada\n3. **Pague** com cartão, o valor fica em custódia segura por 48h\n4. **Confirme** a conclusão para liberar o pagamento ao prestador\n\nPrecisa de mais alguma informação?`,
-  'como agendar': `Para agendar um serviço:\n\n1. Acesse o perfil do prestador desejado\n2. Clique em **Agendar Serviço**\n3. Preencha data, horário e localização\n4. O prestador receberá a solicitação e confirmará\n\nGostaria de buscar um prestador agora?`,
-  'como funciona o pagamento': `O pagamento é **100% seguro**:\n\n- Aceito via **Asaas** (cartão, Pix)\n- Valor fica em **custódia por 48h** após o serviço\n- O prestador recebe **100%** do valor (sem comissão)\n- Cancelamento **gratuito** antes da confirmação\n\nAlguma dúvida sobre pagamentos?`,
-  'quero ser um prestador': `Para se cadastrar como prestador:\n\n1. Clique em **"Seja um Prestador"** no menu superior\n2. Preencha seus dados e especialidade\n3. Envie um documento (CNH ou RG) para verificação\n4. Configure sua conta bancária no painel Financeiro\n\nQuer saber mais sobre como funciona para prestadores?`,
-};
+// ── Intenções de FAQ por idioma (evita chamada de API e responde no idioma) ────
+// A ordem importa: "como funciona o pagamento" deve cair em pagamento, não em visão geral.
+const FAQ_INTENTS = [
+  {
+    key: 'payment',
+    match: {
+      pt: ['formas de pagamento', 'pagamento', 'pagar', 'pix', 'cartão'],
+      es: ['formas de pago', 'pago', 'pagar', 'pix', 'tarjeta'],
+      en: ['payment', 'pay', 'pix', 'card'],
+      fr: ['paiement', 'payer', 'pix', 'carte'],
+    },
+  },
+  {
+    key: 'howToBook',
+    match: {
+      pt: ['agendar', 'contratar', 'solicitar serviço'],
+      es: ['agendar', 'reservar', 'contratar'],
+      en: ['book', 'booking', 'hire'],
+      fr: ['réserver', 'reservation', 'engager'],
+    },
+  },
+  {
+    key: 'provider',
+    match: {
+      pt: ['ser prestador', 'ser um prestador', 'prestador', 'cadastrar', 'me cadastrar'],
+      es: ['ser profesional', 'ser proveedor', 'prestador', 'registrarme'],
+      en: ['be a provider', 'become a provider', 'provider', 'register'],
+      fr: ['devenir prestataire', 'prestataire', 'inscrire', 'inscription'],
+    },
+  },
+  {
+    key: 'howItWorks',
+    match: {
+      pt: ['como funciona'],
+      es: ['cómo funciona', 'como funciona'],
+      en: ['how it works', 'how does it work', 'how does the platform work', 'how does the platform', 'how do you work', 'how does trancoso'],
+      fr: ['comment ça marche', 'comment fonctionne'],
+    },
+  },
+];
 
-const findCachedAnswer = (text) => {
+const findIntent = (text, lang) => {
   const lower = text.toLowerCase();
-  for (const [key, answer] of Object.entries(FAQ_CACHE)) {
-    if (lower.includes(key)) return answer;
+  for (const intent of FAQ_INTENTS) {
+    const terms = intent.match[lang] || intent.match.pt;
+    if (terms.some(term => lower.includes(term))) return intent.key;
   }
   return null;
 };
 
 // ── Filtro de conteúdo (LGPD + segurança) ─────────────────────────────────────
 const BLOCKED_PATTERNS = [
-  /cpf|rg|cnpj|senha|password|credit.?card|cartão/i,
-  /número.?do.?cartão|cvv|validade.?cartão/i,
+  /cpf|rg|cnpj|senha|password|credit.?card|cartão|tarjeta/i,
+  /número.?do.?cartão|cvv|validade.?cartão|numero.?de.?tarjeta/i,
 ];
 
 const containsSensitiveData = (text) =>
   BLOCKED_PATTERNS.some(p => p.test(text));
 
-const SYSTEM_PROMPT = `Você é a **Toca**, Assistente IA da **Trancoso Resolve**. Responda APENAS com base na base de conhecimento fornecida. Se não souber, diga honestamente e indique suporte@trancosoresolve.com.br.
+const buildSystemPrompt = (languageName) => `Você é a **Toca**, Assistente IA da **Trancoso Resolve**. Responda APENAS com base na base de conhecimento fornecida. Se não souber, diga honestamente e indique suporte@trancosoresolve.com.br.
+
+IDIOMA: responda SEMPRE em ${languageName}, mesmo que a base de conhecimento e o histórico estejam em português. Traduza também nomes de menus, seções e mensagens citados na resposta.
 
 TOM: Profissional, amigável, empático, baiano-chic. Respostas concisas (máx 3 parágrafos).
 LIMITES: Nunca forneça conselhos legais, médicos ou financeiros pessoais. Nunca solicite dados sensíveis (CPF, senha, dados de cartão).
@@ -98,6 +137,7 @@ function TypingIndicator() {
 }
 
 function MessageBubble({ msg }) {
+  const { t, locale } = useApp();
   const isUser = msg.role === 'user';
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} items-end gap-2`}>
@@ -113,7 +153,7 @@ function MessageBubble({ msg }) {
       }`}>
         {/* Imagem anexada */}
         {msg.imageUrl && (
-          <img src={msg.imageUrl} alt="Imagem enviada" className="rounded-lg mb-2 max-w-full max-h-40 object-cover" />
+          <img src={msg.imageUrl} alt={t('support.imageAlt')} className="rounded-lg mb-2 max-w-full max-h-40 object-cover" />
         )}
         {isUser ? (
           <p className="text-sm leading-relaxed">{msg.content}</p>
@@ -123,7 +163,7 @@ function MessageBubble({ msg }) {
           </div>
         )}
         <p className={`text-xs mt-1 ${isUser ? 'text-[#E8571A]/60' : 'text-slate-400'}`}>
-          {new Date(msg.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+          {new Date(msg.timestamp).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })}
         </p>
       </div>
       {isUser && (
@@ -135,15 +175,11 @@ function MessageBubble({ msg }) {
   );
 }
 
-const quickActions = [
-  'Como funciona a plataforma?',
-  'Como agendar um serviço?',
-  'Como funciona o pagamento?',
-  'Quero ser um prestador',
-];
-
 // ── Componente principal ───────────────────────────────────────────────────────
 export default function SupportChat() {
+  const { t, lang } = useApp();
+  const languageName = LANGUAGES.find(l => l.code === lang)?.aiName || 'português do Brasil';
+
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
@@ -151,14 +187,14 @@ export default function SupportChat() {
   const [unreadCount, setUnreadCount] = useState(0);
   const [conversationHistory, setConversationHistory] = useState([]);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      id: '1',
-      role: 'assistant',
-      content: 'Olá! 👋 Sou a **Toca**, assistente inteligente da Trancoso Resolve. Como posso ajudar você hoje?\n\nPosso tirar dúvidas sobre a plataforma, agendamentos, pagamentos, prestadores e muito mais.',
-      timestamp: new Date().toISOString(),
-    }
-  ]);
+  const welcomeMessage = useCallback(() => ({
+    id: '1',
+    role: 'assistant',
+    content: t('support.welcome'),
+    timestamp: new Date().toISOString(),
+  }), [t]);
+
+  const [messages, setMessages] = useState([welcomeMessage()]);
 
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -176,6 +212,11 @@ export default function SupportChat() {
     enabled: !!user?.email,
     initialData: [],
   });
+
+  // Se o visitante troca o idioma antes de conversar, a saudação acompanha o idioma.
+  useEffect(() => {
+    setMessages(prev => (prev.length === 1 && prev[0].id === '1' ? [welcomeMessage()] : prev));
+  }, [welcomeMessage]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -200,7 +241,7 @@ export default function SupportChat() {
       ? `\nUSUÁRIO LOGADO: ${user.full_name} (${user.email})`
       : '\nUSUÁRIO: não autenticado';
 
-    return `${SYSTEM_PROMPT}
+    return `${buildSystemPrompt(languageName)}
 
 --- BASE DE CONHECIMENTO ---
 ${KNOWLEDGE_BASE}${userContext}${requestsContext}
@@ -208,8 +249,8 @@ ${KNOWLEDGE_BASE}${userContext}${requestsContext}
 --- HISTÓRICO DA CONVERSA ---
 ${historyText}
 
-${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}Responda à última mensagem de forma concisa e útil.`;
-  }, [user, userRequests]);
+${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}Responda à última mensagem de forma concisa e útil, em ${languageName}.`;
+  }, [user, userRequests, languageName]);
 
   const sendMessage = useCallback(async (text, imageUrl = null) => {
     const content = text || inputMessage;
@@ -220,7 +261,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
       const warnMsg = {
         id: Date.now().toString(),
         role: 'assistant',
-        content: '⚠️ Por segurança, **não compartilhe dados sensíveis** como CPF, número de cartão ou senhas no chat. Para questões que envolvam dados pessoais, entre em contato por suporte@trancosoresolve.com.br.',
+        content: t('support.sensitive'),
         timestamp: new Date().toISOString(),
       };
       setMessages(prev => [...prev, warnMsg]);
@@ -243,9 +284,10 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
     setConversationHistory(newHistory);
 
     // Cache de FAQ — evita chamada de API desnecessária
-    const cached = findCachedAnswer(content);
-    if (cached && !imageUrl) {
+    const intent = findIntent(content, lang);
+    if (intent && !imageUrl) {
       await new Promise(r => setTimeout(r, 600)); // simula latência natural
+      const cached = t(`support.answers.${intent}`);
       const assistantMsg = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
@@ -259,18 +301,24 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
     }
 
     const historyText = newHistory.slice(-10).map(m =>
-      `${m.role === 'user' ? 'Usuário' : 'Toca'}: ${m.content}`
+      `${m.role === 'user' ? 'User' : 'Toca'}: ${m.content}`
     ).join('\n');
 
     const prompt = buildContextualPrompt(content, historyText, imageUrl);
 
-    const resp = await base44.functions.invoke('iaCreditada', {
-      operacao: 'conversa',
-      prompt,
-      ...(imageUrl ? { file_urls: [imageUrl] } : {}),
-    });
-
-    const responseText = typeof resp === 'string' ? resp : (resp?.resposta || resp?.response || 'Desculpe, não consegui processar sua mensagem. Tente novamente ou contate suporte@trancosoresolve.com.br.');
+    let responseText = t('support.fallback');
+    try {
+      const resp = await base44.functions.invoke('iaCreditada', {
+        operacao: 'conversa',
+        prompt,
+        lang,
+        ...(imageUrl ? { file_urls: [imageUrl] } : {}),
+      });
+      responseText = typeof resp === 'string' ? resp : (resp?.resposta || resp?.response || responseText);
+    } catch {
+      // falha de rede ou limite de cota: mantém a conversa viva com o aviso localizado
+      responseText = t('support.fallback');
+    }
 
     const assistantMsg = {
       id: (Date.now() + 1).toString(),
@@ -284,7 +332,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
     setIsTyping(false);
 
     if (!isOpen) setUnreadCount(prev => prev + 1);
-  }, [inputMessage, isTyping, conversationHistory, isOpen, buildContextualPrompt]);
+  }, [inputMessage, isTyping, conversationHistory, isOpen, buildContextualPrompt, t, lang]);
 
   // Multimodalidade — upload de imagem
   const handleImageUpload = async (e) => {
@@ -293,7 +341,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
     setUploadingImage(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     setUploadingImage(false);
-    await sendMessage(inputMessage || 'Analisando esta imagem...', file_url);
+    await sendMessage(inputMessage || t('support.analyzing'), file_url);
     e.target.value = '';
   };
 
@@ -303,6 +351,8 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
       sendMessage();
     }
   };
+
+  const quickActions = t('support.quickActions');
 
   if (!isOpen) {
     // StickyChatWidget: position fixed no viewport, portal em document.body,
@@ -321,7 +371,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
       <div
         className="fixed inset-0 z-40 bg-black/0 transition-opacity duration-300"
         onClick={() => setIsOpen(false)}
-        aria-label="Fechar chat"
+        aria-label={t('support.close')}
       />
       <div className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 transition-all duration-300 ${isMinimized ? 'w-80' : 'w-96'} max-w-[calc(100vw-2rem)]`}>
       <Card className="shadow-2xl border border-slate-200 overflow-hidden">
@@ -332,10 +382,10 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
               <Bot className="w-5 h-5" />
             </div>
             <div>
-              <p className="font-semibold text-sm">Toca | Assistente IA</p>
+              <p className="font-semibold text-sm">{t('support.title')}</p>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-xs text-white/80">Online • IA avançada</span>
+                <span className="text-xs text-white/80">{t('support.status')}</span>
               </div>
             </div>
           </div>
@@ -343,14 +393,14 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
             <button
               onClick={() => setIsMinimized(!isMinimized)}
               className="w-8 h-8 rounded-lg hover:bg-white/20 flex items-center justify-center transition-colors"
-              aria-label={isMinimized ? 'Maximizar' : 'Minimizar'}
+              aria-label={isMinimized ? t('support.maximize') : t('support.minimize')}
             >
               {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
             </button>
             <button
               onClick={() => setIsOpen(false)}
               className="w-8 h-8 rounded-lg hover:bg-white/20 flex items-center justify-center transition-colors"
-              aria-label="Fechar chat"
+              aria-label={t('support.close')}
             >
               <X className="w-4 h-4" />
             </button>
@@ -371,7 +421,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
             {/* Quick Actions */}
             {messages.length <= 1 && !isTyping && (
               <div className="px-4 py-3 bg-white border-t border-slate-100">
-                <p className="text-xs text-slate-500 font-medium mb-2">Perguntas frequentes:</p>
+                <p className="text-xs text-slate-500 font-medium mb-2">{t('support.faqTitle')}</p>
                 <div className="grid grid-cols-2 gap-1.5">
                   {quickActions.map((action) => (
                     <button
@@ -401,8 +451,8 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                   onClick={() => fileInputRef.current?.click()}
                   disabled={isTyping || uploadingImage}
                   className="w-9 h-9 rounded-xl border border-slate-200 hover:bg-slate-50 flex items-center justify-center disabled:opacity-40 transition-colors shrink-0"
-                  aria-label="Enviar imagem ou documento"
-                  title="Enviar imagem ou documento"
+                  aria-label={t('support.attach')}
+                  title={t('support.attach')}
                 >
                   <Paperclip className="w-4 h-4 text-slate-500" />
                 </button>
@@ -410,7 +460,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                 <input
                   ref={inputRef}
                   type="text"
-                  placeholder={uploadingImage ? 'Enviando arquivo...' : 'Digite sua mensagem...'}
+                  placeholder={uploadingImage ? t('support.uploading') : t('support.placeholder')}
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -421,14 +471,14 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                   onClick={() => sendMessage()}
                   disabled={!inputMessage.trim() || isTyping || uploadingImage}
                   className="w-9 h-9 rounded-xl bg-[#E8571A] hover:bg-[#C1440E] flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-all shrink-0"
-                  aria-label="Enviar mensagem"
+                  aria-label={t('support.send')}
                 >
                   <Send className="w-4 h-4 text-white" />
                 </button>
               </div>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <ShieldCheck className="w-3 h-3 text-slate-400" />
-                <p className="text-xs text-slate-400">Protegido por LGPD · Trancoso Resolve</p>
+                <p className="text-xs text-slate-400">{t('support.privacy')}</p>
               </div>
             </div>
           </>

@@ -80,7 +80,12 @@ export default function CadastroTipoPage() {
     queryFn: () => base44.auth.me(),
   });
 
-  const redirectPrestador = async (email, name) => {
+  // Pixel e GA4 enviam por beacon/imagem; uma pausa curta antes do redirect
+  // evita que a navegação corte o envio do evento de cadastro.
+  const flushTracking = () => new Promise((resolve) => { window.setTimeout(resolve, 300); });
+
+  const redirectPrestador = async (email, name, userAntesDoCadastro) => {
+    let dadosSensiveisSalvos = false;
     // Prazo total de 20s para todas as chamadas abaixo somadas: o spinner
     // nunca fica mais que isso antes de seguir para /MeuPerfilPrestador.
     const prazoFinal = Date.now() + PRAZO_TOTAL_REDIRECT_MS;
@@ -130,6 +135,7 @@ export default function CadastroTipoPage() {
         } else {
           await comPrazo(base44.entities.ServiceProviderPrivate.create({ service_provider_id: providerId, ...privateData }));
         }
+        dadosSensiveisSalvos = Boolean(privateData.cpf && privateData.data_nascimento && autorizouVerificacao);
       } catch (privateError) {
         console.warn('[CadastroTipo] ServiceProviderPrivate não persistido:', privateError);
       }
@@ -137,6 +143,14 @@ export default function CadastroTipoPage() {
       // O próprio perfil também consegue criar o registro; não deixe uma
       // falha transitória do upsert bloquear o único formulário do usuário.
       console.warn('[CadastroTipo] Não foi possível preparar o perfil:', error);
+    }
+
+    // sign_up / CompleteRegistration do prestador: só depois que CPF, data de
+    // nascimento e autorização LGPD foram salvos (achado A1 da auditoria).
+    if (dadosSensiveisSalvos) {
+      const jaRastreado = registrationTrackedRef.current;
+      registrationTrackedRef.current = trackFirstRegistration(userAntesDoCadastro, 'prestador', jaRastreado);
+      if (registrationTrackedRef.current && !jaRastreado) await flushTracking();
     }
 
     localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
@@ -148,22 +162,29 @@ export default function CadastroTipoPage() {
       const updated = await withTimeout(base44.auth.updateMe({ user_type: userType }));
       return { updated, userType };
     },
-    onSuccess: ({ updated, userType }) => {
+    onSuccess: async ({ updated, userType }) => {
+      // Usuário como estava antes desta gravação (define se é o 1º cadastro).
+      const userAntesDoCadastro = user;
       queryClient.invalidateQueries({ queryKey: ['currentUser'] });
       const email = updated?.email || user?.email || '';
       const name = updated?.full_name || user?.full_name || '';
-      registrationTrackedRef.current = trackFirstRegistration(
-        user,
-        userType,
-        registrationTrackedRef.current,
-      );
 
       if (userType === 'prestador') {
         // Grava flag para PermissionChecker fazer bypass enquanto banco propaga
         localStorage.setItem('user_type_prestador_pendente', Date.now().toString());
-        redirectPrestador(email, name);
-      } else if (userType === 'lojista') {
-        // Lojista: cadastro direto → painel de anúncios
+        // O evento de cadastro do prestador é disparado dentro de
+        // redirectPrestador, depois de CPF e LGPD salvos.
+        redirectPrestador(email, name, userAntesDoCadastro);
+        return;
+      }
+
+      // Cliente e lojista: o cadastro termina quando o tipo de conta é gravado.
+      const jaRastreado = registrationTrackedRef.current;
+      registrationTrackedRef.current = trackFirstRegistration(userAntesDoCadastro, userType, jaRastreado);
+      if (registrationTrackedRef.current && !jaRastreado) await flushTracking();
+
+      if (userType === 'lojista') {
+        // Lojista: cadastro direto, segue para o painel de anúncios
         localStorage.setItem('user_type_lojista_pendente', Date.now().toString());
         window.location.replace('/DashboardLojista');
       } else {

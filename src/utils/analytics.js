@@ -1,5 +1,5 @@
 /**
- * Utilitário centralizado de rastreamento — GA4 + Meta Pixel.
+ * Utilitário centralizado de rastreamento: GA4 + Meta Pixel.
  *
  * Meta CAPI deve ser disparada somente por funções server-side confiáveis.
  * O navegador nunca recebe o segredo de ingestão.
@@ -43,7 +43,7 @@ function fbPixel(eventName, data = {}, eventId = null) {
 // ──────────────────────────────────────────
 
 /**
- * trackLead — submissão do mini-formulário de lead
+ * trackLead: submissão do mini-formulário de lead
  */
 export function trackLead(data = {}) {
   const city = detectCity();
@@ -65,7 +65,7 @@ export function trackLead(data = {}) {
 }
 
 /**
- * trackPrestadorCadastro — prestador completou pré-cadastro
+ * trackPrestadorCadastro: prestador completou pré-cadastro
  */
 export function trackPrestadorCadastro(data = {}) {
   ga4('sign_up', {
@@ -82,7 +82,7 @@ export function trackPrestadorCadastro(data = {}) {
 }
 
 /**
- * trackClienteCadastro — cliente completou cadastro
+ * trackClienteCadastro: cliente completou cadastro
  */
 export function trackClienteCadastro() {
   ga4('sign_up', {
@@ -97,8 +97,26 @@ export function trackClienteCadastro() {
 }
 
 /**
+ * trackLojistaCadastro: lojista completou cadastro (tipo de conta gravado)
+ */
+export function trackLojistaCadastro() {
+  ga4('sign_up', {
+    method: 'email',
+    user_type: 'lojista',
+  });
+
+  trackFacebookRegistration({
+    content_name: 'Cadastro Lojista',
+  });
+
+}
+
+/**
  * Dispara CompleteRegistration uma única vez no primeiro tipo de conta.
  * O ref do chamador cobre rerenders/retries; user_type cobre retornos e logins.
+ *
+ * Prestador: o chamador (CadastroTipo) só chama depois que CPF, nascimento e
+ * autorização LGPD foram salvos, nunca na escolha do card.
  */
 export function trackFirstRegistration(user, userType, alreadyTracked = false) {
   const isFirstRegistration = !user?.user_type || user.user_type === 'indefinido';
@@ -106,13 +124,14 @@ export function trackFirstRegistration(user, userType, alreadyTracked = false) {
 
   if (userType === 'prestador') trackPrestadorCadastro();
   else if (userType === 'cliente') trackClienteCadastro();
+  else if (userType === 'lojista') trackLojistaCadastro();
   else return alreadyTracked;
 
   return true;
 }
 
 /**
- * trackSolicitacaoServico — ServiceRequest criada com sucesso
+ * trackSolicitacaoServico: ServiceRequest criada com sucesso
  */
 export function trackSolicitacaoServico(data = {}) {
   const eventId = uuid();
@@ -129,7 +148,7 @@ export function trackSolicitacaoServico(data = {}) {
 }
 
 /**
- * trackContatoWhatsApp — botão WhatsApp clicado
+ * trackContatoWhatsApp: botão WhatsApp clicado
  */
 export function trackContatoWhatsApp(service = '') {
   const eventId = uuid();
@@ -149,7 +168,7 @@ export function trackContatoWhatsApp(service = '') {
 }
 
 /**
- * trackViewServico — entrada em página de serviço
+ * trackViewServico: entrada em página de serviço
  */
 export function trackViewServico(data = {}) {
   const eventId = uuid();

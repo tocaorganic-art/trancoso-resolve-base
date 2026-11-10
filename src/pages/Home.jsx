@@ -587,7 +587,8 @@ export default function HomePage() {
     (p.tipo_pessoa === 'pj' && !p.tem_ponto_fisico_em_trancoso)
   ).length || 0;
   const vagasRestantes = Math.max(0, 50 - totalPrestadoresVagas);
-  const totalVerificados = allProviders?.filter(p => p.verificado === true || p.status === 'ativo').length || 0;
+  // listPublicProviders já devolve só verificados, com o campo `verified`.
+  const totalVerificados = allProviders?.filter(p => p.verified === true).length || 0;
   const _totalCategorias = 9;
   
   const { data: services, isLoading: isLoadingServices } = useQuery({

@@ -97,10 +97,18 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    const cpf = (provider as any).cpf || (provider as any).document_number;
+    // CPF, nascimento e nome da mãe ficam em ServiceProviderPrivate (LGPD); ServiceProvider é fallback da transição.
+    let priv: any = {};
+    try {
+      const privRows = await base44.asServiceRole.entities.ServiceProviderPrivate.filter({ service_provider_id });
+      priv = privRows?.[0] ?? {};
+    } catch {
+      priv = {};
+    }
+    const cpf = priv.cpf || (provider as any).cpf || (provider as any).document_number;
     const nome = (provider as any).full_name || (provider as any).name;
-    const birthdate = (provider as any).data_nascimento || (provider as any).birthdate;
-    const nome_mae = (provider as any).nome_mae || (provider as any).mother_name;
+    const birthdate = priv.data_nascimento || (provider as any).data_nascimento || (provider as any).birthdate;
+    const nome_mae = priv.nome_mae || (provider as any).nome_mae || (provider as any).mother_name;
     const nome_pai = (provider as any).nome_pai || (provider as any).father_name;
     const uf_nascimento = (provider as any).uf_nascimento || (provider as any).birth_state || "BA";
 

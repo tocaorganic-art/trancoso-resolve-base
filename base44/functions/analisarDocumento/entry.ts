@@ -192,12 +192,27 @@ Deno.serve(async (req: Request) => {
       }, { status: 422 });
     }
 
-    // 4. Atualizar o ServiceProvider com os dados extraídos
+    // 4. Dados sensíveis (CPF, nascimento, nome da mãe) só no ServiceProviderPrivate (LGPD).
+    // Campos vazios não são gravados e uma falha aqui não derruba a verificação.
+    const dadosSensiveis: Record<string, string> = {};
+    if (cpfExtraido) dadosSensiveis.cpf = cpfExtraido;
+    if (birthdateIso) dadosSensiveis.data_nascimento = birthdateIso;
+    if (nomeMaeExtraido) dadosSensiveis.nome_mae = nomeMaeExtraido;
+    try {
+      const privRows = await base44.asServiceRole.entities.ServiceProviderPrivate.filter({ service_provider_id: serviceProviderId });
+      if (privRows?.[0]?.id) {
+        await base44.asServiceRole.entities.ServiceProviderPrivate.update(privRows[0].id, dadosSensiveis);
+      } else {
+        await base44.asServiceRole.entities.ServiceProviderPrivate.create({ service_provider_id: serviceProviderId, ...dadosSensiveis });
+      }
+    } catch (privErr) {
+      console.warn("[analisarDocumento] ServiceProviderPrivate não gravado:", (privErr as Error).message);
+    }
+
+    // 4b. Atualizar o ServiceProvider público (sem dados sensíveis)
+
     const providerUpdate: Record<string, any> = {
-      cpf: cpfExtraido,
       full_name: nomeExtraido,
-      data_nascimento: birthdateIso,
-      nome_mae: nomeMaeExtraido,
       cnh_numero: registroCnh,
       cnh_categoria: categoriaCnh,
       cnh_validade: validadeCnh,
@@ -221,6 +236,20 @@ Deno.serve(async (req: Request) => {
       }),
       documento_autenticado: true,
     });
+
+    // Sem data de nascimento a consulta não pode ser feita: encaminha para análise manual, sem falhar.
+    if (!birthdateIso) {
+      const msgManual = "Data de nascimento não extraída da CNH, encaminhado para análise manual.";
+      await base44.asServiceRole.entities.ServiceProvider.update(serviceProviderId, {
+        status_verificacao: "em_analise_manual",
+        relatorio_verificacao: msgManual,
+      });
+      await base44.asServiceRole.entities.Verificacao.update(verificacao_id, {
+        status: "em_analise_manual",
+        relatorio_completo: msgManual,
+      });
+      return Response.json({ success: false, error: msgManual, status: "em_analise_manual" }, { status: 422 });
+    }
 
     // 6. Chamar a API de Antecedentes Criminais com os dados extraídos
     const antecedentesUrl = "https://api.infosimples.com/api/v2/consultas/antecedentes-criminais/pf/emit";

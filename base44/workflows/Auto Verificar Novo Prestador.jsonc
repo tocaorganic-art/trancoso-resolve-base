@@ -1,14 +1,14 @@
 {
   "name": "Auto Verificar Novo Prestador",
-  "description": "Quando um ServiceProvider \u00e9 criado com autorizou_verificacao=true, chama verificarAntecedentes para consulta autom\u00e1tica na Infosimples (ou encaminha para an\u00e1lise manual se faltarem dados obrigat\u00f3rios).",
+  "description": "Quando o ServiceProviderPrivate \u00e9 criado com CPF e data de nascimento (ap\u00f3s o cadastro salvar os dados sens\u00edveis), chama verificarAntecedentes. A fun\u00e7\u00e3o decide: consulta (somente com INFOSIMPLES_CONSULTA_ATIVA=true), an\u00e1lise manual (PJ, dados faltando ou consulta desligada) ou recusa sem autoriza\u00e7\u00e3o.",
   "trigger": {
-    "condition": "${ ((.trigger.data.autorizou_verificacao == true) and (.trigger.data.tipo_pessoa == \"pf\")) }",
+    "condition": "${ (((.trigger.data.cpf // \"\") != \"\") and ((.trigger.data.data_nascimento // \"\") != \"\")) }",
     "config": {
       "trigger_type": "entity",
       "events": [
         "create"
       ],
-      "entity_name": "ServiceProvider"
+      "entity_name": "ServiceProviderPrivate"
     }
   },
   "definition": {

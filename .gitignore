@@ -43,3 +43,6 @@ dist-ssr
 
 # Notas com dados pessoais reais (nomes, emails, telefones) — nunca versionar
 *.confidencial.md
+
+# Junções locais criadas pelo CLI de skills (os arquivos reais ficam em .agents/skills)
+.claude/skills/

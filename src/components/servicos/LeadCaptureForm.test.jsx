@@ -1,4 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const mocks = vi.hoisted(() => ({
@@ -16,12 +17,13 @@ import LeadCaptureForm from '@/components/servicos/LeadCaptureForm';
 
 function fillForm() {
   fireEvent.change(screen.getByLabelText(/Nome/), { target: { value: 'Pessoa Teste' } });
-  fireEvent.change(screen.getByRole('textbox', { name: /WhatsApp/ }), { target: { value: '73999990000' } });
+  fireEvent.change(screen.getByLabelText(/Telefone/), { target: { value: '73999990000' } });
+  fireEvent.change(screen.getByLabelText(/Serviço de interesse/), { target: { value: 'Limpeza' } });
   fireEvent.change(screen.getByLabelText(/Localização/), { target: { value: 'Trancoso' } });
   fireEvent.click(screen.getByRole('checkbox'));
 }
 
-describe('WhatsApp mobile após captura de lead', () => {
+describe('Envio de lead sem WhatsApp público', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -30,51 +32,49 @@ describe('WhatsApp mobile após captura de lead', () => {
     vi.restoreAllMocks();
   });
 
-  it('abre sincronamente, redireciona após o await e não duplica o envio', async () => {
-    const order = [];
+  it('envia o lead via createPublicLead e mostra confirmação, sem abrir WhatsApp', async () => {
+    const openSpy = vi.spyOn(window, 'open');
+    mocks.invoke.mockResolvedValue({ ok: true });
+
+    render(
+      <MemoryRouter>
+        <LeadCaptureForm serviceInterest="Limpeza" source="teste-mobile" />
+      </MemoryRouter>
+    );
+    fillForm();
+    fireEvent.submit(screen.getByRole('button', { name: /Quero ser atendido/ }).closest('form'));
+
+    await screen.findByText('Recebemos seu contato! ✅');
+
+    expect(mocks.invoke).toHaveBeenCalledTimes(1);
+    const [fnName, payload] = mocks.invoke.mock.calls[0];
+    expect(fnName).toBe('createPublicLead');
+    expect(payload).toMatchObject({ type: 'cliente', consent: true });
+    expect(mocks.trackLead).toHaveBeenCalledTimes(1);
+    expect(openSpy).not.toHaveBeenCalled();
+  });
+
+  it('não duplica o envio ao submeter duas vezes antes da resposta', async () => {
     let resolveInvoke;
     const invokePromise = new Promise((resolve) => { resolveInvoke = resolve; });
-    const popup = { location: { href: '' }, close: vi.fn() };
-    vi.spyOn(window, 'open').mockImplementation(() => {
-      order.push('open');
-      return popup;
-    });
-    mocks.invoke.mockImplementation(() => {
-      order.push('invoke');
-      return invokePromise;
-    });
+    mocks.invoke.mockImplementation(() => invokePromise);
 
-    render(<LeadCaptureForm serviceInterest="Limpeza" source="teste-mobile" />);
+    render(
+      <MemoryRouter>
+        <LeadCaptureForm serviceInterest="Limpeza" source="teste-mobile" />
+      </MemoryRouter>
+    );
     fillForm();
     const form = screen.getByRole('button', { name: /Quero ser atendido/ }).closest('form');
 
     fireEvent.submit(form);
     fireEvent.submit(form);
 
-    expect(order).toEqual(['open', 'invoke']);
-    expect(window.open).toHaveBeenCalledTimes(1);
     expect(mocks.invoke).toHaveBeenCalledTimes(1);
-    expect(popup.location.href).toBe('');
 
     await act(async () => resolveInvoke({ ok: true }));
+    await screen.findByText('Recebemos seu contato! ✅');
 
-    const fallback = await screen.findByRole('link', { name: 'Não abriu? Continuar no WhatsApp' });
-    expect(popup.location.href).toMatch(/^https:\/\/wa\.me\//);
-    expect(fallback).toHaveAttribute('href', popup.location.href);
     expect(mocks.trackLead).toHaveBeenCalledTimes(1);
-  });
-
-  it('mostra fallback seguro quando o popup é bloqueado', async () => {
-    vi.spyOn(window, 'open').mockReturnValue(null);
-    mocks.invoke.mockResolvedValue({ ok: true });
-
-    render(<LeadCaptureForm serviceInterest="Limpeza" source="teste-mobile" />);
-    fillForm();
-    fireEvent.submit(screen.getByRole('button', { name: /Quero ser atendido/ }).closest('form'));
-
-    const fallback = await screen.findByRole('link', { name: /bloqueou o popup/ });
-    expect(fallback).toHaveAttribute('href', expect.stringMatching(/^https:\/\/wa\.me\//));
-    expect(window.open).toHaveBeenCalledTimes(1);
-    expect(mocks.invoke).toHaveBeenCalledTimes(1);
   });
 });

@@ -69,7 +69,7 @@ export default function MaintenanceReport() {
 
           <div className="bg-slate-50 p-4 rounded-lg">
             <div className="flex items-start gap-3">
-              <Calendar className="w-5 h-5 text-slate-500 mt-0.5" />
+              <Calendar className="w-5 h-5 text-slate-600 mt-0.5" />
               <div>
                 <p className="font-medium text-sm mb-1">Última Manutenção</p>
                 <p className="text-xs text-slate-600">{new Date().toLocaleString('pt-BR')}</p>

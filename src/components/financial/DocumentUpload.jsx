@@ -261,7 +261,7 @@ Retorne um JSON válido.
             <p className="text-lg font-medium text-slate-700 mb-2">
               Arraste um arquivo ou clique para selecionar
             </p>
-            <p className="text-sm text-slate-500 mb-4">
+            <p className="text-sm text-slate-600 mb-4">
               ✅ Suporte: <strong>PDF</strong>, <strong>JPG</strong>, <strong>PNG</strong>
             </p>
             <input
@@ -361,7 +361,7 @@ Retorne um JSON válido.
                           <div>
                             <p className="font-medium text-slate-900">{t.description}</p>
                             <p className="text-xs text-slate-600">{t.category} • {t.date}</p>
-                            {t.notes && <p className="text-xs text-slate-500 mt-1">{t.notes}</p>}
+                            {t.notes && <p className="text-xs text-slate-600 mt-1">{t.notes}</p>}
                           </div>
                           <span className={`font-bold ${t.type === 'Receita' ? 'text-green-600' : 'text-red-600'}`}>
                             R$ {Number(t.amount).toFixed(2)}
@@ -370,7 +370,7 @@ Retorne um JSON válido.
                       </div>
                     ))}
                     {result.count > 5 && (
-                      <p className="text-xs text-slate-500 text-center">
+                      <p className="text-xs text-slate-600 text-center">
                         E mais {result.count - 5} transações...
                       </p>
                     )}

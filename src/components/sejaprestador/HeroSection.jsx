@@ -58,7 +58,7 @@ export default function HeroSection() {
 
           <div className="flex flex-col sm:flex-row gap-3 mb-8">
             <Link to={createPageUrl('CadastroTipo')}>
-              <Button size="lg" className="bg-amber-600 hover:bg-amber-700 text-white font-bold text-base md:text-lg px-6 md:px-8 min-h-[48px] shadow-xl w-full sm:w-auto">
+              <Button size="lg" className="bg-amber-700 hover:bg-amber-800 text-white font-bold text-base md:text-lg px-6 md:px-8 min-h-[48px] shadow-xl w-full sm:w-auto">
                 Cadastrar Grátis e Entrar na Vitrine
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>

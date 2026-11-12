@@ -128,7 +128,7 @@ export default function FeedbackCollector() {
 
           <Button 
             onClick={handleSubmit} 
-            className="w-full bg-green-600 hover:bg-green-700"
+            className="w-full bg-green-700 hover:bg-green-800"
             disabled={submitFeedbackMutation.isPending}
           >
             {submitFeedbackMutation.isPending ? (

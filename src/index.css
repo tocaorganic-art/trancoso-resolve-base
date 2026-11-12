@@ -338,7 +338,7 @@ button:focus-visible {
     --card-foreground: 30 24% 11%;
     --popover: 0 0% 100%;
     --popover-foreground: 30 24% 11%;
-    --primary: 18 81% 51%;          /* #E8571A laranja queimado */
+    --primary: 18 86% 41%;          /* #C1440E terracota (AA com branco) */
     --primary-foreground: 0 0% 100%;
     --secondary: 34 38% 88%;        /* warm light surface */
     --secondary-foreground: 30 24% 11%;
@@ -352,8 +352,8 @@ button:focus-visible {
     --destructive-foreground: 0 0% 100%;
     --border: 34 28% 80%;
     --input: 34 28% 80%;
-    --ring: 18 81% 51%;
-    --chart-1: 18 81% 51%;
+    --ring: 18 86% 41%;
+    --chart-1: 18 86% 41%;
     --chart-2: 78 36% 36%;
     --chart-3: 30 57% 50%;
     --chart-4: 188 53% 36%;
@@ -361,12 +361,12 @@ button:focus-visible {
     --radius: 0.5rem;
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 30 24% 11%;
-    --sidebar-primary: 18 81% 51%;
+    --sidebar-primary: 18 86% 41%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 34 38% 88%;
     --sidebar-accent-foreground: 30 24% 11%;
     --sidebar-border: 34 28% 80%;
-    --sidebar-ring: 18 81% 51%;
+    --sidebar-ring: 18 86% 41%;
   }
 
   /* ===== DARK MODE — café escuro + laranja queimado ===== */
@@ -377,7 +377,7 @@ button:focus-visible {
     --card-foreground: 33 43% 93%;
     --popover: 28 50% 10%;
     --popover-foreground: 33 43% 93%;
-    --primary: 18 81% 51%;          /* mesmo laranja */
+    --primary: 18 86% 41%;          /* mesmo laranja */
     --primary-foreground: 0 0% 100%;
     --secondary: 26 37% 17%;        /* dark warm */
     --secondary-foreground: 33 43% 93%;
@@ -389,20 +389,20 @@ button:focus-visible {
     --destructive-foreground: 0 0% 100%;
     --border: 26 35% 20%;
     --input: 26 35% 20%;
-    --ring: 18 81% 51%;
-    --chart-1: 18 81% 51%;
+    --ring: 18 86% 41%;
+    --chart-1: 18 86% 41%;
     --chart-2: 78 36% 36%;
     --chart-3: 30 57% 50%;
     --chart-4: 188 53% 36%;
     --chart-5: 340 75% 55%;
     --sidebar-background: 28 50% 10%;
     --sidebar-foreground: 33 43% 93%;
-    --sidebar-primary: 18 81% 51%;
+    --sidebar-primary: 18 86% 41%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 26 37% 17%;
     --sidebar-accent-foreground: 33 43% 93%;
     --sidebar-border: 26 35% 20%;
-    --sidebar-ring: 18 81% 51%;
+    --sidebar-ring: 18 86% 41%;
   }
 }
 

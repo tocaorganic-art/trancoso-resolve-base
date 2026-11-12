@@ -19,10 +19,10 @@ export default function DownloadsSection() {
               className="group rounded-brand-lg bg-card border border-border p-5 flex flex-col hover:border-orange-400 hover:shadow-brand transition-all"
             >
               <div className="flex items-start justify-between mb-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-primary/10 text-orange-700">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-primary/10 text-orange-400">
                   <Icon className="w-5 h-5" />
                 </span>
-                <Download className="w-4 h-4 text-muted-foreground group-hover:text-orange-700 transition-colors" />
+                <Download className="w-4 h-4 text-muted-foreground group-hover:text-orange-400 transition-colors" />
               </div>
               <h3 className="font-bold text-foreground text-sm mb-1.5">{file.name}</h3>
               <p className="text-xs text-muted-foreground leading-relaxed">{file.desc}</p>

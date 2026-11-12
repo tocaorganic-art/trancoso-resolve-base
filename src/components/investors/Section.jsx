@@ -48,7 +48,7 @@ export default function Section({
               <motion.p
                 variants={itemVariant}
                 className={`text-xs font-bold uppercase tracking-[0.12em] mb-3 ${
-                  isDark ? 'text-orange-400' : 'text-orange-700'
+                  isDark ? 'text-orange-400' : 'text-orange-400'
                 }`}
               >
                 {eyebrow}

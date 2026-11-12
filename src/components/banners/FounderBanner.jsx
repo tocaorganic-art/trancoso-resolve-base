@@ -129,7 +129,7 @@ export default function FounderBanner() {
         </div>
 
         <Link to="/Planos" className="shrink-0 mt-1 md:mt-0">
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-full px-5 shadow-md whitespace-nowrap">
+          <Button className="bg-brand-primary hover:bg-brand-primary-hover text-white font-bold rounded-full px-5 shadow-md whitespace-nowrap">
             Garantir meu selo Fundador →
           </Button>
         </Link>

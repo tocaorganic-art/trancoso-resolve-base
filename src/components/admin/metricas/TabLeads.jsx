@@ -135,7 +135,7 @@ export default function TabLeads({ leads, onRefresh }) {
               </thead>
               <tbody>
                 {filtered.length === 0 ? (
-                  <tr><td colSpan={8} className="p-6 text-center text-slate-500">Nenhum lead encontrado.</td></tr>
+                  <tr><td colSpan={8} className="p-6 text-center text-slate-600">Nenhum lead encontrado.</td></tr>
                 ) : filtered.map(lead => {
                   const contatado = lead.description?.includes("contatado");
                   return (
@@ -158,7 +158,7 @@ export default function TabLeads({ leads, onRefresh }) {
                         </span>
                       </td>
                       <td className="p-3">
-                        <span className={`text-xs ${contatado ? "text-green-400" : "text-slate-500"}`}>
+                        <span className={`text-xs ${contatado ? "text-green-400" : "text-slate-600"}`}>
                           {contatado ? "✓ Contatado" : "Novo"}
                         </span>
                       </td>

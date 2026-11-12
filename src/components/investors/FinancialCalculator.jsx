@@ -40,7 +40,7 @@ export default function FinancialCalculator() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label htmlFor="fundadorProviders" className="text-sm font-semibold text-foreground">{c.fundadorLabel}</label>
-              <span className="text-sm font-bold text-orange-700">{state.fundadorProviders}</span>
+              <span className="text-sm font-bold text-orange-400">{state.fundadorProviders}</span>
             </div>
             <input
               id="fundadorProviders"
@@ -57,7 +57,7 @@ export default function FinancialCalculator() {
           <div>
             <div className="flex items-center justify-between mb-1.5">
               <label htmlFor="profissionalProviders" className="text-sm font-semibold text-foreground">{c.profissionalLabel}</label>
-              <span className="text-sm font-bold text-orange-700">{state.profissionalProviders}</span>
+              <span className="text-sm font-bold text-orange-400">{state.profissionalProviders}</span>
             </div>
             <input
               id="profissionalProviders"
@@ -100,7 +100,7 @@ export default function FinancialCalculator() {
 
           <button
             onClick={() => setState(DEFAULTS)}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-orange-700 transition-colors"
+            className="inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-orange-400 transition-colors"
           >
             <RotateCcw className="w-3.5 h-3.5" /> {c.resetLabel}
           </button>

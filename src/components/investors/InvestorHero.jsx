@@ -195,7 +195,7 @@ export default function InvestorHero() {
           aria-label="Aspectos da tese"
         >
           {(h.stripe || []).map((s) => (
-            <span key={s} className="text-xs font-semibold text-white/40 uppercase tracking-widest">
+            <span key={s} className="text-xs font-semibold text-white/70 uppercase tracking-widest">
               · {s}
             </span>
           ))}

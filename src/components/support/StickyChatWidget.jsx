@@ -12,7 +12,7 @@ import { useApp } from '@/contexts/AppContext';
  *   `transform` ou qualquer limitação de wrapper/box-model acima dele.
  * - Desktop: bottom 32px / right 32px · Mobile: bottom 24px / right 24px.
  * - z-index 99999 (flutua por cima de tudo).
- * - Laranja Queimado #E8571A, texto/ícone branco, sombra forte, pílula (radius 9999px).
+ * - Laranja Queimado #C1440E, texto/ícone branco, sombra forte, pílula (radius 9999px).
  * - Estado padrão: só o ícone. No hover (desktop) OU automaticamente a cada 10s,
  *   expande lateralmente com transição suave (0.3s ease-in-out) revelando "Fale com a Toca".
  * - Ação: abre o chat interno (SupportChat).
@@ -60,7 +60,7 @@ export default function StickyChatWidget({ onClick, unreadCount = 0 }) {
       onFocus={handleFocus}
       onBlur={handleBlur}
       aria-label={t('chatWidget.openAria')}
-      className="fixed left-4 md:left-auto md:right-8 bottom-[calc(env(safe-area-inset-bottom,0px)+90px)] md:bottom-8 h-14 pl-4 pr-4 relative flex items-center bg-[#E8571A] hover:bg-[#C1440E] active:bg-[#C1440E] text-white cursor-pointer select-none"
+      className="fixed left-4 md:left-auto md:right-8 bottom-[calc(env(safe-area-inset-bottom,0px)+90px)] md:bottom-8 h-14 pl-4 pr-4 relative flex items-center bg-[#C1440E] hover:bg-[#C1440E] active:bg-[#C1440E] text-white cursor-pointer select-none"
       style={{
         zIndex: 99999,
         borderRadius: 9999,

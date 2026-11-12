@@ -119,7 +119,7 @@ export default function SystemHealthCheck() {
           </Button>
         </div>
         {health.lastCheck && (
-          <p className="text-xs text-slate-500 mt-2">
+          <p className="text-xs text-slate-600 mt-2">
             Última verificação: {new Date(health.lastCheck).toLocaleString('pt-BR')}
           </p>
         )}

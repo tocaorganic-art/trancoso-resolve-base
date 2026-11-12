@@ -116,7 +116,7 @@ export default function VerificacaoStatusCard({ user }) {
                   )}
                   <p className="text-xs text-slate-600 mt-0.5">{config.description}</p>
                   {latest.admin_notes && latest.status !== "Verificado" && (
-                    <p className="text-xs text-slate-500 mt-1.5 bg-white/70 rounded-lg p-2 border border-white/80 leading-relaxed">
+                    <p className="text-xs text-slate-600 mt-1.5 bg-white/70 rounded-lg p-2 border border-white/80 leading-relaxed">
                       {latest.admin_notes}
                     </p>
                   )}
@@ -153,7 +153,7 @@ export default function VerificacaoStatusCard({ user }) {
               <div className="flex items-center justify-between gap-4">
                 <div>
                   <p className="text-sm font-medium text-slate-700">Verificar minha identidade</p>
-                  <p className="text-xs text-slate-500 mt-0.5">
+                  <p className="text-xs text-slate-600 mt-0.5">
                     Envie um documento (CNH ou RG) para receber o selo azul de identidade verificada.
                   </p>
                 </div>

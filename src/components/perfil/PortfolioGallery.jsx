@@ -88,7 +88,7 @@ export default function PortfolioGallery({ images = [], onChange }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <span className="text-xs text-slate-500">
+        <span className="text-xs text-slate-600">
           {images.length}/{MAX_IMAGES} imagens · máx. {MAX_FILE_SIZE_MB}MB por arquivo · arraste para reordenar
         </span>
         {images.length >= MAX_IMAGES && (
@@ -155,7 +155,7 @@ export default function PortfolioGallery({ images = [], onChange }) {
             ) : (
               <>
                 <ImagePlus className="w-7 h-7 text-slate-400 mb-1.5" />
-                <span className="text-xs text-slate-500 text-center leading-tight px-2">
+                <span className="text-xs text-slate-600 text-center leading-tight px-2">
                   Clique ou arraste<br />fotos aqui
                 </span>
               </>

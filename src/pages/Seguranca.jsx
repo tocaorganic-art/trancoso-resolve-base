@@ -83,7 +83,7 @@ function TwoFAPanel({ user }) {
           <div>
             <p className="text-sm text-slate-600">Receba um código por email ao fazer login.</p>
             <span className={`inline-flex items-center gap-1 text-xs font-semibold mt-1 px-2 py-0.5 rounded-full ${
-              enabled ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'
+              enabled ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'
             }`}>
               {enabled ? '● 2FA ativo' : '○ 2FA inativo'}
             </span>
@@ -92,7 +92,7 @@ function TwoFAPanel({ user }) {
             onClick={handleToggle}
             disabled={loading || awaitingCode}
             variant={enabled ? 'outline-solid' : 'default'}
-            className={enabled ? '' : 'bg-amber-600 hover:bg-amber-700 text-white'}
+            className={enabled ? '' : 'bg-amber-700 hover:bg-amber-800 text-white'}
           >
             {loading && <Loader2 className="w-4 h-4 mr-1 animate-spin" />}
             {enabled ? 'Desativar' : 'Ativar 2FA'}
@@ -115,7 +115,7 @@ function TwoFAPanel({ user }) {
                 className="text-center text-lg font-bold tracking-widest w-36"
               />
               <Button onClick={handleConfirmEnable} disabled={confirmCode.length !== 6 || loading}
-                className="bg-amber-600 hover:bg-amber-700 text-white">
+                className="bg-amber-700 hover:bg-amber-800 text-white">
                 Confirmar
               </Button>
               <Button variant="ghost" onClick={() => { setAwaitingCode(false); setConfirmCode(''); }}>

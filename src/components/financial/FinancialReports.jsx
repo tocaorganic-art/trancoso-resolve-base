@@ -135,7 +135,7 @@ export default function FinancialReports({ transactions }) {
               Relatório gerado em: {format(new Date(), "dd 'de' MMMM 'de' yyyy 'às' HH:mm", { locale: ptBR })}
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-2">
+          <p className="text-xs text-slate-600 mt-2">
             Transações com status "Validado" ou "Pendente" • Total de {transactions.filter(t => t.status === "Validado" || t.status === "Pendente").length} transações
           </p>
         </CardContent>

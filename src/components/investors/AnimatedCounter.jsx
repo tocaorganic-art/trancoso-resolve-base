@@ -116,7 +116,7 @@ export default function AnimatedCounter({
 
       {/* Período */}
       {period && (
-        <p className="text-xs text-muted-foreground/70">{period}</p>
+        <p className="text-xs text-muted-foreground/90">{period}</p>
       )}
 
       {/* Badge de classificação */}

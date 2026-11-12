@@ -158,7 +158,7 @@ export default function TransactionList({ transactions }) {
               <TableBody>
                 {filteredTransactions.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-slate-500 py-8">
+                    <TableCell colSpan={6} className="text-center text-slate-600 py-8">
                       Nenhuma transação encontrada
                     </TableCell>
                   </TableRow>
@@ -175,7 +175,7 @@ export default function TransactionList({ transactions }) {
                         <div>
                           <p className="font-medium text-slate-900">{transaction.description}</p>
                           {transaction.notes && (
-                            <p className="text-xs text-slate-500 mt-1">{transaction.notes}</p>
+                            <p className="text-xs text-slate-600 mt-1">{transaction.notes}</p>
                           )}
                         </div>
                       </TableCell>
@@ -191,7 +191,7 @@ export default function TransactionList({ transactions }) {
                           }`}>
                             {transaction.type === 'Receita' ? '+' : '-'} R$ {transaction.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
                           </span>
-                          <span className="text-xs text-slate-500">{transaction.payment_method}</span>
+                          <span className="text-xs text-slate-600">{transaction.payment_method}</span>
                         </div>
                       </TableCell>
                       <TableCell>

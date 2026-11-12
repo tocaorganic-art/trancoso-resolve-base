@@ -10,7 +10,7 @@ import { base44 } from "@/api/base44Client";
 import FounderBadge from "@/components/prestador-fundador/FounderBadge";
 
 // Cores quentes da marca para o fundo das iniciais quando não há foto
-const AVATAR_COLORS = ["#E8571A", "#C1440E", "#6B7C3A", "#2D7D8A", "#9a3412"];
+const AVATAR_COLORS = ["#C1440E", "#C1440E", "#6B7C3A", "#2D7D8A", "#9a3412"];
 
 function getInitials(name) {
     if (!name) return "?";

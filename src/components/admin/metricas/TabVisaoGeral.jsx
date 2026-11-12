@@ -153,7 +153,7 @@ export default function TabVisaoGeral({ leads, requests, providers }) {
                 <tbody>
                   {topServices.map((s, i) => (
                     <tr key={s.name} className="border-b border-slate-700/50 text-slate-300">
-                      <td className="py-2 pr-4 font-bold text-slate-500">{i + 1}</td>
+                      <td className="py-2 pr-4 font-bold text-slate-600">{i + 1}</td>
                       <td className="py-2 pr-4">{s.name}</td>
                       <td className="py-2 font-bold text-amber-400">{s.count}</td>
                     </tr>

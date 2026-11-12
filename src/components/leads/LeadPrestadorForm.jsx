@@ -67,7 +67,7 @@ export default function LeadPrestadorForm() {
         <span className="text-xs font-semibold text-amber-700 uppercase tracking-wide">Sem compromisso</span>
       </div>
       <h2 className="text-2xl font-bold text-slate-900 mb-1">Quer saber mais antes de se cadastrar?</h2>
-      <p className="text-slate-500 text-sm mb-6">Deixe seu contato e te explicamos tudo pelo WhatsApp.</p>
+      <p className="text-slate-600 text-sm mb-6">Deixe seu contato e te explicamos tudo pelo WhatsApp.</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
@@ -120,7 +120,7 @@ export default function LeadPrestadorForm() {
         <Button
           type="submit"
           disabled={status === 'loading'}
-          className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold text-base py-3"
+          className="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold text-base py-3"
         >
           {status === 'loading' ? (
             <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Enviando...</>
@@ -128,7 +128,7 @@ export default function LeadPrestadorForm() {
             <>Receber informações no WhatsApp</>
           )}
         </Button>
-        <p className="text-xs text-slate-400 text-center">✓ Sem spam &nbsp;✓ Sem compromisso &nbsp;✓ Retorno em até 24h</p>
+        <p className="text-xs text-slate-600 text-center">✓ Sem spam &nbsp;✓ Sem compromisso &nbsp;✓ Retorno em até 24h</p>
       </form>
     </div>
   );

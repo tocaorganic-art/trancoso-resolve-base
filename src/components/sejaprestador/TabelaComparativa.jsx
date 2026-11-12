@@ -19,9 +19,9 @@ export default function TabelaComparativa() {
     <section className="py-10 md:py-16 bg-linear-to-br from-slate-50 to-amber-50">
       <div className="container mx-auto px-4 max-w-4xl">
         <div className="text-center mb-8 md:mb-12">
-          <span className="text-sm font-semibold text-amber-600 uppercase tracking-widest">Por que escolher o Trancoso Resolve?</span>
+          <span className="text-sm font-semibold text-amber-800 uppercase tracking-widest">Por que escolher o Trancoso Resolve?</span>
           <h2 className="text-xl md:text-3xl font-bold text-slate-900 mt-2 mb-3">Trabalhar Sozinho vs. Ser Parceiro Trancoso Resolve</h2>
-          <p className="text-slate-500 text-sm md:text-base">Veja a diferença que a nossa plataforma faz para o seu negócio.</p>
+          <p className="text-slate-600 text-sm md:text-base">Veja a diferença que a nossa plataforma faz para o seu negócio.</p>
         </div>
 
         {/* Desktop Table */}
@@ -40,7 +40,7 @@ export default function TabelaComparativa() {
                 {item.solo === true ? (
                   <Check className="w-5 h-5 text-green-500" />
                 ) : item.solo === 'Parcial' ? (
-                  <span className="text-xs text-amber-600 font-medium bg-amber-50 px-2 py-0.5 rounded-full">Parcial</span>
+                  <span className="text-xs text-amber-800 font-medium bg-amber-50 px-2 py-0.5 rounded-full">Parcial</span>
                 ) : (
                   <X className="w-5 h-5 text-red-400" />
                 )}
@@ -54,7 +54,7 @@ export default function TabelaComparativa() {
             <div /><div />
             <div className="flex justify-center">
               <Link to={createPageUrl('CadastroTipo')}>
-                <Button className="bg-amber-600 hover:bg-amber-700 text-white text-sm font-bold">
+                <Button className="bg-amber-700 hover:bg-amber-800 text-white text-sm font-bold">
                   Quero ser Parceiro
                 </Button>
               </Link>
@@ -69,17 +69,17 @@ export default function TabelaComparativa() {
               <p className="font-semibold text-slate-800 mb-3 text-sm">{item.label}</p>
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-slate-50 rounded-lg p-3 text-center">
-                  <p className="text-xs text-slate-500 mb-2">Por conta própria</p>
+                  <p className="text-xs text-slate-600 mb-2">Por conta própria</p>
                   {item.solo === true ? (
                     <Check className="w-5 h-5 text-green-500 mx-auto" />
                   ) : item.solo === 'Parcial' ? (
-                    <span className="text-xs text-amber-600 font-medium bg-amber-50 px-2 py-0.5 rounded-full">Parcial</span>
+                    <span className="text-xs text-amber-800 font-medium bg-amber-50 px-2 py-0.5 rounded-full">Parcial</span>
                   ) : (
                     <X className="w-5 h-5 text-red-400 mx-auto" />
                   )}
                 </div>
                 <div className="bg-amber-50 rounded-lg p-3 text-center border border-amber-100">
-                  <p className="text-xs text-amber-600 font-semibold mb-2">Parceiro Trancoso Resolve 🌴</p>
+                  <p className="text-xs text-amber-800 font-semibold mb-2">Parceiro Trancoso Resolve 🌴</p>
                   <Check className="w-5 h-5 text-amber-600 stroke-[2.5] mx-auto" />
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default function TabelaComparativa() {
           ))}
           <div className="pt-2">
             <Link to={createPageUrl('CadastroTipo')}>
-              <Button className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold h-12">
+              <Button className="w-full bg-amber-700 hover:bg-amber-800 text-white font-bold h-12">
                 Quero ser Parceiro Trancoso Resolve 🌴
               </Button>
             </Link>

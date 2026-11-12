@@ -24,7 +24,7 @@ export default function InvestorNav() {
             <button
               key={s.id}
               onClick={() => scrollTo(s.id)}
-              className="px-3 py-2 text-sm font-semibold text-muted-foreground hover:text-orange-700 transition-colors whitespace-nowrap"
+              className="px-3 py-2 text-sm font-semibold text-muted-foreground hover:text-orange-400 transition-colors whitespace-nowrap"
             >
               {s.label}
             </button>

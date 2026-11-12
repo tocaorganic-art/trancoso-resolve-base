@@ -147,7 +147,7 @@ export default function BannerRotativo() {
           <div key={s.id}
                className={`absolute inset-0 transition-opacity duration-700 ${idx === i ? "opacity-100" : "opacity-0 pointer-events-none"}`}
                aria-hidden={idx !== i}>
-            <Link to={s.to} aria-label={cta(s)} className="block w-full h-full">
+            <Link to={s.to} tabIndex={idx === i ? 0 : -1} aria-label={cta(s)} className="block w-full h-full">
               {usarArte ? (
                 <picture>
                   <source srcSet={s.webpDesk} type="image/webp" />
@@ -161,7 +161,7 @@ export default function BannerRotativo() {
                 <PainelTraduzido titulo={titulo(s)} sub={sub(s)} />
               )}
             </Link>
-            <Link to={s.to}
+            <Link to={s.to} tabIndex={idx === i ? 0 : -1}
                   className={`absolute flex items-center justify-center rounded-full font-extrabold
                               transition-all active:scale-[0.98] shadow-lg focus:outline-hidden
                               focus:ring-4 focus:ring-white/50 ${s.btn}`}

@@ -83,8 +83,8 @@ export default function EcosystemViz() {
     <div ref={ref} className="space-y-6">
       {/* Desktop SVG */}
       <div className="hidden md:grid md:grid-cols-2 gap-6 items-center">
-        <div aria-label="Ecossistema Trancoso Resolve, interativo" role="img">
-          <svg viewBox="0 0 400 400" className="w-full max-w-sm mx-auto" aria-hidden="true">
+        <div aria-label="Ecossistema Trancoso Resolve, interativo" role="group">
+          <svg viewBox="0 0 400 400" className="w-full max-w-sm mx-auto" role="group" aria-label="Ecossistema Trancoso Resolve">
             {/* Linhas de conexão */}
             {NODES.map((node, i) => {
               const pos = polarToXY(node.angle, R);

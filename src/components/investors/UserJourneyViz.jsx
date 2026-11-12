@@ -162,7 +162,7 @@ export default function UserJourneyViz() {
       {/* Navegação mobile */}
       <div className="md:hidden">
         {/* Dots */}
-        <div className="flex justify-center gap-1.5 mb-4" aria-hidden="true">
+        <div className="flex justify-center gap-1.5 mb-4">
           {DEFAULT_STEPS.map((_, i) => (
             <button
               key={i}

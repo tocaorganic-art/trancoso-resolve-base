@@ -1,7 +1,7 @@
 {
-  "baseUrl": "http://localhost:5173",
-  "geradoEm": "2026-11-11T21:04:25.879Z",
-  "totalGraves": 54,
+  "baseUrl": "http://localhost:4173",
+  "geradoEm": "2026-11-12T02:13:25.543Z",
+  "totalGraves": 20,
   "erros": 0,
   "resultados": [
     {
@@ -12,15 +12,8 @@
           "id": "color-contrast",
           "impacto": "serious",
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
-          "nos": 10,
+          "nos": 11,
           "exemplo": "button[data-testid=\"login-button\"]"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -35,13 +28,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 8,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -51,46 +37,11 @@
       "viewport": "desktop",
       "violacoes": [
         {
-          "id": "aria-input-field-name",
-          "impacto": "serious",
-          "ajuda": "ARIA input fields must have an accessible name",
-          "nos": 2,
-          "exemplo": "span[aria-valuemax=\"10\"]"
-        },
-        {
-          "id": "button-name",
-          "impacto": "critical",
-          "ajuda": "Buttons must have discernible text",
-          "nos": 1,
-          "exemplo": ".ring-offset-background"
-        },
-        {
           "id": "color-contrast",
           "impacto": "serious",
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 15,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-in-text-block",
-          "impacto": "serious",
-          "ajuda": "Links must be distinguishable without relying on color",
-          "nos": 1,
-          "exemplo": ".hover\\:underline"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
-        },
-        {
-          "id": "select-name",
-          "impacto": "critical",
-          "ajuda": "Select element must have an accessible name",
-          "nos": 1,
-          "exemplo": "select"
         }
       ],
       "erro": null
@@ -100,25 +51,11 @@
       "viewport": "desktop",
       "violacoes": [
         {
-          "id": "button-name",
-          "impacto": "critical",
-          "ajuda": "Buttons must have discernible text",
-          "nos": 1,
-          "exemplo": ".w-12"
-        },
-        {
           "id": "color-contrast",
           "impacto": "serious",
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 7,
           "exemplo": ".py-2\\.5.bg-orange-500.shadow"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -132,7 +69,15 @@
     {
       "rota": "/register",
       "viewport": "desktop",
-      "violacoes": [],
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 2,
+          "exemplo": ".mt-6"
+        }
+      ],
       "erro": null
     },
     {
@@ -140,32 +85,11 @@
       "viewport": "desktop",
       "violacoes": [
         {
-          "id": "aria-hidden-focus",
-          "impacto": "serious",
-          "ajuda": "ARIA hidden element must not be focusable or contain focusable elements",
-          "nos": 2,
-          "exemplo": ".mt-3.gap-2.justify-center"
-        },
-        {
           "id": "color-contrast",
           "impacto": "serious",
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
-          "nos": 49,
+          "nos": 50,
           "exemplo": ".bg-brand-primary.text-white.px-2\\.5"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": "a[href$=\"investidores\"]"
-        },
-        {
-          "id": "nested-interactive",
-          "impacto": "serious",
-          "ajuda": "Interactive controls must not be nested",
-          "nos": 2,
-          "exemplo": ".md\\:block"
         }
       ],
       "erro": null
@@ -180,27 +104,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 8,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-in-text-block",
-          "impacto": "serious",
-          "ajuda": "Links must be distinguishable without relying on color",
-          "nos": 1,
-          "exemplo": ".text-orange-600"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
-        },
-        {
-          "id": "select-name",
-          "impacto": "critical",
-          "ajuda": "Select element must have an accessible name",
-          "nos": 1,
-          "exemplo": "select"
         }
       ],
       "erro": null
@@ -215,13 +118,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 7,
           "exemplo": "button[data-testid=\"login-button\"]"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -236,13 +132,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 8,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -257,13 +146,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 8,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -278,20 +160,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 11,
           "exemplo": "button[data-testid=\"login-button\"]"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 2,
-          "exemplo": ".min-w-fit"
-        },
-        {
-          "id": "scrollable-region-focusable",
-          "impacto": "serious",
-          "ajuda": "Scrollable region must have keyboard access",
-          "nos": 1,
-          "exemplo": ".md\\:grid-cols-3"
         }
       ],
       "erro": null
@@ -306,13 +174,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 8,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -322,46 +183,11 @@
       "viewport": "mobile",
       "violacoes": [
         {
-          "id": "aria-input-field-name",
-          "impacto": "serious",
-          "ajuda": "ARIA input fields must have an accessible name",
-          "nos": 2,
-          "exemplo": "span[aria-valuemax=\"10\"]"
-        },
-        {
-          "id": "button-name",
-          "impacto": "critical",
-          "ajuda": "Buttons must have discernible text",
-          "nos": 1,
-          "exemplo": ".ring-offset-background"
-        },
-        {
           "id": "color-contrast",
           "impacto": "serious",
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 23,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-in-text-block",
-          "impacto": "serious",
-          "ajuda": "Links must be distinguishable without relying on color",
-          "nos": 1,
-          "exemplo": ".hover\\:underline"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
-        },
-        {
-          "id": "select-name",
-          "impacto": "critical",
-          "ajuda": "Select element must have an accessible name",
-          "nos": 1,
-          "exemplo": "select"
         }
       ],
       "erro": null
@@ -371,25 +197,11 @@
       "viewport": "mobile",
       "violacoes": [
         {
-          "id": "button-name",
-          "impacto": "critical",
-          "ajuda": "Buttons must have discernible text",
-          "nos": 1,
-          "exemplo": ".w-12"
-        },
-        {
           "id": "color-contrast",
           "impacto": "serious",
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 3,
           "exemplo": ".py-2\\.5.bg-orange-500.shadow"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -403,7 +215,15 @@
     {
       "rota": "/register",
       "viewport": "mobile",
-      "violacoes": [],
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 2,
+          "exemplo": ".mt-6"
+        }
+      ],
       "erro": null
     },
     {
@@ -411,32 +231,11 @@
       "viewport": "mobile",
       "violacoes": [
         {
-          "id": "aria-hidden-focus",
-          "impacto": "serious",
-          "ajuda": "ARIA hidden element must not be focusable or contain focusable elements",
-          "nos": 1,
-          "exemplo": ".mb-4.justify-center.gap-1\\.5"
-        },
-        {
           "id": "color-contrast",
           "impacto": "serious",
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
-          "nos": 47,
-          "exemplo": ".disabled\\:opacity-30.transition-opacity.bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": "a[href$=\"investidores\"]"
-        },
-        {
-          "id": "scrollable-region-focusable",
-          "impacto": "serious",
-          "ajuda": "Scrollable region must have keyboard access",
-          "nos": 5,
-          "exemplo": ".overflow-x-auto.rounded-brand-lg.bg-card"
+          "nos": 48,
+          "exemplo": ".shadow-brand"
         }
       ],
       "erro": null
@@ -451,20 +250,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 7,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
-        },
-        {
-          "id": "select-name",
-          "impacto": "critical",
-          "ajuda": "Select element must have an accessible name",
-          "nos": 1,
-          "exemplo": "select"
         }
       ],
       "erro": null
@@ -479,13 +264,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 7,
           "exemplo": "button[data-testid=\"login-button\"]"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -500,13 +278,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 8,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null
@@ -521,13 +292,6 @@
           "ajuda": "Elements must meet minimum color contrast ratio thresholds",
           "nos": 8,
           "exemplo": ".bg-brand-primary"
-        },
-        {
-          "id": "link-name",
-          "impacto": "serious",
-          "ajuda": "Links must have discernible text",
-          "nos": 1,
-          "exemplo": ".min-w-fit"
         }
       ],
       "erro": null

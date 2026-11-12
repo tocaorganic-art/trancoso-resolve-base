@@ -90,7 +90,7 @@ export default function Plan18MonthsSection() {
 
       {/* Roadmap — tabela com highlight interativo */}
       <h3 className="text-xl font-bold text-foreground mb-5">{p.roadmapTitle}</h3>
-      <div className="overflow-x-auto rounded-2xl border border-border">
+      <div className="overflow-x-auto rounded-2xl border border-border" tabIndex={0} role="region" aria-label="Plano de 18 meses">
         <table className="w-full text-sm min-w-[900px]">
           <thead>
             <tr className="bg-sand/60 dark:bg-neutral-900 border-b border-border">

@@ -22,7 +22,7 @@ export default function GtmSection() {
 
       <p className="text-xs font-bold uppercase tracking-[0.12em] text-orange-700 mb-3">{g.eyebrow}</p>
       <h3 className="text-2xl md:text-3xl font-display font-extrabold text-foreground mb-8 max-w-2xl">{g.title}</h3>
-      <div className="overflow-x-auto rounded-brand-lg border border-border">
+      <div className="overflow-x-auto rounded-brand-lg border border-border" tabIndex={0} role="region" aria-label="Tabela de entrada no mercado">
         <table className="w-full text-sm min-w-[800px]">
           <thead>
             <tr className="bg-card border-b border-border">

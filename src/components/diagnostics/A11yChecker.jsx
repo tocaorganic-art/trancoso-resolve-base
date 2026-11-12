@@ -151,7 +151,7 @@ export default function A11yChecker({ onResults }) {
     });
 
     // Log to console
-    console.log('♿ Accessibility Check:', {
+    if (import.meta.env.DEV) console.log('♿ Accessibility Check:', {
       Score: `${calculatedScore}/100`,
       Passed: passedChecks,
       Total: totalChecks,

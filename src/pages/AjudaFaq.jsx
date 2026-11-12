@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useSEO } from '@/hooks/useSEO';
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -124,12 +126,21 @@ const FAQ_CATEGORIES = [
 export default function AjudaFaq() {
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    document.title = 'FAQ e Ajuda | Trancoso Resolve';
-    const meta = document.querySelector('meta[name="description"]') ||
-      (() => { const m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); return m; })();
-    meta.content = 'Dúvidas frequentes sobre o Trancoso Resolve: como contratar profissionais verificados, planos, pagamentos, verificação de prestadores e segurança.';
-  }, []);
+  useSEO({
+    title: 'FAQ e Ajuda',
+    description: 'Dúvidas frequentes sobre o Trancoso Resolve: como contratar profissionais verificados, planos, pagamentos, verificação de prestadores e segurança.',
+    canonical: '/ajuda',
+  });
+
+  const faqSchema = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_CATEGORIES.flatMap((cat) => cat.items).map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  }), []);
 
   const filteredCategories = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -148,6 +159,7 @@ export default function AjudaFaq() {
 
   return (
     <div className="min-h-screen bg-background text-foreground py-10 px-4">
+      <SchemaMarkup schema={faqSchema} id="faq-schema" />
       <div className="container mx-auto max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 16 }}

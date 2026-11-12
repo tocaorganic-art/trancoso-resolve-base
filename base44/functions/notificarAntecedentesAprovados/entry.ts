@@ -29,7 +29,14 @@ Deno.serve(async (req) => {
     // direcionar o e-mail de aprovação para um endereço arbitrário.
     const expectedSecret = Deno.env.get('AUTOMATION_WEBHOOK_SECRET') ?? '';
     const receivedSecret = req.headers.get('x-automation-secret') ?? '';
-    if (!(expectedSecret.length > 0 && timingSafeEqual(expectedSecret, receivedSecret))) {
+    // Workflows do Base44 chamam a função como o admin dono do app, sem o
+    // cabeçalho de segredo. Aceita os dois caminhos; qualquer outro é recusado.
+    let autorizado = expectedSecret.length > 0 && timingSafeEqual(expectedSecret, receivedSecret);
+    if (!autorizado) {
+      const caller = await createClientFromRequest(req).auth.me().catch(() => null);
+      autorizado = caller?.role === 'admin';
+    }
+    if (!autorizado) {
       console.warn('[notificarAntecedentesAprovados] Automacao sem segredo valido — rejeitada.');
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }

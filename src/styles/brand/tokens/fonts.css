@@ -6,7 +6,8 @@
 
 @font-face {
   font-family: "Nunito";
-  src: url("../fonts/Nunito-VariableFont_wght.ttf") format("truetype-variations");
+  src: url("/fonts/Nunito-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/Nunito-VariableFont_wght.ttf") format("truetype-variations");
   font-weight: 300 1000;
   font-style: normal;
   font-display: swap;
@@ -14,7 +15,8 @@
 
 @font-face {
   font-family: "Nunito";
-  src: url("../fonts/Nunito-Italic-VariableFont_wght.ttf") format("truetype-variations");
+  src: url("/fonts/Nunito-Italic-VariableFont_wght.woff2") format("woff2-variations"),
+       url("../fonts/Nunito-Italic-VariableFont_wght.ttf") format("truetype-variations");
   font-weight: 300 1000;
   font-style: italic;
   font-display: swap;

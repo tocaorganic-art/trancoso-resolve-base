@@ -74,13 +74,37 @@
     <!-- Performance: Preconnect às únicas origens de terceiros usadas no carregamento inicial -->
     <link rel="preconnect" href="https://media.base44.com" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/Nunito-VariableFont_wght.woff2" />
     <link rel="preload" as="image" fetchpriority="high" media="(min-width: 641px)" href="https://media.base44.com/images/public/6a0754c82a7c1aae19211408/143638e7a_banner_v8_1_desk.webp" />
     <link rel="preload" as="image" fetchpriority="high" media="(max-width: 640px)" href="https://media.base44.com/images/public/6a0754c82a7c1aae19211408/754f59466_banner_v8_1_mob.webp" />
     <link rel="dns-prefetch" href="https://media.base44.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
     <!-- Google tag (gtag.js) — Google Ads 714-209-2343 / conversão STANDARD_LEAD -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KF75243B4"></script>
+    <!-- gtag.js carrega depois da primeira pintura: o dataLayer já enfileira os eventos
+         e o Consent Mode é aplicado assim que o script chega. Antes ele baixava 193 KB
+         no caminho crítico e atrasava o LCP. (Rodada de performance 12/11/2026) -->
+    <script>
+      (function () {
+        var carregado = false;
+        function carregarGtag() {
+          if (carregado) return;
+          carregado = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3KF75243B4';
+          document.head.appendChild(s);
+        }
+        if (document.readyState === 'complete') {
+          setTimeout(carregarGtag, 1200);
+        } else {
+          window.addEventListener('load', function () { setTimeout(carregarGtag, 1200); }, { once: true });
+        }
+        ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) {
+          window.addEventListener(ev, carregarGtag, { once: true, passive: true });
+        });
+      })();
+    </script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}

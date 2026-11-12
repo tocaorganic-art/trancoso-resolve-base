@@ -274,7 +274,7 @@ export default function ContactPage() {
                   {/* Subject select with custom styling */}
                   <div className="relative">
                     <select
-                      required value={form.subject}
+                      required aria-label="Assunto" value={form.subject}
                       onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
                       className="w-full rounded-xl border border-border bg-muted px-4 py-3 text-sm text-foreground focus:outline-hidden focus:ring-2 focus:ring-orange-400 appearance-none"
                     >
@@ -313,7 +313,7 @@ export default function ContactPage() {
                     />
                     <span>
                       Autorizo o contato e o armazenamento seguro dos meus dados, conforme a{' '}
-                      <a href="/politica-privacidade" className="text-orange-600 hover:underline">Política de Privacidade</a>.
+                      <a href="/politica-privacidade" className="text-orange-600 underline">Política de Privacidade</a>.
                     </span>
                   </label>
 

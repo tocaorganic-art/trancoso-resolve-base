@@ -86,7 +86,7 @@ export default function MetricsSection() {
             <span className="inline-block rounded-pill bg-brand-primary/10 text-orange-700 text-xs font-bold px-3 py-1 mb-3">
               {group.phase}
             </span>
-            <div className="overflow-x-auto rounded-2xl border border-border">
+            <div className="overflow-x-auto rounded-2xl border border-border" tabIndex={0} role="region" aria-label="Tabela de métricas">
               <table className="w-full text-sm min-w-[600px]">
                 <thead>
                   <tr className="bg-sand/60 dark:bg-neutral-900 border-b border-border">

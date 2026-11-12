@@ -197,7 +197,7 @@ export default function FragmentationViz() {
   return (
     <div ref={ref} className="space-y-4">
       {/* Desktop */}
-      <div className="hidden md:block" aria-label="Visualização: fragmentação do mercado → plataforma central" role="img">
+      <div className="hidden md:block" aria-label="Visualização: fragmentação do mercado para plataforma central" role="group">
         <p className="text-xs font-semibold text-muted-foreground mb-3 text-center" aria-live="polite">
           {ACT_LABELS[reduced ? 2 : act]}
         </p>
@@ -212,7 +212,7 @@ export default function FragmentationViz() {
         </div>
         {/* Indicador de atos */}
         {!reduced && (
-          <div className="flex justify-center gap-2 mt-3" aria-hidden="true">
+          <div className="flex justify-center gap-2 mt-3">
             {ACTS.map((a, i) => (
               <button key={a} onClick={() => setAct(i)}
                 className={`h-1.5 rounded-full transition-all ${i === act ? 'w-8 bg-brand-primary' : 'w-2 bg-muted-foreground/30'}`}

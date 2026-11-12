@@ -426,6 +426,7 @@ function AnnualStrip({ anual, onToggle }) {
       <button
         role="switch"
         aria-checked={anual}
+        aria-label="Cobrança anual"
         onClick={onToggle}
         className={`relative w-12 h-6 rounded-full transition-colors ${anual ? "bg-orange-500" : "bg-border"}`}
       >

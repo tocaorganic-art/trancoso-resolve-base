@@ -60,7 +60,7 @@ export default function CalculadoraGanhos() {
                   value={String(ocupacaoIndex)}
                   onValueChange={(v) => setOcupacaoIndex(Number(v))}
                 >
-                  <SelectTrigger className="bg-white/10 border-white/30 text-white">
+                  <SelectTrigger className="bg-white/10 border-white/30 text-white" aria-label="Minha ocupação">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -81,6 +81,7 @@ export default function CalculadoraGanhos() {
                   <span className="text-xl font-bold text-cyan-400">{horasPorDia}h</span>
                 </div>
                 <Slider
+                  thumbLabel="Horas trabalhadas por dia"
                   min={1} max={10} step={1}
                   value={[horasPorDia]}
                   onValueChange={([v]) => setHorasPorDia(v)}
@@ -98,6 +99,7 @@ export default function CalculadoraGanhos() {
                   <span className="text-xl font-bold text-cyan-400">{diasPorMes} dias</span>
                 </div>
                 <Slider
+                  thumbLabel="Dias trabalhados por mês"
                   min={1} max={30} step={1}
                   value={[diasPorMes]}
                   onValueChange={([v]) => setDiasPorMes(v)}

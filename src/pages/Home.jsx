@@ -799,7 +799,7 @@ export default function HomePage() {
               {t('home.howTitle')}
             </motion.h2>
           </div>
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible" tabIndex={0} role="region" aria-label={t('home.howTitle')}>
             {[
               { step: '1', title: t('home.step1Title'), desc: t('home.step1Desc') },
               { step: '2', title: t('home.step2Title'), desc: t('home.step2Desc') },

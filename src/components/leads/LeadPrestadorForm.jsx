@@ -97,6 +97,7 @@ export default function LeadPrestadorForm() {
           <label className="block text-sm font-medium text-slate-700 mb-1">Sua ocupação *</label>
           <select
             required
+            aria-label="Sua ocupação"
             value={form.occupation}
             onChange={e => setForm(f => ({ ...f, occupation: e.target.value }))}
             className="w-full rounded-lg border border-amber-200 bg-white px-4 py-3 text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-400"
@@ -111,7 +112,7 @@ export default function LeadPrestadorForm() {
         </div>
         <label htmlFor="prestador_consent" className="flex items-start gap-2 text-xs text-slate-600">
           <input id="prestador_consent" type="checkbox" required checked={form.consent} onChange={e => setForm(f => ({ ...f, consent: e.target.checked }))} className="mt-0.5 h-4 w-4 accent-amber-600" />
-          <span>Autorizo o contato e o armazenamento dos meus dados conforme a <a href="/politica-privacidade" className="text-amber-700 hover:underline">Política de Privacidade</a>.</span>
+          <span>Autorizo o contato e o armazenamento dos meus dados conforme a <a href="/politica-privacidade" className="text-amber-700 underline">Política de Privacidade</a>.</span>
         </label>
         {status === 'error' && (
           <p className="text-red-600 text-sm">Erro ao enviar. Tente novamente.</p>

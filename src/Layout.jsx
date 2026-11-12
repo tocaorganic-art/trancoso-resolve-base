@@ -268,7 +268,7 @@ export default function Layout({ children, currentPageName }) {
           <header role="banner">
           <nav className={`bg-card border-b border-border sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-warm-md' : 'shadow-warm-sm'}`} style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
             <div className={`container mx-auto px-3 md:px-4 flex items-center justify-between gap-2 transition-all duration-300 ${scrolled ? 'py-1.5' : 'py-3'}`}>
-              <Link to={createPageUrl("Home")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="nav-logo-link">
+              <Link to={createPageUrl("Home")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="nav-logo-link" aria-label="Trancoso Resolve, página inicial">
                 <Logo className="h-10 md:h-12" />
               </Link>
 
@@ -443,7 +443,7 @@ export default function Layout({ children, currentPageName }) {
           {/* Mobile-only top bar: logo on root, back button on sub-pages */}
           {isRoot &&
           <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-card border-b border-border flex items-center px-3 h-12" style={{ paddingTop: "env(safe-area-inset-top, 0px)", top: "env(safe-area-inset-top, 0px)" }}>
-            <Link to="/" className="flex items-center gap-2 min-h-[48px]">
+            <Link to="/" className="flex items-center gap-2 min-h-[48px]" aria-label="Trancoso Resolve, página inicial">
               <Logo className="h-8" />
             </Link>
           </div>
@@ -594,7 +594,7 @@ export default function Layout({ children, currentPageName }) {
         <nav className="bg-card border-b border-border shadow-warm-sm sticky top-0 z-50" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
           <div className="container mx-auto px-4 py-3">
             <div className="flex items-center justify-between gap-4">
-              <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="admin-nav-logo-link">
+              <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="admin-nav-logo-link" aria-label="Trancoso Resolve, painel">
                 <Logo className="h-9" />
               </Link>
 

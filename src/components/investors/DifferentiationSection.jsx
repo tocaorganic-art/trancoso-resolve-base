@@ -8,7 +8,7 @@ export default function DifferentiationSection() {
 
   return (
     <Section eyebrow={d.eyebrow} title={d.title} tone="sand">
-      <div className="overflow-x-auto rounded-brand-lg border border-border bg-card">
+      <div className="overflow-x-auto rounded-brand-lg border border-border bg-card" tabIndex={0} role="region" aria-label="Tabela de diferenciais">
         <table className="w-full text-sm">
           <tbody>
             {d.positioning.map((row, i) => (

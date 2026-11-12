@@ -99,7 +99,7 @@ export default function ServicoDestino() {
             Profissionais verificados disponíveis em {destinoLabel}. Solicite orçamento e receba contato em até 2 horas.
           </p>
           <a href="#formulario">
-            <Button className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 py-3 text-base gap-2">
+            <Button className="bg-brand-primary hover:bg-brand-primary-hover text-white font-bold px-8 py-3 text-base gap-2">
               Solicitar Orçamento
             </Button>
           </a>
@@ -115,7 +115,7 @@ export default function ServicoDestino() {
             { icon: Shield,      title: 'Contrate com segurança',   desc: 'Avaliações reais de clientes. Combine direto sem intermediários.' },
           ].map(({ icon: Icon, title, desc }) => (
             <div key={title} className="flex gap-4 p-6 rounded-2xl border border-border">
-              <Icon className="w-6 h-6 text-orange-600 shrink-0 mt-0.5" />
+              <Icon className="w-6 h-6 text-orange-700 shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-bold mb-1">{title}</h3>
                 <p className="text-sm text-muted-foreground">{desc}</p>

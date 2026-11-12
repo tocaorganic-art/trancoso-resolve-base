@@ -67,7 +67,7 @@ export default function OnboardingTour() {
                   { icon: <Bell className="w-4 h-4 text-amber-600" />, text: t('onboarding.benefit2') },
                   { icon: <Download className="w-4 h-4 text-amber-600" />, text: t('onboarding.benefit3') },
                 ].map(({ icon, text }) => (
-                  <div key={text} className="flex items-center gap-2 text-sm text-stone-700">
+                  <div key={text} className="flex items-center gap-2 text-sm text-stone-800">
                     {icon}
                     <span>{text}</span>
                   </div>

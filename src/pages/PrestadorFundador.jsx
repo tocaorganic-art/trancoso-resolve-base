@@ -245,7 +245,7 @@ export default function PrestadorFundador() {
           <p className="text-orange-50 mb-6 max-w-xl mx-auto">
             Os 100 primeiros entram GRÁTIS: 2 meses sem cartão, sem cobrança e sem comissão sobre seus serviços.
           </p>
-          <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-bold text-base h-12 px-8">
+          <Button asChild size="lg" className="bg-white text-orange-700 hover:bg-orange-50 font-bold text-base h-12 px-8">
             <Link to="/Planos" onClick={() => pixelClickFounderCTA('cta_final')}>Quero ser Prestador Fundador</Link>
           </Button>
         </div>

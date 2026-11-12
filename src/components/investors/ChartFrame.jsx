@@ -102,7 +102,7 @@ export default function ChartFrame({
                     ? 'border-current opacity-100'
                     : 'border-border opacity-40'
                   }`}
-                style={{ color: active ? s.color : undefined }}
+                style={{ color: active ? (s.colorDark || s.color) : undefined }}
               >
                 <span
                   aria-hidden="true"

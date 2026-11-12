@@ -53,7 +53,7 @@ export default function DestinoPortoSeguro() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/ServicosCategoria">
-              <Button size="lg" className="bg-orange-600 hover:bg-orange-700 text-white font-bold px-8 text-base">
+              <Button size="lg" className="bg-brand-primary hover:bg-brand-primary-hover text-white font-bold px-8 text-base">
                 Encontrar Profissional <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
@@ -97,7 +97,7 @@ export default function DestinoPortoSeguro() {
                 { icon: Heart, title: 'Cultura e História', desc: 'Cidade Histórica tombada pelo patrimônio nacional' },
               ].map(({ icon: Icon, title, desc }) => (
                 <div key={title} className="bg-card rounded-2xl p-4 shadow-xs border border-border">
-                  <Icon className="w-6 h-6 text-orange-600 mb-2" />
+                  <Icon className="w-6 h-6 text-orange-400 mb-2" />
                   <h3 className="font-bold text-sm text-foreground mb-1">{title}</h3>
                   <p className="text-xs text-muted-foreground">{desc}</p>
                 </div>
@@ -136,7 +136,7 @@ export default function DestinoPortoSeguro() {
                   <div>
                     <h3 className="font-bold text-foreground group-hover:text-orange-700 transition-colors mb-1">{d.nome}</h3>
                     <p className="text-sm text-muted-foreground">{d.desc}</p>
-                    <span className="text-xs text-orange-600 font-medium mt-2 inline-flex items-center gap-1">
+                    <span className="text-xs text-orange-400 font-medium mt-2 inline-flex items-center gap-1">
                       Ver serviços <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>

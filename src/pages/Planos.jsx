@@ -256,14 +256,14 @@ function PlanCard({ plano, anual, onCta, loading, index = 0 }) {
     >
       {plano.destaque && (
         <div className="absolute top-0 left-1/2 -translate-x-1/2 z-10 whitespace-nowrap">
-          <Badge className="bg-orange-500 text-white font-bold text-xs px-3 py-1 shadow-md">
+          <Badge className="bg-brand-primary text-white font-bold text-xs px-3 py-1 shadow-md">
             <Star className="w-3 h-3 mr-1" /> {plano.badge}
           </Badge>
         </div>
       )}
       {!plano.destaque && plano.badge && (
         <div className="absolute top-3 right-3 z-10">
-          <Badge className="bg-amber-600 text-white font-bold text-xs">
+          <Badge className="bg-amber-700 text-white font-bold text-xs">
             <Crown className="w-3 h-3 mr-1" /> {plano.badge}
           </Badge>
         </div>
@@ -327,7 +327,7 @@ function PlanCard({ plano, anual, onCta, loading, index = 0 }) {
                 <Button
                   className={`w-full font-bold ${
                     plano.destaque
-                      ? "bg-orange-500 hover:bg-orange-600 text-white"
+                      ? "bg-brand-primary hover:bg-brand-primary-hover text-white"
                       : ""
                   }`}
                   onClick={() => onCta(plano.ctaKey, anual)}
@@ -402,7 +402,7 @@ function BoostSection({ tipo, onCta, loading }) {
 
         <div className="shrink-0 text-center">
           <Button
-            className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-6 rounded-full shadow"
+            className="bg-amber-700 hover:bg-amber-800 text-white font-bold px-6 rounded-full shadow"
             onClick={() => onCta(isPrestador ? "boost_prestador" : "boost_lojista", false)}
             disabled={loading}
           >
@@ -438,7 +438,7 @@ function AnnualStrip({ anual, onToggle }) {
       <span className={`text-sm font-semibold ${anual ? "text-foreground" : "text-muted-foreground"}`}>
         Anual
       </span>
-      <span className="bg-green-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+      <span className="bg-green-700 text-white text-xs font-bold px-2 py-0.5 rounded-full">
         2 meses grátis
       </span>
     </div>
@@ -573,7 +573,7 @@ export default function PlanosPage() {
               onClick={() => setAba("prestador")}
               className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
                 aba === "prestador"
-                  ? "bg-orange-500 text-white shadow"
+                  ? "bg-brand-primary text-white shadow"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >
@@ -583,7 +583,7 @@ export default function PlanosPage() {
               onClick={() => setAba("lojista")}
               className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
                 aba === "lojista"
-                  ? "bg-orange-500 text-white shadow"
+                  ? "bg-brand-primary text-white shadow"
                   : "text-muted-foreground hover:text-foreground"
               }`}
             >

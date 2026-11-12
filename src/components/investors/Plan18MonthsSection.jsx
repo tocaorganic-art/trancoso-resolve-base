@@ -21,7 +21,7 @@ import { staggerContainer, staggerItem, staticVariant } from '@/lib/animationVar
 const PHASE_STATUS = ['planejado', 'planejado', 'planejado'];
 const STATUS_STYLES = {
   planejado:  { dot: 'bg-muted-foreground/40', badge: 'bg-muted text-muted-foreground',         label: 'Planejado' },
-  atual:      { dot: 'bg-brand-primary animate-pulse', badge: 'bg-brand-primary/10 text-orange-700', label: 'Em andamento' },
+  atual:      { dot: 'bg-brand-primary animate-pulse', badge: 'bg-brand-primary/10 text-orange-400', label: 'Em andamento' },
   concluido:  { dot: 'bg-[#6B7C3A]',           badge: 'bg-[#6B7C3A]/10 text-[#6B7C3A]',        label: 'Concluído' },
   dependente: { dot: 'bg-amber-500',            badge: 'bg-amber-500/10 text-amber-700',          label: 'Depende de gate' },
 };
@@ -70,7 +70,7 @@ export default function Plan18MonthsSection() {
             >
               {/* Cabeçalho */}
               <div className="flex items-center justify-between mb-3">
-                <span className="inline-flex items-center gap-1.5 rounded-pill bg-brand-primary/10 text-orange-700 text-xs font-bold px-3 py-1">
+                <span className="inline-flex items-center gap-1.5 rounded-pill bg-brand-primary/10 text-orange-400 text-xs font-bold px-3 py-1">
                   <span className={`h-1.5 w-1.5 rounded-full ${st.dot}`} aria-hidden="true" />
                   {phase.range}
                 </span>
@@ -119,7 +119,7 @@ export default function Plan18MonthsSection() {
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.04, duration: 0.35 }}
               >
-                <td className="p-3 font-bold text-orange-700 whitespace-nowrap align-top">{row.window}</td>
+                <td className="p-3 font-bold text-orange-400 whitespace-nowrap align-top">{row.window}</td>
                 <td className="p-3 text-muted-foreground align-top">{row.product}</td>
                 <td className="p-3 text-muted-foreground align-top">{row.offer}</td>
                 <td className="p-3 text-muted-foreground align-top">{row.demand}</td>

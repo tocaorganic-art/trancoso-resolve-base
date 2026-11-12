@@ -83,7 +83,7 @@ export default function MetricsSection() {
       <div className="space-y-8">
         {m.groups.map((group) => (
           <div key={group.phase}>
-            <span className="inline-block rounded-pill bg-brand-primary/10 text-orange-700 text-xs font-bold px-3 py-1 mb-3">
+            <span className="inline-block rounded-pill bg-brand-primary/10 text-orange-400 text-xs font-bold px-3 py-1 mb-3">
               {group.phase}
             </span>
             <div className="overflow-x-auto rounded-2xl border border-border" tabIndex={0} role="region" aria-label="Tabela de métricas">

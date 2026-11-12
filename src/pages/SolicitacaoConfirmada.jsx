@@ -17,7 +17,7 @@ const Particle = ({ delay, x, size }) => (
 const TIMELINE = [
   { label: 'Enviada', color: 'text-green-400', dot: 'bg-green-400' },
   { label: 'Aguardando', color: 'text-amber-400', dot: 'bg-amber-400 animate-pulse' },
-  { label: 'Realizado', color: 'text-slate-500', dot: 'bg-slate-600' },
+  { label: 'Realizado', color: 'text-slate-600', dot: 'bg-slate-600' },
 ];
 
 export default function SolicitacaoConfirmadaPage() {

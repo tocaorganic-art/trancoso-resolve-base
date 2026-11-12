@@ -287,7 +287,7 @@ export default function ContinuousMonitor() {
             <CardTitle className="flex items-center gap-3">
               <Activity className="w-6 h-6 text-orange-600" />
               Monitoramento Contínuo
-              <Badge className="bg-orange-600 text-white">
+              <Badge className="bg-brand-primary text-white">
                 {isMonitoring ? '🟢 ATIVO' : '🔴 INATIVO'}
               </Badge>
             </CardTitle>
@@ -304,7 +304,7 @@ export default function ContinuousMonitor() {
             </div>
             <p className="text-slate-600 mt-2">Score Geral do Sistema</p>
             {metrics.performance.lastCheck && (
-              <div className="flex items-center justify-center gap-2 mt-2 text-sm text-slate-500">
+              <div className="flex items-center justify-center gap-2 mt-2 text-sm text-slate-600">
                 <Clock className="w-4 h-4" />
                 Última verificação: {new Date(metrics.performance.lastCheck).toLocaleString('pt-BR')}
               </div>
@@ -383,7 +383,7 @@ export default function ContinuousMonitor() {
                       <AlertCircle className="w-4 h-4 text-red-500" />
                     }
                   </div>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-xs text-slate-600">
                     Latência: {Math.round(data.latency)}ms
                   </p>
                 </CardContent>
@@ -415,7 +415,7 @@ export default function ContinuousMonitor() {
                 );
               })}
             </div>
-            <p className="text-xs text-slate-500 text-center mt-4">
+            <p className="text-xs text-slate-600 text-center mt-4">
               {history.length} verificações realizadas • Próxima em ~6h
             </p>
           </CardContent>

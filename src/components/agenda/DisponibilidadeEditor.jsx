@@ -131,7 +131,7 @@ export default function DisponibilidadeEditor({ providerId }) {
                 </div>
                 {dayData.enabled && (
                   <div>
-                    <p className="text-xs text-slate-500 mb-2">Clique nos horários para ativar/desativar:</p>
+                    <p className="text-xs text-slate-600 mb-2">Clique nos horários para ativar/desativar:</p>
                     <div className="flex flex-wrap gap-2 mb-3">
                       {DEFAULT_SLOTS.map(slot => (
                         <button
@@ -153,7 +153,7 @@ export default function DisponibilidadeEditor({ providerId }) {
                           key={slot}
                           type="button"
                           onClick={() => toggleSlot(day.key, slot)}
-                          className="text-xs px-3 py-1 rounded-full border font-medium bg-green-600 text-white border-green-600"
+                          className="text-xs px-3 py-1 rounded-full border font-medium bg-green-700 text-white border-green-600"
                         >
                           {slot} ✕
                         </button>
@@ -187,7 +187,7 @@ export default function DisponibilidadeEditor({ providerId }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-500 mb-4">Clique nas datas para bloquear/desbloquear.</p>
+          <p className="text-sm text-slate-600 mb-4">Clique nas datas para bloquear/desbloquear.</p>
           <Calendar
             mode="multiple"
             selected={blockedDates.map(d => new Date(d + 'T12:00:00'))}

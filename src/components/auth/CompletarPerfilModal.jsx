@@ -98,13 +98,13 @@ export default function CompletarPerfilModal({ user, open, onClose }) {
           {/* Nome (somente leitura) */}
           <div className="space-y-1">
             <Label className="text-xs md:text-sm font-semibold text-slate-700">Nome completo</Label>
-            <Input value={user?.full_name || ''} disabled className="bg-slate-100 text-slate-500 border-slate-200 text-xs md:text-sm h-9 md:h-10" />
+            <Input value={user?.full_name || ''} disabled className="bg-slate-100 text-slate-600 border-slate-200 text-xs md:text-sm h-9 md:h-10" />
           </div>
 
           {/* E-mail (somente leitura) */}
           <div className="space-y-1">
             <Label className="text-xs md:text-sm font-semibold text-slate-700">Endereço de e-mail</Label>
-            <Input value={user?.email || ''} disabled className="bg-slate-100 text-slate-500 border-slate-200 text-xs md:text-sm h-9 md:h-10" />
+            <Input value={user?.email || ''} disabled className="bg-slate-100 text-slate-600 border-slate-200 text-xs md:text-sm h-9 md:h-10" />
           </div>
 
           {/* Telefone / WhatsApp */}
@@ -121,7 +121,7 @@ export default function CompletarPerfilModal({ user, open, onClose }) {
               required
               className="border-slate-300 text-xs md:text-sm h-9 md:h-10 focus:border-orange-500"
             />
-            <p className="text-xs text-slate-500 leading-tight">
+            <p className="text-xs text-slate-600 leading-tight">
               Usado apenas para conectar você com prestadores verificados. Seu número não será exibido publicamente.
             </p>
           </div>
@@ -141,7 +141,7 @@ export default function CompletarPerfilModal({ user, open, onClose }) {
 
           <Button
             type="submit"
-            className="w-full font-bold h-10 md:h-12 rounded-full text-sm md:text-base mt-1 md:mt-2 bg-amber-600 hover:bg-amber-700 border-none"
+            className="w-full font-bold h-10 md:h-12 rounded-full text-sm md:text-base mt-1 md:mt-2 bg-amber-700 hover:bg-amber-800 border-none"
             disabled={mutation.isPending}
           >
             {mutation.isPending ? (

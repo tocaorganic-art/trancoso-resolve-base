@@ -59,7 +59,7 @@ export default function SlotPicker({ providerId, selectedDate, selectedTime, onT
 
   if (isLoadingSchedule || isLoadingRequests) {
     return (
-      <div className="flex items-center gap-2 text-slate-500 text-sm py-3">
+      <div className="flex items-center gap-2 text-slate-600 text-sm py-3">
         <Loader2 className="w-4 h-4 animate-spin" />
         Verificando disponibilidade...
       </div>
@@ -87,7 +87,7 @@ export default function SlotPicker({ providerId, selectedDate, selectedTime, onT
   if (!schedule) {
     // No schedule configured — allow any time, show text input
     return (
-      <div className="text-sm text-slate-500 bg-amber-50 border border-amber-200 rounded-lg px-3 py-3">
+      <div className="text-sm text-slate-600 bg-amber-50 border border-amber-200 rounded-lg px-3 py-3">
         O prestador ainda não configurou horários. Deixe uma observação com o horário desejado.
       </div>
     );

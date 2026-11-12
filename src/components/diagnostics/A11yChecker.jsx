@@ -189,7 +189,7 @@ export default function A11yChecker({ onResults }) {
               <div className={`text-3xl font-bold ${getScoreColor(score)}`}>
                 {score}
               </div>
-              <p className="text-xs text-slate-500">A11y Score</p>
+              <p className="text-xs text-slate-600">A11y Score</p>
             </div>
             <Button 
               size="sm" 

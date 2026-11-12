@@ -4,7 +4,7 @@ import {
 "lucide-react";
 
 // Mapeamento oficial da marca: categoria de serviço -> ícone lucide-react.
-// Nunca usar emoji na UI (regra oficial). Cor primária: #E8571A.
+// Nunca usar emoji na UI (regra oficial). Cor primária: #C1440E.
 const ICON_BY_CATEGORY = {
   diarista: Sparkles,
   limpeza: Sparkles,
@@ -37,7 +37,7 @@ export function getCategoryIcon(category) {
   return ICON_BY_CATEGORY[normalize(category)] || Wrench;
 }
 
-export default function CategoryIcon({ category, className = "w-7 h-7", color = "#E8571A", ...props }) {
+export default function CategoryIcon({ category, className = "w-7 h-7", color = "#C1440E", ...props }) {
   const Icon = getCategoryIcon(category);
   return <Icon className={className} strokeWidth={2} style={{ color }} {...props} />;
 }

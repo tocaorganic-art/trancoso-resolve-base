@@ -313,7 +313,7 @@ export default function ContactPage() {
                     />
                     <span>
                       Autorizo o contato e o armazenamento seguro dos meus dados, conforme a{' '}
-                      <a href="/politica-privacidade" className="text-orange-600 underline">Política de Privacidade</a>.
+                      <a href="/politica-privacidade" className="text-orange-400 underline">Política de Privacidade</a>.
                     </span>
                   </label>
 

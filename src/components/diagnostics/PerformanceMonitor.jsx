@@ -196,7 +196,7 @@ export default function PerformanceMonitor({ onResults }) {
             <div className={`text-3xl font-bold ${getScoreColor(metrics.score)}`}>
               {metrics.score ?? '—'}
             </div>
-            <p className="text-xs text-slate-500">Performance Score</p>
+            <p className="text-xs text-slate-600">Performance Score</p>
           </div>
         </div>
       </CardHeader>
@@ -208,7 +208,7 @@ export default function PerformanceMonitor({ onResults }) {
               <div className="flex items-center justify-between mb-2">
                 <div>
                   <span className="font-semibold text-sm">{metric.label}</span>
-                  <p className="text-xs text-slate-500">{metric.description}</p>
+                  <p className="text-xs text-slate-600">{metric.description}</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-mono">

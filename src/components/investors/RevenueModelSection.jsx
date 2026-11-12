@@ -14,7 +14,7 @@ export default function RevenueModelSection() {
             <ClassificationBadge type={p.classification} label={t.classification[p.classification]} className="w-fit mb-4" />
             <h3 className="font-bold text-foreground text-lg">{p.name}</h3>
             <p className="mt-1 mb-3">
-              <span className="text-3xl font-display font-extrabold text-orange-700">{p.price}</span>
+              <span className="text-3xl font-display font-extrabold text-orange-400">{p.price}</span>
               <span className="text-sm text-muted-foreground ml-1">{p.unit}</span>
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed mt-auto">{p.note}</p>

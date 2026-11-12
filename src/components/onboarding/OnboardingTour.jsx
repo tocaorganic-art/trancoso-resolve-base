@@ -82,7 +82,7 @@ export default function OnboardingTour() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={dismiss}
-                  className="flex items-center justify-center gap-3 w-full bg-amber-600 hover:bg-amber-700 text-white rounded-xl py-3 px-4 transition-colors font-semibold text-base"
+                  className="flex items-center justify-center gap-3 w-full bg-amber-700 hover:bg-amber-800 text-white rounded-xl py-3 px-4 transition-colors font-semibold text-base"
                 >
                   <Download className="w-5 h-5" />
                   {t('onboarding.download')}

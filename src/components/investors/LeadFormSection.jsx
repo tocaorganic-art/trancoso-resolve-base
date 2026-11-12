@@ -120,7 +120,7 @@ export default function LeadFormSection() {
           <span>{f.consentLabel}</span>
         </label>
 
-        {status === 'error' && <p className="text-sm text-[#D7382B]">{f.error}</p>}
+        {status === 'error' && <p className="text-sm text-[#FF7A6B]">{f.error}</p>}
 
         <button
           type="submit"
@@ -131,7 +131,7 @@ export default function LeadFormSection() {
           {status === 'loading' ? f.submitting : f.submit}
         </button>
 
-        <p className="text-xs text-muted-foreground/70">{f.privacyNote}</p>
+        <p className="text-xs text-muted-foreground/90">{f.privacyNote}</p>
       </form>
     </Section>
   );

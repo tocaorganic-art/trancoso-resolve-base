@@ -94,9 +94,9 @@ export default function LiveCameraCapture({ onCapture }) {
         ) : (
           <div className="w-full aspect-video flex items-center justify-center">
             {isLoading ? (
-              <p className="text-slate-500">Iniciando câmera...</p>
+              <p className="text-slate-600">Iniciando câmera...</p>
             ) : (
-              <p className="text-slate-500">Câmera desativada</p>
+              <p className="text-slate-600">Câmera desativada</p>
             )}
           </div>
         )}

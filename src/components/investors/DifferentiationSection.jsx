@@ -15,7 +15,7 @@ export default function DifferentiationSection() {
               <tr key={row.alt} className={i !== d.positioning.length - 1 ? 'border-b border-border' : ''}>
                 <td className="p-4 font-semibold text-foreground/70 whitespace-nowrap">{row.alt}</td>
                 <td className="p-4 text-muted-foreground">{row.strength}</td>
-                <td className="p-4 font-bold text-orange-700">{row.ours}</td>
+                <td className="p-4 font-bold text-orange-400">{row.ours}</td>
               </tr>
             ))}
           </tbody>
@@ -23,7 +23,7 @@ export default function DifferentiationSection() {
       </div>
 
       <div className="mt-14">
-        <p className="text-xs font-bold uppercase tracking-[0.12em] text-orange-700 mb-3">{m.eyebrow}</p>
+        <p className="text-xs font-bold uppercase tracking-[0.12em] text-orange-400 mb-3">{m.eyebrow}</p>
         <h3 className="text-2xl md:text-3xl font-display font-extrabold text-foreground mb-8 max-w-2xl">{m.title}</h3>
         <div className="grid md:grid-cols-3 gap-5">
           {m.points.map((p) => (

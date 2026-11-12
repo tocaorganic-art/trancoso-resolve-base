@@ -135,7 +135,7 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
                   <div className="space-y-2">
                     <Upload className="w-8 h-8 mx-auto text-slate-400" />
                     <p className="text-sm font-medium text-slate-700">Clique para enviar documento</p>
-                    <p className="text-xs text-slate-500">PNG, JPG até 5MB</p>
+                    <p className="text-xs text-slate-600">PNG, JPG até 5MB</p>
                   </div>
                 )}
               </div>
@@ -222,7 +222,7 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
                   </div>
                   <h3 className="text-xl font-bold text-green-900">Verificação Aprovada!</h3>
                   <p className="text-green-800">{verificationResult.message}</p>
-                  <Badge className="bg-green-600 text-white">✓ Etapa concluída</Badge>
+                  <Badge className="bg-green-700 text-white">✓ Etapa concluída</Badge>
                 </div>
                 <p className="text-sm text-slate-600 text-center">
                   A liberação do cadastro depende da conclusão das demais etapas de verificação.

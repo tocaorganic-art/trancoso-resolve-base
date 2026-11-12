@@ -171,7 +171,7 @@ export default function SejaPrestadorPage() {
       {/* Como Funciona */}
       <section id="como-funciona" className="container mx-auto py-10 md:py-20 px-4 max-w-2xl">
         <div className="text-center mb-6 md:mb-12">
-          <span className="text-sm font-semibold text-orange-600 uppercase tracking-widest">Simples e rápido</span>
+          <span className="text-sm font-semibold text-orange-400 uppercase tracking-widest">Simples e rápido</span>
           <h2 className="text-xl md:text-3xl font-bold text-foreground mt-2">Como funciona</h2>
         </div>
         <ul className="space-y-5">

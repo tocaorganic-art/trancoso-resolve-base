@@ -364,7 +364,7 @@ const ServiceCard = ({ service, provider, image }) => {
                 )}
                 {/* Badge de categoria sobre a imagem */}
                 <div className="absolute top-3 right-3">
-                    <Badge className="bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 shadow-md rounded-pill">
+                    <Badge className="bg-brand-primary text-white text-xs font-semibold px-2 py-0.5 shadow-md rounded-pill">
                         {service.category}
                     </Badge>
                 </div>

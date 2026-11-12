@@ -46,7 +46,7 @@ function Node({ node, dim = false, label }) {
     <g>
       <circle
         cx={node.x} cy={node.y} r={20}
-        fill={isClient ? '#E8571A' : '#6B7C3A'}
+        fill={isClient ? '#C1440E' : '#6B7C3A'}
         opacity={dim ? 0.25 : 1}
         style={{ transition: 'opacity 0.4s' }}
       />
@@ -67,7 +67,7 @@ function Node({ node, dim = false, label }) {
 }
 
 // Linha de conexão animada
-function AnimatedLine({ x1, y1, x2, y2, delay = 0, color = '#E8571A', opacity = 0.25 }) {
+function AnimatedLine({ x1, y1, x2, y2, delay = 0, color = '#C1440E', opacity = 0.25 }) {
   return (
     <motion.line
       x1={x1} y1={y1} x2={x2} y2={y2}
@@ -85,7 +85,7 @@ function ActChaos() {
     <g>
       {CHAOS_LINES.map((l, i) => {
         const f = nodeById(l.from), t = nodeById(l.to);
-        return <AnimatedLine key={i} x1={f.x} y1={f.y} x2={t.x} y2={t.y} delay={i * 0.06} color="#E8571A" opacity={0.22} />;
+        return <AnimatedLine key={i} x1={f.x} y1={f.y} x2={t.x} y2={t.y} delay={i * 0.06} color="#C1440E" opacity={0.22} />;
       })}
       {CLIENTS.map(n => <Node key={n.id} node={n} />)}
       {PROVIDERS.map(n => <Node key={n.id} node={n} />)}
@@ -106,12 +106,12 @@ function ActPlatform() {
       {CLIENTS.map(n => <Node key={n.id} node={n} />)}
       {PROVIDERS.map(n => <Node key={n.id} node={n} />)}
       <motion.circle cx={CENTER.x} cy={CENTER.y} r={44}
-        fill="#E8571A" fillOpacity={0.12} stroke="#E8571A" strokeWidth={2}
+        fill="#C1440E" fillOpacity={0.12} stroke="#C1440E" strokeWidth={2}
         initial={{scale:0,opacity:0}} animate={{scale:1,opacity:1}}
         transition={{duration:0.5, ease:[0.22,1,0.36,1]}} />
-      <motion.text x={CENTER.x} y={CENTER.y-4} textAnchor="middle" fontSize={11} fontWeight={700} fill="#E8571A"
+      <motion.text x={CENTER.x} y={CENTER.y-4} textAnchor="middle" fontSize={11} fontWeight={700} fill="#C1440E"
         initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.3}}>Trancoso</motion.text>
-      <motion.text x={CENTER.x} y={CENTER.y+12} textAnchor="middle" fontSize={11} fontWeight={700} fill="#E8571A"
+      <motion.text x={CENTER.x} y={CENTER.y+12} textAnchor="middle" fontSize={11} fontWeight={700} fill="#C1440E"
         initial={{opacity:0}} animate={{opacity:1}} transition={{delay:0.4}}>Resolve</motion.text>
     </g>
   );
@@ -123,7 +123,7 @@ function ActOrganized() {
     <g>
       {/* linhas clientes → centro */}
       {CLIENTS.map((n,i) => (
-        <AnimatedLine key={n.id} x1={n.x} y1={n.y} x2={CENTER.x} y2={CENTER.y} delay={i*0.07} color="#E8571A" opacity={0.55} />
+        <AnimatedLine key={n.id} x1={n.x} y1={n.y} x2={CENTER.x} y2={CENTER.y} delay={i*0.07} color="#C1440E" opacity={0.55} />
       ))}
       {/* linhas centro → prestadores */}
       {PROVIDERS.map((n,i) => (
@@ -132,9 +132,9 @@ function ActOrganized() {
       {CLIENTS.map(n => <Node key={n.id} node={n} />)}
       {PROVIDERS.map(n => <Node key={n.id} node={n} />)}
       {/* Hub central */}
-      <circle cx={CENTER.x} cy={CENTER.y} r={44} fill="#E8571A" fillOpacity={0.12} stroke="#E8571A" strokeWidth={2} />
-      <text x={CENTER.x} y={CENTER.y-4} textAnchor="middle" fontSize={11} fontWeight={700} fill="#E8571A">Trancoso</text>
-      <text x={CENTER.x} y={CENTER.y+12} textAnchor="middle" fontSize={11} fontWeight={700} fill="#E8571A">Resolve</text>
+      <circle cx={CENTER.x} cy={CENTER.y} r={44} fill="#C1440E" fillOpacity={0.12} stroke="#C1440E" strokeWidth={2} />
+      <text x={CENTER.x} y={CENTER.y-4} textAnchor="middle" fontSize={11} fontWeight={700} fill="#C1440E">Trancoso</text>
+      <text x={CENTER.x} y={CENTER.y+12} textAnchor="middle" fontSize={11} fontWeight={700} fill="#C1440E">Resolve</text>
       {/* Tags de valor */}
       {['conexão','curadoria','confiança'].map((tag,i)=>(
         <motion.text key={tag} x={CENTER.x + (i-1)*90} y={CENTER.y+68}

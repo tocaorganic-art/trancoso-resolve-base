@@ -34,7 +34,7 @@ export default function ProblemSection() {
             </div>
           ))}
         </div>
-        <p className="text-sm font-semibold text-orange-700 dark:text-orange-400">{p.closing}</p>
+        <p className="text-sm font-semibold text-orange-400 dark:text-orange-400">{p.closing}</p>
       </Section>
 
       {/* 2. Fragmentação → Plataforma central */}

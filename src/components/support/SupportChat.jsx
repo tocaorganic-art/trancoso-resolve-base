@@ -122,14 +122,14 @@ FORMATAÇÃO: Nunca use travessão (—), meia risca (–) nem hífen como separ
 function TypingIndicator() {
   return (
     <div className="flex justify-start items-end gap-2">
-      <div className="w-7 h-7 rounded-full bg-[#E8571A] flex items-center justify-center shrink-0">
+      <div className="w-7 h-7 rounded-full bg-[#C1440E] flex items-center justify-center shrink-0">
         <Bot className="w-4 h-4 text-white" />
       </div>
       <div className="bg-white border border-slate-100 rounded-2xl rounded-bl-sm px-4 py-3 shadow-xs">
         <div className="flex gap-1 items-center">
-          <div className="w-2 h-2 rounded-full bg-[#E8571A] animate-bounce" style={{ animationDelay: '0ms' }} />
-          <div className="w-2 h-2 rounded-full bg-[#E8571A] animate-bounce" style={{ animationDelay: '150ms' }} />
-          <div className="w-2 h-2 rounded-full bg-[#E8571A] animate-bounce" style={{ animationDelay: '300ms' }} />
+          <div className="w-2 h-2 rounded-full bg-[#C1440E] animate-bounce" style={{ animationDelay: '0ms' }} />
+          <div className="w-2 h-2 rounded-full bg-[#C1440E] animate-bounce" style={{ animationDelay: '150ms' }} />
+          <div className="w-2 h-2 rounded-full bg-[#C1440E] animate-bounce" style={{ animationDelay: '300ms' }} />
         </div>
       </div>
     </div>
@@ -142,13 +142,13 @@ function MessageBubble({ msg }) {
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} items-end gap-2`}>
       {!isUser && (
-        <div className="w-7 h-7 rounded-full bg-[#E8571A] flex items-center justify-center shrink-0 mb-1">
+        <div className="w-7 h-7 rounded-full bg-[#C1440E] flex items-center justify-center shrink-0 mb-1">
           <Bot className="w-4 h-4 text-white" />
         </div>
       )}
       <div className={`max-w-[82%] rounded-2xl px-4 py-2.5 shadow-xs ${
         isUser
-          ? 'bg-[#E8571A] text-white rounded-br-sm'
+          ? 'bg-[#C1440E] text-white rounded-br-sm'
           : 'bg-white border border-slate-100 text-slate-900 rounded-bl-sm'
       }`}>
         {/* Imagem anexada */}
@@ -162,7 +162,7 @@ function MessageBubble({ msg }) {
             <ReactMarkdown>{msg.content}</ReactMarkdown>
           </div>
         )}
-        <p className={`text-xs mt-1 ${isUser ? 'text-[#E8571A]/60' : 'text-slate-400'}`}>
+        <p className={`text-xs mt-1 ${isUser ? 'text-[#C1440E]/60' : 'text-slate-400'}`}>
           {new Date(msg.timestamp).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })}
         </p>
       </div>
@@ -376,7 +376,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
       <div className={`fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 transition-all duration-300 ${isMinimized ? 'w-80' : 'w-96'} max-w-[calc(100vw-2rem)]`}>
       <Card className="shadow-2xl border border-slate-200 overflow-hidden">
         {/* Header */}
-        <div className="bg-linear-to-r from-[#E8571A] to-[#C1440E] text-white p-4 flex items-center justify-between">
+        <div className="bg-linear-to-r from-[#C1440E] to-[#C1440E] text-white p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
               <Bot className="w-5 h-5" />
@@ -421,7 +421,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
             {/* Quick Actions */}
             {messages.length <= 1 && !isTyping && (
               <div className="px-4 py-3 bg-white border-t border-slate-100">
-                <p className="text-xs text-slate-500 font-medium mb-2">{t('support.faqTitle')}</p>
+                <p className="text-xs text-slate-600 font-medium mb-2">{t('support.faqTitle')}</p>
                 <div className="grid grid-cols-2 gap-1.5">
                   {quickActions.map((action) => (
                     <button
@@ -454,7 +454,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                   aria-label={t('support.attach')}
                   title={t('support.attach')}
                 >
-                  <Paperclip className="w-4 h-4 text-slate-500" />
+                  <Paperclip className="w-4 h-4 text-slate-600" />
                 </button>
 
                 <input
@@ -470,7 +470,7 @@ ${imageUrl ? `[O usuário enviou uma imagem para análise: ${imageUrl}]\n` : ''}
                 <button
                   onClick={() => sendMessage()}
                   disabled={!inputMessage.trim() || isTyping || uploadingImage}
-                  className="w-9 h-9 rounded-xl bg-[#E8571A] hover:bg-[#C1440E] flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-all shrink-0"
+                  className="w-9 h-9 rounded-xl bg-[#C1440E] hover:bg-[#C1440E] flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed transition-all shrink-0"
                   aria-label={t('support.send')}
                 >
                   <Send className="w-4 h-4 text-white" />

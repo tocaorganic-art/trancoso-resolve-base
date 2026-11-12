@@ -116,7 +116,7 @@ export default function UserJourneyViz() {
                 {isDone ? '✓' : s.emoji}
               </motion.span>
               <span className={`text-[10px] font-semibold text-center leading-tight ${
-                isActive ? 'text-brand-primary' : isDone ? 'text-muted-foreground/60' : 'text-muted-foreground'
+                isActive ? 'text-orange-400' : isDone ? 'text-muted-foreground/80' : 'text-muted-foreground'
               }`}>
                 {s.label}
               </span>
@@ -154,7 +154,7 @@ export default function UserJourneyViz() {
               <h3 className="font-bold text-foreground text-lg">{step.label}</h3>
             </div>
             <p className="text-muted-foreground leading-relaxed">{step.desc}</p>
-            <p className="text-sm font-semibold text-brand-primary">{step.value}</p>
+            <p className="text-sm font-semibold text-orange-400">{step.value}</p>
           </motion.div>
         </AnimatePresence>
       </div>

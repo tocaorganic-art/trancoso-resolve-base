@@ -55,7 +55,7 @@ export default function ProFloatingButton() {
     >
       <Link
         to="/Planos"
-        className="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold px-4 py-2.5 rounded-full shadow-lg active:scale-95 transition-all"
+        className="flex items-center gap-2 bg-brand-primary hover:bg-brand-primary-hover text-white text-sm font-bold px-4 py-2.5 rounded-full shadow-lg active:scale-95 transition-all"
       >
         <Zap className="w-4 h-4" />
         Virar PRO

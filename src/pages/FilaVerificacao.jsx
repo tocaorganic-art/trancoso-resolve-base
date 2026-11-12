@@ -561,7 +561,7 @@ export default function FilaVerificacaoPage() {
                                               size="sm"
                                               disabled={isProcessing}
                                               onClick={() => handleAction(v.id, "aprovar", "")}
-                                              className="text-xs bg-amber-600 hover:bg-amber-700 text-white"
+                                              className="text-xs bg-amber-700 hover:bg-amber-800 text-white"
                                             >
                                               {isProcessing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
                                             </Button>

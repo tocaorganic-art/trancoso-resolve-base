@@ -172,7 +172,7 @@ export default function SEOMonitor({ onResults }) {
               <div className={`text-3xl font-bold ${getScoreColor(score)}`}>
                 {score}
               </div>
-              <p className="text-xs text-slate-500">SEO Score</p>
+              <p className="text-xs text-slate-600">SEO Score</p>
             </div>
             <Button 
               size="sm" 
@@ -202,7 +202,7 @@ export default function SEOMonitor({ onResults }) {
                   <p className="font-semibold text-sm text-slate-900">{check.name}</p>
                   <p className="text-xs text-slate-600 mt-1">{check.value}</p>
                   {!check.status && (
-                    <p className="text-xs text-slate-500 mt-1">
+                    <p className="text-xs text-slate-600 mt-1">
                       💡 {check.recommendation}
                     </p>
                   )}

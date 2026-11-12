@@ -132,7 +132,7 @@ export default function DestinoPortoSeguro() {
             ].map((d) => (
               <Link key={d.slug} to={d.path}>
                 <div className="bg-card rounded-2xl p-6 shadow-xs hover:shadow-md transition-all border border-border hover:border-orange-300 group flex gap-4 items-start">
-                  <MapPin className="w-7 h-7 shrink-0" style={{ color: '#E8571A' }} aria-hidden="true" />
+                  <MapPin className="w-7 h-7 shrink-0" style={{ color: '#C1440E' }} aria-hidden="true" />
                   <div>
                     <h3 className="font-bold text-foreground group-hover:text-orange-700 transition-colors mb-1">{d.nome}</h3>
                     <p className="text-sm text-muted-foreground">{d.desc}</p>

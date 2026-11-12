@@ -72,7 +72,7 @@ export default function AnalyticsDashboard() {
               <TrendingUp className="w-4 h-4 text-green-500" />
             </div>
             <p className="text-3xl font-bold text-slate-900">{analytics.pageViews.toLocaleString()}</p>
-            <p className="text-sm text-slate-500 mt-1">Visualizações de Página</p>
+            <p className="text-sm text-slate-600 mt-1">Visualizações de Página</p>
             <Badge className="bg-green-100 text-green-700 mt-2">+12% vs. semana passada</Badge>
           </CardContent>
         </Card>
@@ -84,7 +84,7 @@ export default function AnalyticsDashboard() {
               <TrendingUp className="w-4 h-4 text-green-500" />
             </div>
             <p className="text-3xl font-bold text-slate-900">{analytics.uniqueVisitors.toLocaleString()}</p>
-            <p className="text-sm text-slate-500 mt-1">Visitantes Únicos</p>
+            <p className="text-sm text-slate-600 mt-1">Visitantes Únicos</p>
             <Badge className="bg-green-100 text-green-700 mt-2">+8% vs. semana passada</Badge>
           </CardContent>
         </Card>
@@ -96,7 +96,7 @@ export default function AnalyticsDashboard() {
               <TrendingUp className="w-4 h-4 text-green-500" />
             </div>
             <p className="text-3xl font-bold text-slate-900">{formatDuration(analytics.avgSessionDuration)}</p>
-            <p className="text-sm text-slate-500 mt-1">Duração Média de Sessão</p>
+            <p className="text-sm text-slate-600 mt-1">Duração Média de Sessão</p>
             <Badge className="bg-green-100 text-green-700 mt-2">+15% vs. semana passada</Badge>
           </CardContent>
         </Card>
@@ -108,7 +108,7 @@ export default function AnalyticsDashboard() {
               <TrendingUp className="w-4 h-4 text-red-500" />
             </div>
             <p className="text-3xl font-bold text-slate-900">{analytics.bounceRate}%</p>
-            <p className="text-sm text-slate-500 mt-1">Taxa de Rejeição</p>
+            <p className="text-sm text-slate-600 mt-1">Taxa de Rejeição</p>
             <Badge className="bg-red-100 text-red-700 mt-2">+3% vs. semana passada</Badge>
           </CardContent>
         </Card>
@@ -150,7 +150,7 @@ export default function AnalyticsDashboard() {
                     </div>
                     <div>
                       <p className="font-medium text-slate-900">{page.page}</p>
-                      <p className="text-xs text-slate-500">Tempo médio: {formatDuration(page.avgTime)}</p>
+                      <p className="text-xs text-slate-600">Tempo médio: {formatDuration(page.avgTime)}</p>
                     </div>
                   </div>
                   <Badge>{page.views.toLocaleString()} views</Badge>

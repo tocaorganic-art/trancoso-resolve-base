@@ -521,7 +521,7 @@ export default function Layout({ children, currentPageName }) {
               {/* Links SEO — Todas as cidades */}
               <div className="flex flex-col gap-1.5 mb-4 text-xs text-slate-400">
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Trancoso:</span>
+                  <span className="text-slate-300 font-semibold">Trancoso:</span>
                   <Link to="/servicos/diarista-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -530,7 +530,7 @@ export default function Layout({ children, currentPageName }) {
                   <Link to="/servicos/pedreiro-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.pedreiro')}</Link>
                 </div>
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Porto Seguro:</span>
+                  <span className="text-slate-300 font-semibold">Porto Seguro:</span>
                   <Link to="/servicos/diarista-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -539,7 +539,7 @@ export default function Layout({ children, currentPageName }) {
                   <Link to="/servicos/pedreiro-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.pedreiro')}</Link>
                 </div>
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Arraial d'Ajuda:</span>
+                  <span className="text-slate-300 font-semibold">Arraial d'Ajuda:</span>
                   <Link to="/servicos/diarista-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -548,7 +548,7 @@ export default function Layout({ children, currentPageName }) {
                   <Link to="/servicos/pedreiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.pedreiro')}</Link>
                 </div>
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Caraíva:</span>
+                  <span className="text-slate-300 font-semibold">Caraíva:</span>
                   <Link to="/servicos/diarista-caraiva" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-caraiva" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-caraiva" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -561,7 +561,7 @@ export default function Layout({ children, currentPageName }) {
               <p className="text-muted-foreground text-base font-medium">
                 {t('footer.copyright')}
               </p>
-              <p className="text-muted-foreground/70 text-xs mt-1">
+              <p className="text-muted-foreground/90 text-xs mt-1">
                 Toca Experience Inova Simples (I.S.) · CNPJ 68.662.845/0001-86
               </p>
             </div>

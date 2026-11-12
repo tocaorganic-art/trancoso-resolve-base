@@ -297,7 +297,7 @@ export default function AdminAssinaturasPage() {
                             <Button
                               size="sm"
                               onClick={() => handleActivateSubscription(sub)}
-                              className="bg-green-600 hover:bg-green-700"
+                              className="bg-green-700 hover:bg-green-800"
                             >
                               <Check className="w-4 h-4 mr-1" />
                               Ativar

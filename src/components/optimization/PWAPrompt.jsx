@@ -67,7 +67,7 @@ export default function PWAPrompt() {
             className="p-1 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors"
             aria-label={t('pwa.close')}
           >
-            <X className="w-4 h-4 text-slate-500" />
+            <X className="w-4 h-4 text-slate-600" />
           </button>
         </div>
         

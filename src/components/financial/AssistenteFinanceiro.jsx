@@ -121,7 +121,7 @@ export default function AssistenteFinanceiro({ payments }) {
         <Button
           onClick={analisarFinancas}
           disabled={loading || recebimentos.length === 0}
-          className="bg-orange-600 hover:bg-orange-700 text-white w-full sm:w-auto"
+          className="bg-brand-primary hover:bg-brand-primary-hover text-white w-full sm:w-auto"
         >
           {loading ? (
             <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Analisando...</>
@@ -134,7 +134,7 @@ export default function AssistenteFinanceiro({ payments }) {
       {loading && (
           <div className="text-center py-8">
               <Loader2 className="w-8 h-8 mx-auto animate-spin text-orange-500" />
-              <p className="mt-2 text-slate-500">Aguarde, nossa IA está processando seus dados...</p>
+              <p className="mt-2 text-slate-600">Aguarde, nossa IA está processando seus dados...</p>
           </div>
       )}
 

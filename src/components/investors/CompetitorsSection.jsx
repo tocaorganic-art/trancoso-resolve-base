@@ -12,7 +12,7 @@ export default function CompetitorsSection() {
           <div key={i.name} className="rounded-brand-lg border border-border bg-card p-6">
             <h3 className="font-bold text-foreground mb-2">{i.name}</h3>
             <p className="text-sm text-muted-foreground mb-2"><span className="font-semibold text-foreground/80">+</span> {i.strength}</p>
-            <p className="text-sm text-muted-foreground"><span className="font-semibold text-orange-700">→</span> {i.gap}</p>
+            <p className="text-sm text-muted-foreground"><span className="font-semibold text-orange-400">→</span> {i.gap}</p>
           </div>
         ))}
       </div>

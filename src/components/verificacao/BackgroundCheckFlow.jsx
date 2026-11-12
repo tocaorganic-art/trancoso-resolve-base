@@ -213,7 +213,7 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
                   <p className="text-green-800">
                     Seu perfil está verificado. Você tem maior confiabilidade junto aos clientes.
                   </p>
-                  <Badge className="bg-green-600 text-white">✓ Verificado</Badge>
+                  <Badge className="bg-green-700 text-white">✓ Verificado</Badge>
                 </div>
                 <p className="text-sm text-slate-600 text-center">
                   A etapa de verificação foi concluída.

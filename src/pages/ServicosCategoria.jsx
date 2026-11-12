@@ -446,6 +446,50 @@ export default function ServicosCategoriaPage() {
           }
         `}</style>
         
+
+        {/* Conteúdo de apoio para busca orgânica (SEO) */}
+        <section className="max-w-5xl mx-auto px-4 pb-16" aria-labelledby="guia-servicos">
+          <h2 id="guia-servicos" className="text-2xl font-black text-foreground mb-4">
+            Como contratar um profissional em Trancoso
+          </h2>
+          <div className="space-y-4 text-sm md:text-base text-muted-foreground leading-relaxed">
+            <p>
+              O Trancoso Resolve reúne em um só lugar quem mora e trabalha na Costa do Descobrimento. Em vez de
+              perguntar em grupos de mensagem e esperar indicação, você descreve o que precisa e vê o perfil de quem
+              atende aquela função, com a região de atendimento e a faixa de preço informada pelo próprio prestador.
+            </p>
+            <p>
+              As categorias mais procuradas são diarista, eletricista, piscineiro, pedreiro, pintor, jardineiro,
+              encanador, cozinheiro e chef, segurança e motorista. Também entram profissionais de manutenção,
+              montagem de móveis, limpeza de piscina e apoio a casas de temporada, que é a demanda mais forte entre
+              outubro e março.
+            </p>
+            <h3 className="text-lg font-bold text-foreground pt-2">Como funciona a verificação</h3>
+            <p>
+              Cada prestador envia documento de identificação e, quando a função exige, comprovante da atividade.
+              O time confere os dados antes de liberar o selo de verificado no perfil. Verificação é conferência de
+              documento, não é avaliação técnica do serviço, e o contato entre cliente e prestador continua sendo
+              direto.
+            </p>
+            <h3 className="text-lg font-bold text-foreground pt-2">Onde atendemos</h3>
+            <p>
+              Trancoso e o Quadrado, Pitinga, Rio Verde, Arraial d&apos;Ajuda, Porto Seguro e Caraíva. Cada perfil
+              informa em quais dessas áreas a pessoa atende, o que evita combinar um serviço com deslocamento
+              inviável.
+            </p>
+            <h3 className="text-lg font-bold text-foreground pt-2">Quanto custa usar a plataforma</h3>
+            <p>
+              Para quem contrata, buscar e falar com prestadores é gratuito. Para quem oferece serviço, o cadastro
+              começa com dois meses grátis, sem cartão de crédito, e os cem primeiros prestadores recebem o Selo
+              Fundador. Depois do período gratuito, só continua quem quiser.
+            </p>
+            <p>
+              Se você não encontrar a categoria que precisa, use a busca por palavra, como &quot;marido de
+              aluguel&quot; ou &quot;limpeza pós-obra&quot;, ou envie uma mensagem pela página de contato contando o
+              que precisa. A equipe indica quem atende na sua região.
+            </p>
+          </div>
+        </section>
         <ProviderGrid
           filteredProviders={filteredProviders}
           isLoadingProviders={isLoadingProviders}

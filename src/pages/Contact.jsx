@@ -341,6 +341,40 @@ export default function ContactPage() {
               )}
             </AnimatePresence>
           </motion.div>
+
+            <section className="mt-12 pt-8 border-t border-border" aria-labelledby="contato-detalhes">
+              <h2 id="contato-detalhes" className="text-xl font-bold text-foreground mb-3">
+                Antes de enviar, veja o que ajuda a resposta ser rápida
+              </h2>
+              <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
+                <p>
+                  Diga em uma frase o que você precisa e para quando. &quot;Preciso de diarista para limpeza de
+                  pós-obra em casa no Quadrado, dia 20&quot; permite responder com nome e faixa de preço na primeira
+                  mensagem. &quot;Preciso de alguém para limpar&quot; costuma exigir três trocas antes de chegar em
+                  alguém útil.
+                </p>
+                <p>
+                  Informe a região: Trancoso, Quadrado, Pitinga, Rio Verde, Arraial d&apos;Ajuda, Porto Seguro ou
+                  Caraíva. Deslocamento muda o custo e a disponibilidade, e prestador de uma área raramente atende
+                  outra no mesmo dia.
+                </p>
+                <p>
+                  Esta página serve para dúvidas sobre a plataforma, problemas no cadastro e pedidos de suporte.
+                  Para contratar um serviço, o caminho mais rápido é a busca na página de serviços, onde o contato
+                  acontece direto com o prestador.
+                </p>
+                <p>
+                  Prestadores que ainda não se cadastraram podem começar pela página Seja Prestador e pelo
+                  formulário de participação. O cadastro pede documento, foto de perfil e a região onde atende.
+                  Prestador com CNPJ ou MEI envia o documento da empresa; pessoa física envia documento pessoal.
+                </p>
+                <p>
+                  Se o seu caso envolve pagamento feito pela plataforma, informe o e-mail cadastrado e o nome do
+                  profissional. Isso permite localizar a cobrança sem pedir comprovante por mensagem, o que evita
+                  exposição de dado sensível.
+                </p>
+              </div>
+            </section>
         </div>
       </div>
     </div>

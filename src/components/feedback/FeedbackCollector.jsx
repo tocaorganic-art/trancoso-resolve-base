@@ -16,7 +16,7 @@ export default function FeedbackCollector() {
   const submitFeedbackMutation = useMutation({
     mutationFn: async (feedbackData) => {
       // In production, this would save to a Feedback entity
-      console.log('Feedback submitted:', feedbackData);
+      if (import.meta.env.DEV) console.log('Feedback submitted:', feedbackData);
       return feedbackData;
     },
     onSuccess: () => {

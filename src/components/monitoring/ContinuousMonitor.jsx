@@ -23,7 +23,7 @@ export default function ContinuousMonitor() {
 
   const runMonitoringCycle = async () => {
     const timestamp = new Date().toISOString();
-    console.log('🔍 Iniciando ciclo de monitoramento...', timestamp);
+    if (import.meta.env.DEV) console.log('🔍 Iniciando ciclo de monitoramento...', timestamp);
 
     try {
       // Performance Check
@@ -70,7 +70,7 @@ export default function ContinuousMonitor() {
         toast.error('⚠️ Score crítico detectado! Otimizações automáticas ativadas.');
       }
 
-      console.log('✅ Ciclo de monitoramento concluído:', historyEntry);
+      if (import.meta.env.DEV) console.log('✅ Ciclo de monitoramento concluído:', historyEntry);
       
     } catch (error) {
       console.error('❌ Erro no ciclo de monitoramento:', error);
@@ -234,15 +234,15 @@ export default function ContinuousMonitor() {
   };
 
   const runAutoOptimization = async (metricsData) => {
-    console.log('🔧 Executando otimizações automáticas...');
+    if (import.meta.env.DEV) console.log('🔧 Executando otimizações automáticas...');
     
     // Cache optimization
     if (metricsData.performance.score < 80) {
-      console.log('📦 Otimizando cache...');
+      if (import.meta.env.DEV) console.log('📦 Otimizando cache...');
     }
 
     // Prefetch optimization
-    console.log('🚀 Otimizando prefetch de rotas...');
+    if (import.meta.env.DEV) console.log('🚀 Otimizando prefetch de rotas...');
     
     // Image lazy loading check
     const images = document.querySelectorAll('img:not([loading])');

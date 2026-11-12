@@ -47,7 +47,7 @@ export default function AnalyticsDashboard() {
 
     // Track real page views
     const accessLogs = JSON.parse(localStorage.getItem('access_logs') || '[]');
-    console.log('📊 Access logs loaded:', accessLogs.length);
+    if (import.meta.env.DEV) console.log('📊 Access logs loaded:', accessLogs.length);
   }, []);
 
   const formatDuration = (seconds) => {

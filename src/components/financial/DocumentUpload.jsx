@@ -77,7 +77,7 @@ export default function DocumentUpload() {
           if (i === retries) {
             throw err; // Última tentativa falhou, rethrow
           }
-          console.log(`Tentativa ${i + 1} de upload falhou, tentando novamente...`, err);
+          console.warn(`Tentativa ${i + 1} de upload falhou, tentando novamente...`);
         }
       }
     };
@@ -91,7 +91,7 @@ export default function DocumentUpload() {
       }
       
       const fileUrl = uploadResult.file_url;
-      console.log("Arquivo enviado:", fileUrl);
+      if (import.meta.env.DEV) console.log("Arquivo enviado:", fileUrl);
 
       setUploading(false);
       setProcessing(true);
@@ -127,7 +127,7 @@ IMPORTANTE:
 Retorne um JSON válido.
 `;
 
-      console.log("Chamando IA para análise...");
+      if (import.meta.env.DEV) console.log("Chamando IA para análise...");
       
       const aiResult = await base44.functions.invoke('iaCreditada', {
         operacao: 'extrair_transacoes',
@@ -135,7 +135,7 @@ Retorne um JSON válido.
         file_url: fileUrl,
       });
 
-      console.log("Resposta da IA:", aiResult);
+      if (import.meta.env.DEV) console.log("Resposta da IA:", aiResult);
 
       setProcessing(false);
       setProgressMessage("");
@@ -161,7 +161,7 @@ Retorne um JSON válido.
             notes: t.notes || ""
           }));
 
-        console.log("Transações válidas extraídas:", validTransactions);
+        if (import.meta.env.DEV) console.log("Transações válidas extraídas:", validTransactions);
 
         if (validTransactions.length === 0) {
           setError("Não foi possível extrair transações válidas. Verifique se o documento contém valores monetários e datas.");
@@ -172,9 +172,9 @@ Retorne um JSON válido.
         setProgressMessage("Salvando transações no banco de dados...");
         
         try {
-          console.log("Salvando", validTransactions.length, "transações...");
+          if (import.meta.env.DEV) console.log("Salvando", validTransactions.length, "transações...");
           await createTransactionsMutation.mutateAsync(validTransactions);
-          console.log("Transações salvas com sucesso!");
+          if (import.meta.env.DEV) console.log("Transações salvas com sucesso!");
           
           setProgressMessage("");
           setResult({

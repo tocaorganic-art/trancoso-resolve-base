@@ -142,7 +142,7 @@ export default function SEOMonitor({ onResults }) {
       issueDetails: seoChecks.filter((c) => !c.status).map((c) => c.name),
     });
 
-    console.log('🔍 SEO Check:', {
+    if (import.meta.env.DEV) console.log('🔍 SEO Check:', {
       Score: `${calculatedScore}/100`,
       Passed: `${passed}/${total}`,
       Issues: total - passed,

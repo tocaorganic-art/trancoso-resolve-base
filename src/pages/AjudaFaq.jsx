@@ -245,7 +245,7 @@ export default function AjudaFaq() {
             <Button asChild className="bg-brand-primary text-white hover:bg-orange-600">
               <Link to="/Contact">Fale com o suporte</Link>
             </Button>
-            <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
+            <Button asChild variant="outline" className="border-orange-300 text-orange-300 hover:bg-brand-primary hover:text-white">
               <Link to="/Manual">Ver manual completo</Link>
             </Button>
           </div>

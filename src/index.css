@@ -526,3 +526,9 @@ p, span, h1, h2, h3, h4, h5, h6, li, td, th, label, input, textarea {
   border-radius: 999px;
   opacity: 0.5;
 }
+
+/* Placeholder dos selects do formulário /participar: cartão claro sobre tema escuro.
+   Regra fora de @layer vence as utilidades do Tailwind. */
+.participar-form [data-placeholder] {
+  color: #475569;
+}

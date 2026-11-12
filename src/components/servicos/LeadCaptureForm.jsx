@@ -286,7 +286,7 @@ export default function LeadCaptureForm({ serviceInterest, serviceLabel, source 
           )}
         </Button>
 
-        <p className="text-xs text-center" style={{ color: '#A0785A' }}>
+        <p className="text-xs text-center" style={{ color: '#6B4A2E' }}>
           {t('leadForm.disclaimer')}
         </p>
       </form>

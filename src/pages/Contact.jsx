@@ -87,7 +87,7 @@ function ChannelCard({ href, icon, label, sub, delay = 0, iconColor = 'text-oran
           <span className={iconColor}>{icon}</span>
         </div>
         <div>
-          <p className={`font-semibold text-sm text-foreground ${href ? 'group-hover:text-orange-600 transition-colors' : ''}`}>{label}</p>
+          <p className={`font-semibold text-sm text-foreground ${href ? 'group-hover:text-orange-700 transition-colors' : ''}`}>{label}</p>
           <p className="text-xs text-muted-foreground mt-0.5">{sub}</p>
         </div>
         {href && <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-orange-500 group-hover:translate-x-1 transition-all ml-auto mt-0.5 shrink-0" />}

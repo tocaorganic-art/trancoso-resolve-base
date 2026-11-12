@@ -106,7 +106,7 @@ export default function Participar() {
             </p>
             <Button
               onClick={() => navigate("/")}
-              className="bg-[#F26A21] hover:bg-[#d95a1a] text-white min-h-[44px]"
+              className="bg-brand-primary hover:bg-brand-primary-hover text-white min-h-[44px]"
             >
               Voltar ao início
             </Button>
@@ -128,7 +128,7 @@ export default function Participar() {
 
         <Card className="bg-white border-[#E3DED5]">
           <CardContent className="p-6 md:p-8">
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="participar-form space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="nome" className="text-[#333333] font-semibold">
                   Nome *
@@ -138,7 +138,7 @@ export default function Participar() {
                   value={form.nome}
                   onChange={set("nome")}
                   required
-                  className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                  className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                   placeholder="Seu nome"
                 />
               </div>
@@ -146,7 +146,7 @@ export default function Participar() {
               <div className="space-y-2">
                 <Label className="text-[#333333] font-semibold">Como deseja participar? *</Label>
                 <Select value={form.profile_type} onValueChange={set("profile_type")}>
-                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]">
+                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]">
                     <SelectValue placeholder="Escolha uma opção" />
                   </SelectTrigger>
                   <SelectContent>
@@ -162,7 +162,7 @@ export default function Participar() {
               <div className="space-y-2">
                 <Label className="text-[#333333] font-semibold">Localidade *</Label>
                 <Select value={form.locality} onValueChange={set("locality")}>
-                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]">
+                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]">
                     <SelectValue placeholder="Escolha uma localidade" />
                   </SelectTrigger>
                   <SelectContent>
@@ -183,7 +183,7 @@ export default function Participar() {
                   id="category"
                   value={form.category_interest}
                   onChange={set("category_interest")}
-                  className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                  className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                   placeholder="Ex: Eletricista, Pousada, Restaurante…"
                 />
               </div>
@@ -197,7 +197,7 @@ export default function Participar() {
                     id="whatsapp"
                     value={form.whatsapp}
                     onChange={set("whatsapp")}
-                    className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                    className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                     placeholder="(73) 99999-9999"
                   />
                 </div>
@@ -210,12 +210,12 @@ export default function Participar() {
                     type="email"
                     value={form.email}
                     onChange={set("email")}
-                    className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                    className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                     placeholder="seu@email.com"
                   />
                 </div>
               </div>
-              <p className="text-xs text-[#888] -mt-2">
+              <p className="text-xs text-slate-600 -mt-2">
                 Informe pelo menos um WhatsApp ou email para que possamos entrar em contato.
               </p>
 
@@ -248,7 +248,7 @@ export default function Participar() {
               <Button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-[#F26A21] hover:bg-[#d95a1a] text-white font-bold min-h-[44px] text-base"
+                className="w-full bg-brand-primary hover:bg-brand-primary-hover text-white font-bold min-h-[44px] text-base"
               >
                 {submitting ? (
                   <>
@@ -259,7 +259,7 @@ export default function Participar() {
                 )}
               </Button>
 
-              <p className="text-xs text-[#999] text-center">
+              <p className="text-xs text-slate-600 text-center">
                 Não solicitamos documentos, dados financeiros ou informações sensíveis neste formulário.
               </p>
             </form>

@@ -18,8 +18,8 @@ function formatBRL(value) {
 }
 
 const SERIES = [
-  { key: 'fundador',     label: 'Plano Fundador',     color: '#6B7C3A' },
-  { key: 'profissional', label: 'Plano Profissional',  color: '#C1440E' },
+  { key: 'fundador',     label: 'Plano Fundador',     color: '#6B7C3A', colorDark: '#B2BE7B' },
+  { key: 'profissional', label: 'Plano Profissional',  color: '#C1440E', colorDark: '#ED7740' },
 ];
 
 export default function ScenarioChartSection() {

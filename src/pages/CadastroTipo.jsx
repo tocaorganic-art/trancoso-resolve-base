@@ -287,6 +287,35 @@ export default function CadastroTipoPage() {
                   <p className="text-muted-foreground mb-10 text-lg">Para começar, nos diga como você gostaria de usar a plataforma.</p>
                 </motion.div>
 
+                <div className="text-left mt-10 pt-8 border-t border-border">
+                  <h2 className="text-lg font-bold text-foreground mb-3">Qual opção escolher</h2>
+                  <div className="space-y-3 text-sm text-muted-foreground leading-relaxed">
+                    <p>
+                      <strong className="text-foreground">Sou cliente</strong> é para quem mora em Trancoso ou na
+                      região e precisa contratar alguém para casa, obra, jardim ou evento. A conta de cliente dá
+                      acesso à busca por categoria, à região de atendimento de cada profissional e ao histórico dos
+                      seus pedidos.
+                    </p>
+                    <p>
+                      <strong className="text-foreground">Sou prestador</strong> é para quem oferece serviço:
+                      diarista, eletricista, piscineiro, pedreiro, pintor, jardineiro, encanador, cozinheiro,
+                      segurança, motorista, entre outras funções. O cadastro pede documento, foto de perfil e as
+                      regiões onde você atende. Prestador com CNPJ ou MEI envia também o documento da empresa. O
+                      cadastro começa com dois meses grátis, sem cartão de crédito.
+                    </p>
+                    <p>
+                      <strong className="text-foreground">Sou lojista</strong> é para quem tem loja, restaurante ou
+                      outro negócio físico e quer aparecer na vitrine local. Esse perfil mostra o endereço e o
+                      horário de funcionamento, em vez de área de atendimento.
+                    </p>
+                    <p>
+                      Se você já tem conta e quer apenas mudar de perfil, esta mesma tela altera o tipo de conta a
+                      qualquer momento. Nada é cobrado por abrir a conta, e nenhuma etapa pede dados de cartão
+                      durante o cadastro.
+                    </p>
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {[
                     { icon: User, title: 'Sou Cliente', desc: 'Quero encontrar e contratar os melhores serviços em Trancoso.', action: handleClienteClick, cta: null, secondaryLabel: 'Sou empresa (PJ)', secondaryAction: handleClientePjClick },

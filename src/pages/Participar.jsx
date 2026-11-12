@@ -265,6 +265,37 @@ export default function Participar() {
             </form>
           </CardContent>
         </Card>
+
+        <div className="mt-8 bg-white border border-[#E3DED5] rounded-brand-lg p-6 md:p-8">
+          <h2 className="text-lg font-bold text-[#333333] mb-3">Como usamos o que você envia</h2>
+          <div className="space-y-3 text-sm text-[#4a4a4a] leading-relaxed">
+            <p>
+              Este formulário serve para você dizer o que procura ou o que oferece antes de criar conta. Não pedimos
+              documento, dado bancário nem senha. O contato é feito pelo WhatsApp ou pelo e-mail que você informar,
+              no horário que marcar como melhor.
+            </p>
+            <p>
+              Quem procura um serviço recebe o caminho para a categoria certa e a informação de quais profissionais
+              atendem na sua região: Trancoso, Quadrado, Pitinga, Rio Verde, Arraial d&apos;Ajuda, Porto Seguro ou
+              Caraíva.
+            </p>
+            <p>
+              Quem oferece serviço recebe orientação sobre o cadastro, que pede documento, foto de perfil e as
+              regiões atendidas. O cadastro começa com dois meses grátis, sem cartão de crédito, e os cem primeiros
+              prestadores recebem o Selo Fundador.
+            </p>
+            <p>
+              Se você marcou melhor horário para contato, a mensagem chega dentro daquele período. Responder com o
+              tipo de serviço e o bairro na primeira conversa encurta o caminho até o orçamento.
+            </p>
+            <p>
+              Vale lembrar o que muda de uma temporada para outra. De dezembro a março a procura por diarista,
+              piscineiro e cozinheiro sobe muito, e quem agenda com antecedência encontra mais opções. De abril a
+              novembro sobram vagas para obra, pintura e reforma, que são serviços que a casa vazia permite fazer.
+              Marcar o serviço fora da alta temporada costuma sair mais barato e com mais gente disponível.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

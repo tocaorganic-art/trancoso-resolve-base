@@ -168,6 +168,24 @@ export default function AjudaFaq() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold">FAQ e Ajuda</h1>
+          <div className="text-left space-y-3 text-sm md:text-base text-muted-foreground mt-8 mb-4">
+            <p>
+              Aqui estão as respostas para as dúvidas que mais aparecem no atendimento: como funciona a verificação de
+              um prestador, o que está incluído nos dois meses grátis, como cancelar, como pedir um serviço para uma
+              casa de temporada e o que fazer quando o combinado não é cumprido.
+            </p>
+            <p>
+              Use a busca abaixo para filtrar por assunto. Cada resposta vale para as quatro áreas de atendimento:
+              Trancoso, Arraial d&apos;Ajuda, Porto Seguro e Caraíva. Se a sua pergunta não estiver na lista, a página
+              de contato leva direto para o time de suporte.
+            </p>
+            <p>
+              Duas regras valem para todo mundo. A plataforma não intermedeia o pagamento do serviço: o combinado é
+              feito direto entre cliente e prestador, e a verificação significa conferência de documento, não
+              avaliação técnica. E nenhum cadastro pede cartão de crédito durante o período gratuito.
+            </p>
+          </div>
+
           <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
             Tire suas dúvidas sobre como contratar profissionais e usar o Trancoso Resolve na Costa do Descobrimento.
           </p>

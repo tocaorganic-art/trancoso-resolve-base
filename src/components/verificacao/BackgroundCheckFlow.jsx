@@ -15,6 +15,7 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
   });
   const [isProcessing, setIsProcessing] = useState(false);
   const [verificationResult, setVerificationResult] = useState(null);
+  const [formError, setFormError] = useState('');
 
   const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -22,14 +23,15 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
 
   const validateForm = () => {
     if (!formData.cpf || !formData.fullName || !formData.dateOfBirth) {
-      alert('Preencha todos os campos obrigatórios');
+      setFormError('Preencha todos os campos obrigatórios.');
       return false;
     }
     // Validar CPF básico
     if (formData.cpf.replace(/\D/g, '').length !== 11) {
-      alert('CPF inválido');
+      setFormError('CPF inválido. Confira os 11 dígitos.');
       return false;
     }
+    setFormError('');
     return true;
   };
 
@@ -170,6 +172,9 @@ export default function BackgroundCheckFlow({ prestadorId, onVerificationComplet
               />
             </div>
 
+            {formError && (
+              <p role="alert" className="text-sm text-red-600">{formError}</p>
+            )}
             <Button
               onClick={processVerification}
               disabled={isProcessing}

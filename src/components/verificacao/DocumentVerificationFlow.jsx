@@ -14,6 +14,7 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
   const [selfiePreview, setSelfiePreview] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [verificationResult, setVerificationResult] = useState(null);
+  const [formError, setFormError] = useState('');
   const fileInputRef = useRef(null);
 
   const handleDocumentUpload = (e) => {
@@ -40,9 +41,10 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
 
   const processVerification = async () => {
     if (!documentFile || !selfieFile) {
-      alert('Por favor, envie documento e selfie');
+      setFormError('Envie o documento e a selfie para continuar.');
       return;
     }
+    setFormError('');
 
     setIsProcessing(true);
     try {
@@ -176,6 +178,10 @@ export default function DocumentVerificationFlow({ prestadorId, onVerificationCo
                   </div>
                 )}
               </div>
+            )}
+
+            {formError && (
+              <p role="alert" className="text-sm text-red-600">{formError}</p>
             )}
 
             {/* Botão Enviar */}

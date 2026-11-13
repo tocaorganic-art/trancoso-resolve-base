@@ -2,6 +2,9 @@
 
 > **Idioma das respostas:** responda **sempre em português (pt-BR)**, de forma
 > calorosa e direta, tratando a pessoa por **você**.
+>
+> **Objetividade (Tony, 13/11/2026):** seja objetivo. Resultado direto, sem
+> explicar o raciocínio nem repetir contexto já dado. Frases curtas.
 
 Marketplace de serviços locais em **Trancoso, Bahia**. Conecta moradores,
 empresários e donos de imóvel a prestadores de serviços locais — elétrica,

@@ -5,6 +5,9 @@
 >
 > **Objetividade (Tony, 13/11/2026):** seja objetivo. Resultado direto, sem
 > explicar o raciocínio nem repetir contexto já dado. Frases curtas.
+>
+> **Teste antes de avisar (Tony, 13/11/2026):** antes de dizer que algo está
+> resolvido/funcionando, teste de fato (curl, comando, etc.) e só então reporte.
 
 Marketplace de serviços locais em **Trancoso, Bahia**. Conecta moradores,
 empresários e donos de imóvel a prestadores de serviços locais — elétrica,

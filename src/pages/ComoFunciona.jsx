@@ -352,7 +352,7 @@ export default function ComoFuncionaPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.5 }}
             >
-              <span className="inline-flex items-center gap-2 bg-orange-100 dark:bg-orange-900/20 text-orange-600 text-xs font-bold px-4 py-1.5 rounded-full mb-4">
+              <span className="inline-flex items-center gap-2 bg-orange-100 dark:bg-orange-900/20 text-orange-700 dark:text-orange-300 text-xs font-bold px-4 py-1.5 rounded-full mb-4">
                 Para Clientes
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-3">Sua solução em 3 passos</h2>
@@ -467,7 +467,7 @@ export default function ComoFuncionaPage() {
               ))}
             </div>
             <div className="mt-6 pt-5 border-t border-border">
-              <Link to={createPageUrl('ServicosCategoria')} className="text-sm text-orange-600 hover:text-orange-500 font-semibold hover:underline inline-flex items-center gap-1">
+              <Link to={createPageUrl('ServicosCategoria')} className="text-sm text-orange-700 hover:text-orange-500 font-semibold hover:underline inline-flex items-center gap-1">
                 Ver todos os profissionais verificados em Trancoso <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>

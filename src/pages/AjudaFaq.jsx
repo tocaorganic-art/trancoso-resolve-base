@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import { useSEO } from '@/hooks/useSEO';
+import { SchemaMarkup } from '@/components/seo/SchemaMarkup';
 import { motion } from 'framer-motion';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -124,12 +126,21 @@ const FAQ_CATEGORIES = [
 export default function AjudaFaq() {
   const [search, setSearch] = useState('');
 
-  useEffect(() => {
-    document.title = 'FAQ e Ajuda | Trancoso Resolve';
-    const meta = document.querySelector('meta[name="description"]') ||
-      (() => { const m = document.createElement('meta'); m.name = 'description'; document.head.appendChild(m); return m; })();
-    meta.content = 'Dúvidas frequentes sobre o Trancoso Resolve: como contratar profissionais verificados, planos, pagamentos, verificação de prestadores e segurança.';
-  }, []);
+  useSEO({
+    title: 'FAQ e Ajuda',
+    description: 'Dúvidas frequentes sobre o Trancoso Resolve: como contratar profissionais verificados, planos, pagamentos, verificação de prestadores e segurança.',
+    canonical: '/ajuda',
+  });
+
+  const faqSchema = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_CATEGORIES.flatMap((cat) => cat.items).map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  }), []);
 
   const filteredCategories = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -148,6 +159,7 @@ export default function AjudaFaq() {
 
   return (
     <div className="min-h-screen bg-background text-foreground py-10 px-4">
+      <SchemaMarkup schema={faqSchema} id="faq-schema" />
       <div className="container mx-auto max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -156,6 +168,24 @@ export default function AjudaFaq() {
           className="text-center mb-8"
         >
           <h1 className="text-4xl font-bold">FAQ e Ajuda</h1>
+          <div className="text-left space-y-3 text-sm md:text-base text-muted-foreground mt-8 mb-4">
+            <p>
+              Aqui estão as respostas para as dúvidas que mais aparecem no atendimento: como funciona a verificação de
+              um prestador, o que está incluído nos dois meses grátis, como cancelar, como pedir um serviço para uma
+              casa de temporada e o que fazer quando o combinado não é cumprido.
+            </p>
+            <p>
+              Use a busca abaixo para filtrar por assunto. Cada resposta vale para as quatro áreas de atendimento:
+              Trancoso, Arraial d&apos;Ajuda, Porto Seguro e Caraíva. Se a sua pergunta não estiver na lista, a página
+              de contato leva direto para o time de suporte.
+            </p>
+            <p>
+              Duas regras valem para todo mundo. A plataforma não intermedeia o pagamento do serviço: o combinado é
+              feito direto entre cliente e prestador, e a verificação significa conferência de documento, não
+              avaliação técnica. E nenhum cadastro pede cartão de crédito durante o período gratuito.
+            </p>
+          </div>
+
           <p className="text-muted-foreground mt-3 max-w-xl mx-auto">
             Tire suas dúvidas sobre como contratar profissionais e usar o Trancoso Resolve na Costa do Descobrimento.
           </p>
@@ -233,7 +263,7 @@ export default function AjudaFaq() {
             <Button asChild className="bg-brand-primary text-white hover:bg-orange-600">
               <Link to="/Contact">Fale com o suporte</Link>
             </Button>
-            <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-white">
+            <Button asChild variant="outline" className="border-orange-300 text-orange-300 hover:bg-brand-primary hover:text-white">
               <Link to="/Manual">Ver manual completo</Link>
             </Button>
           </div>

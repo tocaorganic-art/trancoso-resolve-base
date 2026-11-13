@@ -91,7 +91,7 @@ export default function TwoFactorVerification({ maskedEmail, onSuccess, onCancel
             <ShieldCheck className="w-8 h-8 text-amber-700" />
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Verificação de segurança</h1>
-          <p className="text-slate-500 text-sm leading-relaxed">
+          <p className="text-slate-600 text-sm leading-relaxed">
             Enviamos um código de 6 dígitos para <strong className="text-slate-700">{maskedEmail}</strong>. Válido por 10 minutos.
           </p>
         </div>
@@ -134,7 +134,7 @@ export default function TwoFactorVerification({ maskedEmail, onSuccess, onCancel
           <button
             onClick={handleResend}
             disabled={resendCooldown > 0 || resendLoading}
-            className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center gap-1.5 text-sm text-slate-600 hover:text-amber-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             {resendCooldown > 0

@@ -67,7 +67,7 @@ export default function OnboardingTour() {
                   { icon: <Bell className="w-4 h-4 text-amber-600" />, text: t('onboarding.benefit2') },
                   { icon: <Download className="w-4 h-4 text-amber-600" />, text: t('onboarding.benefit3') },
                 ].map(({ icon, text }) => (
-                  <div key={text} className="flex items-center gap-2 text-sm text-stone-700">
+                  <div key={text} className="flex items-center gap-2 text-sm text-stone-800">
                     {icon}
                     <span>{text}</span>
                   </div>
@@ -82,7 +82,7 @@ export default function OnboardingTour() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={dismiss}
-                  className="flex items-center justify-center gap-3 w-full bg-amber-600 hover:bg-amber-700 text-white rounded-xl py-3 px-4 transition-colors font-semibold text-base"
+                  className="flex items-center justify-center gap-3 w-full bg-amber-700 hover:bg-amber-800 text-white rounded-xl py-3 px-4 transition-colors font-semibold text-base"
                 >
                   <Download className="w-5 h-5" />
                   {t('onboarding.download')}

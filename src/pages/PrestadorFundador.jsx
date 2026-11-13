@@ -119,7 +119,7 @@ export default function PrestadorFundador() {
           </motion.div>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-10">
-            <Button asChild size="lg" className="bg-orange-500 hover:bg-orange-600 text-white font-bold text-base h-12 px-8">
+            <Button asChild size="lg" className="bg-brand-primary hover:bg-brand-primary-hover text-white font-bold text-base h-12 px-8">
               <Link to="/Planos" onClick={() => pixelClickFounderCTA('hero')}>Quero ser Prestador Fundador</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="h-12 px-8">
@@ -191,7 +191,7 @@ export default function PrestadorFundador() {
                 transition={{ duration: 0.4, delay: i * 0.05 }}
                 className="flex gap-3 bg-card border border-border rounded-xl p-4"
               >
-                <div className="w-8 h-8 rounded-full bg-orange-500 text-white font-bold flex items-center justify-center shrink-0 text-sm">
+                <div className="w-8 h-8 rounded-full bg-brand-primary text-white font-bold flex items-center justify-center shrink-0 text-sm">
                   {p.n}
                 </div>
                 <div>
@@ -245,7 +245,7 @@ export default function PrestadorFundador() {
           <p className="text-orange-50 mb-6 max-w-xl mx-auto">
             Os 100 primeiros entram GRÁTIS: 2 meses sem cartão, sem cobrança e sem comissão sobre seus serviços.
           </p>
-          <Button asChild size="lg" className="bg-white text-orange-600 hover:bg-orange-50 font-bold text-base h-12 px-8">
+          <Button asChild size="lg" className="bg-white text-orange-700 hover:bg-orange-50 font-bold text-base h-12 px-8">
             <Link to="/Planos" onClick={() => pixelClickFounderCTA('cta_final')}>Quero ser Prestador Fundador</Link>
           </Button>
         </div>

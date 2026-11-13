@@ -18,7 +18,7 @@ import { useInvestorLang } from './InvestorLangContext';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { staggerContainer, staggerItem, staticVariant } from '@/lib/animationVariants';
 
-const COLORS = ['#E8571A', '#6B7C3A', '#2D7D8A', '#9B59B6', '#E67E22'];
+const COLORS = ['#C1440E', '#6B7C3A', '#2D7D8A', '#9B59B6', '#E67E22'];
 
 export default function UseOfFundsSection() {
   const { t } = useInvestorLang();
@@ -112,7 +112,7 @@ export default function UseOfFundsSection() {
                   aria-hidden="true"
                 />
                 <h4 className="font-bold text-foreground">{item.label}</h4>
-                <span className="ml-auto font-display font-extrabold text-orange-700 text-lg">
+                <span className="ml-auto font-display font-extrabold text-orange-400 text-lg">
                   {item.pct}%
                 </span>
               </div>

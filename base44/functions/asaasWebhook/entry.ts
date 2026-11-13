@@ -18,6 +18,7 @@ import { maskEmail } from './piiMask.ts';
 // Eventos tratados (o Asaas notifica por cobrança; assinatura vem no campo `subscription`):
 // - PAYMENT_RECEIVED / PAYMENT_CONFIRMED → assinatura ativa + Selo Fundador (plano profissional)
 // - PAYMENT_OVERDUE / PAYMENT_REFUNDED  → assinatura expired/cancelled
+// - Estorno contestado (chargeback), PAYMENT_DELETED e SUBSCRIPTION_DELETED/INACTIVATED → alerta ao admin, sem mudar status
 // - Cobranças avulsas (sem subscription) → entidade Payment (pagamento de serviço)
 
 const FOUNDER_LIMIT = 100;
@@ -542,6 +543,47 @@ async function handleStandalonePayment(
   }
 }
 
+// ─── Alerta ao admin: estorno contestado e exclusões ─────────────────────────
+// Não muda status de assinatura nem de pagamento: contestação ainda não é
+// final. Só avisa a equipe para agir no painel do Asaas. Sem dado pessoal.
+const STATUS_ALERTA_ADMIN = new Set([
+  'CHARGEBACK_REQUESTED',
+  'CHARGEBACK_DISPUTE',
+  'AWAITING_CHARGEBACK_REVERSAL',
+]);
+const EVENTOS_ALERTA_ADMIN = new Set([
+  'PAYMENT_CHARGEBACK_REQUESTED',
+  'PAYMENT_CHARGEBACK_DISPUTE',
+  'PAYMENT_AWAITING_CHARGEBACK_REVERSAL',
+  'PAYMENT_DELETED',
+  'SUBSCRIPTION_DELETED',
+  'SUBSCRIPTION_INACTIVATED',
+]);
+
+export function precisaAlertaAdmin(event: string, paymentStatus?: string): boolean {
+  return EVENTOS_ALERTA_ADMIN.has(event) || (!!paymentStatus && STATUS_ALERTA_ADMIN.has(paymentStatus));
+}
+
+async function alertarAdmin(base44: any, event: string, ref: { payment_id?: string; subscription_id?: string; status?: string; value?: number }) {
+  try {
+    await base44.asServiceRole.integrations.Core.SendEmail({
+      to: 'suporte@trancosoresolve.com.br',
+      subject: `[Asaas] Atenção: ${event}`,
+      body: [
+        `Evento recebido do Asaas: ${event}`,
+        ref.status ? `Status da cobrança: ${ref.status}` : '',
+        ref.payment_id ? `Cobrança: ${ref.payment_id}` : '',
+        ref.subscription_id ? `Assinatura Asaas: ${ref.subscription_id}` : '',
+        typeof ref.value === 'number' ? `Valor: R$ ${ref.value.toFixed(2)}` : '',
+        '',
+        'Nenhum status foi alterado automaticamente. Confira no painel do Asaas e decida a ação.',
+      ].filter(Boolean).join('\n'),
+    });
+  } catch (e) {
+    console.warn('[asaasWebhook] alerta ao admin não enviado:', (e as Error).message);
+  }
+}
+
 // ─── Handler principal ────────────────────────────────────────────────────────
 Deno.serve(async (req) => {
   const receivedAt = new Date().toISOString();
@@ -567,11 +609,18 @@ Deno.serve(async (req) => {
     }
 
     // ─── 2. Parse do payload ──────────────────────────────────────────────────
-    let body: { event?: string; payment?: { id?: string } } = {};
+    let body: { event?: string; payment?: { id?: string }; subscription?: { id?: string } } = {};
     try { body = await req.json(); } catch { /* payload vazio — ignora */ }
 
     const event = body?.event || '';
     const paymentId = body?.payment?.id;
+
+    // Exclusão ou inativação de assinatura chega sem payment.id: só alerta.
+    if (!paymentId && event && precisaAlertaAdmin(event)) {
+      await alertarAdmin(base44, event, { subscription_id: body?.subscription?.id });
+      return Response.json({ ok: true, alerted: event });
+    }
+
     if (!paymentId || !event) {
       return Response.json({ ok: true, ignored: 'sem payment.id ou event' });
     }
@@ -584,6 +633,15 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, note: `erro Asaas ${payRes.status}, retry pendente` });
     }
     const payment = payRes.data;
+
+    if (precisaAlertaAdmin(event, payment?.status)) {
+      await alertarAdmin(base44, event, {
+        payment_id: String(payment.id),
+        subscription_id: payment.subscription ? String(payment.subscription) : undefined,
+        status: payment.status,
+        value: payment.value,
+      });
+    }
 
     // ─── 4. Roteamento: assinatura vs pagamento avulso ─────────────────────────
     if (payment.subscription) {

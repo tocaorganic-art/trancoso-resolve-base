@@ -43,6 +43,12 @@ export default function AdminAntecedentesPage() {
     staleTime: 0,
   });
 
+  const { data: privados } = useQuery({
+    queryKey: ["allProvidersPrivate"],
+    queryFn: () => base44.entities.ServiceProviderPrivate.list('-created_date', 500),
+  });
+  const cpfPorProvider = Object.fromEntries((privados || []).map((r) => [r.service_provider_id, r.cpf]));
+
   const { data: verifications } = useQuery({
     queryKey: ["allBackgroundVerifications"],
     queryFn: () => base44.entities.Verificacao.filter({ verification_type: "background_check" }, "-created_date", 500),
@@ -246,7 +252,7 @@ export default function AdminAntecedentesPage() {
                          </div>
                         </td>
                         <td className="px-4 py-4 hidden md:table-cell">
-                          <span className="text-sm text-muted-foreground font-mono">{maskCPF(p.cpf)}</span>
+                          <span className="text-sm text-muted-foreground font-mono">{maskCPF(cpfPorProvider[p.id] || p.cpf)}</span>
                         </td>
                         <td className="px-4 py-4 hidden lg:table-cell">
                           <span className="text-xs font-medium uppercase text-muted-foreground bg-muted px-2 py-0.5 rounded">

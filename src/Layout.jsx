@@ -268,7 +268,7 @@ export default function Layout({ children, currentPageName }) {
           <header role="banner">
           <nav className={`bg-card border-b border-border sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'shadow-warm-md' : 'shadow-warm-sm'}`} style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
             <div className={`container mx-auto px-3 md:px-4 flex items-center justify-between gap-2 transition-all duration-300 ${scrolled ? 'py-1.5' : 'py-3'}`}>
-              <Link to={createPageUrl("Home")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="nav-logo-link">
+              <Link to={createPageUrl("Home")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="nav-logo-link" aria-label="Trancoso Resolve, página inicial">
                 <Logo className="h-10 md:h-12" />
               </Link>
 
@@ -443,7 +443,7 @@ export default function Layout({ children, currentPageName }) {
           {/* Mobile-only top bar: logo on root, back button on sub-pages */}
           {isRoot &&
           <div className="md:hidden fixed top-0 left-0 right-0 z-40 bg-card border-b border-border flex items-center px-3 h-12" style={{ paddingTop: "env(safe-area-inset-top, 0px)", top: "env(safe-area-inset-top, 0px)" }}>
-            <Link to="/" className="flex items-center gap-2 min-h-[48px]">
+            <Link to="/" className="flex items-center gap-2 min-h-[48px]" aria-label="Trancoso Resolve, página inicial">
               <Logo className="h-8" />
             </Link>
           </div>
@@ -521,7 +521,7 @@ export default function Layout({ children, currentPageName }) {
               {/* Links SEO — Todas as cidades */}
               <div className="flex flex-col gap-1.5 mb-4 text-xs text-slate-400">
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Trancoso:</span>
+                  <span className="text-slate-300 font-semibold">Trancoso:</span>
                   <Link to="/servicos/diarista-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -530,7 +530,7 @@ export default function Layout({ children, currentPageName }) {
                   <Link to="/servicos/pedreiro-trancoso" className="hover:text-slate-200 transition-colors">{t('popular.pedreiro')}</Link>
                 </div>
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Porto Seguro:</span>
+                  <span className="text-slate-300 font-semibold">Porto Seguro:</span>
                   <Link to="/servicos/diarista-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -539,7 +539,7 @@ export default function Layout({ children, currentPageName }) {
                   <Link to="/servicos/pedreiro-porto-seguro" className="hover:text-slate-200 transition-colors">{t('popular.pedreiro')}</Link>
                 </div>
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Arraial d'Ajuda:</span>
+                  <span className="text-slate-300 font-semibold">Arraial d'Ajuda:</span>
                   <Link to="/servicos/diarista-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -548,7 +548,7 @@ export default function Layout({ children, currentPageName }) {
                   <Link to="/servicos/pedreiro-arraial-dajuda" className="hover:text-slate-200 transition-colors">{t('popular.pedreiro')}</Link>
                 </div>
                 <div className="flex justify-center gap-x-4 gap-y-1 flex-wrap">
-                  <span className="text-slate-500 font-semibold">Caraíva:</span>
+                  <span className="text-slate-300 font-semibold">Caraíva:</span>
                   <Link to="/servicos/diarista-caraiva" className="hover:text-slate-200 transition-colors">{t('popular.diarista')}</Link>
                   <Link to="/servicos/eletricista-caraiva" className="hover:text-slate-200 transition-colors">{t('popular.eletricista')}</Link>
                   <Link to="/servicos/piscineiro-caraiva" className="hover:text-slate-200 transition-colors">{t('popular.piscineiro')}</Link>
@@ -561,7 +561,7 @@ export default function Layout({ children, currentPageName }) {
               <p className="text-muted-foreground text-base font-medium">
                 {t('footer.copyright')}
               </p>
-              <p className="text-muted-foreground/70 text-xs mt-1">
+              <p className="text-muted-foreground/90 text-xs mt-1">
                 Toca Experience Inova Simples (I.S.) · CNPJ 68.662.845/0001-86
               </p>
             </div>
@@ -594,7 +594,7 @@ export default function Layout({ children, currentPageName }) {
         <nav className="bg-card border-b border-border shadow-warm-sm sticky top-0 z-50" style={{ paddingTop: "env(safe-area-inset-top, 0px)" }}>
           <div className="container mx-auto px-4 py-3">
             <div className="flex items-center justify-between gap-4">
-              <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="admin-nav-logo-link">
+              <Link to={createPageUrl("Dashboard")} className="flex items-center gap-2 shrink-0 min-w-fit" data-testid="admin-nav-logo-link" aria-label="Trancoso Resolve, painel">
                 <Logo className="h-9" />
               </Link>
 
@@ -608,7 +608,7 @@ export default function Layout({ children, currentPageName }) {
                       onClick={() => item.clearLogin && sessionStorage.removeItem('loginTimestamp')}
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                       isActive(item.path) ?
-                      'bg-orange-600 text-white' :
+                      'bg-brand-primary text-white' :
                       'text-muted-foreground hover:bg-muted hover:text-foreground'}`
                       }
                       data-testid={`admin-nav-${item.name.toLowerCase().replace(' ', '-')}`}>
@@ -644,7 +644,7 @@ export default function Layout({ children, currentPageName }) {
                     onClick={() => {setMobileMenuOpen(false);item.clearLogin && sessionStorage.removeItem('loginTimestamp');}}
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all ${
                     isActive(item.path) ?
-                    'bg-orange-600 text-white' :
+                    'bg-brand-primary text-white' :
                     'text-muted-foreground hover:bg-muted hover:text-foreground'}`
                     }
                     data-testid={`admin-mobile-nav-${item.name.toLowerCase().replace(' ', '-')}`}>

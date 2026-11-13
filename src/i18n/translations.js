@@ -216,7 +216,7 @@ const translations = {
         provider: 'Para se cadastrar como prestador:\n\n1. Clique em **"Seja um Prestador"** no menu superior\n2. Preencha seus dados e especialidade\n3. Envie um documento (CNH ou RG) para verificação\n4. Configure sua conta bancária no painel Financeiro\n\nQuer saber mais sobre como funciona para prestadores?',
       },
     },
-    testimonials: { title: 'O que nossos usuários dizem', subtitle: 'Histórias reais de quem usa e aprova a nossa plataforma.', roles: ['Cliente de São Paulo', 'Chef de Cozinha', 'Arquiteta e Cliente'], comments: ['Contratei um serviço de limpeza de última hora e foi impecável. O prestador era verificado e super profissional. O Trancoso Resolve salvou minhas férias!', 'Desde que me cadastrei, minha agenda está sempre cheia. A plataforma me deu a visibilidade que eu precisava para conseguir clientes de alto padrão em Trancoso.', 'Usei para contratar um eletricista e um jardineiro para uma casa que estou reformando. Ambos foram excelentes. A facilidade de encontrar profissionais qualificados é o grande diferencial.'] },
+    testimonials: { title: 'O que nossos usuários dizem', subtitle: 'Histórias reais de quem usa e aprova a nossa plataforma.' },
   },
   es: {
     nav: {
@@ -399,7 +399,7 @@ const translations = {
         provider: 'Para registrarte como profesional:\n\n1. Haz clic en **"Quiero ser profesional"** en el menú superior\n2. Completa tus datos y tu especialidad\n3. Envía un documento (CNH o RG) para la verificación\n4. Configura tu cuenta bancaria en el panel Financiero\n\n¿Quieres saber más sobre cómo funciona para profesionales?',
       },
     },
-    testimonials: { title: 'Lo que dicen nuestros usuarios', subtitle: 'Historias reales de quienes usan y aprueban nuestra plataforma.', roles: ['Cliente de São Paulo', 'Chef de cocina', 'Arquitecta y clienta'], comments: ['Contraté un servicio de limpieza de última hora y fue impecable. El proveedor estaba verificado y fue muy profesional. ¡Trancoso Resolve salvó mis vacaciones!', 'Desde que me registré, mi agenda está siempre llena. La plataforma me dio la visibilidad que necesitaba para conseguir clientes de alto nivel en Trancoso.', 'La usé para contratar un electricista y un jardinero para una casa que estoy reformando. Ambos fueron excelentes. Encontrar profesionales cualificados es el gran diferencial.'] },
+    testimonials: { title: 'Lo que dicen nuestros usuarios', subtitle: 'Historias reales de quienes usan y aprueban nuestra plataforma.' },
   },
   en: {
     nav: {
@@ -582,7 +582,7 @@ const translations = {
         provider: 'To register as a provider:\n\n1. Click **"Be a Provider"** in the top menu\n2. Fill in your details and specialty\n3. Send a document (driver licence or ID) for verification\n4. Set up your bank account in the Financial panel\n\nWould you like to know more about how it works for providers?',
       },
     },
-    testimonials: { title: 'What our users say', subtitle: 'Real stories from people who use and trust our platform.', roles: ['Client from São Paulo', 'Chef', 'Architect and client'], comments: ['I hired a last-minute cleaning service and it was flawless. The provider was verified and highly professional. Trancoso Resolve saved my vacation!', 'Since I registered, my calendar has been full. The platform gave me the visibility I needed to find high-end customers in Trancoso.', 'I used it to hire an electrician and a gardener for a house I am renovating. Both were excellent. Finding qualified professionals is the key difference.'] },
+    testimonials: { title: 'What our users say', subtitle: 'Real stories from people who use and trust our platform.' },
   },
   fr: {
     nav: {
@@ -765,7 +765,7 @@ const translations = {
         provider: 'Pour vous inscrire comme prestataire :\n\n1. Cliquez sur **« Devenir prestataire »** dans le menu du haut\n2. Renseignez vos données et votre spécialité\n3. Envoyez un document (permis ou pièce d’identité) pour la vérification\n4. Configurez votre compte bancaire dans le panneau Financier\n\nVoulez-vous en savoir plus sur le fonctionnement pour les prestataires ?',
       },
     },
-    testimonials: { title: 'Ce que disent nos utilisateurs', subtitle: 'Les histoires de personnes qui utilisent et recommandent notre plateforme.', roles: ['Cliente de São Paulo', 'Chef cuisinier', 'Architecte et cliente'], comments: ['J’ai engagé un service de ménage de dernière minute et le résultat était impeccable. Le prestataire était vérifié et très professionnel. Trancoso Resolve a sauvé mes vacances !', 'Depuis mon inscription, mon agenda est toujours rempli. La plateforme m’a donné la visibilité nécessaire pour trouver des clients haut de gamme à Trancoso.', 'Je l’ai utilisée pour trouver un électricien et un jardinier pour une maison que je rénove. Tous deux étaient excellents. Trouver des professionnels qualifiés est le grand avantage.'] },
+    testimonials: { title: 'Ce que disent nos utilisateurs', subtitle: 'Les histoires de personnes qui utilisent et recommandent notre plateforme.' },
   },
 };
 

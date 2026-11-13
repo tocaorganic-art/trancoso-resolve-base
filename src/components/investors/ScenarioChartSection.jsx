@@ -18,8 +18,8 @@ function formatBRL(value) {
 }
 
 const SERIES = [
-  { key: 'fundador',     label: 'Plano Fundador',     color: '#6B7C3A' },
-  { key: 'profissional', label: 'Plano Profissional',  color: '#E8571A' },
+  { key: 'fundador',     label: 'Plano Fundador',     color: '#6B7C3A', colorDark: '#B2BE7B' },
+  { key: 'profissional', label: 'Plano Profissional',  color: '#C1440E', colorDark: '#ED7740' },
 ];
 
 export default function ScenarioChartSection() {
@@ -47,7 +47,7 @@ export default function ScenarioChartSection() {
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {s.stats.map((stat) => (
           <div key={stat.label} className="rounded-2xl bg-card border border-border p-5 text-center">
-            <p className="text-2xl md:text-3xl font-display font-extrabold text-orange-700">{stat.value}</p>
+            <p className="text-2xl md:text-3xl font-display font-extrabold text-orange-400">{stat.value}</p>
             <p className="mt-1 text-xs text-muted-foreground leading-snug">{stat.label}</p>
           </div>
         ))}

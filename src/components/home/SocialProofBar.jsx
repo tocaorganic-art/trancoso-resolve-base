@@ -3,10 +3,14 @@ import { useApp } from "@/contexts/AppContext";
 
 export default function SocialProofBar({ totalVerificados = 0 }) {
   const { t } = useApp();
-  const prestadoresDisplay = totalVerificados > 0 ? totalVerificados : 19;
+  // Só mostra a contagem quando ela vem real do banco. Sem número fixo de
+  // fallback: com contagem zerada (ou ainda carregando), o item não aparece.
+  const total = Number.isFinite(totalVerificados) ? totalVerificados : 0;
 
   const metrics = [
-    { icon: Users, value: `${prestadoresDisplay} ${t('stats.professionals')}`, label: t('stats.registered') },
+    ...(total > 0
+      ? [{ icon: Users, value: `${total} ${t('stats.professionals')}`, label: t('stats.registered') }]
+      : []),
     { icon: ShieldCheck, value: t('stats.verified'), label: t('stats.backgroundChecked') },
     { icon: MapPin, value: t('stats.destinations'), label: t('stats.destinationList') },
     { icon: CreditCard, value: t('stats.securePayment'), label: t('stats.allServices') },

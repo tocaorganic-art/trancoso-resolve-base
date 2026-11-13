@@ -2,11 +2,11 @@ import Section from './Section';
 import { useInvestorLang } from './InvestorLangContext';
 
 const IMPACT_STYLES = {
-  Crítico: 'bg-[#D7382B]/10 text-[#D7382B]',
+  Crítico: 'bg-[#FF7A6B]/10 text-[#FF7A6B]',
   Alto: 'bg-[#E59A12]/10 text-[#E59A12]',
-  Critical: 'bg-[#D7382B]/10 text-[#D7382B]',
+  Critical: 'bg-[#FF7A6B]/10 text-[#FF7A6B]',
   High: 'bg-[#E59A12]/10 text-[#E59A12]',
-  Crítica: 'bg-[#D7382B]/10 text-[#D7382B]',
+  Crítica: 'bg-[#FF7A6B]/10 text-[#FF7A6B]',
 };
 
 export default function RisksSection() {
@@ -25,7 +25,7 @@ export default function RisksSection() {
               </span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-3">{item.desc}</p>
-            <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground/70">{item.status}</span>
+            <span className="text-xs font-bold uppercase tracking-wide text-muted-foreground/90">{item.status}</span>
           </div>
         ))}
       </div>

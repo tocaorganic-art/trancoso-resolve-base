@@ -85,14 +85,14 @@ export default function CacheManager() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
             <div className="text-center p-4 bg-slate-50 rounded-lg">
-              <HardDrive className="w-6 h-6 mx-auto mb-2 text-slate-500" />
+              <HardDrive className="w-6 h-6 mx-auto mb-2 text-slate-600" />
               <p className="text-2xl font-bold">{cacheStats.size} MB</p>
-              <p className="text-xs text-slate-500">Espaço Usado</p>
+              <p className="text-xs text-slate-600">Espaço Usado</p>
             </div>
             <div className="text-center p-4 bg-slate-50 rounded-lg">
-              <Database className="w-6 h-6 mx-auto mb-2 text-slate-500" />
+              <Database className="w-6 h-6 mx-auto mb-2 text-slate-600" />
               <p className="text-2xl font-bold">{cacheStats.itemCount}</p>
-              <p className="text-xs text-slate-500">Itens em Cache</p>
+              <p className="text-xs text-slate-600">Itens em Cache</p>
             </div>
           </div>
 
@@ -115,7 +115,7 @@ export default function CacheManager() {
             </Button>
           </div>
 
-          <p className="text-xs text-slate-500 text-center">
+          <p className="text-xs text-slate-600 text-center">
             ℹ️ Limpar o cache pode melhorar o desempenho, mas você precisará recarregar alguns dados.
           </p>
         </div>

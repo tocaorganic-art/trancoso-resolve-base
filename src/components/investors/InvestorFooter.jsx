@@ -30,7 +30,7 @@ export default function InvestorFooter() {
             <p className="text-xs leading-relaxed text-white/60">{f.disclaimer}</p>
           </div>
         </div>
-        <p className="text-xs text-white/40 border-t border-white/10 pt-6">{f.copyright}</p>
+        <p className="text-xs text-white/70 border-t border-white/10 pt-6">{f.copyright}</p>
       </div>
     </footer>
   );

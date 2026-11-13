@@ -32,7 +32,7 @@ const FORM_INICIAL = {
 function Campo({ label, children }) {
   return (
     <label className="block">
-      <span className="block text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500 mb-1.5">
+      <span className="block text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600 mb-1.5">
         {label}
       </span>
       {children}
@@ -247,7 +247,7 @@ export default function ConciergePage() {
         </div>
 
         <div className="mt-10 rounded-brand-lg border border-slate-200 p-6 sm:p-8">
-          <h3 className="text-sm font-bold uppercase tracking-[0.12em] text-slate-500">
+          <h3 className="text-sm font-bold uppercase tracking-[0.12em] text-slate-600">
             {t.perfilTitulo}
           </h3>
           <ul className="mt-4 grid gap-2.5 sm:grid-cols-2">
@@ -320,7 +320,7 @@ export default function ConciergePage() {
                   >
                     <track kind="captions" />
                   </video>
-                  <figcaption className="mt-2 text-center text-xs font-semibold text-slate-500">
+                  <figcaption className="mt-2 text-center text-xs font-semibold text-slate-600">
                     {t.videoLegenda}
                   </figcaption>
                 </figure>
@@ -349,7 +349,7 @@ export default function ConciergePage() {
               <blockquote className="text-sm leading-relaxed text-slate-700">&ldquo;{dep.texto}&rdquo;</blockquote>
               <figcaption className="mt-4 border-t border-slate-100 pt-3">
                 <p className="text-sm font-bold text-slate-900">{dep.autor}</p>
-                <p className="text-xs font-semibold text-slate-500">{dep.evento}</p>
+                <p className="text-xs font-semibold text-slate-600">{dep.evento}</p>
               </figcaption>
             </figure>
           ))}
@@ -421,7 +421,7 @@ export default function ConciergePage() {
               <figure key={foto.src} className="overflow-hidden rounded-brand-lg border border-slate-200">
                 <img src={foto.src} alt={foto.alt} className="aspect-4/3 w-full object-cover" loading="lazy" />
                 {foto.local && (
-                  <figcaption className="px-4 py-3 text-xs font-semibold text-slate-500">{foto.local}</figcaption>
+                  <figcaption className="px-4 py-3 text-xs font-semibold text-slate-600">{foto.local}</figcaption>
                 )}
               </figure>
             ))}
@@ -444,7 +444,7 @@ export default function ConciergePage() {
                       onError={() => setFotosDjOk((m) => ({ ...m, [foto.src]: false }))}
                     />
                     {foto.local && (
-                      <figcaption className="px-4 py-3 text-xs font-semibold text-slate-500">{foto.local}</figcaption>
+                      <figcaption className="px-4 py-3 text-xs font-semibold text-slate-600">{foto.local}</figcaption>
                     )}
                   </figure>
                 )
@@ -528,7 +528,7 @@ export default function ConciergePage() {
               </div>
 
               <fieldset className="rounded-brand-md border border-slate-200 bg-slate-50 p-4">
-                <legend className="px-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-500">
+                <legend className="px-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600">
                   {t.necessidadesLabel}
                 </legend>
                 <div className="mt-1 space-y-2.5">
@@ -576,7 +576,7 @@ export default function ConciergePage() {
             </form>
           )}
 
-          <p className="mt-8 text-center text-xs text-slate-500">
+          <p className="mt-8 text-center text-xs text-slate-600">
             <Link to="/" className="font-semibold text-orange-600 hover:text-orange-700">
               Trancoso Resolve
             </Link>{' '}
@@ -584,11 +584,11 @@ export default function ConciergePage() {
           </p>
           {/* LGPD: esta landing usa layout dedicado (sem o rodapé global do Layout),
               então o link de preferências de cookies vive aqui. */}
-          <p className="mt-3 text-center text-xs text-slate-500">
+          <p className="mt-3 text-center text-xs text-slate-600">
             <button
               type="button"
               onClick={() => window.dispatchEvent(new CustomEvent(CONSENT_REOPEN_EVENT))}
-              className="font-semibold text-slate-500 underline underline-offset-2 hover:text-orange-600 cursor-pointer"
+              className="font-semibold text-slate-600 underline underline-offset-2 hover:text-orange-600 cursor-pointer"
               data-testid="concierge-cookie-preferences"
             >
               {t.labels.cookies}

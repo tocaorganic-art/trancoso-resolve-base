@@ -364,7 +364,7 @@ const ServiceCard = ({ service, provider, image }) => {
                 )}
                 {/* Badge de categoria sobre a imagem */}
                 <div className="absolute top-3 right-3">
-                    <Badge className="bg-orange-500 text-white text-xs font-semibold px-2 py-0.5 shadow-md rounded-pill">
+                    <Badge className="bg-brand-primary text-white text-xs font-semibold px-2 py-0.5 shadow-md rounded-pill">
                         {service.category}
                     </Badge>
                 </div>
@@ -587,7 +587,8 @@ export default function HomePage() {
     (p.tipo_pessoa === 'pj' && !p.tem_ponto_fisico_em_trancoso)
   ).length || 0;
   const vagasRestantes = Math.max(0, 50 - totalPrestadoresVagas);
-  const totalVerificados = allProviders?.filter(p => p.verificado === true || p.status === 'ativo').length || 0;
+  // listPublicProviders já devolve só verificados, com o campo `verified`.
+  const totalVerificados = allProviders?.filter(p => p.verified === true).length || 0;
   const _totalCategorias = 9;
   
   const { data: services, isLoading: isLoadingServices } = useQuery({
@@ -612,7 +613,7 @@ export default function HomePage() {
           className="fixed top-0 left-0 right-0 z-50 flex items-center justify-center bg-orange-50 border-b border-orange-200 transition-all"
           style={{ height: `${Math.min(pullDistance, threshold)}px` }}
         >
-          <div className={`flex items-center gap-2 text-orange-600 text-sm font-medium ${isPulling ? 'animate-spin' : ''}`}>
+          <div className={`flex items-center gap-2 text-orange-700 text-sm font-medium ${isPulling ? 'animate-spin' : ''}`}>
             <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M23 4v6h-6M1 20v-6h6" /><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
             </svg>
@@ -648,7 +649,7 @@ export default function HomePage() {
                 {t('concierge.description')}
               </p>
             </div>
-            <div className="flex sm:w-auto items-center justify-center p-4 sm:p-8 bg-orange-600 hover:bg-orange-700 transition-colors">
+            <div className="flex sm:w-auto items-center justify-center p-4 sm:p-8 bg-brand-primary hover:bg-brand-primary-hover transition-colors">
               <span className="text-sm font-bold text-white whitespace-nowrap">
                 {t('concierge.cta')} →
               </span>
@@ -667,7 +668,7 @@ export default function HomePage() {
                 <div className="flex items-center justify-between mb-6">
                     <h2 className="text-2xl font-bold text-foreground flex items-center gap-2"><BrainCircuit className="w-6 h-6 text-brand-primary" /> {t('home.recommendations')}</h2>
                     <Link to={createPageUrl("ServicosCategoria")}>
-                        <Button variant="ghost" className="text-orange-600 hover:text-orange-700">{t('home.viewAll')}</Button>
+                        <Button variant="ghost" className="text-orange-700 hover:text-orange-700">{t('home.viewAll')}</Button>
                     </Link>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -692,7 +693,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-4 md:mb-6">
             <h2 className="text-lg md:text-2xl font-bold text-foreground leading-tight">{t('home.featuredTitle')}</h2>
             <Link to={createPageUrl("ServicosCategoria")} data-testid="home-ver-todos-servicos-link">
-              <Button variant="ghost" className="text-orange-600 hover:text-orange-700" aria-label={t('homeA11y.viewAllServices')}>
+              <Button variant="ghost" className="text-orange-400 hover:text-orange-300" aria-label={t('homeA11y.viewAllServices')}>
                 {t('home.viewAll')}
               </Button>
             </Link>
@@ -727,7 +728,7 @@ export default function HomePage() {
                 {t('home.noFeaturedDescription')}
               </p>
               <Link to={createPageUrl("ServicosCategoria")}>
-                <Button className="bg-orange-500 hover:bg-orange-600">
+                <Button className="bg-brand-primary hover:bg-brand-primary-hover">
                   {t('home.exploreProviders')}
                 </Button>
               </Link>
@@ -798,7 +799,7 @@ export default function HomePage() {
               {t('home.howTitle')}
             </motion.h2>
           </div>
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-2 -mx-4 px-4 md:mx-0 md:px-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible" tabIndex={0} role="region" aria-label={t('home.howTitle')}>
             {[
               { step: '1', title: t('home.step1Title'), desc: t('home.step1Desc') },
               { step: '2', title: t('home.step2Title'), desc: t('home.step2Desc') },
@@ -955,7 +956,7 @@ export default function HomePage() {
                 <ul className="space-y-2 mb-4">
                   {dest.links.map((link) => (
                     <li key={link.href}>
-                      <Link to={link.href} className="text-orange-600 hover:text-orange-800 text-sm font-medium flex items-center gap-1 group min-h-[48px] py-1">
+                      <Link to={link.href} className="text-orange-700 hover:text-orange-800 text-sm font-medium flex items-center gap-1 group min-h-[48px] py-1">
                         <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                         {t(link.labelKey)} {dest.cidade}
                       </Link>

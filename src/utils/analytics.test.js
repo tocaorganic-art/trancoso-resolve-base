@@ -9,7 +9,7 @@ describe('CompleteRegistration', () => {
     window.gtag = vi.fn();
   });
 
-  it.each(['cliente', 'prestador'])('dispara uma vez no primeiro cadastro de %s', (userType) => {
+  it.each(['cliente', 'prestador', 'lojista'])('dispara uma vez no primeiro cadastro de %s', (userType) => {
     const user = { user_type: 'indefinido' };
     let alreadyTracked = false;
 
@@ -23,7 +23,14 @@ describe('CompleteRegistration', () => {
     expect(signUps).toHaveLength(1);
   });
 
-  it.each(['cliente', 'prestador'])('não repete em retorno, login ou troca de tipo de %s', (userType) => {
+  it('cadastro de lojista envia user_type lojista no GA4', () => {
+    trackFirstRegistration({ user_type: 'indefinido' }, 'lojista', false);
+
+    const signUp = window.gtag.mock.calls.find(([, event]) => event === 'sign_up');
+    expect(signUp?.[2]).toMatchObject({ user_type: 'lojista' });
+  });
+
+  it.each(['cliente', 'prestador', 'lojista'])('não repete em retorno, login ou troca de tipo de %s', (userType) => {
     const alreadyRegistered = { user_type: userType };
 
     expect(trackFirstRegistration(alreadyRegistered, userType, false)).toBe(false);

@@ -289,7 +289,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
                   <label htmlFor="doc-upload"
                     className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all">
                     <FileImage className="w-10 h-10 text-slate-300 mb-2" />
-                    <span className="text-sm font-medium text-slate-500">Clique para selecionar a foto</span>
+                    <span className="text-sm font-medium text-slate-600">Clique para selecionar a foto</span>
                     <span className="text-xs text-slate-400 mt-1">JPG, PNG ou PDF (máx. 10MB)</span>
                     <input id="doc-upload" type="file" accept="image/*,application/pdf" className="hidden" onChange={handleFileChange} />
                   </label>
@@ -314,7 +314,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
                     <label htmlFor="doc-frente"
                       className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all">
                       <FileImage className="w-8 h-8 text-slate-300 mb-1" />
-                      <span className="text-sm font-medium text-slate-500">Frente</span>
+                      <span className="text-sm font-medium text-slate-600">Frente</span>
                       <input id="doc-frente" type="file" accept="image/*,application/pdf" className="hidden" onChange={handleFrenteChange} />
                     </label>
                   )}
@@ -336,7 +336,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
                     <label htmlFor="doc-verso"
                       className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-slate-300 rounded-xl cursor-pointer hover:border-amber-400 hover:bg-amber-50 transition-all">
                       <FileImage className="w-8 h-8 text-slate-300 mb-1" />
-                      <span className="text-sm font-medium text-slate-500">Verso</span>
+                      <span className="text-sm font-medium text-slate-600">Verso</span>
                       <input id="doc-verso" type="file" accept="image/*,application/pdf" className="hidden" onChange={handleVersoChange} />
                     </label>
                   )}
@@ -384,7 +384,7 @@ export default function VerificarIdentidadeModal({ isOpen, onClose, user, onSucc
               <Button
                 onClick={handleSubmit}
                 disabled={isSubmitting || !isFormValid() || !provider?.id}
-                className="flex-1 bg-amber-600 hover:bg-amber-700 text-white"
+                className="flex-1 bg-amber-700 hover:bg-amber-800 text-white"
               >
                 {isSubmitting ? (
                   <>

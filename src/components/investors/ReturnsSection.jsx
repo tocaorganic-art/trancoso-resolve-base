@@ -12,14 +12,14 @@ export default function ReturnsSection() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {r.phases.map((p) => (
           <div key={p.range} className="rounded-brand-lg bg-card border border-border p-5 text-center">
-            <p className="text-2xl font-display font-extrabold text-orange-700">{p.range}</p>
+            <p className="text-2xl font-display font-extrabold text-orange-400">{p.range}</p>
             <p className="mt-1 text-xs text-muted-foreground leading-snug">{p.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="rounded-brand-lg border border-[#D7382B]/25 bg-[#D7382B]/5 p-6 mb-8">
-        <p className="flex items-center gap-2 font-bold text-[#D7382B] mb-2">
+      <div className="rounded-brand-lg border border-[#D7382B]/25 bg-[#FF7A6B]/5 p-6 mb-8">
+        <p className="flex items-center gap-2 font-bold text-[#FF7A6B] mb-2">
           <AlertTriangle className="w-5 h-5" /> {r.body}
         </p>
       </div>

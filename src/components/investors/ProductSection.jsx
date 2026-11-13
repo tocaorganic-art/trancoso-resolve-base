@@ -16,10 +16,10 @@ export default function ProductSection() {
           return (
             <div key={s.n} className="rounded-brand-lg border border-border bg-card p-6">
               <div className="flex items-center gap-3 mb-3">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-primary/10 text-orange-700">
+                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-primary/10 text-orange-400">
                   <Icon className="w-5 h-5" />
                 </span>
-                <span className="text-xs font-bold text-muted-foreground/60">{s.n}</span>
+                <span className="text-xs font-bold text-muted-foreground/80">{s.n}</span>
               </div>
               <h3 className="font-bold text-foreground mb-1.5">{s.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
@@ -34,7 +34,7 @@ export default function ProductSection() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {p.journey.map((j) => (
             <div key={j.n} className="rounded-brand-md bg-sand/50 dark:bg-neutral-900 border border-border p-5">
-              <span className="text-xs font-bold text-orange-700">{j.n}</span>
+              <span className="text-xs font-bold text-orange-400">{j.n}</span>
               <h4 className="font-bold text-foreground mt-1">{j.title}</h4>
               <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{j.desc}</p>
             </div>

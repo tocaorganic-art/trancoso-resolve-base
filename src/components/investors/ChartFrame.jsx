@@ -102,7 +102,7 @@ export default function ChartFrame({
                     ? 'border-current opacity-100'
                     : 'border-border opacity-40'
                   }`}
-                style={{ color: active ? s.color : undefined }}
+                style={{ color: active ? (s.colorDark || s.color) : undefined }}
               >
                 <span
                   aria-hidden="true"
@@ -164,7 +164,7 @@ export default function ChartFrame({
 
       {/* Fonte */}
       {source && (
-        <p className="text-xs text-muted-foreground/60 italic border-t border-border pt-2">
+        <p className="text-xs text-muted-foreground/80 italic border-t border-border pt-2">
           Fonte: {source}
         </p>
       )}

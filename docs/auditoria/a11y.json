@@ -1,0 +1,300 @@
+{
+  "baseUrl": "http://localhost:4173",
+  "geradoEm": "2026-11-12T02:13:25.543Z",
+  "totalGraves": 20,
+  "erros": 0,
+  "resultados": [
+    {
+      "rota": "/",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 11,
+          "exemplo": "button[data-testid=\"login-button\"]"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/servicos",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 8,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/seja-prestador",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 15,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/planos",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 7,
+          "exemplo": ".py-2\\.5.bg-orange-500.shadow"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/login",
+      "viewport": "desktop",
+      "violacoes": [],
+      "erro": null
+    },
+    {
+      "rota": "/register",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 2,
+          "exemplo": ".mt-6"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/investidores",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 50,
+          "exemplo": ".bg-brand-primary.text-white.px-2\\.5"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/contato",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 8,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/ajuda",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 7,
+          "exemplo": "button[data-testid=\"login-button\"]"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/servicos/eletricista-trancoso",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 8,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/servicos/diarista-trancoso",
+      "viewport": "desktop",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 8,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 11,
+          "exemplo": "button[data-testid=\"login-button\"]"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/servicos",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 8,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/seja-prestador",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 23,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/planos",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 3,
+          "exemplo": ".py-2\\.5.bg-orange-500.shadow"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/login",
+      "viewport": "mobile",
+      "violacoes": [],
+      "erro": null
+    },
+    {
+      "rota": "/register",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 2,
+          "exemplo": ".mt-6"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/investidores",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 48,
+          "exemplo": ".shadow-brand"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/contato",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 7,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/ajuda",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 7,
+          "exemplo": "button[data-testid=\"login-button\"]"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/servicos/eletricista-trancoso",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 8,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    },
+    {
+      "rota": "/servicos/diarista-trancoso",
+      "viewport": "mobile",
+      "violacoes": [
+        {
+          "id": "color-contrast",
+          "impacto": "serious",
+          "ajuda": "Elements must meet minimum color contrast ratio thresholds",
+          "nos": 8,
+          "exemplo": ".bg-brand-primary"
+        }
+      ],
+      "erro": null
+    }
+  ]
+}

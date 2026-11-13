@@ -51,6 +51,15 @@ function validateDocUrl(rawUrl: string): { ok: true; url: URL } | { ok: false; r
   return { ok: true, url: parsed };
 }
 
+const soDigitos = (v: unknown): string => String(v ?? "").replace(/\D/g, "");
+
+/** CPF mascarado para logs, relatório e resposta: ***.456.789-** */
+function mascararCpf(v: unknown): string {
+  const d = soDigitos(v);
+  if (d.length !== 11) return "***.***.***-**";
+  return `***.${d.slice(3, 6)}.${d.slice(6, 9)}-**`;
+}
+
 Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -192,12 +201,65 @@ Deno.serve(async (req: Request) => {
       }, { status: 422 });
     }
 
-    // 4. Atualizar o ServiceProvider com os dados extraídos
+    // Encaminha para análise manual sem aprovar nada (resposta 422).
+    const encaminharManual = async (msg: string, motivo: string) => {
+      await base44.asServiceRole.entities.ServiceProvider.update(serviceProviderId, {
+        status_verificacao: "em_analise_manual",
+        relatorio_verificacao: msg,
+      });
+      await base44.asServiceRole.entities.Verificacao.update(verificacao_id, {
+        status: "em_analise_manual",
+        relatorio_completo: msg,
+      });
+      return Response.json({ success: false, error: msg, status: "em_analise_manual", motivo }, { status: 422 });
+    };
+
+    // 4. Validação cruzada Cadastro x OCR. CPF e nascimento obrigatórios vivem só no
+    // ServiceProviderPrivate (LGPD) e são a fonte de verdade; o OCR apenas confirma.
+    let privRow: any = null;
+    let privLeituraFalhou = false;
+    try {
+      const privRows = await base44.asServiceRole.entities.ServiceProviderPrivate.filter({ service_provider_id: serviceProviderId });
+      privRow = privRows?.[0] ?? null;
+    } catch (privErr) {
+      privLeituraFalhou = true;
+      console.warn("[analisarDocumento] ServiceProviderPrivate não lido:", (privErr as Error).message);
+    }
+
+    const cpfCadastro = soDigitos(privRow?.cpf);
+    const nascimentoCadastro = String(privRow?.data_nascimento ?? "").slice(0, 10);
+    if (privLeituraFalhou || cpfCadastro.length !== 11 || !/^\d{4}-\d{2}-\d{2}$/.test(nascimentoCadastro)) {
+      return await encaminharManual(
+        "Cadastro sem CPF e data de nascimento obrigatórios, encaminhado para análise manual.",
+        "cadastro_incompleto",
+      );
+    }
+
+    // O OCR sem data legível segue para o guarda de análise manual mais abaixo.
+    const divergeCpf = soDigitos(cpfExtraido) !== cpfCadastro;
+    const divergeNascimento = Boolean(birthdateIso) && birthdateIso !== nascimentoCadastro;
+    if (divergeCpf || divergeNascimento) {
+      return await encaminharManual(
+        "Divergência documental: os dados do documento enviado não conferem com o cadastro, encaminhado para análise manual.",
+        "divergencia_documental",
+      );
+    }
+
+    // Dados do cadastro nunca são sobrescritos: só complementa o que está vazio (nome da mãe).
+    if (nomeMaeExtraido && !String(privRow?.nome_mae ?? "").trim()) {
+      try {
+        await base44.asServiceRole.entities.ServiceProviderPrivate.update(privRow.id, { nome_mae: nomeMaeExtraido });
+      } catch (privErr) {
+        console.warn("[analisarDocumento] nome_mae não gravado:", (privErr as Error).message);
+      }
+    }
+    const nomeMaeConsulta = String(privRow?.nome_mae ?? "").trim() || nomeMaeExtraido;
+    const cpfMascarado = mascararCpf(cpfCadastro);
+
+    // 4b. Atualizar o ServiceProvider público (sem dados sensíveis)
+
     const providerUpdate: Record<string, any> = {
-      cpf: cpfExtraido,
       full_name: nomeExtraido,
-      data_nascimento: birthdateIso,
-      nome_mae: nomeMaeExtraido,
       cnh_numero: registroCnh,
       cnh_categoria: categoriaCnh,
       cnh_validade: validadeCnh,
@@ -213,7 +275,7 @@ Deno.serve(async (req: Request) => {
       ocr_status: "concluido",
       ocr_resultado: JSON.stringify({
         nome: nomeExtraido,
-        cpf: cpfExtraido,
+        cpf: cpfMascarado,
         nascimento: nascimentoExtraido,
         filiacao: filiacaoExtraida,
         validade: validadeCnh,
@@ -222,15 +284,29 @@ Deno.serve(async (req: Request) => {
       documento_autenticado: true,
     });
 
+    // Sem data de nascimento a consulta não pode ser feita: encaminha para análise manual, sem falhar.
+    if (!birthdateIso) {
+      const msgManual = "Data de nascimento não extraída da CNH, encaminhado para análise manual.";
+      await base44.asServiceRole.entities.ServiceProvider.update(serviceProviderId, {
+        status_verificacao: "em_analise_manual",
+        relatorio_verificacao: msgManual,
+      });
+      await base44.asServiceRole.entities.Verificacao.update(verificacao_id, {
+        status: "em_analise_manual",
+        relatorio_completo: msgManual,
+      });
+      return Response.json({ success: false, error: msgManual, status: "em_analise_manual" }, { status: 422 });
+    }
+
     // 6. Chamar a API de Antecedentes Criminais com os dados extraídos
     const antecedentesUrl = "https://api.infosimples.com/api/v2/consultas/antecedentes-criminais/pf/emit";
     const antecedentesParams = new URLSearchParams();
     antecedentesParams.append("token", token);
     antecedentesParams.append("nome", nomeExtraido);
-    antecedentesParams.append("birthdate", birthdateIso);
-    antecedentesParams.append("cpf", cpfExtraido);
+    antecedentesParams.append("birthdate", nascimentoCadastro);
+    antecedentesParams.append("cpf", cpfCadastro);
     antecedentesParams.append("timeout", "120");
-    if (nomeMaeExtraido) antecedentesParams.append("nome_mae", nomeMaeExtraido);
+    if (nomeMaeConsulta) antecedentesParams.append("nome_mae", nomeMaeConsulta);
 
     const antecedentesResponse = await fetch(antecedentesUrl, {
       method: "POST",
@@ -252,10 +328,10 @@ Deno.serve(async (req: Request) => {
 
       if (nadaConsta) {
         statusVerificacao = "aprovado";
-        relatorioVerificacao = `✅ VERIFICAÇÃO COMPLETA: APROVADO\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\nNascimento: ${nascimentoExtraido}\nCNH: ${registroCnh} (${categoriaCnh})\n\n🔍 ANTECEDENTES CRIMINAIS: NADA CONSTA\nCertidão nº: ${certidaoNumero}\nValidade: ${certidaoValidade}`;
+        relatorioVerificacao = `✅ VERIFICAÇÃO COMPLETA: APROVADO\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfMascarado}\nNascimento: ${nascimentoExtraido}\nCNH: ${registroCnh} (${categoriaCnh})\n\n🔍 ANTECEDENTES CRIMINAIS: NADA CONSTA\nCertidão nº: ${certidaoNumero}\nValidade: ${certidaoValidade}`;
       } else {
         statusVerificacao = "em_analise_manual";
-        relatorioVerificacao = `⚠️ VERIFICAÇÃO: ANÁLISE MANUAL NECESSÁRIA\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\n\n🔍 ANTECEDENTES CRIMINAIS: REGISTROS ENCONTRADOS\nMensagem: ${mensagem}\nCertidão nº: ${certidaoNumero}`;
+        relatorioVerificacao = `⚠️ VERIFICAÇÃO: ANÁLISE MANUAL NECESSÁRIA\n\n📄 CNH: Validada via OCR\nNome: ${nomeExtraido}\nCPF: ${cpfMascarado}\n\n🔍 ANTECEDENTES CRIMINAIS: REGISTROS ENCONTRADOS\nMensagem: ${mensagem}\nCertidão nº: ${certidaoNumero}`;
       }
 
       // Atualizar prestador com resultado
@@ -279,7 +355,7 @@ Deno.serve(async (req: Request) => {
     } else {
       // Erro na consulta de antecedentes — OCR foi bem, mas antecedentes falhou
       const saldoErro = (antecedentesData.errors || []).some((e: string) => e.toLowerCase().includes("saldo"));
-      relatorioVerificacao = `📄 CNH: Validada via OCR ✅\nNome: ${nomeExtraido}\nCPF: ${cpfExtraido}\nNascimento: ${nascimentoExtraido}\n\n🔍 ANTECEDENTES: Erro na consulta (code ${antecedentesData.code})\n${antecedentesData.code_message}\n${saldoErro ? "⚠️ Conta Infosimples sem saldo." : ""}`;
+      relatorioVerificacao = `📄 CNH: Validada via OCR ✅\nNome: ${nomeExtraido}\nCPF: ${cpfMascarado}\nNascimento: ${nascimentoExtraido}\n\n🔍 ANTECEDENTES: Erro na consulta (code ${antecedentesData.code})\n${antecedentesData.code_message}\n${saldoErro ? "⚠️ Conta Infosimples sem saldo." : ""}`;
 
       await base44.asServiceRole.entities.ServiceProvider.update(serviceProviderId, {
         status_verificacao: "em_analise_manual",
@@ -301,7 +377,7 @@ Deno.serve(async (req: Request) => {
       provider_id: serviceProviderId,
       ocr_resultado: {
         nome: nomeExtraido,
-        cpf: cpfExtraido,
+        cpf: cpfMascarado,
         nascimento: nascimentoExtraido,
         filiacao: filiacaoExtraida,
         validade_cnh: validadeCnh,

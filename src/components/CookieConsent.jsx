@@ -67,7 +67,7 @@ export default function CookieConsent() {
             </Button>
             <Button
               onClick={handleAccept}
-              className="bg-orange-600 hover:bg-orange-700 text-sm"
+              className="bg-brand-primary hover:bg-brand-primary-hover text-sm"
             >
               {t('cookie.accept')}
             </Button>

@@ -18,7 +18,7 @@ const NODES = [
     id: 'clientes',
     label: 'Clientes',
     emoji: '🏠',
-    color: '#E8571A',
+    color: '#C1440E',
     angle: -90,
     value: 'Proprietários de villas, pousadas e moradores locais que precisam de serviços verificados e rápidos.',
   },
@@ -83,8 +83,8 @@ export default function EcosystemViz() {
     <div ref={ref} className="space-y-6">
       {/* Desktop SVG */}
       <div className="hidden md:grid md:grid-cols-2 gap-6 items-center">
-        <div aria-label="Ecossistema Trancoso Resolve, interativo" role="img">
-          <svg viewBox="0 0 400 400" className="w-full max-w-sm mx-auto" aria-hidden="true">
+        <div aria-label="Ecossistema Trancoso Resolve, interativo" role="group">
+          <svg viewBox="0 0 400 400" className="w-full max-w-sm mx-auto" role="group" aria-label="Ecossistema Trancoso Resolve">
             {/* Linhas de conexão */}
             {NODES.map((node, i) => {
               const pos = polarToXY(node.angle, R);
@@ -112,14 +112,14 @@ export default function EcosystemViz() {
             {/* Hub central */}
             <motion.circle
               cx={CX} cy={CY} r={38}
-              fill="#E8571A" fillOpacity={0.12}
-              stroke="#E8571A" strokeWidth={1.5}
+              fill="#C1440E" fillOpacity={0.12}
+              stroke="#C1440E" strokeWidth={1.5}
               initial={{ scale: 0, opacity: 0 }}
               animate={inView ? { scale: 1, opacity: 1 } : {}}
               transition={{ duration: reduced ? 0 : 0.4 }}
             />
-            <text x={CX} y={CY - 5} textAnchor="middle" fontSize={10} fontWeight={700} fill="#E8571A">Trancoso</text>
-            <text x={CX} y={CY + 10} textAnchor="middle" fontSize={10} fontWeight={700} fill="#E8571A">Resolve</text>
+            <text x={CX} y={CY - 5} textAnchor="middle" fontSize={10} fontWeight={700} fill="#C1440E">Trancoso</text>
+            <text x={CX} y={CY + 10} textAnchor="middle" fontSize={10} fontWeight={700} fill="#C1440E">Resolve</text>
 
             {/* Nós */}
             {NODES.map((node, i) => {

@@ -49,7 +49,7 @@ class ErrorBoundary extends React.Component {
               <p className="text-slate-600 mb-2">
                 Encontramos um erro inesperado. Estamos trabalhando para resolver.
               </p>
-              <p className="text-xs text-slate-500 mb-6">
+              <p className="text-xs text-slate-600 mb-6">
                 ID do erro: <code className="bg-slate-100 px-2 py-1 rounded">{errorId}</code>
               </p>
               

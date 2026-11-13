@@ -77,7 +77,7 @@ export default function NetworkMonitor({ onResults }) {
     resourceCount.totalSize = totalSize;
     setResources(resourceCount);
 
-    console.log('🌐 Network Info:', {
+    if (import.meta.env.DEV) console.log('🌐 Network Info:', {
       Type: networkInfo.effectiveType,
       Downlink: `${networkInfo.downlink} Mbps`,
       RTT: `${networkInfo.rtt}ms`,
@@ -183,7 +183,7 @@ export default function NetworkMonitor({ onResults }) {
               <span className="text-sm font-semibold">Total</span>
               <div className="text-right">
                 <p className="font-mono font-bold text-lg">{resources.total}</p>
-                <p className="text-xs text-slate-500">{formatBytes(resources.totalSize)}</p>
+                <p className="text-xs text-slate-600">{formatBytes(resources.totalSize)}</p>
               </div>
             </div>
           </div>

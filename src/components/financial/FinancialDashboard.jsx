@@ -39,7 +39,7 @@ export default function FinancialDashboard({ payments }) {
         <CardContent className="p-8 text-center">
           <AlertCircle className="w-12 h-12 text-slate-400 mx-auto mb-4" />
           <p className="text-slate-600">Nenhum recebimento confirmado pela plataforma ainda.</p>
-          <p className="text-sm text-slate-500 mt-2">Os valores recebidos via Asaas aparecerão aqui.</p>
+          <p className="text-sm text-slate-600 mt-2">Os valores recebidos via Asaas aparecerão aqui.</p>
         </CardContent>
       </Card>
     );

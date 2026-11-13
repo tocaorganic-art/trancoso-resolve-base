@@ -67,9 +67,11 @@
      ============================================================ */
 
   /* Brand */
-  --brand-primary:        var(--orange-500);
-  --brand-primary-hover:  var(--orange-600);
-  --brand-primary-press:  var(--orange-700);
+  /* #C1440E (terracota do kit) em vez de #E8571A: branco sobre #E8571A dá 3.6:1
+     e reprova no AA; sobre #C1440E dá 5.1:1. Aprovado por Tony em 12/11/2026. */
+  --brand-primary:        var(--orange-700);
+  --brand-primary-hover:  var(--orange-800);
+  --brand-primary-press:  #762E11;
   --brand-secondary:      var(--olive-500);
   --brand-secondary-hover:var(--olive-600);
   --brand-accent:         var(--terracotta);

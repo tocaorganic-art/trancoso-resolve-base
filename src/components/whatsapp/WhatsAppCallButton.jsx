@@ -76,7 +76,7 @@ function ContactModal({ providerName, whatsappPrestador, whatsappCliente, onClos
                 href={linkPrestador}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors"
+                className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg text-sm transition-colors"
                 aria-label={`Abrir conversa no WhatsApp com ${providerName}`}
               >
                 <MessageCircle className="w-4 h-4" />
@@ -88,7 +88,7 @@ function ContactModal({ providerName, whatsappPrestador, whatsappCliente, onClos
           {/* Número do cliente */}
           {whatsappCliente && (
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">
+              <p className="text-xs font-semibold text-slate-600 uppercase tracking-wide mb-1">
                 Seu número que o prestador verá
               </p>
               <p className="text-base text-slate-700">{whatsappCliente}</p>
@@ -175,7 +175,7 @@ export default function WhatsAppCallButton({ provider, className = "", size = "d
   // Não logado: exibe aviso com link de login
   if (!user) {
     return (
-      <p className="text-sm text-slate-500 text-center">
+      <p className="text-sm text-slate-600 text-center">
         <button
           onClick={() => { sessionStorage.setItem('loginTimestamp', Date.now().toString()); base44.auth.redirectToLogin(window.location.href); }}
           className="text-blue-600 underline hover:text-blue-800 font-medium"
@@ -208,7 +208,7 @@ export default function WhatsAppCallButton({ provider, className = "", size = "d
         aria-label={`Chamar prestador ${provider?.full_name} no WhatsApp`}
         className={`${
           isProviderActive
-            ? 'bg-green-500 hover:bg-green-600 text-white'
+            ? 'bg-green-500 hover:bg-green-700 text-white'
             : 'bg-slate-200 text-slate-400 cursor-not-allowed'
         } ${className}`}
         title={

@@ -16,7 +16,7 @@ const PERIOD_OPTIONS = [
 ];
 
 const LINE_COLORS = [
-  '#E8571A', '#C1440E', '#6B7C3A', '#E59A12',
+  '#C1440E', '#C1440E', '#6B7C3A', '#E59A12',
   '#3E8E5A', '#D7382B', '#2D7D8A', '#b85c0a',
 ];
 
@@ -276,7 +276,7 @@ export default function SeoDashboard() {
                     <XAxis type="number" tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />
                     <YAxis type="category" dataKey="page" tick={{ fill: 'var(--muted-foreground)', fontSize: 11 }} width={160} />
                     <Tooltip contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8 }} />
-                    <Bar dataKey="clicks" fill="#E8571A" radius={[0, 4, 4, 0]} />
+                    <Bar dataKey="clicks" fill="#C1440E" radius={[0, 4, 4, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>

@@ -83,7 +83,7 @@ export default function ProviderGrid({
                             </Button>
                         )}
                         <Link to={createPageUrl("SejaPrestador")}>
-                            <Button className="bg-amber-600 hover:bg-amber-700 text-white gap-2">
+                            <Button className="bg-amber-700 hover:bg-amber-800 text-white gap-2">
                                 <Star className="w-4 h-4" /> Seja o Primeiro!
                             </Button>
                         </Link>

@@ -26,7 +26,7 @@ export default function CTAPrestador({ vagasRestantes = 0 }) {
             {t('providerCta.description')}
           </p>
           <Link to="/SejaPrestador">
-            <Button className="bg-white text-orange-600 hover:bg-orange-50 font-bold px-6 py-3 rounded-pill shadow-warm-md transition-all hover:scale-105">
+            <Button className="bg-white text-orange-700 hover:bg-orange-50 font-bold px-6 py-3 rounded-pill shadow-warm-md transition-all hover:scale-105">
               {t('providerCta.cta')} <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
           </Link>

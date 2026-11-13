@@ -15,7 +15,7 @@ export default function InvestorNav() {
   return (
     <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-sm border-b border-border">
       <div className="container mx-auto px-4 max-w-6xl h-16 flex items-center justify-between gap-4">
-        <a href="/investidores" className="shrink-0">
+        <a href="/investidores" className="shrink-0" aria-label="Trancoso Resolve, investidores">
           <Logo className="h-9" />
         </a>
 
@@ -24,7 +24,7 @@ export default function InvestorNav() {
             <button
               key={s.id}
               onClick={() => scrollTo(s.id)}
-              className="px-3 py-2 text-sm font-semibold text-muted-foreground hover:text-orange-700 transition-colors whitespace-nowrap"
+              className="px-3 py-2 text-sm font-semibold text-muted-foreground hover:text-orange-400 transition-colors whitespace-nowrap"
             >
               {s.label}
             </button>

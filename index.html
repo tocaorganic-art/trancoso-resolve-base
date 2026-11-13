@@ -34,7 +34,7 @@
     <!-- Primary SEO -->
     <meta name="google" content="notranslate" />
     <title>Trancoso Resolve | Profissionais Verificados em Trancoso</title>
-    <meta name="description" content="Encontre profissionais verificados em Trancoso: diaristas, pedreiros, jardineiros e mais. Atendimento rápido para villas, pousadas e moradores." />
+    <meta name="description" content="Profissionais verificados em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva. Diaristas, eletricistas, jardineiros e pedreiros." />
     <meta name="keywords" content="serviços Trancoso Bahia, diarista Trancoso, eletricista Trancoso, piscineiro Trancoso, cozinheiro particular Trancoso, jardineiro Trancoso, profissionais verificados Trancoso, villa Trancoso serviços, pousada Trancoso funcionários, Toca Concierge, Trancoso Resolve" />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
     <meta name="author" content="Trancoso Resolve" />
@@ -57,7 +57,7 @@
     <meta property="og:site_name" content="Trancoso Resolve" />
     <meta property="og:url" content="https://trancosoresolve.com.br/" />
     <meta property="og:title" content="Trancoso Resolve | Profissionais Verificados para Residências de Luxo em Trancoso, BA" />
-    <meta property="og:description" content="Contrate diarista, eletricista, piscineiro e outros profissionais verificados em Trancoso. Plataforma premium com IA integrada, análise de antecedentes e avaliações reais." />
+    <meta property="og:description" content="Contrate diarista, eletricista, piscineiro e outros profissionais verificados em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva. Plataforma premium com IA integrada, análise de antecedentes e avaliações reais." />
     <meta property="og:image" content="https://trancosoresolve.com.br/brand/tr-og-link-1200x630.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -68,31 +68,43 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@trancosoresolve" />
     <meta name="twitter:title" content="Trancoso Resolve | Profissionais Verificados em Trancoso" />
-    <meta name="twitter:description" content="Encontre profissionais verificados em Trancoso: diaristas, pedreiros, jardineiros e mais. Atendimento rápido para villas, pousadas e moradores." />
+    <meta name="twitter:description" content="Profissionais verificados em Trancoso, Arraial d'Ajuda, Porto Seguro e Caraíva. Diaristas, eletricistas, jardineiros e pedreiros." />
     <meta name="twitter:image" content="https://media.base44.com/images/public/68eb21726a9614db4a82ba99/322d721b1_tocaapresenta.jpg" />
 
-    <!-- Performance: Preconnect to third-party origins -->
+    <!-- Performance: Preconnect às únicas origens de terceiros usadas no carregamento inicial -->
     <link rel="preconnect" href="https://media.base44.com" crossorigin />
-    <link rel="preconnect" href="https://base44.app" crossorigin />
+    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/Nunito-VariableFont_wght.woff2" />
     <link rel="preload" as="image" fetchpriority="high" media="(min-width: 641px)" href="https://media.base44.com/images/public/6a0754c82a7c1aae19211408/143638e7a_banner_v8_1_desk.webp" />
     <link rel="preload" as="image" fetchpriority="high" media="(max-width: 640px)" href="https://media.base44.com/images/public/6a0754c82a7c1aae19211408/754f59466_banner_v8_1_mob.webp" />
-    <link rel="preconnect" href="https://files.manuscdn.com" crossorigin />
-    <link rel="preconnect" href="https://ui-avatars.com" crossorigin />
-    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="preconnect" href="https://connect.facebook.net" crossorigin />
-    <link rel="preconnect" href="https://unpkg.com" crossorigin />
     <link rel="dns-prefetch" href="https://media.base44.com" />
-    <link rel="dns-prefetch" href="https://files.manuscdn.com" />
     <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://connect.facebook.net" />
-    <link rel="dns-prefetch" href="https://unpkg.com" />
-
-    <!-- Preconnect + Preload hero /SejaPrestador -->
-    <link rel="preconnect" href="https://base44.app" crossorigin />
 
     <!-- Google tag (gtag.js) — Google Ads 714-209-2343 / conversão STANDARD_LEAD -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3KF75243B4"></script>
+    <!-- gtag.js carrega depois da primeira pintura: o dataLayer já enfileira os eventos
+         e o Consent Mode é aplicado assim que o script chega. Antes ele baixava 193 KB
+         no caminho crítico e atrasava o LCP. (Rodada de performance 12/11/2026) -->
+    <script>
+      (function () {
+        var carregado = false;
+        function carregarGtag() {
+          if (carregado) return;
+          carregado = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=G-3KF75243B4';
+          document.head.appendChild(s);
+        }
+        if (document.readyState === 'complete') {
+          setTimeout(carregarGtag, 1200);
+        } else {
+          window.addEventListener('load', function () { setTimeout(carregarGtag, 1200); }, { once: true });
+        }
+        ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (ev) {
+          window.addEventListener(ev, carregarGtag, { once: true, passive: true });
+        });
+      })();
+    </script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}

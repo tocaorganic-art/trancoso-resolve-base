@@ -38,8 +38,9 @@ Deno.serve(async (req: Request) => {
 
     // Suporta payload direto ({service_provider_id}) e payload de automação
     // On Create ({event: {entity_id}, data: {registro criado}})
+    // Gatilho em ServiceProviderPrivate: body.data.id é o id do registro privado, não do prestador.
     const service_provider_id =
-      body.service_provider_id || body.data?.id || body.event?.entity_id;
+      body.service_provider_id || body.data?.service_provider_id || body.data?.id || body.event?.entity_id;
 
     if (!service_provider_id) {
       return Response.json({ error: "service_provider_id é obrigatório" }, { status: 400 });
@@ -106,21 +107,44 @@ Deno.serve(async (req: Request) => {
       }
     }
 
-    const cpf = (provider as any).cpf || (provider as any).document_number;
+    // CPF, nascimento e nome da mãe ficam em ServiceProviderPrivate (LGPD); ServiceProvider é fallback da transição.
+    let priv: any = {};
+    try {
+      const privRows = await base44.asServiceRole.entities.ServiceProviderPrivate.filter({ service_provider_id });
+      priv = privRows?.[0] ?? {};
+    } catch {
+      priv = {};
+    }
+    const cpf = priv.cpf || (provider as any).cpf || (provider as any).document_number;
     const nome = (provider as any).full_name || (provider as any).name;
-    const birthdate = (provider as any).data_nascimento || (provider as any).birthdate;
-    const nome_mae = (provider as any).nome_mae || (provider as any).mother_name;
+    const birthdate = priv.data_nascimento || (provider as any).data_nascimento || (provider as any).birthdate;
+    const nome_mae = priv.nome_mae || (provider as any).nome_mae || (provider as any).mother_name;
     const nome_pai = (provider as any).nome_pai || (provider as any).father_name;
     const uf_nascimento = (provider as any).uf_nascimento || (provider as any).birth_state || "BA";
 
-    // Autorização concedida mas dados incompletos (automação): análise manual,
-    // nunca falha em silêncio.
-    if (isInternal && (provider as any).autorizou_verificacao === true && (!cpf || !birthdate)) {
+    // Consulta paga (Infosimples) desligada por padrão: só roda com INFOSIMPLES_CONSULTA_ATIVA=true.
+    const consultaPagaAtiva = Deno.env.get("INFOSIMPLES_CONSULTA_ATIVA") === "true";
+    if (!consultaPagaAtiva) {
+      if ((provider as any).autorizou_verificacao !== true) {
+        return Response.json({ error: "Consulta de antecedentes desativada" }, { status: 503 });
+      }
+    }
+
+    // Autorização concedida mas dados incompletos, PJ ou consulta desligada: análise manual,
+    // nunca falha em silêncio e nunca chega à chamada paga.
+    const isPessoaFisica = (provider as any).tipo_pessoa !== "pj";
+    const encaminharManual = !consultaPagaAtiva || !isPessoaFisica || !cpf || !birthdate;
+    if ((provider as any).autorizou_verificacao === true && encaminharManual) {
+      const motivoManual = !isPessoaFisica
+        ? "Cadastro PJ, encaminhado para análise manual."
+        : !cpf
+          ? "CPF ausente no cadastro, encaminhado para análise manual."
+          : !birthdate
+            ? "Data de nascimento ausente no cadastro, encaminhado para análise manual."
+            : "Consulta automática desativada, encaminhado para análise manual.";
       await base44.asServiceRole.entities.ServiceProvider.update(service_provider_id, {
         status_verificacao: "em_analise_manual",
-        relatorio_verificacao: !cpf
-          ? "CPF ausente no cadastro, encaminhado para análise manual."
-          : "Data de nascimento ausente no cadastro, encaminhado para análise manual.",
+        relatorio_verificacao: motivoManual,
         data_verificacao: new Date().toISOString(),
       });
       const pendentes = await base44.asServiceRole.entities.Verificacao.filter({

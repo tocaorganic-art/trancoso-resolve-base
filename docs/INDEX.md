@@ -7,6 +7,7 @@ Index of this folder. Each document links back here; add a line when you add a f
 - [Relatório de implementação — automação de comunicação e leads](automacao-relatorio-codex.md)
 - [Bug — Tarefas em segundo plano travadas consumindo tokens](bug-tarefas-segundo-plano.md)
 - [Falha de Publicação — "Failed to publish app assets to S3"](FALHA-PUBLICACAO-S3.md)
+- [Handoff para o Claude — o que foi feito e o que falta](HANDOFF-CLAUDE.md)
 - [HeyGen — Tony Monteiro Avatar](HEYGEN_TONY_AVATAR.md)
 - [INVENTÁRIO COMPLETO DE TOKENS — Trancoso Resolve & MCC](INVENTARIO-TOKENS.md)
 - `lista-leads-prestadores.confidencial.md` — lista de leads reais (nomes/emails) citada pelo plano de recrutamento abaixo; **bloqueada de propósito pelo `.gitignore`** (`*.confidencial.md`), por isso não tem link clicável aqui — existe só localmente, nunca no GitHub

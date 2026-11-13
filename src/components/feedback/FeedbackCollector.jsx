@@ -16,7 +16,7 @@ export default function FeedbackCollector() {
   const submitFeedbackMutation = useMutation({
     mutationFn: async (feedbackData) => {
       // In production, this would save to a Feedback entity
-      console.log('Feedback submitted:', feedbackData);
+      if (import.meta.env.DEV) console.log('Feedback submitted:', feedbackData);
       return feedbackData;
     },
     onSuccess: () => {
@@ -128,7 +128,7 @@ export default function FeedbackCollector() {
 
           <Button 
             onClick={handleSubmit} 
-            className="w-full bg-green-600 hover:bg-green-700"
+            className="w-full bg-green-700 hover:bg-green-800"
             disabled={submitFeedbackMutation.isPending}
           >
             {submitFeedbackMutation.isPending ? (

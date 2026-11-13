@@ -321,7 +321,7 @@ export default function Base44ReportPreview({ reportData }) {
       )}
 
       {/* Footer */}
-      <div className={`text-center text-xs py-4 ${isDark ? 'text-slate-500' : 'text-slate-500'}`}>
+      <div className={`text-center text-xs py-4 ${isDark ? 'text-slate-600' : 'text-slate-600'}`}>
         Gerado automaticamente pelo sistema Base 44 AI Codificado, Política de Comando Único Versão 1.0 (Responsável: Tony).
       </div>
     </div>

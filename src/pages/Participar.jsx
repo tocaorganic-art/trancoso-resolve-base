@@ -106,7 +106,7 @@ export default function Participar() {
             </p>
             <Button
               onClick={() => navigate("/")}
-              className="bg-[#F26A21] hover:bg-[#d95a1a] text-white min-h-[44px]"
+              className="bg-brand-primary hover:bg-brand-primary-hover text-white min-h-[44px]"
             >
               Voltar ao início
             </Button>
@@ -128,7 +128,7 @@ export default function Participar() {
 
         <Card className="bg-white border-[#E3DED5]">
           <CardContent className="p-6 md:p-8">
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="participar-form space-y-5">
               <div className="space-y-2">
                 <Label htmlFor="nome" className="text-[#333333] font-semibold">
                   Nome *
@@ -138,7 +138,7 @@ export default function Participar() {
                   value={form.nome}
                   onChange={set("nome")}
                   required
-                  className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                  className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                   placeholder="Seu nome"
                 />
               </div>
@@ -146,7 +146,7 @@ export default function Participar() {
               <div className="space-y-2">
                 <Label className="text-[#333333] font-semibold">Como deseja participar? *</Label>
                 <Select value={form.profile_type} onValueChange={set("profile_type")}>
-                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]">
+                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]">
                     <SelectValue placeholder="Escolha uma opção" />
                   </SelectTrigger>
                   <SelectContent>
@@ -162,7 +162,7 @@ export default function Participar() {
               <div className="space-y-2">
                 <Label className="text-[#333333] font-semibold">Localidade *</Label>
                 <Select value={form.locality} onValueChange={set("locality")}>
-                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]">
+                  <SelectTrigger className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]">
                     <SelectValue placeholder="Escolha uma localidade" />
                   </SelectTrigger>
                   <SelectContent>
@@ -183,7 +183,7 @@ export default function Participar() {
                   id="category"
                   value={form.category_interest}
                   onChange={set("category_interest")}
-                  className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                  className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                   placeholder="Ex: Eletricista, Pousada, Restaurante…"
                 />
               </div>
@@ -197,7 +197,7 @@ export default function Participar() {
                     id="whatsapp"
                     value={form.whatsapp}
                     onChange={set("whatsapp")}
-                    className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                    className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                     placeholder="(73) 99999-9999"
                   />
                 </div>
@@ -210,12 +210,12 @@ export default function Participar() {
                     type="email"
                     value={form.email}
                     onChange={set("email")}
-                    className="min-h-[44px] border-[#E3DED5] focus-visible:ring-[#F26A21]"
+                    className="min-h-[44px] border-[#E3DED5] text-slate-700 focus-visible:ring-[#F26A21]"
                     placeholder="seu@email.com"
                   />
                 </div>
               </div>
-              <p className="text-xs text-[#888] -mt-2">
+              <p className="text-xs text-slate-600 -mt-2">
                 Informe pelo menos um WhatsApp ou email para que possamos entrar em contato.
               </p>
 
@@ -248,7 +248,7 @@ export default function Participar() {
               <Button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-[#F26A21] hover:bg-[#d95a1a] text-white font-bold min-h-[44px] text-base"
+                className="w-full bg-brand-primary hover:bg-brand-primary-hover text-white font-bold min-h-[44px] text-base"
               >
                 {submitting ? (
                   <>
@@ -259,12 +259,43 @@ export default function Participar() {
                 )}
               </Button>
 
-              <p className="text-xs text-[#999] text-center">
+              <p className="text-xs text-slate-600 text-center">
                 Não solicitamos documentos, dados financeiros ou informações sensíveis neste formulário.
               </p>
             </form>
           </CardContent>
         </Card>
+
+        <div className="mt-8 bg-white border border-[#E3DED5] rounded-brand-lg p-6 md:p-8">
+          <h2 className="text-lg font-bold text-[#333333] mb-3">Como usamos o que você envia</h2>
+          <div className="space-y-3 text-sm text-[#4a4a4a] leading-relaxed">
+            <p>
+              Este formulário serve para você dizer o que procura ou o que oferece antes de criar conta. Não pedimos
+              documento, dado bancário nem senha. O contato é feito pelo WhatsApp ou pelo e-mail que você informar,
+              no horário que marcar como melhor.
+            </p>
+            <p>
+              Quem procura um serviço recebe o caminho para a categoria certa e a informação de quais profissionais
+              atendem na sua região: Trancoso, Quadrado, Pitinga, Rio Verde, Arraial d&apos;Ajuda, Porto Seguro ou
+              Caraíva.
+            </p>
+            <p>
+              Quem oferece serviço recebe orientação sobre o cadastro, que pede documento, foto de perfil e as
+              regiões atendidas. O cadastro começa com dois meses grátis, sem cartão de crédito, e os cem primeiros
+              prestadores recebem o Selo Fundador.
+            </p>
+            <p>
+              Se você marcou melhor horário para contato, a mensagem chega dentro daquele período. Responder com o
+              tipo de serviço e o bairro na primeira conversa encurta o caminho até o orçamento.
+            </p>
+            <p>
+              Vale lembrar o que muda de uma temporada para outra. De dezembro a março a procura por diarista,
+              piscineiro e cozinheiro sobe muito, e quem agenda com antecedência encontra mais opções. De abril a
+              novembro sobram vagas para obra, pintura e reforma, que são serviços que a casa vazia permite fazer.
+              Marcar o serviço fora da alta temporada costuma sair mais barato e com mais gente disponível.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

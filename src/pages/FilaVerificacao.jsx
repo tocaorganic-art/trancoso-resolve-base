@@ -13,6 +13,7 @@ import {
   Eye, CheckCircle, XOctagon, Filter, Search, Calendar, Phone, User, CreditCard, RefreshCw
 } from "lucide-react";
 import { format } from "date-fns";
+import { maskCpf } from "@/lib/cpf-mask";
 import { ptBR } from "date-fns/locale";
 import { toast } from "sonner";
 import VerificacaoBadge from "@/components/verificacao/VerificacaoBadge";
@@ -189,7 +190,7 @@ function ReviewModal({ verificacao, isOpen, onClose, onAction }) {
                 {providerPrivate?.cpf && (
                   <div className="flex items-center gap-2 text-sm text-foreground">
                     <CreditCard className="w-3.5 h-3.5 text-muted-foreground" />
-                    <span>CPF: {providerPrivate.cpf}</span>
+                    <span>CPF: {maskCpf(providerPrivate.cpf)}</span>
                   </div>
                 )}
                 {provider.cnpj && (
@@ -560,7 +561,7 @@ export default function FilaVerificacaoPage() {
                                               size="sm"
                                               disabled={isProcessing}
                                               onClick={() => handleAction(v.id, "aprovar", "")}
-                                              className="text-xs bg-amber-600 hover:bg-amber-700 text-white"
+                                              className="text-xs bg-amber-700 hover:bg-amber-800 text-white"
                                             >
                                               {isProcessing ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <CheckCircle className="w-3.5 h-3.5" />}
                                             </Button>

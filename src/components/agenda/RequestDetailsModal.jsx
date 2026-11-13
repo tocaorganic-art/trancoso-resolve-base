@@ -73,7 +73,7 @@ export default function RequestDetailsModal({ request, service, isOpen, onClose,
                 <div className="bg-slate-100 p-2 rounded-full"><User className="w-5 h-5 text-slate-600" /></div>
                 <div>
                   <p className="font-semibold text-slate-900">{request.client_name}</p>
-                  <p className="text-sm text-slate-500">{request.client_phone}</p>
+                  <p className="text-sm text-slate-600">{request.client_phone}</p>
                 </div>
               </div>
             </CardContent>
@@ -99,9 +99,9 @@ export default function RequestDetailsModal({ request, service, isOpen, onClose,
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                    <Calendar className="w-5 h-5 text-slate-500" />
+                    <Calendar className="w-5 h-5 text-slate-600" />
                     <div>
-                        <p className="text-sm text-slate-500">Data</p>
+                        <p className="text-sm text-slate-600">Data</p>
                         <p className="font-semibold">{format(new Date(request.date), "dd 'de' MMMM, yyyy", { locale: ptBR })}</p>
                     </div>
                 </div>
@@ -110,9 +110,9 @@ export default function RequestDetailsModal({ request, service, isOpen, onClose,
              <Card>
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-slate-500" />
+                    <Clock className="w-5 h-5 text-slate-600" />
                     <div>
-                        <p className="text-sm text-slate-500">Horário</p>
+                        <p className="text-sm text-slate-600">Horário</p>
                         <p className="font-semibold">{request.time || 'A combinar'}</p>
                     </div>
                 </div>
@@ -125,9 +125,9 @@ export default function RequestDetailsModal({ request, service, isOpen, onClose,
             <Card>
               <CardContent className="p-4">
                 <div className="flex items-start gap-3">
-                    <MessageSquare className="w-5 h-5 text-slate-500 mt-1 shrink-0" />
+                    <MessageSquare className="w-5 h-5 text-slate-600 mt-1 shrink-0" />
                     <div>
-                        <p className="text-sm text-slate-500 mb-1">Mensagem do Cliente:</p>
+                        <p className="text-sm text-slate-600 mb-1">Mensagem do Cliente:</p>
                         <p className="text-slate-700 italic">"{request.message}"</p>
                     </div>
                 </div>
@@ -147,7 +147,7 @@ export default function RequestDetailsModal({ request, service, isOpen, onClose,
                         {request.location.address}, {request.location.number}
                         {request.location.complement && `, ${request.location.complement}`}
                      </p>
-                     {request.location.reference && <p className="text-xs text-slate-500 mt-1">Ref: {request.location.reference}</p>}
+                     {request.location.reference && <p className="text-xs text-slate-600 mt-1">Ref: {request.location.reference}</p>}
                 </CardContent>
             </Card>
           )}

@@ -126,7 +126,7 @@ export default function BookingForm({ provider, services, user, onCancel }) {
 
           {step === 1 && (
             <>
-              <p className="text-sm font-semibold text-slate-500 mb-4">Etapa 1 de 2: Detalhes do agendamento</p>
+              <p className="text-sm font-semibold text-slate-600 mb-4">Etapa 1 de 2: Detalhes do agendamento</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -220,7 +220,7 @@ export default function BookingForm({ provider, services, user, onCancel }) {
 
           {step === 2 && (
             <>
-              <p className="text-sm font-semibold text-slate-500 mb-4">Etapa 2 de 2: Localização do serviço</p>
+              <p className="text-sm font-semibold text-slate-600 mb-4">Etapa 2 de 2: Localização do serviço</p>
 
               <div>
                 <Label>Onde o serviço será realizado?</Label>
@@ -232,7 +232,7 @@ export default function BookingForm({ provider, services, user, onCancel }) {
                   }}
                 />
                 {data.location.lat && (
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-slate-600 mt-1">
                     📍 Localização selecionada: {data.location.lat.toFixed(4)}, {data.location.lng.toFixed(4)}
                   </p>
                 )}

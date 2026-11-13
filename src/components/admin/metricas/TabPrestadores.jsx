@@ -93,7 +93,7 @@ export default function TabPrestadores({ providers, requests }) {
               </thead>
               <tbody>
                 {filtered.length === 0 ? (
-                  <tr><td colSpan={6} className="p-6 text-center text-slate-500">Nenhum prestador encontrado.</td></tr>
+                  <tr><td colSpan={6} className="p-6 text-center text-slate-600">Nenhum prestador encontrado.</td></tr>
                 ) : filtered.map(p => (
                   <tr key={p.id} className="border-b border-slate-700/40 hover:bg-slate-700/30">
                     <td className="p-3">

@@ -13,6 +13,13 @@
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
+import {
+  sanitizeWebVitals,
+  hasReportableMetric,
+  computeTtfb,
+  computeLoadTime,
+  createHiddenTimeTracker,
+} from '@/lib/web-vitals-guard';
 
 const SESSION_KEY = 'wv_reported_pages';
 
@@ -46,6 +53,8 @@ export default function WebVitalsCollector() {
     const isInitialPage = page === INITIAL_LOAD_PATH;
     const collected = {};
     const observers = [];
+    // Quanto tempo a aba ficou oculta desde a carga deste documento.
+    const stopHiddenTracker = createHiddenTimeTracker();
 
     // LCP
     if (window.PerformanceObserver) {
@@ -79,21 +88,37 @@ export default function WebVitalsCollector() {
       if (isInitialPage) {
         const nav = performance.getEntriesByType?.('navigation')?.[0];
         if (nav) {
-          collected.ttfb = Math.round(nav.responseStart - nav.requestStart);
-          collected.loadTime = Math.round(nav.loadEventEnd - nav.startTime);
+          collected.ttfb = computeTtfb(nav);
+          collected.loadTime = computeLoadTime(nav);
         }
       }
 
       markReported(page);
       observers.forEach((obs) => { try { obs.disconnect(); } catch {} });
 
+      const hiddenMs = stopHiddenTracker();
+
+      // Aba em segundo plano, bfcache e restauração de sessão produzem valores
+      // impossíveis. Sem nenhuma métrica confiável, nem chama a função.
+      const { metrics } = sanitizeWebVitals({
+        lcp: collected.lcp,
+        fid: null, // FID requer interação do usuário
+        cls: collected.cls,
+        ttfb: collected.ttfb,
+        loadTime: collected.loadTime,
+        hiddenMs,
+      });
+
+      if (!hasReportableMetric(metrics)) return;
+
       base44.functions.invoke('logPerformance', {
         page,
-        lcp: collected.lcp || null,
-        fid: null, // FID requer interação do usuário
-        cls: collected.cls ?? null,
-        ttfb: collected.ttfb || null,
-        loadTime: collected.loadTime || null,
+        lcp: metrics.lcp,
+        fid: metrics.fid,
+        cls: metrics.cls,
+        ttfb: metrics.ttfb,
+        loadTime: metrics.loadTime,
+        hiddenMs,
         timestamp: Date.now(),
       }).catch(() => {});
     };
@@ -106,6 +131,7 @@ export default function WebVitalsCollector() {
 
     return () => {
       observers.forEach((obs) => { try { obs.disconnect(); } catch {} });
+      stopHiddenTracker();
     };
   }, [location.pathname]);
 

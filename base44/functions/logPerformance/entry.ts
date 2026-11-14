@@ -55,9 +55,20 @@ Deno.serve(async (req) => {
     }
 
     const body = await req.json();
-    const { page, lcp, fid, cls, ttfb, loadTime, timestamp } = body;
+    const { page, lcp, fid, cls, ttfb, loadTime, hiddenMs, timestamp } = body;
 
-    const metrics = { lcp, fid, cls, ttfb, loadTime };
+    // Aba oculta invalida métricas de tempo de carregamento: enquanto a aba não
+    // está visível o navegador adia pintura e eventos, então LCP e loadTime
+    // somam o tempo em que a página ficou aberta sem ser olhada. Isso gerou
+    // alertas CRITICAL de 46376 ms e 48066 ms em 13/11/2026 para uma produção
+    // que responde em TTFB 0,2-0,65 s. Aqui a regra é aplicada de novo, do lado
+    // do servidor, para proteger também clientes antigos em cache.
+    const hidden = Number(hiddenMs) || 0;
+    const hiddenInvalidatesTiming = hidden > 1000;
+    const safeLcp = hiddenInvalidatesTiming ? null : lcp;
+    const safeLoadTime = hiddenInvalidatesTiming ? null : loadTime;
+
+    const metrics = { lcp: safeLcp, fid, cls, ttfb, loadTime: safeLoadTime };
     const results = {};
     const badMetrics: any[] = [];
     let overallStatus = 'ok';
@@ -86,7 +97,7 @@ Deno.serve(async (req) => {
       }
     }
 
-    console.info('PERFORMANCE_METRIC', { page, timestamp, overallStatus, results });
+    console.info('PERFORMANCE_METRIC', { page, timestamp, hiddenMs: hidden, overallStatus, results });
 
     // Enviar alerta por email se houver métricas ruins
     if (badMetrics.length > 0) {

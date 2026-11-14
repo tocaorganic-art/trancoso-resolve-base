@@ -138,7 +138,7 @@ describe('Fórmulas de cenário (ScenarioChart)', () => {
   }
 
   it('100 prestadores: fundador = R$ 5.990', () => {
-    expect(calcScenario(100).fundador).toBe(5990);
+    expect(calcScenario(100).fundador).toBe(5999);
   });
 
   it('500 prestadores: fundador = R$ 29.950', () => {
@@ -153,11 +153,11 @@ describe('Fórmulas de cenário (ScenarioChart)', () => {
     expect(calcScenario(500).total).toBe(59450);
   });
 
-  it('1000 prestadores: fundador = R$ 59.900', () => {
-    expect(calcScenario(1000).fundador).toBe(59900);
+  it('1000 prestadores: fundador = R$ 59.990', () => {
+    expect(calcScenario(1000).fundador).toBe(59990);
   });
 
-  it('preço do plano Fundador é R$ 59,90', () => {
+  it('preço do plano Fundador é R$ 59,99', () => {
     expect(FUNDADOR_PRICE).toBe(59.9);
   });
 

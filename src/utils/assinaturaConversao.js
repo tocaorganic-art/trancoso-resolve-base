@@ -14,7 +14,8 @@ export const GADS_ASSINATURA_SEND_TO = 'AW-18431007500/bYDPCPzcwPEcEIy2y9RE';
 
 // Mesmos valores de base44/functions/createSubscriptionCheckout (PLANS).
 export const PLAN_VALUES = {
-  profissional: { monthly: 59.9, annual: 599 },
+  profissional: { monthly: 59.99, annual: null },
+  // Planos antigos: assinaturas já criadas continuam convertendo pelo valor que pagaram.
   prestador_elite: { monthly: 197, annual: 1970 },
   lojista_essencial: { monthly: 89, annual: 890 },
   lojista_pro: { monthly: 197, annual: 1970 },
@@ -61,7 +62,7 @@ export function isPagamentoConfirmado(subscription, now = new Date()) {
   return minutos >= -5 && minutos <= MAX_MINUTOS_DESDE_ATUALIZACAO;
 }
 
-/** Valor real do plano contratado (R$ 59,90 Profissional, R$ 9,90 Boost etc.). */
+/** Valor real do plano contratado (R$ 59,99 Profissional; planos antigos pelo valor que pagaram). */
 export function getConversionValue(subscription) {
   const plan = PLAN_VALUES[subscription?.plan];
   if (!plan) return null;

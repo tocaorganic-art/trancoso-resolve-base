@@ -12,24 +12,26 @@ import { maskEmail } from './piiMask.ts';
 //
 // Secrets: ASAAS_API_KEY (obrigatória), ASAAS_ENV ('sandbox' para testes).
 
-// ─── Planos e preços (BRL) ───────────────────────────────────────────────────
+// ─── Plano único (BRL) ───────────────────────────────────────────────────────
+// Regra do Tony (13/11/2026): um único plano, Profissional, R$ 59,99/mês.
+// Teste grátis: todos usam o plano sem cobrança até TRIAL_FIM (data fixa, 60 dias
+// a partir de 13/11/2026). Depois dessa data a primeira cobrança é imediata.
+const TRIAL_FIM = '2027-01-12';
+function diasAteFimDoTeste(): number {
+  const fim = Date.parse(TRIAL_FIM + 'T23:59:59-03:00');
+  return Math.max(0, Math.ceil((fim - Date.now()) / 86400000));
+}
 interface PlanDef { nome: string; curto: string; monthly: number; annual: number | null; trialDays: number; }
 const PLANS: Record<string, PlanDef> = {
   // curto: nome exibido no Asaas Checkout (item.name max 30 chars)
-  profissional:      { nome: 'Plano Profissional',  curto: 'Plano Profissional',    monthly: 59.90, annual: 599,  trialDays: 7 },
-  prestador_elite:   { nome: 'Plano Premium Elite', curto: 'Plano Elite',           monthly: 197,   annual: 1970, trialDays: 7 },
-  lojista_essencial: { nome: 'Plano Lojista Essencial', curto: 'Plano Lojista Essencial', monthly: 89,    annual: 890,  trialDays: 7 },
-  lojista_pro:       { nome: 'Plano Lojista Pro',   curto: 'Plano Lojista Pro',     monthly: 197,   annual: 1970, trialDays: 7 },
-  lojista_elite:     { nome: 'Plano Lojista Elite', curto: 'Plano Lojista Elite',   monthly: 497,   annual: 4970, trialDays: 7 },
-  boost_prestador:   { nome: 'Boost Prestador 7 dias no topo',  curto: 'Boost Prestador', monthly: 9.90,  annual: null, trialDays: 0 },
-  boost_lojista:     { nome: 'Boost Alta Temporada (Lojista)',   curto: 'Boost Lojista',   monthly: 197,   annual: null, trialDays: 0 },
+  profissional: { nome: 'Plano Profissional', curto: 'Plano Profissional', monthly: 59.99, annual: null, trialDays: diasAteFimDoTeste() },
 };
 
 const BASE_URL = 'https://trancosoresolve.com.br';
 
 // Fingerprint de versão — permite verificar qual build está em produção
 // sem depender do pipeline de Publish. Atualizar a cada PR nesta função.
-const FN_VERSION = 'v94';
+const FN_VERSION = 'v95';
 
 function asaasBaseUrl(): string {
   return Deno.env.get('ASAAS_ENV') === 'sandbox'
@@ -266,9 +268,9 @@ Deno.serve(async (req) => {
     }
 
     // ─── Verificação de trial já consumido ───────────────────────────────────
-    // REGRA COMERCIAL IMUTÁVEL: Teste Gratuito (30d) e trial do Profissional (7d)
-    // são mutuamente exclusivos. Quem já usou qualquer trial não recebe outro.
-    let effectiveTrialDays = planDef.trialDays;
+    // Teste grátis até TRIAL_FIM, uma vez por prestador.
+    // Quem já consumiu o trial não recebe outro.
+    let effectiveTrialDays = diasAteFimDoTeste();
 
     if (effectiveTrialDays > 0) {
       try {
@@ -365,8 +367,8 @@ Deno.serve(async (req) => {
 
     // ─── Trial via nextDueDate (primeira cobrança em X dias) ─────────────────
     const today = new Date();
-    const firstDue = new Date(today.getTime() + effectiveTrialDays * 24 * 60 * 60 * 1000);
-    const nextDueDate = firstDue.toISOString().split('T')[0];
+    // Com trial, a primeira cobrança é no dia seguinte ao fim do teste (13/01/2027).
+    const nextDueDate = effectiveTrialDays > 0 ? '2027-01-13' : today.toISOString().split('T')[0];
 
     // ─── CARTÃO: Asaas Checkout RECURRENT (PCI-safe) ─────────────────────────
     // Assinatura CREDIT_CARD exige cartão validado na própria criação (doc Asaas:

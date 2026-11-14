@@ -48,7 +48,7 @@ export function pixelLandingPageView() {
     content_category: 'landing',
     content_ids: ['prestador_fundador'],
     content_type: 'product',
-    value: 59.90,
+    value: 59.99,
     currency: 'BRL',
   });
 }
@@ -67,7 +67,7 @@ export function pixelStartProviderRegistration() {
   return pixelTrack('StartRegistration', {
     content_name: 'Cadastro Prestador',
     currency: 'BRL',
-    value: 59.90,
+    value: 59.99,
   });
 }
 
@@ -112,7 +112,7 @@ export function pixelStartTrial(planId = 'prestador_profissional') {
  * Assinatura ativada após trial ou diretamente.
  * Disparado também via CAPI no webhook (mais confiável).
  */
-export function pixelSubscribe(planId = 'prestador_profissional', value = 59.90) {
+export function pixelSubscribe(planId = 'prestador_profissional', value = 59.99) {
   return pixelTrack('Subscribe', {
     predicted_ltv: value * 12,
     currency: 'BRL',
@@ -135,7 +135,7 @@ export function pixelFounderBadgeGranted(position) {
   return pixelTrack('FounderBadgeGranted', {
     // Posição não é PII
     position,
-    value: 59.90,
+    value: 59.99,
     currency: 'BRL',
   }, true);
 }

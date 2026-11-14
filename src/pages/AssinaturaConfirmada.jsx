@@ -16,11 +16,12 @@ const storageGet = (key) => { try { return localStorage.getItem(key); } catch { 
 const storageSet = (key, value) => { try { localStorage.setItem(key, value); } catch { /* storage indisponível */ } };
 
 const PLAN_INFO = {
-  profissional:      { nome: "Plano Profissional",       valor: "R$ 59,90/mês", trial: 7 },
-  prestador_elite:   { nome: "Plano Premium Elite",      valor: "R$ 197/mês",   trial: 7 },
-  lojista_essencial: { nome: "Plano Lojista Essencial",  valor: "R$ 89/mês",    trial: 7 },
-  lojista_pro:       { nome: "Plano Lojista Pro",        valor: "R$ 197/mês",   trial: 7 },
-  lojista_elite:     { nome: "Plano Lojista Elite",      valor: "R$ 497/mês",   trial: 7 },
+  profissional:      { nome: "Plano Profissional",       valor: "R$ 59,99/mês", trial: 0 },
+  // Planos antigos: quem já assinou continua vendo a confirmação.
+  prestador_elite:   { nome: "Plano Premium Elite",      valor: "R$ 197/mês",   trial: 0 },
+  lojista_essencial: { nome: "Plano Lojista Essencial",  valor: "R$ 89/mês",    trial: 0 },
+  lojista_pro:       { nome: "Plano Lojista Pro",        valor: "R$ 197/mês",   trial: 0 },
+  lojista_elite:     { nome: "Plano Lojista Elite",      valor: "R$ 497/mês",   trial: 0 },
   boost_prestador:   { nome: "Boost Prestador (7 dias no topo)", valor: "R$ 9,90", trial: 0 },
 };
 

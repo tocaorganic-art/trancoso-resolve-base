@@ -41,7 +41,7 @@ const FAQ = [
   },
   {
     q: "Quando ocorre a primeira cobrança?",
-    r: "Nenhuma cobrança acontece durante o período grátis. Somente se você decidir continuar depois dele é que a assinatura de R$ 59,90/mês começa, e você pode cancelar a qualquer momento.",
+    r: "Nenhuma cobrança acontece durante o período grátis. Somente se você decidir continuar depois dele é que a assinatura de R$ 59,99/mês começa, e você pode cancelar a qualquer momento.",
   },
   {
     q: "Preciso cadastrar cartão?",
@@ -76,8 +76,8 @@ const FAQ = [
     r: "As novas concessões do Selo Fundador são interrompidas. Os fundadores existentes mantêm o benefício. A página informará claramente que as vagas foram encerradas. O plano Profissional normal continua disponível pelo preço vigente.",
   },
   {
-    q: "Lojistas também pagam R$ 59,90?",
-    r: "Não. A promoção de R$ 59,90 é exclusiva para prestadores de serviços. Lojistas têm planos separados: Essencial (R$ 89/mês), Pro (R$ 197/mês) e Elite (R$ 497/mês).",
+    q: "Existe mais de um plano?",
+    r: "Não. Existe um único plano, o Profissional, por R$ 59,99/mês. Todos usam grátis até 12/01/2027, sem cartão.",
   },
 ];
 

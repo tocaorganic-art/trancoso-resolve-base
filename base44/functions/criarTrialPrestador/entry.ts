@@ -63,12 +63,17 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'user_email obrigatório' }, { status: 400 });
     }
 
-    // ─── REGRA (Tony, 13/10/2026): 60 dias para cadastros realizados em 2026 ─────────
-    // A partir de 2027 volta ao padrão de 30 dias (revisar com Tony antes de 2027).
+    // ─── REGRA (Tony, 13/11/2026): teste grátis com data fixa ──────────────────────
+    // Todos os prestadores usam grátis até 12/01/2027 (60 dias a partir de 13/11/2026).
+    // Depois dessa data não há mais teste grátis: o cadastro segue sem trial.
+    const TRIAL_FIM = '2027-01-12';
     const today = new Date();
-    const trialDays = today.getFullYear() === 2026 ? 60 : 30;
-    const trialType = trialDays === 60 ? 'free_60d' : 'free_30d';
-    const trialLabel = trialDays === 60 ? '2 meses (60 dias)' : '30 dias';
+    const fimMs = Date.parse(TRIAL_FIM + 'T23:59:59-03:00');
+    if (today.getTime() > fimMs) {
+      return Response.json({ ok: false, note: 'oferta_encerrada', message: 'O período de teste gratuito terminou em 12/01/2027.' });
+    }
+    const trialType = 'free_60d'; // valor do enum do Subscription (2 meses grátis sem cartão)
+    const trialLabel = 'até 12/01/2027';
 
     // ─── Verifica trial já consumido ──────────────────────────────────────────
     // REGRA: qualquer registro de Subscription com trial_consumed_at preenchido
@@ -115,11 +120,9 @@ Deno.serve(async (req) => {
       return Response.json({ ok: true, note: 'já existe assinatura' });
     }
 
-    const trialEnd = new Date(today);
-    trialEnd.setDate(trialEnd.getDate() + trialDays);
 
     const trialStart = today.toISOString().split('T')[0];
-    const trialEndDate = trialEnd.toISOString().split('T')[0];
+    const trialEndDate = TRIAL_FIM; // data fixa, sem aritmética de dias
     const trialConsumedAt = today.toISOString();
 
     await base44.asServiceRole.entities.Subscription.create({

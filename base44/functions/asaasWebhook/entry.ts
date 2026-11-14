@@ -221,7 +221,7 @@ async function handleSubscriptionPayment(
       billing = subscription.cycle === 'YEARLY' ? 'annual' : 'monthly';
       const val = typeof subscription.value === 'number' ? subscription.value : payment.value;
       const planByValue: Record<string, string> = {
-        '59.9': 'profissional', '599': 'profissional',
+        '59.99': 'profissional', '59.9': 'profissional', '599': 'profissional',
         '19.9': 'profissional', '199': 'profissional', // legado (preço antigo)
         '89': 'lojista_essencial', '890': 'lojista_essencial',
         '497': 'lojista_elite', '4970': 'lojista_elite',
@@ -388,7 +388,7 @@ async function handleSubscriptionPayment(
             console.log(`[asaasWebhook] Selo Fundador concedido: ${maskEmail(email)} → posição ${slot.position}`);
             sendCapiEvent('FounderBadgeGranted', {
               position: slot.position,
-              value: 59.90,
+              value: 59.99,
               currency: 'BRL',
               content_ids: ['prestador_fundador'],
               content_type: 'product',
@@ -398,9 +398,9 @@ async function handleSubscriptionPayment(
       }
 
       sendCapiEvent('Subscribe', {
-        value: amount || 59.90,
+        value: amount || 59.99,
         currency: 'BRL',
-        predicted_ltv: (amount || 59.90) * 12,
+        predicted_ltv: (amount || 59.99) * 12,
         content_name: plan || 'profissional',
       }).catch(() => {});
 

@@ -23,10 +23,10 @@ const ativa = {
   updated_date: '2026-10-30T14:58:00Z',
 };
 
-test('Google Ads: valor real do plano (Profissional 59,90; Boost 9,90; anual)', () => {
-  assert.equal(getConversionValue(ativa), 59.9);
+test('Google Ads: valor real do plano (Profissional 59,99; Boost 9,90)', () => {
+  assert.equal(getConversionValue(ativa), 59.99);
   assert.equal(getConversionValue({ ...ativa, plan: 'boost_prestador' }), 9.9);
-  assert.equal(getConversionValue({ ...ativa, billing: 'annual' }), 599);
+  assert.equal(getConversionValue({ ...ativa, billing: 'annual' }), 59.99); // plano anual não existe mais
   assert.equal(getConversionValue({ ...ativa, plan: 'desconhecido' }), null);
 });
 
@@ -45,7 +45,7 @@ test('Google Ads: só conta pagamento confirmado pelo backend e recente', () => 
 test('Google Ads: parâmetros da conversão levam valor, moeda e transaction_id', () => {
   assert.deepEqual(buildConversionParams(ativa, AGORA), {
     send_to: 'AW-18431007500/bYDPCPzcwPEcEIy2y9RE',
-    value: 59.9,
+    value: 59.99,
     currency: 'BRL',
     transaction_id: 'sub_local_1:2026-10-30',
   });

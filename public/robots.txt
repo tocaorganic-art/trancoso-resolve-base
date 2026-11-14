@@ -26,14 +26,17 @@ Disallow: /DiagnosticosCompletos
 Disallow: /VerificacaoDocumento
 Disallow: /VerificacaoAntecedentes
 Disallow: /RelatorioDiario
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /oauth-consent
+Disallow: /Login
+Disallow: /Register
+Disallow: /Mfa
+Disallow: /ConfiguracoesConta
 Disallow: /api/
 Disallow: /*.json$
-
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
 
 Crawl-delay: 1
 
